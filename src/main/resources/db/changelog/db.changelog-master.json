@@ -1,0 +1,165 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1506794882214-1",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createSequence": {
+            "sequenceName": "book_id_seq"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1506794882214-2",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "username",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "authority",
+                  "type": "VARCHAR(50)"
+                }
+              }]
+            ,
+            "tableName": "authorities"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1506794882214-3",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "autoIncrement": true,
+                  "constraints": {
+                    "primaryKey": true,
+                    "primaryKeyName": "book_pkey"
+                  },
+                  "name": "id",
+                  "type": "SERIAL"
+                }
+              },
+              {
+                "column": {
+                  "name": "name",
+                  "type": "VARCHAR(50)"
+                }
+              },
+              {
+                "column": {
+                  "name": "text",
+                  "type": "VARCHAR(100)"
+                }
+              }]
+            ,
+            "tableName": "book"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1506794882214-4",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "username",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "password",
+                  "type": "VARCHAR(100)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "defaultValueBoolean": true,
+                  "name": "enabled",
+                  "type": "BOOLEAN"
+                }
+              }]
+            ,
+            "tableName": "users"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1506794882214-5",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "username",
+            "constraintName": "authorities_pkey",
+            "tableName": "authorities"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1506794882214-6",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "username",
+            "constraintName": "users_pkey",
+            "tableName": "users"
+          }
+        }]
+      
+    }
+  }
+  
+]}
