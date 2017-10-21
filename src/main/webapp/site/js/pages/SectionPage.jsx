@@ -8,6 +8,8 @@ import {
     createNotify
 } from '../actions/GlobalActions.jsx';
 
+import AuthorFile from '../components/section/AuthorFile.jsx';
+
 /*
     props:
     - this.props.match.params.authorName - user id
@@ -24,12 +26,23 @@ class SectionPage extends React.Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-sm-12">{this.props.author.firstName + ' ' + this.props.author.lastName}</div>
+                    <div className="col-sm-12 section-name">
+                        {this.props.author.firstName + ' ' + this.props.author.lastName}
+                    </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-12">{this.props.author.section.name}</div>
+                    <div className="col-sm-12 section-author-name">
+                        {this.props.author.section.name}
+                    </div>
                 </div>
-                {this.props.match.params.authorName}
+                <div className="row">
+                    <div className="col-sm-3">
+                        <AuthorFile author={this.props.author}/>
+                    </div>
+                    <div className="col-sm-9">
+                        bbb
+                    </div>
+                </div>
             </div>
         )
     }

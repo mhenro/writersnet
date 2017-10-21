@@ -12,7 +12,7 @@ class AuthorListItem extends React.Component {
                 <div className="panel-body">
                     <div className="row">
                         <div className="col-sm-4">
-                            <img src={this.props.author.avatar} className="img-rounded" alt="avatar" width="150" height="200"/>
+                            <img src={this.props.author.avatar} className="img-rounded" width="150" height="200"/>
                         </div>
                         <div className="col-sm-8">
                             <div>
@@ -20,7 +20,7 @@ class AuthorListItem extends React.Component {
                             </div>
                             <div>
                                 <span className="glyphicon glyphicon-heart"></span>&nbsp;
-                                5.00 * 1542
+                                {this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}
                             </div>
                             <div className="row">
                                 <div className="col-sm-6">

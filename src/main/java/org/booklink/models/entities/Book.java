@@ -24,6 +24,7 @@ public class Book {
     private Date created;
     private Genre genre;
     private User author;
+    private List<Rating> rating;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,5 +86,14 @@ public class Book {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ratingId.bookId")
+    public List<Rating> getRating() {
+        return rating;
+    }
+
+    public void setRating(List<Rating> rating) {
+        this.rating = rating;
     }
 }

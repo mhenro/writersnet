@@ -1,32 +1,30 @@
 package org.booklink.models.entities;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * Created by mhenr on 18.10.2017.
  */
 @Entity
 public class Rating {
-    private RatingId id;
-    private Long userCount;
+    private RatingId ratingId;
+    private Integer userCount;
 
     @EmbeddedId
-    public RatingId getId() {
-        return id;
+    public RatingId getRatingId() {
+        return ratingId;
     }
 
-    public void setId(RatingId id) {
-        this.id = id;
+    public void setRatingId(RatingId ratingId) {
+        this.ratingId = ratingId;
     }
 
     @Column(name = "user_count")
-    public Long getUserCount() {
+    public Integer getUserCount() {
         return userCount;
     }
 
-    public void setUserCount(Long userCount) {
+    public void setUserCount(Integer userCount) {
         this.userCount = userCount;
     }
 }

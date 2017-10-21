@@ -1,6 +1,8 @@
 package org.booklink.models.entities;
 
-import javax.persistence.Embeddable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -9,8 +11,10 @@ import java.io.Serializable;
 @Embeddable
 public class RatingId implements Serializable {
     private Long bookId;
-    private Integer value;
+    private Integer estimation;
 
+    @JsonIgnore
+    @Column(name = "book_id")
     public Long getBookId() {
         return bookId;
     }
@@ -19,11 +23,11 @@ public class RatingId implements Serializable {
         this.bookId = bookId;
     }
 
-    public Integer getValue() {
-        return value;
+    public Integer getEstimation() {
+        return estimation;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
+    public void setEstimation(Integer estimation) {
+        this.estimation = estimation;
     }
 }
