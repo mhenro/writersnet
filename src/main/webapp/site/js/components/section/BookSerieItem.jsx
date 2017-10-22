@@ -8,6 +8,19 @@ import React from 'react';
     - login
  */
 class BookSerieItem extends React.Component {
+    getRating() {
+        let ratings = this.props.book.rating;
+        if (ratings && ratings.length > 0) {
+            let sum = ratings.map(rating => rating.ratingId.estimation * rating.userCount).reduce((prev, cur) => prev + cur),
+                totalVotes = ratings.map(rating => rating.userCount).reduce((prev, cur) => prev + cur),
+                avgEstimation = parseFloat(sum / totalVotes).toFixed(2);
+            if (totalVotes > 0) {
+                return avgEstimation + ' * ' + totalVotes;
+            }
+        }
+        return '0.00 * 0';
+    }
+
     render() {
         return(
             <div>
@@ -21,7 +34,7 @@ class BookSerieItem extends React.Component {
                         </div>
                         <div>
                             <span className="glyphicon glyphicon-heart"></span>&nbsp;
-                            4.95 * 145 votes
+                            {this.getRating()}
                         </div>
                         <div>
                             {this.props.book.description}

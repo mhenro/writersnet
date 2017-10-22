@@ -56652,12 +56652,12 @@ var AuthorFile = function (_React$Component) {
                             { className: 'btn-group-vertical' },
                             _react2.default.createElement(
                                 'button',
-                                { className: 'btn btn-success ' + (this.props.registered ? '' : 'hidden') },
+                                { className: 'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username ? '' : 'hidden') },
                                 'Send message'
                             ),
                             _react2.default.createElement(
                                 'button',
-                                { className: 'btn btn-success ' + (this.props.registered ? '' : 'hidden') },
+                                { className: 'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username ? '' : 'hidden') },
                                 'Add to friends'
                             ),
                             _react2.default.createElement(
@@ -57016,126 +57016,149 @@ var BookSerieItem = function (_React$Component) {
     }
 
     _createClass(BookSerieItem, [{
-        key: "render",
+        key: 'getRating',
+        value: function getRating() {
+            var ratings = this.props.book.rating;
+            if (ratings && ratings.length > 0) {
+                var sum = ratings.map(function (rating) {
+                    return rating.ratingId.estimation * rating.userCount;
+                }).reduce(function (prev, cur) {
+                    return prev + cur;
+                }),
+                    totalVotes = ratings.map(function (rating) {
+                    return rating.userCount;
+                }).reduce(function (prev, cur) {
+                    return prev + cur;
+                }),
+                    avgEstimation = parseFloat(sum / totalVotes).toFixed(2);
+                if (totalVotes > 0) {
+                    return avgEstimation + ' * ' + totalVotes;
+                }
+            }
+            return '0.00 * 0';
+        }
+    }, {
+        key: 'render',
         value: function render() {
             return _react2.default.createElement(
-                "div",
+                'div',
                 null,
                 _react2.default.createElement(
-                    "div",
-                    { className: "row" },
+                    'div',
+                    { className: 'row' },
                     _react2.default.createElement(
-                        "div",
-                        { className: "col-sm-4" },
-                        _react2.default.createElement("img", { src: "", className: "img-rounded", width: "200", height: "300" })
+                        'div',
+                        { className: 'col-sm-4' },
+                        _react2.default.createElement('img', { src: '', className: 'img-rounded', width: '200', height: '300' })
                     ),
                     _react2.default.createElement(
-                        "div",
-                        { className: "col-sm-8" },
+                        'div',
+                        { className: 'col-sm-8' },
                         _react2.default.createElement(
-                            "div",
-                            { className: "book-item-name" },
+                            'div',
+                            { className: 'book-item-name' },
                             this.props.book.name
                         ),
                         _react2.default.createElement(
-                            "div",
+                            'div',
                             null,
-                            _react2.default.createElement("span", { className: "glyphicon glyphicon-heart" }),
-                            "\xA0 4.95 * 145 votes"
+                            _react2.default.createElement('span', { className: 'glyphicon glyphicon-heart' }),
+                            '\xA0',
+                            this.getRating()
                         ),
                         _react2.default.createElement(
-                            "div",
+                            'div',
                             null,
                             this.props.book.description
                         ),
-                        _react2.default.createElement("br", null),
+                        _react2.default.createElement('br', null),
                         _react2.default.createElement(
-                            "table",
-                            { className: "table borderless" },
+                            'table',
+                            { className: 'table borderless' },
                             _react2.default.createElement(
-                                "tbody",
+                                'tbody',
                                 null,
                                 _react2.default.createElement(
-                                    "tr",
+                                    'tr',
                                     null,
                                     _react2.default.createElement(
-                                        "td",
+                                        'td',
                                         null,
-                                        "Size"
+                                        'Size'
                                     ),
                                     _react2.default.createElement(
-                                        "td",
+                                        'td',
                                         null,
-                                        "15 Mb (12 author sheets)"
+                                        '15 Mb (12 author sheets)'
                                     )
                                 ),
                                 _react2.default.createElement(
-                                    "tr",
+                                    'tr',
                                     null,
                                     _react2.default.createElement(
-                                        "td",
+                                        'td',
                                         null,
-                                        "Created date"
+                                        'Created date'
                                     ),
                                     _react2.default.createElement(
-                                        "td",
+                                        'td',
                                         null,
-                                        "15.05.2016"
+                                        '15.05.2016'
                                     )
                                 ),
                                 _react2.default.createElement(
-                                    "tr",
+                                    'tr',
                                     null,
                                     _react2.default.createElement(
-                                        "td",
+                                        'td',
                                         null,
-                                        "Last update"
+                                        'Last update'
                                     ),
                                     _react2.default.createElement(
-                                        "td",
+                                        'td',
                                         null,
-                                        "16.05.2017"
+                                        '16.05.2017'
                                     )
                                 )
                             )
                         ),
-                        _react2.default.createElement("hr", null),
-                        "13000 views | 775 comments | 20 reviews",
-                        _react2.default.createElement("hr", null),
+                        _react2.default.createElement('hr', null),
+                        '13000 views | 775 comments | 20 reviews',
+                        _react2.default.createElement('hr', null),
                         _react2.default.createElement(
-                            "div",
-                            { className: "row" },
+                            'div',
+                            { className: 'row' },
                             _react2.default.createElement(
-                                "div",
+                                'div',
                                 { className: 'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
                                 _react2.default.createElement(
-                                    "button",
-                                    { className: "btn btn-success btn-block" },
-                                    "Remove!"
+                                    'button',
+                                    { className: 'btn btn-success btn-block' },
+                                    'Remove!'
                                 )
                             ),
                             _react2.default.createElement(
-                                "div",
+                                'div',
                                 { className: 'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
                                 _react2.default.createElement(
-                                    "button",
-                                    { className: "btn btn-success btn-block" },
-                                    "Edit"
+                                    'button',
+                                    { className: 'btn btn-success btn-block' },
+                                    'Edit'
                                 )
                             ),
                             _react2.default.createElement(
-                                "div",
-                                { className: "col-sm-4" },
+                                'div',
+                                { className: 'col-sm-4' },
                                 _react2.default.createElement(
-                                    "button",
-                                    { className: "btn btn-success btn-block" },
-                                    "Read"
+                                    'button',
+                                    { className: 'btn btn-success btn-block' },
+                                    'Read'
                                 )
                             )
                         )
                     )
                 ),
-                _react2.default.createElement("hr", null)
+                _react2.default.createElement('hr', null)
             );
         }
     }]);

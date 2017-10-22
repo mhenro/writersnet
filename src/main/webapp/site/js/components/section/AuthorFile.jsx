@@ -19,8 +19,8 @@ class AuthorFile extends React.Component {
                 <div className="row">
                     <div className="col-sm-12" style={{textAlign: 'center'}}>
                         <div className="btn-group-vertical">
-                            <button className={'btn btn-success ' + (this.props.registered ? '' : 'hidden')}>Send message</button>
-                            <button className={'btn btn-success ' + (this.props.registered ? '' : 'hidden')}>Add to friends</button>
+                            <button className={'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username ? '' : 'hidden')}>Send message</button>
+                            <button className={'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username? '' : 'hidden')}>Add to friends</button>
                             <button className={'btn btn-success ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>Options</button>
                         </div>
                     </div>
