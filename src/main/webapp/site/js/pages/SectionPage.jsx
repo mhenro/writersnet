@@ -39,14 +39,14 @@ class SectionPage extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-3">
-                        <AuthorFile author={this.props.author}/>
+                        <AuthorFile author={this.props.author} registered={this.props.registered} login={this.props.login}/>
                     </div>
                     <div className="col-sm-9">
                         <AuthorShortInfo author={this.props.author}/>
                     </div>
                 </div>
                 <hr/>
-                <BookSerieList series={this.props.author.bookSeries}/>
+                <BookSerieList series={this.props.author.bookSeries} books={this.props.author.books} registered={this.props.registered} login={this.props.login} author={this.props.author}/>
             </div>
         )
     }
@@ -54,7 +54,10 @@ class SectionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        author: state.AuthorReducer.author
+        author: state.AuthorReducer.author,
+        registered: state.GlobalReducer.registered,
+        token: state.GlobalReducer.token,
+        login: state.GlobalReducer.user.login
     }
 };
 

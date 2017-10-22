@@ -22752,11 +22752,11 @@ var _MainPage = __webpack_require__(396);
 
 var _MainPage2 = _interopRequireDefault(_MainPage);
 
-var _GlobalDataContainer = __webpack_require__(627);
+var _GlobalDataContainer = __webpack_require__(628);
 
 var _GlobalDataContainer2 = _interopRequireDefault(_GlobalDataContainer);
 
-var _appReducer = __webpack_require__(628);
+var _appReducer = __webpack_require__(629);
 
 var _appReducer2 = _interopRequireDefault(_appReducer);
 
@@ -35983,11 +35983,11 @@ var _SectionPage = __webpack_require__(621);
 
 var _SectionPage2 = _interopRequireDefault(_SectionPage);
 
-var _LoginForm = __webpack_require__(625);
+var _LoginForm = __webpack_require__(626);
 
 var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
-var _ScrollToTopButton = __webpack_require__(626);
+var _ScrollToTopButton = __webpack_require__(627);
 
 var _ScrollToTopButton2 = _interopRequireDefault(_ScrollToTopButton);
 
@@ -56537,7 +56537,7 @@ var SectionPage = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'col-sm-3' },
-                        _react2.default.createElement(_AuthorFile2.default, { author: this.props.author })
+                        _react2.default.createElement(_AuthorFile2.default, { author: this.props.author, registered: this.props.registered, login: this.props.login })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -56546,7 +56546,7 @@ var SectionPage = function (_React$Component) {
                     )
                 ),
                 _react2.default.createElement('hr', null),
-                _react2.default.createElement(_BookSerieList2.default, { series: this.props.author.bookSeries })
+                _react2.default.createElement(_BookSerieList2.default, { series: this.props.author.bookSeries, books: this.props.author.books, registered: this.props.registered, login: this.props.login, author: this.props.author })
             );
         }
     }]);
@@ -56556,7 +56556,10 @@ var SectionPage = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
     return {
-        author: state.AuthorReducer.author
+        author: state.AuthorReducer.author,
+        registered: state.GlobalReducer.registered,
+        token: state.GlobalReducer.token,
+        login: state.GlobalReducer.user.login
     };
 };
 
@@ -56610,6 +56613,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /*
     props:
     - author
+    - registered
+    - login - user id
  */
 var AuthorFile = function (_React$Component) {
     _inherits(AuthorFile, _React$Component);
@@ -56621,44 +56626,44 @@ var AuthorFile = function (_React$Component) {
     }
 
     _createClass(AuthorFile, [{
-        key: "render",
+        key: 'render',
         value: function render() {
             return _react2.default.createElement(
-                "div",
-                null,
+                'div',
+                { className: 'panel panel-default', style: { padding: '10px' } },
                 _react2.default.createElement(
-                    "div",
-                    { className: "row" },
+                    'div',
+                    { className: 'row' },
                     _react2.default.createElement(
-                        "div",
-                        { className: "col-sm-12", style: { textAlign: 'center' } },
-                        _react2.default.createElement("img", { src: this.props.author.avatar, className: "img-rounded", width: "200px", height: "200px" })
+                        'div',
+                        { className: 'col-sm-12', style: { textAlign: 'center' } },
+                        _react2.default.createElement('img', { src: this.props.author.avatar, className: 'img-rounded', width: '100%' })
                     )
                 ),
-                _react2.default.createElement("br", null),
+                _react2.default.createElement('br', null),
                 _react2.default.createElement(
-                    "div",
-                    { className: "row" },
+                    'div',
+                    { className: 'row' },
                     _react2.default.createElement(
-                        "div",
-                        { className: "col-sm-12", style: { textAlign: 'center' } },
+                        'div',
+                        { className: 'col-sm-12', style: { textAlign: 'center' } },
                         _react2.default.createElement(
-                            "div",
-                            { className: "btn-group-vertical" },
+                            'div',
+                            { className: 'btn-group-vertical' },
                             _react2.default.createElement(
-                                "button",
-                                { className: "btn btn-success" },
-                                "Send message"
+                                'button',
+                                { className: 'btn btn-success ' + (this.props.registered ? '' : 'hidden') },
+                                'Send message'
                             ),
                             _react2.default.createElement(
-                                "button",
-                                { className: "btn btn-success" },
-                                "Add to friends"
+                                'button',
+                                { className: 'btn btn-success ' + (this.props.registered ? '' : 'hidden') },
+                                'Add to friends'
                             ),
                             _react2.default.createElement(
-                                "button",
-                                { className: "btn btn-success" },
-                                "Options"
+                                'button',
+                                { className: 'btn btn-success ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
+                                'Options'
                             )
                         )
                     )
@@ -56852,6 +56857,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _BookSerieItem = __webpack_require__(625);
+
+var _BookSerieItem2 = _interopRequireDefault(_BookSerieItem);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -56862,7 +56871,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /*
     props:
+    - author
     - series
+    - books
+    - registered
+    - login - user id
  */
 var BookSerieList = function (_React$Component) {
     _inherits(BookSerieList, _React$Component);
@@ -56874,49 +56887,84 @@ var BookSerieList = function (_React$Component) {
     }
 
     _createClass(BookSerieList, [{
-        key: "render",
+        key: 'getBooksForSerie',
+        value: function getBooksForSerie(serie) {
+            return this.props.books.filter(function (book) {
+                if (serie && !book.bookSerie) {
+                    return false;
+                }
+                if (serie) {
+                    return book.bookSerie.id == serie.id;
+                } else {
+                    return book.bookSerie === null;
+                }
+            });
+        }
+    }, {
+        key: 'isBookWithoutSerieExist',
+        value: function isBookWithoutSerieExist() {
+            return this.props.books.some(function (book) {
+                return book.bookSerie === null;
+            });
+        }
+    }, {
+        key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
-                "div",
+                'div',
                 null,
                 this.props.series.map(function (serie, key) {
                     return _react2.default.createElement(
-                        "div",
-                        { className: "row", key: key },
+                        'div',
+                        { className: 'row', key: key },
                         _react2.default.createElement(
-                            "div",
-                            { className: "col-sm-12" },
+                            'div',
+                            { className: 'col-sm-12' },
                             _react2.default.createElement(
-                                "div",
-                                { className: "panel panel-default" },
+                                'div',
+                                { className: 'panel panel-default' },
                                 _react2.default.createElement(
-                                    "div",
-                                    { className: "panel-heading" },
+                                    'div',
+                                    { className: 'panel-heading' },
                                     serie.name
                                 ),
                                 _react2.default.createElement(
-                                    "div",
-                                    { className: "panel-body" },
-                                    _react2.default.createElement(
-                                        "div",
-                                        null,
-                                        "book1"
-                                    ),
-                                    _react2.default.createElement(
-                                        "div",
-                                        null,
-                                        "book2"
-                                    ),
-                                    _react2.default.createElement(
-                                        "div",
-                                        null,
-                                        "book3"
-                                    )
+                                    'div',
+                                    { className: 'panel-body' },
+                                    _this2.getBooksForSerie(serie).map(function (book, key) {
+                                        return _react2.default.createElement(_BookSerieItem2.default, { key: key, book: book, registered: _this2.props.registered, login: _this2.props.login, author: _this2.props.author });
+                                    })
                                 )
                             )
                         )
                     );
-                })
+                }),
+                this.isBookWithoutSerieExist() ? _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-sm-12' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel panel-default' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-heading' },
+                                'Books without series'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-body' },
+                                this.getBooksForSerie(null).map(function (book, key) {
+                                    return _react2.default.createElement(_BookSerieItem2.default, { key: key, book: book, registered: _this2.props.registered, login: _this2.props.login, author: _this2.props.author });
+                                })
+                            )
+                        )
+                    )
+                ) : null
             );
         }
     }]);
@@ -56928,6 +56976,177 @@ exports.default = BookSerieList;
 
 /***/ }),
 /* 625 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+    props:
+    - author
+    - book
+    - registered
+    - login
+ */
+var BookSerieItem = function (_React$Component) {
+    _inherits(BookSerieItem, _React$Component);
+
+    function BookSerieItem() {
+        _classCallCheck(this, BookSerieItem);
+
+        return _possibleConstructorReturn(this, (BookSerieItem.__proto__ || Object.getPrototypeOf(BookSerieItem)).apply(this, arguments));
+    }
+
+    _createClass(BookSerieItem, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(
+                    "div",
+                    { className: "row" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "col-sm-4" },
+                        _react2.default.createElement("img", { src: "", className: "img-rounded", width: "200", height: "300" })
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "col-sm-8" },
+                        _react2.default.createElement(
+                            "div",
+                            { className: "book-item-name" },
+                            this.props.book.name
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            _react2.default.createElement("span", { className: "glyphicon glyphicon-heart" }),
+                            "\xA0 4.95 * 145 votes"
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            null,
+                            this.props.book.description
+                        ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "table",
+                            { className: "table borderless" },
+                            _react2.default.createElement(
+                                "tbody",
+                                null,
+                                _react2.default.createElement(
+                                    "tr",
+                                    null,
+                                    _react2.default.createElement(
+                                        "td",
+                                        null,
+                                        "Size"
+                                    ),
+                                    _react2.default.createElement(
+                                        "td",
+                                        null,
+                                        "15 Mb (12 author sheets)"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "tr",
+                                    null,
+                                    _react2.default.createElement(
+                                        "td",
+                                        null,
+                                        "Created date"
+                                    ),
+                                    _react2.default.createElement(
+                                        "td",
+                                        null,
+                                        "15.05.2016"
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    "tr",
+                                    null,
+                                    _react2.default.createElement(
+                                        "td",
+                                        null,
+                                        "Last update"
+                                    ),
+                                    _react2.default.createElement(
+                                        "td",
+                                        null,
+                                        "16.05.2017"
+                                    )
+                                )
+                            )
+                        ),
+                        _react2.default.createElement("hr", null),
+                        "13000 views | 775 comments | 20 reviews",
+                        _react2.default.createElement("hr", null),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "row" },
+                            _react2.default.createElement(
+                                "div",
+                                { className: 'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
+                                _react2.default.createElement(
+                                    "button",
+                                    { className: "btn btn-success btn-block" },
+                                    "Remove!"
+                                )
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                { className: 'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
+                                _react2.default.createElement(
+                                    "button",
+                                    { className: "btn btn-success btn-block" },
+                                    "Edit"
+                                )
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                { className: "col-sm-4" },
+                                _react2.default.createElement(
+                                    "button",
+                                    { className: "btn btn-success btn-block" },
+                                    "Read"
+                                )
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement("hr", null)
+            );
+        }
+    }]);
+
+    return BookSerieItem;
+}(_react2.default.Component);
+
+exports.default = BookSerieItem;
+
+/***/ }),
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57247,7 +57466,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginForm);
 
 /***/ }),
-/* 626 */
+/* 627 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57346,7 +57565,7 @@ var ScrollToTopButton = function (_React$Component) {
 exports.default = ScrollToTopButton;
 
 /***/ }),
-/* 627 */
+/* 628 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57437,7 +57656,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GlobalDataContainer);
 
 /***/ }),
-/* 628 */
+/* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57449,11 +57668,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(114);
 
-var _GlobalReducer = __webpack_require__(629);
+var _GlobalReducer = __webpack_require__(630);
 
 var _GlobalReducer2 = _interopRequireDefault(_GlobalReducer);
 
-var _AuthorReducer = __webpack_require__(630);
+var _AuthorReducer = __webpack_require__(631);
 
 var _AuthorReducer2 = _interopRequireDefault(_AuthorReducer);
 
@@ -57467,7 +57686,7 @@ var appReducer = (0, _redux.combineReducers)({
 exports.default = appReducer;
 
 /***/ }),
-/* 629 */
+/* 630 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57572,7 +57791,7 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 630 */
+/* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

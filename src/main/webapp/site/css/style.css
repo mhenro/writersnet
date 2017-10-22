@@ -2,6 +2,17 @@ div {
     /*border: 1px solid red;*/
 }
 
+.borderless > thead > tr > th,
+.borderless > tbody > tr > th,
+.borderless > tfoot > tr > th,
+.borderless > thead > tr > td,
+.borderless > tbody > tr > td,
+.borderless > tfoot > tr > td {
+    border-top: none;
+    margin: 0px;
+    padding-left: 0px;
+}
+
 .navbar {
     border-radius: 0;
 }
@@ -25,6 +36,11 @@ footer {
     text-align: center;
     font-size: 24pt;
     color: #0099cc;
+}
+
+/* styles for BookSerieItem */
+.book-item-name {
+    font-size: 24pt;
 }
 
 /* style for ScrollTop button */
