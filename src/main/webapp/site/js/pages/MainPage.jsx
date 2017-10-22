@@ -1,4 +1,12 @@
 import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Notifier from '../components/Notifier.jsx';
+import { connect } from 'react-redux';
+import { openLoginForm } from '../actions/GlobalActions.jsx';
+import {
+    setToken
+} from '../actions/AuthActions.jsx';
+
 import NavBar from '../components/NavBar.jsx';
 import MainMenu from '../components/MainMenu.jsx';
 import Footer from '../components/Footer.jsx';
@@ -6,16 +14,7 @@ import AuthorPage from '../pages/AuthorPage.jsx';
 import BookPage from '../pages/BookPage.jsx';
 import SectionPage from '../pages/SectionPage.jsx';
 import LoginForm from '../components/LoginForm.jsx';
-
-import { BrowserRouter, Route } from 'react-router-dom';
-import Notifier from '../components/Notifier.jsx';
-import { connect } from 'react-redux';
-
-import { openLoginForm } from '../actions/GlobalActions.jsx';
-
-import {
-    setToken
-} from '../actions/AuthActions.jsx';
+import ScrollToTopButton from '../components/ScrollToTopButton.jsx';
 
 class MainPage extends React.Component {
     constructor(props) {
@@ -58,6 +57,7 @@ class MainPage extends React.Component {
                             </div>
                         </div>
                     </div>
+                    <ScrollToTopButton scrollStepInPx="50" delayInMs="16.66"/>
                     <Footer/>
                     <LoginForm/>
                     <Notifier/>
