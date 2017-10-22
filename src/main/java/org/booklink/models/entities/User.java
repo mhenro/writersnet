@@ -5,12 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.booklink.models.TotalRating;
+import org.booklink.models.TotalSize;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -149,40 +148,63 @@ public class User {
         this.section = section;
     }
 
-    /* method for calculating total rating of the author */
-    /* ratintg : int1 - estimation, int2 - user count */
     @Transient
-    //@JsonIgnore
+    private int getUserCountByEstimation(final int estimation) {
+        return Optional.ofNullable(books)
+                .map(books -> books.stream()
+                        .flatMap(book -> book.getRating().stream())
+                        .filter(rating -> rating.getRatingId().getEstimation() == estimation)
+                        .map(Rating::getUserCount)
+                        .collect(Collectors.summingInt(n -> n)))
+                .orElse(0);
+    }
+
+    /* method for calculating total rating of the author */
+    @Transient
     public TotalRating getRating() {
-        int totalUserCount5 = books.stream().flatMap(book -> book.getRating().stream())
-                .filter(rating -> rating.getRatingId().getEstimation() == 5)
-                .map(Rating::getUserCount)
-                .collect(Collectors.summingInt(n -> n));
-        int totalUserCount4 = books.stream().flatMap(book -> book.getRating().stream())
-                .filter(rating -> rating.getRatingId().getEstimation() == 4)
-                .map(Rating::getUserCount)
-                .collect(Collectors.summingInt(n -> n));
-        int totalUserCount3 = books.stream().flatMap(book -> book.getRating().stream())
-                .filter(rating -> rating.getRatingId().getEstimation() == 3)
-                .map(Rating::getUserCount)
-                .collect(Collectors.summingInt(n -> n));
-        int totalUserCount2 = books.stream().flatMap(book -> book.getRating().stream())
-                .filter(rating -> rating.getRatingId().getEstimation() == 2)
-                .map(Rating::getUserCount)
-                .collect(Collectors.summingInt(n -> n));
-        int totalUserCount1 = books.stream().flatMap(book -> book.getRating().stream())
-                .filter(rating -> rating.getRatingId().getEstimation() == 1)
-                .map(Rating::getUserCount)
-                .collect(Collectors.summingInt(n -> n));
+        TotalRating authorRating = new TotalRating();
+        if (books == null) {
+            return authorRating;
+        }
+        int totalUserCount5 = getUserCountByEstimation(5);
+        int totalUserCount4 = getUserCountByEstimation(4);
+        int totalUserCount3 = getUserCountByEstimation(3);
+        int totalUserCount2 = getUserCountByEstimation(2);
+        int totalUserCount1 = getUserCountByEstimation(1);
         int totalUsers = totalUserCount1 + totalUserCount2 + totalUserCount3 + totalUserCount4 + totalUserCount5;
         float avgRating = (float)(totalUserCount1 + 2*totalUserCount2 + 3*totalUserCount3 + 4*totalUserCount4 + 5*totalUserCount5) / totalUsers;
         if (totalUsers == 0) {
             avgRating = 0;
         }
-        TotalRating authorRating = new TotalRating();
         authorRating.setAverageRating(avgRating);
         authorRating.setUserCount(totalUsers);
 
         return authorRating;
+    }
+
+    @Transient
+    public TotalSize getTotalSize() {
+        TotalSize totalSize = new TotalSize();
+        int size = Optional.ofNullable(books)
+                .map(books -> books.stream()
+                        .map(book -> book.getText().length())
+                        .collect(Collectors.summingInt(n -> n)))
+                .orElse(0);
+        int booksCount = Optional.ofNullable(books)
+                .map(books -> books.size())
+                .orElse(0);
+        totalSize.setTotalSize(size);
+        totalSize.setTotalBooks(booksCount);
+        return totalSize;
+    }
+
+    @Transient
+    public Set<BookSerie> getBookSeries() {
+        return Optional.ofNullable(books)
+                .map(books -> books.stream()
+                        .map(book -> book.getBookSerie())
+                        .filter(book -> book != null)
+                        .collect(Collectors.toSet()))
+                .orElseGet(() -> Collections.emptySet());
     }
 }

@@ -7,6 +7,11 @@ public class TotalRating {
     private float averageRating;
     private int userCount;
 
+    public TotalRating() {
+        averageRating = 0;
+        userCount = 0;
+    }
+
     public float getAverageRating() {
         return averageRating;
     }

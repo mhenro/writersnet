@@ -9,6 +9,8 @@ import {
 } from '../actions/GlobalActions.jsx';
 
 import AuthorFile from '../components/section/AuthorFile.jsx';
+import AuthorShortInfo from '../components/section/AuthorShortInfo.jsx';
+import BookSerieList from '../components/section/BookSerieList.jsx';
 
 /*
     props:
@@ -24,7 +26,7 @@ class SectionPage extends React.Component {
             return null;
         }
         return (
-            <div className="container">
+            <div>
                 <div className="row">
                     <div className="col-sm-12 section-name">
                         {this.props.author.firstName + ' ' + this.props.author.lastName}
@@ -40,9 +42,11 @@ class SectionPage extends React.Component {
                         <AuthorFile author={this.props.author}/>
                     </div>
                     <div className="col-sm-9">
-                        bbb
+                        <AuthorShortInfo author={this.props.author}/>
                     </div>
                 </div>
+                <hr/>
+                <BookSerieList series={this.props.author.bookSeries}/>
             </div>
         )
     }

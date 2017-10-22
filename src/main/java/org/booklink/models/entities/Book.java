@@ -25,6 +25,7 @@ public class Book {
     private Genre genre;
     private User author;
     private List<Rating> rating;
+    private BookSerie bookSerie;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,5 +96,20 @@ public class Book {
 
     public void setRating(List<Rating> rating) {
         this.rating = rating;
+    }
+
+    @Transient
+    public int getSize() {
+        return text.length();
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "serie_id")
+    public BookSerie getBookSerie() {
+        return bookSerie;
+    }
+
+    public void setBookSerie(BookSerie bookSerie) {
+        this.bookSerie = bookSerie;
     }
 }
