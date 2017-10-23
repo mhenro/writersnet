@@ -10,6 +10,10 @@ import GlobalDataContainer from './components/GlobalDataContainer.jsx';
 
 import appReducer from './reducers/appReducer.jsx';
 
+/* load css styles */
+import 'react-select/dist/react-select.css';
+import 'react-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css';
+
 let store = createStore(appReducer);
 
 class Root extends React.Component {

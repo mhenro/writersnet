@@ -157,7 +157,6 @@ const mapDispatchToProps = (dispatch) => {
             return sendLogin(username, password).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setToken(json.message));
-                    sessionStorage.setItem('token', json.message);
                     sessionStorage.setItem('username', username);
                     dispatch(setPassword(''));
                     self.close();

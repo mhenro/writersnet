@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /*
     props:
@@ -20,8 +21,10 @@ class AuthorFile extends React.Component {
                     <div className="col-sm-12" style={{textAlign: 'center'}}>
                         <div className="btn-group-vertical">
                             <button className={'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username ? '' : 'hidden')}>Send message</button>
+                            <br/>
                             <button className={'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username? '' : 'hidden')}>Add to friends</button>
-                            <button className={'btn btn-success ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>Options</button>
+                            <br/>
+                            <Link to="/options" className={'btn btn-success ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>Options</Link>
                         </div>
                     </div>
                 </div>

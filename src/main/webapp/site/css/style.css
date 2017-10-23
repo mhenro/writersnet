@@ -13,6 +13,11 @@ div {
     padding-left: 0px;
 }
 
+.btn-group-vertical > button {
+    /*margin-bottom:10px;*/
+    border-radius: 5px !important;
+}
+
 .navbar {
     border-radius: 0;
 }

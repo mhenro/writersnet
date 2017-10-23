@@ -63,6 +63,7 @@ const GlobalReducer = (state = initialState, action) => {
             }});
 
         case SET_TOKEN:
+            sessionStorage.setItem('token', action.token);
             if (action.token !== '') {
                 return Object.assign({}, state, {token: action.token, registered: true});
             } else {

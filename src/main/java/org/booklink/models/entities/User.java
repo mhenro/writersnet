@@ -34,6 +34,8 @@ public class User {
     private byte[] avatar;
     private Set<Book> books;
     private Section section;
+    private String language;
+    private String preferredLanguages;
 
     @Id
     public String getUsername() {
@@ -206,5 +208,22 @@ public class User {
                         .filter(book -> book != null)
                         .collect(Collectors.toSet()))
                 .orElseGet(() -> Collections.emptySet());
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    @Column(name = "preferred_languages")
+    public String getPreferredLanguages() {
+        return preferredLanguages;
+    }
+
+    public void setPreferredLanguages(String preferredLanguages) {
+        this.preferredLanguages = preferredLanguages;
     }
 }
