@@ -8,6 +8,10 @@ export const getAuthorDetails = (userId) => {
     return doFetch('http://localhost:8080/authors/' + userId);
 };
 
+export const saveAuthor = (author, token) => {
+    return doFetch('http://localhost:8080/authors', author, token);
+};
+
 export const SET_AUTHORS = 'SET_AUTHORS';
 export const SET_AUTHOR = 'SET_AUTHOR';
 

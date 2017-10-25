@@ -4,11 +4,13 @@ import DatePicker from 'react-bootstrap-datetimepicker';
 import Select from 'react-select';
 import {
     getAuthorDetails,
-    setAuthor
+    setAuthor,
+    saveAuthor
 } from '../actions/AuthorActions.jsx';
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
+import { locale } from '../locale.jsx';
 
 /*
     props:
@@ -26,7 +28,7 @@ class OptionsPage extends React.Component {
             preferredLanguages: []
         };
 
-        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm'].map(fn => this[fn] = this[fn].bind(this));
+        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'onFieldChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -42,10 +44,10 @@ class OptionsPage extends React.Component {
             firstName: author.firstName,
             lastName: author.lastName,
             sectionName: author.section.name,
-            //TODO: birthday: ???
+            birthday: author.birthday,
             city: author.city,
-            siteLanguage: {value: author.language, label: author.language}
-            //TODO: preferred languages
+            siteLanguage: {value: author.language, label: locale[author.language].label},
+            preferredLanguages: author.preferredLanguages ? author.preferredLanguages.split(';').map(lang => { return {value: lang, label: locale[lang].label}}) : []
         });
     }
 
@@ -55,20 +57,32 @@ class OptionsPage extends React.Component {
         });
     }
 
+    onFieldChange(proxy) {
+        switch (proxy.target.id) {
+            case 'first_name': this.setState({firstName: proxy.target.value}); break;
+            case 'last_name': this.setState({lastName: proxy.target.value}); break;
+            case 'section_name': this.setState({sectionName: proxy.target.value}); break;
+            case 'birthday': this.setState({birthday: proxy.target.value}); break;
+            case 'city': this.setState({city: proxy.target.value}); break;
+            case 'siteLanguage': this.setState({siteLanguage: proxy.target.value}); break;
+            case 'preferredLanguages': this.setState({preferredLanguages: proxy.target.value}); break;
+        }
+    }
+
     onLanguageChange(siteLanguage) {
         this.setState({
            siteLanguage: siteLanguage
         });
-        console.log('you selected ' + siteLanguage.label);
+        //console.log('you selected ' + siteLanguage.label);
     }
 
     onMultiLanguageChange(preferredLanguages) {
         this.setState({
             preferredLanguages: preferredLanguages
         });
-        for (var key in preferredLanguages) {
+        /*for (var key in preferredLanguages) {
             console.log('you selected ' + preferredLanguages[key].label);
-        }
+        }*/
     }
 
     getDatePickerProps() {
@@ -80,14 +94,31 @@ class OptionsPage extends React.Component {
 
     onSubmit(event) {
         event.preventDefault();
+        let author = {
+            username: this.props.login,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            sectionName: this.state.sectionName,
+            birthday: this.state.birthday,
+            city: this.state.city,
+            language: this.state.siteLanguage.value,
+            preferredLanguages: this.state.preferredLanguages.map(lang => lang.value).reduce((cur, next) => cur + ';' + next)
+        };
+        this.props.onSaveAuthor(author, this.props.token);
+    }
+
+    getComboboxItems() {
+        let options = [];
+        for (var lang in locale) {
+            options.push({
+                value: lang,
+                label: locale[lang].label
+            });
+        }
+        return options;
     }
 
     render() {
-        const options = [
-            { value: 'RU', label: 'Русский' },
-            { value: 'EN', label: 'English' }
-        ];
-
         return (
             <div>
                 <div className="panel panel-default">
@@ -99,43 +130,43 @@ class OptionsPage extends React.Component {
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="first_name">First name:</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.firstName} type="text" className="form-control" id="first_name" placeholder="Enter your first name" name="first_name"/>
+                                    <input value={this.state.firstName} onChange={this.onFieldChange} type="text" className="form-control" id="first_name" placeholder="Enter your first name" name="first_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="last_name">Last name:</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.lastName} type="text" className="form-control" id="last_name" placeholder="Enter your last name" name="last_name"/>
+                                    <input value={this.state.lastName} onChange={this.onFieldChange} type="text" className="form-control" id="last_name" placeholder="Enter your last name" name="last_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="section_name">Section name:</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.sectionName} type="text" className="form-control" id="section_name" placeholder="Enter the name of your section" name="section_name"/>
+                                    <input value={this.state.sectionName} onChange={this.onFieldChange} type="text" className="form-control" id="section_name" placeholder="Enter the name of your section" name="section_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="birthday">Birthday:</label>
                                 <div className="col-sm-10">
-                                    <DatePicker inputProps={this.getDatePickerProps()} defaultText="" inputFormat="DD-MM-YYYY" mode="date"/>
+                                    <DatePicker dateTime={this.state.birthday} onChange={this.onDateChange} inputProps={this.getDatePickerProps()} id="birthday" defaultText="" format="YYYY-MM-DD" inputFormat="DD-MM-YYYY" mode="date"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="city">City:</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.city} type="text" className="form-control" id="city" placeholder="Enter your city" name="city"/>
+                                    <input value={this.state.city} onChange={this.onFieldChange} type="text" className="form-control" id="city" placeholder="Enter your city" name="city"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="language">Language:</label>
                                 <div className="col-sm-10">
-                                    <Select value={this.state.siteLanguage} options={options} onChange={this.onLanguageChange} placeholder="Choose website language"/>
+                                    <Select value={this.state.siteLanguage} id="siteLanguage" options={this.getComboboxItems()} onChange={this.onLanguageChange} placeholder="Choose website language"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="language">Preferred languages:</label>
                                 <div className="col-sm-10">
-                                    <Select value={this.state.preferredLanguages} options={options} multi={true} onChange={this.onMultiLanguageChange} placeholder="Choose your preferred languages"/>
+                                    <Select value={this.state.preferredLanguages} id="preferredLanguages" options={this.getComboboxItems()} multi={true} onChange={this.onMultiLanguageChange} placeholder="Choose your preferred languages"/>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -183,6 +214,7 @@ class OptionsPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         registered: state.GlobalReducer.registered,
+        token: state.GlobalReducer.token,
         login: state.GlobalReducer.user.login,
         author: state.AuthorReducer.author
     }
@@ -195,6 +227,19 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
                     callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onSaveAuthor: (author, token) => {
+            return saveAuthor(author, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'Data was saved successfully'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

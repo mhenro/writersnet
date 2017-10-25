@@ -12488,7 +12488,7 @@ module.exports = exports["default"];
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setAuthor = exports.setAuthors = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.getAuthorDetails = exports.getAuthors = undefined;
+exports.setAuthor = exports.setAuthors = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.saveAuthor = exports.getAuthorDetails = exports.getAuthors = undefined;
 
 var _fetch = __webpack_require__(237);
 
@@ -12502,6 +12502,10 @@ var getAuthors = exports.getAuthors = function getAuthors(page) {
 
 var getAuthorDetails = exports.getAuthorDetails = function getAuthorDetails(userId) {
     return (0, _fetch2.default)('http://localhost:8080/authors/' + userId);
+};
+
+var saveAuthor = exports.saveAuthor = function saveAuthor(author, token) {
+    return (0, _fetch2.default)('http://localhost:8080/authors', author, token);
 };
 
 var SET_AUTHORS = exports.SET_AUTHORS = 'SET_AUTHORS';
@@ -41435,7 +41439,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(819);
+var	fixUrls = __webpack_require__(820);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -41773,17 +41777,17 @@ var _MainPage = __webpack_require__(541);
 
 var _MainPage2 = _interopRequireDefault(_MainPage);
 
-var _GlobalDataContainer = __webpack_require__(813);
+var _GlobalDataContainer = __webpack_require__(814);
 
 var _GlobalDataContainer2 = _interopRequireDefault(_GlobalDataContainer);
 
-var _appReducer = __webpack_require__(814);
+var _appReducer = __webpack_require__(815);
 
 var _appReducer2 = _interopRequireDefault(_appReducer);
 
-__webpack_require__(817);
+__webpack_require__(818);
 
-__webpack_require__(820);
+__webpack_require__(821);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54991,7 +54995,7 @@ var _OptionsPage = __webpack_require__(772);
 
 var _OptionsPage2 = _interopRequireDefault(_OptionsPage);
 
-var _ScrollToTopButton = __webpack_require__(812);
+var _ScrollToTopButton = __webpack_require__(813);
 
 var _ScrollToTopButton2 = _interopRequireDefault(_ScrollToTopButton);
 
@@ -76533,6 +76537,8 @@ var _AuthorActions = __webpack_require__(104);
 
 var _GlobalActions = __webpack_require__(40);
 
+var _locale = __webpack_require__(812);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -76561,7 +76567,7 @@ var OptionsPage = function (_React$Component) {
             preferredLanguages: []
         };
 
-        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm'].map(function (fn) {
+        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'onFieldChange'].map(function (fn) {
             return _this[fn] = _this[fn].bind(_this);
         });
         return _this;
@@ -76583,11 +76589,13 @@ var OptionsPage = function (_React$Component) {
                 firstName: author.firstName,
                 lastName: author.lastName,
                 sectionName: author.section.name,
-                //TODO: birthday: ???
+                birthday: author.birthday,
                 city: author.city,
-                siteLanguage: { value: author.language, label: author.language
-                    //TODO: preferred languages
-                } });
+                siteLanguage: { value: author.language, label: _locale.locale[author.language].label },
+                preferredLanguages: author.preferredLanguages ? author.preferredLanguages.split(';').map(function (lang) {
+                    return { value: lang, label: _locale.locale[lang].label };
+                }) : []
+            });
         }
     }, {
         key: 'onDateChange',
@@ -76597,12 +76605,32 @@ var OptionsPage = function (_React$Component) {
             });
         }
     }, {
+        key: 'onFieldChange',
+        value: function onFieldChange(proxy) {
+            switch (proxy.target.id) {
+                case 'first_name':
+                    this.setState({ firstName: proxy.target.value });break;
+                case 'last_name':
+                    this.setState({ lastName: proxy.target.value });break;
+                case 'section_name':
+                    this.setState({ sectionName: proxy.target.value });break;
+                case 'birthday':
+                    this.setState({ birthday: proxy.target.value });break;
+                case 'city':
+                    this.setState({ city: proxy.target.value });break;
+                case 'siteLanguage':
+                    this.setState({ siteLanguage: proxy.target.value });break;
+                case 'preferredLanguages':
+                    this.setState({ preferredLanguages: proxy.target.value });break;
+            }
+        }
+    }, {
         key: 'onLanguageChange',
         value: function onLanguageChange(siteLanguage) {
             this.setState({
                 siteLanguage: siteLanguage
             });
-            console.log('you selected ' + siteLanguage.label);
+            //console.log('you selected ' + siteLanguage.label);
         }
     }, {
         key: 'onMultiLanguageChange',
@@ -76610,9 +76638,9 @@ var OptionsPage = function (_React$Component) {
             this.setState({
                 preferredLanguages: preferredLanguages
             });
-            for (var key in preferredLanguages) {
+            /*for (var key in preferredLanguages) {
                 console.log('you selected ' + preferredLanguages[key].label);
-            }
+            }*/
         }
     }, {
         key: 'getDatePickerProps',
@@ -76626,12 +76654,37 @@ var OptionsPage = function (_React$Component) {
         key: 'onSubmit',
         value: function onSubmit(event) {
             event.preventDefault();
+            var author = {
+                username: this.props.login,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                sectionName: this.state.sectionName,
+                birthday: this.state.birthday,
+                city: this.state.city,
+                language: this.state.siteLanguage.value,
+                preferredLanguages: this.state.preferredLanguages.map(function (lang) {
+                    return lang.value;
+                }).reduce(function (cur, next) {
+                    return cur + ';' + next;
+                })
+            };
+            this.props.onSaveAuthor(author, this.props.token);
+        }
+    }, {
+        key: 'getComboboxItems',
+        value: function getComboboxItems() {
+            var options = [];
+            for (var lang in _locale.locale) {
+                options.push({
+                    value: lang,
+                    label: _locale.locale[lang].label
+                });
+            }
+            return options;
         }
     }, {
         key: 'render',
         value: function render() {
-            var options = [{ value: 'RU', label: 'Русский' }, { value: 'EN', label: 'English' }];
-
             return _react2.default.createElement(
                 'div',
                 null,
@@ -76660,7 +76713,7 @@ var OptionsPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-sm-10' },
-                                    _react2.default.createElement('input', { value: this.state.firstName, type: 'text', className: 'form-control', id: 'first_name', placeholder: 'Enter your first name', name: 'first_name' })
+                                    _react2.default.createElement('input', { value: this.state.firstName, onChange: this.onFieldChange, type: 'text', className: 'form-control', id: 'first_name', placeholder: 'Enter your first name', name: 'first_name' })
                                 )
                             ),
                             _react2.default.createElement(
@@ -76674,7 +76727,7 @@ var OptionsPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-sm-10' },
-                                    _react2.default.createElement('input', { value: this.state.lastName, type: 'text', className: 'form-control', id: 'last_name', placeholder: 'Enter your last name', name: 'last_name' })
+                                    _react2.default.createElement('input', { value: this.state.lastName, onChange: this.onFieldChange, type: 'text', className: 'form-control', id: 'last_name', placeholder: 'Enter your last name', name: 'last_name' })
                                 )
                             ),
                             _react2.default.createElement(
@@ -76688,7 +76741,7 @@ var OptionsPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-sm-10' },
-                                    _react2.default.createElement('input', { value: this.state.sectionName, type: 'text', className: 'form-control', id: 'section_name', placeholder: 'Enter the name of your section', name: 'section_name' })
+                                    _react2.default.createElement('input', { value: this.state.sectionName, onChange: this.onFieldChange, type: 'text', className: 'form-control', id: 'section_name', placeholder: 'Enter the name of your section', name: 'section_name' })
                                 )
                             ),
                             _react2.default.createElement(
@@ -76702,7 +76755,7 @@ var OptionsPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-sm-10' },
-                                    _react2.default.createElement(_reactBootstrapDatetimepicker2.default, { inputProps: this.getDatePickerProps(), defaultText: '', inputFormat: 'DD-MM-YYYY', mode: 'date' })
+                                    _react2.default.createElement(_reactBootstrapDatetimepicker2.default, { dateTime: this.state.birthday, onChange: this.onDateChange, inputProps: this.getDatePickerProps(), id: 'birthday', defaultText: '', format: 'YYYY-MM-DD', inputFormat: 'DD-MM-YYYY', mode: 'date' })
                                 )
                             ),
                             _react2.default.createElement(
@@ -76716,7 +76769,7 @@ var OptionsPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-sm-10' },
-                                    _react2.default.createElement('input', { value: this.state.city, type: 'text', className: 'form-control', id: 'city', placeholder: 'Enter your city', name: 'city' })
+                                    _react2.default.createElement('input', { value: this.state.city, onChange: this.onFieldChange, type: 'text', className: 'form-control', id: 'city', placeholder: 'Enter your city', name: 'city' })
                                 )
                             ),
                             _react2.default.createElement(
@@ -76730,7 +76783,7 @@ var OptionsPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-sm-10' },
-                                    _react2.default.createElement(_reactSelect2.default, { value: this.state.siteLanguage, options: options, onChange: this.onLanguageChange, placeholder: 'Choose website language' })
+                                    _react2.default.createElement(_reactSelect2.default, { value: this.state.siteLanguage, id: 'siteLanguage', options: this.getComboboxItems(), onChange: this.onLanguageChange, placeholder: 'Choose website language' })
                                 )
                             ),
                             _react2.default.createElement(
@@ -76744,7 +76797,7 @@ var OptionsPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-sm-10' },
-                                    _react2.default.createElement(_reactSelect2.default, { value: this.state.preferredLanguages, options: options, multi: true, onChange: this.onMultiLanguageChange, placeholder: 'Choose your preferred languages' })
+                                    _react2.default.createElement(_reactSelect2.default, { value: this.state.preferredLanguages, id: 'preferredLanguages', options: this.getComboboxItems(), multi: true, onChange: this.onMultiLanguageChange, placeholder: 'Choose your preferred languages' })
                                 )
                             ),
                             _react2.default.createElement(
@@ -76826,6 +76879,7 @@ var OptionsPage = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
     return {
         registered: state.GlobalReducer.registered,
+        token: state.GlobalReducer.token,
         login: state.GlobalReducer.user.login,
         author: state.AuthorReducer.author
     };
@@ -76842,6 +76896,22 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
                 if (response.status === 200) {
                     dispatch((0, _AuthorActions.setAuthor)(json));
                     callback(json);
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onSaveAuthor: function onSaveAuthor(author, token) {
+            return (0, _AuthorActions.saveAuthor)(author, token).then(function (_ref3) {
+                var _ref4 = _slicedToArray(_ref3, 2),
+                    response = _ref4[0],
+                    json = _ref4[1];
+
+                if (response.status === 200) {
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Data was saved successfully'));
                 } else {
                     dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
                 }
@@ -79881,6 +79951,36 @@ exports.default = AsyncCreatableSelect;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+/* supported languages */
+var EN = {
+    label: 'english' //reserved property
+};
+
+var RU = {
+    label: 'русский' //reserved property
+};
+
+/* locale */
+var locale = exports.locale = {
+    EN: EN,
+    RU: RU
+};
+
+/* get locale method */
+var getLocale = exports.getLocale = function getLocale(language) {
+    return locale[language];
+};
+
+/***/ }),
+/* 813 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -79971,7 +80071,7 @@ var ScrollToTopButton = function (_React$Component) {
 exports.default = ScrollToTopButton;
 
 /***/ }),
-/* 813 */
+/* 814 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80086,7 +80186,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GlobalDataContainer);
 
 /***/ }),
-/* 814 */
+/* 815 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80098,11 +80198,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(125);
 
-var _GlobalReducer = __webpack_require__(815);
+var _GlobalReducer = __webpack_require__(816);
 
 var _GlobalReducer2 = _interopRequireDefault(_GlobalReducer);
 
-var _AuthorReducer = __webpack_require__(816);
+var _AuthorReducer = __webpack_require__(817);
 
 var _AuthorReducer2 = _interopRequireDefault(_AuthorReducer);
 
@@ -80116,7 +80216,7 @@ var appReducer = (0, _redux.combineReducers)({
 exports.default = appReducer;
 
 /***/ }),
-/* 815 */
+/* 816 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80222,7 +80322,7 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 816 */
+/* 817 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80256,13 +80356,13 @@ var AuthorReducer = function AuthorReducer() {
 exports.default = AuthorReducer;
 
 /***/ }),
-/* 817 */
+/* 818 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(818);
+var content = __webpack_require__(819);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -80287,7 +80387,7 @@ if(false) {
 }
 
 /***/ }),
-/* 818 */
+/* 819 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(415)(undefined);
@@ -80301,7 +80401,7 @@ exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Je
 
 
 /***/ }),
-/* 819 */
+/* 820 */
 /***/ (function(module, exports) {
 
 
@@ -80396,13 +80496,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 820 */
+/* 821 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(821);
+var content = __webpack_require__(822);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -80427,7 +80527,7 @@ if(false) {
 }
 
 /***/ }),
-/* 821 */
+/* 822 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(415)(undefined);

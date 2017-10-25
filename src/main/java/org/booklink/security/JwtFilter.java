@@ -23,13 +23,12 @@ public class JwtFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest)servletRequest;
-        final String authHeader = request.getHeader("authorization");
-        String method = request.getRequestURI();
-        if (!"zazaka".equals(method)) {
+        if (!isSecurityRequest(request)) {  //passing non-secure requests as is
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
+        final String authHeader = request.getHeader("authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new UnauthorizedUserException("Bad credentials");
         }
@@ -37,7 +36,11 @@ public class JwtFilter extends GenericFilterBean {
         try {
             final Claims claims = Jwts.parser().setSigningKey("booklink").parseClaimsJws(token).getBody();
             final List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority((String)claims.get("roles")));
+            final String role = (String)claims.get("roles");
+            if (role == null) {
+                throw new UnauthorizedUserException("Bad credentials");
+            }
+            authorities.add(new SimpleGrantedAuthority(role));
             final boolean enabled = (boolean)claims.get("enabled");
             if (!enabled) {
                 throw new UnauthorizedUserException("Bad credentials");
@@ -49,5 +52,14 @@ public class JwtFilter extends GenericFilterBean {
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private boolean isSecurityRequest(HttpServletRequest request) {
+        final String method = request.getRequestURI();
+        final String methodType = request.getMethod();
+        if ("/authors".equals(method) && "POST".equalsIgnoreCase(methodType)) {
+            return true;
+        }
+        return false;
     }
 }

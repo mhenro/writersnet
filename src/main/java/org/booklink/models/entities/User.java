@@ -34,6 +34,7 @@ public class User {
     private byte[] avatar;
     private Set<Book> books;
     private Section section;
+    private String sectionName;
     private String language;
     private String preferredLanguages;
 
@@ -148,6 +149,15 @@ public class User {
 
     public void setSection(Section section) {
         this.section = section;
+    }
+
+    @Transient
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
     }
 
     @Transient
