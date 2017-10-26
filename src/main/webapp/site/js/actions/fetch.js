@@ -1,16 +1,19 @@
 import fetch from 'isomorphic-fetch';
 
-const doFetch = (url, request, token, responseType = 'json') => {
+const doFetch = (url, request, token, contentType = 'application/json', responseType = 'json') => {
     let header = {
         method: request ? 'POST' : 'GET',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Accept': 'application/json'
         }
     };
 
+    if (contentType !== 'multipart/form-data') {
+        header.headers['Content-Type'] = contentType;
+    }
+
     if (request) {
-        header.body = JSON.stringify(request);
+        header.body = contentType === 'application/json' ? JSON.stringify(request) : request;
     }
     if (token) {
         header.headers.Authorization = 'Bearer ' + token;

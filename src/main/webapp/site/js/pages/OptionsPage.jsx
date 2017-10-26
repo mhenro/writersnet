@@ -5,12 +5,15 @@ import Select from 'react-select';
 import {
     getAuthorDetails,
     setAuthor,
-    saveAuthor
+    saveAuthor,
+    saveAvatar
 } from '../actions/AuthorActions.jsx';
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
 import { locale } from '../locale.jsx';
+
+import FileUploader from '../components/FileUploader.jsx';
 
 /*
     props:
@@ -23,12 +26,15 @@ class OptionsPage extends React.Component {
 
         this.state = {
             firstName: '',
+            lastName: '',
+            sectionName: '',
             birthday: new Date().toISOString(),
+            city: '',
             siteLanguage: {value: 'EN', label: 'English'},
             preferredLanguages: []
         };
 
-        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'onFieldChange'].map(fn => this[fn] = this[fn].bind(this));
+        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'onFieldChange', 'onAvatarChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -85,6 +91,14 @@ class OptionsPage extends React.Component {
         }*/
     }
 
+    onAvatarChange(event) {
+        let formData = new FormData();
+        formData.append('avatar', event.target.files[0]);
+        formData.append('userId', this.props.author.username);
+
+        this.props.onSaveAvatar(formData, this.props.token)
+    }
+
     getDatePickerProps() {
         return {
             placeholder: 'Enter your date of birth',
@@ -118,7 +132,17 @@ class OptionsPage extends React.Component {
         return options;
     }
 
+    isDataLoaded() {
+        if (!this.props.author) {
+            return false;
+        }
+        return true;
+    }
+
     render() {
+        if (!this.isDataLoaded()) {
+            return null;
+        }
         return (
             <div>
                 <div className="panel panel-default">
@@ -184,11 +208,17 @@ class OptionsPage extends React.Component {
                     </div>
                     <div className="panel-body">
                         <div className="col-sm-4">
-                            <img src="" className="img-rounded" width="200" height="300"/>
+                            <img src={'data:image/png;base64,' + this.props.author.avatar} className="img-rounded" width="200" height="auto"/>
                         </div>
                         <div className="col-sm-8">
                             <div className="btn-group-vertical">
-                                <button type="button" className="btn btn-success">Load new photo</button>
+                                <FileUploader
+                                    btnName="Choose your avatar"
+                                    name="avatar"
+                                    accept=".png,.jpg"
+                                    className="btn btn-success"
+                                    onChange={this.onAvatarChange}
+                                />
                                 <br/>
                                 <button type="button" className="btn btn-success">Restore default photo</button>
                             </div>
@@ -247,6 +277,23 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onSaveAvatar: (avatar, token) => {
+            return saveAvatar(avatar, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'Avatar was saved successfully'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onCreateNotify: (type, header, message) => {
+            dispatch(createNotify(type, header, message));
         }
     }
 };

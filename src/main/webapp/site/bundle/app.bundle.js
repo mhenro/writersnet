@@ -12488,7 +12488,7 @@ module.exports = exports["default"];
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setAuthor = exports.setAuthors = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.saveAuthor = exports.getAuthorDetails = exports.getAuthors = undefined;
+exports.setAuthor = exports.setAuthors = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.saveAvatar = exports.saveAuthor = exports.getAuthorDetails = exports.getAuthors = undefined;
 
 var _fetch = __webpack_require__(237);
 
@@ -12506,6 +12506,10 @@ var getAuthorDetails = exports.getAuthorDetails = function getAuthorDetails(user
 
 var saveAuthor = exports.saveAuthor = function saveAuthor(author, token) {
     return (0, _fetch2.default)('http://localhost:8080/authors', author, token);
+};
+
+var saveAvatar = exports.saveAvatar = function saveAvatar(avatar, token) {
+    return (0, _fetch2.default)('http://localhost:8080/avatar', avatar, token, 'multipart/form-data');
 };
 
 var SET_AUTHORS = exports.SET_AUTHORS = 'SET_AUTHORS';
@@ -24751,18 +24755,22 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var doFetch = function doFetch(url, request, token) {
-    var responseType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'json';
+    var contentType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'application/json';
+    var responseType = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'json';
 
     var header = {
         method: request ? 'POST' : 'GET',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Accept': 'application/json'
         }
     };
 
+    if (contentType !== 'multipart/form-data') {
+        header.headers['Content-Type'] = contentType;
+    }
+
     if (request) {
-        header.body = JSON.stringify(request);
+        header.body = contentType === 'application/json' ? JSON.stringify(request) : request;
     }
     if (token) {
         header.headers.Authorization = 'Bearer ' + token;
@@ -41439,7 +41447,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(820);
+var	fixUrls = __webpack_require__(821);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -41777,17 +41785,17 @@ var _MainPage = __webpack_require__(541);
 
 var _MainPage2 = _interopRequireDefault(_MainPage);
 
-var _GlobalDataContainer = __webpack_require__(814);
+var _GlobalDataContainer = __webpack_require__(815);
 
 var _GlobalDataContainer2 = _interopRequireDefault(_GlobalDataContainer);
 
-var _appReducer = __webpack_require__(815);
+var _appReducer = __webpack_require__(816);
 
 var _appReducer2 = _interopRequireDefault(_appReducer);
 
-__webpack_require__(818);
+__webpack_require__(819);
 
-__webpack_require__(821);
+__webpack_require__(822);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54995,7 +55003,7 @@ var _OptionsPage = __webpack_require__(772);
 
 var _OptionsPage2 = _interopRequireDefault(_OptionsPage);
 
-var _ScrollToTopButton = __webpack_require__(813);
+var _ScrollToTopButton = __webpack_require__(814);
 
 var _ScrollToTopButton2 = _interopRequireDefault(_ScrollToTopButton);
 
@@ -75118,7 +75126,7 @@ var AuthorListItem = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'col-sm-4' },
-                            _react2.default.createElement('img', { src: this.props.author.avatar, className: 'img-rounded', width: '150', height: '200' })
+                            _react2.default.createElement('img', { src: 'data:image/png;base64,' + this.props.author.avatar, className: 'img-rounded', width: '150', height: 'auto' })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -75652,7 +75660,7 @@ var AuthorFile = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'col-sm-12', style: { textAlign: 'center' } },
-                        _react2.default.createElement('img', { src: this.props.author.avatar, className: 'img-rounded', width: '100%' })
+                        _react2.default.createElement('img', { src: 'data:image/png;base64,' + this.props.author.avatar, className: 'img-rounded', width: '100%', height: 'auto' })
                     )
                 ),
                 _react2.default.createElement('br', null),
@@ -76539,6 +76547,10 @@ var _GlobalActions = __webpack_require__(40);
 
 var _locale = __webpack_require__(812);
 
+var _FileUploader = __webpack_require__(813);
+
+var _FileUploader2 = _interopRequireDefault(_FileUploader);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -76562,12 +76574,15 @@ var OptionsPage = function (_React$Component) {
 
         _this.state = {
             firstName: '',
+            lastName: '',
+            sectionName: '',
             birthday: new Date().toISOString(),
+            city: '',
             siteLanguage: { value: 'EN', label: 'English' },
             preferredLanguages: []
         };
 
-        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'onFieldChange'].map(function (fn) {
+        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'onFieldChange', 'onAvatarChange'].map(function (fn) {
             return _this[fn] = _this[fn].bind(_this);
         });
         return _this;
@@ -76643,6 +76658,15 @@ var OptionsPage = function (_React$Component) {
             }*/
         }
     }, {
+        key: 'onAvatarChange',
+        value: function onAvatarChange(event) {
+            var formData = new FormData();
+            formData.append('avatar', event.target.files[0]);
+            formData.append('userId', this.props.author.username);
+
+            this.props.onSaveAvatar(formData, this.props.token);
+        }
+    }, {
         key: 'getDatePickerProps',
         value: function getDatePickerProps() {
             return {
@@ -76683,8 +76707,19 @@ var OptionsPage = function (_React$Component) {
             return options;
         }
     }, {
+        key: 'isDataLoaded',
+        value: function isDataLoaded() {
+            if (!this.props.author) {
+                return false;
+            }
+            return true;
+        }
+    }, {
         key: 'render',
         value: function render() {
+            if (!this.isDataLoaded()) {
+                return null;
+            }
             return _react2.default.createElement(
                 'div',
                 null,
@@ -76830,7 +76865,7 @@ var OptionsPage = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'col-sm-4' },
-                            _react2.default.createElement('img', { src: '', className: 'img-rounded', width: '200', height: '300' })
+                            _react2.default.createElement('img', { src: 'data:image/png;base64,' + this.props.author.avatar, className: 'img-rounded', width: '200', height: 'auto' })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -76838,11 +76873,13 @@ var OptionsPage = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'btn-group-vertical' },
-                                _react2.default.createElement(
-                                    'button',
-                                    { type: 'button', className: 'btn btn-success' },
-                                    'Load new photo'
-                                ),
+                                _react2.default.createElement(_FileUploader2.default, {
+                                    btnName: 'Choose your avatar',
+                                    name: 'avatar',
+                                    accept: '.png,.jpg',
+                                    className: 'btn btn-success',
+                                    onChange: this.onAvatarChange
+                                }),
                                 _react2.default.createElement('br', null),
                                 _react2.default.createElement(
                                     'button',
@@ -76918,6 +76955,26 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
             }).catch(function (error) {
                 dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
             });
+        },
+
+        onSaveAvatar: function onSaveAvatar(avatar, token) {
+            return (0, _AuthorActions.saveAvatar)(avatar, token).then(function (_ref5) {
+                var _ref6 = _slicedToArray(_ref5, 2),
+                    response = _ref6[0],
+                    json = _ref6[1];
+
+                if (response.status === 200) {
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Avatar was saved successfully'));
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onCreateNotify: function onCreateNotify(type, header, message) {
+            dispatch((0, _GlobalActions.createNotify)(type, header, message));
         }
     };
 };
@@ -79998,6 +80055,115 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /*
     props:
+    - name
+    - className
+    - onChange - callback function
+    - disabled
+    - accept
+    - btnName
+ */
+var FileUploader = function (_React$Component) {
+    _inherits(FileUploader, _React$Component);
+
+    function FileUploader(props) {
+        _classCallCheck(this, FileUploader);
+
+        var _this = _possibleConstructorReturn(this, (FileUploader.__proto__ || Object.getPrototypeOf(FileUploader)).call(this, props));
+
+        _this.state = {
+            value: '',
+            styles: {
+                parent: {
+                    position: 'relative'
+                },
+                file: {
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    opacity: 0,
+                    width: '100%',
+                    zIndex: 1
+                },
+                button: {
+                    position: 'relative',
+                    zIndex: 0
+                }
+            }
+        };
+        ['handleChange'].map(function (fn) {
+            return _this[fn] = _this[fn].bind(_this);
+        });
+        return _this;
+    }
+
+    _createClass(FileUploader, [{
+        key: 'handleChange',
+        value: function handleChange(e) {
+            this.setState({
+                value: e.target.value.split(/(\\|\/)/g).pop()
+            });
+            if (this.props.onChange) this.props.onChange(e);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { style: this.state.styles.parent },
+                _react2.default.createElement('input', { type: 'file',
+                    name: this.props.name,
+                    className: this.props.className,
+                    onChange: this.handleChange,
+                    disabled: this.props.disabled,
+                    accept: this.props.accept,
+                    style: this.state.styles.file
+                }),
+                _react2.default.createElement('input', { type: 'button',
+                    tabIndex: '-1',
+                    name: this.props.name + '_filename',
+                    value: this.props.btnName,
+                    className: this.props.className,
+                    onChange: function onChange() {},
+                    placeholder: this.props.placeholder,
+                    disabled: this.props.disabled,
+                    style: this.state.styles.button
+                })
+            );
+        }
+    }]);
+
+    return FileUploader;
+}(_react2.default.Component);
+
+exports.default = FileUploader;
+
+/***/ }),
+/* 814 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+    props:
     - scrollStepInPx
     - delayInMs
  */
@@ -80071,7 +80237,7 @@ var ScrollToTopButton = function (_React$Component) {
 exports.default = ScrollToTopButton;
 
 /***/ }),
-/* 814 */
+/* 815 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80186,7 +80352,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GlobalDataContainer);
 
 /***/ }),
-/* 815 */
+/* 816 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80198,11 +80364,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(125);
 
-var _GlobalReducer = __webpack_require__(816);
+var _GlobalReducer = __webpack_require__(817);
 
 var _GlobalReducer2 = _interopRequireDefault(_GlobalReducer);
 
-var _AuthorReducer = __webpack_require__(817);
+var _AuthorReducer = __webpack_require__(818);
 
 var _AuthorReducer2 = _interopRequireDefault(_AuthorReducer);
 
@@ -80216,7 +80382,7 @@ var appReducer = (0, _redux.combineReducers)({
 exports.default = appReducer;
 
 /***/ }),
-/* 816 */
+/* 817 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80322,7 +80488,7 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 817 */
+/* 818 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80356,13 +80522,13 @@ var AuthorReducer = function AuthorReducer() {
 exports.default = AuthorReducer;
 
 /***/ }),
-/* 818 */
+/* 819 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(819);
+var content = __webpack_require__(820);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -80387,7 +80553,7 @@ if(false) {
 }
 
 /***/ }),
-/* 819 */
+/* 820 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(415)(undefined);
@@ -80401,7 +80567,7 @@ exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Je
 
 
 /***/ }),
-/* 820 */
+/* 821 */
 /***/ (function(module, exports) {
 
 
@@ -80496,13 +80662,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 821 */
+/* 822 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(822);
+var content = __webpack_require__(823);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -80527,7 +80693,7 @@ if(false) {
 }
 
 /***/ }),
-/* 822 */
+/* 823 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(415)(undefined);

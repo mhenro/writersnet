@@ -12,6 +12,10 @@ export const saveAuthor = (author, token) => {
     return doFetch('http://localhost:8080/authors', author, token);
 };
 
+export const saveAvatar = (avatar, token) => {
+    return doFetch('http://localhost:8080/avatar', avatar, token, 'multipart/form-data');
+};
+
 export const SET_AUTHORS = 'SET_AUTHORS';
 export const SET_AUTHOR = 'SET_AUTHOR';
 

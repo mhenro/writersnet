@@ -12,7 +12,7 @@ class AuthorListItem extends React.Component {
                 <div className="panel-body">
                     <div className="row">
                         <div className="col-sm-4">
-                            <img src={this.props.author.avatar} className="img-rounded" width="150" height="200"/>
+                            <img src={'data:image/png;base64,' + this.props.author.avatar} className="img-rounded" width="150" height="auto"/>
                         </div>
                         <div className="col-sm-8">
                             <div>
