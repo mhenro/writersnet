@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1508605479669-1",
+      "id": "1509139395495-1",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -15,7 +15,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-2",
+      "id": "1509139395495-2",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -29,7 +29,21 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-3",
+      "id": "1509139395495-3",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createSequence": {
+            "sequenceName": "serie_id_seq"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1509139395495-4",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -63,7 +77,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-4",
+      "id": "1509139395495-5",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -115,6 +129,30 @@
                   "name": "genre",
                   "type": "SMALLINT"
                 }
+              },
+              {
+                "column": {
+                  "name": "serie_id",
+                  "type": "INT"
+                }
+              },
+              {
+                "column": {
+                  "name": "last_update",
+                  "type": "date"
+                }
+              },
+              {
+                "column": {
+                  "name": "language",
+                  "type": "VARCHAR(5)"
+                }
+              },
+              {
+                "column": {
+                  "name": "cover",
+                  "type": "BYTEA"
+                }
               }]
           ,
             "tableName": "book"
@@ -126,7 +164,40 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-5",
+      "id": "1509139395495-6",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "name": "name",
+                  "type": "VARCHAR(100)"
+                }
+              },
+              {
+                "column": {
+                  "autoIncrement": true,
+                  "constraints": {
+                    "primaryKey": true,
+                    "primaryKeyName": "serie_pk"
+                  },
+                  "name": "id",
+                  "type": "SERIAL"
+                }
+              }]
+          ,
+            "tableName": "book_serie"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1509139395495-7",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -166,7 +237,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-6",
+      "id": "1509139395495-8",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -209,6 +280,12 @@
                   "name": "id",
                   "type": "SERIAL"
                 }
+              },
+              {
+                "column": {
+                  "name": "description",
+                  "type": "VARCHAR(1000)"
+                }
               }]
           ,
             "tableName": "sections"
@@ -220,7 +297,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-7",
+      "id": "1509139395495-9",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -298,6 +375,18 @@
                   "name": "email",
                   "type": "VARCHAR(50)"
                 }
+              },
+              {
+                "column": {
+                  "name": "language",
+                  "type": "VARCHAR(5)"
+                }
+              },
+              {
+                "column": {
+                  "name": "preferred_languages",
+                  "type": "VARCHAR(100)"
+                }
               }]
           ,
             "tableName": "users"
@@ -309,7 +398,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-8",
+      "id": "1509139395495-10",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -325,7 +414,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-9",
+      "id": "1509139395495-11",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -341,7 +430,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-10",
+      "id": "1509139395495-12",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -357,7 +446,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-11",
+      "id": "1509139395495-13",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -373,7 +462,7 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-12",
+      "id": "1509139395495-14",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -389,7 +478,56 @@
 
   {
     "changeSet": {
-      "id": "1508605479669-13",
+      "id": "1509139395495-15",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "serie_id"
+                }
+              }]
+          ,
+            "indexName": "fki_book_serie_fk",
+            "tableName": "book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1509139395495-16",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "id"
+                }
+              },
+              {
+                "column": {
+                  "name": "serie_id"
+                }
+              }]
+          ,
+            "indexName": "fki_serie_fk",
+            "tableName": "book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1509139395495-17",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -403,6 +541,28 @@
             "onUpdate": "NO ACTION",
             "referencedColumnNames": "username",
             "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1509139395495-18",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "serie_id",
+            "baseTableName": "book",
+            "constraintName": "book_serie_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "book_serie"
           }
         }]
 
