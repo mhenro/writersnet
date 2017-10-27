@@ -25,6 +25,7 @@ public class BookController {
         this.bookRepository = bookRepository;
     }
 
+    @CrossOrigin
     @RequestMapping(value = "books", method = RequestMethod.GET)
     public Page<Book> getBooks(Pageable pageable) {
         Page<Book> books = bookRepository.findAll(pageable);
@@ -35,6 +36,7 @@ public class BookController {
         return books;
     }
 
+    @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> getBook(@PathVariable Long bookId) {
         Book book = bookRepository.findOne(bookId);
@@ -62,11 +64,13 @@ public class BookController {
         user.setSection(null);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "books", method = RequestMethod.POST)
     public Book saveBook(@RequestBody Book book) {
         return bookRepository.save(book);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.DELETE)
     public void deleteBook(@PathVariable Long bookId) {
         bookRepository.delete(bookId);

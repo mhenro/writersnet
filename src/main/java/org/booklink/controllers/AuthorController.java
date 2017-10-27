@@ -75,6 +75,9 @@ public class AuthorController {
             if (author.getSectionName() != null) {
                 user.getSection().setName(author.getSectionName());
             }
+            if (author.getSectionDescription() != null) {
+                user.getSection().setDescription(author.getSectionDescription());
+            }
             authorRepository.save(user);
         } catch(Exception e) {
             Response<String> response = new Response<>();

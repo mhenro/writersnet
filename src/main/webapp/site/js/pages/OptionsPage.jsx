@@ -28,31 +28,34 @@ class OptionsPage extends React.Component {
             firstName: '',
             lastName: '',
             sectionName: '',
+            sectionDescription: '',
             birthday: new Date().toISOString(),
             city: '',
             siteLanguage: {value: 'EN', label: 'English'},
             preferredLanguages: []
         };
 
-        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'onFieldChange', 'onAvatarChange'].map(fn => this[fn] = this[fn].bind(this));
+        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'updateState', 'onFieldChange', 'onAvatarChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
-        if (!this.props.author) {
-            this.props.onGetAuthorDetails(this.props.login, this.updateForm);
-        } else {
-            this.updateForm(this.props.author);
-        }
+        this.updateForm();
     }
 
-    updateForm(author) {
+    updateForm() {
+        this.props.onGetAuthorDetails(this.props.login, this.updateState);
+    }
+
+    updateState() {
+        let author = this.props.author;
         this.setState({
-            firstName: author.firstName,
-            lastName: author.lastName,
-            sectionName: author.section.name,
-            birthday: author.birthday,
-            city: author.city,
-            siteLanguage: {value: author.language, label: locale[author.language].label},
+            firstName: author.firstName || '',
+            lastName: author.lastName || '',
+            sectionName: author.section.name || '',
+            sectionDescription: author.section.description || '',
+            birthday: author.birthday || '',
+            city: author.city || '',
+            siteLanguage: {value: author.language, label: locale[author.language || 'EN'].label},
             preferredLanguages: author.preferredLanguages ? author.preferredLanguages.split(';').map(lang => { return {value: lang, label: locale[lang].label}}) : []
         });
     }
@@ -68,6 +71,7 @@ class OptionsPage extends React.Component {
             case 'first_name': this.setState({firstName: proxy.target.value}); break;
             case 'last_name': this.setState({lastName: proxy.target.value}); break;
             case 'section_name': this.setState({sectionName: proxy.target.value}); break;
+            case 'section_description': this.setState({sectionDescription: proxy.target.value}); break;
             case 'birthday': this.setState({birthday: proxy.target.value}); break;
             case 'city': this.setState({city: proxy.target.value}); break;
             case 'siteLanguage': this.setState({siteLanguage: proxy.target.value}); break;
@@ -92,11 +96,15 @@ class OptionsPage extends React.Component {
     }
 
     onAvatarChange(event) {
+        if (event.target.files[0].size >= 102400) {
+            this.props.onCreateNotify('warning', 'Warning', 'Image size should not be larger than 100Kb');
+            return;
+        }
         let formData = new FormData();
         formData.append('avatar', event.target.files[0]);
         formData.append('userId', this.props.author.username);
 
-        this.props.onSaveAvatar(formData, this.props.token)
+        this.props.onSaveAvatar(formData, this.props.token, this.updateForm);
     }
 
     getDatePickerProps() {
@@ -113,6 +121,7 @@ class OptionsPage extends React.Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             sectionName: this.state.sectionName,
+            sectionDescription: this.state.sectionDescription,
             birthday: this.state.birthday,
             city: this.state.city,
             language: this.state.siteLanguage.value,
@@ -167,6 +176,12 @@ class OptionsPage extends React.Component {
                                 <label className="control-label col-sm-2" htmlFor="section_name">Section name:</label>
                                 <div className="col-sm-10">
                                     <input value={this.state.sectionName} onChange={this.onFieldChange} type="text" className="form-control" id="section_name" placeholder="Enter the name of your section" name="section_name"/>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="control-label col-sm-2" htmlFor="section_description">Section description:</label>
+                                <div className="col-sm-10">
+                                    <textarea value={this.state.sectionDescription} onChange={this.onFieldChange} rows="5" className="form-control" id="section_description" placeholder="Enter the description of your section" name="section_description"/>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -256,7 +271,7 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
-                    callback(json);
+                    callback();
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
@@ -279,10 +294,11 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onSaveAvatar: (avatar, token) => {
+        onSaveAvatar: (avatar, token, callback) => {
             return saveAvatar(avatar, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Avatar was saved successfully'));
+                    callback();
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

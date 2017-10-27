@@ -14,6 +14,7 @@ import AuthorPage from '../pages/AuthorPage.jsx';
 import BookPage from '../pages/BookPage.jsx';
 import SectionPage from '../pages/SectionPage.jsx';
 import LoginForm from '../components/LoginForm.jsx';
+import BookPropsForm from '../components/BookPropsForm.jsx';
 import OptionsPage from '../pages/OptionsPage.jsx';
 import ScrollToTopButton from '../components/ScrollToTopButton.jsx';
 
@@ -62,6 +63,7 @@ class MainPage extends React.Component {
                     <ScrollToTopButton scrollStepInPx="50" delayInMs="16.66"/>
                     <Footer/>
                     <LoginForm/>
+                    <BookPropsForm/>
                     <Notifier/>
                 </div>
             </BrowserRouter>

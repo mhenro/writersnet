@@ -22,10 +22,13 @@ public class Book {
     private String text;
     private String description;
     private Date created;
+    private Date lastUpdate;
     private Genre genre;
     private User author;
     private List<Rating> rating;
     private BookSerie bookSerie;
+    private String language;
+    private byte[] cover;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +73,16 @@ public class Book {
         this.created = created;
     }
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "last_update")
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
     public Genre getGenre() {
         return genre;
     }
@@ -111,5 +124,21 @@ public class Book {
 
     public void setBookSerie(BookSerie bookSerie) {
         this.bookSerie = bookSerie;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public byte[] getCover() {
+        return cover;
+    }
+
+    public void setCover(byte[] cover) {
+        this.cover = cover;
     }
 }

@@ -1,6 +1,8 @@
 import {
     OPEN_LOGIN_FORM,
     CLOSE_LOGIN_FORM,
+    OPEN_BOOKPROPS_FORM,
+    CLOSE_BOOKPROPS_FORM,
     CREATE_NOTIFY,
     REMOVE_NOTIFIES,
     REMOVE_NOTIFY
@@ -25,6 +27,8 @@ const initialState = {
     },
     showLoginForm: false,
     loginFormRegister: true,
+    showBookPropsForm: false,
+    editableBook: null,
     alerts: []
 };
 
@@ -75,6 +79,12 @@ const GlobalReducer = (state = initialState, action) => {
 
         case OPEN_LOGIN_FORM:
             return Object.assign({}, state, {showLoginForm: true, loginFormRegister: action.loginFormRegister});
+
+        case OPEN_BOOKPROPS_FORM:
+            return Object.assign({}, state, {showBookPropsForm: true, editableBook: action.book});
+
+        case CLOSE_BOOKPROPS_FORM:
+            return Object.assign({}, state, {showBookPropsForm: false, editableBook: null});
 
         case CREATE_NOTIFY:
             let newAlert = {

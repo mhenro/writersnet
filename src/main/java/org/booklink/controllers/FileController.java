@@ -1,11 +1,14 @@
 package org.booklink.controllers;
 
 import org.booklink.models.AvatarRequest;
+import org.booklink.models.CoverRequest;
 import org.booklink.models.Response;
+import org.booklink.models.entities.Book;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.repositories.AuthorRepository;
+import org.booklink.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,22 +27,20 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class FileController {
     private AuthorRepository authorRepository;
+    private BookRepository bookRepository;
 
     @Autowired
-    public FileController(AuthorRepository authorRepository) {
+    public FileController(AuthorRepository authorRepository, BookRepository bookRepository) {
         this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
     }
 
-   @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "avatar", method = RequestMethod.POST)
     public ResponseEntity<?> saveAvatar(AvatarRequest avatarRequest) {
-        /* checking credentials */
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = auth.getName();
-        if (!currentUser.equals(avatarRequest.getUserId())) {
-            throw new UnauthorizedUserException();
-        }
+        checkAuthority(avatarRequest.getUserId());
+
         Response<String> response = new Response<>();
         try {
             User author = authorRepository.findOne(avatarRequest.getUserId());
@@ -56,6 +57,39 @@ public class FileController {
         response.setCode(0);
         response.setMessage("Avatar was saved successully");
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "cover", method = RequestMethod.POST)
+    public ResponseEntity<?> saveCover(CoverRequest coverRequest) {
+        checkAuthority(coverRequest.getUserId());
+
+        Response<String> response = new Response<>();
+        try {
+            Book book = bookRepository.findOne(coverRequest.getId());
+            if (book == null) {
+                throw new ObjectNotFoundException();
+            }
+            book.setCover(coverRequest.getCover().getBytes());
+            bookRepository.save(book);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Cover was saved successully");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /* method for checking credentials */
+    private void checkAuthority(final String userId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = auth.getName();
+        if (!currentUser.equals(userId)) {
+            throw new UnauthorizedUserException();
+        }
     }
 
     @ExceptionHandler(UnauthorizedUserException.class)

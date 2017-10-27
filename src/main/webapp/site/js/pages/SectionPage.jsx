@@ -5,6 +5,7 @@ import {
     setAuthor
 } from '../actions/AuthorActions.jsx';
 import {
+    openBookPropsForm,
     createNotify
 } from '../actions/GlobalActions.jsx';
 
@@ -19,6 +20,31 @@ import BookSerieList from '../components/section/BookSerieList.jsx';
 class SectionPage extends React.Component {
     componentDidMount() {
         this.props.onGetAuthorDetails(this.props.match.params.authorName);
+
+        ['onAddNewBook', 'onEditBook'].map(fn => this[fn] = this[fn].bind(this));
+    }
+
+    onAddNewBook() {
+        this.props.onOpenBookPropsForm();
+    }
+
+    onEditBook(book) {
+        this.props.onOpenBookPropsForm(book);
+    }
+
+    renderSectionToolbar() {
+        if (this.props.registered && this.props.login === this.props.author.username) {
+            return (
+                <div
+                    className="col-sm-12 panel panel-success">
+                    <div className="panel-body">
+                        <button className="btn btn-success" onClick={this.onAddNewBook}>Add new book</button>
+                    </div>
+                </div>
+            )
+        } else {
+            return null;
+        }
     }
 
     render() {
@@ -45,8 +71,20 @@ class SectionPage extends React.Component {
                         <AuthorShortInfo author={this.props.author}/>
                     </div>
                 </div>
+                <div className="col-sm-12 panel panel-success">
+                    <div className="panel-body">
+                        {this.props.author.section.description}
+                    </div>
+                </div>
+                {this.renderSectionToolbar()}
                 <hr/>
-                <BookSerieList series={this.props.author.bookSeries} books={this.props.author.books} registered={this.props.registered} login={this.props.login} author={this.props.author}/>
+                <BookSerieList series={this.props.author.bookSeries}
+                               books={this.props.author.books}
+                               registered={this.props.registered}
+                               login={this.props.login}
+                               author={this.props.author}
+                               onEditBook={this.onEditBook}
+                />
             </div>
         )
     }
@@ -74,6 +112,10 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onOpenBookPropsForm: (book) => {
+            dispatch(openBookPropsForm(book));
         }
     }
 };

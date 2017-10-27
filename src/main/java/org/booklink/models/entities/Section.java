@@ -11,6 +11,7 @@ import java.util.Date;
 public class Section {
     private Long id;
     private String name;
+    private String description;
     private Date lastUpdated;
     private Integer visitors;
     private User author;
@@ -31,6 +32,14 @@ public class Section {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Column(name = "last_update")

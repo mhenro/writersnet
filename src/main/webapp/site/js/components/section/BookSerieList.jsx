@@ -8,6 +8,7 @@ import BookSerieItem from './BookSerieItem.jsx';
     - books
     - registered
     - login - user id
+    - onEditBook - callback function
  */
 class BookSerieList extends React.Component {
     getBooksForSerie(serie) {
@@ -41,7 +42,12 @@ class BookSerieList extends React.Component {
                                     <div className="panel-body">
                                         {this.getBooksForSerie(serie).map((book, key) => {
                                             return (
-                                                <BookSerieItem key={key} book={book} registered={this.props.registered} login={this.props.login} author={this.props.author}/>
+                                                <BookSerieItem key={key}
+                                                               book={book}
+                                                               registered={this.props.registered}
+                                                               login={this.props.login}
+                                                               author={this.props.author}
+                                                               onEditBook={this.props.onEditBook}/>
                                             )
                                         })}
                                     </div>
@@ -60,7 +66,12 @@ class BookSerieList extends React.Component {
                                 <div className="panel-body">
                                     {this.getBooksForSerie(null).map((book, key) => {
                                         return (
-                                            <BookSerieItem key={key} book={book} registered={this.props.registered} login={this.props.login} author={this.props.author}/>
+                                            <BookSerieItem key={key}
+                                                           book={book}
+                                                           registered={this.props.registered}
+                                                           login={this.props.login}
+                                                           author={this.props.author}
+                                                           onEditBook={this.props.onEditBook}/>
                                         )
                                     })}
                                 </div>

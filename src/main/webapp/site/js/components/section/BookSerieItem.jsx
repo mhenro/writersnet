@@ -6,6 +6,7 @@ import React from 'react';
     - book
     - registered
     - login
+    - onEditBook - callback function
  */
 class BookSerieItem extends React.Component {
     getRating() {
@@ -64,7 +65,7 @@ class BookSerieItem extends React.Component {
                                 <button className="btn btn-success btn-block">Remove!</button>
                             </div>
                             <div className={'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
-                                <button className="btn btn-success btn-block">Edit</button>
+                                <button onClick={() => this.props.onEditBook(this.props.book)} className="btn btn-success btn-block">Edit</button>
                             </div>
                             <div className="col-sm-4">
                                 <button className="btn btn-success btn-block">Read</button>
