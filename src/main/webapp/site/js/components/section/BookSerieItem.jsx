@@ -1,4 +1,6 @@
 import React from 'react';
+import { locale } from '../../locale.jsx';
+import { formatBytes } from '../../utils.jsx';
 
 /*
     props:
@@ -45,15 +47,23 @@ class BookSerieItem extends React.Component {
                             <tbody>
                                 <tr>
                                     <td>Size</td>
-                                    <td>15 Mb (12 author sheets)</td>
+                                    <td>{formatBytes(this.props.book.size) + ' (? author sheets)'}</td>
                                 </tr>
                                 <tr>
                                     <td>Created date</td>
-                                    <td>15.05.2016</td>
+                                    <td>{this.props.book.created}</td>
                                 </tr>
                                 <tr>
                                     <td>Last update</td>
-                                    <td>16.05.2017</td>
+                                    <td>{this.props.book.lastUpdate}</td>
+                                </tr>
+                                <tr>
+                                    <td>Genre</td>
+                                    <td>{this.props.book.genre}</td>
+                                </tr>
+                                <tr>
+                                    <td>Language</td>
+                                    <td>{locale[this.props.book.language || 'EN'].label}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -1,13 +1,14 @@
 package org.booklink.models.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Created by mhenr on 22.10.2017.
  */
 @Entity
-public class BookSerie {
+public class BookSerie implements Serializable {
     private Long id;
     private String name;
 

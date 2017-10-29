@@ -25,8 +25,10 @@ public class Book {
     private Date lastUpdate;
     private Genre genre;
     private User author;
+    private String authorName;
     private List<Rating> rating;
     private BookSerie bookSerie;
+    private Long serieId;
     private String language;
     private byte[] cover;
 
@@ -92,7 +94,7 @@ public class Book {
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author")
+    @JoinColumn(name = "author", nullable = false)
     //@JsonBackReference
     public User getAuthor() {
         return author;
@@ -100,6 +102,15 @@ public class Book {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    @Transient
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ratingId.bookId")
@@ -113,7 +124,11 @@ public class Book {
 
     @Transient
     public int getSize() {
-        return text.length();
+        if (text != null) {
+            return text.length();
+        } else {
+            return 0;
+        }
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -124,6 +139,15 @@ public class Book {
 
     public void setBookSerie(BookSerie bookSerie) {
         this.bookSerie = bookSerie;
+    }
+
+    @Transient
+    public Long getSerieId() {
+        return serieId;
+    }
+
+    public void setSerieId(Long serieId) {
+        this.serieId = serieId;
     }
 
     public String getLanguage() {

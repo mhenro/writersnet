@@ -9,7 +9,11 @@ import {
 } from '../actions/GlobalActions.jsx';
 import {
     setBook,
-    getBookDetails
+    getBookDetails,
+    saveBook,
+    getSeries,
+    setSeries,
+    saveCover
 } from '../actions/BookActions.jsx';
 
 import { locale } from '../locale.jsx';
@@ -27,7 +31,7 @@ class BookPropsForm extends React.Component {
         this.state = {
             name: '',
             description: '',
-            serie: null,
+            serieId: null,
             genre: null,
             language: null
         };
@@ -36,8 +40,9 @@ class BookPropsForm extends React.Component {
     }
 
     onShow() {
+        this.props.onGetSeries();
         if (this.isDataLoaded() && this.props.editableBook) {
-            this.updateForm();
+            this.updateForm(this.props.editableBook.id);
         } else {
             this.setState({
                 name: '',
@@ -49,8 +54,8 @@ class BookPropsForm extends React.Component {
         }
     }
 
-    updateForm() {
-        this.props.onGetBookDetails(this.props.editableBook.id, this.updateState);
+    updateForm(id) {
+        this.props.onGetBookDetails(id, this.updateState);
     }
 
     updateState() {
@@ -65,7 +70,16 @@ class BookPropsForm extends React.Component {
     }
 
     save() {
-        //TODO
+        let book = {
+            id: this.props.editableBook ? this.props.editableBook.id : null,
+            authorName: this.props.author.username,
+            name: this.state.name,
+            description: this.state.description,
+            serieId: this.state.serie ? this.state.serie.value : null,
+            genre: this.state.genre ? this.state.genre.value : null,
+            language: this.state.language.value
+        };
+        this.props.onSaveBook(book, this.props.token, this.close);
     }
 
     close() {
@@ -87,7 +101,7 @@ class BookPropsForm extends React.Component {
 
     getSerieItems() {
         let options = [];
-        this.props.author.bookSeries.forEach(serie => {
+        this.props.series.forEach(serie => {
             options.push({
                 value: serie.id,
                 label: serie.name
@@ -197,7 +211,9 @@ const mapStateToProps = (state) => {
         book: state.BookReducer.book,
         author: state.AuthorReducer.author,
         registered: state.GlobalReducer.registered,
-        login: state.GlobalReducer.user.login
+        login: state.GlobalReducer.user.login,
+        token: state.GlobalReducer.token,
+        series: state.BookReducer.series
     }
 };
 
@@ -213,6 +229,33 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(setBook(json));
                     callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetSeries: () => {
+            return getSeries().then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setSeries(json.content));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onSaveBook: (book, token, callback) => {
+            return saveBook(book, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback();
+                    dispatch(createNotify('success', 'Success', 'Book was added successfully'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
