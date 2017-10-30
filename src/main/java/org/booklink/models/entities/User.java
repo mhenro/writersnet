@@ -31,7 +31,7 @@ public class User {
     private String city;
     private String firstName;
     private String lastName;
-    private byte[] avatar;
+    private String avatar;
     private Set<Book> books;
     private Section section;
     private String sectionDescription;
@@ -125,11 +125,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public byte[] getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(byte[] avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 

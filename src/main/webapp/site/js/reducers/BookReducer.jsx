@@ -1,12 +1,14 @@
 import {
     SET_BOOKS,
     SET_BOOK,
-    SET_SERIES
+    SET_SERIES,
+    SET_GENRES
 } from '../actions/BookActions.jsx';
 
 const initialState = {
     books: [],
     series: [],
+    genres: [],
     book: null
 };
 
@@ -20,6 +22,9 @@ const BookReducer = (state = initialState, action) => {
 
         case SET_SERIES:
             return Object.assign({}, state, {series: action.series});
+
+        case SET_GENRES:
+            return Object.assign({}, state, {genres: action.genres});
     }
     return state;
 };

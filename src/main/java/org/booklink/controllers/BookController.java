@@ -115,6 +115,8 @@ public class BookController {
                 if (bookSerie != null) {
                     savedBook.setBookSerie(bookSerie);
                 }
+            } else {
+                savedBook.setBookSerie(null);
             }
             if (book.getAuthorName() != null) {
                 User user = authorRepository.findOne(book.getAuthorName());
@@ -139,8 +141,23 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.DELETE)
-    public void deleteBook(@PathVariable Long bookId) {
-        bookRepository.delete(bookId);
+    public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
+        Response<String> response = new Response<>();
+        try {
+            Book book = bookRepository.findOne(bookId);
+            if (book == null) {
+                throw new ObjectNotFoundException();
+            }
+            checkCredentials(book.getAuthor().getUsername());   //only owner can delete his book
+            bookRepository.delete(bookId);
+        } catch (Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Book was deleted successfully");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -168,7 +185,7 @@ public class BookController {
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> bookNotFount(ObjectNotFoundException e) {
+    public ResponseEntity<?> bookNotFound(ObjectNotFoundException e) {
         Response<String> response = new Response<>();
         response.setCode(5);
         response.setMessage("Book not found");

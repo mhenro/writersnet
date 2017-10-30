@@ -9,10 +9,13 @@ import BookSerieItem from './BookSerieItem.jsx';
     - registered
     - login - user id
     - onEditBook - callback function
+    - onDeleteBook - callback
+    - language
+    - token
  */
 class BookSerieList extends React.Component {
     getBooksForSerie(serie) {
-        return this.props.books.filter(book => {
+        return this.props.books.sort((a, b) => a.name.localeCompare(b.name)).filter(book => {
             if (serie && !book.bookSerie) {
                 return false;
             }
@@ -31,7 +34,7 @@ class BookSerieList extends React.Component {
     render() {
         return (
             <div>
-                {this.props.series.map((serie, key) => {
+                {this.props.series.sort((a, b) => a.name.localeCompare(b.name)).map((serie, key) => {
                     return (
                         <div className="row" key={key}>
                             <div className="col-sm-12">
@@ -47,7 +50,10 @@ class BookSerieList extends React.Component {
                                                                registered={this.props.registered}
                                                                login={this.props.login}
                                                                author={this.props.author}
-                                                               onEditBook={this.props.onEditBook}/>
+                                                               onEditBook={this.props.onEditBook}
+                                                               onDeleteBook={this.props.onDeleteBook}
+                                                               token={this.props.token}
+                                                               language={this.props.language}/>
                                             )
                                         })}
                                     </div>
@@ -71,7 +77,10 @@ class BookSerieList extends React.Component {
                                                            registered={this.props.registered}
                                                            login={this.props.login}
                                                            author={this.props.author}
-                                                           onEditBook={this.props.onEditBook}/>
+                                                           onEditBook={this.props.onEditBook}
+                                                           onDeleteBook={this.props.onDeleteBook}
+                                                           token={this.props.token}
+                                                           language={this.props.language}/>
                                         )
                                     })}
                                 </div>

@@ -223,7 +223,7 @@ class OptionsPage extends React.Component {
                     </div>
                     <div className="panel-body">
                         <div className="col-sm-4">
-                            <img src={'data:image/png;base64,' + this.props.author.avatar} className="img-rounded" width="200" height="auto"/>
+                            <img src={this.props.author.avatar + '?date=' + new Date()} className="img-rounded" width="200" height="auto"/>
                         </div>
                         <div className="col-sm-8">
                             <div className="btn-group-vertical">

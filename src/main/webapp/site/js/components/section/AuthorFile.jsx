@@ -13,7 +13,7 @@ class AuthorFile extends React.Component {
             <div className="panel panel-default" style={{padding: '10px'}}>
                 <div className="row">
                     <div className="col-sm-12" style={{textAlign: 'center'}}>
-                        <img src={'data:image/png;base64,' + this.props.author.avatar} className="img-rounded" width="100%" height="auto"/>
+                        <img src={this.props.author.avatar + '?date=' + new Date()} className="img-rounded" width="100%" height="auto"/>
                     </div>
                 </div>
                 <br/>

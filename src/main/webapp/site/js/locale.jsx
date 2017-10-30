@@ -1,10 +1,18 @@
 /* supported languages */
 let EN = {
-    label: 'english' //reserved property
+    label: 'english', //reserved property
+
+    /* genres */
+    'SCI_FI': 'sci-fi',
+    'FANTASY': 'fantasy'
 };
 
 let RU = {
-    label: 'русский' //reserved property
+    label: 'русский', //reserved property
+
+    /* genres */
+    'SCI_FI': 'научная фантастика',
+    'FANTASY': 'фэнтези'
 };
 
 /* locale */

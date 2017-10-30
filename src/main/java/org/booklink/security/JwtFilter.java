@@ -66,6 +66,12 @@ public class JwtFilter extends GenericFilterBean {
         if ("/books".equals(method) && "POST".equalsIgnoreCase(methodType)) {
             return true;
         }
+        if (method.startsWith("/books/") && "DELETE".equalsIgnoreCase(methodType)) {
+            return true;
+        }
+        if ("/cover".equals(method) && "POST".equalsIgnoreCase(methodType)) {
+            return true;
+        }
         return false;
     }
 }

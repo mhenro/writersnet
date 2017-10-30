@@ -8,6 +8,10 @@ const doFetch = (url, request, token, contentType = 'application/json', response
         }
     };
 
+    if (request === 'DELETE') {
+        header.method = 'DELETE';
+    }
+
     if (contentType !== 'multipart/form-data') {
         header.headers['Content-Type'] = contentType;
     }

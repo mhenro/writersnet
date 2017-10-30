@@ -14,7 +14,11 @@ export const getSeries = (page) => {
     } else {
         return doFetch('http://localhost:8080/series');
     }
-}
+};
+
+export const getGenres = () => {
+    return doFetch('http://localhost:8080/genres');
+};
 
 export const getBookDetails = (bookId) => {
     return doFetch('http://localhost:8080/books/' + bookId);
@@ -28,9 +32,14 @@ export const saveCover = (cover, token) => {
     return doFetch('http://localhost:8080/cover', cover, token, 'multipart/form-data');
 };
 
+export const deleteBook = (bookId, token) => {
+    return doFetch('http://localhost:8080/books/' + bookId, 'DELETE', token);
+};
+
 export const SET_BOOKS = 'SET_BOOKS';
 export const SET_BOOK = 'SET_BOOK';
 export const SET_SERIES = 'SET_SERIES';
+export const SET_GENRES = 'SET_GENRES';
 
 export const setBooks = (books) => {
     return {
@@ -50,5 +59,12 @@ export const setSeries = (series) => {
     return {
         type: SET_SERIES,
         series
+    }
+};
+
+export const setGenres = (genres) => {
+    return {
+        type: SET_GENRES,
+        genres
     }
 };

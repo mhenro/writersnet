@@ -5,6 +5,9 @@ import {
     setAuthor
 } from '../actions/AuthorActions.jsx';
 import {
+    deleteBook
+} from '../actions/BookActions.jsx';
+import {
     openBookPropsForm,
     createNotify
 } from '../actions/GlobalActions.jsx';
@@ -21,7 +24,7 @@ class SectionPage extends React.Component {
     componentDidMount() {
         this.props.onGetAuthorDetails(this.props.match.params.authorName);
 
-        ['onAddNewBook', 'onEditBook'].map(fn => this[fn] = this[fn].bind(this));
+        ['onAddNewBook', 'onEditBook', 'onDeleteBook'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     onAddNewBook() {
@@ -30,6 +33,10 @@ class SectionPage extends React.Component {
 
     onEditBook(book) {
         this.props.onOpenBookPropsForm(book);
+    }
+
+    onDeleteBook(bookId, token) {
+        this.props.onDeleteBook(bookId, token, () => this.props.onGetAuthorDetails(this.props.match.params.authorName));
     }
 
     renderSectionToolbar() {
@@ -84,7 +91,9 @@ class SectionPage extends React.Component {
                                login={this.props.login}
                                author={this.props.author}
                                onEditBook={this.onEditBook}
-                />
+                               onDeleteBook={this.onDeleteBook}
+                               token={this.props.token}
+                               language={this.props.language}/>
             </div>
         )
     }
@@ -95,7 +104,8 @@ const mapStateToProps = (state) => {
         author: state.AuthorReducer.author,
         registered: state.GlobalReducer.registered,
         token: state.GlobalReducer.token,
-        login: state.GlobalReducer.user.login
+        login: state.GlobalReducer.user.login,
+        language: state.GlobalReducer.language
     }
 };
 
@@ -116,6 +126,20 @@ const mapDispatchToProps = (dispatch) => {
 
         onOpenBookPropsForm: (book) => {
             dispatch(openBookPropsForm(book));
+        },
+
+        onDeleteBook: (bookId, token, callback) => {
+            return deleteBook(bookId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'Book was deleted successfully'));
+                    callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
         }
     }
 };

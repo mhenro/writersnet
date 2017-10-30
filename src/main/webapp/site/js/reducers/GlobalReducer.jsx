@@ -25,6 +25,7 @@ const initialState = {
         password: '',
         passwordConfirm: ''
     },
+    language: 'EN',
     showLoginForm: false,
     loginFormRegister: true,
     showBookPropsForm: false,

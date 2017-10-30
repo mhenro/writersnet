@@ -1,5 +1,5 @@
 import React from 'react';
-import { locale } from '../../locale.jsx';
+import { locale, getLocale } from '../../locale.jsx';
 import { formatBytes } from '../../utils.jsx';
 
 /*
@@ -9,6 +9,9 @@ import { formatBytes } from '../../utils.jsx';
     - registered
     - login
     - onEditBook - callback function
+    - onDeleteBook - callback
+    - language
+    - token
  */
 class BookSerieItem extends React.Component {
     getRating() {
@@ -29,7 +32,7 @@ class BookSerieItem extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-sm-4">
-                        <img src="" className="img-rounded" width="200" height="300"/>
+                        <img src={this.props.book.cover + '?date=' + new Date()} className="img-rounded" width="200" height="300"/>
                     </div>
                     <div className="col-sm-8">
                         <div className="book-item-name">
@@ -59,7 +62,7 @@ class BookSerieItem extends React.Component {
                                 </tr>
                                 <tr>
                                     <td>Genre</td>
-                                    <td>{this.props.book.genre}</td>
+                                    <td>{getLocale(this.props.language)[this.props.book.genre]}</td>
                                 </tr>
                                 <tr>
                                     <td>Language</td>
@@ -72,7 +75,7 @@ class BookSerieItem extends React.Component {
                         <hr/>
                         <div className="row">
                             <div className={'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
-                                <button className="btn btn-success btn-block">Remove!</button>
+                                <button onClick={() => this.props.onDeleteBook(this.props.book.id, this.props.token)} className="btn btn-success btn-block">Remove!</button>
                             </div>
                             <div className={'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
                                 <button onClick={() => this.props.onEditBook(this.props.book)} className="btn btn-success btn-block">Edit</button>

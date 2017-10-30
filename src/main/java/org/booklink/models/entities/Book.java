@@ -30,7 +30,7 @@ public class Book {
     private BookSerie bookSerie;
     private Long serieId;
     private String language;
-    private byte[] cover;
+    private String cover;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -158,11 +158,11 @@ public class Book {
         this.language = language;
     }
 
-    public byte[] getCover() {
+    public String getCover() {
         return cover;
     }
 
-    public void setCover(byte[] cover) {
+    public void setCover(String cover) {
         this.cover = cover;
     }
 }
