@@ -72,6 +72,9 @@ public class JwtFilter extends GenericFilterBean {
         if ("/cover".equals(method) && "POST".equalsIgnoreCase(methodType)) {
             return true;
         }
+        if ("/text".equals(method) && "POST".equalsIgnoreCase(methodType)) {
+            return true;
+        }
         return false;
     }
 }

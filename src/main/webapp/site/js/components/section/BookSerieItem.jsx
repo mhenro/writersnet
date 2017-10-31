@@ -1,4 +1,5 @@
 import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
 import { locale, getLocale } from '../../locale.jsx';
 import { formatBytes } from '../../utils.jsx';
 
@@ -14,6 +15,13 @@ import { formatBytes } from '../../utils.jsx';
     - token
  */
 class BookSerieItem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            confirmDialogShow: false
+        };
+    }
+
     getRating() {
         let ratings = this.props.book.rating;
         if (ratings && ratings.length > 0) {
@@ -25,6 +33,27 @@ class BookSerieItem extends React.Component {
             }
         }
         return '0.00 * 0';
+    }
+
+    getAuthorLists() {
+        return parseInt(this.props.book.size / 40000);
+    }
+
+    onConfirm() {
+        this.setState({
+            confirmDialogShow: true
+        });
+    }
+
+    onDelete() {
+        this.props.onDeleteBook(this.props.book.id, this.props.token);
+        this.onCancel();
+    }
+
+    onCancel() {
+        this.setState({
+            confirmDialogShow: false
+        });
     }
 
     render() {
@@ -50,7 +79,7 @@ class BookSerieItem extends React.Component {
                             <tbody>
                                 <tr>
                                     <td>Size</td>
-                                    <td>{formatBytes(this.props.book.size) + ' (? author sheets)'}</td>
+                                    <td>{formatBytes(this.props.book.size) + ' (' + this.getAuthorLists() + ' author sheets)'}</td>
                                 </tr>
                                 <tr>
                                     <td>Created date</td>
@@ -75,7 +104,7 @@ class BookSerieItem extends React.Component {
                         <hr/>
                         <div className="row">
                             <div className={'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
-                                <button onClick={() => this.props.onDeleteBook(this.props.book.id, this.props.token)} className="btn btn-success btn-block">Remove!</button>
+                                <button onClick={() => this.onConfirm()} className="btn btn-danger btn-block">Remove</button>
                             </div>
                             <div className={'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
                                 <button onClick={() => this.props.onEditBook(this.props.book)} className="btn btn-success btn-block">Edit</button>
@@ -87,6 +116,22 @@ class BookSerieItem extends React.Component {
                     </div>
                 </div>
                 <hr/>
+
+                {/* delete confirmation dialog */}
+                <Modal show={this.state.confirmDialogShow} onHide={() => this.onCancel()}>
+                    <Modal.Header>
+                        Attention!
+                    </Modal.Header>
+                    <Modal.Body>
+                        {'Are you sure you want to delete "' + this.props.book.name + '"?'}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="btn-group">
+                            <Button onClick={() => this.onDelete()} className="btn btn-danger">Delete</Button>
+                            <Button onClick={() => this.onCancel()} className="btn btn-default">Cancel</Button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }

@@ -1,6 +1,7 @@
 package org.booklink.controllers;
 
 import org.booklink.models.Response;
+import org.booklink.models.entities.Book;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
@@ -16,6 +17,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * Created by mhenr on 16.10.2017.
@@ -36,6 +39,8 @@ public class AuthorController {
         authors.forEach(author -> {
             hideAuthInfo(author);
             removeRecursionFromAuthor(author);
+            calcBookSize(author);
+            hideText(author);
         });
         return authors;
     }
@@ -47,6 +52,8 @@ public class AuthorController {
         if (user != null) {
             hideAuthInfo(user);
             removeRecursionFromAuthor(user);
+            calcBookSize(user);
+            hideText(user);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         Response<String> response = new Response<>();
@@ -102,6 +109,18 @@ public class AuthorController {
         if (user.getSection() != null) {
             user.getSection().setAuthor(null);
         }
+    }
+
+    private void calcBookSize(User user) {
+        user.getBooks().stream().forEach(book -> {
+            int size = Optional.ofNullable(book.getBookText()).map(bookText -> bookText.getText().length()).orElse(0);
+            book.setSize(size);
+        });
+
+    }
+
+    private void hideText(User user) {
+        user.getBooks().stream().forEach(book -> book.setBookText(null));
     }
 
     @ExceptionHandler(UnauthorizedUserException.class)

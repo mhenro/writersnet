@@ -209,7 +209,7 @@ public class User {
         TotalSize totalSize = new TotalSize();
         int size = Optional.ofNullable(books)
                 .map(books -> books.stream()
-                        .map(book -> book.getText().length())
+                        .map(book -> book.getSize())
                         .collect(Collectors.summingInt(n -> n)))
                 .orElse(0);
         int booksCount = Optional.ofNullable(books)

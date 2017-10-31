@@ -2,29 +2,33 @@ package org.booklink.controllers;
 
 import liquibase.util.file.FilenameUtils;
 import org.booklink.models.AvatarRequest;
+import org.booklink.models.BookTextRequest;
 import org.booklink.models.CoverRequest;
 import org.booklink.models.Response;
 import org.booklink.models.entities.Book;
+import org.booklink.models.entities.BookText;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookRepository;
+import org.booklink.repositories.BookTextRepository;
+import org.booklink.services.convertors.BookConvertor;
+import org.booklink.services.convertors.PdfToHtmlConvertor;
+import org.booklink.services.convertors.TextToHtmlConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Created by mhenr on 27.10.2017.
@@ -32,16 +36,16 @@ import java.io.File;
 @RestController
 public class FileController {
     private Environment env;
-    private HttpServletRequest request;
     private AuthorRepository authorRepository;
     private BookRepository bookRepository;
+    private BookTextRepository bookTextRepository;
 
     @Autowired
-    public FileController(Environment env, HttpServletRequest request, AuthorRepository authorRepository, BookRepository bookRepository) {
+    public FileController(Environment env, AuthorRepository authorRepository, BookRepository bookRepository, BookTextRepository bookTextRepository) {
         this.env = env;
-        this.request = request;
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.bookTextRepository = bookTextRepository;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -56,7 +60,7 @@ public class FileController {
             if (author == null) {
                 throw new ObjectNotFoundException();
             }
-
+            checkAuthority(author.getUsername()); //only the owner can change his avatar
             String uploadDir = env.getProperty("writersnet.avatarstorage.path");
             File file = new File(uploadDir);
             if (!file.exists()) {
@@ -93,6 +97,7 @@ public class FileController {
             if (book == null) {
                 throw new ObjectNotFoundException();
             }
+            checkAuthority(book.getAuthor().getUsername()); //only the owner can change the cover of his book
             String uploadDir = env.getProperty("writersnet.coverstorage.path");
             File file = new File(uploadDir);
             if (!file.exists()) {
@@ -115,6 +120,64 @@ public class FileController {
         response.setCode(0);
         response.setMessage("Cover was saved successully");
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "text", method = RequestMethod.POST)
+    public ResponseEntity<?> saveBookText(BookTextRequest bookTextRequest) {
+        checkAuthority(bookTextRequest.getUserId());
+
+        Response<String> response = new Response<>();
+        try {
+            Book book = bookRepository.findOne(bookTextRequest.getBookId());
+            if (book == null) {
+                throw new ObjectNotFoundException();
+            }
+            checkAuthority(book.getAuthor().getUsername()); //only the owner can change the text of his book
+            String text = convertBookTextToHtml(bookTextRequest);
+            BookText bookText = Optional.ofNullable(book.getBookText()).map(txt -> bookTextRepository.findOne(txt.getId())).orElseGet(BookText::new);
+            bookText.setText(text);
+            bookTextRepository.save(bookText);
+            book.setBookText(bookText);
+            bookRepository.save(book);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Book text was saved successfully");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /* convert user file to our internal html format */
+    private String convertBookTextToHtml(BookTextRequest bookTextRequest) throws Exception {
+        MultipartFile textFile = bookTextRequest.getText();
+        String ext = FilenameUtils.getExtension(textFile.getOriginalFilename());
+        String result = "";
+        BookConvertor<String> textBookConvertor = new TextToHtmlConvertor();
+        switch (ext) {
+            case "txt":
+                String text = new String(textFile.getBytes(), "UTF-8");
+                result = textBookConvertor.toHtml(text);
+                break;
+            case "doc": break;
+            case "pdf":
+                String path = env.getProperty("writersnet.tempstorage") + bookTextRequest.getUserId() + "\\";
+                File dir = new File(path);
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
+                File tmpPdf = new File(path + textFile.getOriginalFilename());
+                textFile.transferTo(tmpPdf);
+                BookConvertor<File> pdfBookConvertor = new PdfToHtmlConvertor();
+                result = textBookConvertor.toHtml(pdfBookConvertor.toHtml(tmpPdf));
+                tmpPdf.delete();
+                break;
+            default: throw new RuntimeException("Unsupported text format");
+        }
+        return result;
     }
 
     /* method for checking credentials */

@@ -1,5 +1,6 @@
 package org.booklink.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
 import org.booklink.models.entities.Book;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,6 +60,8 @@ public class BookController {
         Page<Book> books = bookRepository.findAll(pageable);
         books.forEach(book -> {
             hideAuthInfo(book);
+            calcBookSize(book);
+            hideText(book);
             removeRecursionFromBook(book);
         });
         return books;
@@ -69,6 +73,8 @@ public class BookController {
         Book book = bookRepository.findOne(bookId);
         if (book != null) {
             hideAuthInfo(book);
+            calcBookSize(book);
+            //hideText(book);
             removeRecursionFromBook(book);
             return new ResponseEntity<>(book, HttpStatus.OK);
         }
@@ -89,6 +95,15 @@ public class BookController {
         User user = book.getAuthor();
         user.setBooks(null);
         user.setSection(null);
+    }
+
+    private void calcBookSize(Book book) {
+        int size = Optional.ofNullable(book.getBookText()).map(bookText -> bookText.getText().length()).orElse(0);
+        book.setSize(size);
+    }
+
+    private void hideText(Book book) {
+        book.setBookText(null);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -123,10 +138,10 @@ public class BookController {
                 if (user != null) {
                     savedBook.setAuthor(user);
                 }
-            }
+            }/*
             if (book.getText() == null) {
                 savedBook.setText("");
-            }
+            }*/
             bookRepository.save(savedBook);
         } catch(Exception e) {
             response.setCode(1);

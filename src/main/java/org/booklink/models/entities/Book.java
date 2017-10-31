@@ -1,10 +1,8 @@
 package org.booklink.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import org.booklink.models.Genre;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,11 +13,10 @@ import java.util.List;
  * Created by mhenr on 30.09.2017.
  */
 @Entity
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="id")
 public class Book {
     private Long id;
     private String name;
-    private String text;
+    private BookText bookText;
     private String description;
     private Date created;
     private Date lastUpdate;
@@ -31,6 +28,7 @@ public class Book {
     private Long serieId;
     private String language;
     private String cover;
+    private Integer size;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,12 +48,14 @@ public class Book {
         this.name = name;
     }
 
-    public String getText() {
-        return text;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "text_id")
+    public BookText getBookText() {
+        return bookText;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setBookText(BookText bookText) {
+        this.bookText = bookText;
     }
 
     public String getDescription() {
@@ -123,12 +123,15 @@ public class Book {
     }
 
     @Transient
-    public int getSize() {
-        if (text != null) {
-            return text.length();
-        } else {
-            return 0;
+    public Integer getSize() {
+        if (size != null) {
+            return size;
         }
+        return 0;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)

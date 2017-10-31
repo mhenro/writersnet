@@ -15,6 +15,7 @@ import {
     setBook,
     getBookDetails,
     saveBook,
+    saveBookText,
     getSeries,
     setSeries,
     getGenres,
@@ -45,7 +46,7 @@ class BookPropsForm extends React.Component {
             cover: ''
         };
 
-        ['save', 'close', 'onShow', 'onFieldChange', 'onCoverChange', 'onSerieChange', 'onGenreChange', 'onLanguageChange', 'updateForm', 'updateState', 'onSubmit'].map(fn => this[fn] = this[fn].bind(this));
+        ['save', 'close', 'onShow', 'onFieldChange', 'onCoverChange', 'onSaveText', 'onSerieChange', 'onGenreChange', 'onLanguageChange', 'updateForm', 'updateState', 'onSubmit'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     onShow() {
@@ -171,6 +172,19 @@ class BookPropsForm extends React.Component {
         this.props.onSaveCover(formData, this.props.token, this.updateForm, this.props.editableBook.id);
     }
 
+    onSaveText(event) {
+        if (event.target.files[0].size >= 10485760) {
+            this.props.onCreateNotify('warning', 'Warning', 'Book text size should not be larger than 10Mb');
+            return;
+        }
+        let bookTextRequest = new FormData;
+        bookTextRequest.append('bookId', this.props.editableBook.id);
+        bookTextRequest.append('userId', this.props.author.username,);
+        bookTextRequest.append('text', event.target.files[0]);
+
+        this.props.onSaveBookText(bookTextRequest, this.props.token);
+    }
+
     onSubmit(event) {
         event.preventDefault();
        //TODO
@@ -256,7 +270,13 @@ class BookPropsForm extends React.Component {
                             <div className="panel-body">
                                 <div className="col-sm-12" style={{textAlign: 'center'}}>
                                     <div className="btn-group-vertical">
-                                        <button type="button" className="btn btn-success">Load file from your computer</button>
+                                        <FileUploader
+                                            btnName="Load file from your computer"
+                                            name="text"
+                                            accept=".txt,.doc,.pdf"
+                                            className="btn btn-success"
+                                            onChange={this.onSaveText}
+                                        />
                                         <br/>
                                     </div>
                                 </div>
@@ -356,6 +376,20 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'Book was added successfully'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onSaveBookText: (bookTextRequest, token, callback) => {
+            return saveBookText(bookTextRequest, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    //callback();
+                    dispatch(createNotify('success', 'Success', 'Book text was saved successfully'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

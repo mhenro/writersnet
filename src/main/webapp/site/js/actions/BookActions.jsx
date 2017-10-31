@@ -28,12 +28,16 @@ export const saveBook = (book, token) => {
     return doFetch('http://localhost:8080/books', book, token);
 };
 
+export const saveBookText = (bookText, token) => {
+    return doFetch('http://localhost:8080/text', bookText, token, 'multipart/form-data')
+};
+
 export const saveCover = (cover, token) => {
     return doFetch('http://localhost:8080/cover', cover, token, 'multipart/form-data');
 };
 
-export const deleteBook = (bookId, token) => {
-    return doFetch('http://localhost:8080/books/' + bookId, 'DELETE', token);
+export const deleteBook = (bookTextRequest, token) => {
+    return doFetch('http://localhost:8080/books/' + bookTextRequest, 'DELETE', token);
 };
 
 export const SET_BOOKS = 'SET_BOOKS';
