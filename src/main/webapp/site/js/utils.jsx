@@ -23,3 +23,7 @@ export const formatBytes = (a, b) => {
 
     return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
 };
+
+export const getHost = () => {
+    return window.location.origin + ':8080/';
+};

@@ -1,14 +1,15 @@
 import doFetch from './fetch';
+import {getHost} from '../utils.jsx';
 
 export const sendLogin = (username, password) => {
-    return doFetch('http://localhost:8080/auth', {
+    return doFetch(getHost() + 'auth', {
         username: username,
         password: password
     });
 };
 
 export const sendRegister = (email, username, password) => {
-    return doFetch('http://localhost:8080/register', {
+    return doFetch(getHost() + 'register', {
         email: email,
         username: username,
         password: password
@@ -16,7 +17,7 @@ export const sendRegister = (email, username, password) => {
 };
 
 export const sendActivationToken = (activationToken) => {
-    return doFetch('http://localhost:8080/activate?activationToken=' + activationToken);
+    return doFetch(getHost() + 'activate?activationToken=' + activationToken);
 };
 
 export const SET_EMAIL = 'SET_EMAIL';

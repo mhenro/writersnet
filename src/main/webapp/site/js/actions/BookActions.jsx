@@ -1,43 +1,44 @@
 import doFetch from './fetch';
+import {getHost} from '../utils.jsx';
 
 export const getBooks = (page) => {
     if (page) {
-        return doFetch('http://localhost:8080/books?page=' + page + '&size=20');
+        return doFetch(getHost() + 'books?page=' + page + '&size=20');
     } else {
-        return doFetch('http://localhost:8080/books');
+        return doFetch(getHost() + 'books');
     }
 };
 
 export const getSeries = (page) => {
     if (page) {
-        return doFetch('http://localhost:8080/series?page=' + page + '&size=20');
+        return doFetch(getHost() + 'series?page=' + page + '&size=20');
     } else {
-        return doFetch('http://localhost:8080/series');
+        return doFetch(getHost() + 'series');
     }
 };
 
 export const getGenres = () => {
-    return doFetch('http://localhost:8080/genres');
+    return doFetch(getHost() + 'genres');
 };
 
 export const getBookDetails = (bookId) => {
-    return doFetch('http://localhost:8080/books/' + bookId);
+    return doFetch(getHost() + 'books/' + bookId);
 };
 
 export const saveBook = (book, token) => {
-    return doFetch('http://localhost:8080/books', book, token);
+    return doFetch(getHost() + 'books', book, token);
 };
 
 export const saveBookText = (bookText, token) => {
-    return doFetch('http://localhost:8080/text', bookText, token, 'multipart/form-data')
+    return doFetch(getHost() + 'text', bookText, token, 'multipart/form-data')
 };
 
 export const saveCover = (cover, token) => {
-    return doFetch('http://localhost:8080/cover', cover, token, 'multipart/form-data');
+    return doFetch(getHost() + 'cover', cover, token, 'multipart/form-data');
 };
 
 export const deleteBook = (bookTextRequest, token) => {
-    return doFetch('http://localhost:8080/books/' + bookTextRequest, 'DELETE', token);
+    return doFetch(getHost() + 'books/' + bookTextRequest, 'DELETE', token);
 };
 
 export const SET_BOOKS = 'SET_BOOKS';
