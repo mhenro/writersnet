@@ -14,6 +14,7 @@ import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookRepository;
 import org.booklink.repositories.BookTextRepository;
 import org.booklink.services.convertors.BookConvertor;
+import org.booklink.services.convertors.DocToHtmlConvertor;
 import org.booklink.services.convertors.PdfToHtmlConvertor;
 import org.booklink.services.convertors.TextToHtmlConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -111,6 +113,7 @@ public class FileController {
 
             String coverLink = env.getProperty("writersnet.coverwebstorage.path") + originalName;
             book.setCover(coverLink);
+            book.setLastUpdate(new Date());
             bookRepository.save(book);
         } catch(Exception e) {
             response.setCode(1);
@@ -140,6 +143,7 @@ public class FileController {
             bookText.setText(text);
             bookTextRepository.save(bookText);
             book.setBookText(bookText);
+            book.setLastUpdate(new Date());
             bookRepository.save(book);
         } catch(Exception e) {
             response.setCode(1);
@@ -155,6 +159,11 @@ public class FileController {
     private String convertBookTextToHtml(BookTextRequest bookTextRequest) throws Exception {
         MultipartFile textFile = bookTextRequest.getText();
         String ext = FilenameUtils.getExtension(textFile.getOriginalFilename());
+        String path = env.getProperty("writersnet.tempstorage") + bookTextRequest.getUserId() + "\\";
+        File dir = new File(path);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
         String result = "";
         BookConvertor<String> textBookConvertor = new TextToHtmlConvertor();
         switch (ext) {
@@ -162,13 +171,14 @@ public class FileController {
                 String text = new String(textFile.getBytes(), "UTF-8");
                 result = textBookConvertor.toHtml(text);
                 break;
-            case "doc": break;
+            case "docx":
+                File tmpDoc = new File(path + textFile.getOriginalFilename());
+                textFile.transferTo(tmpDoc);
+                BookConvertor<File> docConvertor = new DocToHtmlConvertor();
+                result = textBookConvertor.toHtml(docConvertor.toHtml(tmpDoc));
+                tmpDoc.delete();
+                break;
             case "pdf":
-                String path = env.getProperty("writersnet.tempstorage") + bookTextRequest.getUserId() + "\\";
-                File dir = new File(path);
-                if (!dir.exists()) {
-                    dir.mkdir();
-                }
                 File tmpPdf = new File(path + textFile.getOriginalFilename());
                 textFile.transferTo(tmpPdf);
                 BookConvertor<File> pdfBookConvertor = new PdfToHtmlConvertor();

@@ -273,7 +273,7 @@ class BookPropsForm extends React.Component {
                                         <FileUploader
                                             btnName="Load file from your computer"
                                             name="text"
-                                            accept=".txt,.doc,.pdf"
+                                            accept=".txt,.docx,.pdf"
                                             className="btn btn-success"
                                             onChange={this.onSaveText}
                                         />

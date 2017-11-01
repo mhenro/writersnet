@@ -1,0 +1,18 @@
+Features:
+1. Add "Edit series" button to Section page.
+2. Add changing password functional to Options page.
+3. Finish bookListItem on Books page.
+4. Move BookPropsForm to BookSerieItem (refactoring).
+5. Create all Links components between pages.
+6. Create "13000 views | 775 comments | 20 reviews" functional.
+7. Add comments component to BookReader component.
+8. Add Estimation component to BookReader component.
+9. Add paginator to Books page.
+10. Add user policy component to signup form.
+11. Add "forgot your password?" functional to login form.
+12. Revert birthday string on author section page.
+13. Revert lastUpdate string on author section page.
+
+Bugs:
+1. Fix bug with ScrollToTop button.
+2. Fix bug with editing in login/signup form.

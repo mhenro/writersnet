@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import { locale, getLocale } from '../../locale.jsx';
 import { formatBytes } from '../../utils.jsx';
@@ -110,7 +111,7 @@ class BookSerieItem extends React.Component {
                                 <button onClick={() => this.props.onEditBook(this.props.book)} className="btn btn-success btn-block">Edit</button>
                             </div>
                             <div className="col-sm-4">
-                                <button className="btn btn-success btn-block">Read</button>
+                                <Link to={'/reader/' + this.props.book.id} className="btn btn-success btn-block">Read</Link>
                             </div>
                         </div>
                     </div>
