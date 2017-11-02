@@ -61,10 +61,10 @@ class BookSerieItem extends React.Component {
         return(
             <div>
                 <div className="row">
-                    <div className="col-sm-4">
-                        <img src={this.props.book.cover + '?date=' + new Date()} className="img-rounded" width="200" height="300"/>
+                    <div className="col-sm-12 col-lg-4">
+                        <img src={this.props.book.cover + '?date=' + new Date()} className="img-rounded" width="200" height="auto"/>
                     </div>
-                    <div className="col-sm-8">
+                    <div className="col-sm-12 col-lg-8">
                         <div className="book-item-name">
                             {this.props.book.name}
                         </div>
@@ -104,13 +104,13 @@ class BookSerieItem extends React.Component {
                         13000 views | 775 comments | 20 reviews
                         <hr/>
                         <div className="row">
-                            <div className={'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
+                            <div className={'col-sm-12 col-md-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
                                 <button onClick={() => this.onConfirm()} className="btn btn-danger btn-block">Remove</button>
                             </div>
-                            <div className={'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
+                            <div className={'col-sm-12 col-md-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
                                 <button onClick={() => this.props.onEditBook(this.props.book)} className="btn btn-success btn-block">Edit</button>
                             </div>
-                            <div className="col-sm-4">
+                            <div className="col-sm-12 col-md-4">
                                 <Link to={'/reader/' + this.props.book.id} className="btn btn-success btn-block">Read</Link>
                             </div>
                         </div>

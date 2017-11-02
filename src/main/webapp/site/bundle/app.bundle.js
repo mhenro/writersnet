@@ -55386,12 +55386,12 @@ var MainPage = function (_React$Component) {
                             { className: 'row' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-2' },
+                                { className: 'col-sm-12 col-lg-2' },
                                 this.renderMainMenu()
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-10' },
+                                { className: 'col-sm-12 col-lg-10' },
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/authors', component: _AuthorPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/authors/:authorName', component: _SectionPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/books', component: _BookPage2.default }),
@@ -76061,12 +76061,12 @@ var SectionPage = function (_React$Component) {
                     { className: 'row' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-3' },
+                        { className: 'col-sm-12 col-lg-3' },
                         _react2.default.createElement(_AuthorFile2.default, { author: this.props.author, registered: this.props.registered, login: this.props.login })
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-9' },
+                        { className: 'col-sm-12 col-lg-9' },
                         _react2.default.createElement(_AuthorShortInfo2.default, { author: this.props.author })
                     )
                 ),
@@ -76685,12 +76685,12 @@ var BookSerieItem = function (_React$Component) {
                     { className: 'row' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-4' },
-                        _react2.default.createElement('img', { src: this.props.book.cover + '?date=' + new Date(), className: 'img-rounded', width: '200', height: '300' })
+                        { className: 'col-sm-12 col-lg-4' },
+                        _react2.default.createElement('img', { src: this.props.book.cover + '?date=' + new Date(), className: 'img-rounded', width: '200', height: 'auto' })
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-8' },
+                        { className: 'col-sm-12 col-lg-8' },
                         _react2.default.createElement(
                             'div',
                             { className: 'book-item-name' },
@@ -76795,7 +76795,7 @@ var BookSerieItem = function (_React$Component) {
                             { className: 'row' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
+                                { className: 'col-sm-12 col-md-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
                                 _react2.default.createElement(
                                     'button',
                                     { onClick: function onClick() {
@@ -76806,7 +76806,7 @@ var BookSerieItem = function (_React$Component) {
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
+                                { className: 'col-sm-12 col-md-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden') },
                                 _react2.default.createElement(
                                     'button',
                                     { onClick: function onClick() {
@@ -76817,7 +76817,7 @@ var BookSerieItem = function (_React$Component) {
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-4' },
+                                { className: 'col-sm-12 col-md-4' },
                                 _react2.default.createElement(
                                     _reactRouterDom.Link,
                                     { to: '/reader/' + this.props.book.id, className: 'btn btn-success btn-block' },
@@ -81301,7 +81301,11 @@ var ScrollToTopButton = function (_React$Component) {
             if (window.pageYOffset === 0) {
                 clearInterval(this.state.intervalId);
             }
-            window.scroll(0, window.pageYOffset - this.props.scrollStepInPx);
+            if (window.pageYOffset < 3000) {
+                window.scroll(0, window.pageYOffset - this.props.scrollStepInPx);
+            } else {
+                window.scroll(0, 0);
+            }
         }
     }, {
         key: 'scrollToTop',

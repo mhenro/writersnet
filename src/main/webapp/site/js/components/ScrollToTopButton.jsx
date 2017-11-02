@@ -27,7 +27,11 @@ class ScrollToTopButton extends React.Component {
         if (window.pageYOffset === 0) {
             clearInterval(this.state.intervalId);
         }
-        window.scroll(0, window.pageYOffset - this.props.scrollStepInPx);
+        if (window.pageYOffset < 3000) {
+            window.scroll(0, window.pageYOffset - this.props.scrollStepInPx);
+        } else {
+            window.scroll(0, 0);
+        }
     }
 
     scrollToTop() {

@@ -71,10 +71,10 @@ class SectionPage extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-12 col-lg-3">
                         <AuthorFile author={this.props.author} registered={this.props.registered} login={this.props.login}/>
                     </div>
-                    <div className="col-sm-9">
+                    <div className="col-sm-12 col-lg-9">
                         <AuthorShortInfo author={this.props.author}/>
                     </div>
                 </div>

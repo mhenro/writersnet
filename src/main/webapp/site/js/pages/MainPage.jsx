@@ -50,10 +50,10 @@ class MainPage extends React.Component {
                     <NavBar onLoginClick={this.onLoginClick} onLogoutClick={this.props.onLogoutClick} registered={this.props.registered}/>
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm-2">
+                            <div className="col-sm-12 col-lg-2">
                                 {this.renderMainMenu()}
                             </div>
-                            <div className="col-sm-10">
+                            <div className="col-sm-12 col-lg-10">
                                 <Route exact path="/authors" component={AuthorPage}/>
                                 <Route exact path="/authors/:authorName" component={SectionPage}/>
                                 <Route exact path="/books" component={BookPage}/>

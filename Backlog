@@ -13,10 +13,12 @@ Features:
 12. Revert birthday string on author section page.
 13. Revert lastUpdate string on author section page.
 14. Write unit tests for all controllers and business logic.
+15. Add login/signup via social nets (facebook and so on). Use u-login for this.
+DONE - 15. Create adaptive layout for main pages.
+
 
 Bugs:
-1. Fix bug with ScrollToTop button (if on BookReader then go to top emmideatly).
+DONE - 1. Fix bug with ScrollToTop button (if on BookReader then go to top emmideatly).
 2. Fix bug with editing in login/signup form.
 3. Only owner should see his series when editing props of the book.
 4. Fix bug with character encoding (ANSI).
-5. Fix bug with File.delete() in pdf file case.
