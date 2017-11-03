@@ -21,6 +21,10 @@ export const getGenres = () => {
     return doFetch(getHost() + 'genres');
 };
 
+export const addStar = (bookId, starValue) => {
+    return doFetch(getHost() + 'books/' + bookId + '/rating/' + starValue);
+};
+
 export const getBookDetails = (bookId) => {
     return doFetch(getHost() + 'books/' + bookId);
 };

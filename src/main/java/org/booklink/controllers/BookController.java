@@ -3,13 +3,12 @@ package org.booklink.controllers;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
-import org.booklink.models.entities.Book;
-import org.booklink.models.entities.BookSerie;
-import org.booklink.models.entities.User;
+import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookRepository;
+import org.booklink.repositories.RatingRepository;
 import org.booklink.repositories.SerieRepository;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -39,12 +39,14 @@ public class BookController {
     private AuthorRepository authorRepository;
     private BookRepository bookRepository;
     private SerieRepository serieRepository;
+    private RatingRepository ratingRepository;
 
     @Autowired
-    public BookController(AuthorRepository authorRepository, BookRepository bookRepository, SerieRepository serieRepository) {
+    public BookController(AuthorRepository authorRepository, BookRepository bookRepository, SerieRepository serieRepository, RatingRepository ratingRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
         this.serieRepository = serieRepository;
+        this.ratingRepository = ratingRepository;
     }
 
     @CrossOrigin
@@ -181,6 +183,36 @@ public class BookController {
         return Stream.of(Genre.values())
                 .map(Genre::name)
                 .collect(Collectors.toList());
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "books/{bookId}/rating/{value}", method = RequestMethod.GET)
+    public ResponseEntity<?> addStar(@PathVariable Long bookId, @PathVariable Integer value, HttpServletRequest request) {
+
+        //TODO: save client IP via request.getRemoteAddr() to rating table. Create new embeddedId = bookId + estimation + IP
+
+        Response<String> response = new Response<>();
+        try {
+            RatingId ratingId = new RatingId();
+            ratingId.setBookId(bookId);
+            ratingId.setEstimation(value);
+            Rating rating = ratingRepository.findOne(ratingId);
+            if (rating != null) {
+                rating.setUserCount(rating.getUserCount() + 1);
+            } else {
+                rating = new Rating();
+                rating.setRatingId(ratingId);
+                rating.setUserCount(1);
+            }
+            ratingRepository.save(rating);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Your vote was added");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     private void checkCredentials(final String login) {

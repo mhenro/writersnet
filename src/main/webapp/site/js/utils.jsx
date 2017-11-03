@@ -25,5 +25,5 @@ export const formatBytes = (a, b) => {
 };
 
 export const getHost = () => {
-    return window.location.origin + ':8080/';
+    return 'http://' + window.location.hostname + ':8080/';
 };

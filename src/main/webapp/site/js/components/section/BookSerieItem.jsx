@@ -4,6 +4,8 @@ import { Modal, Button } from 'react-bootstrap';
 import { locale, getLocale } from '../../locale.jsx';
 import { formatBytes } from '../../utils.jsx';
 
+import ReactStars from 'react-stars';
+
 /*
     props:
     - author
@@ -23,17 +25,26 @@ class BookSerieItem extends React.Component {
         };
     }
 
-    getRating() {
+    getAverageRating() {
         let ratings = this.props.book.rating;
         if (ratings && ratings.length > 0) {
             let sum = ratings.map(rating => rating.ratingId.estimation * rating.userCount).reduce((prev, cur) => prev + cur),
                 totalVotes = ratings.map(rating => rating.userCount).reduce((prev, cur) => prev + cur),
                 avgEstimation = parseFloat(sum / totalVotes).toFixed(2);
             if (totalVotes > 0) {
-                return avgEstimation + ' * ' + totalVotes;
+                return parseFloat(avgEstimation);
             }
         }
-        return '0.00 * 0';
+        return 0;
+    }
+
+    getTotalVotes() {
+        let ratings = this.props.book.rating;
+        if (ratings && ratings.length > 0) {
+            let totalVotes = ratings.map(rating => rating.userCount).reduce((prev, cur) => prev + cur);
+            return totalVotes;
+        }
+        return 0;
     }
 
     getAuthorLists() {
@@ -69,9 +80,10 @@ class BookSerieItem extends React.Component {
                             {this.props.book.name}
                         </div>
                         <div>
-                            <span className="glyphicon glyphicon-heart"></span>&nbsp;
-                            {this.getRating()}
+                            <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.getAverageRating()}/>
+                            <span><b>{this.getAverageRating() + ' * ' + this.getTotalVotes()}</b></span>
                         </div>
+                        <br/>
                         <div>
                             {this.props.book.description}
                         </div>
