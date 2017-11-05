@@ -1,14 +1,11 @@
 import React from 'react';
 import { formatBytes } from '../../utils.jsx';
+import ReactStars from 'react-stars';
 /*
     props:
     - author
  */
 class AuthorShortInfo extends React.Component {
-    getRating() {
-        return this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount;
-    }
-
     getTotalSize() {
         let size = formatBytes(this.props.author.totalSize.totalSize),
             books = this.props.author.totalSize.totalBooks;
@@ -39,7 +36,10 @@ class AuthorShortInfo extends React.Component {
                             </tr>
                             <tr>
                                 <td>Rating</td>
-                                <td>{this.getRating()}</td>
+                                <td>
+                                    <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.props.author.rating.averageRating.toFixed(2)} className="stars"/>
+                                    <span className="stars-end"><b>{this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}</b></span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Visitors</td>

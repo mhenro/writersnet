@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { formatBytes } from '../utils.jsx';
+import ReactStars from 'react-stars';
 /*
     props:
     - author
@@ -19,13 +20,12 @@ class AuthorListItem extends React.Component {
                                 {this.props.author.firstName + ' ' + this.props.author.lastName}
                             </div>
                             <div>
-                                <span className="glyphicon glyphicon-heart"></span>&nbsp;
-                                {this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}
+                                <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.props.author.rating.averageRating.toFixed(2)} className="stars"/>
+                                <span className="stars-end"><b>{this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}</b></span>
                             </div>
                             <div className="row">
                                 <div className="col-sm-6">
-                                    <Link to={'authors/' + this.props.author.username} className="btn btn-success btn-sm">Author page</Link>
-                                    {/*<button className="btn btn-success">Author page</button>*/}
+                                    <Link to={'/authors/' + this.props.author.username} className="btn btn-success btn-sm">Author page</Link>
                                 </div>
                                 <div className="col-sm-6">
                                     <span>offline</span>

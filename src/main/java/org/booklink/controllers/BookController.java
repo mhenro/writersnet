@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
 import org.booklink.models.entities.*;
+import org.booklink.models.exceptions.ObjectAlreadyExistException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.repositories.AuthorRepository;
@@ -188,22 +189,19 @@ public class BookController {
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}/rating/{value}", method = RequestMethod.GET)
     public ResponseEntity<?> addStar(@PathVariable Long bookId, @PathVariable Integer value, HttpServletRequest request) {
-
-        //TODO: save client IP via request.getRemoteAddr() to rating table. Create new embeddedId = bookId + estimation + IP
-
         Response<String> response = new Response<>();
         try {
+            String clientIp = request.getRemoteAddr();
+            Rating rating = ratingRepository.findRatingByBookIdAndClientIp(bookId, clientIp);
+            if (rating != null) {
+                throw new ObjectAlreadyExistException("You have already added your vote for this book");
+            }
+            rating = new Rating();
             RatingId ratingId = new RatingId();
             ratingId.setBookId(bookId);
             ratingId.setEstimation(value);
-            Rating rating = ratingRepository.findOne(ratingId);
-            if (rating != null) {
-                rating.setUserCount(rating.getUserCount() + 1);
-            } else {
-                rating = new Rating();
-                rating.setRatingId(ratingId);
-                rating.setUserCount(1);
-            }
+            ratingId.setClientIp(clientIp);
+            rating.setRatingId(ratingId);
             ratingRepository.save(rating);
         } catch(Exception e) {
             response.setCode(1);

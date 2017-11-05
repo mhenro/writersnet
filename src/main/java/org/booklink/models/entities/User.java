@@ -170,17 +170,6 @@ public class User {
         this.sectionDescription = sectionDescription;
     }
 
-    @Transient
-    private int getUserCountByEstimation(final int estimation) {
-        return Optional.ofNullable(books)
-                .map(books -> books.stream()
-                        .flatMap(book -> book.getRating().stream())
-                        .filter(rating -> rating.getRatingId().getEstimation() == estimation)
-                        .map(Rating::getUserCount)
-                        .collect(Collectors.summingInt(n -> n)))
-                .orElse(0);
-    }
-
     /* method for calculating total rating of the author */
     @Transient
     public TotalRating getRating() {
@@ -188,18 +177,18 @@ public class User {
         if (books == null) {
             return authorRating;
         }
-        int totalUserCount5 = getUserCountByEstimation(5);
-        int totalUserCount4 = getUserCountByEstimation(4);
-        int totalUserCount3 = getUserCountByEstimation(3);
-        int totalUserCount2 = getUserCountByEstimation(2);
-        int totalUserCount1 = getUserCountByEstimation(1);
-        int totalUsers = totalUserCount1 + totalUserCount2 + totalUserCount3 + totalUserCount4 + totalUserCount5;
-        float avgRating = (float)(totalUserCount1 + 2*totalUserCount2 + 3*totalUserCount3 + 4*totalUserCount4 + 5*totalUserCount5) / totalUsers;
+        int totalUsers = books.stream().map(book -> book.getTotalRating().getUserCount()).collect(Collectors.summingInt(n -> n));
+        Map<Integer, Long> countByStars = books.stream().flatMap(book -> book.getRating().stream())
+                .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
+        float averageRating = (float)countByStars.entrySet().stream()
+                .map(map -> map.getKey() * map.getValue().intValue())
+                .collect(Collectors.summingInt(n -> n)) / totalUsers;
+
         if (totalUsers == 0) {
-            avgRating = 0;
+            return authorRating;
         }
-        authorRating.setAverageRating(avgRating);
         authorRating.setUserCount(totalUsers);
+        authorRating.setAverageRating(averageRating);
 
         return authorRating;
     }

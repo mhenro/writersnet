@@ -37,6 +37,17 @@ footer {
     color: #222;
 }
 
+.stars {
+    /*white-space: nowrap;*/
+    float: left;
+    margin-right: 5px;
+    margin-top: -2px;
+}
+
+.stars-end {
+    clear: both;
+}
+
 .section-author-name {
     text-align: center;
     font-size: 24pt;

@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class RatingId implements Serializable {
     private Long bookId;
     private Integer estimation;
+    private String clientIp;
 
     @JsonIgnore
     @Column(name = "book_id")
@@ -29,5 +30,14 @@ public class RatingId implements Serializable {
 
     public void setEstimation(Integer estimation) {
         this.estimation = estimation;
+    }
+
+    @Column(name = "client_ip")
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
     }
 }

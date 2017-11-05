@@ -26,25 +26,11 @@ class BookSerieItem extends React.Component {
     }
 
     getAverageRating() {
-        let ratings = this.props.book.rating;
-        if (ratings && ratings.length > 0) {
-            let sum = ratings.map(rating => rating.ratingId.estimation * rating.userCount).reduce((prev, cur) => prev + cur),
-                totalVotes = ratings.map(rating => rating.userCount).reduce((prev, cur) => prev + cur),
-                avgEstimation = parseFloat(sum / totalVotes).toFixed(2);
-            if (totalVotes > 0) {
-                return parseFloat(avgEstimation);
-            }
-        }
-        return 0;
+        return this.props.book.totalRating.averageRating.toFixed(2);
     }
 
     getTotalVotes() {
-        let ratings = this.props.book.rating;
-        if (ratings && ratings.length > 0) {
-            let totalVotes = ratings.map(rating => rating.userCount).reduce((prev, cur) => prev + cur);
-            return totalVotes;
-        }
-        return 0;
+        return this.props.book.totalRating.userCount;
     }
 
     getAuthorLists() {
@@ -80,7 +66,7 @@ class BookSerieItem extends React.Component {
                             {this.props.book.name}
                         </div>
                         <div>
-                            <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.getAverageRating()}/>
+                            <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.getAverageRating()} className="stars"/>
                             <span><b>{this.getAverageRating() + ' * ' + this.getTotalVotes()}</b></span>
                         </div>
                         <br/>

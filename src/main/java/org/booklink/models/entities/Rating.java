@@ -1,5 +1,7 @@
 package org.booklink.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -8,7 +10,6 @@ import javax.persistence.*;
 @Entity
 public class Rating {
     private RatingId ratingId;
-    private Integer userCount;
 
     @EmbeddedId
     public RatingId getRatingId() {
@@ -19,12 +20,9 @@ public class Rating {
         this.ratingId = ratingId;
     }
 
-    @Column(name = "user_count")
-    public Integer getUserCount() {
-        return userCount;
-    }
-
-    public void setUserCount(Integer userCount) {
-        this.userCount = userCount;
+    @Transient
+    @JsonIgnore
+    public Integer getEstimation() {
+        return ratingId.getEstimation();
     }
 }

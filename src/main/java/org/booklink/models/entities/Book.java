@@ -2,12 +2,16 @@ package org.booklink.models.entities;
 
 import com.fasterxml.jackson.annotation.*;
 import org.booklink.models.Genre;
+import org.booklink.models.TotalRating;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by mhenr on 30.09.2017.
@@ -113,9 +117,26 @@ public class Book {
         this.authorName = authorName;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ratingId.bookId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ratingId.bookId")
+    @JsonIgnore
     public List<Rating> getRating() {
         return rating;
+    }
+
+    @Transient
+    public TotalRating getTotalRating() {
+        //return Optional.ofNullable(rating).map()
+        Long totalUsers = rating.stream().filter(rating -> rating.getRatingId().getBookId() == id).count();
+        Map<Integer, Long> countByStars = rating.stream()
+                .filter(rating -> rating.getRatingId().getBookId() == id)
+                .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
+        float averageRating = (float)countByStars.entrySet().stream()
+                .map(map -> map.getKey() * map.getValue().intValue())
+                .collect(Collectors.summingInt(n -> n)) / totalUsers;
+        TotalRating totalRating = new TotalRating();
+        totalRating.setUserCount(totalUsers.intValue());
+        totalRating.setAverageRating(totalUsers > 0 ? averageRating : 0);
+        return totalRating;
     }
 
     public void setRating(List<Rating> rating) {
