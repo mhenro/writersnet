@@ -40,4 +40,25 @@ public class RatingId implements Serializable {
     public void setClientIp(String clientIp) {
         this.clientIp = clientIp;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RatingId ratingId = (RatingId) o;
+
+        if (bookId != null ? !bookId.equals(ratingId.bookId) : ratingId.bookId != null) return false;
+        if (estimation != null ? !estimation.equals(ratingId.estimation) : ratingId.estimation != null) return false;
+        return clientIp != null ? clientIp.equals(ratingId.clientIp) : ratingId.clientIp == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = bookId != null ? bookId.hashCode() : 0;
+        result = 31 * result + (estimation != null ? estimation.hashCode() : 0);
+        result = 31 * result + (clientIp != null ? clientIp.hashCode() : 0);
+        return result;
+    }
 }

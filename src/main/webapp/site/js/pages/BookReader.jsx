@@ -1,30 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import ReactStars from 'react-stars';
 import {
     getBookDetails,
     setBook,
-    addStar
+    addStar,
+    getBookComments
 } from '../actions/BookActions.jsx';
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
 
-import ReactStars from 'react-stars';
+import UserComments from '../components/UserComments.jsx';
 
 /*
     props:
     - book
  */
 class BookReader extends React.Component {
-    componentDidMount() {
-        this.props.onGetBookDetails(this.props.match.params.bookId);
+    constructor(props) {
+        super(props);
 
-        ['updateReader', 'newVote'].map(fn => this[fn] = this[fn].bind(this));
+        this.state = {
+            comments: []
+        };
+        ['updateReader', 'newVote', 'renderComments'].map(fn => this[fn] = this[fn].bind(this));
+
+        this.props.onGetBookDetails(this.props.match.params.bookId);
+        this.props.onGetBookComments(this.props.match.params.bookId, this.renderComments);
     }
 
     getAverageRating() {
-        return this.props.book.totalRating.averageRating.toFixed(2);
+        return parseFloat(this.props.book.totalRating.averageRating.toFixed(2));
     }
 
     getTotalVotes() {
@@ -41,6 +48,12 @@ class BookReader extends React.Component {
 
     updateReader() {
         this.props.onGetBookDetails(this.props.match.params.bookId);
+    }
+
+    renderComments(comments) {
+        this.setState({
+            comments: comments
+        });
     }
 
     isDataLoaded() {
@@ -79,7 +92,9 @@ class BookReader extends React.Component {
                 </div>
                 <div className="col-sm-12">
                     <div dangerouslySetInnerHTML={{ __html: this.props.book.bookText.text }} />
+                    <hr/>
                 </div>
+                <UserComments comments={this.state.comments}/>
             </div>
         )
     }
@@ -97,6 +112,19 @@ const mapDispatchToProps = (dispatch) => {
             return getBookDetails(bookId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBook(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetBookComments: (bookId, callback) => {
+            return getBookComments(bookId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.content);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

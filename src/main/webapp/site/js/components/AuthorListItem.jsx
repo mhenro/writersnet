@@ -7,6 +7,10 @@ import ReactStars from 'react-stars';
     - author
  */
 class AuthorListItem extends React.Component {
+    getAverageRating() {
+        return parseFloat(this.props.author.rating.averageRating.toFixed(2));
+    }
+
     render() {
         return (
             <div className="panel panel-default">
@@ -20,7 +24,7 @@ class AuthorListItem extends React.Component {
                                 {this.props.author.firstName + ' ' + this.props.author.lastName}
                             </div>
                             <div>
-                                <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.props.author.rating.averageRating.toFixed(2)} className="stars"/>
+                                <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.getAverageRating()} className="stars"/>
                                 <span className="stars-end"><b>{this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}</b></span>
                             </div>
                             <div className="row">

@@ -1,19 +1,18 @@
 package org.booklink.controllers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.booklink.models.BookComment;
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectAlreadyExistException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.repositories.AuthorRepository;
-import org.booklink.repositories.BookRepository;
-import org.booklink.repositories.RatingRepository;
-import org.booklink.repositories.SerieRepository;
+import org.booklink.repositories.*;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,17 +36,26 @@ import java.util.stream.Stream;
  */
 @RestController
 public class BookController {
+    private Environment env;
     private AuthorRepository authorRepository;
     private BookRepository bookRepository;
     private SerieRepository serieRepository;
     private RatingRepository ratingRepository;
+    private BookCommentsRepository bookCommentsRepository;
 
     @Autowired
-    public BookController(AuthorRepository authorRepository, BookRepository bookRepository, SerieRepository serieRepository, RatingRepository ratingRepository) {
+    public BookController(Environment env,
+                          AuthorRepository authorRepository,
+                          BookRepository bookRepository,
+                          SerieRepository serieRepository,
+                          RatingRepository ratingRepository,
+                          BookCommentsRepository bookCommentsRepository) {
+        this.env = env;
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
         this.serieRepository = serieRepository;
         this.ratingRepository = ratingRepository;
+        this.bookCommentsRepository = bookCommentsRepository;
     }
 
     @CrossOrigin
@@ -140,6 +148,9 @@ public class BookController {
                 User user = authorRepository.findOne(book.getAuthorName());
                 if (user != null) {
                     savedBook.setAuthor(user);
+                    user.getSection().setLastUpdated(new Date());
+                    authorRepository.save(user);
+
                 }
             }/*
             if (book.getText() == null) {
@@ -168,6 +179,13 @@ public class BookController {
             }
             checkCredentials(book.getAuthor().getUsername());   //only owner can delete his book
             bookRepository.delete(bookId);
+
+            /* updating user section */
+            User user = authorRepository.findOne(book.getAuthor().getUsername());
+            if (user != null) {
+                user.getSection().setLastUpdated(new Date());
+                authorRepository.save(user);
+            }
         } catch (Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
@@ -210,6 +228,45 @@ public class BookController {
         }
         response.setCode(0);
         response.setMessage("Your vote was added");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "books/{bookId}/comments", method = RequestMethod.GET)
+    public Page<BookComments> getComments(@PathVariable Long bookId, Pageable pageable) {
+        Page<BookComments> comments = bookCommentsRepository.findAllByBookId(bookId, pageable);
+        return comments;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "books/comments", method = RequestMethod.POST)
+    public ResponseEntity<?> saveComment(@RequestBody BookComment bookComment) {
+        Response<String> response = new Response<>();
+        BookComments entity = new BookComments();
+        try {
+            Book book = bookRepository.findOne(bookComment.getBookId());
+            if (book == null) {
+                throw new ObjectNotFoundException("Book was not found");
+            }
+            if (bookComment.getUserId() != null) {
+                User user = authorRepository.findOne(bookComment.getUserId());
+                if (user == null) {
+                    throw new ObjectNotFoundException("Author was not found");
+                }
+                entity.setUser(user);
+            }
+            entity.setBook(book);
+            entity.setComment(bookComment.getComment());
+            entity.setRelatedTo(bookComment.getRelatedTo());
+            entity.setCreated(new Date());
+            bookCommentsRepository.save(entity);
+        } catch (Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Your comment was added");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

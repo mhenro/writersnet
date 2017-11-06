@@ -26,7 +26,7 @@ class BookSerieItem extends React.Component {
     }
 
     getAverageRating() {
-        return this.props.book.totalRating.averageRating.toFixed(2);
+        return parseFloat(this.props.book.totalRating.averageRating.toFixed(2));
     }
 
     getTotalVotes() {

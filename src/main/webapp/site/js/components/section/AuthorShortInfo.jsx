@@ -12,6 +12,10 @@ class AuthorShortInfo extends React.Component {
         return size + ' / ' + books + ' books';
     }
 
+    getAverageRating() {
+        return parseFloat(this.props.author.rating.averageRating.toFixed(2));
+    }
+
     render() {
         return (
             <div className="panel panel-default">
@@ -37,7 +41,7 @@ class AuthorShortInfo extends React.Component {
                             <tr>
                                 <td>Rating</td>
                                 <td>
-                                    <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.props.author.rating.averageRating.toFixed(2)} className="stars"/>
+                                    <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.getAverageRating()} className="stars"/>
                                     <span className="stars-end"><b>{this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}</b></span>
                                 </td>
                             </tr>

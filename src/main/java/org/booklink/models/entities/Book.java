@@ -125,7 +125,9 @@ public class Book {
 
     @Transient
     public TotalRating getTotalRating() {
-        //return Optional.ofNullable(rating).map()
+        if (rating == null) {
+            return null;
+        }
         Long totalUsers = rating.stream().filter(rating -> rating.getRatingId().getBookId() == id).count();
         Map<Integer, Long> countByStars = rating.stream()
                 .filter(rating -> rating.getRatingId().getBookId() == id)
