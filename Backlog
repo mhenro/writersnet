@@ -1,23 +1,23 @@
 Features:
-1. Add "Edit series" button to Section page.
-2. Add changing password functional to Options page.
-3. Finish bookListItem on Books page.
-4. Move BookPropsForm to BookSerieItem (refactoring).
-5. Create all Links components between pages.
-6. Create "13000 views | 775 comments | 20 reviews" functional.
-DONE - 7. Add comments component to BookReader component.
-DONE - 8. Add Estimation component to BookReader component. Move estimation logic to this component, remove duplicate code from other places.
-9. Add paginator to Books page.
-10. Add user policy component to signup form.
-11. Add "forgot your password?" functional to login form.
+18. Add subcomments.
+17. Create pagination for comments
 12. Revert birthday string on author section page.
 13. Revert lastUpdate string on author section page.
+1. Add "Edit series" button to Section page.
+3. Finish bookListItem on Books page.
+9. Add paginator to Books page.
+5. Create all Links components between pages.
+6. Create "13000 views | 775 comments | 20 reviews" functional.
+2. Add changing password functional to Options page.
+4. Move BookPropsForm to BookSerieItem (refactoring).
+DONE - 7. Add comments component to BookReader component.
+DONE - 8. Add Estimation component to BookReader component. Move estimation logic to this component, remove duplicate code from other places.
+10. Add user policy component to signup form.
+11. Add "forgot your password?" functional to login form.
 14. Write unit tests for all controllers and business logic.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 DONE - 15. Create adaptive layout for main pages.
 DONE - 16. Create logic for prevent vote from the same IP twice.
-17. Create pagination for comments
-18. Add subcomments.
 
 
 Bugs:
