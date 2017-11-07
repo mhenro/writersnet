@@ -31,7 +31,15 @@ export const getBookDetails = (bookId) => {
 
 export const getBookComments = (bookid) => {
     return doFetch(getHost() + 'books/' + bookid + '/comments');
-}
+};
+
+export const saveComment = (comment) => {
+    return doFetch(getHost() + 'books/comments', comment);
+};
+
+export const deleteComment = (bookId, commentId, token) => {
+    return doFetch(getHost() + 'books/' + bookId + '/comments/' + commentId, 'DELETE', token);
+};
 
 export const saveBook = (book, token) => {
     return doFetch(getHost() + 'books', book, token);

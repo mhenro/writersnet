@@ -270,6 +270,28 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "books/{bookId}/comments/{commentId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteComment(@PathVariable Long bookId, @PathVariable Long commentId) {
+        Response<String> response = new Response<>();
+        try {
+            Book book = bookRepository.findOne(bookId);
+            if (book == null) {
+                throw new ObjectNotFoundException("Book was not found");
+            }
+            checkCredentials(book.getAuthor().getUsername());   //only owner can delete comments from his book
+            bookCommentsRepository.delete(commentId);
+        } catch (Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Your comment was deleted");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     private void checkCredentials(final String login) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = auth.getName();

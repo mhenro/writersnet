@@ -5,7 +5,9 @@ import {
     getBookDetails,
     setBook,
     addStar,
-    getBookComments
+    getBookComments,
+    saveComment,
+    deleteComment
 } from '../actions/BookActions.jsx';
 import {
     createNotify
@@ -48,6 +50,7 @@ class BookReader extends React.Component {
 
     updateReader() {
         this.props.onGetBookDetails(this.props.match.params.bookId);
+        this.props.onGetBookComments(this.props.match.params.bookId, this.renderComments);
     }
 
     renderComments(comments) {
@@ -94,7 +97,14 @@ class BookReader extends React.Component {
                     <div dangerouslySetInnerHTML={{ __html: this.props.book.bookText.text }} />
                     <hr/>
                 </div>
-                <UserComments comments={this.state.comments}/>
+                <UserComments comments={this.state.comments}
+                              owner={this.props.login === this.props.book.author.username}
+                              onSaveComment={this.props.onSaveComment}
+                              onDeleteComment={this.props.onDeleteComment}
+                              bookId={this.props.book.id}
+                              login={this.props.login}
+                              callback={this.updateReader}
+                              token={this.props.token}/>
             </div>
         )
     }
@@ -102,7 +112,9 @@ class BookReader extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        book: state.BookReducer.book
+        book: state.BookReducer.book,
+        login: state.GlobalReducer.user.login,
+        token: state.GlobalReducer.token
     }
 };
 
@@ -125,6 +137,34 @@ const mapDispatchToProps = (dispatch) => {
             return getBookComments(bookId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.content);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onSaveComment: (comment, callback) => {
+            return saveComment(comment).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'Your comment was added'));
+                    callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onDeleteComment: (bookId, commentId, token, callback) => {
+            return deleteComment(bookId, commentId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'Comment was deleted'));
+                    callback();
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

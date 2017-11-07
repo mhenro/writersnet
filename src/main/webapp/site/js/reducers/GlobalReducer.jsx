@@ -72,7 +72,12 @@ const GlobalReducer = (state = initialState, action) => {
             if (action.token !== '') {
                 return Object.assign({}, state, {token: action.token, registered: true});
             } else {
-                return Object.assign({}, state, {token: '', registered: false});   //for logout
+                return Object.assign({}, state, {token: '', registered: false, user: {
+                    email: '',
+                    login: 'Anonymous',
+                    password: '',
+                    passwordConfirm: ''
+                }});   //for logout
             }
 
         case CLOSE_LOGIN_FORM:

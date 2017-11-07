@@ -4,8 +4,23 @@ import CommentItem from './CommentItem.jsx';
 /*
     props:
     - comments - array of comments
+    - owner - boolean - is user owner of the current book?
+    - onSaveComment - callback
+    - onDeleteComment - callback
+    - login - user login if existed
+    - token
+    - bookId
+    - callback - updateReader function
  */
 class UserComments extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            comment: ''
+        };
+        ['onCommentChange'].map(fn => this[fn] = this[fn].bind(this));
+    }
+
     sortComments(a, b) {
         if (a.created < b.created) {
             return -1;
@@ -16,8 +31,30 @@ class UserComments extends React.Component {
         return 0;
     }
 
-    getRelatedComments(parentId) {
-        return this.props.comments.filter(comment => comment.relatedTo === parentId);
+    getRelatedComment(parentId) {
+        if (!parentId) {
+            return null;
+        }
+        return this.props.comments.filter(comment => comment.id === parentId)[0];
+    }
+
+    onCommentChange(event) {
+        this.setState({
+            comment: event.target.value
+        });
+    }
+
+    saveComment() {
+        let comment = {
+            bookId: this.props.bookId,
+            userId: this.props.login === 'Anonymous' ? undefined : this.props.login,
+            comment: this.state.comment
+        };
+        this.props.onSaveComment(comment, this.props.callback);
+    }
+
+    onSubmit(event) {
+        event.preventDefault();
     }
 
     render() {
@@ -26,22 +63,25 @@ class UserComments extends React.Component {
         return (
             <div>
                 <h4>Leave a comment:</h4>
-                <form role="form">
+                <form role="form" onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <textarea className="form-control" rows="3" required></textarea>
+                        <textarea onChange={this.onCommentChange} className="form-control" rows="3" required></textarea>
                     </div>
-                    <button type="submit" className="btn btn-success">Submit</button>
+                    <button onClick={() => this.saveComment()} type="submit" className="btn btn-success">Submit</button>
                 </form>
                 <br/>
                 <br/>
                 <p>Comments:</p>
                 <br/>
                 {this.props.comments.sort(sort).map((comment, key) =>
-                    <CommentItem comment={comment} key={key}>
-                        {this.getRelatedComments(comment.id).sort(sort).map((comment, key) =>
-                            <CommentItem comment={comment} key={key}/>
-                        )}
-                    </CommentItem>
+                    <CommentItem comment={comment}
+                                 relatedComment={this.getRelatedComment(comment.relatedTo)}
+                                 owner={this.props.owner}
+                                 onDeleteComment={this.props.onDeleteComment}
+                                 token={this.props.token}
+                                 bookId={this.props.bookId}
+                                 callback={this.props.callback}
+                                 key={key}/>
                 )}
             </div>
         )
