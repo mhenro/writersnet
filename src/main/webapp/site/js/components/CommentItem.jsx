@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { formatDate } from '../utils.jsx';
 
 /*
@@ -8,11 +8,19 @@ import { formatDate } from '../utils.jsx';
     - relatedComment
     - owner - boolean - is user owner of the current book?
     - onDeleteComment - callback
+    - onQuoteComment - callback
     - token
     - bookId
     - callback - updateReader function
  */
 class CommentItem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            confirmDialogShow: false
+        };
+    }
+
     getAuthorName() {
         return this.props.comment.authorInfo.firstName + ' ' + this.props.comment.authorInfo.lastName;
     }
@@ -37,6 +45,17 @@ class CommentItem extends React.Component {
         }
     }
 
+    renderQuoteButton() {
+        let tooltip = (
+            <Tooltip id="tooltip">Quote this comment</Tooltip>
+        );
+        return (
+            <OverlayTrigger placement="top" overlay={tooltip}>
+                <button onClick={() => this.props.onQuoteComment(this.props.comment)} className="btn btn-default btn-xs glyphicon glyphicon-circle-arrow-right"></button>
+            </OverlayTrigger>
+        )
+    }
+
     renderCloseButton() {
         let tooltip = (
             <Tooltip id="tooltip">Delete this comment</Tooltip>
@@ -44,13 +63,29 @@ class CommentItem extends React.Component {
         if (this.props.owner) {
             return (
                 <OverlayTrigger placement="top" overlay={tooltip}>
-                    <button onClick={() => this.props.onDeleteComment(this.props.bookId, this.props.comment.id, this.props.token, this.props.callback)}
-                            className="btn btn-danger btn-xs">X
-                    </button>
+                    <button onClick={() => this.onConfirm()}
+                            className="btn btn-danger btn-xs glyphicon glyphicon-remove"></button>
                 </OverlayTrigger>
             )
         }
         return null;
+    }
+
+    onConfirm() {
+        this.setState({
+            confirmDialogShow: true
+        });
+    }
+
+    onDelete() {
+        this.props.onDeleteComment(this.props.bookId, this.props.comment.id, this.props.token, this.props.callback);
+        this.onCancel();
+    }
+
+    onCancel() {
+        this.setState({
+            confirmDialogShow: false
+        });
     }
 
     render() {
@@ -60,11 +95,29 @@ class CommentItem extends React.Component {
                     <img src={this.props.comment.authorInfo.avatar + '?date=' + new Date()} className="img-rounded" width="65" height="auto" alt="avatar"/>
                 </div>
                 <div className="col-sm-10">
-                    <h4>{this.getAuthorName()} <small>{this.getCommentDate()} &nbsp; {this.renderCloseButton()}</small></h4>
+                    <h4>{this.getAuthorName()} <small>{this.getCommentDate()} &nbsp; {this.renderQuoteButton()} &nbsp; {this.renderCloseButton()}</small></h4>
                     {this.renderRelatedComment()}
                     <p>{this.getCommentText()}</p>
                     <br/>
+                    <small>{'#' + this.props.comment.id}</small>
+                    <div><hr/></div>
                 </div>
+
+                {/* delete confirmation dialog */}
+                <Modal show={this.state.confirmDialogShow} onHide={() => this.onCancel()}>
+                    <Modal.Header>
+                        Attention!
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to delete this comment?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="btn-group">
+                            <Button onClick={() => this.onDelete()} className="btn btn-danger">Delete</Button>
+                            <Button onClick={() => this.onCancel()} className="btn btn-default">Cancel</Button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }

@@ -58,9 +58,7 @@ class AuthorPage extends React.Component {
                     items={this.state.totalPages}
                     maxButtons={3}
                     activePage={this.state.activePage}
-                    onSelect={this.handleSelect}
-                >
-                </Pagination>
+                    onSelect={this.handleSelect}/>
                 <AuthorList authors={this.props.authors}/>
             </div>
         )

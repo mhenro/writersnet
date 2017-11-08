@@ -24,12 +24,14 @@ class BookReader extends React.Component {
         super(props);
 
         this.state = {
-            comments: []
+            comments: [],
+            currentPage: 1,
+            totalPages: 1
         };
-        ['updateReader', 'newVote', 'renderComments'].map(fn => this[fn] = this[fn].bind(this));
+        ['updateReader', 'newVote', 'renderComments', 'setCommentPage', 'setTotalPages'].map(fn => this[fn] = this[fn].bind(this));
 
         this.props.onGetBookDetails(this.props.match.params.bookId);
-        this.props.onGetBookComments(this.props.match.params.bookId, this.renderComments);
+        this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, this.renderComments, this.setTotalPages);
     }
 
     getAverageRating() {
@@ -48,9 +50,21 @@ class BookReader extends React.Component {
         return true;
     }
 
+    setCommentPage(page) {
+        this.setState({
+            currentPage: page
+        });
+    }
+
+    setTotalPages(totalPages) {
+        this.setState({
+            totalPages: totalPages
+        });
+    }
+
     updateReader() {
         this.props.onGetBookDetails(this.props.match.params.bookId);
-        this.props.onGetBookComments(this.props.match.params.bookId, this.renderComments);
+        this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, this.renderComments, this.setTotalPages);
     }
 
     renderComments(comments) {
@@ -99,11 +113,16 @@ class BookReader extends React.Component {
                 </div>
                 <UserComments comments={this.state.comments}
                               owner={this.props.login === this.props.book.author.username}
+                              onGetComments={this.props.onGetBookComments}
                               onSaveComment={this.props.onSaveComment}
                               onDeleteComment={this.props.onDeleteComment}
+                              onSetCommentPage={this.setCommentPage}
+                              currentPage={this.state.currentPage}
+                              totalPages={this.state.totalPages}
                               bookId={this.props.book.id}
                               login={this.props.login}
                               callback={this.updateReader}
+                              totalPagesCallback={this.setTotalPages}
                               token={this.props.token}/>
             </div>
         )
@@ -133,10 +152,11 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onGetBookComments: (bookId, callback) => {
-            return getBookComments(bookId).then(([response, json]) => {
+        onGetBookComments: (bookId, page, callback, totalPagesCallback) => {
+            return getBookComments(bookId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.content);
+                    totalPagesCallback(json.totalPages);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

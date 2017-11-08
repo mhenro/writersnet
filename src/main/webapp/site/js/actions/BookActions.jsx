@@ -29,8 +29,8 @@ export const getBookDetails = (bookId) => {
     return doFetch(getHost() + 'books/' + bookId);
 };
 
-export const getBookComments = (bookid) => {
-    return doFetch(getHost() + 'books/' + bookid + '/comments');
+export const getBookComments = (bookid, page) => {
+    return doFetch(getHost() + 'books/' + bookid + '/comments?page=' + page + '&size=10');
 };
 
 export const saveComment = (comment) => {
