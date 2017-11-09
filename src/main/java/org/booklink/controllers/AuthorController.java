@@ -119,11 +119,9 @@ public class AuthorController {
 
     private void setDefaultCoverForBooks(User user) {
         final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
-        user.getBooks().stream().forEach(book -> {
-            if (book.getCover() == null || book.getCover().isEmpty()) {
-                book.setCover(defaultCover);
-            }
-        });
+        user.getBooks().stream()
+            .filter(book -> book.getCover() == null || book.getCover().isEmpty())
+            .forEach(book -> book.setCover(defaultCover));
     }
 
     private void calcBookSize(User user) {

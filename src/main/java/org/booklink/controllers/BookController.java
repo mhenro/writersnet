@@ -240,12 +240,9 @@ public class BookController {
     public Page<BookComments> getComments(@PathVariable Long bookId, Pageable pageable) {
         final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
         Page<BookComments> comments = bookCommentsRepository.findAllByBookId(bookId, pageable);
-        comments.getContent().stream().forEach(comment -> {
-            if (comment.getAuthorInfo().getAvatar() == null || comment.getAuthorInfo().getAvatar().isEmpty()) {
-                comment.getAuthorInfo().setAvatar(defaultAvatar);
-                int a = 1;
-            }
-        });
+        comments.getContent().stream()
+                .filter(comment -> comment.getAuthorInfo().getAvatar() == null || comment.getAuthorInfo().getAvatar().isEmpty())
+                .forEach(comment -> comment.getAuthorInfo().setAvatar(defaultAvatar));
         return comments;
     }
 
