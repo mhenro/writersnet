@@ -43,5 +43,5 @@ export const addLeadZero = (n, width = 2, z = '') => {
 
 
 export const getHost = () => {
-    return 'http://' + window.location.hostname + ':8080/';
+    return 'https://' + window.location.hostname + ':8080/';
 };

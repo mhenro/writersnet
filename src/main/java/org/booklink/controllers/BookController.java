@@ -68,12 +68,16 @@ public class BookController {
     @CrossOrigin
     @RequestMapping(value = "books", method = RequestMethod.GET)
     public Page<Book> getBooks(Pageable pageable) {
+        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "\\default_cover.png";
         Page<Book> books = bookRepository.findAll(pageable);
         books.forEach(book -> {
             hideAuthInfo(book);
             calcBookSize(book);
             hideText(book);
             removeRecursionFromBook(book);
+            if (book.getCover() == null || book.getCover().isEmpty()) {
+                book.setCover(defaultCover);
+            }
         });
         return books;
     }

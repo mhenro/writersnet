@@ -15,9 +15,8 @@ Features:
 11. Add "forgot your password?" functional to login form.
 14. Write unit tests for all controllers and business logic.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
-19. Add image for default book cover.
-20. Add ssl support.
 21. Add pay gateway.
+22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
 
 
 Bugs:
@@ -34,3 +33,5 @@ DONE - 8. Add Estimation component to BookReader component. Move estimation logi
 DONE - 15. Create adaptive layout for main pages.
 DONE - 16. Create logic for prevent vote from the same IP twice.
 DONE - 1. Fix bug with ScrollToTop button (if on BookReader then go to top emmideatly).
+DONE - 20. Add ssl support (with test certificate for now).
+DONE - 19. Add image for default book cover.

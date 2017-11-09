@@ -7855,7 +7855,7 @@ var addLeadZero = exports.addLeadZero = function addLeadZero(n) {
 };
 
 var getHost = exports.getHost = function getHost() {
-    return 'http://' + window.location.hostname + ':8080/';
+    return 'https://' + window.location.hostname + ':8080/';
 };
 
 /***/ }),

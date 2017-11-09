@@ -2,6 +2,10 @@ package org.booklink.config;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.booklink.security.JwtFilter;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +16,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.util.ResourceUtils;
 
 import javax.sql.DataSource;
+import java.io.FileNotFoundException;
 import java.util.Properties;
 
 /**
@@ -41,10 +47,9 @@ public class RootConfig {
     }
 
     @Bean
-    @ConfigurationProperties(prefix="spring.mail")
+    @ConfigurationProperties(prefix = "spring.mail")
     public JavaMailSender mailSender() {
         JavaMailSender mailSender = new JavaMailSenderImpl();
         return mailSender;
     }
-
 }

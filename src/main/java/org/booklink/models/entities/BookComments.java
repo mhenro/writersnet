@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "book_comments")
 public class BookComments {
-    private static final String defaultAvatar = "http://192.168.1.105:81/css/images/avatars/default_avatar.png";
+    private static final String defaultAvatar = "https://192.168.1.105/css/images/avatars/default_avatar.png";
     private Long id;
     private Book book;
     private User user;

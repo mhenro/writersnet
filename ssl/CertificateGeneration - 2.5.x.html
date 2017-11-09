@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)https://www.playframework.com/documentation/2.5.x/CertificateGeneration -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>
+  CertificateGeneration  - 2.5.x
+</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,maximum-scale=1">
+<style type="text/css">
+        @import "/assets/lib/prettify/ecd4a5d6c0cbee10b168f6aa000c64ea-prettify.css";
+        </style>
+<link href="./CertificateGeneration - 2.5.x_files/css" rel="stylesheet" type="text/css">
+<link href="./CertificateGeneration - 2.5.x_files/css(1)" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="./CertificateGeneration - 2.5.x_files/docsearch.min.css">
+<link rel="stylesheet" href="./CertificateGeneration - 2.5.x_files/ab4499bb8065d6e63d645469c1aa5367-main.min.css">
+<link rel="shortcut icon" href="https://www.playframework.com/assets/images/61c6258130a63b29b78806e97b1deb6c-favicon.ico">
+<meta name="globalsign-domain-verification" content="wISFsU3SjLaCmI4hF3fuBebFOs4shuuBnKV7fGALYz">
+<meta name="google-site-verification" content="lmdBkIxpA3f3R1ihq2dHTweu7htj64s3S3eGx9wY3S0">
+<!--[if lt IE 9]>
+        <script src="/assets/lib/html5shiv/3044234175ac91f49b03ff999c592b85-html5shiv.min.js"></script>
+        <![endif]-->
+<script type="text/javascript" async="" src="./CertificateGeneration - 2.5.x_files/munchkin.js.download"></script><script async="" src="./CertificateGeneration - 2.5.x_files/analytics.js.download"></script><script type="text/javascript" async="" src="./CertificateGeneration - 2.5.x_files/ga.js.download"></script><script src="./CertificateGeneration - 2.5.x_files/0b6ecf17e30037994d3ffee51b525914-jquery.min.js.download"></script>
+<script src="./CertificateGeneration - 2.5.x_files/4a0f5c30a0fb9d6571789c4fa164a136-main.js.download"></script>
+<script type="application/ld+json">
+        {
+          "@context" : "http://schema.org",
+          "@type" : "WebSite",
+          "name" : "Play Framework",
+          "alternateName" : "The High Velocity Web Framework for Java and Scala",
+          "url" : "https://playframework.com"
+        }
+        </script>
+<script type="text/javascript" async="" src="./CertificateGeneration - 2.5.x_files/munchkin.js(1).download"></script></head>
+<body class="documentation">
+<!--[if lt IE 7]>
+            <p class="outdated">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="//www.google.com/chrome/browser/">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+<header id="navigation">
+<div class="wrapper">
+<a href="https://www.playframework.com/" id="logo">Lightbend</a>
+<nav id="sections">
+<a href="https://www.playframework.com/download">Download</a>
+<a href="https://www.playframework.com/documentation">Documentation</a>
+<a href="https://www.playframework.com/get-involved">Get Involved</a>
+<a href="https://blog.playframework.com/">Blog</a>
+</nav>
+<nav id="social">
+<a href="https://groups.google.com/forum/#!forum/play-framework"><span>Mailing list</span></a>
+<a href="https://twitter.com/playframework"><span>Twitter</span></a>
+<a href="https://plus.google.com/106233335814246022600"><span>Google+</span></a>
+<a href="https://www.facebook.com/pages/Play-Framework/50884087887"><span>Facebook</span></a>
+<a href="https://github.com/playframework/playframework"><span>Github</span></a>
+<a href="https://stackoverflow.com/questions/tagged/playframework"><span>Stackoverflow</span></a>
+</nav>
+</div>
+</header>
+<div id="getLogo">
+<div class="pan">
+<q>Is that what you're looking for?</q>
+<figure>
+<img src="./CertificateGeneration - 2.5.x_files/play_full_color.svg">
+<figcaption>
+<a href="./CertificateGeneration - 2.5.x_files/play_full_color.svg">(svg)</a>
+<a href="https://www.playframework.com/assets/images/logos/play_full_color.png">(png)</a>
+</figcaption>
+</figure>
+<figure>
+<img src="./CertificateGeneration - 2.5.x_files/play_icon_full_color.svg">
+<figcaption>
+<a href="./CertificateGeneration - 2.5.x_files/play_icon_full_color.svg">(svg)</a>
+<a href="https://www.playframework.com/assets/images/logos/play_icon_full_color.png">(png)</a>
+</figcaption>
+</figure>
+<figure class="reverse">
+<img src="./CertificateGeneration - 2.5.x_files/play_reverse.svg">
+<figcaption>
+<a href="./CertificateGeneration - 2.5.x_files/play_reverse.svg">(svg)</a>
+<a href="https://www.playframework.com/assets/images/logos/play_reverse.png">(png)</a>
+</figcaption>
+</figure>
+<figure class="reverse">
+<img src="./CertificateGeneration - 2.5.x_files/play_icon_reverse.svg">
+<figcaption>
+<a href="./CertificateGeneration - 2.5.x_files/play_icon_reverse.svg">(svg)</a>
+<a href="https://www.playframework.com/assets/images/logos/play_icon_reverse.png">(png)</a>
+</figcaption>
+</figure>
+</div>
+</div>
+<header id="top">
+<div class="wrapper">
+<h1>Documentation</h1>
+</div>
+</header>
+<section id="content">
+<button id="extend">extend</button>
+<aside>
+<nav id="toolbar">
+<h3>Browse versions</h3>
+<div class="switch">
+<a href="https://www.playframework.com/documentation/switch/2.6.x/CertificateGeneration">2.6.x</a>
+<dl class="dropdown">
+<dt>▾</dt>
+<dd>
+<a href="https://www.playframework.com/documentation/switch/2.6.x/CertificateGeneration">2.6.x</a>
+<a href="https://www.playframework.com/documentation/switch/2.6.7/CertificateGeneration">2.6.7</a>
+<a href="https://www.playframework.com/documentation/switch/2.6.6/CertificateGeneration">2.6.6</a>
+<a href="https://www.playframework.com/documentation/switch/2.6.5/CertificateGeneration">2.6.5</a>
+<a href="https://www.playframework.com/documentation/switch/2.6.3/CertificateGeneration">2.6.3</a>
+<a href="https://www.playframework.com/documentation/switch/2.6.1/CertificateGeneration">2.6.1</a>
+<a href="https://www.playframework.com/documentation/switch/2.6.0/CertificateGeneration">2.6.0</a>
+<a href="https://www.playframework.com/documentation/switch/2.5.x/CertificateGeneration">2.5.x</a>
+<a href="https://www.playframework.com/documentation/switch/2.4.x/CertificateGeneration">2.4.x</a>
+<a href="https://www.playframework.com/documentation/switch/2.3.x/CertificateGeneration">2.3.x</a>
+<a href="https://www.playframework.com/documentation/switch/2.2.x/CertificateGeneration">2.2.x</a>
+<a href="https://www.playframework.com/documentation/switch/2.1.x/CertificateGeneration">2.1.x</a>
+<a href="https://www.playframework.com/documentation/switch/2.0.x/CertificateGeneration">2.0.x</a>
+<a href="https://www.playframework.com/documentation/switch/1.4.x/CertificateGeneration">1.4.x</a>
+<a href="https://www.playframework.com/documentation/switch/1.3.x/CertificateGeneration">1.3.x</a>
+<a href="https://www.playframework.com/documentation/switch/1.2.x/CertificateGeneration">1.2.x</a>
+<a href="https://www.playframework.com/documentation/switch/1.1.1/CertificateGeneration">1.1.1</a>
+<a href="https://www.playframework.com/documentation/switch/1.0.3.2/CertificateGeneration">1.0.3.2</a>
+</dd>
+</dl>
+</div>
+<h3>Browse APIs</h3>
+<div class="switch">
+<a href="https://www.playframework.com/documentation/2.5.x/api/scala/index.html">Scala</a>
+<a href="https://www.playframework.com/documentation/2.5.x/api/java/index.html">Java</a>
+</div>
+<h3>Language</h3>
+<div class="switch">
+<a href="https://www.playframework.com/preferredLang/en?path=%2Fdocumentation%2F2.5.x%2FCertificateGeneration">English</a>
+<dl class="dropdown">
+<dt>▾</dt>
+<dd>
+<a href="https://www.playframework.com/preferredLang/en?path=%2Fdocumentation%2F2.5.x%2FCertificateGeneration">English</a>
+<a href="https://www.playframework.com/preferredLang/ja?path=%2Fdocumentation%2Fja%2Flatest%2FHome">日本語</a>
+<a href="https://www.playframework.com/preferredLang/tr?path=%2Fdocumentation%2Ftr%2F2.5.3%2FCertificateGeneration">Türkçe</a>
+</dd>
+</dl>
+</div>
+</nav>
+<h3>Configuring WS SSL</h3>
+<ul>
+<li><a href="https://www.playframework.com/documentation/2.5.x/WsSSL">Configuring WS SSL</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/WSQuickStart">Quick Start to WS SSL</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration">Generating X.509 Certificates</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/KeyStores">Configuring Trust Stores and Key Stores</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Protocols">Configuring Protocols</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/CipherSuites">Configuring Cipher Suites</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/CertificateValidation">Configuring Certificate Validation</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/CertificateRevocation">Configuring Certificate Revocation</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/HostnameVerification">Configuring Hostname Verification</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/ExampleSSLConfig">Example Configurations</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/DefaultContext">Using the Default SSLContext</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/DebuggingSSL">Debugging SSL</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/LooseSSL">Loose Options</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/TestingSSL">Testing SSL</a></li>
+</ul>
+<h3>Configuration</h3>
+<ul>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Configuration">Configuration</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/ConfigFile">Configuration file syntax and features</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/ApplicationSecret">Configuring the application secret</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/SettingsJDBC">Configuring the JDBC connection pool</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/SettingsNetty">Configuring Netty server</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/ThreadPools">Configuring Play's thread pools</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/SettingsLogger">Configuring logging</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/WsSSL">Configuring WS SSL</a></li>
+</ul>
+<h3>Common topics</h3>
+<ul>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Build">The build system</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Configuration">Configuration</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Assets">Static assets</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Filters">Built-in HTTP filters</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Modules">Extending Play with modules</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Databases">Databases</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Production">Deploying your application</a></li>
+</ul>
+<h3>Working with Play</h3>
+<ul>
+<li><a href="https://www.playframework.com/documentation/2.5.x/JavaHome">Play for Java developers</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/ScalaHome">Play for Scala developers</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Build">Common topics</a></li>
+</ul>
+<h3>Home</h3>
+<ul>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Home">Home</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/LatestRelease">Latest release</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Installing">Getting started</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/JavaHome">Working with Play</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/BuildingFromSource">Contributing to Play</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/AkkaHttpServer">Experimental libraries</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Philosophy">About Play</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/Releases">Play releases</a></li>
+<li><a href="https://www.playframework.com/documentation/2.5.x/ModuleDirectory">Module directory</a></li>
+</ul>
+<h3>Books</h3>
+<p><a title="Play in Practice" href="http://shop.oreilly.com/product/0636920035718.do"><img width="175" src="./CertificateGeneration - 2.5.x_files/0acf34d79e681e1dc559ea01c38a5c87-play-in-practice.gif"></a></p>
+<p><a title="Play Framework Essentials" href="http://www.lightbend.com/resources/e-book/play-framework-essentials"><img width="175" src="./CertificateGeneration - 2.5.x_files/6e18005ab31a05c8efc886c6a21574c9-play-framework-essentials-cover.jpg"></a></p>
+<p><a title="Reactive Web Applications" href="http://info.lightbend.com/EBK-20XX-Reactive-Web-Applications-with-Play_L.html?lst=PPS&amp;lsd=EBK-20XX-Reactive-Web-Applications-with-Play"><img width="175" src="./CertificateGeneration - 2.5.x_files/3e9d9e48437d82120f06881e1d5e462b-Reactive-Web-App-with-Play-Cover.jpg"></a></p>
+<p><a title="Play for Scala" href="http://lightbend.com/resources/e-book/play-for-scala"><img width="175" src="./CertificateGeneration - 2.5.x_files/dff5bdcf197b3ee6c8d0c429558c8c74-play-for-scala-cover.jpg"></a></p>
+<p><a title="Play for Java" href="http://lightbend.com/resources/e-book/play-for-java"><img width="175" src="./CertificateGeneration - 2.5.x_files/fd8771fc65686fbb3acfe3f7c7f46d5d-play-for-java-cover.jpg"></a></p>
+<p><a title="Learning Play! Framework 2" href="http://www.packtpub.com/learning-play-framework-2/book"><img width="175" src="./CertificateGeneration - 2.5.x_files/facdb2ff2a72e4d7507e0e5085cd4d54-learning-play-cover.jpg"></a></p>
+</aside>
+<article>
+<div id="version-header">
+You are viewing the documentation for the <a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration">2.5.x</a> release series. The latest stable release series is <a href="https://www.playframework.com/documentation/2.6.x/CertificateGeneration">2.6.x</a>.
+</div>
+<form id="search">
+<span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;"><input id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" placeholder="Search 2.5.x documentation" autofocus="" class="aa-input" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-labelledby="search-input" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: Arial; font-size: 22px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><span class="aa-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;"><div class="aa-dataset-1"></div></span></span>
+<button type="submit">Search</button>
+</form>
+<ol id="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a itemprop="item" href="https://www.playframework.com/documentation/2.5.x/Home"><span itemprop="name" title="Home">Home</span></a>
+<meta itemprop="position" content="1">
+</li>
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a itemprop="item" href="https://www.playframework.com/documentation/2.5.x/JavaHome"><span itemprop="name" title="Working with Play">Working with Play</span></a>
+<meta itemprop="position" content="2">
+</li>
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a itemprop="item" href="https://www.playframework.com/documentation/2.5.x/Build"><span itemprop="name" title="Common topics">Common topics</span></a>
+<meta itemprop="position" content="3">
+</li>
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a itemprop="item" href="https://www.playframework.com/documentation/2.5.x/Configuration"><span itemprop="name" title="Configuration">Configuration</span></a>
+<meta itemprop="position" content="4">
+</li>
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a itemprop="item" href="https://www.playframework.com/documentation/2.5.x/WsSSL"><span itemprop="name" title="Configuring WS SSL">Configuring WS SSL</span></a>
+<meta itemprop="position" content="5">
+</li>
+</ol>
+<h1 id="Generating-X.509-Certificates"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Generating-X.509-Certificates">§</a>Generating X.509 Certificates</h1><h2 id="X.509-Certificates"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#X.509-Certificates">§</a>X.509 Certificates</h2>
+<p>Public key certificates are a solution to the problem of identity. Encryption alone is enough to set up a secure connection, but there’s no guarantee that you are talking to the server that you think you are talking to. Without some means to verify the identity of a remote server, an attacker could still present itself as the remote server and then forward the secure connection onto the remote server. Public key certificates solve this problem.</p>
+<p>The best way to think about public key certificates is as a passport system. Certificates are used to establish information about the bearer of that information in a way that is difficult to forge. This is why certificate verification is so important: accepting <strong>any</strong> certificate means that even an attacker’s certificate will be blindly accepted.</p><h2 id="Using-Keytool"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Using-Keytool">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#using-keytool" name="using-keytool">Using Keytool</a></h2>
+<p>Use the keytool version that comes with JDK 8:</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html">1.8</a></li>
+</ul>
+<p>The examples below use keytool 1.8 for marking a certificate for CA usage or for a hostname.</p><h2 id="Generating-a-random-password"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Generating-a-random-password">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#generating-a-random-password" name="generating-a-random-password">Generating a random password</a></h2>
+<p>Create a random password using pwgen (<code>brew install pwgen</code> if you’re on a Mac):</p>
+<pre class="prettyprint prettyprinted" style=""><code class="language-sh"><span class="kwd">export</span><span class="pln"> PW</span><span class="pun">=</span><span class="str">`pwgen -Bs 10 1`</span><span class="pln">
+echo $PW </span><span class="pun">&gt;</span><span class="pln"> password</span></code><button class="copy-button"></button></pre><h2 id="Server-Configuration"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Server-Configuration">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#server-configuration" name="server-configuration">Server Configuration</a></h2>
+<p>You will need a server with a DNS hostname assigned, for hostname verification. In this example, we assume the hostname is <code>example.com</code>.</p><h3 id="Generating-a-server-CA"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Generating-a-server-CA">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#generating-a-server-ca" name="generating-a-server-ca">Generating a server CA</a></h3>
+<p>The first step is to create a certificate authority that will sign the example.com certificate. The root CA certificate has a couple of additional attributes (ca:true, keyCertSign) that mark it explicitly as a CA certificate, and will be kept in a trust store.</p>
+<pre class="prettyprint prettyprinted" style=""><code class="language-sh"><span class="kwd">export</span><span class="pln"> PW</span><span class="pun">=</span><span class="str">`cat password`</span><span class="pln">
+
+</span><span class="com"># Create a self signed key pair root CA certificate.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">genkeypair </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> exampleca \
+  </span><span class="pun">-</span><span class="pln">dname </span><span class="str">"CN=exampleCA, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">keystore exampleca</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keyalg RSA \
+  </span><span class="pun">-</span><span class="pln">keysize </span><span class="lit">4096</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">ext </span><span class="typ">KeyUsage</span><span class="pun">:</span><span class="pln">critical</span><span class="pun">=</span><span class="str">"keyCertSign"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">ext </span><span class="typ">BasicConstraints</span><span class="pun">:</span><span class="pln">critical</span><span class="pun">=</span><span class="str">"ca:true"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">validity </span><span class="lit">9999</span><span class="pln">
+
+</span><span class="com"># Export the exampleCA public certificate as exampleca.crt so that it can be used in trust stores.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">export</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> exampleca \
+  </span><span class="pun">-</span><span class="pln">file exampleca</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keystore exampleca</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">rfc</span></code><button class="copy-button"></button></pre><h3 id="Generating-example.com-certificates"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Generating-example.com-certificates">§</a>Generating example.com certificates</h3>
+<p>The example.com certificate is presented by the <code>example.com</code> server in the handshake.</p>
+<pre class="prettyprint prettyprinted" style=""><code class="language-sh"><span class="kwd">export</span><span class="pln"> PW</span><span class="pun">=</span><span class="str">`cat password`</span><span class="pln">
+
+</span><span class="com"># Create a server certificate, tied to example.com</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">genkeypair </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> example</span><span class="pun">.</span><span class="pln">com \
+  </span><span class="pun">-</span><span class="pln">dname </span><span class="str">"CN=example.com, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">keystore example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keyalg RSA \
+  </span><span class="pun">-</span><span class="pln">keysize </span><span class="lit">2048</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">validity </span><span class="lit">385</span><span class="pln">
+
+</span><span class="com"># Create a certificate signing request for example.com</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">certreq </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> example</span><span class="pun">.</span><span class="pln">com \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keystore example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">file example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">csr
+
+</span><span class="com"># Tell exampleCA to sign the example.com certificate. Note the extension is on the request, not the</span><span class="pln">
+</span><span class="com"># original certificate.</span><span class="pln">
+</span><span class="com"># Technically, keyUsage should be digitalSignature for DHE or ECDHE, keyEncipherment for RSA.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">gencert </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> exampleca \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keystore exampleca</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">infile example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">csr \
+  </span><span class="pun">-</span><span class="pln">outfile example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">ext </span><span class="typ">KeyUsage</span><span class="pun">:</span><span class="pln">critical</span><span class="pun">=</span><span class="str">"digitalSignature,keyEncipherment"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">ext EKU</span><span class="pun">=</span><span class="str">"serverAuth"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">ext SAN</span><span class="pun">=</span><span class="str">"DNS:example.com"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">rfc
+
+</span><span class="com"># Tell example.com.jks it can trust exampleca as a signer.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">import</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> exampleca \
+  </span><span class="pun">-</span><span class="pln">file exampleca</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">keystore example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">storetype JKS \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW </span><span class="pun">&lt;&lt;</span><span class="pln"> EOF
+yes
+EOF
+
+</span><span class="com"># Import the signed certificate back into example.com.jks </span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">import</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> example</span><span class="pun">.</span><span class="pln">com \
+  </span><span class="pun">-</span><span class="pln">file example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">keystore example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">storetype JKS \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW
+
+</span><span class="com"># List out the contents of example.com.jks just to confirm it.  </span><span class="pln">
+</span><span class="com"># If you are using Play as a TLS termination point, this is the key store you should present as the server.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">list </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="pln">keystore example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW</span></code><button class="copy-button"></button></pre>
+<p>You should see:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Alias</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> example</span><span class="pun">.</span><span class="pln">com
+</span><span class="typ">Creation</span><span class="pln"> date</span><span class="pun">:</span><span class="pln"> </span><span class="pun">...</span><span class="pln">
+</span><span class="typ">Entry</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> </span><span class="typ">PrivateKeyEntry</span><span class="pln">
+</span><span class="typ">Certificate</span><span class="pln"> chain length</span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pln">
+</span><span class="typ">Certificate</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]:</span><span class="pln">
+</span><span class="typ">Owner</span><span class="pun">:</span><span class="pln"> CN</span><span class="pun">=</span><span class="pln">example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">,</span><span class="pln"> OU</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Org</span><span class="pun">,</span><span class="pln"> O</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Company</span><span class="pun">,</span><span class="pln"> L</span><span class="pun">=</span><span class="typ">San</span><span class="pln"> </span><span class="typ">Francisco</span><span class="pun">,</span><span class="pln"> ST</span><span class="pun">=</span><span class="typ">California</span><span class="pun">,</span><span class="pln"> C</span><span class="pun">=</span><span class="pln">US
+</span><span class="typ">Issuer</span><span class="pun">:</span><span class="pln"> CN</span><span class="pun">=</span><span class="pln">exampleCA</span><span class="pun">,</span><span class="pln"> OU</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Org</span><span class="pun">,</span><span class="pln"> O</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Company</span><span class="pun">,</span><span class="pln"> L</span><span class="pun">=</span><span class="typ">San</span><span class="pln"> </span><span class="typ">Francisco</span><span class="pun">,</span><span class="pln"> ST</span><span class="pun">=</span><span class="typ">California</span><span class="pun">,</span><span class="pln"> C</span><span class="pun">=</span><span class="pln">US</span></code><button class="copy-button"></button></pre>
+<blockquote>
+<p><strong>Note:</strong> Also see the <a href="https://www.playframework.com/documentation/2.5.x/ConfiguringHttps">Configuring HTTPS</a> section for more information.</p>
+</blockquote><h3 id="Configuring-example.com-certificates-in-Nginx"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Configuring-example.com-certificates-in-Nginx">§</a>Configuring example.com certificates in Nginx</h3>
+<p>If example.com does not use Java as a TLS termination point, and you are using nginx, you may need to export the certificates in PEM format.</p>
+<p>Unfortunately, keytool does not export private key information, so openssl must be installed to pull private keys.</p>
+<pre class="prettyprint prettyprinted" style=""><code class="language-sh"><span class="kwd">export</span><span class="pln"> PW</span><span class="pun">=</span><span class="str">`cat password`</span><span class="pln">
+
+</span><span class="com"># Export example.com's public certificate for use with nginx.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">export</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> example</span><span class="pun">.</span><span class="pln">com \
+  </span><span class="pun">-</span><span class="pln">file example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keystore example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">rfc
+
+</span><span class="com"># Create a PKCS#12 keystore containing the public and private keys.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">importkeystore </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="pln">srcalias example</span><span class="pun">.</span><span class="pln">com \
+  </span><span class="pun">-</span><span class="pln">srckeystore example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">srcstoretype jks \
+  </span><span class="pun">-</span><span class="pln">srcstorepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">destkeystore example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">p12 \
+  </span><span class="pun">-</span><span class="pln">destkeypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">deststorepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">deststoretype PKCS12
+
+</span><span class="com"># Export the example.com private key for use in nginx.  Note this requires the use of OpenSSL.</span><span class="pln">
+openssl pkcs12 \
+  </span><span class="pun">-</span><span class="pln">nocerts \
+  </span><span class="pun">-</span><span class="pln">nodes \
+  </span><span class="pun">-</span><span class="pln">passout env</span><span class="pun">:</span><span class="pln">PW \
+  </span><span class="pun">-</span><span class="pln">passin env</span><span class="pun">:</span><span class="pln">PW \
+  </span><span class="pun">-</span><span class="kwd">in</span><span class="pln"> example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">p12 \
+  </span><span class="pun">-</span><span class="kwd">out</span><span class="pln"> example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">key
+
+</span><span class="com"># Clean up.</span><span class="pln">
+rm example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">p12</span></code><button class="copy-button"></button></pre>
+<p>Now that you have both <code>example.com.crt</code> (the public key certificate) and <code>example.com.key</code> (the private key), you can set up an HTTPS server.</p>
+<p>For example, to use the keys in nginx, you would set the following in <code>nginx.conf</code>:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">ssl_certificate      </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">nginx</span><span class="pun">/</span><span class="pln">certs</span><span class="pun">/</span><span class="pln">example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">crt</span><span class="pun">;</span><span class="pln">
+ssl_certificate_key  </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">nginx</span><span class="pun">/</span><span class="pln">certs</span><span class="pun">/</span><span class="pln">example</span><span class="pun">.</span><span class="pln">com</span><span class="pun">.</span><span class="pln">key</span><span class="pun">;</span></code><button class="copy-button"></button></pre>
+<p>If you are using client authentication (covered in <strong>Client Configuration</strong> below), you will also need to add:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">ssl_client_certificate </span><span class="pun">/</span><span class="pln">etc</span><span class="pun">/</span><span class="pln">nginx</span><span class="pun">/</span><span class="pln">certs</span><span class="pun">/</span><span class="pln">clientca</span><span class="pun">.</span><span class="pln">crt</span><span class="pun">;</span><span class="pln">
+ssl_verify_client on</span><span class="pun">;</span></code><button class="copy-button"></button></pre>
+<p>You can check the certificate is what you expect by checking the server:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">keytool </span><span class="pun">-</span><span class="pln">printcert </span><span class="pun">-</span><span class="pln">sslserver example</span><span class="pun">.</span><span class="pln">com</span></code><button class="copy-button"></button></pre>
+<blockquote>
+<p><strong>Note:</strong> Also see the <a href="https://www.playframework.com/documentation/2.5.x/HTTPServer">Setting up a front end HTTP server</a> section for more information.</p>
+</blockquote><h2 id="Client-Configuration"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Client-Configuration">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#client-configuration" name="client-configuration">Client Configuration</a></h2>
+<p>There are two parts to setting up a client – configuring a trust store, and configuring client authentication.</p><h3 id="Configuring-a-Trust-Store"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Configuring-a-Trust-Store">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#configuring-a-trust-store" name="configuring-a-trust-store">Configuring a Trust Store</a></h3>
+<p>Any clients need to see that the server’s example.com certificate is trusted, but don’t need to see the private key. Generate a trust store which contains only the certificate and hand that out to clients. Many java clients prefer to have the trust store in JKS format.</p>
+<pre class="prettyprint prettyprinted" style=""><code class="language-sh"><span class="kwd">export</span><span class="pln"> PW</span><span class="pun">=</span><span class="str">`cat password`</span><span class="pln">
+
+</span><span class="com"># Create a JKS keystore that trusts the example CA, with the default password.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">import</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> exampleca \
+  </span><span class="pun">-</span><span class="pln">file exampleca</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass changeit \
+  </span><span class="pun">-</span><span class="pln">keystore exampletrust</span><span class="pun">.</span><span class="pln">jks </span><span class="pun">&lt;&lt;</span><span class="pln"> EOF
+yes
+EOF
+
+</span><span class="com"># List out the details of the store password.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">list </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="pln">keystore exampletrust</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">storepass changeit</span></code><button class="copy-button"></button></pre>
+<p>You should see a <code>trustedCertEntry</code> for exampleca:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Alias</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> exampleca
+</span><span class="typ">Creation</span><span class="pln"> date</span><span class="pun">:</span><span class="pln"> </span><span class="pun">...</span><span class="pln">
+</span><span class="typ">Entry</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> trustedCertEntry
+
+</span><span class="typ">Owner</span><span class="pun">:</span><span class="pln"> CN</span><span class="pun">=</span><span class="pln">exampleCA</span><span class="pun">,</span><span class="pln"> OU</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Org</span><span class="pun">,</span><span class="pln"> O</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Company</span><span class="pun">,</span><span class="pln"> L</span><span class="pun">=</span><span class="typ">San</span><span class="pln"> </span><span class="typ">Francisco</span><span class="pun">,</span><span class="pln"> ST</span><span class="pun">=</span><span class="typ">California</span><span class="pun">,</span><span class="pln"> C</span><span class="pun">=</span><span class="pln">US
+</span><span class="typ">Issuer</span><span class="pun">:</span><span class="pln"> CN</span><span class="pun">=</span><span class="pln">exampleCA</span><span class="pun">,</span><span class="pln"> OU</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Org</span><span class="pun">,</span><span class="pln"> O</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Company</span><span class="pun">,</span><span class="pln"> L</span><span class="pun">=</span><span class="typ">San</span><span class="pln"> </span><span class="typ">Francisco</span><span class="pun">,</span><span class="pln"> ST</span><span class="pun">=</span><span class="typ">California</span><span class="pun">,</span><span class="pln"> C</span><span class="pun">=</span><span class="pln">US</span></code><button class="copy-button"></button></pre>
+<p>The <code>exampletrust.jks</code> store will be used in the TrustManager.</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">play</span><span class="pun">.</span><span class="pln">ws</span><span class="pun">.</span><span class="pln">ssl </span><span class="pun">{</span><span class="pln">
+  trustManager </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    stores </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+      </span><span class="pun">{</span><span class="pln"> path </span><span class="pun">=</span><span class="pln"> </span><span class="str">"/Users/wsargent/work/ssltest/conf/exampletrust.jks"</span><span class="pln"> </span><span class="pun">}</span><span class="pln">
+    </span><span class="pun">]</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code><button class="copy-button"></button></pre>
+<blockquote>
+<p><strong>Note:</strong> Also see the <a href="https://www.playframework.com/documentation/2.5.x/KeyStores">Configuring Key Stores and Trust Stores</a> section for more information.</p>
+</blockquote><h3 id="Configure-Client-Authentication"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Configure-Client-Authentication">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#configure-client-authentication" name="configure-client-authentication">Configure Client Authentication</a></h3>
+<p>Client authentication can be obscure and poorly documented, but it relies on the following steps:</p>
+<ol>
+<li>The server asks for a client certificate, presenting a CA that it expects a client certificate to be signed with. In this case, <code>CN=clientCA</code> (see the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/ReadDebug.html">debug example</a>).</li>
+<li>The client looks in the KeyManager for a certificate which is signed by <code>clientCA</code>, using <code>chooseClientAlias</code> and <code>certRequest.getAuthorities</code>.</li>
+<li>The KeyManager will return the <code>client</code> certificate to the server.</li>
+<li>The server will do an additional ClientKeyExchange in the handshake.</li>
+</ol>
+<p>The steps to create a client CA and a signed client certificate are broadly similiar to the server certificate generation, but for convenience are presented in a single script:</p>
+<pre class="prettyprint prettyprinted" style=""><code class="language-sh"><span class="kwd">export</span><span class="pln"> PW</span><span class="pun">=</span><span class="str">`cat password`</span><span class="pln">
+
+</span><span class="com"># Create a self signed certificate &amp; private key to create a root certificate authority.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">genkeypair </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> clientca \
+  </span><span class="pun">-</span><span class="pln">keystore client</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">dname </span><span class="str">"CN=clientca, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keyalg RSA \
+  </span><span class="pun">-</span><span class="pln">keysize </span><span class="lit">4096</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">ext </span><span class="typ">KeyUsage</span><span class="pun">:</span><span class="pln">critical</span><span class="pun">=</span><span class="str">"keyCertSign"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">ext </span><span class="typ">BasicConstraints</span><span class="pun">:</span><span class="pln">critical</span><span class="pun">=</span><span class="str">"ca:true"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">validity </span><span class="lit">9999</span><span class="pln">
+
+</span><span class="com"># Create another key pair that will act as the client.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">genkeypair </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> client \
+  </span><span class="pun">-</span><span class="pln">keystore client</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">dname </span><span class="str">"CN=client, OU=Example Org, O=Example Company, L=San Francisco, ST=California, C=US"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keyalg RSA \
+  </span><span class="pun">-</span><span class="pln">keysize </span><span class="lit">2048</span><span class="pln">
+
+</span><span class="com"># Create a certificate signing request from the client certificate.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">certreq </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> client \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keystore client</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">file client</span><span class="pun">.</span><span class="pln">csr
+
+</span><span class="com"># Make clientCA create a certificate chain saying that client is signed by clientCA.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">gencert </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> clientca \
+  </span><span class="pun">-</span><span class="pln">keypass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keystore client</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">infile client</span><span class="pun">.</span><span class="pln">csr \
+  </span><span class="pun">-</span><span class="pln">outfile client</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">ext EKU</span><span class="pun">=</span><span class="str">"clientAuth"</span><span class="pln"> \
+  </span><span class="pun">-</span><span class="pln">rfc
+
+</span><span class="com"># Export the client-ca certificate from the keystore.  This goes to nginx under "ssl_client_certificate"</span><span class="pln">
+</span><span class="com"># and is presented in the CertificateRequest.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">export</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> clientca \
+  </span><span class="pun">-</span><span class="pln">file clientca</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">keystore client</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">rfc
+
+</span><span class="com"># Import the signed certificate back into client.jks.  This is important, as JSSE won't send a client</span><span class="pln">
+</span><span class="com"># certificate if it can't find one signed by the client-ca presented in the CertificateRequest.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">import</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> client \
+  </span><span class="pun">-</span><span class="pln">file client</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">keystore client</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">storetype JKS \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW
+
+</span><span class="com"># Export the client CA's certificate and private key to pkcs12, so it's safe.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">importkeystore </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="pln">srcalias clientca \
+  </span><span class="pun">-</span><span class="pln">srckeystore client</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">srcstorepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">destkeystore clientca</span><span class="pun">.</span><span class="pln">p12 \
+  </span><span class="pun">-</span><span class="pln">deststorepass</span><span class="pun">:</span><span class="pln">env PW \
+  </span><span class="pun">-</span><span class="pln">deststoretype PKCS12
+
+</span><span class="com"># Import the client CA's public certificate into a JKS store for Play Server to read.  We don't use</span><span class="pln">
+</span><span class="com"># the PKCS12 because it's got the CA private key and we don't want that.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">import</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> clientca \
+  </span><span class="pun">-</span><span class="pln">file clientca</span><span class="pun">.</span><span class="pln">crt \
+  </span><span class="pun">-</span><span class="pln">keystore clientca</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW </span><span class="pun">&lt;&lt;</span><span class="pln"> EOF
+yes
+EOF
+
+</span><span class="com"># Then, strip out the client CA alias from client.jks, just leaving the signed certificate.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="kwd">delete</span><span class="pln"> </span><span class="pun">-</span><span class="pln">v \
+ </span><span class="pun">-</span><span class="kwd">alias</span><span class="pln"> clientca \
+ </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW \
+ </span><span class="pun">-</span><span class="pln">keystore client</span><span class="pun">.</span><span class="pln">jks
+
+</span><span class="com"># List out the contents of client.jks just to confirm it.</span><span class="pln">
+keytool </span><span class="pun">-</span><span class="pln">list </span><span class="pun">-</span><span class="pln">v \
+  </span><span class="pun">-</span><span class="pln">keystore client</span><span class="pun">.</span><span class="pln">jks \
+  </span><span class="pun">-</span><span class="pln">storepass</span><span class="pun">:</span><span class="pln">env PW</span></code><button class="copy-button"></button></pre>
+<p>There should be one alias <code>client</code>, looking like the following:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Your</span><span class="pln"> keystore contains </span><span class="lit">1</span><span class="pln"> entry
+
+</span><span class="typ">Alias</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> client
+</span><span class="typ">Creation</span><span class="pln"> date</span><span class="pun">:</span><span class="pln"> </span><span class="pun">...</span><span class="pln">
+</span><span class="typ">Entry</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> </span><span class="typ">PrivateKeyEntry</span><span class="pln">
+</span><span class="typ">Certificate</span><span class="pln"> chain length</span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pln">
+</span><span class="typ">Certificate</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]:</span><span class="pln">
+</span><span class="typ">Owner</span><span class="pun">:</span><span class="pln"> CN</span><span class="pun">=</span><span class="pln">client</span><span class="pun">,</span><span class="pln"> OU</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Org</span><span class="pun">,</span><span class="pln"> O</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Company</span><span class="pun">,</span><span class="pln"> L</span><span class="pun">=</span><span class="typ">San</span><span class="pln"> </span><span class="typ">Francisco</span><span class="pun">,</span><span class="pln"> ST</span><span class="pun">=</span><span class="typ">California</span><span class="pun">,</span><span class="pln"> C</span><span class="pun">=</span><span class="pln">US
+</span><span class="typ">Issuer</span><span class="pun">:</span><span class="pln"> CN</span><span class="pun">=</span><span class="pln">clientCA</span><span class="pun">,</span><span class="pln"> OU</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Org</span><span class="pun">,</span><span class="pln"> O</span><span class="pun">=</span><span class="typ">Example</span><span class="pln"> </span><span class="typ">Company</span><span class="pun">,</span><span class="pln"> L</span><span class="pun">=</span><span class="typ">San</span><span class="pln"> </span><span class="typ">Francisco</span><span class="pun">,</span><span class="pln"> ST</span><span class="pun">=</span><span class="typ">California</span><span class="pun">,</span><span class="pln"> C</span><span class="pun">=</span><span class="pln">US</span></code><button class="copy-button"></button></pre>
+<p>And put <code>client.jks</code> in the key manager:</p>
+<pre class="prettyprint prettyprinted" style=""><code><span class="pln">play</span><span class="pun">.</span><span class="pln">ws</span><span class="pun">.</span><span class="pln">ssl </span><span class="pun">{</span><span class="pln">
+  keyManager </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    stores </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">
+      </span><span class="pun">{</span><span class="pln"> type </span><span class="pun">=</span><span class="pln"> </span><span class="str">"JKS"</span><span class="pun">,</span><span class="pln"> path </span><span class="pun">=</span><span class="pln"> </span><span class="str">"conf/client.jks"</span><span class="pun">,</span><span class="pln"> password </span><span class="pun">=</span><span class="pln"> $PW </span><span class="pun">}</span><span class="pln">
+    </span><span class="pun">]</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code><button class="copy-button"></button></pre>
+<blockquote>
+<p><strong>Note:</strong> Also see the <a href="https://www.playframework.com/documentation/2.5.x/KeyStores">Configuring Key Stores and Trust Stores</a> section for more information.</p>
+</blockquote><h2 id="Certificate-Management-Tools"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Certificate-Management-Tools">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#certificate-management-tools" name="certificate-management-tools">Certificate Management Tools</a></h2>
+<p>If you want to examine certificates in a graphical tool rather than a command line tool, you can use <a href="http://keystore-explorer.sourceforge.net/">Keystore Explorer</a> or <a href="https://sourceforge.net/projects/xca/">xca</a>. <a href="http://keystore-explorer.sourceforge.net/">Keystore Explorer</a> is especially convenient as it recognizes JKS format. It works better as a manual installation, and requires some tweaking to the export policy.</p>
+<p>If you want to use a command line tool with more flexibility than keytool, try <a href="https://github.com/use-sparingly/keyutil">java-keyutil</a>, which understands multi-part PEM formatted certificates and JKS.</p><h2 id="Certificate-Settings"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Certificate-Settings">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#certificate-settings" name="certificate-settings">Certificate Settings</a></h2><h3 id="Secure"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Secure">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#secure" name="secure">Secure</a></h3>
+<p>If you want the best security, consider using <a href="https://blog.cloudflare.com/ecdsa-the-digital-signature-algorithm-of-a-better-internet">ECDSA</a> as the signature algorithm (in keytool, this would be <code>-sigalg EC</code>). ECDSA is also known as “ECC SSL Certificate”.</p><h3 id="Compatible"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Compatible">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#compatible" name="compatible">Compatible</a></h3>
+<p>For compatibility with older systems, use RSA with 2048 bit keys and SHA256 as the signature algorithm. If you are creating your own CA certificate, use 4096 bits for the root.</p><h2 id="Further-Reading"><a class="section-marker" href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#Further-Reading">§</a><a href="https://www.playframework.com/documentation/2.5.x/CertificateGeneration#further-reading" name="further-reading">Further Reading</a></h2>
+<ul>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#CreateKeystore">JSSE Reference Guide To Creating KeyStores</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/certpath/CertPathProgGuide.html">Java PKI Programmer’s Guide</a></li>
+<li><a href="https://tersesystems.com/2014/03/20/fixing-x509-certificates/">Fixing X.509 Certificates</a></li>
+</ul>
+<blockquote><p><strong>Next: </strong><a href="https://www.playframework.com/documentation/2.5.x/KeyStores">Configuring Trust Stores and Key Stores</a></p></blockquote>
+<hr>
+<p>
+Found an error in this documentation? The source code for this page can be found <a href="https://github.com/playframework/playframework/edit/2.5.x/documentation/manual/working/commonGuide/configuration/ws/CertificateGeneration.md">here</a>. After reading the <a href="https://www.playframework.com/documentation/latest/Documentation">documentation guidelines</a>, please feel free to contribute a pull request.
+</p>
+</article>
+<hr class="clear">
+<script type="text/javascript">
+            // On start, check if flex mod is enabled
+            if (localStorage && localStorage['flex'] == "true" ) document.body.className += " flex"
+        </script>
+<script type="text/javascript" src="./CertificateGeneration - 2.5.x_files/docsearch.min.js.download"></script>
+<script type="text/javascript"> docsearch({
+    apiKey: 'a0b34e68c804cf96e76adcb02d47159b',
+    indexName: 'playframework',
+    inputSelector: '#search-input',
+    algoliaOptions: {
+        'facetFilters': [
+            
+              "version: 2.5.x",
+            
+            "tags: en"
+        ]
+    }
+});
+</script>
+</section>
+<footer>
+<div id="support">
+<article class="community">
+<h3>Community support</h3>
+<ul>
+<li><a href="https://groups.google.com/forum/#!forum/play-framework">Mailing list</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/playframework">Stackoverflow</a></li>
+</ul>
+</article>
+<article class="professional">
+<h3>Professional support</h3>
+<ul>
+<li><a href="https://www.lightbend.com/services/expert-support">Lightbend Subscription</a></li>
+<li><a href="https://www.lightbend.com/services/training">Training</a></li>
+<li><a href="https://www.lightbend.com/services/consulting">Consulting</a></li>
+</ul>
+</article>
+</div>
+<div class="wrapper">
+<div>
+<h3>Play Framework</h3>
+<ul>
+<li><a href="https://www.playframework.com/download">Download</a></li>
+<li><a href="https://www.playframework.com/documentation/latest/Tutorials">Tutorials</a></li>
+<li><a href="https://www.playframework.com/documentation">Documentation</a></li>
+</ul>
+</div>
+<div>
+<h3>Community links</h3>
+<ul>
+<li><a href="https://www.eventbrite.com/directory/?q=play+framework&amp;loc=Worldwide">Events <em>via Eventbrite</em></a></li>
+<li><a href="http://www.indeed.com/jobs?q=%22play+framework%22&amp;l=">Jobs <em>via Indeed</em></a></li>
+<li><a href="http://www.scoop.it/playframework">Blogs <em>via Scoop.it</em></a></li>
+</ul>
+</div>
+<div>
+<h3>Code &amp; contribution</h3>
+<ul>
+<li><a href="https://www.playframework.com/code">Code &amp; contributors</a></li>
+<li><a href="https://github.com/playframework/playframework/issues">Bug tracker <em>GitHub</em></a></li>
+<li><a href="https://www.playframework.com/get-involved">Get involved</a></li>
+</ul>
+</div>
+<div>
+<h3>Social networks</h3>
+<ul>
+<li><a href="https://twitter.com/playframework"><span>Twitter</span></a></li>
+<li><a href="https://plus.google.com/106233335814246022600"><span>Google+</span></a></li>
+<li><a href="https://www.facebook.com/pages/Play-Framework/50884087887"><span>Facebook</span></a></li>
+</ul>
+</div>
+</div>
+<div class="credits">
+<a href="https://www.playframework.com/" class="logo"><img src="./CertificateGeneration - 2.5.x_files/play_reverse.svg"></a>
+<a href="https://lightbend.com/" class="partner"><img src="./CertificateGeneration - 2.5.x_files/lightbend-reverse.svg"></a>
+<a href="http://zengularity.com/" class="partner"><img src="./CertificateGeneration - 2.5.x_files/zengularity.png"></a>
+<p>
+Play Framework is released under the Apache 2 License
+</p>
+</div>
+</footer>
+<a href="http://www.reactivemanifesto.org/" id="reactive_ribbon">
+<img style="border: 0; position: fixed; right: 0; top:0; z-index: 9000" src="./CertificateGeneration - 2.5.x_files/we-are-reactive-black-right.png">
+</a>
+<script type="text/javascript">
+        (function() {
+          var didInit = false;
+          function initMunchkin() {
+            if(didInit === false) {
+              didInit = true;
+              Munchkin.init('558-NCX-702');
+            }
+          }
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.async = true;
+          s.src = '//munchkin.marketo.net/munchkin.js';
+          s.onreadystatechange = function() {
+            if (this.readyState == 'complete' || this.readyState == 'loaded') {
+              initMunchkin();
+            }
+          };
+          s.onload = initMunchkin;
+          document.getElementsByTagName('head')[0].appendChild(s);
+        })();
+        </script>
+
+
+<script type="text/javascript" charset="utf-8" src="./CertificateGeneration - 2.5.x_files/d435ff18c832044c3ddf7a0cf826eb72-prettify.js.download"></script>
+<script type="text/javascript" charset="utf-8" src="./CertificateGeneration - 2.5.x_files/d3bd091d7b84099d91e889bc7c0770cb-lang-scala.js.download"></script>
+<script type="text/javascript">
+$(function(){
+window.prettyPrint && prettyPrint()
+});
+</script>
+<script type="text/javascript" charset="utf-8" src="./CertificateGeneration - 2.5.x_files/55db0ff82a3b6b247844ae0d07d85fc6-clipboard.min.js.download"></script>
+<script type="text/javascript">
+(function(){
+    var pre = document.getElementsByClassName('prettyprint');
+    for (var i = 0; i < pre.length; i++) {
+        var button = document.createElement('button');
+        button.className = 'copy-button';
+
+        pre[i].appendChild(button);
+    }
+
+    // Run Clipboard
+    var copyCode = new Clipboard('.copy-button', {
+        target: function(trigger) {
+            return trigger.previousElementSibling;
+        }
+    });
+
+    // On success:
+    copyCode.on('success', function(event) {
+        event.clearSelection();
+        event.trigger.textContent = ' Success';
+        window.setTimeout(function() {
+            event.trigger.textContent = '';
+        }, 2000);
+    });
+
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+    copyCode.on('error', function(event) {
+        event.trigger.textContent = 'Press "Ctrl + C" to copy';
+        window.setTimeout(function() {
+            event.trigger.textContent = '';
+        }, 5000);
+    });
+
+})();
+</script>
+</body></html>

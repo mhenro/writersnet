@@ -9,6 +9,7 @@ import org.booklink.repositories.AuthorRepository;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,12 @@ import java.util.Optional;
  */
 @RestController
 public class AuthorController {
+    private Environment env;
     private AuthorRepository authorRepository;
 
     @Autowired
-    public AuthorController(AuthorRepository authorRepository) {
+    public AuthorController(Environment env, AuthorRepository authorRepository) {
+        this.env = env;
         this.authorRepository = authorRepository;
     }
 
@@ -48,13 +51,14 @@ public class AuthorController {
     @CrossOrigin
     @RequestMapping(value = "authors/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getAuthor(@PathVariable String authorId) {
-        User user = authorRepository.findOne(authorId);
-        if (user != null) {
-            hideAuthInfo(user);
-            removeRecursionFromAuthor(user);
-            calcBookSize(user);
-            hideText(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        User author = authorRepository.findOne(authorId);
+        if (author != null) {
+            hideAuthInfo(author);
+            removeRecursionFromAuthor(author);
+            setDefaultCoverForBooks(author);
+            calcBookSize(author);
+            hideText(author);
+            return new ResponseEntity<>(author, HttpStatus.OK);
         }
         Response<String> response = new Response<>();
         response.setCode(1);
@@ -105,10 +109,21 @@ public class AuthorController {
     }
 
     private void removeRecursionFromAuthor(User user){
-        user.getBooks().stream().forEach(book -> book.setAuthor(null));
+        user.getBooks().stream().forEach(book -> {
+            book.setAuthor(null);
+        });
         if (user.getSection() != null) {
             user.getSection().setAuthor(null);
         }
+    }
+
+    private void setDefaultCoverForBooks(User user) {
+        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "\\default_cover.png";
+        user.getBooks().stream().forEach(book -> {
+            if (book.getCover() == null || book.getCover().isEmpty()) {
+                book.setCover(defaultCover);
+            }
+        });
     }
 
     private void calcBookSize(User user) {
