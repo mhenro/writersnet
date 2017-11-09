@@ -16,6 +16,8 @@ Features:
 14. Write unit tests for all controllers and business logic.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 19. Add image for default book cover.
+20. Add ssl support.
+21. Add pay gateway.
 
 
 Bugs:
