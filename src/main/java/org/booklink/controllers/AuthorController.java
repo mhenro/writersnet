@@ -118,7 +118,7 @@ public class AuthorController {
     }
 
     private void setDefaultCoverForBooks(User user) {
-        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "\\default_cover.png";
+        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
         user.getBooks().stream().forEach(book -> {
             if (book.getCover() == null || book.getCover().isEmpty()) {
                 book.setCover(defaultCover);

@@ -16,13 +16,13 @@ import java.util.Date;
 @Entity
 @Table(name = "book_comments")
 public class BookComments {
-    private static final String defaultAvatar = "https://192.168.1.105/css/images/avatars/default_avatar.png";
     private Long id;
     private Book book;
     private User user;
     private String comment;
     private Long relatedTo;
     private Date created;
+    private AuthorInfo authorInfo = new AuthorInfo();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,11 +54,10 @@ public class BookComments {
 
     @Transient
     public AuthorInfo getAuthorInfo() {
-        AuthorInfo user = new AuthorInfo();
-        user.setAvatar(this.user != null ? this.user.getAvatar() : defaultAvatar);
-        user.setFirstName(this.user != null ? this.user.getFirstName() : "Anonymous");
-        user.setLastName(this.user != null ? this.user.getLastName() : "");
-        return user;
+        authorInfo.setAvatar(this.user != null ? this.user.getAvatar() : authorInfo.getAvatar());
+        authorInfo.setFirstName(this.user != null ? this.user.getFirstName() : "Anonymous");
+        authorInfo.setLastName(this.user != null ? this.user.getLastName() : "");
+        return authorInfo;
     }
 
     public void setUser(User user) {
