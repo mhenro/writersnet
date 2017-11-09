@@ -23,6 +23,7 @@ Bugs:
 2. Fix bug with editing in login/signup form.
 3. Only owner should see his series when editing props of the book.
 4. Fix bug with character encoding (ANSI).
+23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
 
 
 Closed:
