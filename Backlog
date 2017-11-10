@@ -2,18 +2,19 @@ Current sprint:
 12. Revert birthday string on author section page.
 13. Revert lastUpdate string on author section page.
 1. Add "Edit series" button to Section page.
+3. Only owner should see his series when editing props of the book.
 
 
 Features:
 3. Finish bookListItem on Books page.
 9. Add paginator to Books page.
 5. Create all Links components between pages.
+14. Write unit tests for all controllers and business logic. Do refactoring if needed.
 6. Create "13000 views | 775 comments | 20 reviews" functional.
 2. Add changing password functional to Options page.
 4. Move BookPropsForm to BookSerieItem (refactoring).
 10. Add user policy component to signup form.
 11. Add "forgot your password?" functional to login form.
-14. Write unit tests for all controllers and business logic.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 21. Add pay gateway.
 22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
@@ -21,7 +22,6 @@ Features:
 
 Bugs:
 2. Fix bug with editing in login/signup form.
-3. Only owner should see his series when editing props of the book.
 4. Fix bug with character encoding (ANSI).
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
 
