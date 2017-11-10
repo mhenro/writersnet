@@ -18,6 +18,11 @@ div {
     border-radius: 5px !important;
 }
 
+.btn-group > button {
+    margin-right: 5px;
+    border-radius: 5px !important;
+}
+
 .navbar {
     border-radius: 0;
 }

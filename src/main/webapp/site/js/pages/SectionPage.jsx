@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Modal, Button } from 'react-bootstrap';
 import {
     getAuthorDetails,
     setAuthor
@@ -21,14 +22,25 @@ import BookSerieList from '../components/section/BookSerieList.jsx';
     - this.props.match.params.authorName - user id
 * */
 class SectionPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showSeriesForm: false
+        };
+
+        ['onAddNewBook', 'onEditSeries', 'onEditBook', 'onDeleteBook'].map(fn => this[fn] = this[fn].bind(this));
+    }
+
     componentDidMount() {
         this.props.onGetAuthorDetails(this.props.match.params.authorName);
-
-        ['onAddNewBook', 'onEditBook', 'onDeleteBook'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     onAddNewBook() {
         this.props.onOpenBookPropsForm();
+    }
+
+    onEditSeries() {
+
     }
 
     onEditBook(book) {
@@ -44,14 +56,31 @@ class SectionPage extends React.Component {
             return (
                 <div
                     className="col-sm-12 panel panel-success">
-                    <div className="panel-body">
+                    <div className="panel-body btn-group">
                         <button className="btn btn-success" onClick={this.onAddNewBook}>Add new book</button>
+                        <button className="btn btn-success" onClick={() => this.openSeriesForm()}>Edit series</button>
                     </div>
                 </div>
             )
         } else {
             return null;
         }
+    }
+
+    openSeriesForm() {
+        this.setState({
+            showSeriesForm: true
+        });
+    }
+
+    saveSeriesForm() {
+        this.closeSeriesForm();
+    }
+
+    closeSeriesForm() {
+        this.setState({
+            showSeriesForm: false
+        });
     }
 
     render() {
@@ -94,6 +123,22 @@ class SectionPage extends React.Component {
                                onDeleteBook={this.onDeleteBook}
                                token={this.props.token}
                                language={this.props.language}/>
+
+                {/* Edit series form */}
+                <Modal show={this.state.showSeriesForm} onHide={() => this.closeSeriesForm()}>
+                    <Modal.Header>
+                        TODO: Edit series header
+                    </Modal.Header>
+                    <Modal.Body>
+                        TODO: Body
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="btn-group">
+                            <Button onClick={() => this.saveSeriesForm()} className="btn btn-success">Save</Button>
+                            <Button onClick={() => this.closeSeriesForm()} className="btn btn-default">Close</Button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }

@@ -1,7 +1,5 @@
 Current sprint:
-12. Revert birthday string on author section page.
-13. Revert lastUpdate string on author section page.
-1. Add "Edit series" button to Section page.
+IN PROGRESS - 1. Add "Edit series" button to Section page.
 3. Only owner should see his series when editing props of the book.
 
 
@@ -36,3 +34,5 @@ DONE - 16. Create logic for prevent vote from the same IP twice.
 DONE - 1. Fix bug with ScrollToTop button (if on BookReader then go to top emmideatly).
 DONE - 20. Add ssl support (with test certificate for now).
 DONE - 19. Add image for default book cover.
+DONE - 12. Revert birthday string on author section page.
+DONE - 13. Revert lastUpdate string on author section page.

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import { locale, getLocale } from '../../locale.jsx';
-import { formatBytes } from '../../utils.jsx';
+import { formatBytes, formatDate } from '../../utils.jsx';
 
 import ReactStars from 'react-stars';
 
@@ -27,6 +27,16 @@ class BookSerieItem extends React.Component {
 
     getAverageRating() {
         return parseFloat(this.props.book.totalRating.averageRating.toFixed(2));
+    }
+
+    getCreated() {
+        let date = new Date(this.props.book.created);
+        return formatDate(date, 'D-M-Y');
+    }
+
+    getLastUpdated() {
+        let date = new Date(this.props.book.lastUpdate);
+        return formatDate(date, 'D-M-Y');
     }
 
     getTotalVotes() {
@@ -82,11 +92,11 @@ class BookSerieItem extends React.Component {
                                 </tr>
                                 <tr>
                                     <td>Created date</td>
-                                    <td>{this.props.book.created}</td>
+                                    <td>{this.getCreated()}</td>
                                 </tr>
                                 <tr>
                                     <td>Last update</td>
-                                    <td>{this.props.book.lastUpdate}</td>
+                                    <td>{this.getLastUpdated()}</td>
                                 </tr>
                                 <tr>
                                     <td>Genre</td>

@@ -1,11 +1,21 @@
 import React from 'react';
-import { formatBytes } from '../../utils.jsx';
+import { formatBytes, formatDate } from '../../utils.jsx';
 import ReactStars from 'react-stars';
 /*
     props:
     - author
  */
 class AuthorShortInfo extends React.Component {
+    getBirthday() {
+        let date = new Date(this.props.author.birthday);
+        return formatDate(date, 'D-M-Y');
+    }
+
+    getLastUpdated() {
+        let date = new Date(this.props.author.section.lastUpdated);
+        return formatDate(date, 'D-M-Y');
+    }
+
     getTotalSize() {
         let size = formatBytes(this.props.author.totalSize.totalSize),
             books = this.props.author.totalSize.totalBooks;
@@ -24,7 +34,7 @@ class AuthorShortInfo extends React.Component {
                         <tbody>
                             <tr>
                                 <td>Birthday</td>
-                                <td>{this.props.author.birthday}</td>
+                                <td>{this.getBirthday()}</td>
                             </tr>
                             <tr>
                                 <td>City</td>
@@ -32,7 +42,7 @@ class AuthorShortInfo extends React.Component {
                             </tr>
                             <tr>
                                 <td>Last update</td>
-                                <td>{this.props.author.section.lastUpdated}</td>
+                                <td>{this.getLastUpdated()}</td>
                             </tr>
                             <tr>
                                 <td>Value</td>
