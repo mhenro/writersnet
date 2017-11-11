@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { formatBytes } from '../utils.jsx';
+import { formatBytes } from '../../utils.jsx';
 import ReactStars from 'react-stars';
 /*
     props:

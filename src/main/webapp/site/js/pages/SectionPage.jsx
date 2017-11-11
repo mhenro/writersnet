@@ -6,16 +6,19 @@ import {
     setAuthor
 } from '../actions/AuthorActions.jsx';
 import {
-    deleteBook
+    deleteBook,
+    openBookPropsForm,
+    openEditSeriesForm
 } from '../actions/BookActions.jsx';
 import {
-    openBookPropsForm,
     createNotify
 } from '../actions/GlobalActions.jsx';
 
 import AuthorFile from '../components/section/AuthorFile.jsx';
 import AuthorShortInfo from '../components/section/AuthorShortInfo.jsx';
 import BookSerieList from '../components/section/BookSerieList.jsx';
+import BookPropsForm from '../components/section/BookPropsForm.jsx';
+import EditSeriesForm from '../components/section/EditSeriesForm.jsx';
 
 /*
     props:
@@ -24,11 +27,8 @@ import BookSerieList from '../components/section/BookSerieList.jsx';
 class SectionPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showSeriesForm: false
-        };
 
-        ['onAddNewBook', 'onEditSeries', 'onEditBook', 'onDeleteBook'].map(fn => this[fn] = this[fn].bind(this));
+        ['onEditSeries', 'onEditBook', 'onDeleteBook'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -40,7 +40,7 @@ class SectionPage extends React.Component {
     }
 
     onEditSeries() {
-
+        this.props.onOpenEditSeriesForm();
     }
 
     onEditBook(book) {
@@ -57,30 +57,14 @@ class SectionPage extends React.Component {
                 <div
                     className="col-sm-12 panel panel-success">
                     <div className="panel-body btn-group">
-                        <button className="btn btn-success" onClick={this.onAddNewBook}>Add new book</button>
-                        <button className="btn btn-success" onClick={() => this.openSeriesForm()}>Edit series</button>
+                        <button className="btn btn-success" onClick={() => this.onAddNewBook()}>Add new book</button>
+                        <button className="btn btn-success" onClick={() => this.onEditSeries()}>Edit series</button>
                     </div>
                 </div>
             )
         } else {
             return null;
         }
-    }
-
-    openSeriesForm() {
-        this.setState({
-            showSeriesForm: true
-        });
-    }
-
-    saveSeriesForm() {
-        this.closeSeriesForm();
-    }
-
-    closeSeriesForm() {
-        this.setState({
-            showSeriesForm: false
-        });
     }
 
     render() {
@@ -124,21 +108,11 @@ class SectionPage extends React.Component {
                                token={this.props.token}
                                language={this.props.language}/>
 
+                {/* form for editing properties of the selected book */}
+                <BookPropsForm/>
+
                 {/* Edit series form */}
-                <Modal show={this.state.showSeriesForm} onHide={() => this.closeSeriesForm()}>
-                    <Modal.Header>
-                        TODO: Edit series header
-                    </Modal.Header>
-                    <Modal.Body>
-                        TODO: Body
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <div className="btn-group">
-                            <Button onClick={() => this.saveSeriesForm()} className="btn btn-success">Save</Button>
-                            <Button onClick={() => this.closeSeriesForm()} className="btn btn-default">Close</Button>
-                        </div>
-                    </Modal.Footer>
-                </Modal>
+                <EditSeriesForm/>
             </div>
         )
     }
@@ -171,6 +145,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onOpenBookPropsForm: (book) => {
             dispatch(openBookPropsForm(book));
+        },
+
+        onOpenEditSeriesForm: () => {
+            dispatch(openEditSeriesForm());
         },
 
         onDeleteBook: (bookId, token, callback) => {

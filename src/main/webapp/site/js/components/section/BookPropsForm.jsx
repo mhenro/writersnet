@@ -4,14 +4,14 @@ import { Modal, Button } from 'react-bootstrap';
 import Select from 'react-select';
 
 import {
-    closeBookPropsForm,
     createNotify
-} from '../actions/GlobalActions.jsx';
+} from '../../actions/GlobalActions.jsx';
 import {
     getAuthorDetails,
     setAuthor
-} from '../actions/AuthorActions.jsx';
+} from '../../actions/AuthorActions.jsx';
 import {
+    closeBookPropsForm,
     setBook,
     getBookDetails,
     saveBook,
@@ -21,11 +21,11 @@ import {
     getGenres,
     setGenres,
     saveCover
-} from '../actions/BookActions.jsx';
+} from '../../actions/BookActions.jsx';
 
-import FileUploader from '../components/FileUploader.jsx';
+import FileUploader from '../FileUploader.jsx';
 
-import { locale, getLocale } from '../locale.jsx';
+import { locale, getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -40,7 +40,7 @@ class BookPropsForm extends React.Component {
         this.state = {
             name: '',
             description: '',
-            serieId: null,
+            serie: {value: null, label: 'Without serie'},
             genre: null,
             language: null,
             cover: ''
@@ -50,7 +50,7 @@ class BookPropsForm extends React.Component {
     }
 
     onShow() {
-        this.props.onGetSeries();
+        this.props.onGetSeries(this.props.author.username);
         this.props.onGetGenres();
         if (this.isDataLoaded() && this.props.editableBook) {
             this.updateForm(this.props.editableBook.id);
@@ -58,7 +58,7 @@ class BookPropsForm extends React.Component {
             this.setState({
                 name: '',
                 description: '',
-                serie: null,
+                serie: {value: null, label: 'Without serie'},
                 genre: null,
                 language: null,
                 cover: ''
@@ -297,8 +297,8 @@ class BookPropsForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        showBookPropsForm: state.GlobalReducer.showBookPropsForm,
-        editableBook: state.GlobalReducer.editableBook,
+        showBookPropsForm: state.BookReducer.showBookPropsForm,
+        editableBook: state.BookReducer.editableBook,
         book: state.BookReducer.book,
         author: state.AuthorReducer.author,
         registered: state.GlobalReducer.registered,
@@ -331,8 +331,8 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onGetSeries: () => {
-            return getSeries().then(([response, json]) => {
+        onGetSeries: (userId) => {
+            return getSeries(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setSeries(json.content));
                 }

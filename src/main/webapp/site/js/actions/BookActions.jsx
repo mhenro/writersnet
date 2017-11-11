@@ -9,11 +9,11 @@ export const getBooks = (page) => {
     }
 };
 
-export const getSeries = (page) => {
+export const getSeries = (userId, page) => {
     if (page) {
-        return doFetch(getHost() + 'series?page=' + page + '&size=20');
+        return doFetch(getHost() + 'series/' + userId + '?page=' + page + '&size=20');
     } else {
-        return doFetch(getHost() + 'series');
+        return doFetch(getHost() + 'series/' + userId);
     }
 };
 
@@ -62,6 +62,13 @@ export const SET_BOOK = 'SET_BOOK';
 export const SET_SERIES = 'SET_SERIES';
 export const SET_GENRES = 'SET_GENRES';
 
+export const OPEN_BOOKPROPS_FORM = 'OPEN_BOOKPROPS_FORM';
+export const CLOSE_BOOKPROPS_FORM = 'CLOSE_BOOKPROPS_FORM';
+
+export const OPEN_EDITSERIES_FORM = 'OPEN_EDITSERIES_FORM';
+export const CLOSE_EDITSERIES_FORM = 'CLOSE_EDITSERIES_FORM';
+
+
 export const setBooks = (books) => {
     return {
         type: SET_BOOKS,
@@ -87,5 +94,30 @@ export const setGenres = (genres) => {
     return {
         type: SET_GENRES,
         genres
+    }
+};
+
+export const openBookPropsForm = (book) => {
+    return {
+        type: OPEN_BOOKPROPS_FORM,
+        book
+    }
+};
+
+export const closeBookPropsForm = () => {
+    return {
+        type: CLOSE_BOOKPROPS_FORM
+    }
+};
+
+export const openEditSeriesForm = () => {
+    return {
+        type: OPEN_EDITSERIES_FORM
+    }
+};
+
+export const closeEditSeriesForm = () => {
+    return {
+        type: CLOSE_EDITSERIES_FORM
     }
 };

@@ -1,6 +1,5 @@
 Current sprint:
 IN PROGRESS - 1. Add "Edit series" button to Section page.
-3. Only owner should see his series when editing props of the book.
 
 
 Features:
@@ -10,7 +9,6 @@ Features:
 14. Write unit tests for all controllers and business logic. Do refactoring if needed.
 6. Create "13000 views | 775 comments | 20 reviews" functional.
 2. Add changing password functional to Options page.
-4. Move BookPropsForm to BookSerieItem (refactoring).
 10. Add user policy component to signup form.
 11. Add "forgot your password?" functional to login form.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
@@ -36,3 +34,4 @@ DONE - 20. Add ssl support (with test certificate for now).
 DONE - 19. Add image for default book cover.
 DONE - 12. Revert birthday string on author section page.
 DONE - 13. Revert lastUpdate string on author section page.
+DONE - 3. Only owner should see his series when editing props of the book.

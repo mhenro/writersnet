@@ -11,6 +11,7 @@ import java.util.Set;
 public class BookSerie implements Serializable {
     private Long id;
     private String name;
+    private String userId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +29,14 @@ public class BookSerie implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column(name = "user_id")
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

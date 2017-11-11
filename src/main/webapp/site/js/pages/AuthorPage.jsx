@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import AuthorList from '../components/AuthorList.jsx';
+import AuthorList from '../components/authors/AuthorList.jsx';
 import {
     getAuthors,
     setAuthors

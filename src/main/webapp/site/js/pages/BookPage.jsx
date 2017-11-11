@@ -1,5 +1,5 @@
 import React from 'react';
-import BookBriefList from '../components/BookBriefList.jsx';
+import BookBriefList from '../components/books/BookBriefList.jsx';
 
 class BookPage extends React.Component {
     render() {

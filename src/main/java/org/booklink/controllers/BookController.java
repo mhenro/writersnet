@@ -59,9 +59,9 @@ public class BookController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "series", method = RequestMethod.GET)
-    public Page<BookSerie> getBookSeries(Pageable pageable) {
-        Page<BookSerie> series = serieRepository.findAll(pageable);
+    @RequestMapping(value = "series/{userId}", method = RequestMethod.GET)
+    public Page<BookSerie> getBookSeries(@PathVariable String userId, Pageable pageable) {
+        Page<BookSerie> series = serieRepository.findAllByUserId(userId, pageable);
         return series;
     }
 
