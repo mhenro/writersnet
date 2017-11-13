@@ -1,9 +1,8 @@
 Current sprint:
-5. Create all Links components between pages.
+14. Write unit tests for all controllers and business logic. Do refactoring if needed.
 
 
 Features:
-14. Write unit tests for all controllers and business logic. Do refactoring if needed.
 6. Create "13000 views | 775 comments | 20 reviews" functional.
 2. Add changing password functional to Options page.
 10. Add user policy component to signup form.
@@ -39,3 +38,4 @@ DONE - 3. Only owner should see his series when editing props of the book.
 DONE - 1. Add "Edit series" button to Section page.
 DONE - 3. Finish bookListItem on Books page.
 DONE - 9. Add paginator to Books page.
+DONE - 5. Create all Links components between pages.
