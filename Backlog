@@ -1,6 +1,4 @@
 Current sprint:
-3. Finish bookListItem on Books page.
-9. Add paginator to Books page.
 5. Create all Links components between pages.
 
 
@@ -13,13 +11,16 @@ Features:
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 21. Add pay gateway.
 22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
-23. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
+24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
+26. Add Main page to the site. Something like summary of ratings and recently general news.
+
 
 
 Bugs:
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI).
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
+25. Fix bug when deleting serie, which is used by some book. This leads to exception on serverside.
 
 
 Closed:
@@ -36,3 +37,5 @@ DONE - 12. Revert birthday string on author section page.
 DONE - 13. Revert lastUpdate string on author section page.
 DONE - 3. Only owner should see his series when editing props of the book.
 DONE - 1. Add "Edit series" button to Section page.
+DONE - 3. Finish bookListItem on Books page.
+DONE - 9. Add paginator to Books page.
