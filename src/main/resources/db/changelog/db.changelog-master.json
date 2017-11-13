@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1510012231328-1",
+      "id": "1510601225173-1",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -9,13 +9,13 @@
             "sequenceName": "book_id_seq"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-2",
+      "id": "1510601225173-2",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -23,13 +23,13 @@
             "sequenceName": "book_text_id_seq"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-3",
+      "id": "1510601225173-3",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -37,13 +37,13 @@
             "sequenceName": "comment_id_seq"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-4",
+      "id": "1510601225173-4",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -51,13 +51,13 @@
             "sequenceName": "section_id_seq"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-5",
+      "id": "1510601225173-5",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -65,13 +65,13 @@
             "sequenceName": "serie_id_seq"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-6",
+      "id": "1510601225173-6",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -95,17 +95,17 @@
                   "type": "VARCHAR(50)"
                 }
               }]
-            ,
+          ,
             "tableName": "authorities"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-7",
+      "id": "1510601225173-7",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -185,17 +185,17 @@
                   "type": "INT"
                 }
               }]
-            ,
+          ,
             "tableName": "book"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-8",
+      "id": "1510601225173-8",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -248,17 +248,17 @@
                   "type": "INT"
                 }
               }]
-            ,
+          ,
             "tableName": "book_comments"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-9",
+      "id": "1510601225173-9",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -280,18 +280,27 @@
                   "name": "id",
                   "type": "SERIAL"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(20)"
+                }
               }]
-            ,
+          ,
             "tableName": "book_serie"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-10",
+      "id": "1510601225173-10",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -317,17 +326,17 @@
                   "type": "VARCHAR(10485760)"
                 }
               }]
-            ,
+          ,
             "tableName": "book_text"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-11",
+      "id": "1510601225173-11",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -360,17 +369,17 @@
                   "type": "VARCHAR(16)"
                 }
               }]
-            ,
+          ,
             "tableName": "rating"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-12",
+      "id": "1510601225173-12",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -420,17 +429,17 @@
                   "type": "VARCHAR(1000)"
                 }
               }]
-            ,
+          ,
             "tableName": "sections"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-13",
+      "id": "1510601225173-13",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -521,17 +530,17 @@
                   "type": "VARCHAR(100)"
                 }
               }]
-            ,
+          ,
             "tableName": "users"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-14",
+      "id": "1510601225173-14",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -541,13 +550,13 @@
             "tableName": "authorities"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-15",
+      "id": "1510601225173-15",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -557,13 +566,13 @@
             "tableName": "rating"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-16",
+      "id": "1510601225173-16",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -573,13 +582,13 @@
             "tableName": "users"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-17",
+      "id": "1510601225173-17",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -589,13 +598,13 @@
             "tableName": "users"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-18",
+      "id": "1510601225173-18",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -605,13 +614,13 @@
             "tableName": "sections"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-19",
+      "id": "1510601225173-19",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -622,18 +631,18 @@
                   "name": "book_id"
                 }
               }]
-            ,
+          ,
             "indexName": "fki_book_fk",
             "tableName": "book_comments"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-20",
+      "id": "1510601225173-20",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -644,18 +653,18 @@
                   "name": "serie_id"
                 }
               }]
-            ,
+          ,
             "indexName": "fki_book_serie_fk",
             "tableName": "book"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-21",
+      "id": "1510601225173-21",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -666,18 +675,18 @@
                   "name": "text_id"
                 }
               }]
-            ,
+          ,
             "indexName": "fki_book_text_fk",
             "tableName": "book"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-22",
+      "id": "1510601225173-22",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -693,18 +702,18 @@
                   "name": "serie_id"
                 }
               }]
-            ,
+          ,
             "indexName": "fki_serie_fk",
             "tableName": "book"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-23",
+      "id": "1510601225173-23",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -720,13 +729,13 @@
             "referencedTableName": "users"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-24",
+      "id": "1510601225173-24",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -742,13 +751,13 @@
             "referencedTableName": "book"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-25",
+      "id": "1510601225173-25",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -764,13 +773,13 @@
             "referencedTableName": "book_serie"
           }
         }]
-      
+
     }
   },
-  
+
   {
     "changeSet": {
-      "id": "1510012231328-26",
+      "id": "1510601225173-26",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -786,8 +795,8 @@
             "referencedTableName": "book_text"
           }
         }]
-      
+
     }
   }
-  
+
 ]}

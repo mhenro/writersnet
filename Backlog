@@ -13,6 +13,7 @@ Features:
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 21. Add pay gateway.
 22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
+23. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 
 
 Bugs:
