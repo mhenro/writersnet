@@ -7,6 +7,7 @@ import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectAlreadyExistException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request_models.Credentials;
 import org.booklink.repositories.SectionRepository;
 import org.booklink.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

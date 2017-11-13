@@ -1,6 +1,7 @@
 import React from 'react';
 import { formatBytes, formatDate } from '../../utils.jsx';
 import ReactStars from 'react-stars';
+import { getLocale } from '../../locale.jsx';
 /*
     props:
     - author
@@ -11,9 +12,21 @@ class AuthorShortInfo extends React.Component {
         return formatDate(date, 'D-M-Y');
     }
 
+    getCity() {
+        let city = this.props.author.city;
+        return city;
+    }
+
     getLastUpdated() {
         let date = new Date(this.props.author.section.lastUpdated);
         return formatDate(date, 'D-M-Y');
+    }
+
+    getPreferredLanguages() {
+        let array = this.props.author.preferredLanguages.split(';'),
+            result = array.map(lang => getLocale(lang).label).join(', ');
+
+        return result;
     }
 
     getTotalSize() {
@@ -38,11 +51,15 @@ class AuthorShortInfo extends React.Component {
                             </tr>
                             <tr>
                                 <td>City</td>
-                                <td>{this.props.author.city}</td>
+                                <td>{this.getCity()}</td>
                             </tr>
                             <tr>
                                 <td>Last update</td>
                                 <td>{this.getLastUpdated()}</td>
+                            </tr>
+                            <tr>
+                                <td>Preferred languages</td>
+                                <td>{this.getPreferredLanguages()}</td>
                             </tr>
                             <tr>
                                 <td>Value</td>

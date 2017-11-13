@@ -1,20 +1,19 @@
 package org.booklink.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.booklink.models.BookComment;
+import org.booklink.models.request_models.BookComment;
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectAlreadyExistException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request_models.Serie;
 import org.booklink.repositories.*;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +61,59 @@ public class BookController {
     public Page<BookSerie> getBookSeries(@PathVariable String userId, Pageable pageable) {
         Page<BookSerie> series = serieRepository.findAllByUserId(userId, pageable);
         return series;
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "series", method = RequestMethod.POST)
+    public ResponseEntity<?> saveSerie(@RequestBody Serie serie) {
+        Response<String> response = new Response<>();
+        checkCredentials(serie.getUserId());   //only owner can edit his series
+        BookSerie bookSerie = null;
+        try {
+            if (serie.getId() == null) {    //adding new serie
+                bookSerie = new BookSerie();
+                bookSerie.setName(serie.getName());
+                bookSerie.setUserId(serie.getUserId());
+            } else {    //editing existed serie
+                bookSerie = serieRepository.findOne(serie.getId());
+                if (bookSerie == null) {
+                    throw new ObjectNotFoundException("Serie was not found");
+                }
+                checkCredentials(bookSerie.getUserId());   //only owner can edit his series
+                bookSerie.setName(serie.getName());
+            }
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        serieRepository.save(bookSerie);
+        response.setCode(0);
+        response.setMessage(bookSerie.getId().toString());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "series/{serieId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteSerie(@PathVariable Long serieId) {
+        Response<String> response = new Response<>();
+        try {
+            BookSerie bookSerie = serieRepository.findOne(serieId);
+            if (bookSerie == null) {
+                throw new ObjectNotFoundException("Serie was not found");
+            }
+            checkCredentials(bookSerie.getUserId());   //only owner can delete his series
+            serieRepository.delete(bookSerie);
+        }  catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Serie was deleted successfully");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin

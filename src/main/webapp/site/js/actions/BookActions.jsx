@@ -17,6 +17,14 @@ export const getSeries = (userId, page) => {
     }
 };
 
+export const saveSerie = (bookSerie, token) => {
+    return doFetch(getHost() + 'series', bookSerie, token);
+};
+
+export const deleteSerie = (id, token) => {
+    return doFetch(getHost() + 'series/' + id, 'DELETE', token);
+};
+
 export const getGenres = () => {
     return doFetch(getHost() + 'genres');
 };

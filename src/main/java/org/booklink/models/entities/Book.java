@@ -2,15 +2,12 @@ package org.booklink.models.entities;
 
 import com.fasterxml.jackson.annotation.*;
 import org.booklink.models.Genre;
-import org.booklink.models.TotalRating;
-import org.hibernate.annotations.Type;
+import org.booklink.models.request_models.TotalRating;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**

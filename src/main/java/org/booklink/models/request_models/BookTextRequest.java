@@ -1,4 +1,4 @@
-package org.booklink.models;
+package org.booklink.models.request_models;
 
 import org.springframework.web.multipart.MultipartFile;
 

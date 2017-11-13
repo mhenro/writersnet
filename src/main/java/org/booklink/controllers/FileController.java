@@ -1,9 +1,9 @@
 package org.booklink.controllers;
 
 import liquibase.util.file.FilenameUtils;
-import org.booklink.models.AvatarRequest;
-import org.booklink.models.BookTextRequest;
-import org.booklink.models.CoverRequest;
+import org.booklink.models.request_models.AvatarRequest;
+import org.booklink.models.request_models.BookTextRequest;
+import org.booklink.models.request_models.CoverRequest;
 import org.booklink.models.Response;
 import org.booklink.models.entities.Book;
 import org.booklink.models.entities.BookText;
@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 

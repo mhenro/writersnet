@@ -1,11 +1,10 @@
 Current sprint:
-IN PROGRESS - 1. Add "Edit series" button to Section page.
-
-
-Features:
 3. Finish bookListItem on Books page.
 9. Add paginator to Books page.
 5. Create all Links components between pages.
+
+
+Features:
 14. Write unit tests for all controllers and business logic. Do refactoring if needed.
 6. Create "13000 views | 775 comments | 20 reviews" functional.
 2. Add changing password functional to Options page.
@@ -35,3 +34,4 @@ DONE - 19. Add image for default book cover.
 DONE - 12. Revert birthday string on author section page.
 DONE - 13. Revert lastUpdate string on author section page.
 DONE - 3. Only owner should see his series when editing props of the book.
+DONE - 1. Add "Edit series" button to Section page.

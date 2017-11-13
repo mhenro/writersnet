@@ -1,4 +1,4 @@
-package org.booklink.models;
+package org.booklink.models.request_models;
 
 import com.sun.xml.internal.txw2.annotation.XmlElement;
 

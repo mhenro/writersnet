@@ -1,16 +1,10 @@
 package org.booklink.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.booklink.models.TotalRating;
-import org.booklink.models.TotalSize;
-import org.springframework.transaction.annotation.Transactional;
+import org.booklink.models.request_models.TotalRating;
+import org.booklink.models.request_models.TotalSize;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**

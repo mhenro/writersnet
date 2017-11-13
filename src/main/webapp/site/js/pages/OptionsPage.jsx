@@ -197,7 +197,7 @@ class OptionsPage extends React.Component {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="language">Language:</label>
+                                <label className="control-label col-sm-2" htmlFor="language">Interface language:</label>
                                 <div className="col-sm-10">
                                     <Select value={this.state.siteLanguage} id="siteLanguage" options={this.getComboboxItems()} onChange={this.onLanguageChange} placeholder="Choose website language"/>
                                 </div>

@@ -1,11 +1,7 @@
 package org.booklink.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.booklink.models.AuthorInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
+import org.booklink.models.request_models.AuthorInfo;
 
 import javax.persistence.*;
 import java.util.Date;
