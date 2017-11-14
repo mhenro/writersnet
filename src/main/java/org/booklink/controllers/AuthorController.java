@@ -6,6 +6,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.repositories.AuthorRepository;
+import org.booklink.services.AuthorService;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,38 +27,24 @@ import java.util.Optional;
  */
 @RestController
 public class AuthorController {
-    private Environment env;
-    private AuthorRepository authorRepository;
+    private AuthorService authorService;
 
     @Autowired
-    public AuthorController(Environment env, AuthorRepository authorRepository) {
-        this.env = env;
-        this.authorRepository = authorRepository;
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
     }
 
     @CrossOrigin
     @RequestMapping(value = "authors", method = RequestMethod.GET)
     public Page<User> getAuthors(Pageable pageable) {
-        Page<User> authors = authorRepository.findAllEnabled(pageable);
-        authors.forEach(author -> {
-            hideAuthInfo(author);
-            removeRecursionFromAuthor(author);
-            calcBookSize(author);
-            hideText(author);
-        });
-        return authors;
+        return authorService.getAuthors(pageable);
     }
 
     @CrossOrigin
     @RequestMapping(value = "authors/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getAuthor(@PathVariable String authorId) {
-        User author = authorRepository.findOne(authorId);
+        User author = authorService.getAuthor(authorId);
         if (author != null) {
-            hideAuthInfo(author);
-            removeRecursionFromAuthor(author);
-            setDefaultCoverForBooks(author);
-            calcBookSize(author);
-            hideText(author);
             return new ResponseEntity<>(author, HttpStatus.OK);
         }
         Response<String> response = new Response<>();
@@ -70,26 +57,8 @@ public class AuthorController {
     @CrossOrigin
     @RequestMapping(value = "authors", method = RequestMethod.POST)
     public ResponseEntity<?> saveAuthor(@RequestBody User author) {
-        /* checking credentials */
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = auth.getName();
-        if (!currentUser.equals(author.getUsername())) {
-            throw new UnauthorizedUserException();
-        }
-
         try {
-            User user = authorRepository.findOne(author.getUsername());
-            if (user == null) {
-                throw new ObjectNotFoundException();
-            }
-            BeanUtils.copyProperties(author, user, ObjectHelper.getNullPropertyNames(author));
-            if (author.getSectionName() != null) {
-                user.getSection().setName(author.getSectionName());
-            }
-            if (author.getSectionDescription() != null) {
-                user.getSection().setDescription(author.getSectionDescription());
-            }
-            authorRepository.save(user);
+            authorService.saveAuthor(author);
         } catch(Exception e) {
             Response<String> response = new Response<>();
             response.setCode(1);
@@ -102,39 +71,7 @@ public class AuthorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    private void hideAuthInfo(User user) {
-        user.setPassword("");
-        user.setActivationToken("");
-        user.setAuthority("");
-    }
-
-    private void removeRecursionFromAuthor(User user){
-        user.getBooks().stream().forEach(book -> {
-            book.setAuthor(null);
-        });
-        if (user.getSection() != null) {
-            user.getSection().setAuthor(null);
-        }
-    }
-
-    private void setDefaultCoverForBooks(User user) {
-        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
-        user.getBooks().stream()
-            .filter(book -> book.getCover() == null || book.getCover().isEmpty())
-            .forEach(book -> book.setCover(defaultCover));
-    }
-
-    private void calcBookSize(User user) {
-        user.getBooks().stream().forEach(book -> {
-            int size = Optional.ofNullable(book.getBookText()).map(bookText -> bookText.getText().length()).orElse(0);
-            book.setSize(size);
-        });
-
-    }
-
-    private void hideText(User user) {
-        user.getBooks().stream().forEach(book -> book.setBookText(null));
-    }
+    /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
@@ -145,7 +82,7 @@ public class AuthorController {
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> userNotFount(ObjectNotFoundException e) {
+    public ResponseEntity<?> userNotFound(ObjectNotFoundException e) {
         Response<String> response = new Response<>();
         response.setCode(5);
         response.setMessage("User not found");

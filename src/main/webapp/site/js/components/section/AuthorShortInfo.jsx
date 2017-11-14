@@ -23,6 +23,9 @@ class AuthorShortInfo extends React.Component {
     }
 
     getPreferredLanguages() {
+        if (!this.props.author.preferredLanguages) {
+            return '';
+        }
         let array = this.props.author.preferredLanguages.split(';'),
             result = array.map(lang => getLocale(lang).label).join(', ');
 

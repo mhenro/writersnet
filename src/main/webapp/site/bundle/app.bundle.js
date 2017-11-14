@@ -77509,6 +77509,9 @@ var AuthorShortInfo = function (_React$Component) {
     }, {
         key: 'getPreferredLanguages',
         value: function getPreferredLanguages() {
+            if (!this.props.author.preferredLanguages) {
+                return '';
+            }
             var array = this.props.author.preferredLanguages.split(';'),
                 result = array.map(function (lang) {
                 return (0, _locale.getLocale)(lang).label;
@@ -80139,7 +80142,7 @@ var OptionsPage = function (_React$Component) {
             lastName: '',
             sectionName: '',
             sectionDescription: '',
-            birthday: new Date().toISOString(),
+            birthday: new Date().toISOString().split('T')[0],
             city: '',
             siteLanguage: { value: 'EN', label: 'English' },
             preferredLanguages: []
@@ -80170,7 +80173,7 @@ var OptionsPage = function (_React$Component) {
                 lastName: author.lastName || '',
                 sectionName: author.section.name || '',
                 sectionDescription: author.section.description || '',
-                birthday: author.birthday || '',
+                birthday: author.birthday || new Date().toISOString().split('T')[0],
                 city: author.city || '',
                 siteLanguage: { value: author.language, label: _locale.locale[author.language || 'EN'].label },
                 preferredLanguages: author.preferredLanguages ? author.preferredLanguages.split(';').map(function (lang) {

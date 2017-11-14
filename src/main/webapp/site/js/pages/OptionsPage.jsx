@@ -29,7 +29,7 @@ class OptionsPage extends React.Component {
             lastName: '',
             sectionName: '',
             sectionDescription: '',
-            birthday: new Date().toISOString(),
+            birthday: new Date().toISOString().split('T')[0],
             city: '',
             siteLanguage: {value: 'EN', label: 'English'},
             preferredLanguages: []
@@ -53,7 +53,7 @@ class OptionsPage extends React.Component {
             lastName: author.lastName || '',
             sectionName: author.section.name || '',
             sectionDescription: author.section.description || '',
-            birthday: author.birthday || '',
+            birthday: author.birthday || new Date().toISOString().split('T')[0],
             city: author.city || '',
             siteLanguage: {value: author.language, label: locale[author.language || 'EN'].label},
             preferredLanguages: author.preferredLanguages ? author.preferredLanguages.split(';').map(lang => { return {value: lang, label: locale[lang].label}}) : []
