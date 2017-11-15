@@ -30,7 +30,7 @@ public class BookComments {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     @JsonIgnore
     public Book getBook() {

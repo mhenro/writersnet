@@ -10,4 +10,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface BookCommentsRepository extends PagingAndSortingRepository<BookComments, Long> {
     Page<BookComments> findAllByBookId(Long bookId, Pageable pageable);
+    Iterable<BookComments> findAllByBookId(Long bookId);
 }
