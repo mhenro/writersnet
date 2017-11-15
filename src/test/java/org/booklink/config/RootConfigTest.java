@@ -13,10 +13,10 @@ import javax.sql.DataSource;
 
 /**
  * Created by mhenr on 27.09.2017.
- *//*
+ */
 @Profile("test")
 @Configuration
-@ComponentScan(basePackageClasses = {SecurityConfigTest.class, TestBean.class, BookRepository.class})
+@ComponentScan(basePackageClasses = {SecurityConfigTest.class})
 public class RootConfigTest {
     @Bean
     @ConfigurationProperties(prefix="spring.datasource")
@@ -26,4 +26,3 @@ public class RootConfigTest {
                 .build();
     }
 }
-*/
