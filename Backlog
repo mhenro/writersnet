@@ -12,8 +12,9 @@ Features:
 22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 26. Add Main page to the site. Something like summary of ratings and recently general news.
-
-
+27. Let nginx proxying all requests to backend. It will allow to create embedded Tomcat cluster in the future.
+28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
+29. Support full localization mechanism.
 
 Bugs:
 2. Fix bug with editing in login/signup form.
