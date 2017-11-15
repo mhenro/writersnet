@@ -22,7 +22,7 @@ public class RatingService {
     }
 
     public void addStar(final Long bookId, final Integer value, final HttpServletRequest request) {
-        String clientIp = request.getRemoteAddr();
+        String clientIp = request.getHeader("X-Real-IP");
         Rating rating = ratingRepository.findRatingByBookIdAndClientIp(bookId, clientIp);
         if (rating != null) {
             throw new ObjectAlreadyExistException("You have already added your vote for this book");
