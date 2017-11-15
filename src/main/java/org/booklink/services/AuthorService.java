@@ -1,9 +1,11 @@
 package org.booklink.services;
 
+import liquibase.util.file.FilenameUtils;
 import org.booklink.models.Response;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -38,6 +42,7 @@ public class AuthorService {
         authors.forEach(author -> {
             hideAuthInfo(author);
             removeRecursionFromAuthor(author);
+            setDefaultAvatar(author);
             calcBookSize(author);
             hideText(author);
         });
@@ -49,6 +54,7 @@ public class AuthorService {
         if (author != null) {
             hideAuthInfo(author);
             removeRecursionFromAuthor(author);
+            setDefaultAvatar(author);
             setDefaultCoverForBooks(author);
             calcBookSize(author);
             hideText(author);
@@ -72,6 +78,30 @@ public class AuthorService {
         authorRepository.save(user);
     }
 
+    public void saveAvatar(final AvatarRequest avatarRequest) throws IOException{
+        checkCredentials(avatarRequest.getUserId()); //only the owner can change his avatar
+
+        User author = authorRepository.findOne(avatarRequest.getUserId());
+        if (author == null) {
+            throw new ObjectNotFoundException("Author not found");
+        }
+        checkCredentials(author.getUsername()); //only the owner can change his avatar
+        String uploadDir = env.getProperty("writersnet.avatarstorage.path");
+        File file = new File(uploadDir);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        String originalName = avatarRequest.getUserId().toString() + "." + FilenameUtils.getExtension(avatarRequest.getAvatar().getOriginalFilename());
+
+        String filePath = uploadDir + originalName;
+        File dest = new File(filePath);
+        avatarRequest.getAvatar().transferTo(dest);
+
+        String avatarLink = env.getProperty("writersnet.avatarwebstorage.path") + originalName;
+        author.setAvatar(avatarLink);
+        authorRepository.save(author);
+    }
+
     private void checkCredentials(final String userId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = auth.getName();
@@ -92,6 +122,13 @@ public class AuthorService {
         });
         if (user.getSection() != null) {
             user.getSection().setAuthor(null);
+        }
+    }
+
+    private void setDefaultAvatar(User user) {
+        final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
+        if (user.getAvatar() == null) {
+            user.setAvatar(defaultAvatar);
         }
     }
 

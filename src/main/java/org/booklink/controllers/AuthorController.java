@@ -4,6 +4,7 @@ import org.booklink.models.Response;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -60,6 +61,23 @@ public class AuthorController {
         Response<String> response = new Response<>();
         response.setCode(0);
         response.setMessage("Author was saved");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "avatar", method = RequestMethod.POST)
+    public ResponseEntity<?> saveAvatar(AvatarRequest avatarRequest) {
+        Response<String> response = new Response<>();
+        try {
+            authorService.saveAvatar(avatarRequest);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Avatar was saved successully");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

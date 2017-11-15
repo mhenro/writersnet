@@ -1,15 +1,16 @@
 package org.booklink.services;
 
-import org.booklink.models.entities.Book;
-import org.booklink.models.entities.BookComments;
-import org.booklink.models.entities.BookSerie;
-import org.booklink.models.entities.User;
+import liquibase.util.file.FilenameUtils;
+import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.repositories.AuthorRepository;
-import org.booklink.repositories.BookCommentsRepository;
-import org.booklink.repositories.BookRepository;
-import org.booklink.repositories.SerieRepository;
+import org.booklink.models.request_models.BookTextRequest;
+import org.booklink.models.request_models.CoverRequest;
+import org.booklink.repositories.*;
+import org.booklink.services.convertors.BookConvertor;
+import org.booklink.services.convertors.DocToHtmlConvertor;
+import org.booklink.services.convertors.PdfToHtmlConvertor;
+import org.booklink.services.convertors.TextToHtmlConvertor;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -31,6 +35,7 @@ public class BookService {
     private Environment env;
     private BookRepository bookRepository;
     private BookCommentsRepository bookCommentsRepository;
+    private BookTextRepository bookTextRepository;
     private SerieRepository serieRepository;
     private AuthorRepository authorRepository;
 
@@ -38,11 +43,13 @@ public class BookService {
     public BookService(final Environment env,
                        final BookRepository bookRepository,
                        final BookCommentsRepository bookCommentsRepository,
+                       final BookTextRepository bookTextRepository,
                        final SerieRepository serieRepository,
                        final AuthorRepository authorRepository) {
         this.env = env;
         this.bookRepository = bookRepository;
         this.bookCommentsRepository = bookCommentsRepository;
+        this.bookTextRepository = bookTextRepository;
         this.serieRepository = serieRepository;
         this.authorRepository = authorRepository;
     }
@@ -95,6 +102,48 @@ public class BookService {
         bookRepository.save(savedBook);
 
         return savedBook.getId();
+    }
+
+    public void saveCover(final CoverRequest coverRequest) throws IOException {
+        checkCredentials(coverRequest.getUserId()); //only the owner can change the cover of his book
+
+        Book book = bookRepository.findOne(coverRequest.getId());
+        if (book == null) {
+            throw new ObjectNotFoundException();
+        }
+        checkCredentials(book.getAuthor().getUsername()); //only the owner can change the cover of his book
+        String uploadDir = env.getProperty("writersnet.coverstorage.path");
+        File file = new File(uploadDir);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        String originalName = coverRequest.getId().toString() + "." + FilenameUtils.getExtension(coverRequest.getCover().getOriginalFilename());
+
+        String filePath = uploadDir + originalName;
+        File dest = new File(filePath);
+        coverRequest.getCover().transferTo(dest);
+
+        String coverLink = env.getProperty("writersnet.coverwebstorage.path") + originalName;
+        book.setCover(coverLink);
+        book.setLastUpdate(new Date());
+        bookRepository.save(book);
+    }
+
+    public void saveBookText(final BookTextRequest bookTextRequest) throws Exception {
+        checkCredentials(bookTextRequest.getUserId()); //only the owner can change the cover of his book
+
+        Book book = bookRepository.findOne(bookTextRequest.getBookId());
+        if (book == null) {
+            throw new ObjectNotFoundException("Book was not found");
+        }
+        checkCredentials(book.getAuthor().getUsername()); //only the owner can change the text of his book
+        String text = convertBookTextToHtml(bookTextRequest);
+        BookText bookText = Optional.ofNullable(book.getBookText()).map(txt -> bookTextRepository.findOne(txt.getId())).orElseGet(BookText::new);
+        bookText.setText(text);
+        bookTextRepository.save(bookText);
+        book.setBookText(bookText);
+        book.setLastUpdate(new Date());
+        bookRepository.save(book);
     }
 
     public void deleteBook(final Long bookId) {
@@ -163,5 +212,40 @@ public class BookService {
         if (!currentUser.equals(userId)) {
             throw new UnauthorizedUserException();
         }
+    }
+
+    /* convert user file to our internal html format */
+    private String convertBookTextToHtml(BookTextRequest bookTextRequest) throws Exception {
+        MultipartFile textFile = bookTextRequest.getText();
+        String ext = FilenameUtils.getExtension(textFile.getOriginalFilename());
+        String path = env.getProperty("writersnet.tempstorage") + bookTextRequest.getUserId() + "\\";
+        File dir = new File(path);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        String result = "";
+        BookConvertor<String> textBookConvertor = new TextToHtmlConvertor();
+        switch (ext) {
+            case "txt":
+                String text = new String(textFile.getBytes(), "UTF-8");
+                result = textBookConvertor.toHtml(text);
+                break;
+            case "docx":
+                File tmpDoc = new File(path + textFile.getOriginalFilename());
+                textFile.transferTo(tmpDoc);
+                BookConvertor<File> docConvertor = new DocToHtmlConvertor();
+                result = textBookConvertor.toHtml(docConvertor.toHtml(tmpDoc));
+                tmpDoc.delete();
+                break;
+            case "pdf":
+                File tmpPdf = new File(path + textFile.getOriginalFilename());
+                textFile.transferTo(tmpPdf);
+                BookConvertor<File> pdfBookConvertor = new PdfToHtmlConvertor();
+                result = textBookConvertor.toHtml(pdfBookConvertor.toHtml(tmpPdf));
+                tmpPdf.delete();
+                break;
+            default: throw new RuntimeException("Unsupported text format");
+        }
+        return result;
     }
 }
