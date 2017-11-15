@@ -1,9 +1,5 @@
 package org.booklink.models.request_models;
 
-import com.sun.xml.internal.txw2.annotation.XmlElement;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * Created by mhenr on 30.09.2017.
  */
