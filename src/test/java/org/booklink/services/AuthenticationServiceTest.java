@@ -50,21 +50,25 @@ public class AuthenticationServiceTest {
         User user = new User();
         user.setUsername("user");
         user.setPassword("$2a$10$9deKO8TOxquIiUstzBuJLO8lMkSaZX/yxG2Ix/OK5Tl5TMVbkxeP6");
+        user.setActivationToken("token111");
+        user.setEnabled(false);
         Mockito.when(userRepository.findOne(user.getUsername())).thenReturn(user);
+        Mockito.when(userRepository.findUserByActivationToken("token111")).thenReturn(user);
+        Mockito.when(userRepository.findUserByEmail("user@mail.ru")).thenReturn(user);
     }
 
     @Test
-    public void ok() throws Exception {
+    public void auth_ok() throws Exception {
         final Credentials credentials = new Credentials();
         credentials.setUsername("user");
         credentials.setPassword("secret");
         credentials.setEmail("user@mail.ru");
         String result = authenticationService.auth(credentials);
-        Assert.assertEquals(129, result.length());
+        Assert.assertEquals(151, result.length());
     }
 
     @Test
-    public void userNotFound() throws Exception {
+    public void auth_userNotFound() throws Exception {
         final Credentials credentials = new Credentials();
         credentials.setUsername("mhenro");
         credentials.setPassword("secret");
@@ -74,12 +78,54 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void wrongPassword() throws Exception {
+    public void auth_wrongPassword() throws Exception {
         final Credentials credentials = new Credentials();
         credentials.setUsername("user");
         credentials.setPassword("111");
         credentials.setEmail("user@mail.ru");
         String result = authenticationService.auth(credentials);
         Assert.assertEquals(null, result);
+    }
+
+    @Test
+    public void activate_ok() throws Exception {
+        final boolean result = authenticationService.activate("token111");
+        Assert.assertEquals(true, result);
+    }
+
+    @Test
+    public void activate_wrong() throws Exception {
+        final boolean result = authenticationService.activate("token112");
+        Assert.assertEquals(false, result);
+    }
+
+    @Test
+    public void register_ok() throws Exception {
+        final Credentials credentials = new Credentials();
+        credentials.setUsername("newUser");
+        credentials.setPassword("secret");
+        credentials.setEmail("newUser@mail.ru");
+        final boolean result = authenticationService.register(credentials);
+        Assert.assertEquals(true, result);
+    }
+
+    @Test
+    public void register_already_existed1() throws Exception {
+        final Credentials credentials = new Credentials();
+        credentials.setUsername("newUser");
+        credentials.setPassword("secret");
+        credentials.setEmail("user@mail.ru");
+        final boolean result = authenticationService.register(credentials);
+        Assert.assertEquals(false, result);
+    }
+
+    @Test
+    public void register_already_existed2() throws Exception {
+        final Credentials credentials = new Credentials();
+        credentials.setUsername("user");
+        credentials.setPassword("secret");
+        credentials.setEmail("user@mail.ru");
+        final boolean result = authenticationService.register(credentials);
+        Assert.assertEquals(false, result);
     }
 }
