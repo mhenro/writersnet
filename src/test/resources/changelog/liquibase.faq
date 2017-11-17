@@ -1,2 +1,0 @@
-generate changelog from db:
-    mvn liquibase:generateChangeLog -Dliquibase.outputChangeLogFile=./file.json

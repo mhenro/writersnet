@@ -1,0 +1,85 @@
+package org.booklink.services;
+
+import org.booklink.models.entities.User;
+import org.booklink.models.request_models.Credentials;
+import org.booklink.repositories.SectionRepository;
+import org.booklink.repositories.UserRepository;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.test.context.junit4.SpringRunner;
+
+/**
+ * Created by mhenr on 17.11.2017.
+ */
+@RunWith(SpringRunner.class)
+public class AuthenticationServiceTest {
+    @TestConfiguration
+    static class AuthenticationServiceConfiguration {
+        @MockBean
+        private UserRepository userRepository;
+
+        @MockBean
+        private SectionRepository sectionRepository;
+
+        @MockBean
+        private JavaMailSender mailSender;
+
+        @Bean
+        public AuthenticationService authenticationService() {
+            return new AuthenticationService(userRepository, sectionRepository, mailSender);
+        }
+    }
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    @Before
+    public void init() {
+        User user = new User();
+        user.setUsername("user");
+        user.setPassword("$2a$10$9deKO8TOxquIiUstzBuJLO8lMkSaZX/yxG2Ix/OK5Tl5TMVbkxeP6");
+        Mockito.when(userRepository.findOne(user.getUsername())).thenReturn(user);
+    }
+
+    @Test
+    public void ok() throws Exception {
+        final Credentials credentials = new Credentials();
+        credentials.setUsername("user");
+        credentials.setPassword("secret");
+        credentials.setEmail("user@mail.ru");
+        String result = authenticationService.auth(credentials);
+        Assert.assertEquals(129, result.length());
+    }
+
+    @Test
+    public void userNotFound() throws Exception {
+        final Credentials credentials = new Credentials();
+        credentials.setUsername("mhenro");
+        credentials.setPassword("secret");
+        credentials.setEmail("user@mail.ru");
+        String result = authenticationService.auth(credentials);
+        Assert.assertEquals(null, result);
+    }
+
+    @Test
+    public void wrongPassword() throws Exception {
+        final Credentials credentials = new Credentials();
+        credentials.setUsername("user");
+        credentials.setPassword("111");
+        credentials.setEmail("user@mail.ru");
+        String result = authenticationService.auth(credentials);
+        Assert.assertEquals(null, result);
+    }
+}
