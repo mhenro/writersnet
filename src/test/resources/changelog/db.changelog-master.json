@@ -1,0 +1,802 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1510601225173-1",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createSequence": {
+            "sequenceName": "book_id_seq"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-2",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createSequence": {
+            "sequenceName": "book_text_id_seq"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-3",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createSequence": {
+            "sequenceName": "comment_id_seq"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-4",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createSequence": {
+            "sequenceName": "section_id_seq"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-5",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createSequence": {
+            "sequenceName": "serie_id_seq"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-6",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "username",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "authority",
+                  "type": "VARCHAR(50)"
+                }
+              }]
+          ,
+            "tableName": "authorities"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-7",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "autoIncrement": true,
+                  "constraints": {
+                    "primaryKey": true,
+                    "primaryKeyName": "book_pkey"
+                  },
+                  "name": "id",
+                  "type": "SERIAL"
+                }
+              },
+              {
+                "column": {
+                  "name": "name",
+                  "type": "VARCHAR(50)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "author",
+                  "type": "VARCHAR(100)"
+                }
+              },
+              {
+                "column": {
+                  "name": "description",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "created",
+                  "type": "date"
+                }
+              },
+              {
+                "column": {
+                  "name": "genre",
+                  "type": "SMALLINT"
+                }
+              },
+              {
+                "column": {
+                  "name": "serie_id",
+                  "type": "INT"
+                }
+              },
+              {
+                "column": {
+                  "name": "last_update",
+                  "type": "date"
+                }
+              },
+              {
+                "column": {
+                  "name": "language",
+                  "type": "VARCHAR(5)"
+                }
+              },
+              {
+                "column": {
+                  "name": "cover",
+                  "type": "VARCHAR(100)"
+                }
+              },
+              {
+                "column": {
+                  "name": "text_id",
+                  "type": "INT"
+                }
+              }]
+          ,
+            "tableName": "book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-8",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "autoIncrement": true,
+                  "constraints": {
+                    "primaryKey": true,
+                    "primaryKeyName": "comment_pk"
+                  },
+                  "name": "id",
+                  "type": "SERIAL"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "book_id",
+                  "type": "INT"
+                }
+              },
+              {
+                "column": {
+                  "name": "user_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "comment",
+                  "type": "VARCHAR(500)"
+                }
+              },
+              {
+                "column": {
+                  "name": "created",
+                  "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
+                }
+              },
+              {
+                "column": {
+                  "name": "related_to",
+                  "type": "INT"
+                }
+              }]
+          ,
+            "tableName": "book_comments"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-9",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "name": "name",
+                  "type": "VARCHAR(100)"
+                }
+              },
+              {
+                "column": {
+                  "autoIncrement": true,
+                  "constraints": {
+                    "primaryKey": true,
+                    "primaryKeyName": "serie_pk"
+                  },
+                  "name": "id",
+                  "type": "SERIAL"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(20)"
+                }
+              }]
+          ,
+            "tableName": "book_serie"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-10",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "autoIncrement": true,
+                  "constraints": {
+                    "primaryKey": true,
+                    "primaryKeyName": "book_text_pk"
+                  },
+                  "name": "id",
+                  "type": "SERIAL"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "text",
+                  "type": "VARCHAR(10485760)"
+                }
+              }]
+          ,
+            "tableName": "book_text"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-11",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "book_id",
+                  "type": "INT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "estimation",
+                  "type": "SMALLINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "client_ip",
+                  "type": "VARCHAR(16)"
+                }
+              }]
+          ,
+            "tableName": "rating"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-12",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "name": "name",
+                  "type": "VARCHAR(50)"
+                }
+              },
+              {
+                "column": {
+                  "name": "visitors",
+                  "type": "INT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "author_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "name": "last_update",
+                  "type": "date"
+                }
+              },
+              {
+                "column": {
+                  "autoIncrement": true,
+                  "constraints": {
+                    "primaryKey": true,
+                    "primaryKeyName": "section_pkey"
+                  },
+                  "name": "id",
+                  "type": "SERIAL"
+                }
+              },
+              {
+                "column": {
+                  "name": "description",
+                  "type": "VARCHAR(1000)"
+                }
+              }]
+          ,
+            "tableName": "sections"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-13",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "username",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "password",
+                  "type": "VARCHAR(100)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "defaultValueBoolean": true,
+                  "name": "enabled",
+                  "type": "BOOLEAN"
+                }
+              },
+              {
+                "column": {
+                  "name": "activation_token",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "city",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "name": "first_name",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "name": "last_name",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "name": "birthday",
+                  "type": "date"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "email",
+                  "type": "VARCHAR(50)"
+                }
+              },
+              {
+                "column": {
+                  "name": "language",
+                  "type": "VARCHAR(5)"
+                }
+              },
+              {
+                "column": {
+                  "name": "preferred_languages",
+                  "type": "VARCHAR(100)"
+                }
+              },
+              {
+                "column": {
+                  "name": "avatar",
+                  "type": "VARCHAR(100)"
+                }
+              }]
+          ,
+            "tableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-14",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "username",
+            "constraintName": "authorities_pkey",
+            "tableName": "authorities"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-15",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "book_id, estimation, client_ip",
+            "constraintName": "rating_pk",
+            "tableName": "rating"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-16",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "username",
+            "constraintName": "users_pkey",
+            "tableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-17",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "email",
+            "constraintName": "email_uniq",
+            "tableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-18",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "author_id",
+            "constraintName": "uniq_author",
+            "tableName": "sections"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-19",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "book_id"
+                }
+              }]
+          ,
+            "indexName": "fki_book_fk",
+            "tableName": "book_comments"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-20",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "serie_id"
+                }
+              }]
+          ,
+            "indexName": "fki_book_serie_fk",
+            "tableName": "book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-21",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "text_id"
+                }
+              }]
+          ,
+            "indexName": "fki_book_text_fk",
+            "tableName": "book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-22",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "id"
+                }
+              },
+              {
+                "column": {
+                  "name": "serie_id"
+                }
+              }]
+          ,
+            "indexName": "fki_serie_fk",
+            "tableName": "book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-23",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "author_id",
+            "baseTableName": "sections",
+            "constraintName": "author_id",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "username",
+            "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-24",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "book_id",
+            "baseTableName": "book_comments",
+            "constraintName": "book_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-25",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "serie_id",
+            "baseTableName": "book",
+            "constraintName": "book_serie_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "book_serie"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1510601225173-26",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "text_id",
+            "baseTableName": "book",
+            "constraintName": "book_text_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "book_text"
+          }
+        }]
+
+    }
+  }
+
+]}

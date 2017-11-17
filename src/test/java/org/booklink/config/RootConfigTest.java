@@ -1,28 +1,56 @@
 package org.booklink.config;
 
-import org.booklink.repositories.BookRepository;
+import liquibase.integration.spring.SpringLiquibase;
+import org.booklink.security.JwtFilter;
 import org.booklink.security.SecurityConfigTest;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * Created by mhenr on 27.09.2017.
  */
 @Profile("test")
+
 @Configuration
 @ComponentScan(basePackageClasses = {SecurityConfigTest.class})
+@EntityScan(basePackages = "org.booklink.models.entities")
+@EnableJpaRepositories(basePackages = "org.booklink.repositories")
 public class RootConfigTest {
     @Bean
-    @ConfigurationProperties(prefix="spring.datasource")
-    public DataSource prodDataSource() {
-        return DataSourceBuilder
-                .create()
-                .build();
+    public SpringLiquibase liquibase(DataSource dataSource) {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setChangeLog("classpath:/db/changelog/db.changelog-master.json");
+        liquibase.setDataSource(dataSource);
+        liquibase.setShouldRun(false);
+        return liquibase;
+    }
+
+    @Bean
+    public FilterRegistrationBean jwtFilter() {
+        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(new JwtFilter());
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.mail")
+    public JavaMailSender mailSender() {
+        JavaMailSender mailSender = new JavaMailSenderImpl();
+        return mailSender;
     }
 }

@@ -18,7 +18,6 @@ import javax.sql.DataSource;
  */
 @Profile("production")
 @Configuration
-@ComponentScan(basePackages = "org.booklink.config")
 public class RootConfig {
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
