@@ -77,7 +77,7 @@ public class AuthorController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
-        response.setMessage("Avatar was saved successully");
+        response.setMessage("Avatar was saved successfully");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

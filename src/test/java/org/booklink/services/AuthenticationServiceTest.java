@@ -6,7 +6,6 @@ import org.booklink.repositories.SectionRepository;
 import org.booklink.repositories.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
