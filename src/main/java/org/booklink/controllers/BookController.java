@@ -82,7 +82,7 @@ public class BookController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
-        response.setMessage("Cover was saved successully");
+        response.setMessage("Cover was saved successfully");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -127,6 +127,8 @@ public class BookController {
                 .map(Genre::name)
                 .collect(Collectors.toList());
     }
+
+    /* ----------------------------------------exception handlers*------------------------------------------ */
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {

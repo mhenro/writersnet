@@ -5,6 +5,7 @@ import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SectionRepository;
+import org.booklink.services.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,31 +17,23 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 public class SectionController {
-    private SectionRepository sectionRepository;
+    private SectionService sectionService;
 
     @Autowired
-    public SectionController(SectionRepository sectionRepository) {
-        this.sectionRepository = sectionRepository;
+    public SectionController(SectionService sectionService) {
+        this.sectionService = sectionService;
     }
 
     @CrossOrigin
     @RequestMapping(value = "sections/{sectionId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getSection(@PathVariable Long sectionId) {
-        Section section = sectionRepository.findOne(sectionId);
+        Section section = sectionService.getSection(sectionId);
         if (section != null) {
-            User author = section.getAuthor();
-            hideAuthInfo(author);
             return new ResponseEntity<>(section, HttpStatus.OK);
         }
         Response<String> response = new Response<>();
         response.setCode(1);
         response.setMessage("Section not found");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
-    private void hideAuthInfo(User user) {
-        user.setPassword("");
-        user.setActivationToken("");
-        user.setAuthority("");
     }
 }
