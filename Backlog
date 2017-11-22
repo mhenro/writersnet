@@ -15,6 +15,16 @@ Features:
 27. Let nginx proxying all requests to backend. It will allow to create embedded Tomcat cluster in the future.
 28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
 29. Support full localization mechanism.
+30. Add concept of the premium account. It should allow:
+                   - to use more large photos and book texts;
+                   - gold highlight of the author panel and all of the author books in all rating lists;
+                   - higher prioritet in rating and in search. This means that if default account and premium account has the same values/rating then the premium account will be sorted higher;
+                   - additional tools in account: text analyzer, create private books and so on.
+31. Create internal user balance. User can convert real money via pay gateway into the internal credits. These credits allow to:
+                   - transmit credits between users. For instance, user can transmit credits to his friend or pay credits to other user for creating review of his book;
+                   - buy premium account;
+                   - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
+                   - buy additional stuff, such as pdf convertation of the book, some medals to show them on author section page and so on.
 
 Bugs:
 2. Fix bug with editing in login/signup form.
