@@ -42,7 +42,9 @@ public class CommentsService {
 
     public Page<BookComments> getComments(final Long bookId, final Pageable pageable) {
         Page<BookComments> comments = bookCommentsRepository.findAllByBookId(bookId, pageable);
-        setDefaultAvatars(comments);
+        if (comments != null) {
+            setDefaultAvatars(comments);
+        }
         return comments;
     }
 

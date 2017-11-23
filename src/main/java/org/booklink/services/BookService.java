@@ -56,7 +56,9 @@ public class BookService {
 
     public Page<Book> getBooks(Pageable pageable) {
         Page<Book> books = bookRepository.findAll(pageable);
-        processBooks(books);
+        if (books != null) {
+            processBooks(books);
+        }
         return books;
     }
 
