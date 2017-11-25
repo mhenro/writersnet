@@ -77913,6 +77913,17 @@ var BookSerieItem = function (_React$Component) {
             return parseInt(this.props.book.size / 40000);
         }
     }, {
+        key: 'renderCounters',
+        value: function renderCounters() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                '13000 views | ',
+                this.props.book.commentsCount,
+                ' comments | 20 reviews'
+            );
+        }
+    }, {
         key: 'onConfirm',
         value: function onConfirm() {
             this.setState({
@@ -78056,7 +78067,7 @@ var BookSerieItem = function (_React$Component) {
                             )
                         ),
                         _react2.default.createElement('hr', null),
-                        '13000 views | 775 comments | 20 reviews',
+                        this.renderCounters(),
                         _react2.default.createElement('hr', null),
                         _react2.default.createElement(
                             'div',

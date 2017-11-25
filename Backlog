@@ -1,36 +1,47 @@
 Current sprint:
-IN PROGRESS - 14. Write unit tests for all controllers and business logic. Do refactoring if needed.
+22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
+33. Fix "Author page" button layout on authors page.
+6. Create views counter in "13000 views | 775 comments | 20 reviews" functional.
+37. Click on author avatar leads to activate author's page.
+38. Click on book cover leads to activate reader with current book.
+39. Click on author avatar on authors page leads to activate author's page.
 
 
 Features:
-6. Create "13000 views | 775 comments | 20 reviews" functional.
+36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
 2. Add changing password functional to Options page.
 10. Add user policy component to signup form.
 11. Add "forgot your password?" functional to login form.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 21. Add pay gateway.
-22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 26. Add Main page to the site. Something like summary of ratings and recently general news.
-27. Let nginx proxying all requests to backend. It will allow to create embedded Tomcat cluster in the future.
 28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
 29. Support full localization mechanism.
 30. Add concept of the premium account. It should allow:
                    - to use more large photos and book texts;
                    - gold highlight of the author panel and all of the author books in all rating lists;
                    - higher prioritet in rating and in search. This means that if default account and premium account has the same values/rating then the premium account will be sorted higher;
-                   - additional tools in account: text analyzer, create private books and so on.
+                   - additional tools in account: text analyzer, create private books and so on;
+		   - disable the ads.
 31. Create internal user balance. User can convert real money via pay gateway into the internal credits. These credits allow to:
                    - transmit credits between users. For instance, user can transmit credits to his friend or pay credits to other user for creating review of his book;
                    - buy premium account;
                    - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
                    - buy additional stuff, such as pdf convertation of the book, some medals to show them on author section page and so on.
+32. Refactor jpa entities.
+34. Create online/offline statuses for authors.
+36. Create novelty rating on Ratings page.
+40. When click on "comments" in "13000 views | 775 comments | 20 reviews" component then user is moved to comments section of the book (in reader component).
+41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
+
 
 Bugs:
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI).
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
 25. Fix bug when deleting serie, which is used by some book. This leads to exception on serverside.
+42. Go to top of the screen when changing page.
 
 
 Closed:
@@ -50,3 +61,6 @@ DONE - 1. Add "Edit series" button to Section page.
 DONE - 3. Finish bookListItem on Books page.
 DONE - 9. Add paginator to Books page.
 DONE - 5. Create all Links components between pages.
+DONE - 14. Write unit tests for all controllers and business logic. Do refactoring if needed.
+DONE - 27. Let nginx proxying all requests to backend. It will allow to create embedded Tomcat cluster in the future.
+DONE - 35. Create comments counter in "13000 views | 775 comments | 20 reviews" component on author page.

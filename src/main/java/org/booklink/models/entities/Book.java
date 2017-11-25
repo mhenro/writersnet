@@ -30,6 +30,7 @@ public class Book {
     private String language;
     private String cover;
     private Integer size;
+    private List<BookComments> comments;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -187,5 +188,21 @@ public class Book {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    @JsonIgnore
+    public List<BookComments> getComments() {
+        return comments;
+    }
+
+    @Transient
+    public int getCommentsCount() {
+        return comments.size();
+    }
+
+    public void setComments(List<BookComments> comments) {
+        this.comments = comments;
     }
 }

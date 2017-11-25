@@ -31,7 +31,6 @@ public class BookComments {
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "book_id")
     @JsonIgnore
     public Book getBook() {
         return book;

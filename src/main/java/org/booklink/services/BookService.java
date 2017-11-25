@@ -76,8 +76,10 @@ public class BookService {
     public Long saveBook(Book book) {
         Book savedBook;
         if (book.getId() == null) { //new book
+            checkCredentials(book.getAuthor().getUsername());   //only owner can edit his book
             savedBook = new Book();
             savedBook.setCreated(new Date());
+            savedBook.setLastUpdate(new Date());
         } else {    //saved book was edited
             savedBook = bookRepository.findOne(book.getId());
             if (savedBook == null) {

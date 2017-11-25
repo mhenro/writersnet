@@ -47,6 +47,14 @@ class BookSerieItem extends React.Component {
         return parseInt(this.props.book.size / 40000);
     }
 
+    renderCounters() {
+        return (
+            <div>
+                13000 views | {this.props.book.commentsCount} comments | 20 reviews
+            </div>
+        )
+    }
+
     onConfirm() {
         this.setState({
             confirmDialogShow: true
@@ -109,7 +117,7 @@ class BookSerieItem extends React.Component {
                             </tbody>
                         </table>
                         <hr/>
-                        13000 views | 775 comments | 20 reviews
+                        {this.renderCounters()}
                         <hr/>
                         <div className="row">
                             <div className={'col-sm-12 col-md-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
