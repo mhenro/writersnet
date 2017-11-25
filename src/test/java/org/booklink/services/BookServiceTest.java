@@ -131,18 +131,14 @@ public class BookServiceTest {
     @Test(expected = Test.None.class)
     public void saveNewBook() throws Exception {
         final Book book = new Book();
-        final User user = new User();
-        user.setUsername("user0");
-        book.setAuthor(user);
+        book.setAuthorName("user0");
         bookService.saveBook(book);
     }
 
     @Test(expected = UnauthorizedUserException.class)
     public void saveNewBook_unathorized() throws Exception {
         final Book book = new Book();
-        final User user = new User();
-        user.setUsername("user10");
-        book.setAuthor(user);
+        book.setAuthorName("user10");
         bookService.saveBook(book);
     }
 

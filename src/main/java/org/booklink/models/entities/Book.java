@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -199,7 +200,7 @@ public class Book {
 
     @Transient
     public int getCommentsCount() {
-        return comments.size();
+        return Optional.ofNullable(comments).map(comments -> comments.size()).orElse(0);
     }
 
     public void setComments(List<BookComments> comments) {
