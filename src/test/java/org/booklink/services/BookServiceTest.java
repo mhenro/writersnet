@@ -247,6 +247,7 @@ public class BookServiceTest {
     private Book createBook(final int i) {
         final Book book = new Book();
         final User user = new User();
+        user.setUsername("mhenro");
         user.setPassword("password");
         user.setAuthority("role");
         user.setActivationToken("token");

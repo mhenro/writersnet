@@ -31,6 +31,7 @@ Features:
 44. Autoupdate jwt token when user is active.
 45. Add filters to Books page.
 46. Add filters to Authors page.
+47. Add defence from overclick visitors by user (by IP or something).
 
 
 Bugs:
