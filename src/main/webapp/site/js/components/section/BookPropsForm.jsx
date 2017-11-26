@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import Select from 'react-select';
+import { formatDate } from '../../utils.jsx';
 
 import {
     createNotify
@@ -43,10 +44,12 @@ class BookPropsForm extends React.Component {
             serie: {value: null, label: 'Without serie'},
             genre: null,
             language: null,
-            cover: ''
+            cover: '',
+            lastUpdated: ''
         };
 
-        ['save', 'close', 'onShow', 'onFieldChange', 'onCoverChange', 'onSaveText', 'onSerieChange', 'onGenreChange', 'onLanguageChange', 'updateForm', 'updateState', 'onSubmit'].map(fn => this[fn] = this[fn].bind(this));
+        ['save', 'close', 'onShow', 'onFieldChange', 'onCoverChange', 'onSaveText', 'onSerieChange',
+            'onGenreChange', 'onLanguageChange', 'updateForm', 'onUpdateLastUpdatedField', 'updateState', 'onSubmit'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     onShow() {
@@ -61,7 +64,8 @@ class BookPropsForm extends React.Component {
                 serie: {value: null, label: 'Without serie'},
                 genre: null,
                 language: null,
-                cover: ''
+                cover: '',
+                lastUpdated: ''
             });
         }
     }
@@ -78,7 +82,8 @@ class BookPropsForm extends React.Component {
             serie: book.bookSerie ? {value: book.bookSerie.id, label: book.bookSerie.name} : {value: null, label: 'Without serie'},
             genre: {value: book.genre, label: getLocale(this.props.language)[book.genre]},
             language: {value: book.language, label: locale[book.language || 'EN'].label},
-            cover: book.cover
+            cover: book.cover,
+            lastUpdated: book.lastUpdate
         });
     }
 
@@ -159,6 +164,11 @@ class BookPropsForm extends React.Component {
         return options;
     }
 
+    getLastUpdated() {
+        let date = new Date(this.state.lastUpdated);
+        return formatDate(date, 'D-M-Y');
+    }
+
     onCoverChange(event) {
         if (event.target.files[0].size >= 102400) {
             this.props.onCreateNotify('warning', 'Warning', 'Image size should not be larger than 100Kb');
@@ -182,7 +192,13 @@ class BookPropsForm extends React.Component {
         bookTextRequest.append('userId', this.props.author.username,);
         bookTextRequest.append('text', event.target.files[0]);
 
-        this.props.onSaveBookText(bookTextRequest, this.props.token);
+        this.props.onSaveBookText(bookTextRequest, this.props.token, this.onUpdateLastUpdatedField);
+    }
+
+    onUpdateLastUpdatedField(date) {
+        this.setState({
+            lastUpdated: date
+        });
     }
 
     onSubmit(event) {
@@ -265,7 +281,7 @@ class BookPropsForm extends React.Component {
 
                         <div className={'panel panel-default ' + (this.props.editableBook ? '' : 'hidden')}>
                             <div className="panel-heading">
-                                Text
+                                Text {'(last updated at ' + this.getLastUpdated() + ')'}
                             </div>
                             <div className="panel-body">
                                 <div className="col-sm-12" style={{textAlign: 'center'}}>
@@ -388,7 +404,7 @@ const mapDispatchToProps = (dispatch) => {
         onSaveBookText: (bookTextRequest, token, callback) => {
             return saveBookText(bookTextRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
-                    //callback();
+                    callback(json.message);
                     dispatch(createNotify('success', 'Success', 'Book text was saved successfully'));
                 }
                 else {

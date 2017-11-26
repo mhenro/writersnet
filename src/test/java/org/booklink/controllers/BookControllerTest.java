@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import java.sql.Date;
+
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -51,6 +53,11 @@ public class BookControllerTest {
 
     @Before
     public void setup() {
+        try {
+            when(bookService.saveBookText(any(BookTextRequest.class))).thenReturn(Date.valueOf("2017-11-12"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         mvc = MockMvcBuilders
                 .standaloneSetup(bookController)
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
@@ -106,7 +113,7 @@ public class BookControllerTest {
     public void saveBookText() throws Exception {
         final BookTextRequest bookTextRequest = new BookTextRequest();
         final String json = mapper.writeValueAsString(bookTextRequest);
-        mvc.perform(post("/text").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: 'Book text was saved successfully'}"));
+        mvc.perform(post("/text").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: '2017-11-12'}"));
         mvc.perform(post("/wrong")).andExpect(status().isNotFound());
         doThrow(new RuntimeException("test error")).when(bookService).saveBookText(any(BookTextRequest.class));
         mvc.perform(post("/text").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError()).andExpect(content().json("{code: 1, message: 'test error'}"));

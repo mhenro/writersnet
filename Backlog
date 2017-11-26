@@ -1,10 +1,6 @@
 Current sprint:
-22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
-33. Fix "Author page" button layout on authors page.
-6. Create views counter in "13000 views | 775 comments | 20 reviews" functional.
-37. Click on author avatar leads to activate author's page.
-38. Click on book cover leads to activate reader with current book.
-39. Click on author avatar on authors page leads to activate author's page.
+36. Create novelty rating on Ratings page.
+40. When click on "comments" in "13000 views | 775 comments | 20 reviews" component then user is moved to comments section of the book (in reader component).
 
 
 Features:
@@ -31,9 +27,10 @@ Features:
                    - buy additional stuff, such as pdf convertation of the book, some medals to show them on author section page and so on.
 32. Refactor jpa entities.
 34. Create online/offline statuses for authors.
-36. Create novelty rating on Ratings page.
-40. When click on "comments" in "13000 views | 775 comments | 20 reviews" component then user is moved to comments section of the book (in reader component).
 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
+44. Autoupdate jwt token when user is active.
+45. Add filters to Books page.
+46. Add filters to Authors page.
 
 
 Bugs:
@@ -64,3 +61,10 @@ DONE - 5. Create all Links components between pages.
 DONE - 14. Write unit tests for all controllers and business logic. Do refactoring if needed.
 DONE - 27. Let nginx proxying all requests to backend. It will allow to create embedded Tomcat cluster in the future.
 DONE - 35. Create comments counter in "13000 views | 775 comments | 20 reviews" component on author page.
+DONE - 33. Fix "Author page" button layout on authors page.
+DONE - 37. Click on author avatar leads to activate author's Section page.
+DONE - 38. Click on book cover leads to activate reader with current book.
+DONE - 39. Click on author avatar on authors page leads to activate author's page.
+DONE - 43. Click on author avatar in the Section page moves user to Options page.
+DONE - 6. Create views counter in "13000 views | 775 comments | 20 reviews" functional.
+DONE - 22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.

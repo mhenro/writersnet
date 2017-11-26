@@ -32,6 +32,7 @@ public class User {
     private String sectionName;
     private String language;
     private String preferredLanguages;
+    private Long views = 0L;
 
     @Id
     public String getUsername() {
@@ -228,5 +229,14 @@ public class User {
 
     public void setPreferredLanguages(String preferredLanguages) {
         this.preferredLanguages = preferredLanguages;
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    @Column(nullable = false)
+    public void setViews(Long views) {
+        this.views = views;
     }
 }

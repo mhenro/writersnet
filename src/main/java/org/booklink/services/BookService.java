@@ -63,11 +63,11 @@ public class BookService {
     }
 
     public Book getBook(final Long bookId) {
-        Book book = bookRepository.findOne(bookId);
+        final Book book = bookRepository.findOne(bookId);
         if (book != null) {
+            increaseBookViews(book);
             hideAuthInfo(book);
             calcBookSize(book);
-            //hideText(book);
             removeRecursionFromBook(book);
         }
         return book;
@@ -133,7 +133,7 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public void saveBookText(final BookTextRequest bookTextRequest) throws Exception {
+    public Date saveBookText(final BookTextRequest bookTextRequest) throws Exception {
         checkCredentials(bookTextRequest.getUserId()); //only the owner can change the cover of his book
 
         Book book = bookRepository.findOne(bookTextRequest.getBookId());
@@ -148,6 +148,8 @@ public class BookService {
         book.setBookText(bookText);
         book.setLastUpdate(new Date());
         bookRepository.save(book);
+
+        return book.getLastUpdate();
     }
 
     public void deleteBook(final Long bookId) {
@@ -159,6 +161,14 @@ public class BookService {
         removeAllComments(book);
         bookRepository.delete(bookId);
         updateDateInUserSection(book.getAuthor().getUsername());
+    }
+
+    private void increaseBookViews(final Book book) {
+        if (book != null) {
+            final long views = book.getViews() + 1;
+            book.setViews(views);
+            bookRepository.save(book);
+        }
     }
 
     private void removeAllComments(final Book book) {

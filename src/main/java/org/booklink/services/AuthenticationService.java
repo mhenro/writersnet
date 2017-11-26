@@ -95,7 +95,6 @@ public class AuthenticationService {
         section.setAuthor(user);
         section.setLastUpdated(new Date());
         section.setName("Author section");
-        section.setVisitors(0);
         return section;
     }
 

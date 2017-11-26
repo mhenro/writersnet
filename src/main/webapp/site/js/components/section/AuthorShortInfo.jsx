@@ -42,6 +42,10 @@ class AuthorShortInfo extends React.Component {
         return parseFloat(this.props.author.rating.averageRating.toFixed(2));
     }
 
+    getTotalViews() {
+        return this.props.author.views;
+    }
+
     render() {
         return (
             <div className="panel panel-default">
@@ -77,7 +81,7 @@ class AuthorShortInfo extends React.Component {
                             </tr>
                             <tr>
                                 <td>Visitors</td>
-                                <td>{this.props.author.section.visitors}</td>
+                                <td>{this.getTotalViews()}</td>
                             </tr>
                         </tbody>
                     </table>

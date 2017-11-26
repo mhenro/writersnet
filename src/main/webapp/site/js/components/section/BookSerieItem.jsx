@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import { locale, getLocale } from '../../locale.jsx';
 import { formatBytes, formatDate } from '../../utils.jsx';
@@ -18,6 +19,16 @@ import ReactStars from 'react-stars';
     - token
  */
 class BookSerieItem extends React.Component {
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.shape({
+                push: PropTypes.func.isRequired,
+                replace: PropTypes.func.isRequired
+            }).isRequired,
+            staticContext: PropTypes.object
+        }).isRequired
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -50,7 +61,7 @@ class BookSerieItem extends React.Component {
     renderCounters() {
         return (
             <div>
-                13000 views | {this.props.book.commentsCount} comments | 20 reviews
+                {this.props.book.views} views | {this.props.book.commentsCount} comments | 20 reviews
             </div>
         )
     }
@@ -72,12 +83,16 @@ class BookSerieItem extends React.Component {
         });
     }
 
+    onBookClick() {
+        this.context.router.history.push('/reader/' + this.props.book.id);
+    }
+
     render() {
         return(
             <div>
                 <div className="row">
                     <div className="col-sm-12 col-lg-4">
-                        <img src={this.props.book.cover + '?date=' + new Date()} className="img-rounded" width="200" height="auto"/>
+                        <img src={this.props.book.cover + '?date=' + new Date()} onClick={() => this.onBookClick()} className="img-rounded clickable" width="200" height="auto"/>
                     </div>
                     <div className="col-sm-12 col-lg-8">
                         <div className="book-item-name">

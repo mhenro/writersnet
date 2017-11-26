@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { formatBytes } from '../../utils.jsx';
 import ReactStars from 'react-stars';
 /*
@@ -7,8 +8,22 @@ import ReactStars from 'react-stars';
     - author
  */
 class AuthorListItem extends React.Component {
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.shape({
+                push: PropTypes.func.isRequired,
+                replace: PropTypes.func.isRequired
+            }).isRequired,
+            staticContext: PropTypes.object
+        }).isRequired
+    };
+
     getAverageRating() {
         return parseFloat(this.props.author.rating.averageRating.toFixed(2));
+    }
+
+    goToAuthor() {
+        this.context.router.history.push('/authors/' + this.props.author.username);
     }
 
     render() {
@@ -17,7 +32,7 @@ class AuthorListItem extends React.Component {
                 <div className="panel-body">
                     <div className="row">
                         <div className="col-sm-4">
-                            <img src={this.props.author.avatar + '?date=' + new Date()} className="img-rounded" width="150" height="auto"/>
+                            <img src={this.props.author.avatar + '?date=' + new Date()} onClick={() => this.goToAuthor()} className="img-rounded clickable" width="150" height="auto"/>
                         </div>
                         <div className="col-sm-8">
                             <div>
@@ -25,8 +40,10 @@ class AuthorListItem extends React.Component {
                             </div>
                             <div>
                                 <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.getAverageRating()} className="stars"/>
-                                <span className="stars-end"><b>{this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}</b></span>
+                                <b>{this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}</b>
+                                <div className="stars-end"></div>
                             </div>
+                            <br/>
                             <div className="row">
                                 <div className="col-sm-6">
                                     <Link to={'/authors/' + this.props.author.username} className="btn btn-success btn-sm">Author page</Link>

@@ -53,6 +53,10 @@ footer {
     clear: both;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .section-author-name {
     text-align: center;
     font-size: 24pt;

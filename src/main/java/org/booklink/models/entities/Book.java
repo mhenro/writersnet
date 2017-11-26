@@ -32,6 +32,7 @@ public class Book {
     private String cover;
     private Integer size;
     private List<BookComments> comments;
+    private Long views = 0L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -205,5 +206,14 @@ public class Book {
 
     public void setComments(List<BookComments> comments) {
         this.comments = comments;
+    }
+
+    @Column(nullable = false)
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
     }
 }

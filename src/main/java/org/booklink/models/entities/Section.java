@@ -13,7 +13,6 @@ public class Section {
     private String name;
     private String description;
     private Date lastUpdated;
-    private Integer visitors;
     private User author;
 
     @Id
@@ -50,14 +49,6 @@ public class Section {
 
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
-    }
-
-    public Integer getVisitors() {
-        return visitors;
-    }
-
-    public void setVisitors(Integer visitors) {
-        this.visitors = visitors;
     }
 
     @OneToOne(fetch = FetchType.EAGER)

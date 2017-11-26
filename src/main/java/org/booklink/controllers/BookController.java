@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -90,16 +91,18 @@ public class BookController {
     @CrossOrigin
     @RequestMapping(value = "text", method = RequestMethod.POST)
     public ResponseEntity<?> saveBookText(BookTextRequest bookTextRequest) {
-        Response<String> response = new Response<>();
+        final Response<Date> response = new Response<>();
+        final Date lastUpdated;
         try {
-            bookService.saveBookText(bookTextRequest);
+            lastUpdated = bookService.saveBookText(bookTextRequest);
         } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            final Response<String> error = new Response<>();
+            error.setCode(1);
+            error.setMessage(e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
-        response.setMessage("Book text was saved successfully");
+        response.setMessage(lastUpdated);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

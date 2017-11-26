@@ -52,6 +52,7 @@ public class AuthorService {
     public User getAuthor(final String authorId) {
         final User author = authorRepository.findOne(authorId);
         if (author != null) {
+            increaseAuthorViews(author);
             hideAuthInfo(author);
             removeRecursionFromAuthor(author);
             setDefaultAvatar(author);
@@ -100,6 +101,14 @@ public class AuthorService {
         String avatarLink = env.getProperty("writersnet.avatarwebstorage.path") + originalName;
         author.setAvatar(avatarLink);
         authorRepository.save(author);
+    }
+
+    private void increaseAuthorViews(final User author) {
+        if (author != null) {
+            final long views = author.getViews() + 1;
+            author.setViews(views);
+            authorRepository.save(author);
+        }
     }
 
     private void checkCredentials(final String userId) {
