@@ -5,6 +5,8 @@ export const CREATE_NOTIFY = 'CREATE_NOTIFY';
 export const REMOVE_NOTIFIES = 'REMOVE_NOTIFIES';
 export const REMOVE_NOTIFY = 'REMOVE_NOTIFY';
 
+export const GO_TO_COMMENTS = 'GO_TO_COMMENTS';
+
 export const openLoginForm = (loginFormRegister) => {
     return {
         type: OPEN_LOGIN_FORM,
@@ -37,5 +39,12 @@ export const removeNotify = (alert) => {
     return {
         type: REMOVE_NOTIFY,
         alert
+    }
+};
+
+export const goToComments = (goToComments) => {
+    return {
+        type: GO_TO_COMMENTS,
+        goToComments
     }
 };

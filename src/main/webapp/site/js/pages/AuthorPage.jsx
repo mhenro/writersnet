@@ -27,6 +27,7 @@ class AuthorPage extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         this.props.onGetAuthors(this.state.activePage, this.setTotalPages);
     }
 

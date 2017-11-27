@@ -12,6 +12,7 @@ import BookSerieItem from './BookSerieItem.jsx';
     - onDeleteBook - callback
     - language
     - token
+    - onGoToComments - callback function
  */
 class BookSerieList extends React.Component {
     getBooksForSerie(serie) {
@@ -53,6 +54,7 @@ class BookSerieList extends React.Component {
                                                                onEditBook={this.props.onEditBook}
                                                                onDeleteBook={this.props.onDeleteBook}
                                                                token={this.props.token}
+                                                               onGoToComments={this.props.onGoToComments}
                                                                language={this.props.language}/>
                                             )
                                         })}

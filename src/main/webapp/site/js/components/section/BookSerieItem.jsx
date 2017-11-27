@@ -17,6 +17,7 @@ import ReactStars from 'react-stars';
     - onDeleteBook - callback
     - language
     - token
+    - onGoToComments - callback function
  */
 class BookSerieItem extends React.Component {
     static contextTypes = {
@@ -61,7 +62,7 @@ class BookSerieItem extends React.Component {
     renderCounters() {
         return (
             <div>
-                {this.props.book.views} views | {this.props.book.commentsCount} comments | 20 reviews
+                {this.props.book.views} views | <Link to={'/reader/' + this.props.book.id} onClick={() => this.props.onGoToComments(true)}>{this.props.book.commentsCount} comments</Link> | 20 reviews
             </div>
         )
     }

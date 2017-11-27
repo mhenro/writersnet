@@ -10,7 +10,8 @@ import {
     deleteComment
 } from '../actions/BookActions.jsx';
 import {
-    createNotify
+    createNotify,
+    goToComments
 } from '../actions/GlobalActions.jsx';
 
 import UserComments from '../components/UserComments.jsx';
@@ -32,6 +33,21 @@ class BookReader extends React.Component {
 
         this.props.onGetBookDetails(this.props.match.params.bookId);
         this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, this.renderComments, this.setTotalPages);
+    }
+
+    componentDidMount() {
+        if (this.props.goToComments) {
+            let timer = setInterval(() => {
+                let anchor = document.getElementById('commentsAnchor');
+                if (anchor) {
+                    anchor.scrollIntoView();
+                    this.props.onGoToComments(false);
+                    clearInterval(timer);
+                }
+            }, 500);
+        } else {
+            window.scrollTo(0, 0);
+        }
     }
 
     getAverageRating() {
@@ -111,6 +127,7 @@ class BookReader extends React.Component {
                     <div dangerouslySetInnerHTML={{ __html: this.props.book.bookText.text }} />
                     <hr/>
                 </div>
+                <div id="commentsAnchor" className="col-sm-12"></div>
                 <UserComments comments={this.state.comments}
                               owner={this.props.login === this.props.book.author.username}
                               onGetComments={this.props.onGetBookComments}
@@ -133,7 +150,8 @@ const mapStateToProps = (state) => {
     return {
         book: state.BookReducer.book,
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token
+        token: state.GlobalReducer.token,
+        goToComments: state.GlobalReducer.goToComments
     }
 };
 
@@ -206,6 +224,10 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onGoToComments: (state) => {
+            dispatch(goToComments(state));
         }
     }
 };

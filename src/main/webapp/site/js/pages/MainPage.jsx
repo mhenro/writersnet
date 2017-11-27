@@ -16,6 +16,7 @@ import BookReader from '../pages/BookReader.jsx';
 import SectionPage from '../pages/SectionPage.jsx';
 import LoginForm from '../components/LoginForm.jsx';
 import OptionsPage from '../pages/OptionsPage.jsx';
+import RatingPage from '../pages/RatingPage.jsx';
 import ScrollToTopButton from '../components/ScrollToTopButton.jsx';
 
 class MainPage extends React.Component {
@@ -23,6 +24,10 @@ class MainPage extends React.Component {
         super(props);
 
         ['onLoginClick', 'onLogoutClick'].map(fn => this[fn] = this[fn].bind(this));
+    }
+
+    componentDidMount() {
+        window.scrollTo(0, 0);
     }
 
     onLoginClick(loginFormRegister) {
@@ -56,6 +61,7 @@ class MainPage extends React.Component {
                                 <Route exact path="/authors" component={AuthorPage}/>
                                 <Route exact path="/authors/:authorName" component={SectionPage}/>
                                 <Route exact path="/books" component={BookPage}/>
+                                <Route exact path="/ratings" component={RatingPage}/>
                                 <Route exact path="/reader/:bookId" component={BookReader}/>
                                 <Route exact path="/options" component={this.props.registered ? OptionsPage : BookPage}/>
                             </div>

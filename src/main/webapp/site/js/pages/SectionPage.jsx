@@ -11,7 +11,8 @@ import {
     openEditSeriesForm
 } from '../actions/BookActions.jsx';
 import {
-    createNotify
+    createNotify,
+    goToComments
 } from '../actions/GlobalActions.jsx';
 
 import AuthorFile from '../components/section/AuthorFile.jsx';
@@ -32,6 +33,7 @@ class SectionPage extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         this.props.onGetAuthorDetails(this.props.match.params.authorName);
     }
 
@@ -106,6 +108,7 @@ class SectionPage extends React.Component {
                                onEditBook={this.onEditBook}
                                onDeleteBook={this.onDeleteBook}
                                token={this.props.token}
+                               onGoToComments={this.props.onGoToComments}
                                language={this.props.language}/>
 
                 {/* form for editing properties of the selected book */}
@@ -163,6 +166,10 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onGoToComments: (state) => {
+            dispatch(goToComments(state));
         }
     }
 };

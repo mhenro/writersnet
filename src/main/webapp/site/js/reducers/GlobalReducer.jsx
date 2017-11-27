@@ -3,7 +3,8 @@ import {
     CLOSE_LOGIN_FORM,
     CREATE_NOTIFY,
     REMOVE_NOTIFIES,
-    REMOVE_NOTIFY
+    REMOVE_NOTIFY,
+    GO_TO_COMMENTS
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -27,7 +28,8 @@ const initialState = {
     showLoginForm: false,
     loginFormRegister: true,
     editableBook: null,
-    alerts: []
+    alerts: [],
+    goToComments: false
 };
 
 const GlobalReducer = (state = initialState, action) => {
@@ -101,6 +103,9 @@ const GlobalReducer = (state = initialState, action) => {
             if (index >= 0) {
                 return Object.assign({}, state, {alerts: [...alerts.slice(0, index), ...alerts.slice(index + 1)]});
             }
+
+        case GO_TO_COMMENTS:
+            return Object.assign({}, state, {goToComments: action.goToComments});
     }
     return state;
 };

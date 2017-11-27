@@ -1,6 +1,5 @@
 Current sprint:
-36. Create novelty rating on Ratings page.
-40. When click on "comments" in "13000 views | 775 comments | 20 reviews" component then user is moved to comments section of the book (in reader component).
+IN PROGRESS - 36. Create novelty rating on Ratings page.
 
 
 Features:
@@ -41,7 +40,6 @@ Bugs:
 4. Fix bug with character encoding (ANSI).
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
 25. Fix bug when deleting serie, which is used by some book. This leads to exception on serverside.
-42. Go to top of the screen when changing page.
 
 
 Closed:
@@ -71,3 +69,5 @@ DONE - 39. Click on author avatar on authors page leads to activate author's pag
 DONE - 43. Click on author avatar in the Section page moves user to Options page.
 DONE - 6. Create views counter in "13000 views | 775 comments | 20 reviews" functional.
 DONE - 22. Add timestamp to panel "Text" in BookPropsForm for showing the last time when user loaded text.
+DONE - 40. When click on "comments" in "13000 views | 775 comments | 20 reviews" component then user is moved to comments section of the book (in reader component).
+DONE - 42. Go to top of the screen when changing page.
