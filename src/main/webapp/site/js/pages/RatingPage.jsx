@@ -1,11 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+
+import TopSelector from '../components/rating/TopSelector.jsx';
+import TopTable from '../components/rating/TopTable.jsx';
 
 class RatingPage extends React.Component {
     render() {
         return (
             <div>
-                Rating page
+                <div className="col-sm-12">
+                    <TopSelector/>
+                </div>
+                <div className="col-sm-12">
+                    <br/>
+                </div>
+                <div className="col-sm-12">
+                    <TopTable author={true}/>
+                </div>
             </div>
         )
     }

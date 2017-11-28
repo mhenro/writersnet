@@ -79,7 +79,7 @@ public class Book {
         this.created = created;
     }
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_update")
     public Date getLastUpdate() {
         return lastUpdate;

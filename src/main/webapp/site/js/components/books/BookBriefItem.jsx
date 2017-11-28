@@ -67,23 +67,23 @@ class BookBriefItem extends React.Component {
                             <table className="table">
                                 <tbody>
                                     <tr>
-                                        <td>Название</td>
+                                        <td>Name</td>
                                         <td>{this.getName()}</td>
                                     </tr>
                                     <tr>
-                                        <td>Автор</td>
+                                        <td>Author</td>
                                         <td>{this.getAuthor()}</td>
                                     </tr>
                                     <tr>
-                                        <td>Жанр</td>
+                                        <td>Genre</td>
                                         <td>{this.getGenre()}</td>
                                     </tr>
                                     <tr>
-                                        <td>Описание</td>
+                                        <td>Description</td>
                                         <td>{this.getDescription()}</td>
                                     </tr>
                                     <tr>
-                                        <td>Год</td>
+                                        <td>Year</td>
                                         <td>{this.getCreated()}</td>
                                     </tr>
                                 </tbody>

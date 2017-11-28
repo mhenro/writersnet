@@ -42134,7 +42134,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(830);
+var	fixUrls = __webpack_require__(832);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -42472,17 +42472,17 @@ var _MainPage = __webpack_require__(546);
 
 var _MainPage2 = _interopRequireDefault(_MainPage);
 
-var _GlobalDataContainer = __webpack_require__(823);
+var _GlobalDataContainer = __webpack_require__(825);
 
 var _GlobalDataContainer2 = _interopRequireDefault(_GlobalDataContainer);
 
-var _appReducer = __webpack_require__(824);
+var _appReducer = __webpack_require__(826);
 
 var _appReducer2 = _interopRequireDefault(_appReducer);
 
-__webpack_require__(828);
+__webpack_require__(830);
 
-__webpack_require__(831);
+__webpack_require__(833);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55698,7 +55698,7 @@ var _RatingPage = __webpack_require__(821);
 
 var _RatingPage2 = _interopRequireDefault(_RatingPage);
 
-var _ScrollToTopButton = __webpack_require__(822);
+var _ScrollToTopButton = __webpack_require__(824);
 
 var _ScrollToTopButton2 = _interopRequireDefault(_ScrollToTopButton);
 
@@ -76240,7 +76240,7 @@ var BookBriefItem = function (_React$Component) {
                                         _react2.default.createElement(
                                             'td',
                                             null,
-                                            '\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435'
+                                            'Name'
                                         ),
                                         _react2.default.createElement(
                                             'td',
@@ -76254,7 +76254,7 @@ var BookBriefItem = function (_React$Component) {
                                         _react2.default.createElement(
                                             'td',
                                             null,
-                                            '\u0410\u0432\u0442\u043E\u0440'
+                                            'Author'
                                         ),
                                         _react2.default.createElement(
                                             'td',
@@ -76268,7 +76268,7 @@ var BookBriefItem = function (_React$Component) {
                                         _react2.default.createElement(
                                             'td',
                                             null,
-                                            '\u0416\u0430\u043D\u0440'
+                                            'Genre'
                                         ),
                                         _react2.default.createElement(
                                             'td',
@@ -76282,7 +76282,7 @@ var BookBriefItem = function (_React$Component) {
                                         _react2.default.createElement(
                                             'td',
                                             null,
-                                            '\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435'
+                                            'Description'
                                         ),
                                         _react2.default.createElement(
                                             'td',
@@ -76296,7 +76296,7 @@ var BookBriefItem = function (_React$Component) {
                                         _react2.default.createElement(
                                             'td',
                                             null,
-                                            '\u0413\u043E\u0434'
+                                            'Year'
                                         ),
                                         _react2.default.createElement(
                                             'td',
@@ -83194,6 +83194,14 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(25);
 
+var _TopSelector = __webpack_require__(822);
+
+var _TopSelector2 = _interopRequireDefault(_TopSelector);
+
+var _TopTable = __webpack_require__(823);
+
+var _TopTable2 = _interopRequireDefault(_TopTable);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83217,7 +83225,21 @@ var RatingPage = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                'Rating page'
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(_TopSelector2.default, null)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement('br', null)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(_TopTable2.default, { author: true })
+                )
             );
         }
     }]);
@@ -83237,6 +83259,257 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 /* 822 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TopSelector = function (_React$Component) {
+    _inherits(TopSelector, _React$Component);
+
+    function TopSelector(props) {
+        _classCallCheck(this, TopSelector);
+
+        var _this = _possibleConstructorReturn(this, (TopSelector.__proto__ || Object.getPrototypeOf(TopSelector)).call(this, props));
+
+        _this.state = {
+            activeButton: 'novelties'
+        };
+        return _this;
+    }
+
+    _createClass(TopSelector, [{
+        key: 'getButtonClass',
+        value: function getButtonClass(btnName) {
+            var clsDef = 'btn ',
+                clsAdd = this.state.activeButton === btnName ? 'btn-success' : 'btn-primary';
+
+            return clsDef + clsAdd;
+        }
+    }, {
+        key: 'onBtnClick',
+        value: function onBtnClick(btnName) {
+            this.setState({
+                activeButton: btnName
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                'Top by:',
+                _react2.default.createElement(
+                    'div',
+                    { className: 'btn-group btn-group-justified' },
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('novelties'), onClick: function onClick() {
+                                return _this2.onBtnClick('novelties');
+                            } },
+                        'Novelties'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('ratings'), onClick: function onClick() {
+                                return _this2.onBtnClick('ratings');
+                            } },
+                        'Ratings'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('novelsCount'), onClick: function onClick() {
+                                return _this2.onBtnClick('novelsCount');
+                            } },
+                        'Novels count'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('novelsVolume'), onClick: function onClick() {
+                                return _this2.onBtnClick('novelsVolume');
+                            } },
+                        'Novels volume'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('commentsCount'), onClick: function onClick() {
+                                return _this2.onBtnClick('commentsCount');
+                            } },
+                        'Comments count'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('viewsCount'), onClick: function onClick() {
+                                return _this2.onBtnClick('viewsCount');
+                            } },
+                        'Views count'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return TopSelector;
+}(_react2.default.Component);
+
+exports.default = TopSelector;
+
+/***/ }),
+/* 823 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+    props:
+    - book
+    - author
+*/
+var TopTable = function (_React$Component) {
+    _inherits(TopTable, _React$Component);
+
+    function TopTable() {
+        _classCallCheck(this, TopTable);
+
+        return _possibleConstructorReturn(this, (TopTable.__proto__ || Object.getPrototypeOf(TopTable)).apply(this, arguments));
+    }
+
+    _createClass(TopTable, [{
+        key: "getTableHeader",
+        value: function getTableHeader() {
+            if (this.props.author) {
+                return _react2.default.createElement(
+                    "thead",
+                    null,
+                    _react2.default.createElement(
+                        "tr",
+                        null,
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "\u2116"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Author"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Rating"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Views"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Comments"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Books"
+                        )
+                    )
+                );
+            } else if (this.props.book) {
+                return _react2.default.createElement(
+                    "thead",
+                    null,
+                    _react2.default.createElement(
+                        "tr",
+                        null,
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "\u2116"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Novel"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Rating"
+                        )
+                    )
+                );
+            }
+        }
+    }, {
+        key: "getTableBody",
+        value: function getTableBody() {
+            return _react2.default.createElement("tbody", null);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(
+                    "table",
+                    { className: "table table-hover" },
+                    this.getTableHeader(),
+                    this.getTableBody()
+                )
+            );
+        }
+    }]);
+
+    return TopTable;
+}(_react2.default.Component);
+
+exports.default = TopTable;
+
+/***/ }),
+/* 824 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83339,7 +83612,7 @@ var ScrollToTopButton = function (_React$Component) {
 exports.default = ScrollToTopButton;
 
 /***/ }),
-/* 823 */
+/* 825 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83454,7 +83727,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GlobalDataContainer);
 
 /***/ }),
-/* 824 */
+/* 826 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83466,15 +83739,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(130);
 
-var _GlobalReducer = __webpack_require__(825);
+var _GlobalReducer = __webpack_require__(827);
 
 var _GlobalReducer2 = _interopRequireDefault(_GlobalReducer);
 
-var _AuthorReducer = __webpack_require__(826);
+var _AuthorReducer = __webpack_require__(828);
 
 var _AuthorReducer2 = _interopRequireDefault(_AuthorReducer);
 
-var _BookReducer = __webpack_require__(827);
+var _BookReducer = __webpack_require__(829);
 
 var _BookReducer2 = _interopRequireDefault(_BookReducer);
 
@@ -83489,7 +83762,7 @@ var appReducer = (0, _redux.combineReducers)({
 exports.default = appReducer;
 
 /***/ }),
-/* 825 */
+/* 827 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83606,7 +83879,7 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 826 */
+/* 828 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83640,7 +83913,7 @@ var AuthorReducer = function AuthorReducer() {
 exports.default = AuthorReducer;
 
 /***/ }),
-/* 827 */
+/* 829 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83696,13 +83969,13 @@ var BookReducer = function BookReducer() {
 exports.default = BookReducer;
 
 /***/ }),
-/* 828 */
+/* 830 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(829);
+var content = __webpack_require__(831);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -83727,7 +84000,7 @@ if(false) {
 }
 
 /***/ }),
-/* 829 */
+/* 831 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(420)(undefined);
@@ -83741,7 +84014,7 @@ exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Je
 
 
 /***/ }),
-/* 830 */
+/* 832 */
 /***/ (function(module, exports) {
 
 
@@ -83836,13 +84109,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 831 */
+/* 833 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(832);
+var content = __webpack_require__(834);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -83867,7 +84140,7 @@ if(false) {
 }
 
 /***/ }),
-/* 832 */
+/* 834 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(420)(undefined);

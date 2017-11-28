@@ -1,5 +1,7 @@
 Current sprint:
 IN PROGRESS - 36. Create novelty rating on Ratings page.
+45. Add filters to Books page.
+46. Add filters to Authors page.
 
 
 Features:
@@ -28,8 +30,6 @@ Features:
 34. Create online/offline statuses for authors.
 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
 44. Autoupdate jwt token when user is active.
-45. Add filters to Books page.
-46. Add filters to Authors page.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
