@@ -83213,22 +83213,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var RatingPage = function (_React$Component) {
     _inherits(RatingPage, _React$Component);
 
-    function RatingPage() {
+    function RatingPage(props) {
         _classCallCheck(this, RatingPage);
 
-        return _possibleConstructorReturn(this, (RatingPage.__proto__ || Object.getPrototypeOf(RatingPage)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (RatingPage.__proto__ || Object.getPrototypeOf(RatingPage)).call(this, props));
+
+        ['onTopClick'].map(function (fn) {
+            return _this[fn] = _this[fn].bind(_this);
+        });
+        return _this;
     }
 
     _createClass(RatingPage, [{
+        key: 'onTopClick',
+        value: function onTopClick(topName) {
+            console.log('select top ' + topName);
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(
+                    'h4',
+                    null,
+                    'Authors tops'
+                ),
+                _react2.default.createElement(
                     'div',
                     { className: 'col-sm-12' },
-                    _react2.default.createElement(_TopSelector2.default, null)
+                    _react2.default.createElement(_TopSelector2.default, { author: true, onTopClick: this.onTopClick })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -83239,6 +83254,26 @@ var RatingPage = function (_React$Component) {
                     'div',
                     { className: 'col-sm-12' },
                     _react2.default.createElement(_TopTable2.default, { author: true })
+                ),
+                _react2.default.createElement(
+                    'h4',
+                    null,
+                    'Books tops'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(_TopSelector2.default, { book: true, onTopClick: this.onTopClick })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement('br', null)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(_TopTable2.default, { book: true })
                 )
             );
         }
@@ -83282,6 +83317,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+    props:
+    - onTopClick - callback function
+    - book
+    - author
+ */
 var TopSelector = function (_React$Component) {
     _inherits(TopSelector, _React$Component);
 
@@ -83310,26 +83351,17 @@ var TopSelector = function (_React$Component) {
             this.setState({
                 activeButton: btnName
             });
+            this.props.onTopClick(btnName);
         }
     }, {
-        key: 'render',
-        value: function render() {
+        key: 'renderForBigScreen',
+        value: function renderForBigScreen() {
             var _this2 = this;
 
-            return _react2.default.createElement(
-                'div',
-                null,
-                'Top by:',
-                _react2.default.createElement(
+            if (this.props.author) {
+                return _react2.default.createElement(
                     'div',
-                    { className: 'btn-group btn-group-justified' },
-                    _react2.default.createElement(
-                        'a',
-                        { className: this.getButtonClass('novelties'), onClick: function onClick() {
-                                return _this2.onBtnClick('novelties');
-                            } },
-                        'Novelties'
-                    ),
+                    { className: 'btn-group btn-group-justified hidden-sm hidden-xs' },
                     _react2.default.createElement(
                         'a',
                         { className: this.getButtonClass('ratings'), onClick: function onClick() {
@@ -83353,7 +83385,8 @@ var TopSelector = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'a',
-                        { className: this.getButtonClass('commentsCount'), onClick: function onClick() {
+                        { className: this.getButtonClass('commentsCount'),
+                            onClick: function onClick() {
                                 return _this2.onBtnClick('commentsCount');
                             } },
                         'Comments count'
@@ -83365,7 +83398,177 @@ var TopSelector = function (_React$Component) {
                             } },
                         'Views count'
                     )
-                )
+                );
+            } else if (this.props.book) {
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'btn-group btn-group-justified hidden-sm hidden-xs' },
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('novelties'), onClick: function onClick() {
+                                return _this2.onBtnClick('novelties');
+                            } },
+                        'Novelties'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('ratings'), onClick: function onClick() {
+                                return _this2.onBtnClick('ratings');
+                            } },
+                        'Ratings'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('novelsVolume'), onClick: function onClick() {
+                                return _this2.onBtnClick('novelsVolume');
+                            } },
+                        'Novel volume'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('commentsCount'),
+                            onClick: function onClick() {
+                                return _this2.onBtnClick('commentsCount');
+                            } },
+                        'Comments count'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { className: this.getButtonClass('viewsCount'), onClick: function onClick() {
+                                return _this2.onBtnClick('viewsCount');
+                            } },
+                        'Views count'
+                    )
+                );
+            }
+        }
+    }, {
+        key: 'renderForSmallScreen',
+        value: function renderForSmallScreen() {
+            var _this3 = this;
+
+            if (this.props.author) {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'btn-group btn-group-justified visible-sm visible-xs' },
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('ratings'),
+                                onClick: function onClick() {
+                                    return _this3.onBtnClick('ratings');
+                                } },
+                            'Ratings'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'btn-group btn-group-justified visible-sm visible-xs' },
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('novelsCount'),
+                                onClick: function onClick() {
+                                    return _this3.onBtnClick('novelsCount');
+                                } },
+                            'Novels count'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('novelsVolume'),
+                                onClick: function onClick() {
+                                    return _this3.onBtnClick('novelsVolume');
+                                } },
+                            'Novels volume'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'btn-group btn-group-justified visible-sm visible-xs' },
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('commentsCount'),
+                                onClick: function onClick() {
+                                    return _this3.onBtnClick('commentsCount');
+                                } },
+                            'Comments count'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('viewsCount'), onClick: function onClick() {
+                                    return _this3.onBtnClick('viewsCount');
+                                } },
+                            'Views count'
+                        )
+                    )
+                );
+            } else if (this.props.book) {
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'btn-group btn-group-justified visible-sm visible-xs' },
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('novelties'), onClick: function onClick() {
+                                    return _this3.onBtnClick('novelties');
+                                } },
+                            'Novelties'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('ratings'),
+                                onClick: function onClick() {
+                                    return _this3.onBtnClick('ratings');
+                                } },
+                            'Ratings'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'btn-group btn-group-justified visible-sm visible-xs' },
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('novelsVolume'),
+                                onClick: function onClick() {
+                                    return _this3.onBtnClick('novelsVolume');
+                                } },
+                            'Novel volume'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'btn-group btn-group-justified visible-sm visible-xs' },
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('commentsCount'),
+                                onClick: function onClick() {
+                                    return _this3.onBtnClick('commentsCount');
+                                } },
+                            'Comments count'
+                        ),
+                        _react2.default.createElement(
+                            'a',
+                            { className: this.getButtonClass('viewsCount'), onClick: function onClick() {
+                                    return _this3.onBtnClick('viewsCount');
+                                } },
+                            'Views count'
+                        )
+                    )
+                );
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                'Top by:',
+                this.renderForBigScreen(),
+                this.renderForSmallScreen()
             );
         }
     }]);
@@ -83415,71 +83618,163 @@ var TopTable = function (_React$Component) {
     }
 
     _createClass(TopTable, [{
+        key: "getBigAuthorHeader",
+        value: function getBigAuthorHeader() {
+            return _react2.default.createElement(
+                "thead",
+                null,
+                _react2.default.createElement(
+                    "tr",
+                    null,
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "\u2116"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Author"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Rating"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Views"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Comments"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Books"
+                    )
+                )
+            );
+        }
+    }, {
+        key: "getSmallAuthorHeader",
+        value: function getSmallAuthorHeader() {
+            return _react2.default.createElement(
+                "thead",
+                null,
+                _react2.default.createElement(
+                    "tr",
+                    null,
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "\u2116"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Author"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Rating"
+                    )
+                )
+            );
+        }
+    }, {
+        key: "getAuthorHeader",
+        value: function getAuthorHeader() {
+            if (window.screen.availWidth > 770) {
+                return this.getBigAuthorHeader();
+            } else {
+                return this.getSmallAuthorHeader();
+            }
+        }
+    }, {
+        key: "getBigBookHeader",
+        value: function getBigBookHeader() {
+            return _react2.default.createElement(
+                "thead",
+                null,
+                _react2.default.createElement(
+                    "tr",
+                    null,
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "\u2116"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Novel"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Rating"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Views"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Comments"
+                    )
+                )
+            );
+        }
+    }, {
+        key: "getSmallBookHeader",
+        value: function getSmallBookHeader() {
+            return _react2.default.createElement(
+                "thead",
+                null,
+                _react2.default.createElement(
+                    "tr",
+                    null,
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "\u2116"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Novel"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "Rating"
+                    )
+                )
+            );
+        }
+    }, {
+        key: "getBookHeader",
+        value: function getBookHeader() {
+            if (window.screen.availWidth > 770) {
+                return this.getBigBookHeader();
+            } else {
+                return this.getSmallBookHeader();
+            }
+        }
+    }, {
         key: "getTableHeader",
         value: function getTableHeader() {
             if (this.props.author) {
-                return _react2.default.createElement(
-                    "thead",
-                    null,
-                    _react2.default.createElement(
-                        "tr",
-                        null,
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "\u2116"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Author"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Rating"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Views"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Comments"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Books"
-                        )
-                    )
-                );
+                return this.getAuthorHeader();
             } else if (this.props.book) {
-                return _react2.default.createElement(
-                    "thead",
-                    null,
-                    _react2.default.createElement(
-                        "tr",
-                        null,
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "\u2116"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Novel"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Rating"
-                        )
-                    )
-                );
+                return this.getBookHeader();
             }
         }
     }, {

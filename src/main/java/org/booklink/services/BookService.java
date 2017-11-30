@@ -54,8 +54,16 @@ public class BookService {
         this.authorRepository = authorRepository;
     }
 
-    public Page<Book> getBooks(Pageable pageable) {
+    public Page<Book> getBooks(final Pageable pageable) {
         Page<Book> books = bookRepository.findAll(pageable);
+        if (books != null) {
+            processBooks(books);
+        }
+        return books;
+    }
+
+    public Page<Book> getBooksByLastUpdate(final Pageable pageable) {
+        Page<Book> books = bookRepository.findAllByOrderByLastUpdateAsc(pageable);
         if (books != null) {
             processBooks(books);
         }
@@ -73,7 +81,7 @@ public class BookService {
         return book;
     }
 
-    public Long saveBook(Book book) {
+    public Long saveBook(final Book book) {
         Book savedBook;
         if (book.getId() == null) { //new book
             checkCredentials(book.getAuthorName());   //only owner can edit his book
