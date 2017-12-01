@@ -4,6 +4,7 @@ import liquibase.util.file.FilenameUtils;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request_models.BookRequest;
 import org.booklink.models.request_models.BookTextRequest;
 import org.booklink.models.request_models.CoverRequest;
 import org.booklink.repositories.*;
@@ -67,6 +68,21 @@ public class BookService {
         if (books != null) {
             processBooks(books);
         }
+        return books;
+    }
+
+    /*TODO: fixme
+    public Page<Book> getBooksBySize(final Pageable pageable) {
+        Page<Book> books = bookRepository.findAllByOrderBySize(pageable);
+        if (books != null) {
+            processBooks(books);
+        }
+        return books;
+    }
+    */
+
+    public Page<BookRequest> getBooksByRating(final Pageable pageable) {
+        Page<BookRequest> books = bookRepository.findAllByRating(pageable);
         return books;
     }
 

@@ -1,6 +1,7 @@
 package org.booklink.controllers;
 
 import org.booklink.models.entities.Book;
+import org.booklink.models.request_models.BookRequest;
 import org.booklink.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,5 +27,18 @@ public class BookTopController {
     @RequestMapping(value = "top/books/novelties", method = RequestMethod.GET)
     public Page<Book> getTopNovelties(Pageable pageable) {
         return bookService.getBooksByLastUpdate(pageable);
+    }
+
+    /* TODO: fixme
+    @CrossOrigin
+    @RequestMapping(value = "top/books/volume", method = RequestMethod.GET)
+    public Page<BookRequest> getTopVolume(Pageable pageable) {
+        return bookService.getBooksBySize(pageable);
+    }*/
+
+    @CrossOrigin
+    @RequestMapping(value = "top/books/rating", method = RequestMethod.GET)
+    public Page<BookRequest> getTopRating(Pageable pageable) {
+        return bookService.getBooksByRating(pageable);
     }
 }
