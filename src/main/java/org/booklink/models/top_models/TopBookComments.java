@@ -1,18 +1,16 @@
-package org.booklink.models.request_models;
+package org.booklink.models.top_models;
 
 /**
- * Created by mhenr on 01.12.2017.
+ * Created by mhenr on 02.12.2017.
  */
-public class BookRequest {
+public class TopBookComments {
     private long id;
     private String name;
-    private long totalRating;
     private long count;
 
-    public BookRequest(final long id, final String name, final long totalRating, final long count) {
+    public TopBookComments(final long id, final String name, final long count) {
         this.id = id;
         this.name = name;
-        this.totalRating = totalRating;
         this.count = count;
     }
 
@@ -30,14 +28,6 @@ public class BookRequest {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getTotalRating() {
-        return totalRating;
-    }
-
-    public void setTotalRating(long totalRating) {
-        this.totalRating = totalRating;
     }
 
     public long getCount() {

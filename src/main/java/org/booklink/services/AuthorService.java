@@ -6,6 +6,8 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
+import org.booklink.models.top_models.TopAuthorRating;
+import org.booklink.models.top_models.TopBookRating;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
@@ -46,6 +48,11 @@ public class AuthorService {
             calcBookSize(author);
             hideText(author);
         });
+        return authors;
+    }
+
+    public Page<TopAuthorRating> getAuthorsByRating(final Pageable pageable) {
+        Page<TopAuthorRating> authors = authorRepository.findAllByRating(pageable);
         return authors;
     }
 

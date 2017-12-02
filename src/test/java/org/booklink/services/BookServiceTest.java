@@ -1,7 +1,5 @@
 package org.booklink.services;
 
-import com.sun.org.apache.xpath.internal.operations.Mult;
-import liquibase.util.file.FilenameUtils;
 import org.booklink.models.entities.Book;
 import org.booklink.models.entities.BookText;
 import org.booklink.models.entities.Section;
@@ -11,7 +9,6 @@ import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.BookTextRequest;
 import org.booklink.models.request_models.CoverRequest;
 import org.booklink.repositories.*;
-import org.hibernate.cfg.CollectionSecondPass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,8 +33,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static org.mockito.Matchers.any;
 
 /**
  * Created by mhenr on 23.11.2017.
@@ -113,6 +108,15 @@ public class BookServiceTest {
         Assert.assertEquals(null, books.getContent().get(0).getBookText());
         Assert.assertEquals(null, books.getContent().get(0).getAuthor().getBooks());
         Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSection());
+    }
+
+    @Test
+    public void getBooksByLastUpdate() throws Exception{
+        List<Book> booksArr = generateBooks(3);
+        final Page<Book> page = new PageImpl<>(booksArr);
+        Mockito.when(bookRepository.findAll((Pageable)null)).thenReturn(page);
+        Page<Book> books = bookService.getBooks(null);
+        Assert.assertEquals(3, books.getTotalElements());
     }
 
     @Test

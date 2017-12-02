@@ -32,21 +32,23 @@ public class RatingRepositoryTest {
 
     @Before
     public void init() {
-        final Rating rating = new Rating();
-        final RatingId ratingId = new RatingId();
         final Book book = new Book();
         final User user = new User();
         final BookText bookText = new BookText();
         user.setUsername("mhenro");
         book.setBookText(bookText);
         book.setAuthor(user);
-        ratingId.setClientIp("127.0.0.1");
-        ratingId.setEstimation(5);
-        ratingId.setBookId(1L);
-        rating.setRatingId(ratingId);
         entityManager.persist(user);
         entityManager.persist(bookText);
         entityManager.persist(book);
+
+        final Rating rating = new Rating();
+        final RatingId ratingId = new RatingId();
+        ratingId.setClientIp("127.0.0.1");
+        ratingId.setEstimation(5);
+        ratingId.setBookId(book.getId());
+        rating.setRatingId(ratingId);
+
         entityManager.persist(rating);
         entityManager.flush();
     }

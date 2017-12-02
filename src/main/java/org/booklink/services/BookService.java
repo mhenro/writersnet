@@ -4,7 +4,7 @@ import liquibase.util.file.FilenameUtils;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.BookRequest;
+import org.booklink.models.top_models.*;
 import org.booklink.models.request_models.BookTextRequest;
 import org.booklink.models.request_models.CoverRequest;
 import org.booklink.repositories.*;
@@ -63,26 +63,28 @@ public class BookService {
         return books;
     }
 
-    public Page<Book> getBooksByLastUpdate(final Pageable pageable) {
-        Page<Book> books = bookRepository.findAllByOrderByLastUpdateAsc(pageable);
-        if (books != null) {
-            processBooks(books);
-        }
+    public Page<TopBookNovelties> getBooksByLastUpdate(final Pageable pageable) {
+        Page<TopBookNovelties> books = bookRepository.findAllByLastUpdate(pageable);
         return books;
     }
 
-    /*TODO: fixme
-    public Page<Book> getBooksBySize(final Pageable pageable) {
-        Page<Book> books = bookRepository.findAllByOrderBySize(pageable);
-        if (books != null) {
-            processBooks(books);
-        }
+    public Page<TopBookRating> getBooksByRating(final Pageable pageable) {
+        Page<TopBookRating> books = bookRepository.findAllByRating(pageable);
         return books;
     }
-    */
 
-    public Page<BookRequest> getBooksByRating(final Pageable pageable) {
-        Page<BookRequest> books = bookRepository.findAllByRating(pageable);
+    public Page<TopBookVolume> getBooksByVolume(final Pageable pageable) {
+        Page<TopBookVolume> books = bookRepository.findAllByVolume(pageable);
+        return books;
+    }
+
+    public Page<TopBookComments> getBooksByComments(final Pageable pageable) {
+        Page<TopBookComments> books = bookRepository.findAllByComments(pageable);
+        return books;
+    }
+
+    public Page<TopBookViews> getBooksByViews(final Pageable pageable) {
+        Page<TopBookViews> books = bookRepository.findAllByViews(pageable);
         return books;
     }
 
