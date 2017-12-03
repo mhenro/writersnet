@@ -166,7 +166,7 @@ class BookPropsForm extends React.Component {
 
     getLastUpdated() {
         let date = new Date(this.state.lastUpdated);
-        return formatDate(date, 'D-M-Y');
+        return formatDate(date, 'D-M-Y h:m:s');
     }
 
     onCoverChange(event) {

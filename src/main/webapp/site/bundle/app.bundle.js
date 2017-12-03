@@ -78541,7 +78541,7 @@ var BookPropsForm = function (_React$Component) {
         key: 'getLastUpdated',
         value: function getLastUpdated() {
             var date = new Date(this.state.lastUpdated);
-            return (0, _utils.formatDate)(date, 'D-M-Y');
+            return (0, _utils.formatDate)(date, 'D-M-Y h:m:s');
         }
     }, {
         key: 'onCoverChange',

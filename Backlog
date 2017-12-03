@@ -1,17 +1,21 @@
 Current sprint:
-
+48. Add friends page.
+49. Add adding friend mechanism.
 
 
 Features:
+50. Add news page.
+51. Add news content generator mechanism.
+52. Add messages page.
+53. Add message exchange mechanism.
+26. Add Main page to the site. Something like summary of ratings and recently general news.
 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
 2. Add changing password functional to Options page.
 11. Add "forgot your password?" functional to login form.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 21. Add pay gateway.
 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
-26. Add Main page to the site. Something like summary of ratings and recently general news.
 28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
-29. Support full localization mechanism.
 30. Add concept of the premium account. It should allow:
                    - to use more large photos and book texts;
                    - gold highlight of the author panel and all of the author books in all rating lists;
@@ -33,6 +37,11 @@ Features:
 45. Add filters to Books page.
 46. Add filters to Authors page.
 47. Add text to the user policy component.
+29. Support full localization mechanism.
+54. Add reviews page.
+55. Add discussions page.
+56. Add help page.
+57. Add or delete groups page.
 
 
 Bugs:
