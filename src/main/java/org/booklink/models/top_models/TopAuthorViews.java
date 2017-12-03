@@ -1,21 +1,19 @@
 package org.booklink.models.top_models;
 
 /**
- * Created by mhenr on 02.12.2017.
+ * Created by mhenr on 03.12.2017.
  */
-public class TopAuthorRating {
+public class TopAuthorViews {
     private String username;
     private String firstName;
     private String lastName;
-    private long totalEstimation;
-    private long totalVotes;
+    private long views;
 
-    public TopAuthorRating(final String username, final String firstName, final String lastName, final long totalEstimation, final long totalVotes) {
+    public TopAuthorViews(final String username, final String firstName, final String lastName, final long views) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.totalEstimation = totalEstimation;
-        this.totalVotes = totalVotes;
+        this.views = views;
     }
 
     public String getUsername() {
@@ -42,19 +40,11 @@ public class TopAuthorRating {
         this.lastName = lastName;
     }
 
-    public long getTotalEstimation() {
-        return totalEstimation;
+    public long getViews() {
+        return views;
     }
 
-    public void setTotalEstimation(long totalEstimation) {
-        this.totalEstimation = totalEstimation;
-    }
-
-    public long getTotalVotes() {
-        return totalVotes;
-    }
-
-    public void setTotalVotes(long totalVotes) {
-        this.totalVotes = totalVotes;
+    public void setViews(long views) {
+        this.views = views;
     }
 }

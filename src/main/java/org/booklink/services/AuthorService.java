@@ -6,8 +6,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
-import org.booklink.models.top_models.TopAuthorRating;
-import org.booklink.models.top_models.TopBookRating;
+import org.booklink.models.top_models.*;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
@@ -53,6 +52,21 @@ public class AuthorService {
 
     public Page<TopAuthorRating> getAuthorsByRating(final Pageable pageable) {
         Page<TopAuthorRating> authors = authorRepository.findAllByRating(pageable);
+        return authors;
+    }
+
+    public Page<TopAuthorBookCount> getAuthorsByBookCount(final Pageable pageable) {
+        Page<TopAuthorBookCount> authors = authorRepository.findAllByBookCount(pageable);
+        return authors;
+    }
+
+    public Page<TopAuthorComments> getAuthorsByComments(final Pageable pageable) {
+        Page<TopAuthorComments> authors = authorRepository.findAllByComments(pageable);
+        return authors;
+    }
+
+    public Page<TopAuthorViews> getAuthorsByViews(final Pageable pageable) {
+        Page<TopAuthorViews> authors = authorRepository.findAllByViews(pageable);
         return authors;
     }
 

@@ -11,20 +11,35 @@ class TopSelector extends React.Component {
         super(props);
 
         this.state = {
-            activeButton: 'novelties'
+            activeAuthorButton: 'authorsTopByRating',
+            activeBookButton: 'booksTopByRating'
         };
     }
 
-    getButtonClass(btnName) {
+    getButtonAuthorClass(btnName) {
         let clsDef = 'btn ',
-            clsAdd = this.state.activeButton === btnName ? 'btn-success' : 'btn-primary';
+            clsAdd = this.state.activeAuthorButton === btnName ? 'btn-success' : 'btn-primary';
 
         return clsDef + clsAdd;
     }
 
-    onBtnClick(btnName) {
+    getButtonBookClass(btnName) {
+        let clsDef = 'btn ',
+            clsAdd = this.state.activeBookButton === btnName ? 'btn-success' : 'btn-primary';
+
+        return clsDef + clsAdd;
+    }
+
+    onBtnAuthorClick(btnName) {
         this.setState({
-            activeButton: btnName
+            activeAuthorButton: btnName
+        });
+        this.props.onTopClick(btnName);
+    }
+
+    onBtnBookClick(btnName) {
+        this.setState({
+            activeBookButton: btnName
         });
         this.props.onTopClick(btnName);
     }
@@ -33,27 +48,25 @@ class TopSelector extends React.Component {
         if (this.props.author) {
             return (
                 <div className="btn-group btn-group-justified hidden-sm hidden-xs">
-                    <a className={this.getButtonClass('ratings')} onClick={() => this.onBtnClick('ratings')}>Ratings</a>
-                    <a className={this.getButtonClass('novelsCount')} onClick={() => this.onBtnClick('novelsCount')}>Novels
+                    <a className={this.getButtonAuthorClass('authorsTopByRating')} onClick={() => this.onBtnAuthorClick('authorsTopByRating')}>Ratings</a>
+                    <a className={this.getButtonAuthorClass('authorsTopByNovelsCount')} onClick={() => this.onBtnAuthorClick('authorsTopByNovelsCount')}>Novels
                         count</a>
-                    <a className={this.getButtonClass('novelsVolume')} onClick={() => this.onBtnClick('novelsVolume')}>Novels
-                        volume</a>
-                    <a className={this.getButtonClass('commentsCount')}
-                       onClick={() => this.onBtnClick('commentsCount')}>Comments count</a>
-                    <a className={this.getButtonClass('viewsCount')} onClick={() => this.onBtnClick('viewsCount')}>Views
+                    <a className={this.getButtonAuthorClass('authorsTopByCommentsCount')}
+                       onClick={() => this.onBtnAuthorClick('authorsTopByCommentsCount')}>Comments count</a>
+                    <a className={this.getButtonAuthorClass('authorsTopByViewsCount')} onClick={() => this.onBtnAuthorClick('authorsTopByViewsCount')}>Views
                         count</a>
                 </div>
             )
         } else if (this.props.book) {
             return (
                 <div className="btn-group btn-group-justified hidden-sm hidden-xs">
-                    <a className={this.getButtonClass('novelties')} onClick={() => this.onBtnClick('novelties')}>Novelties</a>
-                    <a className={this.getButtonClass('ratings')} onClick={() => this.onBtnClick('ratings')}>Ratings</a>
-                    <a className={this.getButtonClass('novelsVolume')} onClick={() => this.onBtnClick('novelsVolume')}>Novel
+                    <a className={this.getButtonBookClass('booksTopByNovelty')} onClick={() => this.onBtnBookClick('booksTopByNovelty')}>Novelties</a>
+                    <a className={this.getButtonBookClass('booksTopByRating')} onClick={() => this.onBtnBookClick('booksTopByRating')}>Ratings</a>
+                    <a className={this.getButtonBookClass('booksTopByNovelVolume')} onClick={() => this.onBtnBookClick('booksTopByNovelVolume')}>Novel
                         volume</a>
-                    <a className={this.getButtonClass('commentsCount')}
-                       onClick={() => this.onBtnClick('commentsCount')}>Comments count</a>
-                    <a className={this.getButtonClass('viewsCount')} onClick={() => this.onBtnClick('viewsCount')}>Views
+                    <a className={this.getButtonBookClass('booksTopByCommentsCount')}
+                       onClick={() => this.onBtnBookClick('booksTopByCommentsCount')}>Comments count</a>
+                    <a className={this.getButtonBookClass('booksTopByViewsCount')} onClick={() => this.onBtnBookClick('booksTopByViewsCount')}>Views
                         count</a>
                 </div>
             )
@@ -65,19 +78,15 @@ class TopSelector extends React.Component {
             return (
                 <div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
-                        <a className={this.getButtonClass('ratings')}
-                           onClick={() => this.onBtnClick('ratings')}>Ratings</a>
+                        <a className={this.getButtonAuthorClass('authorsTopByRating')}
+                           onClick={() => this.onBtnAuthorClick('authorsTopByRating')}>Ratings</a>
+                        <a className={this.getButtonAuthorClass('authorsTopByNovelsCount')}
+                           onClick={() => this.onBtnAuthorClick('authorsTopByNovelsCount')}>Novels count</a>
                     </div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
-                        <a className={this.getButtonClass('novelsCount')}
-                           onClick={() => this.onBtnClick('novelsCount')}>Novels count</a>
-                        <a className={this.getButtonClass('novelsVolume')}
-                           onClick={() => this.onBtnClick('novelsVolume')}>Novels volume</a>
-                    </div>
-                    <div className="btn-group btn-group-justified visible-sm visible-xs">
-                        <a className={this.getButtonClass('commentsCount')}
-                           onClick={() => this.onBtnClick('commentsCount')}>Comments count</a>
-                        <a className={this.getButtonClass('viewsCount')} onClick={() => this.onBtnClick('viewsCount')}>Views
+                        <a className={this.getButtonAuthorClass('authorsTopByCommentsCount')}
+                           onClick={() => this.onBtnAuthorClick('authorsTopByCommentsCount')}>Comments count</a>
+                        <a className={this.getButtonAuthorClass('authorsTopByViewsCount')} onClick={() => this.onBtnAuthorClick('authorsTopByViewsCount')}>Views
                             count</a>
                     </div>
                 </div>
@@ -86,18 +95,18 @@ class TopSelector extends React.Component {
             return (
                 <div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
-                        <a className={this.getButtonClass('novelties')} onClick={() => this.onBtnClick('novelties')}>Novelties</a>
-                        <a className={this.getButtonClass('ratings')}
-                           onClick={() => this.onBtnClick('ratings')}>Ratings</a>
+                        <a className={this.getButtonBookClass('booksTopByNovelty')} onClick={() => this.onBtnBookClick('booksTopByNovelty')}>Novelties</a>
+                        <a className={this.getButtonBookClass('booksTopByRating')}
+                           onClick={() => this.onBtnBookClick('booksTopByRating')}>Ratings</a>
                     </div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
-                        <a className={this.getButtonClass('novelsVolume')}
-                           onClick={() => this.onBtnClick('novelsVolume')}>Novel volume</a>
+                        <a className={this.getButtonBookClass('booksTopByNovelVolume')}
+                           onClick={() => this.onBtnBookClick('booksTopByNovelVolume')}>Novel volume</a>
                     </div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
-                        <a className={this.getButtonClass('commentsCount')}
-                           onClick={() => this.onBtnClick('commentsCount')}>Comments count</a>
-                        <a className={this.getButtonClass('viewsCount')} onClick={() => this.onBtnClick('viewsCount')}>Views
+                        <a className={this.getButtonBookClass('booksTopByCommentsCount')}
+                           onClick={() => this.onBtnBookClick('booksTopByCommentsCount')}>Comments count</a>
+                        <a className={this.getButtonBookClass('booksTopByViewsCount')} onClick={() => this.onBtnBookClick('booksTopByViewsCount')}>Views
                             count</a>
                     </div>
                 </div>

@@ -14,19 +14,15 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT u FROM User u WHERE u.enabled = true")
     Page<User> findAllEnabled(Pageable pageable);
 
-    //select username, count(name) from users LEFT JOIN book ON username = author GROUP BY username ORDER BY count(name) DESC;
-    @Query("SELECT new org.booklink.models.top_models.TopAuthorBookCount(u.username, count(b.name)) FROM User u LEFT JOIN u.books b GROUP BY u.username ORDER BY count(b.name) DESC")
-    Page<TopAuthorBookCount> findAllByBookCount(Pageable pageable);
-
-    @Query("SELECT new org.booklink.models.top_models.TopBookRating(b.id, b.name, COALESCE(sum(r.ratingId.estimation), 0), count(r.ratingId.estimation)) FROM Book b LEFT JOIN b.rating r GROUP BY b.id ORDER BY count(r.ratingId.estimation) DESC")
+    @Query("SELECT new org.booklink.models.top_models.TopAuthorRating(u.username, u.firstName, u.lastName, COALESCE(sum(r.ratingId.estimation), 0), count(r.ratingId.estimation)) FROM User u LEFT JOIN u.books b LEFT JOIN b.rating r GROUP BY u.username ORDER BY count(r.ratingId.estimation)*COALESCE(sum(r.ratingId.estimation), 0) DESC")
     Page<TopAuthorRating> findAllByRating(Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.top_models.TopBookVolume(b.id, b.name, COALESCE(length(t.text), 0) ) FROM Book b LEFT JOIN b.bookText t ORDER BY length(t.text) DESC")
-    Page<TopBookVolume> findAllByVolume(Pageable pageable);
+    @Query("SELECT new org.booklink.models.top_models.TopAuthorBookCount(u.username, u.firstName, u.lastName, count(b.name)) FROM User u LEFT JOIN u.books b GROUP BY u.username ORDER BY count(b.name) DESC")
+    Page<TopAuthorBookCount> findAllByBookCount(Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.top_models.TopBookComments(b.id, b.name, count(c.comment)) FROM Book b LEFT JOIN b.comments c GROUP BY b.id ORDER BY count(c.comment) DESC")
-    Page<TopBookComments> findAllByComments(Pageable pageable);
+    @Query("SELECT new org.booklink.models.top_models.TopAuthorComments(u.username, u.firstName, u.lastName, count(c.comment)) FROM User u LEFT JOIN u.books b LEFT JOIN b.comments c GROUP BY u.username ORDER BY count(c.comment) DESC")
+    Page<TopAuthorComments> findAllByComments(Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.top_models.TopBookViews(b.id, b.name, b.views) FROM Book b ORDER BY b.views DESC")
-    Page<TopBookViews> findAllByViews(Pageable pageable);
+    @Query("SELECT new org.booklink.models.top_models.TopAuthorViews(u.username, u.firstName, u.lastName, u.views) FROM User u ORDER BY u.views DESC")
+    Page<TopAuthorViews> findAllByViews(Pageable pageable);
 }

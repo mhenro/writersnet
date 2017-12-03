@@ -93,3 +93,7 @@ footer {
     margin-top: -9px;
     margin-left: -5px;
 }
+
+.pagination {
+    margin: 0px;
+}

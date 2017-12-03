@@ -5,10 +5,14 @@ package org.booklink.models.top_models;
  */
 public class TopAuthorBookCount {
     private String username;
+    private String firstName;
+    private String lastName;
     private long bookCount;
 
-    public TopAuthorBookCount(final String username, final long bookCount) {
+    public TopAuthorBookCount(final String username, final String firstName, final String lastName, final long bookCount) {
         this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.bookCount = bookCount;
     }
 
@@ -18,6 +22,22 @@ public class TopAuthorBookCount {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public long getBookCount() {
