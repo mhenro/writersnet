@@ -1,6 +1,8 @@
 import {
     OPEN_LOGIN_FORM,
     CLOSE_LOGIN_FORM,
+    OPEN_USER_POLICY,
+    CLOSE_USER_POLICY,
     CREATE_NOTIFY,
     REMOVE_NOTIFIES,
     REMOVE_NOTIFY,
@@ -26,6 +28,7 @@ const initialState = {
     },
     language: 'EN',
     showLoginForm: false,
+    showUserPolicy: false,
     loginFormRegister: true,
     editableBook: null,
     alerts: [],
@@ -84,6 +87,12 @@ const GlobalReducer = (state = initialState, action) => {
 
         case OPEN_LOGIN_FORM:
             return Object.assign({}, state, {showLoginForm: true, loginFormRegister: action.loginFormRegister});
+
+        case OPEN_USER_POLICY:
+            return Object.assign({}, state, {showUserPolicy: true});
+
+        case CLOSE_USER_POLICY:
+            return Object.assign({}, state, {showUserPolicy: false});
 
         case CREATE_NOTIFY:
             let newAlert = {

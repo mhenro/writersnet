@@ -2,9 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 
+import UserPolicy from '../components/UserPolicy.jsx';
+
 import {
     closeLoginForm,
-    createNotify
+    createNotify,
+    openUserPolicy
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -45,6 +48,10 @@ class LoginForm extends React.Component {
         this.setState(oldState => ({
             policyAgreed: !oldState.policyAgreed
         }));
+    }
+
+    onReadUserPolicy() {
+        this.props.onOpenUserPolicy();
     }
 
     getActiveItem(activeItem) {
@@ -89,47 +96,50 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <Modal show={this.props.showLoginForm} onHide={this.close}>
-                <Modal.Body>
-                    <ul className="nav nav-tabs">
-                        <li className={this.getActiveItem('sign-up')}><a href="#" onClick={() => this.onItemClick('sign-up')}>Sign up</a></li>
-                        <li className={this.getActiveItem('log-in')}><a href="#" onClick={() => this.onItemClick('log-in')}>Log in</a></li>
-                    </ul>
-                    <br/>
-                    <form onSubmit={this.onSubmit}>
-                        {this.state.activeItem === 'sign-up' ?
+            <div>
+                <Modal show={this.props.showLoginForm} onHide={this.close}>
+                    <Modal.Body>
+                        <ul className="nav nav-tabs">
+                            <li className={this.getActiveItem('sign-up')}><a href="#" onClick={() => this.onItemClick('sign-up')}>Sign up</a></li>
+                            <li className={this.getActiveItem('log-in')}><a href="#" onClick={() => this.onItemClick('log-in')}>Log in</a></li>
+                        </ul>
+                        <br/>
+                        <form onSubmit={this.onSubmit}>
+                            {this.state.activeItem === 'sign-up' ?
+                                <div className="form-group">
+                                    <input type="text" className="form-control" placeholder="Email"
+                                           onChange={this.onEmailChange}/>
+                                </div> : null
+                            }
                             <div className="form-group">
-                                <input type="text" className="form-control" placeholder="Email"
-                                       onChange={this.onEmailChange}/>
-                            </div> : null
-                        }
-                        <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Login" onChange={this.onLoginChange}/>
-                        </div>
-                        <div className="form-group">
-                            <input type="password" className="form-control" placeholder="Password" onChange={this.onPasswordChange}/>
-                        </div>
-                        {this.state.activeItem === 'sign-up' ?
-                            <div className="form-group">
-                                <input type="password" className="form-control" placeholder="Confirm password"
-                                       onChange={this.onPasswordConfirmChange}/>
-                            </div> : null
-                        }
-                        {this.state.activeItem === 'sign-up' ?
-                            <div className="checkbox">
-                                <label><input type="checkbox" onClick={this.policyClick} checked={this.state.policyAgreed}/> I agree with <a href="#">user policy</a></label>
+                                <input type="text" className="form-control" placeholder="Login" onChange={this.onLoginChange}/>
                             </div>
-                            : <a href="#">Forgot your password?</a>
-                        }
-                        <div className="text-center">
-                            <button type="submit" className="btn btn-success">{this.state.activeItem === 'sign-up' ? 'Register' : 'Login'}</button>
-                        </div>
-                    </form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={this.close}>Close</Button>
-                </Modal.Footer>
-            </Modal>
+                            <div className="form-group">
+                                <input type="password" className="form-control" placeholder="Password" onChange={this.onPasswordChange}/>
+                            </div>
+                            {this.state.activeItem === 'sign-up' ?
+                                <div className="form-group">
+                                    <input type="password" className="form-control" placeholder="Confirm password"
+                                           onChange={this.onPasswordConfirmChange}/>
+                                </div> : null
+                            }
+                            {this.state.activeItem === 'sign-up' ?
+                                <div className="checkbox">
+                                    <label><input type="checkbox" onClick={this.policyClick} checked={this.state.policyAgreed}/> I agree with <a href="#" onClick={() => this.onReadUserPolicy()}>user policy</a></label>
+                                </div>
+                                : <a href="#">Forgot your password?</a>
+                            }
+                            <div className="text-center">
+                                <button type="submit" className="btn btn-success">{this.state.activeItem === 'sign-up' ? 'Register' : 'Login'}</button>
+                            </div>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.close}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+                <UserPolicy/>
+            </div>
         )
     }
 }
@@ -151,6 +161,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         closeLoginForm: () => {
             dispatch(closeLoginForm());
+        },
+
+        onOpenUserPolicy: () => {
+            dispatch(openUserPolicy());
         },
 
         onSendLogin: (username, password, self) => {
