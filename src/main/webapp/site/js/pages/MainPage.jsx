@@ -17,6 +17,7 @@ import SectionPage from '../pages/SectionPage.jsx';
 import LoginForm from '../components/LoginForm.jsx';
 import OptionsPage from '../pages/OptionsPage.jsx';
 import RatingPage from '../pages/RatingPage.jsx';
+import FriendsPage from '../pages/FriendsPage.jsx';
 import ScrollToTopButton from '../components/ScrollToTopButton.jsx';
 
 class MainPage extends React.Component {
@@ -64,6 +65,7 @@ class MainPage extends React.Component {
                                 <Route exact path="/ratings" component={RatingPage}/>
                                 <Route exact path="/reader/:bookId" component={BookReader}/>
                                 <Route exact path="/options" component={this.props.registered ? OptionsPage : BookPage}/>
+                                <Route exact path="/friends" component={FriendsPage}/>
                             </div>
                         </div>
                     </div>

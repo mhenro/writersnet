@@ -42149,7 +42149,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(835);
+var	fixUrls = __webpack_require__(836);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -42487,17 +42487,17 @@ var _MainPage = __webpack_require__(546);
 
 var _MainPage2 = _interopRequireDefault(_MainPage);
 
-var _GlobalDataContainer = __webpack_require__(828);
+var _GlobalDataContainer = __webpack_require__(829);
 
 var _GlobalDataContainer2 = _interopRequireDefault(_GlobalDataContainer);
 
-var _appReducer = __webpack_require__(829);
+var _appReducer = __webpack_require__(830);
 
 var _appReducer2 = _interopRequireDefault(_appReducer);
 
-__webpack_require__(833);
+__webpack_require__(834);
 
-__webpack_require__(836);
+__webpack_require__(837);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55713,7 +55713,11 @@ var _RatingPage = __webpack_require__(822);
 
 var _RatingPage2 = _interopRequireDefault(_RatingPage);
 
-var _ScrollToTopButton = __webpack_require__(827);
+var _FriendsPage = __webpack_require__(827);
+
+var _FriendsPage2 = _interopRequireDefault(_FriendsPage);
+
+var _ScrollToTopButton = __webpack_require__(828);
 
 var _ScrollToTopButton2 = _interopRequireDefault(_ScrollToTopButton);
 
@@ -55791,7 +55795,8 @@ var MainPage = function (_React$Component) {
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/books', component: _BookPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/ratings', component: _RatingPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/reader/:bookId', component: _BookReader2.default }),
-                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/options', component: this.props.registered ? _OptionsPage2.default : _BookPage2.default })
+                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/options', component: this.props.registered ? _OptionsPage2.default : _BookPage2.default }),
+                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/friends', component: _FriendsPage2.default })
                             )
                         )
                     ),
@@ -84831,6 +84836,118 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var FriendsPage = function (_React$Component) {
+    _inherits(FriendsPage, _React$Component);
+
+    function FriendsPage(props) {
+        _classCallCheck(this, FriendsPage);
+
+        var _this = _possibleConstructorReturn(this, (FriendsPage.__proto__ || Object.getPrototypeOf(FriendsPage)).call(this, props));
+
+        _this.state = {
+            activeTab: 'friends' //requests
+        };
+        return _this;
+    }
+
+    _createClass(FriendsPage, [{
+        key: 'getActiveClass',
+        value: function getActiveClass(tabName) {
+            if (tabName === this.state.activeTab) {
+                return 'active';
+            }
+            return null;
+        }
+    }, {
+        key: 'changeTab',
+        value: function changeTab(tabName) {
+            this.setState({
+                activeTab: tabName
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'ul',
+                    { className: 'nav nav-tabs' },
+                    _react2.default.createElement(
+                        'li',
+                        { className: this.getActiveClass('friends') },
+                        _react2.default.createElement(
+                            'a',
+                            { href: '#', onClick: function onClick() {
+                                    return _this2.changeTab('friends');
+                                } },
+                            'My friends'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        { className: this.getActiveClass('requests') },
+                        _react2.default.createElement(
+                            'a',
+                            { href: '#', onClick: function onClick() {
+                                    return _this2.changeTab('requests');
+                                } },
+                            'Friend requests'
+                        )
+                    )
+                ),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'input-group' },
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search' }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-group-btn' },
+                        _react2.default.createElement(
+                            'button',
+                            { className: 'btn btn-default', type: 'submit' },
+                            _react2.default.createElement('i', { className: 'glyphicon glyphicon-search' })
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return FriendsPage;
+}(_react2.default.Component);
+
+exports.default = FriendsPage;
+
+/***/ }),
+/* 828 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 /*
     props:
     - scrollStepInPx
@@ -84910,7 +85027,7 @@ var ScrollToTopButton = function (_React$Component) {
 exports.default = ScrollToTopButton;
 
 /***/ }),
-/* 828 */
+/* 829 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85025,7 +85142,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GlobalDataContainer);
 
 /***/ }),
-/* 829 */
+/* 830 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85037,15 +85154,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(131);
 
-var _GlobalReducer = __webpack_require__(830);
+var _GlobalReducer = __webpack_require__(831);
 
 var _GlobalReducer2 = _interopRequireDefault(_GlobalReducer);
 
-var _AuthorReducer = __webpack_require__(831);
+var _AuthorReducer = __webpack_require__(832);
 
 var _AuthorReducer2 = _interopRequireDefault(_AuthorReducer);
 
-var _BookReducer = __webpack_require__(832);
+var _BookReducer = __webpack_require__(833);
 
 var _BookReducer2 = _interopRequireDefault(_BookReducer);
 
@@ -85060,7 +85177,7 @@ var appReducer = (0, _redux.combineReducers)({
 exports.default = appReducer;
 
 /***/ }),
-/* 830 */
+/* 831 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85184,7 +85301,7 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 831 */
+/* 832 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85218,7 +85335,7 @@ var AuthorReducer = function AuthorReducer() {
 exports.default = AuthorReducer;
 
 /***/ }),
-/* 832 */
+/* 833 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85274,13 +85391,13 @@ var BookReducer = function BookReducer() {
 exports.default = BookReducer;
 
 /***/ }),
-/* 833 */
+/* 834 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(834);
+var content = __webpack_require__(835);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -85305,7 +85422,7 @@ if(false) {
 }
 
 /***/ }),
-/* 834 */
+/* 835 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(420)(undefined);
@@ -85319,7 +85436,7 @@ exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Je
 
 
 /***/ }),
-/* 835 */
+/* 836 */
 /***/ (function(module, exports) {
 
 
@@ -85414,13 +85531,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 836 */
+/* 837 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(837);
+var content = __webpack_require__(838);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -85445,7 +85562,7 @@ if(false) {
 }
 
 /***/ }),
-/* 837 */
+/* 838 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(420)(undefined);

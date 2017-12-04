@@ -33,6 +33,8 @@ public class User {
     private String language;
     private String preferredLanguages;
     private Long views = 0L;
+    private Set<Friendship> subscribers = new HashSet<>();
+    private Set<Friendship> subscriptions = new HashSet<>();
 
     @Id
     public String getUsername() {
@@ -238,5 +240,23 @@ public class User {
     @Column(nullable = false)
     public void setViews(Long views) {
         this.views = views;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subscriber")
+    public Set<Friendship> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(Set<Friendship> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subscription")
+    public Set<Friendship> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<Friendship> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }
