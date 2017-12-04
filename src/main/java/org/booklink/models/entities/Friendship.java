@@ -25,6 +25,11 @@ public class Friendship implements Serializable {
         return subscriber;
     }
 
+    @Transient
+    public String getSubscriberName() {
+        return subscription.getUsername();
+    }
+
     public void setSubscriber(User subscriber) {
         this.subscriber = subscriber;
     }
@@ -35,6 +40,11 @@ public class Friendship implements Serializable {
     @JsonIgnore
     public User getSubscription() {
         return subscription;
+    }
+
+    @Transient
+    public String getSubscriptionName() {
+        return subscriber.getUsername();
     }
 
     public void setSubscription(User subscription) {

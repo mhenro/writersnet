@@ -42149,7 +42149,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(836);
+var	fixUrls = __webpack_require__(838);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -42487,17 +42487,17 @@ var _MainPage = __webpack_require__(546);
 
 var _MainPage2 = _interopRequireDefault(_MainPage);
 
-var _GlobalDataContainer = __webpack_require__(829);
+var _GlobalDataContainer = __webpack_require__(831);
 
 var _GlobalDataContainer2 = _interopRequireDefault(_GlobalDataContainer);
 
-var _appReducer = __webpack_require__(830);
+var _appReducer = __webpack_require__(832);
 
 var _appReducer2 = _interopRequireDefault(_appReducer);
 
-__webpack_require__(834);
+__webpack_require__(836);
 
-__webpack_require__(837);
+__webpack_require__(839);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55717,7 +55717,7 @@ var _FriendsPage = __webpack_require__(827);
 
 var _FriendsPage2 = _interopRequireDefault(_FriendsPage);
 
-var _ScrollToTopButton = __webpack_require__(828);
+var _ScrollToTopButton = __webpack_require__(830);
 
 var _ScrollToTopButton2 = _interopRequireDefault(_ScrollToTopButton);
 
@@ -77300,6 +77300,11 @@ var SectionPage = function (_React$Component) {
             });
         }
     }, {
+        key: 'onAddToFriends',
+        value: function onAddToFriends(user, friend) {
+            console.log('user ' + user + ' is adding ' + friend);
+        }
+    }, {
         key: 'renderSectionToolbar',
         value: function renderSectionToolbar() {
             var _this3 = this;
@@ -77365,7 +77370,10 @@ var SectionPage = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'col-sm-12 col-lg-3' },
-                        _react2.default.createElement(_AuthorFile2.default, { author: this.props.author, registered: this.props.registered, login: this.props.login })
+                        _react2.default.createElement(_AuthorFile2.default, { author: this.props.author,
+                            registered: this.props.registered,
+                            login: this.props.login,
+                            onAddToFriends: this.onAddToFriends })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -77500,6 +77508,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     - author
     - registered
     - login - user id
+    - onAddToFriends - callback function
  */
 var AuthorFile = function (_React$Component) {
     _inherits(AuthorFile, _React$Component);
@@ -77519,9 +77528,66 @@ var AuthorFile = function (_React$Component) {
             }
         }
     }, {
+        key: 'isFriend',
+        value: function isFriend() {
+            var _this2 = this;
+
+            return this.props.author.subscribers.some(function (subscriber) {
+                return subscriber.subscriberName === _this2.props.login;
+            }) && this.props.author.subscriptions.some(function (subscription) {
+                return subscription.subscriptionName === _this2.props.login;
+            });
+        }
+    }, {
+        key: 'isSubscriber',
+        value: function isSubscriber() {
+            var _this3 = this;
+
+            return this.props.author.subscriptions.some(function (subscription) {
+                return subscription.subscriptionName === _this3.props.login;
+            });
+        }
+    }, {
+        key: 'isSubscription',
+        value: function isSubscription() {
+            var _this4 = this;
+
+            return this.props.author.subscribers.some(function (subscriber) {
+                return subscriber.subscriberName === _this4.props.login;
+            });
+        }
+    }, {
+        key: 'getFriendsButtonCaption',
+        value: function getFriendsButtonCaption() {
+            if (this.isFriend()) {
+                return 'Already in friends';
+            }
+            if (this.isSubscription()) {
+                return 'You are already subscribed';
+            }
+            return 'Add to friends';
+        }
+    }, {
+        key: 'getFriendsButtonClass',
+        value: function getFriendsButtonClass() {
+            var baseCls = 'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username ? '' : 'hidden');
+            if (this.isFriend() || this.isSubscription()) {
+                baseCls += ' disabled';
+            }
+
+            return baseCls;
+        }
+    }, {
+        key: 'onAddToFriends',
+        value: function onAddToFriends() {
+            if (!this.isFriend() || !this.isSubscription()) {
+                this.props.onAddToFriends(this.props.login, this.props.author.username);
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this5 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -77533,7 +77599,7 @@ var AuthorFile = function (_React$Component) {
                         'div',
                         { className: 'col-sm-12', style: { textAlign: 'center' } },
                         _react2.default.createElement('img', { src: this.props.author.avatar + '?date=' + new Date(), onClick: function onClick() {
-                                return _this2.onAuthorClick();
+                                return _this5.onAuthorClick();
                             }, className: 'img-rounded clickable', width: '100%', height: 'auto' })
                     )
                 ),
@@ -77555,8 +77621,10 @@ var AuthorFile = function (_React$Component) {
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
                                 'button',
-                                { className: 'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username ? '' : 'hidden') },
-                                'Add to friends'
+                                { onClick: function onClick() {
+                                        return _this5.onAddToFriends();
+                                    }, className: this.getFriendsButtonClass() },
+                                this.getFriendsButtonCaption()
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement(
@@ -84828,6 +84896,14 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(23);
+
+var _FriendList = __webpack_require__(828);
+
+var _FriendList2 = _interopRequireDefault(_FriendList);
+
+var _GlobalActions = __webpack_require__(24);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84881,7 +84957,7 @@ var FriendsPage = function (_React$Component) {
                         { className: this.getActiveClass('friends') },
                         _react2.default.createElement(
                             'a',
-                            { href: '#', onClick: function onClick() {
+                            { onClick: function onClick() {
                                     return _this2.changeTab('friends');
                                 } },
                             'My friends'
@@ -84892,7 +84968,7 @@ var FriendsPage = function (_React$Component) {
                         { className: this.getActiveClass('requests') },
                         _react2.default.createElement(
                             'a',
-                            { href: '#', onClick: function onClick() {
+                            { onClick: function onClick() {
                                     return _this2.changeTab('requests');
                                 } },
                             'Friend requests'
@@ -84913,7 +84989,8 @@ var FriendsPage = function (_React$Component) {
                             _react2.default.createElement('i', { className: 'glyphicon glyphicon-search' })
                         )
                     )
-                )
+                ),
+                _react2.default.createElement(_FriendList2.default, null)
             );
         }
     }]);
@@ -84921,10 +84998,88 @@ var FriendsPage = function (_React$Component) {
     return FriendsPage;
 }(_react2.default.Component);
 
-exports.default = FriendsPage;
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        registered: state.GlobalReducer.registered,
+        login: state.GlobalReducer.user.login
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FriendsPage);
 
 /***/ }),
 /* 828 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _FriendListItem = __webpack_require__(829);
+
+var _FriendListItem2 = _interopRequireDefault(_FriendListItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+    props:
+    - friends - array
+ */
+var FriendList = function (_React$Component) {
+    _inherits(FriendList, _React$Component);
+
+    function FriendList() {
+        _classCallCheck(this, FriendList);
+
+        return _possibleConstructorReturn(this, (FriendList.__proto__ || Object.getPrototypeOf(FriendList)).apply(this, arguments));
+    }
+
+    _createClass(FriendList, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                this.props.friends.map(function (friend, key) {
+                    return _react2.default.createElement(_FriendListItem2.default, { friend: friend, key: key });
+                })
+            );
+        }
+    }]);
+
+    return FriendList;
+}(_react2.default.Component);
+
+exports.default = FriendList;
+
+/***/ }),
+/* 829 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/***/ }),
+/* 830 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85027,7 +85182,7 @@ var ScrollToTopButton = function (_React$Component) {
 exports.default = ScrollToTopButton;
 
 /***/ }),
-/* 829 */
+/* 831 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85142,7 +85297,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GlobalDataContainer);
 
 /***/ }),
-/* 830 */
+/* 832 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85154,15 +85309,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(131);
 
-var _GlobalReducer = __webpack_require__(831);
+var _GlobalReducer = __webpack_require__(833);
 
 var _GlobalReducer2 = _interopRequireDefault(_GlobalReducer);
 
-var _AuthorReducer = __webpack_require__(832);
+var _AuthorReducer = __webpack_require__(834);
 
 var _AuthorReducer2 = _interopRequireDefault(_AuthorReducer);
 
-var _BookReducer = __webpack_require__(833);
+var _BookReducer = __webpack_require__(835);
 
 var _BookReducer2 = _interopRequireDefault(_BookReducer);
 
@@ -85177,7 +85332,7 @@ var appReducer = (0, _redux.combineReducers)({
 exports.default = appReducer;
 
 /***/ }),
-/* 831 */
+/* 833 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85301,7 +85456,7 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 832 */
+/* 834 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85335,7 +85490,7 @@ var AuthorReducer = function AuthorReducer() {
 exports.default = AuthorReducer;
 
 /***/ }),
-/* 833 */
+/* 835 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85391,13 +85546,13 @@ var BookReducer = function BookReducer() {
 exports.default = BookReducer;
 
 /***/ }),
-/* 834 */
+/* 836 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(835);
+var content = __webpack_require__(837);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -85422,7 +85577,7 @@ if(false) {
 }
 
 /***/ }),
-/* 835 */
+/* 837 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(420)(undefined);
@@ -85436,7 +85591,7 @@ exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Je
 
 
 /***/ }),
-/* 836 */
+/* 838 */
 /***/ (function(module, exports) {
 
 
@@ -85531,13 +85686,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 837 */
+/* 839 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(838);
+var content = __webpack_require__(840);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -85562,7 +85717,7 @@ if(false) {
 }
 
 /***/ }),
-/* 838 */
+/* 840 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(420)(undefined);

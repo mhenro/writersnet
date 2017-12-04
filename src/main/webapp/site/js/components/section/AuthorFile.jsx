@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
     - author
     - registered
     - login - user id
+    - onAddToFriends - callback function
  */
 class AuthorFile extends React.Component {
     static contextTypes = {
@@ -26,6 +27,44 @@ class AuthorFile extends React.Component {
         }
     }
 
+    isFriend() {
+        return this.props.author.subscribers.some(subscriber => subscriber.subscriberName === this.props.login)
+            && this.props.author.subscriptions.some(subscription => subscription.subscriptionName === this.props.login);
+    }
+
+    isSubscriber() {
+        return this.props.author.subscriptions.some(subscription => subscription.subscriptionName === this.props.login);
+    }
+
+    isSubscription() {
+        return this.props.author.subscribers.some(subscriber => subscriber.subscriberName === this.props.login);
+    }
+
+    getFriendsButtonCaption() {
+        if (this.isFriend()) {
+            return 'Already in friends';
+        }
+        if (this.isSubscription()) {
+            return 'You are already subscribed';
+        }
+        return 'Add to friends';
+    }
+
+    getFriendsButtonClass() {
+        let baseCls = 'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username? '' : 'hidden');
+        if (this.isFriend() || this.isSubscription()) {
+            baseCls += ' disabled';
+        }
+
+        return baseCls;
+    }
+
+    onAddToFriends() {
+        if (!this.isFriend() || !this.isSubscription()) {
+            this.props.onAddToFriends(this.props.login, this.props.author.username);
+        }
+    }
+
     render() {
         return (
             <div className="panel panel-default" style={{padding: '10px'}}>
@@ -40,7 +79,7 @@ class AuthorFile extends React.Component {
                         <div className="btn-group-vertical">
                             <button className={'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username ? '' : 'hidden')}>Send message</button>
                             <br/>
-                            <button className={'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username? '' : 'hidden')}>Add to friends</button>
+                            <button onClick={() => this.onAddToFriends()} className={this.getFriendsButtonClass()}>{this.getFriendsButtonCaption()}</button>
                             <br/>
                             <Link to="/options" className={'btn btn-success ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>Options</Link>
                         </div>

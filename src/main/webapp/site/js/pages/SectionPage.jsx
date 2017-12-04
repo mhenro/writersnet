@@ -52,6 +52,10 @@ class SectionPage extends React.Component {
         this.props.onDeleteBook(bookId, token, () => this.props.onGetAuthorDetails(this.props.match.params.authorName));
     }
 
+    onAddToFriends(user, friend) {
+        console.log('user ' + user + ' is adding ' + friend);
+    }
+
     renderSectionToolbar() {
         if (this.props.registered && this.props.login === this.props.author.username) {
             return (
@@ -86,7 +90,10 @@ class SectionPage extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-12 col-lg-3">
-                        <AuthorFile author={this.props.author} registered={this.props.registered} login={this.props.login}/>
+                        <AuthorFile author={this.props.author}
+                                    registered={this.props.registered}
+                                    login={this.props.login}
+                                    onAddToFriends={this.onAddToFriends}/>
                     </div>
                     <div className="col-sm-12 col-lg-9">
                         <AuthorShortInfo author={this.props.author}/>

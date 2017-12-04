@@ -124,6 +124,10 @@ public class AuthorService {
         authorRepository.save(author);
     }
 
+    public void addUserToFriend() {
+
+    }
+
     private void increaseAuthorViews(final User author) {
         if (author != null) {
             final long views = author.getViews() + 1;
