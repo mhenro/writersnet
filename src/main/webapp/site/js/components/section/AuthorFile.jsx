@@ -28,16 +28,15 @@ class AuthorFile extends React.Component {
     }
 
     isFriend() {
-        return this.props.author.subscribers.some(subscriber => subscriber.subscriberName === this.props.login)
-            && this.props.author.subscriptions.some(subscription => subscription.subscriptionName === this.props.login);
+        return this.isSubscriber() && this.isSubscription();
     }
 
     isSubscriber() {
-        return this.props.author.subscriptions.some(subscription => subscription.subscriptionName === this.props.login);
+        return this.props.author.subscribers.map(temp => temp.friendshipPK).some(subscriber => subscriber.subscriptionName === this.props.login);
     }
 
     isSubscription() {
-        return this.props.author.subscribers.some(subscriber => subscriber.subscriberName === this.props.login);
+        return this.props.author.subscriptions.map(temp => temp.friendshipPK).some(subscription => subscription.subscriberName === this.props.login);
     }
 
     getFriendsButtonCaption() {
@@ -60,7 +59,7 @@ class AuthorFile extends React.Component {
     }
 
     onAddToFriends() {
-        if (!this.isFriend() || !this.isSubscription()) {
+        if (!this.isFriend() && !this.isSubscription()) {
             this.props.onAddToFriends(this.props.login, this.props.author.username);
         }
     }

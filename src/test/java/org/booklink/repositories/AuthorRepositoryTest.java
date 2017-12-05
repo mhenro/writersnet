@@ -91,8 +91,10 @@ public class AuthorRepositoryTest {
         final User user1 = createUser("mhenro", true, 9);
         final User user2 = createUser("zazaka", false, 0);
         final Friendship friendship = new Friendship();
-        friendship.setSubscriber(user2);
-        friendship.setSubscription(user1);
+        final FriendshipPK friendshipPK = new FriendshipPK();
+        friendship.setFriendshipPK(friendshipPK);
+        friendship.getFriendshipPK().setSubscriber(user2);
+        friendship.getFriendshipPK().setSubscription(user1);
         user1.getSubscribers().add(friendship);
 
         entityManager.flush();
@@ -102,8 +104,10 @@ public class AuthorRepositoryTest {
         final User user1 = createUser("mhenro", true, 0);
         final User user2 = createUser("zazaka", false, 0);
         final Friendship friendship = new Friendship();
-        friendship.setSubscriber(user1);
-        friendship.setSubscription(user2);
+        final FriendshipPK friendshipPK = new FriendshipPK();
+        friendship.setFriendshipPK(friendshipPK);
+        friendship.getFriendshipPK().setSubscriber(user1);
+        friendship.getFriendshipPK().setSubscription(user2);
         user1.getSubscriptions().add(friendship);
 
         entityManager.flush();
@@ -113,13 +117,17 @@ public class AuthorRepositoryTest {
         final User user1 = createUser("mhenro", true, 0);
         final User user2 = createUser("zazaka", false, 0);
         final Friendship friendshipSubscribe = new Friendship();
-        friendshipSubscribe.setSubscriber(user2);
-        friendshipSubscribe.setSubscription(user1);
+        final FriendshipPK friendshipPKSubscribe = new FriendshipPK();
+        friendshipSubscribe.setFriendshipPK(friendshipPKSubscribe);
+        friendshipSubscribe.getFriendshipPK().setSubscriber(user2);
+        friendshipSubscribe.getFriendshipPK().setSubscription(user1);
         user1.getSubscribers().add(friendshipSubscribe);
 
         final Friendship friendshipSubscription = new Friendship();
-        friendshipSubscription.setSubscriber(user1);
-        friendshipSubscription.setSubscription(user2);
+        final FriendshipPK friendshipPKSubscription = new FriendshipPK();
+        friendshipSubscription.setFriendshipPK(friendshipPKSubscription);
+        friendshipSubscription.getFriendshipPK().setSubscriber(user1);
+        friendshipSubscription.getFriendshipPK().setSubscription(user2);
         user1.getSubscriptions().add(friendshipSubscription);
 
         entityManager.flush();

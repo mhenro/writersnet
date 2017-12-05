@@ -5,6 +5,7 @@ import org.booklink.models.request_models.TotalRating;
 import org.booklink.models.request_models.TotalSize;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -243,7 +244,7 @@ public class User {
         this.views = views;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subscriber")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "friendshipPK.subscriber")
     public Set<Friendship> getSubscribers() {
         return subscribers;
     }
@@ -252,7 +253,7 @@ public class User {
         this.subscribers = subscribers;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subscription")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "friendshipPK.subscription")
     public Set<Friendship> getSubscriptions() {
         return subscriptions;
     }
@@ -267,7 +268,7 @@ public class User {
     @JsonIgnore
     public boolean isSubscriberOf(final String anotherUser) {
         return getSubscriptions().stream()
-                .filter(subscription -> subscription.getSubscriptionName().equals(anotherUser))
+                .filter(subscription -> subscription.getFriendshipPK().getSubscription().getUsername().equals(anotherUser))
                 .findAny()
                 .isPresent();
     }
@@ -276,7 +277,7 @@ public class User {
     @JsonIgnore
     public boolean isSubscriptionOf(final String anotherUser) {
         return getSubscribers().stream()
-                .filter(subscriber -> subscriber.getSubscriberName().equals(anotherUser))
+                .filter(subscriber -> subscriber.getFriendshipPK().getSubscriber().getUsername().equals(anotherUser))
                 .findAny()
                 .isPresent();
     }

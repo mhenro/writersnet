@@ -9693,7 +9693,7 @@ exports.default = ReactStars;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setAuthor = exports.setAuthors = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.saveAvatar = exports.saveAuthor = exports.getAuthorDetails = exports.getAuthors = undefined;
+exports.setAuthor = exports.setAuthors = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.subscribeOn = exports.saveAvatar = exports.saveAuthor = exports.getAuthorDetails = exports.getAuthors = undefined;
 
 var _fetch = __webpack_require__(100);
 
@@ -9717,6 +9717,10 @@ var saveAuthor = exports.saveAuthor = function saveAuthor(author, token) {
 
 var saveAvatar = exports.saveAvatar = function saveAvatar(avatar, token) {
     return (0, _fetch2.default)((0, _utils.getHost)() + 'avatar', avatar, token, 'multipart/form-data');
+};
+
+var subscribeOn = exports.subscribeOn = function subscribeOn(authorName, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/subscribe', authorName, token);
 };
 
 var SET_AUTHORS = exports.SET_AUTHORS = 'SET_AUTHORS';
@@ -77263,7 +77267,7 @@ var SectionPage = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (SectionPage.__proto__ || Object.getPrototypeOf(SectionPage)).call(this, props));
 
-        ['onEditSeries', 'onEditBook', 'onDeleteBook'].map(function (fn) {
+        ['onEditSeries', 'onEditBook', 'onDeleteBook', 'onAddToFriends'].map(function (fn) {
             return _this[fn] = _this[fn].bind(_this);
         });
         return _this;
@@ -77302,12 +77306,16 @@ var SectionPage = function (_React$Component) {
     }, {
         key: 'onAddToFriends',
         value: function onAddToFriends(user, friend) {
-            console.log('user ' + user + ' is adding ' + friend);
+            var _this3 = this;
+
+            this.props.onSubcribeOn(friend, this.props.token, function () {
+                return _this3.props.onGetAuthorDetails(_this3.props.match.params.authorName);
+            });
         }
     }, {
         key: 'renderSectionToolbar',
         value: function renderSectionToolbar() {
-            var _this3 = this;
+            var _this4 = this;
 
             if (this.props.registered && this.props.login === this.props.author.username) {
                 return _react2.default.createElement(
@@ -77320,14 +77328,14 @@ var SectionPage = function (_React$Component) {
                         _react2.default.createElement(
                             'button',
                             { className: 'btn btn-success', onClick: function onClick() {
-                                    return _this3.onAddNewBook();
+                                    return _this4.onAddNewBook();
                                 } },
                             'Add new book'
                         ),
                         _react2.default.createElement(
                             'button',
                             { className: 'btn btn-success', onClick: function onClick() {
-                                    return _this3.onEditSeries();
+                                    return _this4.onEditSeries();
                                 } },
                             'Edit series'
                         )
@@ -77466,6 +77474,23 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
         onGoToComments: function onGoToComments(state) {
             dispatch((0, _GlobalActions.goToComments)(state));
+        },
+
+        onSubcribeOn: function onSubcribeOn(authorName, token, callback) {
+            return (0, _AuthorActions.subscribeOn)(authorName, token).then(function (_ref5) {
+                var _ref6 = _slicedToArray(_ref5, 2),
+                    response = _ref6[0],
+                    json = _ref6[1];
+
+                if (response.status === 200) {
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', json.message));
+                    callback();
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
         }
     };
 };
@@ -77530,30 +77555,28 @@ var AuthorFile = function (_React$Component) {
     }, {
         key: 'isFriend',
         value: function isFriend() {
-            var _this2 = this;
-
-            return this.props.author.subscribers.some(function (subscriber) {
-                return subscriber.subscriberName === _this2.props.login;
-            }) && this.props.author.subscriptions.some(function (subscription) {
-                return subscription.subscriptionName === _this2.props.login;
-            });
+            return this.isSubscriber() && this.isSubscription();
         }
     }, {
         key: 'isSubscriber',
         value: function isSubscriber() {
-            var _this3 = this;
+            var _this2 = this;
 
-            return this.props.author.subscriptions.some(function (subscription) {
-                return subscription.subscriptionName === _this3.props.login;
+            return this.props.author.subscribers.map(function (temp) {
+                return temp.friendshipPK;
+            }).some(function (subscriber) {
+                return subscriber.subscriptionName === _this2.props.login;
             });
         }
     }, {
         key: 'isSubscription',
         value: function isSubscription() {
-            var _this4 = this;
+            var _this3 = this;
 
-            return this.props.author.subscribers.some(function (subscriber) {
-                return subscriber.subscriberName === _this4.props.login;
+            return this.props.author.subscriptions.map(function (temp) {
+                return temp.friendshipPK;
+            }).some(function (subscription) {
+                return subscription.subscriberName === _this3.props.login;
             });
         }
     }, {
@@ -77580,14 +77603,14 @@ var AuthorFile = function (_React$Component) {
     }, {
         key: 'onAddToFriends',
         value: function onAddToFriends() {
-            if (!this.isFriend() || !this.isSubscription()) {
+            if (!this.isFriend() && !this.isSubscription()) {
                 this.props.onAddToFriends(this.props.login, this.props.author.username);
             }
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this5 = this;
+            var _this4 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -77599,7 +77622,7 @@ var AuthorFile = function (_React$Component) {
                         'div',
                         { className: 'col-sm-12', style: { textAlign: 'center' } },
                         _react2.default.createElement('img', { src: this.props.author.avatar + '?date=' + new Date(), onClick: function onClick() {
-                                return _this5.onAuthorClick();
+                                return _this4.onAuthorClick();
                             }, className: 'img-rounded clickable', width: '100%', height: 'auto' })
                     )
                 ),
@@ -77622,7 +77645,7 @@ var AuthorFile = function (_React$Component) {
                             _react2.default.createElement(
                                 'button',
                                 { onClick: function onClick() {
-                                        return _this5.onAddToFriends();
+                                        return _this4.onAddToFriends();
                                     }, className: this.getFriendsButtonClass() },
                                 this.getFriendsButtonCaption()
                             ),

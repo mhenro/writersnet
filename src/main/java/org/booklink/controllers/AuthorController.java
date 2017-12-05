@@ -6,6 +6,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.services.AuthorService;
+import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 
 /**
@@ -83,10 +86,10 @@ public class AuthorController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "authors/subscribe", method = RequestMethod.POST)
-    public ResponseEntity<?> subscribeOnUser(@RequestBody String subscriptionId) {
+    public ResponseEntity<?> subscribeOnUser(@RequestBody final String subscriptionId) {
         Response<String> response = new Response<>();
         try {
-            response = authorService.subscribeOnUser(subscriptionId);
+            response = authorService.subscribeOnUser(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch(Exception e) {
             response.setCode(1);

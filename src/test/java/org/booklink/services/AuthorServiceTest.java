@@ -9,6 +9,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.repositories.AuthorRepository;
+import org.booklink.repositories.FriendshipRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,9 +49,12 @@ public class AuthorServiceTest {
         @MockBean
         private AuthorRepository authorRepository;
 
+        @MockBean
+        private FriendshipRepository friendshipRepository;
+
         @Bean
         public AuthorService authorService() {
-            return new AuthorService(env, authorRepository);
+            return new AuthorService(env, authorRepository, friendshipRepository);
         }
     }
 

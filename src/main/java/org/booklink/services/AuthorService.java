@@ -3,12 +3,14 @@ package org.booklink.services;
 import liquibase.util.file.FilenameUtils;
 import org.booklink.models.Response;
 import org.booklink.models.entities.Friendship;
+import org.booklink.models.entities.FriendshipPK;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.models.top_models.*;
 import org.booklink.repositories.AuthorRepository;
+import org.booklink.repositories.FriendshipRepository;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +35,13 @@ import java.util.Optional;
 public class AuthorService {
     private Environment env;
     private AuthorRepository authorRepository;
+    private FriendshipRepository friendshipRepository;
 
     @Autowired
-    public AuthorService(Environment env, AuthorRepository authorRepository) {
+    public AuthorService(final Environment env, final AuthorRepository authorRepository, final FriendshipRepository friendshipRepository) {
         this.env = env;
         this.authorRepository = authorRepository;
+        this.friendshipRepository = friendshipRepository;
     }
 
     public Page<User> getAuthors(final Pageable pageable) {
@@ -141,8 +145,11 @@ public class AuthorService {
         Friendship subscription = new Friendship();
         subscription.setActive(true);
         subscription.setDate(new Date());
-        subscription.setSubscriber(user);
-        subscription.setSubscription(subscriptionUser);
+        FriendshipPK friendshipPK = new FriendshipPK();
+        subscription.setFriendshipPK(friendshipPK);
+        subscription.getFriendshipPK().setSubscriber(user);
+        subscription.getFriendshipPK().setSubscription(subscriptionUser);
+        friendshipRepository.save(subscription);
         user.getSubscriptions().add(subscription);
         authorRepository.save(user);
 

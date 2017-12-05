@@ -12,43 +12,17 @@ import java.util.Date;
 @Entity
 @Table(name = "friendships")
 public class Friendship implements Serializable {
-    private User subscriber;
-    private User subscription;
+    private FriendshipPK friendshipPK;
     private Date date;
     private boolean active;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "subscription_id", referencedColumnName = "username")
-    @JsonIgnore
-    public User getSubscriber() {
-        return subscriber;
+    @EmbeddedId
+    public FriendshipPK getFriendshipPK() {
+        return friendshipPK;
     }
 
-    @Transient
-    public String getSubscriberName() {
-        return subscriber.getUsername();
-    }
-
-    public void setSubscriber(User subscriber) {
-        this.subscriber = subscriber;
-    }
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "subscriber_id", referencedColumnName = "username")
-    @JsonIgnore
-    public User getSubscription() {
-        return subscription;
-    }
-
-    @Transient
-    public String getSubscriptionName() {
-        return subscription.getUsername();
-    }
-
-    public void setSubscription(User subscription) {
-        this.subscription = subscription;
+    public void setFriendshipPK(FriendshipPK friendshipPK) {
+        this.friendshipPK = friendshipPK;
     }
 
     @Temporal(TemporalType.TIMESTAMP)

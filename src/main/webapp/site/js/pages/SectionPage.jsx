@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
     getAuthorDetails,
-    setAuthor
+    setAuthor,
+    subscribeOn
 } from '../actions/AuthorActions.jsx';
 import {
     deleteBook,
@@ -28,7 +29,7 @@ class SectionPage extends React.Component {
     constructor(props) {
         super(props);
 
-        ['onEditSeries', 'onEditBook', 'onDeleteBook'].map(fn => this[fn] = this[fn].bind(this));
+        ['onEditSeries', 'onEditBook', 'onDeleteBook', 'onAddToFriends'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -53,7 +54,7 @@ class SectionPage extends React.Component {
     }
 
     onAddToFriends(user, friend) {
-        console.log('user ' + user + ' is adding ' + friend);
+        this.props.onSubcribeOn(friend, this.props.token, () => this.props.onGetAuthorDetails(this.props.match.params.authorName));
     }
 
     renderSectionToolbar() {
@@ -176,6 +177,20 @@ const mapDispatchToProps = (dispatch) => {
 
         onGoToComments: (state) => {
             dispatch(goToComments(state));
+        },
+
+        onSubcribeOn: (authorName, token, callback) => {
+            return subscribeOn(authorName, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', json.message));
+                    callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
         }
     }
 };
