@@ -2,7 +2,6 @@ package org.booklink.repositories;
 
 import org.booklink.models.entities.Friendship;
 import org.booklink.models.entities.FriendshipPK;
-import org.booklink.models.entities.User;
 import org.springframework.data.repository.CrudRepository;
 
 /**

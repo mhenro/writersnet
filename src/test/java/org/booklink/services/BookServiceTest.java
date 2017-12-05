@@ -1,9 +1,6 @@
 package org.booklink.services;
 
-import org.booklink.models.entities.Book;
-import org.booklink.models.entities.BookText;
-import org.booklink.models.entities.Section;
-import org.booklink.models.entities.User;
+import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.BookTextRequest;
@@ -89,6 +86,10 @@ public class BookServiceTest {
         user.setUsername("user0");
         book.setAuthor(user);
         Mockito.when(bookRepository.findOne(111L)).thenReturn(book);
+        //final Friendship friendship = new Friendship();
+        //final FriendshipPK friendshipPK = new FriendshipPK();
+        //friendship.setFriendshipPK(friendshipPK);
+        //friendship
 
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getName()).thenReturn("user0");
@@ -108,6 +109,8 @@ public class BookServiceTest {
         Assert.assertEquals(null, books.getContent().get(0).getBookText());
         Assert.assertEquals(null, books.getContent().get(0).getAuthor().getBooks());
         Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSection());
+        Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSubscribers());
+        Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSubscriptions());
     }
 
     @Test

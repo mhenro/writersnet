@@ -17,6 +17,7 @@ public class Friendship implements Serializable {
     private boolean active;
 
     @EmbeddedId
+    @JsonIgnore
     public FriendshipPK getFriendshipPK() {
         return friendshipPK;
     }
@@ -41,5 +42,47 @@ public class Friendship implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    /* ----------------------------------------business logic--------------------------------------------------- */
+
+    @Transient
+    public String getSubscriberId() {
+        return getFriendshipPK().getSubscriber().getUsername();
+    }
+
+    @Transient
+    public String getSubscriberFullName() {
+        return getFriendshipPK().getSubscriber().getFullName();
+    }
+
+    @Transient
+    public String getSubscriberSectionName() {
+        return getFriendshipPK().getSubscriber().getSection().getName();
+    }
+
+    @Transient
+    public String getSubscriberAvatar() {
+        return getFriendshipPK().getSubscriber().getAvatar();
+    }
+
+    @Transient
+    public String getSubscriptionId() {
+        return getFriendshipPK().getSubscription().getUsername();
+    }
+
+    @Transient
+    public String getSubscriptionFullName() {
+        return getFriendshipPK().getSubscription().getFullName();
+    }
+
+    @Transient
+    public String getSubscriptionSectionName() {
+        return getFriendshipPK().getSubscription().getSection().getName();
+    }
+
+    @Transient
+    public String getSubscriptionAvatar() {
+        return getFriendshipPK().getSubscription().getAvatar();
     }
 }

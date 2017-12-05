@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import {
+    isSubscription,
+    isFriend
+} from '../../utils.jsx';
+
 /*
     props:
     - author
@@ -22,28 +27,15 @@ class AuthorFile extends React.Component {
 
     onAuthorClick() {
         if (this.props.registered && this.props.login === this.props.author.username) {
-            //window.location.href = window.location.origin + '/options';
             this.context.router.history.push('/options');
         }
     }
 
-    isFriend() {
-        return this.isSubscriber() && this.isSubscription();
-    }
-
-    isSubscriber() {
-        return this.props.author.subscribers.map(temp => temp.friendshipPK).some(subscriber => subscriber.subscriptionName === this.props.login);
-    }
-
-    isSubscription() {
-        return this.props.author.subscriptions.map(temp => temp.friendshipPK).some(subscription => subscription.subscriberName === this.props.login);
-    }
-
     getFriendsButtonCaption() {
-        if (this.isFriend()) {
+        if (isFriend(this.props.login, this.props.author)) {
             return 'Already in friends';
         }
-        if (this.isSubscription()) {
+        if (isSubscription(this.props.login, this.props.author)) {
             return 'You are already subscribed';
         }
         return 'Add to friends';
@@ -51,7 +43,7 @@ class AuthorFile extends React.Component {
 
     getFriendsButtonClass() {
         let baseCls = 'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username? '' : 'hidden');
-        if (this.isFriend() || this.isSubscription()) {
+        if (isFriend(this.props.login, this.props.author) || isSubscription(this.props.login, this.props.author)) {
             baseCls += ' disabled';
         }
 
@@ -59,7 +51,7 @@ class AuthorFile extends React.Component {
     }
 
     onAddToFriends() {
-        if (!this.isFriend() && !this.isSubscription()) {
+        if (!isFriend(this.props.login, this.props.author) && !isSubscription(this.props.login, this.props.author)) {
             this.props.onAddToFriends(this.props.login, this.props.author.username);
         }
     }

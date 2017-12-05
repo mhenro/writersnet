@@ -5,7 +5,6 @@ import org.booklink.models.request_models.TotalRating;
 import org.booklink.models.request_models.TotalSize;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 

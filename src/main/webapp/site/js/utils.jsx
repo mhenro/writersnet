@@ -45,3 +45,15 @@ export const addLeadZero = (n, width = 2, z = '') => {
 export const getHost = () => {
     return 'https://' + window.location.hostname + '/api/';
 };
+
+export const isSubscriber = (login, author) => {
+    return author.subscribers.some(subscriber => subscriber.subscriptionId === login);
+};
+
+export const isSubscription = (login, author) => {
+    return author.subscriptions.some(subscription => subscription.subscriberId === login);
+};
+
+export const isFriend = (login, author) => {
+    return isSubscriber(login, author) && isSubscription(login, author);
+};

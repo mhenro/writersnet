@@ -235,6 +235,8 @@ public class BookService {
         User user = book.getAuthor();
         user.setBooks(null);
         user.setSection(null);
+        user.setSubscriptions(null);
+        user.setSubscribers(null);
     }
 
     private void calcBookSize(Book book) {

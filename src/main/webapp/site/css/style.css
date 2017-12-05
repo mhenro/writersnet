@@ -42,6 +42,22 @@ footer {
     color: #222;
 }
 
+.friendlist-item-name {
+    font-size: 12pt;
+    color: #222;
+}
+
+.section-author-name {
+    text-align: center;
+    font-size: 24pt;
+    color: #0099cc;
+}
+
+.friendlist-item-section {
+    font-size: 12pt;
+    color: #0099cc;
+}
+
 .stars {
     /*white-space: nowrap;*/
     float: left;
@@ -55,12 +71,6 @@ footer {
 
 .clickable {
     cursor: pointer;
-}
-
-.section-author-name {
-    text-align: center;
-    font-size: 24pt;
-    color: #0099cc;
 }
 
 /* styles for BookSerieItem */

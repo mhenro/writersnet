@@ -4,8 +4,18 @@ import { connect } from 'react-redux';
 import FriendList from '../components/friends/FriendList.jsx';
 
 import {
+    getAuthorDetails,
+    setAuthor,
+    subscribeOn
+} from '../actions/AuthorActions.jsx';
+import {
     createNotify
 } from '../actions/GlobalActions.jsx';
+import {
+    isFriend,
+    isSubscriber,
+    isSubscription
+} from '../utils.jsx';
 
 class FriendsPage extends React.Component {
     constructor(props) {
@@ -13,6 +23,15 @@ class FriendsPage extends React.Component {
         this.state = {
             activeTab: 'friends'    //requests
         };
+    }
+
+    componentDidMount() {
+        let timer = setInterval(() => {
+            if (this.props.login) {
+                this.props.onGetAuthorDetails(this.props.login);
+                clearInterval(timer);
+            }
+        }, 1000);
     }
 
     getActiveClass(tabName) {
@@ -28,12 +47,99 @@ class FriendsPage extends React.Component {
         });
     }
 
+    getFriends() {
+        return this.props.author.subscribers
+            .filter(subscriber => this.props.author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
+            .map(friend => {
+                return {
+                    date: friend.date,
+                    active: friend.active,
+                    id: friend.subscriptionId,
+                    name: friend.subscriptionFullName,
+                    section: friend.subscriptionSectionName,
+                    avatar: friend.subscriptionAvatar
+                };
+            });
+    }
+
+    getSubscribers() {
+        return this.props.author.subscriptions
+            .filter(subscription => subscription.subscriptionId === this.props.author.username)
+            .map(subscriber => {
+                return {
+                    date: subscriber.date,
+                    active: subscriber.active,
+                    id: subscriber.subscriberId,
+                    name: subscriber.subscriberFullName,
+                    section: subscriber.subscriberSectionName,
+                    avatar: subscriber.subscriberAvatar
+                };
+            });
+    }
+
+    getSubscriptions() {
+        return this.props.author.subscribers
+            .filter(subscriber => subscriber.subscriberId === this.props.author.username)
+            .map(subscription => {
+                return {
+                    date: subscription.date,
+                    active: subscription.active,
+                    id: subscription.subscriptionId,
+                    name: subscription.subscriptionFullName,
+                    section: subscription.subscriptionSectionName,
+                    avatar: subscription.subscriptionAvatar
+                };
+            });
+    }
+
+    getSendMsgButtonVisibility() {
+        if (this.state.activeTab === 'friends') {
+            return true;
+        } else if (this.state.activeTab === 'subscribers') {
+            return false;
+        } else if (this.state.activeTab === 'subscriptions') {
+            return false;
+        }
+    }
+
+    getAddFriendButtonVisibility() {
+        if (this.state.activeTab === 'friends') {
+            return false;
+        } else if (this.state.activeTab === 'subscribers') {
+            return true;
+        } else if (this.state.activeTab === 'subscriptions') {
+            return false;
+        }
+    }
+
+    isDataLoaded() {
+        if (this.props.author && this.props.login) {
+            return true;
+        }
+        return false;
+    }
+
+    getItems() {
+        if (this.state.activeTab === 'friends') {
+            return this.getFriends();
+        } else if (this.state.activeTab === 'subscribers') {
+            return this.getSubscribers();
+        } else if (this.state.activeTab === 'subscriptions') {
+            return this.getSubscriptions();
+        }
+    }
+
     render() {
+        if (!this.isDataLoaded()) {
+            return null;
+        }
+
         return (
             <div>
                 <ul className="nav nav-tabs">
                     <li className={this.getActiveClass('friends')}><a onClick={() => this.changeTab('friends')}>My friends</a></li>
-                    <li className={this.getActiveClass('requests')}><a onClick={() => this.changeTab('requests')}>Friend requests</a></li>
+                    <li className={this.getActiveClass('subscribers')}><a onClick={() => this.changeTab('subscribers')}>Subscribers</a></li>
+                    <li className={this.getActiveClass('subscriptions')}><a onClick={() => this.changeTab('subscriptions')}>Subscriptions</a></li>
                 </ul>
                 <br/>
                 <div className="input-group">
@@ -44,7 +150,7 @@ class FriendsPage extends React.Component {
                             </button>
                         </div>
                 </div>
-                <FriendList/>
+                <FriendList friends={this.getItems()} sendMsgButton={this.getSendMsgButtonVisibility()} addFriendButton={this.getAddFriendButtonVisibility()}/>
             </div>
         )
     }
@@ -52,14 +158,25 @@ class FriendsPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        registered: state.GlobalReducer.registered,
-        login: state.GlobalReducer.user.login
+        login: state.GlobalReducer.user.login,
+        author: state.AuthorReducer.author
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        onGetAuthorDetails: (userId) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setAuthor(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
     }
 };
 
