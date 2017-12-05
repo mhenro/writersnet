@@ -50,15 +50,14 @@ public class AuthorController {
     @CrossOrigin
     @RequestMapping(value = "authors", method = RequestMethod.POST)
     public ResponseEntity<?> saveAuthor(@RequestBody User author) {
+        Response<String> response = new Response<>();
         try {
             authorService.saveAuthor(author);
         } catch(Exception e) {
-            Response<String> response = new Response<>();
             response.setCode(1);
             response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Response<String> response = new Response<>();
         response.setCode(0);
         response.setMessage("Author was saved");
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -71,14 +70,29 @@ public class AuthorController {
         Response<String> response = new Response<>();
         try {
             authorService.saveAvatar(avatarRequest);
+            response.setCode(0);
+            response.setMessage("Avatar was saved successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.setCode(0);
-        response.setMessage("Avatar was saved successfully");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "authors/subscribe", method = RequestMethod.POST)
+    public ResponseEntity<?> subscribeOnUser(@RequestBody String subscriptionId) {
+        Response<String> response = new Response<>();
+        try {
+            response = authorService.subscribeOnUser(subscriptionId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

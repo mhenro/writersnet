@@ -1,6 +1,7 @@
 package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.booklink.models.Response;
 import org.booklink.models.entities.User;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.services.AuthorService;
@@ -16,6 +17,7 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -97,5 +99,14 @@ public class AuthorControllerTest {
         mvc.perform(get("/avatar")).andExpect(status().isMethodNotAllowed());
         doThrow(new RuntimeException("test error")).when(authorService).saveAvatar(any(AvatarRequest.class));
         mvc.perform(post("/avatar").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError()).andExpect(content().json("{code: 1, message: 'test error'}"));
+    }
+
+    @Test
+    public void subscribeOnUser() throws Exception {
+        final Response<String> response = new Response<>();
+        response.setMessage("111");
+        when(authorService.subscribeOnUser("\"user2\"")).thenReturn(response);
+        final String json = mapper.writeValueAsString("user2");
+        mvc.perform(post("/authors/subscribe").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: '111'}"));
     }
 }

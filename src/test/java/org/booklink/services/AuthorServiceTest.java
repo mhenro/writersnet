@@ -1,5 +1,6 @@
 package org.booklink.services;
 
+import org.booklink.models.Response;
 import org.booklink.models.entities.Book;
 import org.booklink.models.entities.BookText;
 import org.booklink.models.entities.Section;
@@ -31,6 +32,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static org.hamcrest.CoreMatchers.any;
 
 /**
  * Created by mhenr on 20.11.2017.
@@ -211,6 +214,20 @@ public class AuthorServiceTest {
         authorService.saveAvatar(avatarRequest);
     }
 
+    @Test
+    public void subscribeOnUser() throws Exception {
+        Response<String> response = authorService.subscribeOnUser("user1");
+        Assert.assertNotNull(response);
+        Assert.assertEquals(0, response.getCode());
+        Assert.assertEquals("You has added first1 last1 to your subscriptions", response.getMessage());
+    }
+
+    @Test(expected = ObjectNotFoundException.class)
+    public void subscribeOnUser_subscriptionNotFound() throws Exception {
+        Response<String> response = authorService.subscribeOnUser("user150");
+        Assert.assertNotNull(response);
+    }
+
     private Set<Book> generateBooks(final int count) {
         Set<Book> books = IntStream.range(0, count).mapToObj(this::createBook).collect(Collectors.toSet());
         return books;
@@ -247,6 +264,8 @@ public class AuthorServiceTest {
         user.setActivationToken("token111");
         user.setAuthority("ROLE_USER");
         user.setEnabled(true);
+        user.setFirstName("first" + i);
+        user.setLastName("last" + i);
         user.setBooks(generateBooks(2));
         user.setSection(createSection(user));
         user.setAvatar(i == 1 ? "http://avatar.png" : null);

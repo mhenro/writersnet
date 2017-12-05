@@ -2,6 +2,7 @@ package org.booklink.services;
 
 import liquibase.util.file.FilenameUtils;
 import org.booklink.models.Response;
+import org.booklink.models.entities.Friendship;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -105,7 +107,7 @@ public class AuthorService {
 
         User author = authorRepository.findOne(avatarRequest.getUserId());
         if (author == null) {
-            throw new ObjectNotFoundException("Author not found");
+            throw new ObjectNotFoundException("Author is not found");
         }
         checkCredentials(author.getUsername()); //only the owner can change his avatar
         String uploadDir = env.getProperty("writersnet.avatarstorage.path");
@@ -124,8 +126,34 @@ public class AuthorService {
         authorRepository.save(author);
     }
 
-    public void addUserToFriend() {
+    public Response<String> subscribeOnUser(final String subscriptionId) {
+        Response<String> response = new Response<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = auth.getName();
+        User user = authorRepository.findOne(currentUser);
+        if (user == null) {
+            throw new ObjectNotFoundException("Author is not found");
+        }
+        User subscriptionUser = authorRepository.findOne(subscriptionId);
+        if (subscriptionUser == null) {
+            throw new ObjectNotFoundException("Subscription is not found");
+        }
+        Friendship subscription = new Friendship();
+        subscription.setActive(true);
+        subscription.setDate(new Date());
+        subscription.setSubscriber(user);
+        subscription.setSubscription(subscriptionUser);
+        user.getSubscriptions().add(subscription);
+        authorRepository.save(user);
 
+        response.setCode(0);
+        if (user.isFriendOf(subscriptionId)) {
+            response.setMessage("You has added " + subscriptionUser.getFullName() + " to the friend list");
+        } else if (user.isSubscriberOf(subscriptionId)) {
+            response.setMessage("You has added " + subscriptionUser.getFullName() + " to your subscriptions");
+        }
+
+        return response;
     }
 
     private void increaseAuthorViews(final User author) {

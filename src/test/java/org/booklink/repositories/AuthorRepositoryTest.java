@@ -22,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by mhenr on 17.11.2017.
@@ -82,6 +83,44 @@ public class AuthorRepositoryTest {
     public void init() {
         createUser("mhenro", true, 0);
         createUser("zazaka", false, 0);
+
+        entityManager.flush();
+    }
+
+    public void initSubscriber() {
+        final User user1 = createUser("mhenro", true, 9);
+        final User user2 = createUser("zazaka", false, 0);
+        final Friendship friendship = new Friendship();
+        friendship.setSubscriber(user2);
+        friendship.setSubscription(user1);
+        user1.getSubscribers().add(friendship);
+
+        entityManager.flush();
+    }
+
+    public void initSubscription() {
+        final User user1 = createUser("mhenro", true, 0);
+        final User user2 = createUser("zazaka", false, 0);
+        final Friendship friendship = new Friendship();
+        friendship.setSubscriber(user1);
+        friendship.setSubscription(user2);
+        user1.getSubscriptions().add(friendship);
+
+        entityManager.flush();
+    }
+
+    public void initFriend() {
+        final User user1 = createUser("mhenro", true, 0);
+        final User user2 = createUser("zazaka", false, 0);
+        final Friendship friendshipSubscribe = new Friendship();
+        friendshipSubscribe.setSubscriber(user2);
+        friendshipSubscribe.setSubscription(user1);
+        user1.getSubscribers().add(friendshipSubscribe);
+
+        final Friendship friendshipSubscription = new Friendship();
+        friendshipSubscription.setSubscriber(user1);
+        friendshipSubscription.setSubscription(user2);
+        user1.getSubscriptions().add(friendshipSubscription);
 
         entityManager.flush();
     }
@@ -201,5 +240,41 @@ public class AuthorRepositoryTest {
         Page<User> users = authorRepository.findAll((Pageable)null);
         Assert.assertEquals(3, users.getTotalElements());
         Assert.assertEquals("newUser", users.getContent().get(2).getUsername());
+    }
+
+    @Test
+    public void subscribeOnUser_subscriber() throws Exception {
+        initSubscriber();
+        final User user = authorRepository.findOne("mhenro");
+        Assert.assertEquals(true, user.isSubscriptionOf("zazaka"));
+        Assert.assertEquals(false, user.isSubscriptionOf("mhenro"));
+        Assert.assertEquals(false, user.isSubscriberOf("zazaka"));
+        Assert.assertEquals(false, user.isSubscriberOf("mhenro"));
+        Assert.assertEquals(false, user.isFriendOf("zazaka"));
+        Assert.assertEquals(false, user.isFriendOf("mhenro"));
+    }
+
+    @Test
+    public void subscribeOnUser_subscription() throws Exception {
+        initSubscription();
+        final User user = authorRepository.findOne("mhenro");
+        Assert.assertEquals(true, user.isSubscriberOf("zazaka"));
+        Assert.assertEquals(false, user.isSubscriberOf("mhenro"));
+        Assert.assertEquals(false, user.isSubscriptionOf("zazaka"));
+        Assert.assertEquals(false, user.isSubscriptionOf("mhenro"));
+        Assert.assertEquals(false, user.isFriendOf("zazaka"));
+        Assert.assertEquals(false, user.isFriendOf("mhenro"));
+    }
+
+    @Test
+    public void subscribeOnUser_friend() throws Exception {
+        initFriend();
+        final User user = authorRepository.findOne("mhenro");
+        Assert.assertEquals(true, user.isFriendOf("zazaka"));
+        Assert.assertEquals(false, user.isFriendOf("mhenro"));
+        Assert.assertEquals(true, user.isSubscriptionOf("zazaka"));
+        Assert.assertEquals(false, user.isSubscriptionOf("mhenro"));
+        Assert.assertEquals(true, user.isSubscriberOf("zazaka"));
+        Assert.assertEquals(false, user.isSubscriberOf("mhenro"));
     }
 }

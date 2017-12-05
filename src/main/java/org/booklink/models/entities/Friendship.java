@@ -27,7 +27,7 @@ public class Friendship implements Serializable {
 
     @Transient
     public String getSubscriberName() {
-        return subscription.getUsername();
+        return subscriber.getUsername();
     }
 
     public void setSubscriber(User subscriber) {
@@ -44,7 +44,7 @@ public class Friendship implements Serializable {
 
     @Transient
     public String getSubscriptionName() {
-        return subscriber.getUsername();
+        return subscription.getUsername();
     }
 
     public void setSubscription(User subscription) {

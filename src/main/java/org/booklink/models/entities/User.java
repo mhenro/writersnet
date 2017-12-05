@@ -1,5 +1,6 @@
 package org.booklink.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.booklink.models.request_models.TotalRating;
 import org.booklink.models.request_models.TotalSize;
 
@@ -258,5 +259,37 @@ public class User {
 
     public void setSubscriptions(Set<Friendship> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    /* -----------------------------business logic-------------------------------------------------------- */
+
+    @Transient
+    @JsonIgnore
+    public boolean isSubscriberOf(final String anotherUser) {
+        return getSubscriptions().stream()
+                .filter(subscription -> subscription.getSubscriptionName().equals(anotherUser))
+                .findAny()
+                .isPresent();
+    }
+
+    @Transient
+    @JsonIgnore
+    public boolean isSubscriptionOf(final String anotherUser) {
+        return getSubscribers().stream()
+                .filter(subscriber -> subscriber.getSubscriberName().equals(anotherUser))
+                .findAny()
+                .isPresent();
+    }
+
+    @Transient
+    @JsonIgnore
+    public boolean isFriendOf(final String anotherUser) {
+        return isSubscriberOf(anotherUser) && isSubscriptionOf(anotherUser);
+    }
+
+    @Transient
+    @JsonIgnore
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 }
