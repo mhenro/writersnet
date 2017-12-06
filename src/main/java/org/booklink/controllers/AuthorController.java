@@ -96,6 +96,21 @@ public class AuthorController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "authors/unsubscribe", method = RequestMethod.POST)
+    public ResponseEntity<?> removeSubscription(@RequestBody final String subscriptionId) {
+        Response<String> response = new Response<>();
+        try {
+            response = authorService.removeSubscription(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)

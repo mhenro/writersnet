@@ -23,6 +23,7 @@ class FriendsPage extends React.Component {
         this.state = {
             activeTab: 'friends'    //requests
         };
+        ['onAddToFriends'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -47,6 +48,12 @@ class FriendsPage extends React.Component {
         });
     }
 
+    getFriendIds() {
+        return this.props.author.subscribers
+            .filter(subscriber => this.props.author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
+            .map(friend => friend.subscriptionId);
+    }
+
     getFriends() {
         return this.props.author.subscribers
             .filter(subscriber => this.props.author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
@@ -63,8 +70,10 @@ class FriendsPage extends React.Component {
     }
 
     getSubscribers() {
+        let friends = this.getFriendIds();
         return this.props.author.subscriptions
             .filter(subscription => subscription.subscriptionId === this.props.author.username)
+            .filter(subscription => !friends.some(friend => friend === subscription.subscriberId))
             .map(subscriber => {
                 return {
                     date: subscriber.date,
@@ -78,8 +87,10 @@ class FriendsPage extends React.Component {
     }
 
     getSubscriptions() {
+        let friends = this.getFriendIds();
         return this.props.author.subscribers
             .filter(subscriber => subscriber.subscriberId === this.props.author.username)
+            .filter(subscriber => !friends.some(friend => friend === subscriber.subscriptionId))
             .map(subscription => {
                 return {
                     date: subscription.date,
@@ -112,6 +123,26 @@ class FriendsPage extends React.Component {
         }
     }
 
+    getReadNewsButtonVisibility() {
+        if (this.state.activeTab === 'friends') {
+            return true;
+        } else if (this.state.activeTab === 'subscribers') {
+            return false;
+        } else if (this.state.activeTab === 'subscriptions') {
+            return true;
+        }
+    }
+
+    getRemoveFriendButtonVisibility() {
+        if (this.state.activeTab === 'friends') {
+            return true;
+        } else if (this.state.activeTab === 'subscribers') {
+            return false;
+        } else if (this.state.activeTab === 'subscriptions') {
+            return true;
+        }
+    }
+
     isDataLoaded() {
         if (this.props.author && this.props.login) {
             return true;
@@ -129,6 +160,27 @@ class FriendsPage extends React.Component {
         }
     }
 
+    getTabCaption(tabName) {
+        if (tabName === 'friends') {
+            let count = this.getFriends().length;
+            return <span>My friends <span className="counter">{count}</span></span>;
+        } else if (tabName === 'subscribers') {
+            let count = this.getSubscribers().length;
+            return <span>Subscribers <span className="counter">{count}</span></span>;
+        } else if (tabName === 'subscriptions') {
+            let count = this.getSubscriptions().length;
+            return <span>Subscriptions <span className="counter">{count}</span></span>;
+        }
+    }
+
+    onAddToFriends(friend) {
+        this.props.onSubcribeOn(friend, this.props.token, () => this.props.onGetAuthorDetails(this.props.login));
+    }
+
+    onRemoveFriend(friend) {
+
+    }
+
     render() {
         if (!this.isDataLoaded()) {
             return null;
@@ -137,9 +189,9 @@ class FriendsPage extends React.Component {
         return (
             <div>
                 <ul className="nav nav-tabs">
-                    <li className={this.getActiveClass('friends')}><a onClick={() => this.changeTab('friends')}>My friends</a></li>
-                    <li className={this.getActiveClass('subscribers')}><a onClick={() => this.changeTab('subscribers')}>Subscribers</a></li>
-                    <li className={this.getActiveClass('subscriptions')}><a onClick={() => this.changeTab('subscriptions')}>Subscriptions</a></li>
+                    <li className={this.getActiveClass('friends')}><a onClick={() => this.changeTab('friends')}>{this.getTabCaption('friends')}</a></li>
+                    <li className={this.getActiveClass('subscribers')}><a onClick={() => this.changeTab('subscribers')}>{this.getTabCaption('subscribers')}</a></li>
+                    <li className={this.getActiveClass('subscriptions')}><a onClick={() => this.changeTab('subscriptions')}>{this.getTabCaption('subscriptions')}</a></li>
                 </ul>
                 <br/>
                 <div className="input-group">
@@ -150,7 +202,12 @@ class FriendsPage extends React.Component {
                             </button>
                         </div>
                 </div>
-                <FriendList friends={this.getItems()} sendMsgButton={this.getSendMsgButtonVisibility()} addFriendButton={this.getAddFriendButtonVisibility()}/>
+                <FriendList friends={this.getItems()}
+                            sendMsgButton={this.getSendMsgButtonVisibility()}
+                            addFriendButton={this.getAddFriendButtonVisibility()}
+                            readNewsButton={this.getReadNewsButtonVisibility()}
+                            removeFriendButton={this.getRemoveFriendButtonVisibility()}
+                            onAddToFriends={this.onAddToFriends}/>
             </div>
         )
     }
@@ -159,6 +216,7 @@ class FriendsPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         login: state.GlobalReducer.user.login,
+        token: state.GlobalReducer.token,
         author: state.AuthorReducer.author
     }
 };
@@ -177,6 +235,20 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
         },
+
+        onSubcribeOn: (authorName, token, callback) => {
+            return subscribeOn(authorName, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', json.message));
+                    callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        }
     }
 };
 

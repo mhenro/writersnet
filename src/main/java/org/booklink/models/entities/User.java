@@ -266,8 +266,8 @@ public class User {
     @Transient
     @JsonIgnore
     public boolean isSubscriberOf(final String anotherUser) {
-        return getSubscriptions().stream()
-                .filter(subscription -> subscription.getFriendshipPK().getSubscription().getUsername().equals(anotherUser))
+        return getSubscribers().stream()
+                .filter(subscriber -> subscriber.getFriendshipPK().getSubscription().getUsername().equals(anotherUser))
                 .findAny()
                 .isPresent();
     }
@@ -275,8 +275,8 @@ public class User {
     @Transient
     @JsonIgnore
     public boolean isSubscriptionOf(final String anotherUser) {
-        return getSubscribers().stream()
-                .filter(subscriber -> subscriber.getFriendshipPK().getSubscriber().getUsername().equals(anotherUser))
+        return getSubscriptions().stream()
+                .filter(subscription -> subscription.getFriendshipPK().getSubscriber().getUsername().equals(anotherUser))
                 .findAny()
                 .isPresent();
     }

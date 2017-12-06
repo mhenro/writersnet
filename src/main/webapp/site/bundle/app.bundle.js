@@ -64606,12 +64606,18 @@ var Footer = function (_React$Component) {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
-                "footer",
-                { className: "container-fluid text-center" },
+                "div",
+                null,
+                _react2.default.createElement("br", null),
+                _react2.default.createElement("br", null),
                 _react2.default.createElement(
-                    "div",
-                    { className: "col-sm-12", style: { textAlign: 'center' } },
-                    "\xA9 2017 \"WritersNet\""
+                    "footer",
+                    { className: "container-fluid text-center" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "col-sm-12", style: { textAlign: 'center' } },
+                        "\xA9 2017 \"WritersNets.com\""
+                    )
                 )
             );
         }
@@ -84942,6 +84948,9 @@ var FriendsPage = function (_React$Component) {
         _this.state = {
             activeTab: 'friends' //requests
         };
+        ['onAddToFriends'].map(function (fn) {
+            return _this[fn] = _this[fn].bind(_this);
+        });
         return _this;
     }
 
@@ -84973,12 +84982,25 @@ var FriendsPage = function (_React$Component) {
             });
         }
     }, {
-        key: 'getFriends',
-        value: function getFriends() {
+        key: 'getFriendIds',
+        value: function getFriendIds() {
             var _this3 = this;
 
             return this.props.author.subscribers.filter(function (subscriber) {
                 return _this3.props.author.subscriptions.some(function (subscription) {
+                    return subscription.subscriberId === subscriber.subscriptionId;
+                });
+            }).map(function (friend) {
+                return friend.subscriptionId;
+            });
+        }
+    }, {
+        key: 'getFriends',
+        value: function getFriends() {
+            var _this4 = this;
+
+            return this.props.author.subscribers.filter(function (subscriber) {
+                return _this4.props.author.subscriptions.some(function (subscription) {
                     return subscription.subscriberId === subscriber.subscriptionId;
                 });
             }).map(function (friend) {
@@ -84995,10 +85017,15 @@ var FriendsPage = function (_React$Component) {
     }, {
         key: 'getSubscribers',
         value: function getSubscribers() {
-            var _this4 = this;
+            var _this5 = this;
 
+            var friends = this.getFriendIds();
             return this.props.author.subscriptions.filter(function (subscription) {
-                return subscription.subscriptionId === _this4.props.author.username;
+                return subscription.subscriptionId === _this5.props.author.username;
+            }).filter(function (subscription) {
+                return !friends.some(function (friend) {
+                    return friend === subscription.subscriberId;
+                });
             }).map(function (subscriber) {
                 return {
                     date: subscriber.date,
@@ -85013,10 +85040,15 @@ var FriendsPage = function (_React$Component) {
     }, {
         key: 'getSubscriptions',
         value: function getSubscriptions() {
-            var _this5 = this;
+            var _this6 = this;
 
+            var friends = this.getFriendIds();
             return this.props.author.subscribers.filter(function (subscriber) {
-                return subscriber.subscriberId === _this5.props.author.username;
+                return subscriber.subscriberId === _this6.props.author.username;
+            }).filter(function (subscriber) {
+                return !friends.some(function (friend) {
+                    return friend === subscriber.subscriptionId;
+                });
             }).map(function (subscription) {
                 return {
                     date: subscription.date,
@@ -85051,6 +85083,17 @@ var FriendsPage = function (_React$Component) {
             }
         }
     }, {
+        key: 'getReadNewsButtonVisibility',
+        value: function getReadNewsButtonVisibility() {
+            if (this.state.activeTab === 'friends') {
+                return true;
+            } else if (this.state.activeTab === 'subscribers') {
+                return false;
+            } else if (this.state.activeTab === 'subscriptions') {
+                return true;
+            }
+        }
+    }, {
         key: 'isDataLoaded',
         value: function isDataLoaded() {
             if (this.props.author && this.props.login) {
@@ -85070,9 +85113,59 @@ var FriendsPage = function (_React$Component) {
             }
         }
     }, {
+        key: 'getTabCaption',
+        value: function getTabCaption(tabName) {
+            if (tabName === 'friends') {
+                var count = this.getFriends().length;
+                return _react2.default.createElement(
+                    'span',
+                    null,
+                    'My friends ',
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'counter' },
+                        count
+                    )
+                );
+            } else if (tabName === 'subscribers') {
+                var _count = this.getSubscribers().length;
+                return _react2.default.createElement(
+                    'span',
+                    null,
+                    'Subscribers ',
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'counter' },
+                        _count
+                    )
+                );
+            } else if (tabName === 'subscriptions') {
+                var _count2 = this.getSubscriptions().length;
+                return _react2.default.createElement(
+                    'span',
+                    null,
+                    'Subscriptions ',
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'counter' },
+                        _count2
+                    )
+                );
+            }
+        }
+    }, {
+        key: 'onAddToFriends',
+        value: function onAddToFriends(friend) {
+            var _this7 = this;
+
+            this.props.onSubcribeOn(friend, this.props.token, function () {
+                return _this7.props.onGetAuthorDetails(_this7.props.login);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _this6 = this;
+            var _this8 = this;
 
             if (!this.isDataLoaded()) {
                 return null;
@@ -85090,9 +85183,9 @@ var FriendsPage = function (_React$Component) {
                         _react2.default.createElement(
                             'a',
                             { onClick: function onClick() {
-                                    return _this6.changeTab('friends');
+                                    return _this8.changeTab('friends');
                                 } },
-                            'My friends'
+                            this.getTabCaption('friends')
                         )
                     ),
                     _react2.default.createElement(
@@ -85101,9 +85194,9 @@ var FriendsPage = function (_React$Component) {
                         _react2.default.createElement(
                             'a',
                             { onClick: function onClick() {
-                                    return _this6.changeTab('subscribers');
+                                    return _this8.changeTab('subscribers');
                                 } },
-                            'Subscribers'
+                            this.getTabCaption('subscribers')
                         )
                     ),
                     _react2.default.createElement(
@@ -85112,9 +85205,9 @@ var FriendsPage = function (_React$Component) {
                         _react2.default.createElement(
                             'a',
                             { onClick: function onClick() {
-                                    return _this6.changeTab('subscriptions');
+                                    return _this8.changeTab('subscriptions');
                                 } },
-                            'Subscriptions'
+                            this.getTabCaption('subscriptions')
                         )
                     )
                 ),
@@ -85133,7 +85226,11 @@ var FriendsPage = function (_React$Component) {
                         )
                     )
                 ),
-                _react2.default.createElement(_FriendList2.default, { friends: this.getItems(), sendMsgButton: this.getSendMsgButtonVisibility(), addFriendButton: this.getAddFriendButtonVisibility() })
+                _react2.default.createElement(_FriendList2.default, { friends: this.getItems(),
+                    sendMsgButton: this.getSendMsgButtonVisibility(),
+                    addFriendButton: this.getAddFriendButtonVisibility(),
+                    readNewsButton: this.getReadNewsButtonVisibility(),
+                    onAddToFriends: this.onAddToFriends })
             );
         }
     }]);
@@ -85144,6 +85241,7 @@ var FriendsPage = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
     return {
         login: state.GlobalReducer.user.login,
+        token: state.GlobalReducer.token,
         author: state.AuthorReducer.author
     };
 };
@@ -85158,6 +85256,23 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
                 if (response.status === 200) {
                     dispatch((0, _AuthorActions.setAuthor)(json));
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onSubcribeOn: function onSubcribeOn(authorName, token, callback) {
+            return (0, _AuthorActions.subscribeOn)(authorName, token).then(function (_ref3) {
+                var _ref4 = _slicedToArray(_ref3, 2),
+                    response = _ref4[0],
+                    json = _ref4[1];
+
+                if (response.status === 200) {
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', json.message));
+                    callback();
                 } else {
                     dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
                 }
@@ -85204,6 +85319,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     - friends - array
     - sendMsgButton - boolean
     - addFriendButton - boolean
+    - readNewsButton - boolean
+    - onAddToFriends - callback
  */
 var FriendList = function (_React$Component) {
     _inherits(FriendList, _React$Component);
@@ -85223,7 +85340,11 @@ var FriendList = function (_React$Component) {
                 'div',
                 null,
                 this.props.friends.map(function (friend, key) {
-                    return _react2.default.createElement(_FriendListItem2.default, { friend: friend, key: key, sendMsgButton: _this2.props.sendMsgButton, addFriendButton: _this2.props.addFriendButton });
+                    return _react2.default.createElement(_FriendListItem2.default, { friend: friend, key: key,
+                        sendMsgButton: _this2.props.sendMsgButton,
+                        addFriendButton: _this2.props.addFriendButton,
+                        readNewsButton: _this2.props.readNewsButton,
+                        onAddToFriends: _this2.props.onAddToFriends });
                 })
             );
         }
@@ -85268,6 +85389,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     - friend
      - sendMsgButton - boolean
      - addFriendButton - boolean
+     - readNewsButton - boolean
+    - onAddToFriends - callback
  */
 var FriendListItem = function (_React$Component) {
     _inherits(FriendListItem, _React$Component);
@@ -85286,10 +85409,14 @@ var FriendListItem = function (_React$Component) {
     }, {
         key: 'renderAddFriendButton',
         value: function renderAddFriendButton() {
+            var _this2 = this;
+
             if (this.props.addFriendButton) {
                 return _react2.default.createElement(
                     'button',
-                    { className: 'btn btn-xs btn-success' },
+                    { onClick: function onClick() {
+                            return _this2.props.onAddToFriends(_this2.props.friend.id);
+                        }, className: 'btn btn-xs btn-success' },
                     'Add to friends'
                 );
             }
@@ -85306,9 +85433,20 @@ var FriendListItem = function (_React$Component) {
             }
         }
     }, {
+        key: 'renderReadNewsButton',
+        value: function renderReadNewsButton() {
+            if (this.props.readNewsButton) {
+                return _react2.default.createElement(
+                    'button',
+                    { className: 'btn btn-xs btn-success' },
+                    'Read news'
+                );
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -85318,7 +85456,7 @@ var FriendListItem = function (_React$Component) {
                     'div',
                     { className: 'col-sm-1' },
                     _react2.default.createElement('img', { src: this.props.friend.avatar + '?date=' + new Date(), onClick: function onClick() {
-                            return _this2.onAuthorClick();
+                            return _this3.onAuthorClick();
                         }, className: 'img-rounded clickable', width: '100%', height: 'auto' })
                 ),
                 _react2.default.createElement(
@@ -85334,14 +85472,13 @@ var FriendListItem = function (_React$Component) {
                         { className: 'friendlist-item-section' },
                         this.props.friend.section
                     ),
-                    this.renderAddFriendButton(),
-                    this.renderSendMsgButton()
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'col-sm-12' },
-                    _react2.default.createElement('br', null),
-                    _react2.default.createElement('br', null)
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'btn-group-vertical' },
+                        this.renderAddFriendButton(),
+                        this.renderSendMsgButton(),
+                        this.renderReadNewsButton()
+                    )
                 )
             );
         }

@@ -1,10 +1,7 @@
 package org.booklink.services;
 
 import org.booklink.models.Response;
-import org.booklink.models.entities.Book;
-import org.booklink.models.entities.BookText;
-import org.booklink.models.entities.Section;
-import org.booklink.models.entities.User;
+import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
@@ -70,6 +67,13 @@ public class AuthorServiceTest {
     @Before
     public void init() {
         List<User> authors = generateAuthors(2);
+        final Friendship friendship = new Friendship();
+        final FriendshipPK friendshipPK = new FriendshipPK();
+        friendship.setFriendshipPK(friendshipPK);
+        friendship.getFriendshipPK().setSubscriber(authors.get(0));
+        friendship.getFriendshipPK().setSubscription(authors.get(1));
+        authors.get(0).getSubscribers().add(friendship);
+
         final Page<User> page = new PageImpl<>(authors);
         Mockito.when(env.getProperty("writersnet.coverwebstorage.path")).thenReturn("https://localhost/css/images/covers/");
         Mockito.when(env.getProperty("writersnet.avatarwebstorage.path")).thenReturn("https://localhost/css/images/avatars/");
@@ -232,6 +236,20 @@ public class AuthorServiceTest {
         Assert.assertNotNull(response);
     }
 
+    @Test
+    public void removeSubscription() throws Exception {
+        Response<String> response = authorService.removeSubscription("user1");
+        Assert.assertNotNull(response);
+        Assert.assertEquals(0, response.getCode());
+        Assert.assertEquals("first1 last1 was removed from your subscriptions", response.getMessage());
+    }
+
+    @Test(expected = ObjectNotFoundException.class)
+    public void removeSubscription_subscriptionNotFound() throws Exception {
+        Response<String> response = authorService.removeSubscription("user150");
+        Assert.assertNotNull(response);
+    }
+
     private Set<Book> generateBooks(final int count) {
         Set<Book> books = IntStream.range(0, count).mapToObj(this::createBook).collect(Collectors.toSet());
         return books;
@@ -273,6 +291,7 @@ public class AuthorServiceTest {
         user.setBooks(generateBooks(2));
         user.setSection(createSection(user));
         user.setAvatar(i == 1 ? "http://avatar.png" : null);
+
         return user;
     }
 }

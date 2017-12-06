@@ -6,6 +6,9 @@ import FriendListItem from './FriendListItem.jsx';
     - friends - array
     - sendMsgButton - boolean
     - addFriendButton - boolean
+    - readNewsButton - boolean
+    - removeFriendButton - boolean
+    - onAddToFriends - callback
  */
 class FriendList extends React.Component {
     render() {
@@ -13,7 +16,12 @@ class FriendList extends React.Component {
             <div>
                 {this.props.friends.map((friend, key) => {
                     return (
-                        <FriendListItem friend={friend} key={key} sendMsgButton={this.props.sendMsgButton} addFriendButton={this.props.addFriendButton}/>
+                        <FriendListItem friend={friend} key={key}
+                                        sendMsgButton={this.props.sendMsgButton}
+                                        addFriendButton={this.props.addFriendButton}
+                                        readNewsButton={this.props.readNewsButton}
+                                        removeFriendButton={this.props.removeFriendButton}
+                                        onAddToFriends={this.props.onAddToFriends}/>
                     )
                 })}
             </div>

@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by mhenr on 14.11.2017.
@@ -159,6 +160,31 @@ public class AuthorService {
         } else if (user.isSubscriberOf(subscriptionId)) {
             response.setMessage("You has added " + subscriptionUser.getFullName() + " to your subscriptions");
         }
+
+        return response;
+    }
+
+    public Response<String> removeSubscription(final String subscriptionId) {
+        Response<String> response = new Response<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = auth.getName();
+        User user = authorRepository.findOne(currentUser);
+        if (user == null) {
+            throw new ObjectNotFoundException("Author is not found");
+        }
+        User subscriptionUser = authorRepository.findOne(subscriptionId);
+        if (subscriptionUser == null) {
+            throw new ObjectNotFoundException("Subscription is not found");
+        }
+        response.setCode(0);
+        if (user.isFriendOf(subscriptionId)) {
+            response.setMessage(subscriptionUser.getFullName() + " was moved to your subscribers");
+        } else if (user.isSubscriberOf(subscriptionId)) {
+            response.setMessage(subscriptionUser.getFullName() + " was removed from your subscriptions");
+        }
+        Set<Friendship> friendships = user.getSubscribers();
+        Friendship friendship = friendships.stream().filter(friend -> friend.getSubscriptionId().equals(subscriptionId)).findAny().orElseGet(() -> null);
+        friendshipRepository.delete(friendship);
 
         return response;
     }

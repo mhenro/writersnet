@@ -109,4 +109,13 @@ public class AuthorControllerTest {
         final String json = mapper.writeValueAsString("user2");
         mvc.perform(post("/authors/subscribe").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: '111'}"));
     }
+
+    @Test
+    public void removeSubscription() throws Exception {
+        final Response<String> response = new Response<>();
+        response.setMessage("111");
+        when(authorService.removeSubscription("user2")).thenReturn(response);
+        final String json = mapper.writeValueAsString("user2");
+        mvc.perform(post("/authors/unsubscribe").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: '111'}"));
+    }
 }
