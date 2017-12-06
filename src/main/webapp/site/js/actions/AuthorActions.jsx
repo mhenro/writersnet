@@ -21,6 +21,10 @@ export const subscribeOn = (authorName, token) => {
     return doFetch(getHost() + 'authors/subscribe', authorName, token);
 };
 
+export const removeSubscription = (authorName, token) => {
+    return doFetch(getHost() + 'authors/unsubscribe', authorName, token);
+};
+
 export const SET_AUTHORS = 'SET_AUTHORS';
 export const SET_AUTHOR = 'SET_AUTHOR';
 

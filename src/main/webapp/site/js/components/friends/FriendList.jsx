@@ -9,6 +9,7 @@ import FriendListItem from './FriendListItem.jsx';
     - readNewsButton - boolean
     - removeFriendButton - boolean
     - onAddToFriends - callback
+    - onRemoveSubscription - callback
  */
 class FriendList extends React.Component {
     render() {
@@ -21,7 +22,8 @@ class FriendList extends React.Component {
                                         addFriendButton={this.props.addFriendButton}
                                         readNewsButton={this.props.readNewsButton}
                                         removeFriendButton={this.props.removeFriendButton}
-                                        onAddToFriends={this.props.onAddToFriends}/>
+                                        onAddToFriends={this.props.onAddToFriends}
+                                        onRemoveSubscription={this.props.onRemoveSubscription}/>
                     )
                 })}
             </div>

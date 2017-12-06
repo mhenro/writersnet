@@ -93,8 +93,8 @@ public class AuthorRepositoryTest {
         final Friendship friendship = new Friendship();
         final FriendshipPK friendshipPK = new FriendshipPK();
         friendship.setFriendshipPK(friendshipPK);
-        friendship.getFriendshipPK().setSubscriber(user2);
-        friendship.getFriendshipPK().setSubscription(user1);
+        friendship.getFriendshipPK().setSubscriber(user1);
+        friendship.getFriendshipPK().setSubscription(user2);
         user1.getSubscribers().add(friendship);
 
         entityManager.flush();
@@ -106,8 +106,8 @@ public class AuthorRepositoryTest {
         final Friendship friendship = new Friendship();
         final FriendshipPK friendshipPK = new FriendshipPK();
         friendship.setFriendshipPK(friendshipPK);
-        friendship.getFriendshipPK().setSubscriber(user1);
-        friendship.getFriendshipPK().setSubscription(user2);
+        friendship.getFriendshipPK().setSubscriber(user2);
+        friendship.getFriendshipPK().setSubscription(user1);
         user1.getSubscriptions().add(friendship);
 
         entityManager.flush();
@@ -119,15 +119,15 @@ public class AuthorRepositoryTest {
         final Friendship friendshipSubscribe = new Friendship();
         final FriendshipPK friendshipPKSubscribe = new FriendshipPK();
         friendshipSubscribe.setFriendshipPK(friendshipPKSubscribe);
-        friendshipSubscribe.getFriendshipPK().setSubscriber(user2);
-        friendshipSubscribe.getFriendshipPK().setSubscription(user1);
+        friendshipSubscribe.getFriendshipPK().setSubscriber(user1);
+        friendshipSubscribe.getFriendshipPK().setSubscription(user2);
         user1.getSubscribers().add(friendshipSubscribe);
 
         final Friendship friendshipSubscription = new Friendship();
         final FriendshipPK friendshipPKSubscription = new FriendshipPK();
         friendshipSubscription.setFriendshipPK(friendshipPKSubscription);
-        friendshipSubscription.getFriendshipPK().setSubscriber(user1);
-        friendshipSubscription.getFriendshipPK().setSubscription(user2);
+        friendshipSubscription.getFriendshipPK().setSubscriber(user2);
+        friendshipSubscription.getFriendshipPK().setSubscription(user1);
         user1.getSubscriptions().add(friendshipSubscription);
 
         entityManager.flush();
@@ -254,10 +254,10 @@ public class AuthorRepositoryTest {
     public void subscribeOnUser_subscriber() throws Exception {
         initSubscriber();
         final User user = authorRepository.findOne("mhenro");
-        Assert.assertEquals(true, user.isSubscriptionOf("zazaka"));
-        Assert.assertEquals(false, user.isSubscriptionOf("mhenro"));
-        Assert.assertEquals(false, user.isSubscriberOf("zazaka"));
+        Assert.assertEquals(true, user.isSubscriberOf("zazaka"));
         Assert.assertEquals(false, user.isSubscriberOf("mhenro"));
+        Assert.assertEquals(false, user.isSubscriptionOf("zazaka"));
+        Assert.assertEquals(false, user.isSubscriptionOf("mhenro"));
         Assert.assertEquals(false, user.isFriendOf("zazaka"));
         Assert.assertEquals(false, user.isFriendOf("mhenro"));
     }
@@ -266,10 +266,10 @@ public class AuthorRepositoryTest {
     public void subscribeOnUser_subscription() throws Exception {
         initSubscription();
         final User user = authorRepository.findOne("mhenro");
-        Assert.assertEquals(true, user.isSubscriberOf("zazaka"));
-        Assert.assertEquals(false, user.isSubscriberOf("mhenro"));
-        Assert.assertEquals(false, user.isSubscriptionOf("zazaka"));
+        Assert.assertEquals(true, user.isSubscriptionOf("zazaka"));
         Assert.assertEquals(false, user.isSubscriptionOf("mhenro"));
+        Assert.assertEquals(false, user.isSubscriberOf("zazaka"));
+        Assert.assertEquals(false, user.isSubscriberOf("mhenro"));
         Assert.assertEquals(false, user.isFriendOf("zazaka"));
         Assert.assertEquals(false, user.isFriendOf("mhenro"));
     }

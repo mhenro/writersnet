@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
      - readNewsButton - boolean
      - removeFriendButton - boolean
      - onAddToFriends - callback
+     - onRemoveSubscription - callback
  */
 class FriendListItem extends React.Component {
     static contextTypes = {
@@ -45,7 +46,7 @@ class FriendListItem extends React.Component {
 
     renderRemoveFriendButton() {
         if (this.props.removeFriendButton) {
-            return <button className="btn btn-xs btn-success">Remove</button>;
+            return <button onClick={() => this.props.onRemoveSubscription(this.props.friend.id)} className="btn btn-xs btn-success">Remove</button>;
         }
     }
 

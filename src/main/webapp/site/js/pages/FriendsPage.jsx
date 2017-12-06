@@ -6,7 +6,8 @@ import FriendList from '../components/friends/FriendList.jsx';
 import {
     getAuthorDetails,
     setAuthor,
-    subscribeOn
+    subscribeOn,
+    removeSubscription
 } from '../actions/AuthorActions.jsx';
 import {
     createNotify
@@ -23,7 +24,7 @@ class FriendsPage extends React.Component {
         this.state = {
             activeTab: 'friends'    //requests
         };
-        ['onAddToFriends'].map(fn => this[fn] = this[fn].bind(this));
+        ['onAddToFriends', 'onRemoveFriend'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -178,7 +179,7 @@ class FriendsPage extends React.Component {
     }
 
     onRemoveFriend(friend) {
-
+        this.props.onRemoveSubscription(friend, this.props.token, () => this.props.onGetAuthorDetails(this.props.login));
     }
 
     render() {
@@ -207,7 +208,8 @@ class FriendsPage extends React.Component {
                             addFriendButton={this.getAddFriendButtonVisibility()}
                             readNewsButton={this.getReadNewsButtonVisibility()}
                             removeFriendButton={this.getRemoveFriendButtonVisibility()}
-                            onAddToFriends={this.onAddToFriends}/>
+                            onAddToFriends={this.onAddToFriends}
+                            onRemoveSubscription={this.onRemoveFriend}/>
             </div>
         )
     }
@@ -238,6 +240,20 @@ const mapDispatchToProps = (dispatch) => {
 
         onSubcribeOn: (authorName, token, callback) => {
             return subscribeOn(authorName, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', json.message));
+                    callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRemoveSubscription: (authorName, token, callback) => {
+            return removeSubscription(authorName, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
