@@ -237,6 +237,7 @@ public class BookService {
         user.setSection(null);
         user.setSubscriptions(null);
         user.setSubscribers(null);
+        user.setChatGroups(null);
     }
 
     private void calcBookSize(Book book) {

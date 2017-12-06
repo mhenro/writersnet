@@ -1,14 +1,13 @@
 Current sprint:
-60. Add "Add to friend" logic to Friends page.
-59. Add search logic to Friends page.
+52. Add messages page.
+53. Add message exchange mechanism.
+61. Add "Send message" logic to Friends page.
 
 
 Features:
+59. Add search logic to Friends page.
 50. Add news page.
 51. Add news content generator mechanism.
-52. Add messages page.
-61. Add "Send message" logic to Friends page.
-53. Add message exchange mechanism.
 26. Add Main page to the site. Something like summary of ratings and recently general news.
 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
 2. Add changing password functional to Options page.
@@ -89,3 +88,4 @@ DONE - 36. Create all ratings on Ratings page.
 DONE - 10. Add user policy component to signup form.
 DONE - 48. Add friends page.
 DONE - 49. Add adding friend mechanism.
+DONE - 60. Add "Add to friend" logic to Friends page.

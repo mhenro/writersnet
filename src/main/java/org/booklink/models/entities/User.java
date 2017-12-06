@@ -36,6 +36,7 @@ public class User {
     private Long views = 0L;
     private Set<Friendship> subscribers = new HashSet<>();
     private Set<Friendship> subscriptions = new HashSet<>();
+    private List<UserChatGroup> chatGroups;
 
     @Id
     public String getUsername() {
@@ -259,6 +260,15 @@ public class User {
 
     public void setSubscriptions(Set<Friendship> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userChatGroupPK.userId")
+    public List<UserChatGroup> getChatGroups() {
+        return chatGroups;
+    }
+
+    public void setChatGroups(List<UserChatGroup> chatGroups) {
+        this.chatGroups = chatGroups;
     }
 
     /* -----------------------------business logic-------------------------------------------------------- */
