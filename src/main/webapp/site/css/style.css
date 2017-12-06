@@ -111,3 +111,13 @@ footer {
 .counter {
     color: lightgray;
 }
+
+.chat-group-header {
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.chat-group-body {
+    font-size: 10pt;
+    margin-top: 10px;
+}
