@@ -30,7 +30,7 @@ public class SerieController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "series/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "series/{userId:.+}", method = RequestMethod.GET)
     public Page<BookSerie> getBookSeries(@PathVariable String userId, Pageable pageable) {
         return serieService.getBookSeries(userId, pageable);
     }

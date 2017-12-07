@@ -1,0 +1,120 @@
+package org.booklink.repositories;
+
+import org.booklink.config.RootConfigTest;
+import org.booklink.models.entities.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+/**
+ * Created by mhenr on 07.12.2017.
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {RootConfigTest.class})
+@ActiveProfiles("test")
+@DataJpaTest
+@DirtiesContext
+public class MessageRepositoryTest {
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Autowired
+    private MessageRepository messageRepository;
+
+    private User createUser(final String username, final boolean enabled, final long views) {
+        final User user = new User();
+        user.setUsername(username);
+        user.setEnabled(enabled);
+        user.setViews(views);
+        user.setFirstName("first");
+        user.setLastName("last");
+        entityManager.persist(user);
+
+        return user;
+    }
+
+    private Message createMessage(User user, final ChatGroup group, final String message, final Date date) {
+        final Message msg = new Message();
+        msg.setCreator(user);
+        msg.setCreated(date);
+        msg.setGroup(group);
+        msg.setMessage(message);
+        entityManager.persist(msg);
+
+        return msg;
+    }
+
+    private ChatGroup createChatGroup(final User user) {
+        final ChatGroup group = new ChatGroup();
+        group.setCreated(new Date());
+        group.setCreator(user);
+        entityManager.persist(group);
+
+        return group;
+    }
+
+    private UserChatGroup createUserChatGroup(final User user, final ChatGroup chatGroup) {
+        final UserChatGroup group = new UserChatGroup();
+        final UserChatGroupPK groupPK = new UserChatGroupPK();
+        group.setUserChatGroupPK(groupPK);
+        groupPK.setUser(user);
+        groupPK.setGroup(chatGroup);
+        entityManager.persist(group);
+
+        return group;
+    }
+
+    @Before
+    public void init() {
+        final User user = createUser("mhenro", true, 0);
+        final ChatGroup group1 = createChatGroup(user);
+        final LocalDate date2 = LocalDate.now();
+        final LocalDate date1 = date2.minusDays(1);
+        final LocalDate date3 = date2.plusDays(1);
+        final Message msg1 = createMessage(user, group1, "msg #1", java.sql.Date.valueOf(date1));
+        final Message msg2 = createMessage(user, group1, "msg #2", java.sql.Date.valueOf(date2));
+        final Message msg3 = createMessage(user, group1, "msg #3", java.sql.Date.valueOf(date3));
+        group1.addNewMessage(msg1);
+        group1.addNewMessage(msg2);
+        group1.addNewMessage(msg3);
+        user.getChatGroups().add(createUserChatGroup(user, group1));
+
+
+        final ChatGroup group2 = createChatGroup(user);
+        final LocalDate date12 = LocalDate.now();
+        final LocalDate date11 = date12.minusDays(1);
+        final LocalDate date13 = date12.plusDays(1);
+        final Message msg11 = createMessage(user, group2, "msg #11", java.sql.Date.valueOf(date11));
+        final Message msg12 = createMessage(user, group2, "msg #12", java.sql.Date.valueOf(date12));
+        final Message msg13 = createMessage(user, group2, "msg #13", java.sql.Date.valueOf(date13));
+        group2.addNewMessage(msg11);
+        group2.addNewMessage(msg12);
+        group2.addNewMessage(msg13);
+        user.getChatGroups().add(createUserChatGroup(user, group2));
+
+
+        entityManager.flush();
+    }
+
+    @Test
+    public void getMessagesByGroupIdOrderByCreatedAsc() throws Exception {
+        Page<Message> messages = messageRepository.getMessagesByGroupIdOrderByCreatedAsc(1, null);
+        Assert.assertEquals(3, messages.getTotalElements());
+        Assert.assertEquals("first last", messages.getContent().get(0).getCreatorFullName());
+        Assert.assertEquals("msg #1", messages.getContent().get(0).getMessage());
+        Assert.assertEquals("msg #2", messages.getContent().get(1).getMessage());
+        Assert.assertEquals("msg #3", messages.getContent().get(2).getMessage());
+    }
+}

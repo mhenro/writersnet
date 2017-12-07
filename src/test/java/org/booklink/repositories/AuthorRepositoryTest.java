@@ -2,13 +2,12 @@ package org.booklink.repositories;
 
 import org.booklink.config.RootConfigTest;
 import org.booklink.models.entities.*;
+import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.top_models.TopAuthorBookCount;
 import org.booklink.models.top_models.TopAuthorComments;
 import org.booklink.models.top_models.TopAuthorRating;
 import org.booklink.models.top_models.TopAuthorViews;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Created by mhenr on 17.11.2017.
@@ -80,6 +79,37 @@ public class AuthorRepositoryTest {
         return rating;
     }
 
+    private Message createMessage(User user, final ChatGroup group, final String message, final Date date) {
+        final Message msg = new Message();
+        msg.setCreator(user);
+        msg.setCreated(date);
+        msg.setGroup(group);
+        msg.setMessage(message);
+        entityManager.persist(msg);
+
+        return msg;
+    }
+
+    private ChatGroup createChatGroup(final User user) {
+        final ChatGroup group = new ChatGroup();
+        group.setCreated(new Date());
+        group.setCreator(user);
+        entityManager.persist(group);
+
+        return group;
+    }
+
+    private UserChatGroup createUserChatGroup(final User user, final ChatGroup chatGroup) {
+        final UserChatGroup group = new UserChatGroup();
+        final UserChatGroupPK groupPK = new UserChatGroupPK();
+        group.setUserChatGroupPK(groupPK);
+        groupPK.setUser(user);
+        groupPK.setGroup(chatGroup);
+        entityManager.persist(group);
+
+        return group;
+    }
+
     public void init() {
         createUser("mhenro", true, 0);
         createUser("zazaka", false, 0);
@@ -129,6 +159,37 @@ public class AuthorRepositoryTest {
         friendshipSubscription.getFriendshipPK().setSubscriber(user2);
         friendshipSubscription.getFriendshipPK().setSubscription(user1);
         user1.getSubscriptions().add(friendshipSubscription);
+
+        entityManager.flush();
+    }
+
+    private void initChatGroups() {
+        final User user = createUser("mhenro", true, 0);
+        final ChatGroup group1 = createChatGroup(user);
+        final LocalDate date2 = LocalDate.now();
+        final LocalDate date1 = date2.minusDays(1);
+        final LocalDate date3 = date2.plusDays(1);
+        final Message msg1 = createMessage(user, group1, "msg #1", java.sql.Date.valueOf(date1));
+        final Message msg2 = createMessage(user, group1, "msg #2", java.sql.Date.valueOf(date2));
+        final Message msg3 = createMessage(user, group1, "msg #3", java.sql.Date.valueOf(date3));
+        group1.addNewMessage(msg1);
+        group1.addNewMessage(msg2);
+        group1.addNewMessage(msg3);
+        user.getChatGroups().add(createUserChatGroup(user, group1));
+
+
+        final ChatGroup group2 = createChatGroup(user);
+        final LocalDate date12 = LocalDate.now();
+        final LocalDate date11 = date12.minusDays(1);
+        final LocalDate date13 = date12.plusDays(1);
+        final Message msg11 = createMessage(user, group2, "msg #11", java.sql.Date.valueOf(date11));
+        final Message msg12 = createMessage(user, group2, "msg #12", java.sql.Date.valueOf(date12));
+        final Message msg13 = createMessage(user, group2, "msg #13", java.sql.Date.valueOf(date13));
+        group2.addNewMessage(msg11);
+        group2.addNewMessage(msg12);
+        group2.addNewMessage(msg13);
+        user.getChatGroups().add(createUserChatGroup(user, group2));
+
 
         entityManager.flush();
     }
@@ -284,5 +345,18 @@ public class AuthorRepositoryTest {
         Assert.assertEquals(false, user.isSubscriptionOf("mhenro"));
         Assert.assertEquals(true, user.isSubscriberOf("zazaka"));
         Assert.assertEquals(false, user.isSubscriberOf("mhenro"));
+    }
+
+    @Test
+    public void getChatGroups() throws Exception {
+        initChatGroups();
+        final Page<ChatGroupResponse> response = authorRepository.getChatGroups("mhenro", null);
+        Assert.assertNotNull(response);
+        Assert.assertEquals(2, response.getTotalElements());
+        Assert.assertEquals(1, response.getContent().get(0).getId());
+        Assert.assertEquals("mhenro", response.getContent().get(0).getCreatorId());
+        Assert.assertEquals("msg #3", response.getContent().get(0).getLastMessage());
+        Assert.assertEquals("mhenro", response.getContent().get(1).getCreatorId());
+        Assert.assertEquals("msg #13", response.getContent().get(1).getLastMessage());
     }
 }

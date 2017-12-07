@@ -8,6 +8,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
+import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.top_models.*;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.FriendshipRepository;
@@ -187,6 +188,11 @@ public class AuthorService {
         friendshipRepository.delete(friendship);
 
         return response;
+    }
+
+    public Page<ChatGroupResponse> getChatGroups(final String userId, final Pageable pageable) {
+        Page<ChatGroupResponse> groups = authorRepository.getChatGroups(userId, pageable);
+        return groups;
     }
 
     private void increaseAuthorViews(final User author) {

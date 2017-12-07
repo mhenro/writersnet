@@ -1,9 +1,13 @@
 package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.booklink.models.Response;
 import org.booklink.models.entities.User;
 import org.booklink.models.request_models.AvatarRequest;
+import org.booklink.models.response_models.ChatGroupResponse;
+import org.booklink.security.JwtFilter;
 import org.booklink.services.AuthorService;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,10 +21,11 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+
+import java.util.Date;
 
 import static org.hamcrest.core.Is.is;
 
@@ -117,5 +122,14 @@ public class AuthorControllerTest {
         when(authorService.removeSubscription("user2")).thenReturn(response);
         final String json = mapper.writeValueAsString("user2");
         mvc.perform(post("/authors/unsubscribe").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: '111'}"));
+    }
+
+    @Test
+    public void getChatGroups() throws Exception {
+        final Pageable pageable = Mockito.mock(Pageable.class);
+        final Page<ChatGroupResponse> page = Mockito.mock(Page.class);
+        when(authorService.getChatGroups("user0", pageable)).thenReturn(page);
+        mvc.perform(get("/authors/user0/groups")).andExpect(status().isOk());
+        mvc.perform(get("/authors/user0/wrong")).andExpect(status().isNotFound());
     }
 }

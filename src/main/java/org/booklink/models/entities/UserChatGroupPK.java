@@ -1,35 +1,56 @@
 package org.booklink.models.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by mhenr on 06.12.2017.
  */
 @Embeddable
 public class UserChatGroupPK implements Serializable {
-    private long groupId;
-    private String userId;
+    private ChatGroup group;
+    private User user;
 
-    @Column(name = "group_id")
-    public long getGroupId() {
-        return groupId;
+    @ManyToOne
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
+    @JsonIgnore
+    public ChatGroup getGroup() {
+        return group;
     }
 
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
+    public void setGroup(ChatGroup group) {
+        this.group = group;
     }
 
-    @Column(name = "user_id")
-    public String getUserId() {
-        return userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "username")
+    @JsonIgnore
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserChatGroupPK that = (UserChatGroupPK) o;
+
+        if (!group.equals(that.group)) return false;
+        return user.equals(that.user);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = group.hashCode();
+        result = 31 * result + user.hashCode();
+        return result;
     }
 }

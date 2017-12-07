@@ -4,21 +4,41 @@ import { connect } from 'react-redux';
 import ChatGroupList from '../components/messages/ChatGroupList.jsx';
 
 import {
+    getMessagesByGroup
+} from '../actions/MessageActions.jsx';
+import {
     getAuthorDetails,
-    setAuthor
+    setAuthor,
+    getAuthorChatGroups
 } from '../actions/AuthorActions.jsx';
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
 
 class MessagesPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            chatGroups: []
+        };
+        ['updateChatGroups'].map(fn => this[fn] = this[fn].bind(this));
+    }
+
     componentDidMount() {
         let timer = setInterval(() => {
-            if (this.props.login) {
+            if (this.props.login && this.props.token) {
                 this.props.onGetAuthorDetails(this.props.login);
+                this.props.onGetAuthorChatGroups(this.props.login, this.props.token, 0, this.updateChatGroups);
                 clearInterval(timer);
             }
         }, 1000);
+    }
+
+    updateChatGroups(page) {
+        console.log(page);
+        this.setState({
+            chatGroups: page.content
+        });
     }
 
     isDataLoaded() {
@@ -50,7 +70,7 @@ class MessagesPage extends React.Component {
                     </div>
                 </div>
                 <div className="col-sm-12">
-                    <ChatGroupList groups={this.props.author.chatGroups}/>
+                    <ChatGroupList groups={this.state.chatGroups}/>
                 </div>
             </div>
         )
@@ -71,6 +91,19 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetAuthorChatGroups: (userId, token, page, callback) => {
+            return getAuthorChatGroups(userId, token, page).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

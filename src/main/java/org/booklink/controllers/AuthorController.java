@@ -5,6 +5,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
+import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.services.AuthorService;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +110,13 @@ public class AuthorController {
             response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "authors/{userId:.+}/groups", method = RequestMethod.GET)
+    public Page<ChatGroupResponse> getChatGroups(@PathVariable final String userId, final Pageable pageable) {
+        return authorService.getChatGroups(userId, pageable);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

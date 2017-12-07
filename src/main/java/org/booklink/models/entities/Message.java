@@ -1,5 +1,7 @@
 package org.booklink.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,25 +10,26 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "messages")
-public class Messages {
-    private long id;
+public class Message {
+    private Long id;
     private User creator;
     private String message;
     private Date created;
-    private ChatGroups group;
+    private ChatGroup group;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @OneToOne
     @JoinColumn(name = "creator_id")
+    @JsonIgnore
     public User getCreator() {
         return creator;
     }
@@ -53,13 +56,31 @@ public class Messages {
         this.created = created;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "group_id")
-    public ChatGroups getGroup() {
+    @JsonIgnore
+    public ChatGroup getGroup() {
         return group;
     }
 
-    public void setGroup(ChatGroups group) {
+    public void setGroup(ChatGroup group) {
         this.group = group;
+    }
+
+    /* --------------------------------------------business logic-------------------------------------------- */
+
+    @Transient
+    public String getCreatorId() {
+        return creator.getUsername();
+    }
+
+    @Transient
+    public String getCreatorFullName() {
+        return creator.getFullName();
+    }
+
+    @Transient
+    public Long getChatGroupId() {
+        return group.getId();
     }
 }
