@@ -1,14 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Pagination } from 'react-bootstrap';
 
 import ChatGroupList from '../components/messages/ChatGroupList.jsx';
 
 import {
-    getMessagesByGroup
-} from '../actions/MessageActions.jsx';
-import {
-    getAuthorDetails,
-    setAuthor,
     getAuthorChatGroups
 } from '../actions/AuthorActions.jsx';
 import {
@@ -19,15 +15,16 @@ class MessagesPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            chatGroups: []
+            chatGroups: [],
+            activePage: 1,
+            totalPages: 1
         };
-        ['updateChatGroups'].map(fn => this[fn] = this[fn].bind(this));
+        ['updateChatGroups', 'pageSelect'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
         let timer = setInterval(() => {
             if (this.props.login && this.props.token) {
-                this.props.onGetAuthorDetails(this.props.login);
                 this.props.onGetAuthorChatGroups(this.props.login, this.props.token, 0, this.updateChatGroups);
                 clearInterval(timer);
             }
@@ -37,12 +34,21 @@ class MessagesPage extends React.Component {
     updateChatGroups(page) {
         console.log(page);
         this.setState({
-            chatGroups: page.content
+            chatGroups: page.content,
+            totalPages: page.totalPages,
+            activePage: page.number + 1
         });
     }
 
+    pageSelect(page) {
+        this.setState({
+            activePage: page
+        });
+        this.props.onGetAuthorChatGroups(this.props.login, this.props.token, page, this.updateChatGroups);
+    }
+
     isDataLoaded() {
-        if (this.props.author && this.props.login) {
+        if (this.props.login && this.props.login) {
             return true;
         }
         return false;
@@ -70,6 +76,21 @@ class MessagesPage extends React.Component {
                     </div>
                 </div>
                 <div className="col-sm-12">
+                    <br/>
+                    <Pagination
+                        className={'shown'}
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.state.totalPages}
+                        maxButtons={3}
+                        activePage={this.state.activePage}
+                        onSelect={this.pageSelect}/>
+                </div>
+                <div className="col-sm-12">
                     <ChatGroupList groups={this.state.chatGroups}/>
                 </div>
             </div>
@@ -80,28 +101,14 @@ class MessagesPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token,
-        author: state.AuthorReducer.author
+        token: state.GlobalReducer.token
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
-                if (response.status === 200) {
-                    dispatch(setAuthor(json));
-                }
-                else {
-                    dispatch(createNotify('danger', 'Error', json.message));
-                }
-            }).catch(error => {
-                dispatch(createNotify('danger', 'Error', error.message));
-            });
-        },
-
         onGetAuthorChatGroups: (userId, token, page, callback) => {
-            return getAuthorChatGroups(userId, token, page).then(([response, json]) => {
+            return getAuthorChatGroups(userId, token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

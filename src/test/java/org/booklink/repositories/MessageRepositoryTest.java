@@ -86,9 +86,9 @@ public class MessageRepositoryTest {
         final Message msg1 = createMessage(user, group1, "msg #1", java.sql.Date.valueOf(date1));
         final Message msg2 = createMessage(user, group1, "msg #2", java.sql.Date.valueOf(date2));
         final Message msg3 = createMessage(user, group1, "msg #3", java.sql.Date.valueOf(date3));
-        group1.addNewMessage(msg1);
-        group1.addNewMessage(msg2);
-        group1.addNewMessage(msg3);
+        group1.getMessages().add(msg1);
+        group1.getMessages().add(msg2);
+        group1.getMessages().add(msg3);
         user.getChatGroups().add(createUserChatGroup(user, group1));
 
 
@@ -99,9 +99,9 @@ public class MessageRepositoryTest {
         final Message msg11 = createMessage(user, group2, "msg #11", java.sql.Date.valueOf(date11));
         final Message msg12 = createMessage(user, group2, "msg #12", java.sql.Date.valueOf(date12));
         final Message msg13 = createMessage(user, group2, "msg #13", java.sql.Date.valueOf(date13));
-        group2.addNewMessage(msg11);
-        group2.addNewMessage(msg12);
-        group2.addNewMessage(msg13);
+        group2.getMessages().add(msg11);
+        group2.getMessages().add(msg12);
+        group2.getMessages().add(msg13);
         user.getChatGroups().add(createUserChatGroup(user, group2));
 
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {formatDate} from '../../utils.jsx';
 
 /*
@@ -6,38 +7,60 @@ import {formatDate} from '../../utils.jsx';
     - group
 */
 class ChatGroupListItem extends React.Component {
-    getName() {
-        return this.props.group.creatorFullName;
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.shape({
+                push: PropTypes.func.isRequired,
+                replace: PropTypes.func.isRequired
+            }).isRequired,
+            staticContext: PropTypes.object
+        }).isRequired
+    };
+
+    getGroupName() {
+        return this.props.group.primaryRecipientFullName;
     }
 
-    getDate() {
-        return formatDate(new Date(this.props.group.created));
+    getGroupAvatar() {
+        return this.props.group.primaryRecipientAvatar;
+    }
+
+    getLastMessageDate() {
+        return formatDate(new Date(this.props.group.lastMessageDate));
     }
 
     getLastMessage() {
-        return this.props.group.lastMessage;
+        return this.props.group.lastMessageText;
+    }
+
+    getLastMessageAvatar() {
+        return this.props.group.lastMessageAvatar;
+    }
+
+    onItemClick() {
+        this.context.router.history.push('/chat/' + this.props.group.id);
     }
 
     render() {
         return (
             <div>
                 <hr/>
-                <div className="row">
+                <div className="row clickable" onClick={() => this.onItemClick()}>
                     <div className="col-sm-1">
-                        <img src={'https://localhost/css/images/avatars/default_avatar.png?date=' + new Date()} className="img-rounded clickable" width="100%" height="auto"/>
+                        <img src={this.getGroupAvatar() + '?date=' + new Date()} className="img-rounded" width="100%" height="auto"/>
                     </div>
                     <div className="col-sm-11">
                         <div className="row">
                             <div className="col-sm-6 chat-group-header">
-                                {this.getName()}
+                                {this.getGroupName()}
                             </div>
                             <div className="col-sm-6 text-right">
-                                {this.getDate()}
+                                {this.getLastMessageDate()}
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-sm-1">
-                                <img src={'https://localhost/css/images/avatars/default_avatar.png?date=' + new Date()} className="img-rounded clickable" width="100%" height="auto"/>
+                                <img src={this.getLastMessageAvatar() + '?date=' + new Date()} className="img-rounded" width="100%" height="auto"/>
                             </div>
                             <div className="col-sm-11 chat-group-body">
                                 {this.getLastMessage()}

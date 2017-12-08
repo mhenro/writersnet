@@ -5,6 +5,7 @@ import org.booklink.models.entities.Message;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request_models.MessageRequest;
 import org.booklink.repositories.MessageRepository;
 import org.booklink.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,23 @@ public class MessageController {
     @RequestMapping(value = "{userId:.+}/messages/{groupId}", method = RequestMethod.GET)
     public Page<Message> getMessagesByGroup(@PathVariable String userId, @PathVariable Long groupId, Pageable pageable) {
         return messageService.getMessagesByGroup(userId, groupId, pageable);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "messages/add", method = RequestMethod.POST)
+    public ResponseEntity<?> addMessageToGroup(@RequestBody MessageRequest message) {
+        Response<String> response = new Response<>();
+        try {
+            messageService.addMessageToGroup(message.getCreator(), message.getText(), message.getGroupId());
+        } catch (Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Message was successfully added to chat");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

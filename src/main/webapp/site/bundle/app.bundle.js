@@ -5020,7 +5020,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_entries__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
@@ -5902,65 +5902,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (process.env.NODE_ENV !== 'production') {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  }
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(
-        format.replace(/%s/g, function() { return args[argIndex++]; })
-      );
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-};
-
-module.exports = invariant;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6033,7 +5974,7 @@ var goToComments = exports.goToComments = function goToComments(_goToComments) {
 };
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6109,6 +6050,65 @@ var isSubscription = exports.isSubscription = function isSubscription(login, aut
 var isFriend = exports.isFriend = function isFriend(login, author) {
     return isSubscriber(login, author) && isSubscription(login, author);
 };
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (process.env.NODE_ENV !== 'production') {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 24 */
@@ -6372,7 +6372,7 @@ function toArray(children) {
 
 var _prodInvariant = __webpack_require__(54);
 
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 
 var invariant = __webpack_require__(11);
 var warning = __webpack_require__(12);
@@ -6809,293 +6809,6 @@ module.exports = { debugTool: debugTool };
 
 /***/ }),
 /* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-
-
-/**
- * Keeps track of the current owner.
- *
- * The current owner is the component who should own any components that are
- * currently being constructed.
- */
-var ReactCurrentOwner = {
-  /**
-   * @internal
-   * @type {ReactComponent}
-   */
-  current: null
-};
-
-module.exports = ReactCurrentOwner;
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var _prodInvariant = __webpack_require__(14),
-    _assign = __webpack_require__(16);
-
-var CallbackQueue = __webpack_require__(186);
-var PooledClass = __webpack_require__(49);
-var ReactFeatureFlags = __webpack_require__(187);
-var ReactReconciler = __webpack_require__(55);
-var Transaction = __webpack_require__(88);
-
-var invariant = __webpack_require__(11);
-
-var dirtyComponents = [];
-var updateBatchNumber = 0;
-var asapCallbackQueue = CallbackQueue.getPooled();
-var asapEnqueued = false;
-
-var batchingStrategy = null;
-
-function ensureInjected() {
-  !(ReactUpdates.ReactReconcileTransaction && batchingStrategy) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must inject a reconcile transaction class and batching strategy') : _prodInvariant('123') : void 0;
-}
-
-var NESTED_UPDATES = {
-  initialize: function () {
-    this.dirtyComponentsLength = dirtyComponents.length;
-  },
-  close: function () {
-    if (this.dirtyComponentsLength !== dirtyComponents.length) {
-      // Additional updates were enqueued by componentDidUpdate handlers or
-      // similar; before our own UPDATE_QUEUEING wrapper closes, we want to run
-      // these new updates so that if A's componentDidUpdate calls setState on
-      // B, B will update before the callback A's updater provided when calling
-      // setState.
-      dirtyComponents.splice(0, this.dirtyComponentsLength);
-      flushBatchedUpdates();
-    } else {
-      dirtyComponents.length = 0;
-    }
-  }
-};
-
-var UPDATE_QUEUEING = {
-  initialize: function () {
-    this.callbackQueue.reset();
-  },
-  close: function () {
-    this.callbackQueue.notifyAll();
-  }
-};
-
-var TRANSACTION_WRAPPERS = [NESTED_UPDATES, UPDATE_QUEUEING];
-
-function ReactUpdatesFlushTransaction() {
-  this.reinitializeTransaction();
-  this.dirtyComponentsLength = null;
-  this.callbackQueue = CallbackQueue.getPooled();
-  this.reconcileTransaction = ReactUpdates.ReactReconcileTransaction.getPooled(
-  /* useCreateElement */true);
-}
-
-_assign(ReactUpdatesFlushTransaction.prototype, Transaction, {
-  getTransactionWrappers: function () {
-    return TRANSACTION_WRAPPERS;
-  },
-
-  destructor: function () {
-    this.dirtyComponentsLength = null;
-    CallbackQueue.release(this.callbackQueue);
-    this.callbackQueue = null;
-    ReactUpdates.ReactReconcileTransaction.release(this.reconcileTransaction);
-    this.reconcileTransaction = null;
-  },
-
-  perform: function (method, scope, a) {
-    // Essentially calls `this.reconcileTransaction.perform(method, scope, a)`
-    // with this transaction's wrappers around it.
-    return Transaction.perform.call(this, this.reconcileTransaction.perform, this.reconcileTransaction, method, scope, a);
-  }
-});
-
-PooledClass.addPoolingTo(ReactUpdatesFlushTransaction);
-
-function batchedUpdates(callback, a, b, c, d, e) {
-  ensureInjected();
-  return batchingStrategy.batchedUpdates(callback, a, b, c, d, e);
-}
-
-/**
- * Array comparator for ReactComponents by mount ordering.
- *
- * @param {ReactComponent} c1 first component you're comparing
- * @param {ReactComponent} c2 second component you're comparing
- * @return {number} Return value usable by Array.prototype.sort().
- */
-function mountOrderComparator(c1, c2) {
-  return c1._mountOrder - c2._mountOrder;
-}
-
-function runBatchedUpdates(transaction) {
-  var len = transaction.dirtyComponentsLength;
-  !(len === dirtyComponents.length) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected flush transaction\'s stored dirty-components length (%s) to match dirty-components array length (%s).', len, dirtyComponents.length) : _prodInvariant('124', len, dirtyComponents.length) : void 0;
-
-  // Since reconciling a component higher in the owner hierarchy usually (not
-  // always -- see shouldComponentUpdate()) will reconcile children, reconcile
-  // them before their children by sorting the array.
-  dirtyComponents.sort(mountOrderComparator);
-
-  // Any updates enqueued while reconciling must be performed after this entire
-  // batch. Otherwise, if dirtyComponents is [A, B] where A has children B and
-  // C, B could update twice in a single batch if C's render enqueues an update
-  // to B (since B would have already updated, we should skip it, and the only
-  // way we can know to do so is by checking the batch counter).
-  updateBatchNumber++;
-
-  for (var i = 0; i < len; i++) {
-    // If a component is unmounted before pending changes apply, it will still
-    // be here, but we assume that it has cleared its _pendingCallbacks and
-    // that performUpdateIfNecessary is a noop.
-    var component = dirtyComponents[i];
-
-    // If performUpdateIfNecessary happens to enqueue any new updates, we
-    // shouldn't execute the callbacks until the next render happens, so
-    // stash the callbacks first
-    var callbacks = component._pendingCallbacks;
-    component._pendingCallbacks = null;
-
-    var markerName;
-    if (ReactFeatureFlags.logTopLevelRenders) {
-      var namedComponent = component;
-      // Duck type TopLevelWrapper. This is probably always true.
-      if (component._currentElement.type.isReactTopLevelWrapper) {
-        namedComponent = component._renderedComponent;
-      }
-      markerName = 'React update: ' + namedComponent.getName();
-      console.time(markerName);
-    }
-
-    ReactReconciler.performUpdateIfNecessary(component, transaction.reconcileTransaction, updateBatchNumber);
-
-    if (markerName) {
-      console.timeEnd(markerName);
-    }
-
-    if (callbacks) {
-      for (var j = 0; j < callbacks.length; j++) {
-        transaction.callbackQueue.enqueue(callbacks[j], component.getPublicInstance());
-      }
-    }
-  }
-}
-
-var flushBatchedUpdates = function () {
-  // ReactUpdatesFlushTransaction's wrappers will clear the dirtyComponents
-  // array and perform any updates enqueued by mount-ready handlers (i.e.,
-  // componentDidUpdate) but we need to check here too in order to catch
-  // updates enqueued by setState callbacks and asap calls.
-  while (dirtyComponents.length || asapEnqueued) {
-    if (dirtyComponents.length) {
-      var transaction = ReactUpdatesFlushTransaction.getPooled();
-      transaction.perform(runBatchedUpdates, null, transaction);
-      ReactUpdatesFlushTransaction.release(transaction);
-    }
-
-    if (asapEnqueued) {
-      asapEnqueued = false;
-      var queue = asapCallbackQueue;
-      asapCallbackQueue = CallbackQueue.getPooled();
-      queue.notifyAll();
-      CallbackQueue.release(queue);
-    }
-  }
-};
-
-/**
- * Mark a component as needing a rerender, adding an optional callback to a
- * list of functions which will be executed once the rerender occurs.
- */
-function enqueueUpdate(component) {
-  ensureInjected();
-
-  // Various parts of our code (such as ReactCompositeComponent's
-  // _renderValidatedComponent) assume that calls to render aren't nested;
-  // verify that that's the case. (This is called by each top-level update
-  // function, like setState, forceUpdate, etc.; creation and
-  // destruction of top-level components is guarded in ReactMount.)
-
-  if (!batchingStrategy.isBatchingUpdates) {
-    batchingStrategy.batchedUpdates(enqueueUpdate, component);
-    return;
-  }
-
-  dirtyComponents.push(component);
-  if (component._updateBatchNumber == null) {
-    component._updateBatchNumber = updateBatchNumber + 1;
-  }
-}
-
-/**
- * Enqueue a callback to be run at the end of the current batching cycle. Throws
- * if no updates are currently being performed.
- */
-function asap(callback, context) {
-  invariant(batchingStrategy.isBatchingUpdates, "ReactUpdates.asap: Can't enqueue an asap callback in a context where" + 'updates are not being batched.');
-  asapCallbackQueue.enqueue(callback, context);
-  asapEnqueued = true;
-}
-
-var ReactUpdatesInjection = {
-  injectReconcileTransaction: function (ReconcileTransaction) {
-    !ReconcileTransaction ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must provide a reconcile transaction class') : _prodInvariant('126') : void 0;
-    ReactUpdates.ReactReconcileTransaction = ReconcileTransaction;
-  },
-
-  injectBatchingStrategy: function (_batchingStrategy) {
-    !_batchingStrategy ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must provide a batching strategy') : _prodInvariant('127') : void 0;
-    !(typeof _batchingStrategy.batchedUpdates === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must provide a batchedUpdates() function') : _prodInvariant('128') : void 0;
-    !(typeof _batchingStrategy.isBatchingUpdates === 'boolean') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must provide an isBatchingUpdates boolean attribute') : _prodInvariant('129') : void 0;
-    batchingStrategy = _batchingStrategy;
-  }
-};
-
-var ReactUpdates = {
-  /**
-   * React references `ReactReconcileTransaction` using this property in order
-   * to allow dependency injection.
-   *
-   * @internal
-   */
-  ReactReconcileTransaction: null,
-
-  batchedUpdates: batchedUpdates,
-  enqueueUpdate: enqueueUpdate,
-  flushBatchedUpdates: flushBatchedUpdates,
-  injection: ReactUpdatesInjection,
-  asap: asap
-};
-
-module.exports = ReactUpdates;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7384,6 +7097,293 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+
+
+/**
+ * Keeps track of the current owner.
+ *
+ * The current owner is the component who should own any components that are
+ * currently being constructed.
+ */
+var ReactCurrentOwner = {
+  /**
+   * @internal
+   * @type {ReactComponent}
+   */
+  current: null
+};
+
+module.exports = ReactCurrentOwner;
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var _prodInvariant = __webpack_require__(14),
+    _assign = __webpack_require__(16);
+
+var CallbackQueue = __webpack_require__(186);
+var PooledClass = __webpack_require__(49);
+var ReactFeatureFlags = __webpack_require__(187);
+var ReactReconciler = __webpack_require__(55);
+var Transaction = __webpack_require__(88);
+
+var invariant = __webpack_require__(11);
+
+var dirtyComponents = [];
+var updateBatchNumber = 0;
+var asapCallbackQueue = CallbackQueue.getPooled();
+var asapEnqueued = false;
+
+var batchingStrategy = null;
+
+function ensureInjected() {
+  !(ReactUpdates.ReactReconcileTransaction && batchingStrategy) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must inject a reconcile transaction class and batching strategy') : _prodInvariant('123') : void 0;
+}
+
+var NESTED_UPDATES = {
+  initialize: function () {
+    this.dirtyComponentsLength = dirtyComponents.length;
+  },
+  close: function () {
+    if (this.dirtyComponentsLength !== dirtyComponents.length) {
+      // Additional updates were enqueued by componentDidUpdate handlers or
+      // similar; before our own UPDATE_QUEUEING wrapper closes, we want to run
+      // these new updates so that if A's componentDidUpdate calls setState on
+      // B, B will update before the callback A's updater provided when calling
+      // setState.
+      dirtyComponents.splice(0, this.dirtyComponentsLength);
+      flushBatchedUpdates();
+    } else {
+      dirtyComponents.length = 0;
+    }
+  }
+};
+
+var UPDATE_QUEUEING = {
+  initialize: function () {
+    this.callbackQueue.reset();
+  },
+  close: function () {
+    this.callbackQueue.notifyAll();
+  }
+};
+
+var TRANSACTION_WRAPPERS = [NESTED_UPDATES, UPDATE_QUEUEING];
+
+function ReactUpdatesFlushTransaction() {
+  this.reinitializeTransaction();
+  this.dirtyComponentsLength = null;
+  this.callbackQueue = CallbackQueue.getPooled();
+  this.reconcileTransaction = ReactUpdates.ReactReconcileTransaction.getPooled(
+  /* useCreateElement */true);
+}
+
+_assign(ReactUpdatesFlushTransaction.prototype, Transaction, {
+  getTransactionWrappers: function () {
+    return TRANSACTION_WRAPPERS;
+  },
+
+  destructor: function () {
+    this.dirtyComponentsLength = null;
+    CallbackQueue.release(this.callbackQueue);
+    this.callbackQueue = null;
+    ReactUpdates.ReactReconcileTransaction.release(this.reconcileTransaction);
+    this.reconcileTransaction = null;
+  },
+
+  perform: function (method, scope, a) {
+    // Essentially calls `this.reconcileTransaction.perform(method, scope, a)`
+    // with this transaction's wrappers around it.
+    return Transaction.perform.call(this, this.reconcileTransaction.perform, this.reconcileTransaction, method, scope, a);
+  }
+});
+
+PooledClass.addPoolingTo(ReactUpdatesFlushTransaction);
+
+function batchedUpdates(callback, a, b, c, d, e) {
+  ensureInjected();
+  return batchingStrategy.batchedUpdates(callback, a, b, c, d, e);
+}
+
+/**
+ * Array comparator for ReactComponents by mount ordering.
+ *
+ * @param {ReactComponent} c1 first component you're comparing
+ * @param {ReactComponent} c2 second component you're comparing
+ * @return {number} Return value usable by Array.prototype.sort().
+ */
+function mountOrderComparator(c1, c2) {
+  return c1._mountOrder - c2._mountOrder;
+}
+
+function runBatchedUpdates(transaction) {
+  var len = transaction.dirtyComponentsLength;
+  !(len === dirtyComponents.length) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected flush transaction\'s stored dirty-components length (%s) to match dirty-components array length (%s).', len, dirtyComponents.length) : _prodInvariant('124', len, dirtyComponents.length) : void 0;
+
+  // Since reconciling a component higher in the owner hierarchy usually (not
+  // always -- see shouldComponentUpdate()) will reconcile children, reconcile
+  // them before their children by sorting the array.
+  dirtyComponents.sort(mountOrderComparator);
+
+  // Any updates enqueued while reconciling must be performed after this entire
+  // batch. Otherwise, if dirtyComponents is [A, B] where A has children B and
+  // C, B could update twice in a single batch if C's render enqueues an update
+  // to B (since B would have already updated, we should skip it, and the only
+  // way we can know to do so is by checking the batch counter).
+  updateBatchNumber++;
+
+  for (var i = 0; i < len; i++) {
+    // If a component is unmounted before pending changes apply, it will still
+    // be here, but we assume that it has cleared its _pendingCallbacks and
+    // that performUpdateIfNecessary is a noop.
+    var component = dirtyComponents[i];
+
+    // If performUpdateIfNecessary happens to enqueue any new updates, we
+    // shouldn't execute the callbacks until the next render happens, so
+    // stash the callbacks first
+    var callbacks = component._pendingCallbacks;
+    component._pendingCallbacks = null;
+
+    var markerName;
+    if (ReactFeatureFlags.logTopLevelRenders) {
+      var namedComponent = component;
+      // Duck type TopLevelWrapper. This is probably always true.
+      if (component._currentElement.type.isReactTopLevelWrapper) {
+        namedComponent = component._renderedComponent;
+      }
+      markerName = 'React update: ' + namedComponent.getName();
+      console.time(markerName);
+    }
+
+    ReactReconciler.performUpdateIfNecessary(component, transaction.reconcileTransaction, updateBatchNumber);
+
+    if (markerName) {
+      console.timeEnd(markerName);
+    }
+
+    if (callbacks) {
+      for (var j = 0; j < callbacks.length; j++) {
+        transaction.callbackQueue.enqueue(callbacks[j], component.getPublicInstance());
+      }
+    }
+  }
+}
+
+var flushBatchedUpdates = function () {
+  // ReactUpdatesFlushTransaction's wrappers will clear the dirtyComponents
+  // array and perform any updates enqueued by mount-ready handlers (i.e.,
+  // componentDidUpdate) but we need to check here too in order to catch
+  // updates enqueued by setState callbacks and asap calls.
+  while (dirtyComponents.length || asapEnqueued) {
+    if (dirtyComponents.length) {
+      var transaction = ReactUpdatesFlushTransaction.getPooled();
+      transaction.perform(runBatchedUpdates, null, transaction);
+      ReactUpdatesFlushTransaction.release(transaction);
+    }
+
+    if (asapEnqueued) {
+      asapEnqueued = false;
+      var queue = asapCallbackQueue;
+      asapCallbackQueue = CallbackQueue.getPooled();
+      queue.notifyAll();
+      CallbackQueue.release(queue);
+    }
+  }
+};
+
+/**
+ * Mark a component as needing a rerender, adding an optional callback to a
+ * list of functions which will be executed once the rerender occurs.
+ */
+function enqueueUpdate(component) {
+  ensureInjected();
+
+  // Various parts of our code (such as ReactCompositeComponent's
+  // _renderValidatedComponent) assume that calls to render aren't nested;
+  // verify that that's the case. (This is called by each top-level update
+  // function, like setState, forceUpdate, etc.; creation and
+  // destruction of top-level components is guarded in ReactMount.)
+
+  if (!batchingStrategy.isBatchingUpdates) {
+    batchingStrategy.batchedUpdates(enqueueUpdate, component);
+    return;
+  }
+
+  dirtyComponents.push(component);
+  if (component._updateBatchNumber == null) {
+    component._updateBatchNumber = updateBatchNumber + 1;
+  }
+}
+
+/**
+ * Enqueue a callback to be run at the end of the current batching cycle. Throws
+ * if no updates are currently being performed.
+ */
+function asap(callback, context) {
+  invariant(batchingStrategy.isBatchingUpdates, "ReactUpdates.asap: Can't enqueue an asap callback in a context where" + 'updates are not being batched.');
+  asapCallbackQueue.enqueue(callback, context);
+  asapEnqueued = true;
+}
+
+var ReactUpdatesInjection = {
+  injectReconcileTransaction: function (ReconcileTransaction) {
+    !ReconcileTransaction ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must provide a reconcile transaction class') : _prodInvariant('126') : void 0;
+    ReactUpdates.ReactReconcileTransaction = ReconcileTransaction;
+  },
+
+  injectBatchingStrategy: function (_batchingStrategy) {
+    !_batchingStrategy ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must provide a batching strategy') : _prodInvariant('127') : void 0;
+    !(typeof _batchingStrategy.batchedUpdates === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must provide a batchedUpdates() function') : _prodInvariant('128') : void 0;
+    !(typeof _batchingStrategy.isBatchingUpdates === 'boolean') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates: must provide an isBatchingUpdates boolean attribute') : _prodInvariant('129') : void 0;
+    batchingStrategy = _batchingStrategy;
+  }
+};
+
+var ReactUpdates = {
+  /**
+   * React references `ReactReconcileTransaction` using this property in order
+   * to allow dependency injection.
+   *
+   * @internal
+   */
+  ReactReconcileTransaction: null,
+
+  batchedUpdates: batchedUpdates,
+  enqueueUpdate: enqueueUpdate,
+  flushBatchedUpdates: flushBatchedUpdates,
+  injection: ReactUpdatesInjection,
+  asap: asap
+};
+
+module.exports = ReactUpdates;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 33 */
@@ -8340,7 +8340,7 @@ var _fetch = __webpack_require__(71);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8406,7 +8406,7 @@ var setAuthor = exports.setAuthor = function setAuthor(author) {
 
 var _assign = __webpack_require__(16);
 
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 
 var warning = __webpack_require__(12);
 var canDefineProperty = __webpack_require__(85);
@@ -9780,7 +9780,7 @@ var _fetch = __webpack_require__(71);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12619,7 +12619,7 @@ var _fetch = __webpack_require__(71);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16027,10 +16027,10 @@ module.exports = KeyEscapeUtils;
 
 var _prodInvariant = __webpack_require__(14);
 
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 var ReactInstanceMap = __webpack_require__(68);
 var ReactInstrumentation = __webpack_require__(29);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 
 var invariant = __webpack_require__(11);
 var warning = __webpack_require__(12);
@@ -17033,7 +17033,7 @@ exports.default = createTransitionManager;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -19469,7 +19469,7 @@ module.exports = getIteratorFn;
 
 
 
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 var ReactComponentTreeHook = __webpack_require__(27);
 var ReactElement = __webpack_require__(48);
 
@@ -21312,7 +21312,7 @@ var _assign = __webpack_require__(16);
 
 var LinkedValueUtils = __webpack_require__(122);
 var ReactDOMComponentTree = __webpack_require__(17);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 
 var warning = __webpack_require__(12);
 
@@ -21796,7 +21796,7 @@ module.exports = ReactHostComponent;
 
 var _prodInvariant = __webpack_require__(14);
 
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 var REACT_ELEMENT_TYPE = __webpack_require__(482);
 
 var getIteratorFn = __webpack_require__(483);
@@ -22229,7 +22229,7 @@ var DOMLazyTree = __webpack_require__(56);
 var DOMProperty = __webpack_require__(43);
 var React = __webpack_require__(53);
 var ReactBrowserEventEmitter = __webpack_require__(92);
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 var ReactDOMComponentTree = __webpack_require__(17);
 var ReactDOMContainerInfo = __webpack_require__(512);
 var ReactDOMFeatureFlags = __webpack_require__(513);
@@ -22239,7 +22239,7 @@ var ReactInstrumentation = __webpack_require__(29);
 var ReactMarkupChecksum = __webpack_require__(514);
 var ReactReconciler = __webpack_require__(55);
 var ReactUpdateQueue = __webpack_require__(127);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 
 var emptyObject = __webpack_require__(86);
 var instantiateReactComponent = __webpack_require__(197);
@@ -22815,7 +22815,7 @@ var storeShape = __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.shape({
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = connectAdvanced;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__ = __webpack_require__(209);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -23839,7 +23839,7 @@ var isExtraneousPopstateEvent = exports.isExtraneousPopstateEvent = function isE
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -23958,7 +23958,7 @@ Link.contextTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -42177,7 +42177,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(842);
+var	fixUrls = __webpack_require__(845);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -42515,17 +42515,17 @@ var _MainPage = __webpack_require__(546);
 
 var _MainPage2 = _interopRequireDefault(_MainPage);
 
-var _GlobalDataContainer = __webpack_require__(835);
+var _GlobalDataContainer = __webpack_require__(838);
 
 var _GlobalDataContainer2 = _interopRequireDefault(_GlobalDataContainer);
 
-var _appReducer = __webpack_require__(836);
+var _appReducer = __webpack_require__(839);
 
 var _appReducer2 = _interopRequireDefault(_appReducer);
 
-__webpack_require__(840);
-
 __webpack_require__(843);
+
+__webpack_require__(846);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42900,7 +42900,7 @@ module.exports = PooledClass;
 
 var _prodInvariant = __webpack_require__(54);
 
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 var REACT_ELEMENT_TYPE = __webpack_require__(177);
 
 var getIteratorFn = __webpack_require__(178);
@@ -44511,7 +44511,7 @@ var ReactDOMComponentTree = __webpack_require__(17);
 var ReactDefaultInjection = __webpack_require__(438);
 var ReactMount = __webpack_require__(205);
 var ReactReconciler = __webpack_require__(55);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 var ReactVersion = __webpack_require__(516);
 
 var findDOMNode = __webpack_require__(517);
@@ -45354,7 +45354,7 @@ var EventPluginHub = __webpack_require__(66);
 var EventPropagators = __webpack_require__(65);
 var ExecutionEnvironment = __webpack_require__(19);
 var ReactDOMComponentTree = __webpack_require__(17);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 var SyntheticEvent = __webpack_require__(36);
 
 var inputValueTracking = __webpack_require__(188);
@@ -48875,7 +48875,7 @@ var _prodInvariant = __webpack_require__(14),
 var DOMPropertyOperations = __webpack_require__(194);
 var LinkedValueUtils = __webpack_require__(122);
 var ReactDOMComponentTree = __webpack_require__(17);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 
 var invariant = __webpack_require__(11);
 var warning = __webpack_require__(12);
@@ -49291,7 +49291,7 @@ var _prodInvariant = __webpack_require__(14),
 
 var LinkedValueUtils = __webpack_require__(122);
 var ReactDOMComponentTree = __webpack_require__(17);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 
 var invariant = __webpack_require__(11);
 var warning = __webpack_require__(12);
@@ -49456,7 +49456,7 @@ var ReactComponentEnvironment = __webpack_require__(123);
 var ReactInstanceMap = __webpack_require__(68);
 var ReactInstrumentation = __webpack_require__(29);
 
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 var ReactReconciler = __webpack_require__(55);
 var ReactChildReconciler = __webpack_require__(477);
 
@@ -50062,7 +50062,7 @@ var _prodInvariant = __webpack_require__(14),
 
 var React = __webpack_require__(53);
 var ReactComponentEnvironment = __webpack_require__(123);
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 var ReactErrorUtils = __webpack_require__(115);
 var ReactInstanceMap = __webpack_require__(68);
 var ReactInstrumentation = __webpack_require__(29);
@@ -51860,7 +51860,7 @@ module.exports = ReactDOMTextComponent;
 
 var _assign = __webpack_require__(16);
 
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 var Transaction = __webpack_require__(88);
 
 var emptyFunction = __webpack_require__(28);
@@ -51935,7 +51935,7 @@ var EventListener = __webpack_require__(202);
 var ExecutionEnvironment = __webpack_require__(19);
 var PooledClass = __webpack_require__(49);
 var ReactDOMComponentTree = __webpack_require__(17);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 
 var getEventTarget = __webpack_require__(116);
 var getUnboundedScrollPosition = __webpack_require__(492);
@@ -52136,7 +52136,7 @@ var ReactComponentEnvironment = __webpack_require__(123);
 var ReactEmptyComponent = __webpack_require__(199);
 var ReactBrowserEventEmitter = __webpack_require__(92);
 var ReactHostComponent = __webpack_require__(200);
-var ReactUpdates = __webpack_require__(31);
+var ReactUpdates = __webpack_require__(32);
 
 var ReactInjection = {
   Component: ReactComponentEnvironment.injection,
@@ -54150,7 +54150,7 @@ module.exports = '15.6.2';
 
 var _prodInvariant = __webpack_require__(14);
 
-var ReactCurrentOwner = __webpack_require__(30);
+var ReactCurrentOwner = __webpack_require__(31);
 var ReactDOMComponentTree = __webpack_require__(17);
 var ReactInstanceMap = __webpack_require__(68);
 
@@ -55697,7 +55697,7 @@ var _Notifier2 = _interopRequireDefault(_Notifier);
 
 var _reactRedux = __webpack_require__(20);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _AuthActions = __webpack_require__(100);
 
@@ -55749,7 +55749,11 @@ var _MessagesPage = __webpack_require__(830);
 
 var _MessagesPage2 = _interopRequireDefault(_MessagesPage);
 
-var _ScrollToTopButton = __webpack_require__(834);
+var _ChatPage = __webpack_require__(833);
+
+var _ChatPage2 = _interopRequireDefault(_ChatPage);
+
+var _ScrollToTopButton = __webpack_require__(837);
 
 var _ScrollToTopButton2 = _interopRequireDefault(_ScrollToTopButton);
 
@@ -55829,7 +55833,8 @@ var MainPage = function (_React$Component) {
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/reader/:bookId', component: _BookReader2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/options', component: this.props.registered ? _OptionsPage2.default : _BookPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/friends', component: _FriendsPage2.default }),
-                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/messages', component: _MessagesPage2.default })
+                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/messages', component: _MessagesPage2.default }),
+                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/chat/:groupId', component: _ChatPage2.default })
                             )
                         )
                     ),
@@ -55950,7 +55955,7 @@ var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(21);
+var _invariant = __webpack_require__(23);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -56327,7 +56332,7 @@ var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(21);
+var _invariant = __webpack_require__(23);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -57438,7 +57443,7 @@ module.exports = Array.isArray || function (arr) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -57542,7 +57547,7 @@ Prompt.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history__ = __webpack_require__(561);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -57673,7 +57678,7 @@ Redirect.contextTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(70);
@@ -57977,7 +57982,7 @@ var createBrowserHistory = function createBrowserHistory() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(70);
@@ -58477,7 +58482,7 @@ var createMemoryHistory = function createMemoryHistory() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -58675,7 +58680,7 @@ StaticRouter.childContextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__matchPath__ = __webpack_require__(138);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58846,7 +58851,7 @@ var _reactRedux = __webpack_require__(20);
 
 var _reactBsNotifier = __webpack_require__(573);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64660,7 +64665,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
 var _reactRedux = __webpack_require__(20);
 
@@ -64670,7 +64675,7 @@ var _AuthorList2 = _interopRequireDefault(_AuthorList);
 
 var _AuthorActions = __webpack_require__(47);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67417,7 +67422,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _invariant = __webpack_require__(21);
+var _invariant = __webpack_require__(23);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -67625,7 +67630,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _invariant = __webpack_require__(21);
+var _invariant = __webpack_require__(23);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -75405,7 +75410,7 @@ Thumbnail.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_invariant__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_invariant__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_uncontrollable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_uncontrollable__);
@@ -75855,7 +75860,7 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 var _reactStars = __webpack_require__(63);
 
@@ -76001,9 +76006,9 @@ var _BookBriefList = __webpack_require__(769);
 
 var _BookBriefList2 = _interopRequireDefault(_BookBriefList);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _BookActions = __webpack_require__(64);
 
@@ -76195,7 +76200,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _locale = __webpack_require__(81);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -76442,7 +76447,7 @@ var _reactStars2 = _interopRequireDefault(_reactStars);
 
 var _BookActions = __webpack_require__(64);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _UserComments = __webpack_require__(772);
 
@@ -76748,7 +76753,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
 var _CommentItem = __webpack_require__(773);
 
@@ -77006,9 +77011,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -77260,7 +77265,7 @@ var _AuthorActions = __webpack_require__(47);
 
 var _BookActions = __webpack_require__(64);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _AuthorFile = __webpack_require__(775);
 
@@ -77555,7 +77560,7 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -77702,7 +77707,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 var _reactStars = __webpack_require__(63);
 
@@ -78096,11 +78101,11 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
 var _locale = __webpack_require__(81);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 var _reactStars = __webpack_require__(63);
 
@@ -78456,15 +78461,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(20);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
 var _reactSelect = __webpack_require__(173);
 
 var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _AuthorActions = __webpack_require__(47);
 
@@ -79613,13 +79618,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(20);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
 var _reactSelect = __webpack_require__(173);
 
 var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _BookActions = __webpack_require__(64);
 
@@ -80090,13 +80095,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(20);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
 var _UserPolicy = __webpack_require__(787);
 
 var _UserPolicy2 = _interopRequireDefault(_UserPolicy);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _AuthActions = __webpack_require__(100);
 
@@ -80427,9 +80432,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(20);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -80542,7 +80547,7 @@ var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
 var _AuthorActions = __webpack_require__(47);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _locale = __webpack_require__(81);
 
@@ -83437,7 +83442,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(20);
 
-var _reactBootstrap = __webpack_require__(32);
+var _reactBootstrap = __webpack_require__(30);
 
 var _TopSelector = __webpack_require__(823);
 
@@ -83451,7 +83456,7 @@ var _AuthorTopTable = __webpack_require__(825);
 
 var _AuthorTopTable2 = _interopRequireDefault(_AuthorTopTable);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _RatingActions = __webpack_require__(826);
 
@@ -84099,7 +84104,7 @@ var _reactStars2 = _interopRequireDefault(_reactStars);
 
 var _reactRouterDom = __webpack_require__(37);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -84833,7 +84838,7 @@ var _fetch = __webpack_require__(71);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -84938,9 +84943,9 @@ var _FriendList2 = _interopRequireDefault(_FriendList);
 
 var _AuthorActions = __webpack_require__(47);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -85593,15 +85598,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(20);
 
+var _reactBootstrap = __webpack_require__(30);
+
 var _ChatGroupList = __webpack_require__(831);
 
 var _ChatGroupList2 = _interopRequireDefault(_ChatGroupList);
 
-var _MessageActions = __webpack_require__(833);
-
 var _AuthorActions = __webpack_require__(47);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -85620,9 +85625,11 @@ var MessagesPage = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (MessagesPage.__proto__ || Object.getPrototypeOf(MessagesPage)).call(this, props));
 
         _this.state = {
-            chatGroups: []
+            chatGroups: [],
+            activePage: 1,
+            totalPages: 1
         };
-        ['updateChatGroups'].map(function (fn) {
+        ['updateChatGroups', 'pageSelect'].map(function (fn) {
             return _this[fn] = _this[fn].bind(_this);
         });
         return _this;
@@ -85635,7 +85642,6 @@ var MessagesPage = function (_React$Component) {
 
             var timer = setInterval(function () {
                 if (_this2.props.login && _this2.props.token) {
-                    _this2.props.onGetAuthorDetails(_this2.props.login);
                     _this2.props.onGetAuthorChatGroups(_this2.props.login, _this2.props.token, 0, _this2.updateChatGroups);
                     clearInterval(timer);
                 }
@@ -85646,13 +85652,23 @@ var MessagesPage = function (_React$Component) {
         value: function updateChatGroups(page) {
             console.log(page);
             this.setState({
-                chatGroups: page.content
+                chatGroups: page.content,
+                totalPages: page.totalPages,
+                activePage: page.number + 1
             });
+        }
+    }, {
+        key: 'pageSelect',
+        value: function pageSelect(page) {
+            this.setState({
+                activePage: page
+            });
+            this.props.onGetAuthorChatGroups(this.props.login, this.props.token, page, this.updateChatGroups);
         }
     }, {
         key: 'isDataLoaded',
         value: function isDataLoaded() {
-            if (this.props.author && this.props.login) {
+            if (this.props.login && this.props.login) {
                 return true;
             }
             return false;
@@ -85698,6 +85714,23 @@ var MessagesPage = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'col-sm-12' },
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement(_reactBootstrap.Pagination, {
+                        className: 'shown',
+                        prev: true,
+                        next: true,
+                        first: true,
+                        last: true,
+                        ellipsis: true,
+                        boundaryLinks: true,
+                        items: this.state.totalPages,
+                        maxButtons: 3,
+                        activePage: this.state.activePage,
+                        onSelect: this.pageSelect })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
                     _react2.default.createElement(_ChatGroupList2.default, { groups: this.state.chatGroups })
                 )
             );
@@ -85710,34 +85743,17 @@ var MessagesPage = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
     return {
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token,
-        author: state.AuthorReducer.author
+        token: state.GlobalReducer.token
     };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        onGetAuthorDetails: function onGetAuthorDetails(userId) {
-            return (0, _AuthorActions.getAuthorDetails)(userId).then(function (_ref) {
+        onGetAuthorChatGroups: function onGetAuthorChatGroups(userId, token, page, callback) {
+            return (0, _AuthorActions.getAuthorChatGroups)(userId, token, page - 1).then(function (_ref) {
                 var _ref2 = _slicedToArray(_ref, 2),
                     response = _ref2[0],
                     json = _ref2[1];
-
-                if (response.status === 200) {
-                    dispatch((0, _AuthorActions.setAuthor)(json));
-                } else {
-                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
-                }
-            }).catch(function (error) {
-                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
-            });
-        },
-
-        onGetAuthorChatGroups: function onGetAuthorChatGroups(userId, token, page, callback) {
-            return (0, _AuthorActions.getAuthorChatGroups)(userId, token, page).then(function (_ref3) {
-                var _ref4 = _slicedToArray(_ref3, 2),
-                    response = _ref4[0],
-                    json = _ref4[1];
 
                 if (response.status === 200) {
                     callback(json);
@@ -85852,7 +85868,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _utils = __webpack_require__(23);
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -85876,34 +85896,53 @@ var ChatGroupListItem = function (_React$Component) {
     }
 
     _createClass(ChatGroupListItem, [{
-        key: 'getName',
-        value: function getName() {
-            return this.props.group.creatorFullName;
+        key: 'getGroupName',
+        value: function getGroupName() {
+            return this.props.group.primaryRecipientFullName;
         }
     }, {
-        key: 'getDate',
-        value: function getDate() {
-            return (0, _utils.formatDate)(new Date(this.props.group.created));
+        key: 'getGroupAvatar',
+        value: function getGroupAvatar() {
+            return this.props.group.primaryRecipientAvatar;
+        }
+    }, {
+        key: 'getLastMessageDate',
+        value: function getLastMessageDate() {
+            return (0, _utils.formatDate)(new Date(this.props.group.lastMessageDate));
         }
     }, {
         key: 'getLastMessage',
         value: function getLastMessage() {
-            return this.props.group.lastMessage;
+            return this.props.group.lastMessageText;
+        }
+    }, {
+        key: 'getLastMessageAvatar',
+        value: function getLastMessageAvatar() {
+            return this.props.group.lastMessageAvatar;
+        }
+    }, {
+        key: 'onItemClick',
+        value: function onItemClick() {
+            this.context.router.history.push('/chat/' + this.props.group.id);
         }
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement('hr', null),
                 _react2.default.createElement(
                     'div',
-                    { className: 'row' },
+                    { className: 'row clickable', onClick: function onClick() {
+                            return _this2.onItemClick();
+                        } },
                     _react2.default.createElement(
                         'div',
                         { className: 'col-sm-1' },
-                        _react2.default.createElement('img', { src: 'https://localhost/css/images/avatars/default_avatar.png?date=' + new Date(), className: 'img-rounded clickable', width: '100%', height: 'auto' })
+                        _react2.default.createElement('img', { src: this.getGroupAvatar() + '?date=' + new Date(), className: 'img-rounded', width: '100%', height: 'auto' })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -85914,12 +85953,12 @@ var ChatGroupListItem = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'col-sm-6 chat-group-header' },
-                                this.getName()
+                                this.getGroupName()
                             ),
                             _react2.default.createElement(
                                 'div',
                                 { className: 'col-sm-6 text-right' },
-                                this.getDate()
+                                this.getLastMessageDate()
                             )
                         ),
                         _react2.default.createElement(
@@ -85928,7 +85967,7 @@ var ChatGroupListItem = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'col-sm-1' },
-                                _react2.default.createElement('img', { src: 'https://localhost/css/images/avatars/default_avatar.png?date=' + new Date(), className: 'img-rounded clickable', width: '100%', height: 'auto' })
+                                _react2.default.createElement('img', { src: this.getLastMessageAvatar() + '?date=' + new Date(), className: 'img-rounded', width: '100%', height: 'auto' })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -85945,6 +85984,15 @@ var ChatGroupListItem = function (_React$Component) {
     return ChatGroupListItem;
 }(_react2.default.Component);
 
+ChatGroupListItem.contextTypes = {
+    router: _propTypes2.default.shape({
+        history: _propTypes2.default.shape({
+            push: _propTypes2.default.func.isRequired,
+            replace: _propTypes2.default.func.isRequired
+        }).isRequired,
+        staticContext: _propTypes2.default.object
+    }).isRequired
+};
 exports.default = ChatGroupListItem;
 
 /***/ }),
@@ -85957,13 +86005,432 @@ exports.default = ChatGroupListItem;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getMessagesByGroup = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = __webpack_require__(30);
+
+var _reactRedux = __webpack_require__(20);
+
+var _MessageList = __webpack_require__(834);
+
+var _MessageList2 = _interopRequireDefault(_MessageList);
+
+var _MessageActions = __webpack_require__(836);
+
+var _GlobalActions = __webpack_require__(21);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ChatPage = function (_React$Component) {
+    _inherits(ChatPage, _React$Component);
+
+    function ChatPage(props) {
+        _classCallCheck(this, ChatPage);
+
+        var _this = _possibleConstructorReturn(this, (ChatPage.__proto__ || Object.getPrototypeOf(ChatPage)).call(this, props));
+
+        _this.state = {
+            messages: [],
+            activePage: 1,
+            totalPages: 1,
+            text: ""
+        };
+        ['pageSelect', 'updateMessages', 'onEditMessage'].map(function (fn) {
+            return _this[fn] = _this[fn].bind(_this);
+        });
+        return _this;
+    }
+
+    _createClass(ChatPage, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            var timer = setInterval(function () {
+                if (_this2.props.login && _this2.props.token) {
+                    _this2.props.onGetMessagesByGroup(_this2.props.login, _this2.props.match.params.groupId, _this2.props.token, 0, _this2.updateMessages);
+                    clearInterval(timer);
+                }
+            }, 1000);
+        }
+    }, {
+        key: 'updateMessages',
+        value: function updateMessages(page) {
+            console.log(page);
+            this.setState({
+                messages: page.content,
+                totalPages: page.totalPages,
+                activePage: page.number + 1
+            });
+        }
+    }, {
+        key: 'pageSelect',
+        value: function pageSelect(page) {
+            this.setState({
+                activePage: page
+            });
+            this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, page, this.updateMessages);
+        }
+    }, {
+        key: 'onEditMessage',
+        value: function onEditMessage(event) {
+            this.setState({
+                text: event.target.value
+            });
+        }
+    }, {
+        key: 'sendMessage',
+        value: function sendMessage() {
+            var _this3 = this;
+
+            this.props.onAddMessageToGroup(this.props.login, this.props.match.params.groupId, this.state.text, this.props.token, function () {
+                return _this3.props.onGetMessagesByGroup(_this3.props.login, _this3.props.match.params.groupId, _this3.props.token, _this3.state.activePage, _this3.updateMessages);
+            });
+        }
+    }, {
+        key: 'getGroupName',
+        value: function getGroupName() {
+            return _react2.default.createElement(
+                'h4',
+                null,
+                'group #' + this.props.match.params.groupId
+            );
+        }
+    }, {
+        key: 'isDataLoaded',
+        value: function isDataLoaded() {
+            if (this.props.token && this.props.login) {
+                return true;
+            }
+            return false;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this4 = this;
+
+            if (!this.isDataLoaded()) {
+                return null;
+            }
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12 text-right' },
+                    _react2.default.createElement('button', { className: 'btn glyphicon glyphicon-cog' })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12 text-center' },
+                    this.getGroupName()
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(_reactBootstrap.Pagination, {
+                        className: 'shown',
+                        prev: true,
+                        next: true,
+                        first: true,
+                        last: true,
+                        ellipsis: true,
+                        boundaryLinks: true,
+                        items: this.state.totalPages,
+                        maxButtons: 3,
+                        activePage: this.state.activePage,
+                        onSelect: this.pageSelect })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(_MessageList2.default, { messages: this.state.messages })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement('hr', null),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-group' },
+                        _react2.default.createElement('input', { value: this.state.text, onChange: this.onEditMessage, type: 'text', className: 'form-control', placeholder: 'Write' }),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'input-group-btn' },
+                            _react2.default.createElement(
+                                'button',
+                                { onClick: function onClick() {
+                                        return _this4.sendMessage();
+                                    }, className: 'btn btn-default', type: 'submit' },
+                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-send' })
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ChatPage;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        login: state.GlobalReducer.user.login,
+        token: state.GlobalReducer.token
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        onGetMessagesByGroup: function onGetMessagesByGroup(userId, groupId, token, page, callback) {
+            return (0, _MessageActions.getMessagesByGroup)(userId, groupId, token, page - 1).then(function (_ref) {
+                var _ref2 = _slicedToArray(_ref, 2),
+                    response = _ref2[0],
+                    json = _ref2[1];
+
+                if (response.status === 200) {
+                    callback(json);
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onAddMessageToGroup: function onAddMessageToGroup(userId, groupId, text, token, callback) {
+            return (0, _MessageActions.addMessageToGroup)(userId, groupId, text, token).then(function (_ref3) {
+                var _ref4 = _slicedToArray(_ref3, 2),
+                    response = _ref4[0],
+                    json = _ref4[1];
+
+                if (response.status === 200) {
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Your message was added successfully'));
+                    callback();
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ChatPage);
+
+/***/ }),
+/* 834 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _MessageListItem = __webpack_require__(835);
+
+var _MessageListItem2 = _interopRequireDefault(_MessageListItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+    props:
+    - messages - array
+ */
+var MessageList = function (_React$Component) {
+    _inherits(MessageList, _React$Component);
+
+    function MessageList() {
+        _classCallCheck(this, MessageList);
+
+        return _possibleConstructorReturn(this, (MessageList.__proto__ || Object.getPrototypeOf(MessageList)).apply(this, arguments));
+    }
+
+    _createClass(MessageList, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                this.props.messages.map(function (message, key) {
+                    return _react2.default.createElement(_MessageListItem2.default, { message: message, key: key });
+                })
+            );
+        }
+    }]);
+
+    return MessageList;
+}(_react2.default.Component);
+
+exports.default = MessageList;
+
+/***/ }),
+/* 835 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _utils = __webpack_require__(22);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+    props:
+    - message
+ */
+var ChatGroupListItem = function (_React$Component) {
+    _inherits(ChatGroupListItem, _React$Component);
+
+    function ChatGroupListItem() {
+        _classCallCheck(this, ChatGroupListItem);
+
+        return _possibleConstructorReturn(this, (ChatGroupListItem.__proto__ || Object.getPrototypeOf(ChatGroupListItem)).apply(this, arguments));
+    }
+
+    _createClass(ChatGroupListItem, [{
+        key: 'getAuthorName',
+        value: function getAuthorName() {
+            return this.props.message.creatorFullName;
+        }
+    }, {
+        key: 'getAuthorAvatar',
+        value: function getAuthorAvatar() {
+            return this.props.message.creatorAvatar;
+        }
+    }, {
+        key: 'getMessageDate',
+        value: function getMessageDate() {
+            return (0, _utils.formatDate)(new Date(this.props.message.created));
+        }
+    }, {
+        key: 'getMessageText',
+        value: function getMessageText() {
+            return this.props.message.message;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement('hr', null),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-sm-1' },
+                        _react2.default.createElement('img', { src: this.getAuthorAvatar() + '?date=' + new Date(), className: 'img-rounded', width: '100%', height: 'auto' })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-sm-11' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'row' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-sm-6 text-left' },
+                                this.getAuthorName()
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-sm-6 text-right' },
+                                this.getMessageDate()
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-sm-12' },
+                            this.getMessageText()
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ChatGroupListItem;
+}(_react2.default.Component);
+
+ChatGroupListItem.contextTypes = {
+    router: _propTypes2.default.shape({
+        history: _propTypes2.default.shape({
+            push: _propTypes2.default.func.isRequired,
+            replace: _propTypes2.default.func.isRequired
+        }).isRequired,
+        staticContext: _propTypes2.default.object
+    }).isRequired
+};
+exports.default = ChatGroupListItem;
+
+/***/ }),
+/* 836 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.addMessageToGroup = exports.getMessagesByGroup = undefined;
 
 var _fetch = __webpack_require__(71);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -85971,8 +86438,17 @@ var getMessagesByGroup = exports.getMessagesByGroup = function getMessagesByGrou
     return (0, _fetch2.default)((0, _utils.getHost)() + userId + '/messages/' + groupId + '?page=' + page + '&size=20', null, token);
 };
 
+var addMessageToGroup = exports.addMessageToGroup = function addMessageToGroup(userId, groupId, text, token) {
+    var messageRequest = {
+        creator: userId,
+        text: text,
+        groupId: groupId
+    };
+    return (0, _fetch2.default)((0, _utils.getHost)() + '/messages/add', messageRequest, token);
+};
+
 /***/ }),
-/* 834 */
+/* 837 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86075,7 +86551,7 @@ var ScrollToTopButton = function (_React$Component) {
 exports.default = ScrollToTopButton;
 
 /***/ }),
-/* 835 */
+/* 838 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86093,13 +86569,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _utils = __webpack_require__(23);
+var _utils = __webpack_require__(22);
 
 var _reactRedux = __webpack_require__(20);
 
 var _AuthActions = __webpack_require__(100);
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86190,7 +86666,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GlobalDataContainer);
 
 /***/ }),
-/* 836 */
+/* 839 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86202,15 +86678,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(131);
 
-var _GlobalReducer = __webpack_require__(837);
+var _GlobalReducer = __webpack_require__(840);
 
 var _GlobalReducer2 = _interopRequireDefault(_GlobalReducer);
 
-var _AuthorReducer = __webpack_require__(838);
+var _AuthorReducer = __webpack_require__(841);
 
 var _AuthorReducer2 = _interopRequireDefault(_AuthorReducer);
 
-var _BookReducer = __webpack_require__(839);
+var _BookReducer = __webpack_require__(842);
 
 var _BookReducer2 = _interopRequireDefault(_BookReducer);
 
@@ -86225,7 +86701,7 @@ var appReducer = (0, _redux.combineReducers)({
 exports.default = appReducer;
 
 /***/ }),
-/* 837 */
+/* 840 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86235,7 +86711,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _GlobalActions = __webpack_require__(22);
+var _GlobalActions = __webpack_require__(21);
 
 var _AuthActions = __webpack_require__(100);
 
@@ -86349,7 +86825,7 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 838 */
+/* 841 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86383,7 +86859,7 @@ var AuthorReducer = function AuthorReducer() {
 exports.default = AuthorReducer;
 
 /***/ }),
-/* 839 */
+/* 842 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86439,13 +86915,13 @@ var BookReducer = function BookReducer() {
 exports.default = BookReducer;
 
 /***/ }),
-/* 840 */
+/* 843 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(841);
+var content = __webpack_require__(844);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -86470,7 +86946,7 @@ if(false) {
 }
 
 /***/ }),
-/* 841 */
+/* 844 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(420)(undefined);
@@ -86484,7 +86960,7 @@ exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Je
 
 
 /***/ }),
-/* 842 */
+/* 845 */
 /***/ (function(module, exports) {
 
 
@@ -86579,13 +87055,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 843 */
+/* 846 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(844);
+var content = __webpack_require__(847);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -86610,7 +87086,7 @@ if(false) {
 }
 
 /***/ }),
-/* 844 */
+/* 847 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(420)(undefined);

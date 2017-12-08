@@ -83,4 +83,9 @@ public class Message {
     public Long getChatGroupId() {
         return group.getId();
     }
+
+    @Transient
+    public String getCreatorAvatar() {
+        return creator.getAvatar();
+    }
 }

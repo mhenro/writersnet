@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by mhenr on 06.12.2017.
@@ -12,9 +13,11 @@ import java.util.List;
 @Table(name = "chat_groups")
 public class ChatGroup {
     private Long id;
+    private String name;
+    private String avatar;
     private User creator;
     private Date created;
-    private Message lastMessage;
+    private User primaryRecipient;
     private List<Message> messages = new ArrayList<>();
 
     @Id
@@ -25,6 +28,22 @@ public class ChatGroup {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @OneToOne
@@ -46,13 +65,13 @@ public class ChatGroup {
     }
 
     @OneToOne
-    @JoinColumn(name = "last_message")
-    public Message getLastMessage() {
-        return lastMessage;
+    @JoinColumn(name = "primary_recipient")
+    public User getPrimaryRecipient() {
+        return primaryRecipient;
     }
 
-    public void setLastMessage(Message lastMessage) {
-        this.lastMessage = lastMessage;
+    public void setPrimaryRecipient(User primaryRecipient) {
+        this.primaryRecipient = primaryRecipient;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
@@ -62,12 +81,5 @@ public class ChatGroup {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
-    }
-
-    /* --------------------------------------------------business logic---------------------------------------- */
-    @Transient
-    public void addNewMessage(final Message message) {
-        getMessages().add(message);
-        setLastMessage(message);
     }
 }

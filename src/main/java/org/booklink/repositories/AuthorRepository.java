@@ -29,6 +29,6 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.top_models.TopAuthorViews(u.username, u.firstName, u.lastName, u.views) FROM User u ORDER BY u.views DESC")
     Page<TopAuthorViews> findAllByViews(final Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.response_models.ChatGroupResponse(g.userChatGroupPK.group.id, g.userChatGroupPK.group.creator, g.userChatGroupPK.group.created, g.userChatGroupPK.group.lastMessage, g) FROM User u LEFT JOIN u.chatGroups g WHERE g.userChatGroupPK.user.username = ?1")
+    @Query("SELECT new org.booklink.models.response_models.ChatGroupResponse(g) FROM User u LEFT JOIN u.chatGroups g WHERE g.userChatGroupPK.user.username = ?1")
     Page<ChatGroupResponse> getChatGroups(final String userId, final Pageable pageable);
 }

@@ -46,6 +46,7 @@ Features:
 62. Add counters to menus (like Friends (6)).
 63. Add "read news" button logic to friends page.
 64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
+65. Add test for ChatGroupResponse class constructor.
 
 
 Bugs:
