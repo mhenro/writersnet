@@ -2,6 +2,7 @@ package org.booklink.repositories;
 
 import org.booklink.models.entities.User;
 import org.booklink.models.response_models.ChatGroupResponse;
+import org.booklink.models.response_models.FriendResponse;
 import org.booklink.models.response_models.MessageResponse;
 import org.booklink.models.top_models.*;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 /**
  * Created by mhenr on 16.10.2017.
@@ -31,4 +34,7 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
 
     @Query("SELECT new org.booklink.models.response_models.ChatGroupResponse(g) FROM User u LEFT JOIN u.chatGroups g WHERE g.userChatGroupPK.user.username = ?1")
     Page<ChatGroupResponse> getChatGroups(final String userId, final Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response_models.FriendResponse(u.username, u.firstName, u.lastName) FROM User u LEFT JOIN u.subscribers scr LEFT JOIN u.subscriptions sub WHERE scr.friendshipPK.subscription.username = ?1 AND sub.friendshipPK.subscriber.username = ?1")
+    Page<FriendResponse> getFriends(final String userId, final Pageable pageable);
 }

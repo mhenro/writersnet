@@ -6,6 +6,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.models.response_models.ChatGroupResponse;
+import org.booklink.models.response_models.FriendResponse;
 import org.booklink.services.AuthorService;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -117,6 +120,13 @@ public class AuthorController {
     @RequestMapping(value = "authors/{userId:.+}/groups", method = RequestMethod.GET)
     public Page<ChatGroupResponse> getChatGroups(@PathVariable final String userId, final Pageable pageable) {
         return authorService.getChatGroups(userId, pageable);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "friends/{userId:.+}", method = RequestMethod.GET)
+    public Page<FriendResponse> getFriends(@PathVariable final String userId, final Pageable pageable) {
+        return authorService.getFriends(userId, pageable);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

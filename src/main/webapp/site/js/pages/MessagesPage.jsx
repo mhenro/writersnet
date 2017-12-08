@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
 
 import ChatGroupList from '../components/messages/ChatGroupList.jsx';
+import WriteMessageForm from '../components/messages/WriteMessageForm.jsx';
 
 import {
     getAuthorChatGroups
 } from '../actions/AuthorActions.jsx';
 import {
+    openWriteMessageForm,
     createNotify
 } from '../actions/GlobalActions.jsx';
 
@@ -17,15 +19,21 @@ class MessagesPage extends React.Component {
         this.state = {
             chatGroups: [],
             activePage: 1,
-            totalPages: 1
+            totalPages: 1,
+            firstUpdate: true
         };
         ['updateChatGroups', 'pageSelect'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
+        setTimeout(() => {
+            if (this.props.login && this.props.token) {
+                this.props.onGetAuthorChatGroups(this.props.login, this.props.token, this.state.activePage, this.updateChatGroups);
+            }
+        }, 500);
         let timer = setInterval(() => {
             if (this.props.login && this.props.token) {
-                this.props.onGetAuthorChatGroups(this.props.login, this.props.token, 0, this.updateChatGroups);
+                this.props.onGetAuthorChatGroups(this.props.login, this.props.token, this.state.activePage, this.updateChatGroups);
                 clearInterval(timer);
             }
         }, 1000);
@@ -33,10 +41,12 @@ class MessagesPage extends React.Component {
 
     updateChatGroups(page) {
         console.log(page);
+        let firstUpdate = this.state.firstUpdate;
         this.setState({
             chatGroups: page.content,
             totalPages: page.totalPages,
-            activePage: page.number + 1
+            activePage: firstUpdate ? page.totalPages : page.number + 1,
+            firstUpdate: false
         });
     }
 
@@ -45,6 +55,10 @@ class MessagesPage extends React.Component {
             activePage: page
         });
         this.props.onGetAuthorChatGroups(this.props.login, this.props.token, page, this.updateChatGroups);
+    }
+
+    onWriteMessage() {
+        this.props.onOpenWriteMessageForm();
     }
 
     isDataLoaded() {
@@ -62,7 +76,7 @@ class MessagesPage extends React.Component {
         return (
             <div>
                 <div className="col-sm-12">
-                    <button className="btn btn-danger">Write message</button>
+                    <button onClick={() => this.onWriteMessage()} className="btn btn-danger">Write message</button>
                 </div>
                 <div className="col-sm-12"></div>
                 <div className="col-sm-12">
@@ -93,6 +107,7 @@ class MessagesPage extends React.Component {
                 <div className="col-sm-12">
                     <ChatGroupList groups={this.state.chatGroups}/>
                 </div>
+                <WriteMessageForm/>
             </div>
         )
     }
@@ -118,6 +133,10 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onOpenWriteMessageForm: () => {
+            dispatch(openWriteMessageForm());
         }
     }
 };

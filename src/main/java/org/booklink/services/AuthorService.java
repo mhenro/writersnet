@@ -9,6 +9,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.models.response_models.ChatGroupResponse;
+import org.booklink.models.response_models.FriendResponse;
 import org.booklink.models.top_models.*;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.FriendshipRepository;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -193,6 +195,12 @@ public class AuthorService {
     public Page<ChatGroupResponse> getChatGroups(final String userId, final Pageable pageable) {
         Page<ChatGroupResponse> groups = authorRepository.getChatGroups(userId, pageable);
         return groups;
+    }
+
+    public Page<FriendResponse> getFriends(final String userId, final Pageable pageable) {
+        checkCredentials(userId);
+        Page<FriendResponse> friends = authorRepository.getFriends(userId, pageable);
+        return friends;
     }
 
     private void increaseAuthorViews(final User author) {

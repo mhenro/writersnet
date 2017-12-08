@@ -4,6 +4,9 @@ export const CLOSE_LOGIN_FORM = 'CLOSE_LOGIN_FORM';
 export const OPEN_USER_POLICY = 'OPEN_USER_POLICY';
 export const CLOSE_USER_POLICY = 'CLOSE_USER_POLICY';
 
+export const OPEN_WRITE_MESSAGE_FORM = 'OPEN_WRITE_MESSAGE_FORM';
+export const CLOSE_WRITE_MESSAGE_FORM = 'CLOSE_WRITE_MESSAGE_FORM';
+
 export const CREATE_NOTIFY = 'CREATE_NOTIFY';
 export const REMOVE_NOTIFIES = 'REMOVE_NOTIFIES';
 export const REMOVE_NOTIFY = 'REMOVE_NOTIFY';
@@ -32,6 +35,18 @@ export const openUserPolicy = () => {
 export const closeUserPolicy = () => {
     return {
         type: CLOSE_USER_POLICY
+    }
+};
+
+export const openWriteMessageForm = () => {
+    return {
+        type: OPEN_WRITE_MESSAGE_FORM
+    }
+};
+
+export const closeWriteMessageForm = () => {
+    return {
+        type: CLOSE_WRITE_MESSAGE_FORM
     }
 };
 

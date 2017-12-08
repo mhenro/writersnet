@@ -19,26 +19,37 @@ class ChatPage extends React.Component {
             messages: [],
             activePage: 1,
             totalPages: 1,
+            firstUpdate: true,
             text: ""
         };
-        ['pageSelect', 'updateMessages', 'onEditMessage'].map(fn => this[fn] = this[fn].bind(this));
+        ['pageSelect', 'updateMessages', 'onEditMessage', 'onKeyDown'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
-        let timer = setInterval(() => {
+        setTimeout(() => {
             if (this.props.login && this.props.token) {
-                this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, 0, this.updateMessages);
-                clearInterval(timer);
+                this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, this.state.activePage, this.updateMessages);
             }
-        }, 1000);
+        }, 500);
+        this.timer = setInterval(() => {
+            if (this.props.login && this.props.token) {
+                this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, this.state.activePage, this.updateMessages);
+            }
+        }, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     updateMessages(page) {
         console.log(page);
+        let firstUpdate = this.state.firstUpdate;
         this.setState({
             messages: page.content,
             totalPages: page.totalPages,
-            activePage: page.number + 1
+            activePage: firstUpdate ? page.totalPages : page.number + 1,
+            firstUpdate: false
         });
     }
 
@@ -55,9 +66,18 @@ class ChatPage extends React.Component {
         });
     }
 
+    onKeyDown(key) {
+        if (key.key === 'Enter') {
+            this.sendMessage();
+        }
+    }
+
     sendMessage() {
         this.props.onAddMessageToGroup(this.props.login, this.props.match.params.groupId, this.state.text, this.props.token,
             () => this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, this.state.activePage, this.updateMessages));
+        this.setState({
+            text: ''
+        });
     }
 
     getGroupName() {
@@ -103,7 +123,7 @@ class ChatPage extends React.Component {
                 <div className="col-sm-12">
                     <hr/>
                     <div className="input-group">
-                        <input value={this.state.text} onChange={this.onEditMessage} type="text" className="form-control" placeholder="Write" />
+                        <input value={this.state.text} onChange={this.onEditMessage} onKeyDown={this.onKeyDown} type="text" className="form-control" placeholder="Write" />
                         <div className="input-group-btn">
                             <button onClick={() => this.sendMessage()} className="btn btn-default" type="submit">
                                 <i className="glyphicon glyphicon-send"></i>
