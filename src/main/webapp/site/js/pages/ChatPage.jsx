@@ -161,7 +161,7 @@ const mapDispatchToProps = (dispatch) => {
         onAddMessageToGroup: (userId, groupId, text, token, callback) => {
             return addMessageToGroup(userId, groupId, text, token).then(([response, json]) => {
                 if (response.status === 200) {
-                    dispatch(createNotify('success', 'Success', 'Your message was added successfully'));
+                    //dispatch(createNotify('success', 'Success', 'Your message was added successfully'));
                     callback();
                 }
                 else {

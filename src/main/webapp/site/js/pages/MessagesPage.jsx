@@ -6,7 +6,9 @@ import ChatGroupList from '../components/messages/ChatGroupList.jsx';
 import WriteMessageForm from '../components/messages/WriteMessageForm.jsx';
 
 import {
-    getAuthorChatGroups
+    getAuthorChatGroups,
+    getAuthorDetails,
+    setAuthor
 } from '../actions/AuthorActions.jsx';
 import {
     openWriteMessageForm,
@@ -29,14 +31,19 @@ class MessagesPage extends React.Component {
         setTimeout(() => {
             if (this.props.login && this.props.token) {
                 this.props.onGetAuthorChatGroups(this.props.login, this.props.token, this.state.activePage, this.updateChatGroups);
+                this.props.onGetAuthorDetails(this.props.login);
             }
         }, 500);
-        let timer = setInterval(() => {
+        this.timer = setInterval(() => {
             if (this.props.login && this.props.token) {
                 this.props.onGetAuthorChatGroups(this.props.login, this.props.token, this.state.activePage, this.updateChatGroups);
-                clearInterval(timer);
+                this.props.onGetAuthorDetails(this.props.login);
             }
-        }, 1000);
+        }, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     updateChatGroups(page) {
@@ -62,7 +69,7 @@ class MessagesPage extends React.Component {
     }
 
     isDataLoaded() {
-        if (this.props.login && this.props.login) {
+        if (this.props.author && this.props.login && this.props.login) {
             return true;
         }
         return false;
@@ -105,7 +112,7 @@ class MessagesPage extends React.Component {
                         onSelect={this.pageSelect}/>
                 </div>
                 <div className="col-sm-12">
-                    <ChatGroupList groups={this.state.chatGroups}/>
+                    <ChatGroupList groups={this.state.chatGroups} author={this.props.author}/>
                 </div>
                 <WriteMessageForm/>
             </div>
@@ -116,12 +123,26 @@ class MessagesPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token
+        token: state.GlobalReducer.token,
+        author: state.AuthorReducer.author
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        onGetAuthorDetails: (userId) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setAuthor(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
         onGetAuthorChatGroups: (userId, token, page, callback) => {
             return getAuthorChatGroups(userId, token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {

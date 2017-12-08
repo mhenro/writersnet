@@ -5,6 +5,7 @@ import {formatDate} from '../../utils.jsx';
 /*
     props:
     - group
+    - author
 */
 class ChatGroupListItem extends React.Component {
     static contextTypes = {
@@ -17,7 +18,14 @@ class ChatGroupListItem extends React.Component {
         }).isRequired
     };
 
+    getUserFullName(user) {
+        return user.firstName + ' ' + user.lastName;
+    }
+
     getGroupName() {
+        if (this.getUserFullName(this.props.author) === this.props.group.primaryRecipientFullName) {
+            return this.props.group.creatorFullName;
+        }
         return this.props.group.primaryRecipientFullName;
     }
 

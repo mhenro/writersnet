@@ -5,6 +5,7 @@ import ChatGroupListItem from './ChatGroupListItem.jsx';
 /*
     props:
     - groups - array
+    - author
  */
 class ChatGroupList extends React.Component {
     renderChatGroups() {
@@ -23,7 +24,7 @@ class ChatGroupList extends React.Component {
         }
         return this.props.groups.map((group, key) => {
                 return (
-                    <ChatGroupListItem group={group} key={key}/>
+                    <ChatGroupListItem group={group} author={this.props.author} key={key}/>
                 )
         });
     }
