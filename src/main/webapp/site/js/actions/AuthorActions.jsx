@@ -13,6 +13,10 @@ export const getAuthorChatGroups = (userId, token, page) => {
     return doFetch(getHost() + 'authors/' + userId + '/groups?page=' + page + '&size=20', null, token);
 };
 
+export const getFriends = (userId, matcher, token, page) => {
+    return doFetch(getHost() + '/friends/' + userId + '/' + matcher + '?page=' + page + '&size=20', null, token);
+};
+
 export const saveAuthor = (author, token) => {
     return doFetch(getHost() + 'authors', author, token);
 };

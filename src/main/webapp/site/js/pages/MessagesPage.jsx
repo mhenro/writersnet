@@ -47,7 +47,6 @@ class MessagesPage extends React.Component {
     }
 
     updateChatGroups(page) {
-        console.log(page);
         let firstUpdate = this.state.firstUpdate;
         this.setState({
             chatGroups: page.content,

@@ -43,7 +43,6 @@ class ChatPage extends React.Component {
     }
 
     updateMessages(page) {
-        console.log(page);
         let firstUpdate = this.state.firstUpdate;
         this.setState({
             messages: page.content,

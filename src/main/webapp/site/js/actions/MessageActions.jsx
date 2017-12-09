@@ -13,7 +13,3 @@ export const addMessageToGroup = (userId, groupId, text, token) => {
     };
     return doFetch(getHost() + '/messages/add', messageRequest, token);
 };
-
-export const getFriends = (userId, token, page) => {
-    return doFetch(getHost() + '/friends/' + userId + '?page=' + page + '&size=20', null, token);
-};

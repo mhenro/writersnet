@@ -1,7 +1,6 @@
 Current sprint:
-52. Add messages page.
-53. Add message exchange mechanism.
 61. Add "Send message" logic to Friends page.
+62. Add counters to menus (like Friends (6)).
 
 
 Features:
@@ -43,7 +42,6 @@ Features:
 56. Add help page.
 57. Add or delete groups page.
 58. Add "return to author" button on reader page.
-62. Add counters to menus (like Friends (6)).
 63. Add "read news" button logic to friends page.
 64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
 65. Add test for ChatGroupResponse class constructor.
@@ -51,7 +49,7 @@ Features:
 
 Bugs:
 2. Fix bug with editing in login/signup form.
-4. Fix bug with character encoding (ANSI).
+4. Fix bug with character encoding (ANSI) when converting a book.
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
 25. Fix bug when deleting serie, which is used by some book. This leads to exception on serverside.
 65. Fix bug with big avatars in messages page on small screens.
@@ -91,3 +89,5 @@ DONE - 10. Add user policy component to signup form.
 DONE - 48. Add friends page.
 DONE - 49. Add adding friend mechanism.
 DONE - 60. Add "Add to friend" logic to Friends page.
+DONE - 52. Add messages page.
+DONE - 53. Add message exchange mechanism.

@@ -197,9 +197,9 @@ public class AuthorService {
         return groups;
     }
 
-    public Page<FriendResponse> getFriends(final String userId, final Pageable pageable) {
+    public Page<FriendResponse> getFriends(final String userId, final String matcher, final Pageable pageable) {
         checkCredentials(userId);
-        Page<FriendResponse> friends = authorRepository.getFriends(userId, pageable);
+        Page<FriendResponse> friends = authorRepository.getFriends(userId, matcher, pageable);
         return friends;
     }
 

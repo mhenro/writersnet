@@ -124,9 +124,9 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "friends/{userId:.+}", method = RequestMethod.GET)
-    public Page<FriendResponse> getFriends(@PathVariable final String userId, final Pageable pageable) {
-        return authorService.getFriends(userId, pageable);
+    @RequestMapping(value = "friends/{userId:.+}/{matcher}", method = RequestMethod.GET)
+    public Page<FriendResponse> getFriends(@PathVariable final String userId, @PathVariable final String matcher, final Pageable pageable) {
+        return authorService.getFriends(userId, matcher, pageable);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

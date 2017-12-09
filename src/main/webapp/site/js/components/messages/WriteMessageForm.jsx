@@ -7,11 +7,13 @@ import {
     closeWriteMessageForm,
     createNotify
 } from '../../actions/GlobalActions.jsx';
-import { getFriends } from '../../actions/MessageActions.jsx';
+import { getFriends } from '../../actions/AuthorActions.jsx';
 
 /*
     props:
     - showWriteMessageForm
+    - login
+    - token
 */
 class WriteMessageForm extends React.Component {
     constructor(props) {
@@ -23,7 +25,7 @@ class WriteMessageForm extends React.Component {
             },
             message: ""
         };
-        ['onFriendChange', 'onFieldChange'].map(fn => this[fn] = this[fn].bind(this));
+        ['loadFriends', 'onFriendChange', 'onFieldChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     onShow() {
@@ -34,15 +36,13 @@ class WriteMessageForm extends React.Component {
         this.props.onClose();
     }
 
-    getFriends() {
-        let options = [];
-       /* this.props.genres.forEach(genre => {
-            options.push({
-                value: genre,
-                label: getLocale(this.props.language)[genre]
+    loadFriends(value) {
+        if (!value || value === '') {
+            return Promise.resolve({
+                options: []
             });
-        });*/
-        return options;
+        }
+        return this.props.onGetFriends(this.props.login, value, this.props.token, 1);
     }
 
     onFriendChange(friend) {
@@ -70,14 +70,20 @@ class WriteMessageForm extends React.Component {
         return (
             <Modal show={this.props.showWriteMessageForm} onHide={() => this.onClose()} onShow={() => this.onShow()}>
                 <Modal.Header>
-                    Header
+                    Send message
                 </Modal.Header>
                 <Modal.Body>
                     <form className="form-horizontal" onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="friend">Friend:</label>
                             <div className="col-sm-10">
-                                <Select value={this.state.friend} id="friend" options={this.getFriends()} onChange={this.onFriendChange} placeholder="Select a friend"/>    //TODO: change to Select.Async for getFriends()
+                                <Select.Async value={this.state.friend}
+                                              id="friend"
+                                              loadOptions={this.loadFriends}
+                                              onChange={this.onFriendChange}
+                                              noResultsText="Nothing found"
+                                              loadingPlaceholder="Searching..."
+                                              placeholder="Select a friend"/>
                             </div>
                         </div>
                         <div className="form-group">
@@ -101,16 +107,26 @@ class WriteMessageForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        showWriteMessageForm: state.GlobalReducer.showWriteMessageForm
+        showWriteMessageForm: state.GlobalReducer.showWriteMessageForm,
+        login: state.GlobalReducer.user.login,
+        token: state.GlobalReducer.token
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetFriends: (userId, token, page, callback) => {
-            return getFriends(userId, token, page - 1).then(([response, json]) => {
+        onGetFriends: (userId, matcher, token, page/*, callback*/) => {
+            return getFriends(userId, matcher, token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
-                    callback(json);
+                    let options = [],
+                        friends = json.content;
+                    friends.forEach(friend => {
+                        options.push({
+                            value: friend.friendId,
+                            label: friend.fullName
+                        });
+                    });
+                    return {options};
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
