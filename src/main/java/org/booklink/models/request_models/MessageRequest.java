@@ -5,8 +5,9 @@ package org.booklink.models.request_models;
  */
 public class MessageRequest {
     private String creator;
+    private String primaryRecipient;
     private String text;
-    private long groupId;
+    private Long groupId;
 
     public String getCreator() {
         return creator;
@@ -14,6 +15,14 @@ public class MessageRequest {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getPrimaryRecipient() {
+        return primaryRecipient;
+    }
+
+    public void setPrimaryRecipient(String primaryRecipient) {
+        this.primaryRecipient = primaryRecipient;
     }
 
     public String getText() {
@@ -24,11 +33,11 @@ public class MessageRequest {
         this.text = text;
     }
 
-    public long getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(long groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 }

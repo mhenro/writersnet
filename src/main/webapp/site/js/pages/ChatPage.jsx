@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import MessageList from '../components/chat/MessageList.jsx';
 
 import {
+    getGroupName,
     getMessagesByGroup,
     addMessageToGroup
 } from '../actions/MessageActions.jsx';
@@ -16,19 +17,21 @@ class ChatPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            groupName: '',
             messages: [],
             activePage: 1,
             totalPages: 1,
             firstUpdate: true,
             text: ""
         };
-        ['pageSelect', 'updateMessages', 'onEditMessage', 'onKeyDown'].map(fn => this[fn] = this[fn].bind(this));
+        ['pageSelect', 'updateMessages', 'onEditMessage', 'onKeyDown', 'setGroupName'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
         setTimeout(() => {
             if (this.props.login && this.props.token) {
                 this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, this.state.activePage, this.updateMessages);
+                this.props.onGetGroupName(this.props.match.params.groupId, this.props.login, this.props.token, this.setGroupName);
             }
         }, 500);
         this.timer = setInterval(() => {
@@ -40,6 +43,12 @@ class ChatPage extends React.Component {
 
     componentWillUnmount() {
         clearInterval(this.timer);
+    }
+
+    setGroupName(groupName) {
+        this.setState({
+            groupName: groupName
+        });
     }
 
     updateMessages(page) {
@@ -72,7 +81,7 @@ class ChatPage extends React.Component {
     }
 
     sendMessage() {
-        this.props.onAddMessageToGroup(this.props.login, this.props.match.params.groupId, this.state.text, this.props.token,
+        this.props.onAddMessageToGroup(this.props.login, this.props.match.params.groupId, null, this.state.text, this.props.token,
             () => this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, this.state.activePage, this.updateMessages));
         this.setState({
             text: ''
@@ -80,7 +89,7 @@ class ChatPage extends React.Component {
     }
 
     getGroupName() {
-        return <h4>{'group #' + this.props.match.params.groupId}</h4>;
+        return <h4>{this.state.groupName}</h4>;
     }
 
     isDataLoaded() {
@@ -157,11 +166,24 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onAddMessageToGroup: (userId, groupId, text, token, callback) => {
-            return addMessageToGroup(userId, groupId, text, token).then(([response, json]) => {
+        onAddMessageToGroup: (userId, groupId, recipientId, text, token, callback) => {
+            return addMessageToGroup(userId, groupId, recipientId, text, token).then(([response, json]) => {
                 if (response.status === 200) {
                     //dispatch(createNotify('success', 'Success', 'Your message was added successfully'));
                     callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetGroupName: (groupId, userId, token, callback) => {
+            return getGroupName(groupId, userId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

@@ -39,16 +39,33 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "messages/add", method = RequestMethod.POST)
     public ResponseEntity<?> addMessageToGroup(@RequestBody MessageRequest message) {
-        Response<String> response = new Response<>();
+        final Long groupId;
         try {
-            messageService.addMessageToGroup(message.getCreator(), message.getText(), message.getGroupId());
+            groupId = messageService.addMessageToGroup(message.getCreator(), message.getPrimaryRecipient(), message.getText(), message.getGroupId());
         } catch (Exception e) {
+            Response<String> response = new Response<>();
             response.setCode(1);
             response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        Response<Long> response = new Response<>();
         response.setCode(0);
-        response.setMessage("Message was successfully added to chat");
+        response.setMessage(groupId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "groups/{groupId}/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getGroupName(@PathVariable final Long groupId, @PathVariable final String userId) {
+        Response<String> response = new Response<>();
+        try {
+            response.setCode(0);
+            response.setMessage(messageService.getGroupName(groupId, userId));
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+        }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

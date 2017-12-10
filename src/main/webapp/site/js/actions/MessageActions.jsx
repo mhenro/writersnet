@@ -5,10 +5,15 @@ export const getMessagesByGroup = (userId, groupId, token, page) => {
     return doFetch(getHost() + userId + '/messages/' + groupId + '?page=' + page + '&size=20', null, token);
 };
 
-export const addMessageToGroup = (userId, groupId, text, token) => {
+export const getGroupName = (groupId, userId, token) => {
+    return doFetch(getHost() + 'groups/' + groupId + '/' + userId, null, token);
+};
+
+export const addMessageToGroup = (userId, groupId, recipientId, text, token) => {
     let messageRequest = {
         creator: userId,
         text: text,
+        primaryRecipient: recipientId,
         groupId: groupId
     };
     return doFetch(getHost() + '/messages/add', messageRequest, token);

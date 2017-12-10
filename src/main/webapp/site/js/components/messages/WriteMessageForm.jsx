@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { Modal, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import {
     closeWriteMessageForm,
     createNotify
 } from '../../actions/GlobalActions.jsx';
 import { getFriends } from '../../actions/AuthorActions.jsx';
+import { addMessageToGroup } from '../../actions/MessageActions.jsx';
 
 /*
     props:
@@ -16,6 +18,16 @@ import { getFriends } from '../../actions/AuthorActions.jsx';
     - token
 */
 class WriteMessageForm extends React.Component {
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.shape({
+                push: PropTypes.func.isRequired,
+                replace: PropTypes.func.isRequired
+            }).isRequired,
+            staticContext: PropTypes.object
+        }).isRequired
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -25,7 +37,7 @@ class WriteMessageForm extends React.Component {
             },
             message: ""
         };
-        ['loadFriends', 'onFriendChange', 'onFieldChange'].map(fn => this[fn] = this[fn].bind(this));
+        ['loadFriends', 'onFriendChange', 'onFieldChange', 'redirectToChat'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     onShow() {
@@ -61,9 +73,13 @@ class WriteMessageForm extends React.Component {
         event.preventDefault();
     }
 
+    redirectToChat(groupId) {
+        this.context.router.history.push('/chat/' + groupId)
+    }
+
     onSend() {
+        this.props.onAddMessageToGroup(this.props.login, null, this.state.friend.value, this.state.message, this.props.token, this.redirectToChat);
         this.onClose();
-        //TODO:
     }
 
     render() {
@@ -127,6 +143,21 @@ const mapDispatchToProps = (dispatch) => {
                         });
                     });
                     return {options};
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onAddMessageToGroup: (userId, groupId, recipientId, text, token, callback) => {
+            return addMessageToGroup(userId, groupId, recipientId, text, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    if (json.code === 0) {
+                        callback(json.message);
+                    }
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
