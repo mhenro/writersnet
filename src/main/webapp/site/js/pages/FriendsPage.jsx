@@ -13,10 +13,8 @@ import {
     createNotify
 } from '../actions/GlobalActions.jsx';
 import {
-    isFriend,
-    isSubscriber,
-    isSubscription
-} from '../utils.jsx';
+    getGroupIdByRecipient
+} from '../actions/MessageActions.jsx';
 
 class FriendsPage extends React.Component {
     constructor(props) {
@@ -209,7 +207,10 @@ class FriendsPage extends React.Component {
                             readNewsButton={this.getReadNewsButtonVisibility()}
                             removeFriendButton={this.getRemoveFriendButtonVisibility()}
                             onAddToFriends={this.onAddToFriends}
-                            onRemoveSubscription={this.onRemoveFriend}/>
+                            onRemoveSubscription={this.onRemoveFriend}
+                            login={this.props.login}
+                            token={this.props.token}
+                            onGetGroupId={this.props.onGetGroupIdByRecipient}/>
             </div>
         )
     }
@@ -257,6 +258,19 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetGroupIdByRecipient: (recipientId, userId, token, callback) => {
+            return getGroupIdByRecipient(recipientId, userId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

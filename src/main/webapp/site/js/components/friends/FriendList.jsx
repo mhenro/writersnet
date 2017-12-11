@@ -10,12 +10,21 @@ import FriendListItem from './FriendListItem.jsx';
     - removeFriendButton - boolean
     - onAddToFriends - callback
     - onRemoveSubscription - callback
+    - login
+    - token
+    - onGetGroupId - callback
  */
 class FriendList extends React.Component {
+    getSortedFriends() {
+        return this.props.friends.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+        });
+    }
+
     render() {
         return (
             <div>
-                {this.props.friends.map((friend, key) => {
+                {this.getSortedFriends().map((friend, key) => {
                     return (
                         <FriendListItem friend={friend} key={key}
                                         sendMsgButton={this.props.sendMsgButton}
@@ -23,7 +32,10 @@ class FriendList extends React.Component {
                                         readNewsButton={this.props.readNewsButton}
                                         removeFriendButton={this.props.removeFriendButton}
                                         onAddToFriends={this.props.onAddToFriends}
-                                        onRemoveSubscription={this.props.onRemoveSubscription}/>
+                                        onRemoveSubscription={this.props.onRemoveSubscription}
+                                        login={this.props.login}
+                                        token={this.props.token}
+                                        onGetGroupId={this.props.onGetGroupId}/>
                     )
                 })}
             </div>

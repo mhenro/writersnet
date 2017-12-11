@@ -1,6 +1,7 @@
 package org.booklink.controllers;
 
 import org.booklink.models.Response;
+import org.booklink.models.entities.ChatGroup;
 import org.booklink.models.entities.Message;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
@@ -43,6 +44,28 @@ public class MessageController {
         try {
             groupId = messageService.addMessageToGroup(message.getCreator(), message.getPrimaryRecipient(), message.getText(), message.getGroupId());
         } catch (Exception e) {
+            Response<String> response = new Response<>();
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Response<Long> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(groupId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "groups/get", method = RequestMethod.POST)
+    public ResponseEntity<?> getGroupIdFromRecipient(@RequestBody MessageRequest messageRequest) {
+        Long groupId = null;
+        try {
+            ChatGroup group = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
+            if (group != null) {
+                groupId = group.getId();
+            }
+        } catch(Exception e) {
             Response<String> response = new Response<>();
             response.setCode(1);
             response.setMessage(e.getMessage());

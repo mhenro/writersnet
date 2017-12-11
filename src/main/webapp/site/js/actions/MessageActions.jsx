@@ -18,3 +18,11 @@ export const addMessageToGroup = (userId, groupId, recipientId, text, token) => 
     };
     return doFetch(getHost() + '/messages/add', messageRequest, token);
 };
+
+export const getGroupIdByRecipient = (recipientId, userId, token) => {
+    let messageRequest = {
+        creator: userId,
+        primaryRecipient: recipientId
+    };
+    return doFetch(getHost() + '/groups/get', messageRequest, token);
+};

@@ -96,6 +96,9 @@ public class JwtFilter extends GenericFilterBean {
         if (method.startsWith("/groups/") && "GET".equalsIgnoreCase(methodType)) {
             return true;
         }
+        if ("/groups/get".equals(method) && "POST".equalsIgnoreCase(methodType)) {
+            return true;
+        }
         if (method.startsWith("/series/") && "DELETE".equalsIgnoreCase(methodType)) {
             return true;
         }

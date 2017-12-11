@@ -1,5 +1,4 @@
 Current sprint:
-61. Add "Send message" logic to Friends page.
 62. Add counters to menus (like Friends (6)).
 
 
@@ -45,6 +44,7 @@ Features:
 63. Add "read news" button logic to friends page.
 64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
 65. Add test for ChatGroupResponse class constructor.
+66. Add paginagion by alphabet in authors and books pages.
 
 
 Bugs:
@@ -91,3 +91,4 @@ DONE - 49. Add adding friend mechanism.
 DONE - 60. Add "Add to friend" logic to Friends page.
 DONE - 52. Add messages page.
 DONE - 53. Add message exchange mechanism.
+DONE - 61. Add "Send message" logic to Friends page.

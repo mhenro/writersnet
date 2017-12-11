@@ -62,14 +62,38 @@ public class MessageService {
         return group.getId();
     }
 
-    private ChatGroup getChatGroup(final User author, final Long groupId, final User recipient) {
-        if (groupId != null) {
-            return author.getChatGroups().stream()
-                    .filter(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup().getId() == groupId)
-                    .map(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup())
-                    .findAny()
-                    .orElseThrow(() -> new ObjectNotFoundException("Chat group is not found"));
+    public ChatGroup getGroupByRecipient(final String recipientId, final String authorId) {
+        checkCredentials(authorId);
+        final User author = authorRepository.findOne(authorId);
+        if (author == null) {
+            throw new ObjectNotFoundException("Author of the message is not found");
         }
+        final User recipient = authorRepository.findOne(recipientId);
+        if (recipient == null) {
+            throw new ObjectNotFoundException("Recipient is not found");
+        }
+        return getGroupByRecipient(recipient, author);
+    }
+
+    public String getGroupName(final Long groupId, final String author) {
+        final ChatGroup group = chatGroupRepository.findOne(groupId);
+        if (group != null) {
+            String groupName = group.getName();
+            if (groupName != null) {
+                return groupName;
+            }
+            String recipientName = group.getPrimaryRecipient().getFullName();
+            if (!group.getPrimaryRecipient().getUsername().equals(author)) {
+                return recipientName;
+            } else {
+                return group.getCreator().getFullName();
+            }
+        }
+        return null;
+    }
+
+    private ChatGroup getGroupByRecipient(final User recipient, final User author) {
+        ChatGroup result = null;
         if (recipient != null) {
             ChatGroup group = recipient.getChatGroups().stream()
                     .filter(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup().getPrimaryRecipient().equals(recipient))
@@ -90,26 +114,24 @@ public class MessageService {
             final UserChatGroup recipientChatGroup = createUserChatGroup(recipient, group);
             recipient.getChatGroups().add(recipientChatGroup);
             userChatGroupRepository.save(recipientChatGroup);
+            result = group;
+        }
+        return result;
+    }
+
+    private ChatGroup getChatGroup(final User author, final Long groupId, final User recipient) {
+        if (groupId != null) {
+            return author.getChatGroups().stream()
+                    .filter(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup().getId() == groupId)
+                    .map(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup())
+                    .findAny()
+                    .orElseThrow(() -> new ObjectNotFoundException("Chat group is not found"));
+        }
+        ChatGroup group = getGroupByRecipient(recipient, author);
+        if (group != null) {
             return group;
         }
         throw new RuntimeException("Undefined behavior");
-    }
-
-    public String getGroupName(final Long groupId, final String author) {
-        final ChatGroup group = chatGroupRepository.findOne(groupId);
-        if (group != null) {
-            String groupName = group.getName();
-            if (groupName != null) {
-                return groupName;
-            }
-            String recipientName = group.getPrimaryRecipient().getFullName();
-            if (!group.getPrimaryRecipient().getUsername().equals(author)) {
-                return recipientName;
-            } else {
-                return group.getCreator().getFullName();
-            }
-        }
-        return null;
     }
 
     private UserChatGroup createUserChatGroup(final User user, final ChatGroup group) {

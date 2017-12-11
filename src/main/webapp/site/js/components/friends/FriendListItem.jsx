@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 /*
     props:
     - friend
-     - sendMsgButton - boolean
-     - addFriendButton - boolean
-     - readNewsButton - boolean
-     - removeFriendButton - boolean
-     - onAddToFriends - callback
-     - onRemoveSubscription - callback
+    - sendMsgButton - boolean
+    - addFriendButton - boolean
+    - readNewsButton - boolean
+    - removeFriendButton - boolean
+    - onAddToFriends - callback
+    - onRemoveSubscription - callback
+    - login
+    - token
+    - onGetGroupId - callback
  */
 class FriendListItem extends React.Component {
     static contextTypes = {
@@ -22,6 +25,24 @@ class FriendListItem extends React.Component {
         }).isRequired
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            groupId: null
+        };
+        ['setGroupId'].map(fn => this[fn] = this[fn].bind(this));
+    }
+
+    setGroupId(groupId) {
+        this.setState({
+            groupId: groupId
+        });
+    }
+
+    componentDidMount() {
+        this.props.onGetGroupId(this.props.friend.id, this.props.login, this.props.token, this.setGroupId);
+    }
+
     onAuthorClick() {
         this.context.router.history.push('/authors/' + this.props.friend.id);
     }
@@ -32,9 +53,13 @@ class FriendListItem extends React.Component {
         }
     }
 
+    onSendMessage() {
+        this.context.router.history.push('/chat/' + this.state.groupId);
+    }
+
     renderSendMsgButton() {
-        if (this.props.sendMsgButton) {
-            return <button className="btn btn-xs btn-success">Send message</button>;
+        if (this.props.sendMsgButton && this.state.groupId) {
+            return <button onClick={() => this.onSendMessage()} className="btn btn-xs btn-success">Send message</button>;
         }
     }
 
