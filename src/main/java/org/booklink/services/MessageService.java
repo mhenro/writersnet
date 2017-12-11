@@ -129,7 +129,7 @@ public class MessageService {
 
     private ChatGroup getGroupByRecipient(final User recipient, final User author) {
         ChatGroup result = null;
-        if (recipient != null) {
+        if (recipient != null && author.isFriendOf(recipient.getUsername())) {
             ChatGroup group = recipient.getChatGroups().stream()
                     .filter(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup().getPrimaryRecipient().equals(recipient))
                     .map(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup())
