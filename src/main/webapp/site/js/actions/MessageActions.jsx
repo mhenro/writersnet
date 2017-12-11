@@ -26,3 +26,28 @@ export const getGroupIdByRecipient = (recipientId, userId, token) => {
     };
     return doFetch(getHost() + '/groups/get', messageRequest, token);
 };
+
+export const getUnreadMessagesInGroup = (groupId, userId, token) => {
+    return doFetch(getHost() + 'groups/' + groupId + '/' + userId + '/messages/unread', null, token);
+};
+
+export const getUnreadMessagesFromUser = (userId, token) => {
+    return doFetch(getHost() + userId + '/messages/unread', null, token);
+};
+
+export const markAllAsReadInGroup = (groupId, userId, token) => {
+    let readMessageRequest = {
+        userId: userId,
+        groupId: groupId
+    };
+    return doFetch(getHost() + 'groups/messages/read', readMessageRequest, token);
+};
+
+export const SET_UNREAD_MESSAGES = 'SET_UNREAD_MESSAGES';
+
+export const setUnreadMessages = (unreadCount) => {
+    return {
+        type: SET_UNREAD_MESSAGES,
+        unreadCount
+    }
+};

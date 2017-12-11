@@ -29,7 +29,6 @@ public class ChatGroupResponse implements Serializable {
         final ChatGroup group = userChatGroup.getUserChatGroupPK().getGroup();
         final User primaryRecipient = group.getPrimaryRecipient();
         final List<Message> messages = group.getMessages();
-        final Message lastMessage = messages.stream().max(Comparator.comparing(Message::getCreated)).get();
 
         this.id = group.getId();
         this.creatorId = group.getCreator().getUsername();
@@ -41,9 +40,13 @@ public class ChatGroupResponse implements Serializable {
         final Set<String> recipientSet = messages.stream().map(msg -> msg.getCreatorFullName()).collect(Collectors.toSet());
         recipientSet.add(primaryRecipient.getFullName());
         this.recipients = recipientSet.stream().collect(Collectors.joining(", "));
-        this.lastMessageText = lastMessage.getMessage();
-        this.lastMessageAvatar = lastMessage.getCreator().getAvatar();
-        this.lastMessageDate = lastMessage.getCreated();
+
+        if (!messages.isEmpty()) {
+            final Message lastMessage = messages.stream().max(Comparator.comparing(Message::getCreated)).get();
+            this.lastMessageText = lastMessage.getMessage();
+            this.lastMessageAvatar = lastMessage.getCreator().getAvatar();
+            this.lastMessageDate = lastMessage.getCreated();
+        }
     }
 
     public long getId() {

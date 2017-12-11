@@ -44,7 +44,7 @@ class MainPage extends React.Component {
     renderMainMenu() {
         if (this.props.registered) {
             return (
-                <MainMenu login={this.props.login}/>
+                <MainMenu login={this.props.login} unreadMessages={this.props.unreadMessages}/>
             )
         }
         return null;
@@ -86,7 +86,8 @@ class MainPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         registered: state.GlobalReducer.registered,
-        login: state.GlobalReducer.user.login
+        login: state.GlobalReducer.user.login,
+        unreadMessages: state.GlobalReducer.unreadMessages
     }
 };
 

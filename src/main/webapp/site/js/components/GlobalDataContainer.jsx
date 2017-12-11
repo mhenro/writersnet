@@ -7,8 +7,17 @@ import {
     setLogin
 } from '../actions/AuthActions.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
+import {
+    getUnreadMessagesFromUser,
+    setUnreadMessages
+} from '../actions/MessageActions.jsx';
 
 class GlobalDataContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        ['onSetUnreadMessages'].map(fn => this[fn] = this[fn].bind(this));
+    }
+
     componentDidMount() {
         /* activating new user if needed */
         let query = getQueryParams(document.location.search);
@@ -27,6 +36,16 @@ class GlobalDataContainer extends React.Component {
                 this.props.onSetLogin(username);
             }
         }
+
+        this.getUnreadMessagesTimer = setInterval(() => {
+            if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
+                this.props.onGetUnreadMessages(this.props.login, this.props.token, this.onSetUnreadMessages);
+            }
+        }, 5000);
+    }
+
+    onSetUnreadMessages(unreadCount) {
+        this.props.onSetUnreadMessages(unreadCount);
     }
 
     render() {
@@ -68,6 +87,23 @@ const mapDispatchToProps = (dispatch) => {
 
         onSetLogin: (login) => {
             dispatch(setLogin(login));
+        },
+
+        onGetUnreadMessages: (userId, token, callback) => {
+            return getUnreadMessagesFromUser(userId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onSetUnreadMessages: (unreadCount) => {
+            dispatch(setUnreadMessages(unreadCount));
         }
     }
 };

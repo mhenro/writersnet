@@ -7,6 +7,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.MessageRequest;
+import org.booklink.models.request_models.ReadMessageRequest;
 import org.booklink.repositories.MessageRepository;
 import org.booklink.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,8 +89,60 @@ public class MessageController {
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "{userId}/messages/unread", method = RequestMethod.GET)
+    public ResponseEntity<?> getUnreadMessagesFromUser(@PathVariable final String userId) {
+        try {
+            Response<Long> response = new Response<>();
+            response.setCode(0);
+            response.setMessage(messageService.getUnreadMessagesFromUser(userId));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            Response<String> response = new Response<>();
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "groups/{groupId}/{userId}/messages/unread", method = RequestMethod.GET)
+    public ResponseEntity<?> getUnreadMessagesInGroup(@PathVariable final Long groupId, @PathVariable final String userId) {
+        try {
+            Response<Long> response = new Response<>();
+            response.setCode(0);
+            response.setMessage(messageService.getUnreadMessagesInGroup(userId, groupId));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            Response<String> response = new Response<>();
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "groups/messages/read", method = RequestMethod.POST)
+    public ResponseEntity<?> markAllAsReadInGroup(@RequestBody ReadMessageRequest readMessageRequest) {
+        Response<String> response = new Response<>();
+        try {
+            messageService.markAsReadInGroup(readMessageRequest.getUserId(), readMessageRequest.getGroupId());
+            response.setCode(0);
+            response.setMessage("All messages are read");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

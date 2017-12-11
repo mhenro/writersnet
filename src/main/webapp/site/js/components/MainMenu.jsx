@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 /*
     props:
     - login - user id
+    - unreadMessages - count of unread messages
  */
 class MainMenu extends React.Component {
     constructor(props) {
@@ -11,7 +12,6 @@ class MainMenu extends React.Component {
 
         this.state = {
             activeItem: 'My page',
-            unreadMessages: 0,
             newFriends: 0
         };
 
@@ -29,7 +29,10 @@ class MainMenu extends React.Component {
     }
 
     getMessagesCaption() {
-        return <span>Messages <span className="badge">{this.state.unreadMessages}</span></span>
+        if (this.props.unreadMessages > 0) {
+            return <span>Messages <span className="badge">{this.props.unreadMessages}</span></span>
+        }
+        return <span>Messages</span>;
     }
 
     getFriendsCaption() {

@@ -16,6 +16,7 @@ public class Message {
     private String message;
     private Date created;
     private ChatGroup group;
+    private Boolean unread;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +66,14 @@ public class Message {
 
     public void setGroup(ChatGroup group) {
         this.group = group;
+    }
+
+    public Boolean getUnread() {
+        return unread;
+    }
+
+    public void setUnread(Boolean unread) {
+        this.unread = unread;
     }
 
     /* --------------------------------------------business logic-------------------------------------------- */

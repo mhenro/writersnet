@@ -19,6 +19,10 @@ import {
     SET_TOKEN,
 } from '../actions/AuthActions.jsx';
 
+import {
+    SET_UNREAD_MESSAGES
+} from '../actions/MessageActions.jsx';
+
 const initialState = {
     registered: false,
     token: '',
@@ -35,7 +39,8 @@ const initialState = {
     loginFormRegister: true,
     editableBook: null,
     alerts: [],
-    goToComments: false
+    goToComments: false,
+    unreadMessages: 0
 };
 
 const GlobalReducer = (state = initialState, action) => {
@@ -124,6 +129,9 @@ const GlobalReducer = (state = initialState, action) => {
 
         case GO_TO_COMMENTS:
             return Object.assign({}, state, {goToComments: action.goToComments});
+
+        case SET_UNREAD_MESSAGES:
+            return Object.assign({}, state, {unreadMessages: action.unreadCount});
     }
     return state;
 };

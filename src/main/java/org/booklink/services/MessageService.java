@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by mhenr on 07.12.2017.
@@ -58,6 +59,7 @@ public class MessageService {
         message.setMessage(text);
         message.setCreated(new Date());
         message.setGroup(group);
+        message.setUnread(true);
         messageRepository.save(message);
         return group.getId();
     }
@@ -90,6 +92,39 @@ public class MessageService {
             }
         }
         return null;
+    }
+
+    public long getUnreadMessagesInGroup(final String userId, final Long groupId) {
+        final ChatGroup group = chatGroupRepository.findOne(groupId);
+        if (group == null) {
+            throw new ObjectNotFoundException("Chat group is not found");
+        }
+        return group.getMessages().parallelStream()
+                .filter(message -> !message.getCreator().getUsername().equals(userId))
+                .filter(message -> message.getUnread())
+                .count();
+    }
+
+    public long getUnreadMessagesFromUser(final String userId) {
+        final List<ChatGroup> groups = userChatGroupRepository.findAllByUserId(userId);
+        return groups.stream()
+                .flatMap(group -> group.getMessages().stream())
+                .filter(message -> !message.getCreator().getUsername().equals(userId))
+                .filter(message -> message.getUnread())
+                .count();
+    }
+
+    public void markAsReadInGroup(final String userId, final Long groupId) {
+        final ChatGroup group = chatGroupRepository.findOne(groupId);
+        if (group == null) {
+            throw new ObjectNotFoundException("Chat group is not found");
+        }
+        group.getMessages().parallelStream()
+                .filter(message -> !message.getCreator().getUsername().equals(userId))
+                .forEach(message -> {
+                    message.setUnread(false);
+                    messageRepository.save(message);
+                });
     }
 
     private ChatGroup getGroupByRecipient(final User recipient, final User author) {

@@ -6,7 +6,8 @@ import MessageList from '../components/chat/MessageList.jsx';
 import {
     getGroupName,
     getMessagesByGroup,
-    addMessageToGroup
+    addMessageToGroup,
+    markAllAsReadInGroup
 } from '../actions/MessageActions.jsx';
 
 import {
@@ -32,6 +33,7 @@ class ChatPage extends React.Component {
             if (this.props.login && this.props.token) {
                 this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, this.state.activePage, this.updateMessages);
                 this.props.onGetGroupName(this.props.match.params.groupId, this.props.login, this.props.token, this.setGroupName);
+                this.props.onMarkAllAsReadInGroup(this.props.match.params.groupId, this.props.login, this.props.token);
             }
         }, 500);
         this.timer = setInterval(() => {
@@ -186,6 +188,16 @@ const mapDispatchToProps = (dispatch) => {
                     callback(json.message);
                 }
                 else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onMarkAllAsReadInGroup: (groupId, userId, token) => {
+            return markAllAsReadInGroup(groupId, userId, token).then(([response, json]) => {
+                if (response.status !== 200) {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
             }).catch(error => {
