@@ -64,9 +64,10 @@ class FriendListItem extends React.Component {
     }
 
     renderReadNewsButton() {
-        if (this.props.readNewsButton) {
+        return null;
+        /*if (this.props.readNewsButton) {
             return <button className="btn btn-xs btn-success">Read news</button>;
-        }
+        }*/
     }
 
     renderRemoveFriendButton() {

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ChatGroupListItem from './ChatGroupListItem.jsx';
 
 /*
@@ -8,6 +7,12 @@ import ChatGroupListItem from './ChatGroupListItem.jsx';
     - author
  */
 class ChatGroupList extends React.Component {
+    getSortedChatGroups() {
+        return this.props.groups.sort((a, b) => {
+            return b.lastMessageDate - a.lastMessageDate;
+        });
+    }
+
     renderChatGroups() {
         if (this.props.groups.length === 0) {
             return (
@@ -22,7 +27,7 @@ class ChatGroupList extends React.Component {
                 </div>
             )
         }
-        return this.props.groups.map((group, key) => {
+        return this.getSortedChatGroups().map((group, key) => {
                 return (
                     <ChatGroupListItem group={group} author={this.props.author} key={key}/>
                 )

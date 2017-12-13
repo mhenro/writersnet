@@ -61,6 +61,9 @@ class ChatPage extends React.Component {
             activePage: firstUpdate ? page.totalPages : page.number + 1,
             firstUpdate: false
         });
+        if (firstUpdate) {
+            window.scrollTo(0, screen.availHeight);
+        }
     }
 
     pageSelect(page) {

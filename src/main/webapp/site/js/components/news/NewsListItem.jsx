@@ -15,6 +15,10 @@ class NewsListItem extends React.Component {
         return <Link to={'/authors/' + this.props.news.authorId}>{this.props.news.authorFullName}</Link>;
     }
 
+    getFriendName() {
+        return <Link to={'/authors/' + this.props.news.subscriptionId}>{this.props.news.subscriptionFullName}</Link>;
+    }
+
     getBookName() {
         return <Link to={'/reader/' + this.props.news.bookId}>{this.props.news.bookName}</Link>;
     }
@@ -32,9 +36,36 @@ class NewsListItem extends React.Component {
         )
     }
 
+    getNewCommentNews(news) {
+        return (
+            <div>
+                {this.getSubscriptionName()} left a comment in the {this.getBookName()}
+            </div>
+        )
+    }
+
+    getUpdatePersonalInfoNews(news) {
+        return (
+            <div>
+                {this.getSubscriptionName()} updated his personal info.
+            </div>
+        )
+    }
+
+    getAddFriendNews(news) {
+        return (
+            <div>
+                {this.getSubscriptionName()} added {this.getFriendName()} to the subscriptions.
+            </div>
+        )
+    }
+
     getNewsText() {
         switch (this.props.news.type) {
             case 1: return this.getBookUpdatedNews(this.props.news); break;
+            case 3: return this.getNewCommentNews(this.props.news); break;
+            case 4: return this.getUpdatePersonalInfoNews(this.props.news); break;
+            case 8: return this.getAddFriendNews(this.props.news); break;
         }
     }
 

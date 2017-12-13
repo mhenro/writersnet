@@ -2,8 +2,6 @@ Current sprint:
 
 
 Features:
-67. Add other news for news page (create book, update personal info etc).
-63. Add "read news" button logic to friends page.
 26. Add Main page to the site. Something like summary of ratings and recently general news.
 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
 2. Add changing password functional to Options page.
@@ -96,3 +94,5 @@ DONE - 59. Add search logic to Friends page.
 DONE - 59. Add search logic to Messages page.
 DONE - 50. Add news page.
 DONE - 51. Add news content generator mechanism.
+DONE - 67. Add other news for news page (create book, update personal info etc).
+DONE - 63. Add "read news" button logic to friends page.

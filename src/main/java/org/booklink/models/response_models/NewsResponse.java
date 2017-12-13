@@ -1,9 +1,11 @@
 package org.booklink.models.response_models;
 
 import org.booklink.models.entities.Book;
+import org.booklink.models.entities.News;
 import org.booklink.models.entities.User;
 
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Created by mhenr on 13.12.2017.
@@ -17,16 +19,20 @@ public class NewsResponse {
     private Long bookId;
     private String bookName;
     private Date created;
+    private String subscriptionId;
+    private String subscriptionFullName;
 
-    public NewsResponse(final Long id, final Long type, final User author, final Book book, final Date created) {
-        this.id = id;
-        this.type = type;
-        this.authorId = author.getUsername();
-        this.authorFullName = author.getFullName();
-        this.authorAvatar = author.getAvatar();
-        this.bookId = book.getId();
-        this.bookName = book.getName();
-        this.created = created;
+    public NewsResponse(final News news) {
+        this.id = news.getId();
+        this.type = news.getType();
+        this.authorId = news.getAuthor().getUsername();
+        this.authorFullName = news.getAuthor().getFullName();
+        this.authorAvatar = news.getAuthor().getAvatar();
+        this.bookId = Optional.ofNullable(news.getBook()).map(Book::getId).orElse(null);
+        this.bookName = Optional.ofNullable(news.getBook()).map(Book::getName).orElse(null);
+        this.created = news.getCreated();
+        this.subscriptionId = Optional.ofNullable(news.getSubscription()).map(User::getUsername).orElse(null);
+        this.subscriptionFullName = Optional.ofNullable(news.getSubscription()).map(User::getFullName).orElse(null);
     }
 
     public Long getId() {
@@ -91,5 +97,21 @@ public class NewsResponse {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
+
+    public String getSubscriptionFullName() {
+        return subscriptionFullName;
+    }
+
+    public void setSubscriptionFullName(String subscriptionFullName) {
+        this.subscriptionFullName = subscriptionFullName;
     }
 }

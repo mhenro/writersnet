@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactStars from 'react-stars';
-//import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
     getBookDetails,
@@ -23,16 +22,6 @@ import UserComments from '../components/UserComments.jsx';
     - book
  */
 class BookReader extends React.Component {
-    /*static contextTypes = {
-        router: PropTypes.shape({
-            history: PropTypes.shape({
-                push: PropTypes.func.isRequired,
-                replace: PropTypes.func.isRequired
-            }).isRequired,
-            staticContext: PropTypes.object
-        }).isRequired
-    };*/
-
     constructor(props) {
         super(props);
 

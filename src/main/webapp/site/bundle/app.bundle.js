@@ -76602,8 +76602,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-//import PropTypes from 'prop-types';
-
 
 /*
     props:
@@ -76611,16 +76609,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  */
 var BookReader = function (_React$Component) {
     _inherits(BookReader, _React$Component);
-
-    /*static contextTypes = {
-        router: PropTypes.shape({
-            history: PropTypes.shape({
-                push: PropTypes.func.isRequired,
-                replace: PropTypes.func.isRequired
-            }).isRequired,
-            staticContext: PropTypes.object
-        }).isRequired
-    };*/
 
     function BookReader(props) {
         _classCallCheck(this, BookReader);
@@ -85739,13 +85727,10 @@ var FriendListItem = function (_React$Component) {
     }, {
         key: 'renderReadNewsButton',
         value: function renderReadNewsButton() {
-            if (this.props.readNewsButton) {
-                return _react2.default.createElement(
-                    'button',
-                    { className: 'btn btn-xs btn-success' },
-                    'Read news'
-                );
-            }
+            return null;
+            /*if (this.props.readNewsButton) {
+                return <button className="btn btn-xs btn-success">Read news</button>;
+            }*/
         }
     }, {
         key: 'renderRemoveFriendButton',
@@ -86114,6 +86099,13 @@ var ChatGroupList = function (_React$Component) {
     }
 
     _createClass(ChatGroupList, [{
+        key: 'getSortedChatGroups',
+        value: function getSortedChatGroups() {
+            return this.props.groups.sort(function (a, b) {
+                return b.lastMessageDate - a.lastMessageDate;
+            });
+        }
+    }, {
         key: 'renderChatGroups',
         value: function renderChatGroups() {
             var _this2 = this;
@@ -86135,7 +86127,7 @@ var ChatGroupList = function (_React$Component) {
                     _react2.default.createElement('br', null)
                 );
             }
-            return this.props.groups.map(function (group, key) {
+            return this.getSortedChatGroups().map(function (group, key) {
                 return _react2.default.createElement(_ChatGroupListItem2.default, { group: group, author: _this2.props.author, key: key });
             });
         }
@@ -86689,6 +86681,9 @@ var ChatPage = function (_React$Component) {
                 activePage: firstUpdate ? page.totalPages : page.number + 1,
                 firstUpdate: false
             });
+            if (firstUpdate) {
+                window.scrollTo(0, screen.availHeight);
+            }
         }
     }, {
         key: 'pageSelect',
@@ -87354,6 +87349,15 @@ var NewsListItem = function (_React$Component) {
             );
         }
     }, {
+        key: 'getFriendName',
+        value: function getFriendName() {
+            return _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/authors/' + this.props.news.subscriptionId },
+                this.props.news.subscriptionFullName
+            );
+        }
+    }, {
         key: 'getBookName',
         value: function getBookName() {
             return _react2.default.createElement(
@@ -87380,11 +87384,50 @@ var NewsListItem = function (_React$Component) {
             );
         }
     }, {
+        key: 'getNewCommentNews',
+        value: function getNewCommentNews(news) {
+            return _react2.default.createElement(
+                'div',
+                null,
+                this.getSubscriptionName(),
+                ' left a comment in the ',
+                this.getBookName()
+            );
+        }
+    }, {
+        key: 'getUpdatePersonalInfoNews',
+        value: function getUpdatePersonalInfoNews(news) {
+            return _react2.default.createElement(
+                'div',
+                null,
+                this.getSubscriptionName(),
+                ' updated his personal info.'
+            );
+        }
+    }, {
+        key: 'getAddFriendNews',
+        value: function getAddFriendNews(news) {
+            return _react2.default.createElement(
+                'div',
+                null,
+                this.getSubscriptionName(),
+                ' added ',
+                this.getFriendName(),
+                ' to the subscriptions.'
+            );
+        }
+    }, {
         key: 'getNewsText',
         value: function getNewsText() {
             switch (this.props.news.type) {
                 case 1:
                     return this.getBookUpdatedNews(this.props.news);break;
+                case 3:
+                    return this.getNewCommentNews(this.props.news);break;
+                case 4:
+                    return this.getUpdatePersonalInfoNews(this.props.news);break;
+                case 8:
+                    return this.getAddFriendNews(this.props.news);break;
             }
         }
     }, {

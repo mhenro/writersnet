@@ -40,12 +40,14 @@ public class AuthorService {
     private Environment env;
     private AuthorRepository authorRepository;
     private FriendshipRepository friendshipRepository;
+    private NewsService newsService;
 
     @Autowired
-    public AuthorService(final Environment env, final AuthorRepository authorRepository, final FriendshipRepository friendshipRepository) {
+    public AuthorService(final Environment env, final AuthorRepository authorRepository, final FriendshipRepository friendshipRepository, final NewsService newsService) {
         this.env = env;
         this.authorRepository = authorRepository;
         this.friendshipRepository = friendshipRepository;
+        this.newsService = newsService;
     }
 
     public Page<User> getAuthors(final Pageable pageable) {
@@ -108,6 +110,7 @@ public class AuthorService {
             user.getSection().setDescription(author.getSectionDescription());
         }
         authorRepository.save(user);
+        newsService.createNews(NewsService.NEWS_TYPE.PERSONAL_INFO_UPDATED, user);
     }
 
     public void saveAvatar(final AvatarRequest avatarRequest) throws IOException{
@@ -132,6 +135,7 @@ public class AuthorService {
         String avatarLink = env.getProperty("writersnet.avatarwebstorage.path") + originalName;
         author.setAvatar(avatarLink);
         authorRepository.save(author);
+        newsService.createNews(NewsService.NEWS_TYPE.PERSONAL_INFO_UPDATED, author);
     }
 
     public Response<String> subscribeOnUser(final String subscriptionId) {
@@ -163,6 +167,8 @@ public class AuthorService {
         } else if (user.isSubscriberOf(subscriptionId)) {
             response.setMessage("You has added " + subscriptionUser.getFullName() + " to your subscriptions");
         }
+
+        newsService.createNews(NewsService.NEWS_TYPE.FRIEND_ADDED, user, subscriptionUser);
 
         return response;
     }

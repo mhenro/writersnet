@@ -57,6 +57,23 @@ public class NewsService {
         newsRepository.save(news);
     }
 
+    public void createNews(final NEWS_TYPE type, final User author, final User subscription) {
+        final News news = new News();
+        news.setType(type.getType());
+        news.setAuthor(author);
+        news.setSubscription(subscription);
+        news.setCreated(new Date());
+        newsRepository.save(news);
+    }
+
+    public void createNews(final NEWS_TYPE type, final User author) {
+        final News news = new News();
+        news.setType(type.getType());
+        news.setAuthor(author);
+        news.setCreated(new Date());
+        newsRepository.save(news);
+    }
+
     public Page<NewsResponse> getNews(final Pageable pageable) {
         return newsRepository.findAllNews(getCurrentUser(), pageable);
     }

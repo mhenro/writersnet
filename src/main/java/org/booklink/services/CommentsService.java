@@ -28,16 +28,19 @@ public class CommentsService {
     private BookCommentsRepository bookCommentsRepository;
     private BookRepository bookRepository;
     private AuthorRepository authorRepository;
+    private NewsService newsService;
 
     @Autowired
     public CommentsService(final Environment env,
                            final BookCommentsRepository bookCommentsRepository,
                            final BookRepository bookRepository,
-                           final AuthorRepository authorRepository) {
+                           final AuthorRepository authorRepository,
+                           final NewsService newsService) {
         this.env = env;
         this.bookCommentsRepository = bookCommentsRepository;
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+        this.newsService = newsService;
     }
 
     public Page<BookComments> getComments(final Long bookId, final Pageable pageable) {
@@ -60,6 +63,7 @@ public class CommentsService {
                 throw new ObjectNotFoundException("Author was not found");
             }
             entity.setUser(user);
+            newsService.createNews(NewsService.NEWS_TYPE.COMMENT, user, book);
         }
         entity.setBook(book);
         entity.setComment(bookComment.getComment());

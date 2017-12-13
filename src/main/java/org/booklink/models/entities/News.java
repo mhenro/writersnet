@@ -23,6 +23,7 @@ public class News {
     private User author;
     private Book book;
     private Date created;
+    private User subscription;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,5 +71,15 @@ public class News {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "subscription_id")
+    public User getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(User subscription) {
+        this.subscription = subscription;
     }
 }

@@ -47,9 +47,11 @@ public class CommentsServiceClass {
         private BookRepository bookRepository;
         @MockBean
         private AuthorRepository authorRepository;
+        @MockBean
+        private NewsService newsService;
         @Bean
         public CommentsService commentsService() {
-            return new CommentsService(env, bookCommentsRepository, bookRepository, authorRepository);
+            return new CommentsService(env, bookCommentsRepository, bookRepository, authorRepository, newsService);
         }
     }
 
