@@ -1,5 +1,6 @@
 Current sprint:
-
+45. Add filters to Books page.
+IN PROGRESS - 66. Add paginagion by alphabet in authors and books pages.
 
 Features:
 26. Add Main page to the site. Something like summary of ratings and recently general news.
@@ -28,8 +29,6 @@ Features:
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
-45. Add filters to Books page.
-66. Add paginagion by alphabet in authors and books pages.
 46. Add filters to Authors page.
 47. Add text to the user policy component.
 29. Support full localization mechanism.

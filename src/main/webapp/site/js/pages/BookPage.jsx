@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import BookBriefList from '../components/books/BookBriefList.jsx';
 import { Pagination } from 'react-bootstrap';
 
+import AlphabetPagination from '../components/AlphabetPagination.jsx';
+
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
@@ -40,19 +42,27 @@ class BookPage extends React.Component {
     render() {
         return (
             <div>
-                <Pagination
-                    className={'shown'}
-                    prev
-                    next
-                    first
-                    last
-                    ellipsis
-                    boundaryLinks
-                    items={this.state.totalPages}
-                    maxButtons={3}
-                    activePage={this.state.currentPage}
-                    onSelect={this.handleSelect}/>
-                <BookBriefList books={this.props.books} language={this.props.language}/>
+                <div className="col-sm-12">
+                    <Pagination
+                        className={'shown'}
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.state.totalPages}
+                        maxButtons={3}
+                        activePage={this.state.currentPage}
+                        onSelect={this.handleSelect}/>
+                </div>
+                <div className="col-sm-12">
+                    <AlphabetPagination/>
+                    <br/>
+                </div>
+                <div className="col-sm-12">
+                    <BookBriefList books={this.props.books} language={this.props.language}/>
+                </div>
             </div>
         )
     }
