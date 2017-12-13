@@ -64467,6 +64467,11 @@ var NavBar = function (_React$Component) {
                         { className: 'nav navbar-nav' },
                         _react2.default.createElement(
                             'li',
+                            null,
+                            _react2.default.createElement('img', { src: 'https://localhost/css/images/writersnets.png', className: 'clickable', width: 'auto', height: '50' })
+                        ),
+                        _react2.default.createElement(
+                            'li',
                             { className: this.getActiveItem('books') },
                             _react2.default.createElement(
                                 _reactRouterDom.Link,

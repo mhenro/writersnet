@@ -42,6 +42,7 @@ class NavBar extends React.Component {
             <nav className="navbar navbar-inverse">
                 <div className="container container-fluid">
                     <ul className="nav navbar-nav">
+                        <li><img src="https://localhost/css/images/writersnets.png" className="clickable" width="auto" height="50"/></li>
                         <li className={this.getActiveItem('books')}><Link to="/books" onClick={() => this.onItemClick('books')}>Books</Link></li>
                         <li className={this.getActiveItem('authors')}><Link to="/authors" onClick={() => this.onItemClick('authors')}>Authors</Link></li>
                         <li className={this.getActiveItem('ratings')}><Link to="/ratings" onClick={() => this.onItemClick('ratings')}>Ratings</Link></li>
