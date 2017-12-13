@@ -20,6 +20,7 @@ import RatingPage from '../pages/RatingPage.jsx';
 import FriendsPage from '../pages/FriendsPage.jsx';
 import MessagesPage from '../pages/MessagesPage.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
+import NewsPage from '../pages/NewsPage.jsx';
 import ScrollToTopButton from '../components/ScrollToTopButton.jsx';
 
 class MainPage extends React.Component {
@@ -44,7 +45,7 @@ class MainPage extends React.Component {
     renderMainMenu() {
         if (this.props.registered) {
             return (
-                <MainMenu login={this.props.login} unreadMessages={this.props.unreadMessages}/>
+                <MainMenu login={this.props.login} unreadMessages={this.props.unreadMessages} newFriends={this.props.newFriends}/>
             )
         }
         return null;
@@ -67,6 +68,7 @@ class MainPage extends React.Component {
                                 <Route exact path="/ratings" component={RatingPage}/>
                                 <Route exact path="/reader/:bookId" component={BookReader}/>
                                 <Route exact path="/options" component={this.props.registered ? OptionsPage : BookPage}/>
+                                <Route exact path="/news" component={NewsPage}/>
                                 <Route exact path="/friends" component={FriendsPage}/>
                                 <Route exact path="/messages" component={MessagesPage}/>
                                 <Route exact path="/chat/:groupId" component={ChatPage}/>
@@ -87,7 +89,8 @@ const mapStateToProps = (state) => {
     return {
         registered: state.GlobalReducer.registered,
         login: state.GlobalReducer.user.login,
-        unreadMessages: state.GlobalReducer.unreadMessages
+        unreadMessages: state.GlobalReducer.unreadMessages,
+        newFriends: state.GlobalReducer.newFriends
     }
 };
 

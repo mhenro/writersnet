@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactStars from 'react-stars';
+//import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
     getBookDetails,
     setBook,
@@ -21,6 +23,16 @@ import UserComments from '../components/UserComments.jsx';
     - book
  */
 class BookReader extends React.Component {
+    /*static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.shape({
+                push: PropTypes.func.isRequired,
+                replace: PropTypes.func.isRequired
+            }).isRequired,
+            staticContext: PropTypes.object
+        }).isRequired
+    };*/
+
     constructor(props) {
         super(props);
 
@@ -48,6 +60,10 @@ class BookReader extends React.Component {
         } else {
             window.scrollTo(0, 0);
         }
+    }
+
+    getAuthorName() {
+        return <Link className="section-name" to={'/authors/' + this.props.book.author.username}>{this.props.book.author.firstName + ' ' + this.props.book.author.lastName}</Link>
     }
 
     getAverageRating() {
@@ -103,10 +119,10 @@ class BookReader extends React.Component {
 
         return (
             <div className="col-sm-12">
-                <div className="col-sm-12 section-name" style={{textAlign: 'center'}}>
-                    {this.props.book.author.firstName + ' ' + this.props.book.author.lastName}
+                <div className="col-sm-12 section-name text-center">
+                    {this.getAuthorName()}
                 </div>
-                <div className="col-sm-12 section-author-name" style={{textAlign: 'center'}}>
+                <div className="col-sm-12 section-author-name text-center">
                     {this.props.book.name}
                 </div>
                 <div className="col-sm-12">

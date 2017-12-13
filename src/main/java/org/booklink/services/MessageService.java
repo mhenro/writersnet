@@ -130,28 +130,42 @@ public class MessageService {
     private ChatGroup getGroupByRecipient(final User recipient, final User author) {
         ChatGroup result = null;
         if (recipient != null && author.isFriendOf(recipient.getUsername())) {
-            ChatGroup group = recipient.getChatGroups().stream()
-                    .filter(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup().getPrimaryRecipient().equals(recipient))
-                    .map(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup())
-                    .findAny()
-                    .orElseGet(() -> null);
+            ChatGroup group = getChatGroupFromRecipient(recipient);
             if (group != null) {
                 return group;
             }
-            group = new ChatGroup();
-            group.setCreated(new Date());
-            group.setCreator(author);
-            group.setPrimaryRecipient(recipient);
-            chatGroupRepository.save(group);
-            final UserChatGroup userChatGroup = createUserChatGroup(author, group);
-            author.getChatGroups().add(userChatGroup);
-            userChatGroupRepository.save(userChatGroup);
-            final UserChatGroup recipientChatGroup = createUserChatGroup(recipient, group);
-            recipient.getChatGroups().add(recipientChatGroup);
-            userChatGroupRepository.save(recipientChatGroup);
+            group = getChatGroupFromRecipient(author);
+            if (group != null) {
+                return group;
+            }
+            group = createChatGroup(author, recipient);
             result = group;
         }
         return result;
+    }
+
+    private ChatGroup getChatGroupFromRecipient(final User recipient) {
+        return recipient.getChatGroups().stream()
+                .filter(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup().getPrimaryRecipient().equals(recipient))
+                .map(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup())
+                .findAny()
+                .orElseGet(() -> null);
+    }
+
+    private ChatGroup createChatGroup(final User author, final User recipient) {
+        ChatGroup group = new ChatGroup();
+        group.setCreated(new Date());
+        group.setCreator(author);
+        group.setPrimaryRecipient(recipient);
+        chatGroupRepository.save(group);
+        final UserChatGroup userChatGroup = createUserChatGroup(author, group);
+        author.getChatGroups().add(userChatGroup);
+        userChatGroupRepository.save(userChatGroup);
+        final UserChatGroup recipientChatGroup = createUserChatGroup(recipient, group);
+        recipient.getChatGroups().add(recipientChatGroup);
+        userChatGroupRepository.save(recipientChatGroup);
+
+        return group;
     }
 
     private ChatGroup getChatGroup(final User author, final Long groupId, final User recipient) {

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
     props:
     - login - user id
     - unreadMessages - count of unread messages
+    - newFriends - count of subscribers
  */
 class MainMenu extends React.Component {
     constructor(props) {
@@ -36,7 +37,10 @@ class MainMenu extends React.Component {
     }
 
     getFriendsCaption() {
-        return <span>Friends <span className="badge">{this.state.newFriends}</span></span>
+        if (this.props.newFriends > 0) {
+            return <span>Friends <span className="badge">{this.props.newFriends}</span></span>
+        }
+        return <span>Friends</span>
     }
 
     render() {

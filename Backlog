@@ -1,11 +1,9 @@
 Current sprint:
-62. Add counters to menus (like Friends (6)).
 
 
 Features:
-59. Add search logic to Friends page.
-50. Add news page.
-51. Add news content generator mechanism.
+67. Add other news for news page (create book, update personal info etc).
+63. Add "read news" button logic to friends page.
 26. Add Main page to the site. Something like summary of ratings and recently general news.
 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
 2. Add changing password functional to Options page.
@@ -25,33 +23,31 @@ Features:
                    - buy premium account;
                    - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
                    - buy additional stuff, such as pdf convertation of the book, some medals to show them on author section page and so on.
+44. Autoupdate jwt token when user is active.
 32. Refactor jpa entities.
 34. Create online/offline statuses for authors.
 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
-44. Autoupdate jwt token when user is active.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
 45. Add filters to Books page.
+66. Add paginagion by alphabet in authors and books pages.
 46. Add filters to Authors page.
 47. Add text to the user policy component.
 29. Support full localization mechanism.
 54. Add reviews page.
 55. Add discussions page.
 56. Add help page.
-57. Add or delete groups page.
-58. Add "return to author" button on reader page.
-63. Add "read news" button logic to friends page.
 64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
 65. Add test for ChatGroupResponse class constructor.
-66. Add paginagion by alphabet in authors and books pages.
+66. Mark as unread whole chat to determine where unread messages are placed.
+
 
 
 Bugs:
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
-25. Fix bug when deleting serie, which is used by some book. This leads to exception on serverside.
 65. Fix bug with big avatars in messages page on small screens.
 
 
@@ -92,4 +88,11 @@ DONE - 60. Add "Add to friend" logic to Friends page.
 DONE - 52. Add messages page.
 DONE - 53. Add message exchange mechanism.
 DONE - 61. Add "Send message" logic to Friends page.
-DONE - Added unread messages counter.
+DONE - 62. Add counters to menus (like Friends (6) and Messages(6)).
+DONE - 57. Add or delete groups page.
+DONE - 25. Fix bug when deleting serie, which is used by some book. This leads to exception on serverside.
+DONE - 58. Add "return to author" button on reader page.
+DONE - 59. Add search logic to Friends page.
+DONE - 59. Add search logic to Messages page.
+DONE - 50. Add news page.
+DONE - 51. Add news content generator mechanism.

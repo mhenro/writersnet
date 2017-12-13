@@ -108,6 +108,9 @@ public class JwtFilter extends GenericFilterBean {
         if ("/messages/add".equals(method) && "POST".equalsIgnoreCase(methodType)) {
             return true;
         }
+        if (method.startsWith("/news") && "GET".equalsIgnoreCase(methodType)) {
+            return true;
+        }
         return false;
     }
 }

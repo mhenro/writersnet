@@ -1,5 +1,5 @@
 import doFetch from './fetch';
-import {getHost} from '../utils.jsx';
+import { getHost } from '../utils.jsx';
 
 export const getAuthors = (page) => {
     return doFetch(getHost() + 'authors?page=' + page + '&size=20');
@@ -36,6 +36,8 @@ export const removeSubscription = (authorName, token) => {
 export const SET_AUTHORS = 'SET_AUTHORS';
 export const SET_AUTHOR = 'SET_AUTHOR';
 
+export const SET_NEW_FRIENDS = 'SET_NEW_FRIENDS';
+
 export const setAuthors = (authors) => {
     return {
         type: SET_AUTHORS,
@@ -47,5 +49,12 @@ export const setAuthor = (author) => {
     return {
         type: SET_AUTHOR,
         author
+    }
+};
+
+export const setNewFriends = (newFriends) => {
+    return {
+        type: SET_NEW_FRIENDS,
+        newFriends
     }
 };

@@ -74,7 +74,7 @@ class WriteMessageForm extends React.Component {
     }
 
     redirectToChat(groupId) {
-        this.context.router.history.push('/chat/' + groupId)
+        this.context.router.history.push('/chat/' + groupId);
     }
 
     onSend() {

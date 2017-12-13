@@ -20,9 +20,10 @@ class FriendsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: 'friends'    //requests
+            activeTab: 'friends',    //requests
+            searchPattern: ''
         };
-        ['onAddToFriends', 'onRemoveFriend'].map(fn => this[fn] = this[fn].bind(this));
+        ['onAddToFriends', 'onRemoveFriend', 'onSearchChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -47,6 +48,12 @@ class FriendsPage extends React.Component {
         });
     }
 
+    onSearchChange(event) {
+        this.setState({
+            searchPattern: event.target.value
+        });
+    }
+
     getFriendIds() {
         return this.props.author.subscribers
             .filter(subscriber => this.props.author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
@@ -56,6 +63,7 @@ class FriendsPage extends React.Component {
     getFriends() {
         return this.props.author.subscribers
             .filter(subscriber => this.props.author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
+            .filter(friend => (this.state.searchPattern !== '' ? friend.subscriptionFullName.toLowerCase().includes(this.state.searchPattern.toLowerCase()) : true))
             .map(friend => {
                 return {
                     date: friend.date,
@@ -73,6 +81,7 @@ class FriendsPage extends React.Component {
         return this.props.author.subscriptions
             .filter(subscription => subscription.subscriptionId === this.props.author.username)
             .filter(subscription => !friends.some(friend => friend === subscription.subscriberId))
+            .filter(subscriber => (this.state.searchPattern !== '' ? subscriber.subscriberFullName.toLowerCase().includes(this.state.searchPattern.toLowerCase()) : true))
             .map(subscriber => {
                 return {
                     date: subscriber.date,
@@ -90,6 +99,7 @@ class FriendsPage extends React.Component {
         return this.props.author.subscribers
             .filter(subscriber => subscriber.subscriberId === this.props.author.username)
             .filter(subscriber => !friends.some(friend => friend === subscriber.subscriptionId))
+            .filter(subscription => (this.state.searchPattern !== '' ? subscription.subscriptionFullName.toLowerCase().includes(this.state.searchPattern.toLowerCase()) : true))
             .map(subscription => {
                 return {
                     date: subscription.date,
@@ -194,7 +204,7 @@ class FriendsPage extends React.Component {
                 </ul>
                 <br/>
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Search" />
+                    <input value={this.state.searchPattern} onChange={this.onSearchChange} type="text" className="form-control" placeholder="Input friend name" />
                         <div className="input-group-btn">
                             <button className="btn btn-default" type="submit">
                                 <i className="glyphicon glyphicon-search"></i>

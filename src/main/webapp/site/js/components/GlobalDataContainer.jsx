@@ -11,11 +11,15 @@ import {
     getUnreadMessagesFromUser,
     setUnreadMessages
 } from '../actions/MessageActions.jsx';
+import {
+    getAuthorDetails,
+    setNewFriends
+} from '../actions/AuthorActions.jsx';
 
 class GlobalDataContainer extends React.Component {
     constructor(props) {
         super(props);
-        ['onSetUnreadMessages'].map(fn => this[fn] = this[fn].bind(this));
+        ['onSetUnreadMessages', 'getSubscribersCount'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -37,11 +41,25 @@ class GlobalDataContainer extends React.Component {
             }
         }
 
-        this.getUnreadMessagesTimer = setInterval(() => {
+        this.globalTimer = setInterval(() => {
             if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
                 this.props.onGetUnreadMessages(this.props.login, this.props.token, this.onSetUnreadMessages);
+                this.props.onGetAuthorDetails(this.props.login, this.getSubscribersCount);
             }
         }, 5000);
+    }
+
+    getFriendIds(author) {
+        return author.subscribers
+            .filter(subscriber => author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
+            .map(friend => friend.subscriptionId);
+    }
+
+    getSubscribersCount(author) {
+        let friends = this.getFriendIds(author);
+        return author.subscriptions
+            .filter(subscription => subscription.subscriptionId === author.username)
+            .filter(subscription => !friends.some(friend => friend === subscription.subscriberId)).length;
     }
 
     onSetUnreadMessages(unreadCount) {
@@ -94,6 +112,9 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
+                else if (response.status === 500 && json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
@@ -104,6 +125,20 @@ const mapDispatchToProps = (dispatch) => {
 
         onSetUnreadMessages: (unreadCount) => {
             dispatch(setUnreadMessages(unreadCount));
+        },
+
+        onGetAuthorDetails: (userId, getSubscribersCount) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    let friendsCount = getSubscribersCount(json);
+                    dispatch(setNewFriends(friendsCount));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
         }
     }
 };

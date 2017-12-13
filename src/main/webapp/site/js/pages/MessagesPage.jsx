@@ -22,9 +22,10 @@ class MessagesPage extends React.Component {
             chatGroups: [],
             activePage: 1,
             totalPages: 1,
-            firstUpdate: true
+            firstUpdate: true,
+            searchPattern: ''
         };
-        ['updateChatGroups', 'pageSelect'].map(fn => this[fn] = this[fn].bind(this));
+        ['updateChatGroups', 'pageSelect', 'onSearchChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -48,12 +49,12 @@ class MessagesPage extends React.Component {
 
     updateChatGroups(page) {
         let firstUpdate = this.state.firstUpdate;
-        this.setState({
-            chatGroups: page.content,
+        this.setState(oldState => ({
+            chatGroups: page.content.filter(group => (oldState.searchPattern ? group.primaryRecipientFullName.toLowerCase().includes(oldState.searchPattern.toLowerCase()) : true)),
             totalPages: page.totalPages,
             activePage: firstUpdate ? page.totalPages : page.number + 1,
             firstUpdate: false
-        });
+        }));
     }
 
     pageSelect(page) {
@@ -61,6 +62,12 @@ class MessagesPage extends React.Component {
             activePage: page
         });
         this.props.onGetAuthorChatGroups(this.props.login, this.props.token, page, this.updateChatGroups);
+    }
+
+    onSearchChange(event) {
+        this.setState({
+            searchPattern: event.target.value
+        });
     }
 
     onWriteMessage() {
@@ -87,7 +94,7 @@ class MessagesPage extends React.Component {
                 <div className="col-sm-12"></div>
                 <div className="col-sm-12">
                     <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Search" />
+                        <input type="text" value={this.state.searchPattern} onChange={this.onSearchChange} className="form-control" placeholder="Input chat name" />
                         <div className="input-group-btn">
                             <button className="btn btn-default" type="submit">
                                 <i className="glyphicon glyphicon-search"></i>

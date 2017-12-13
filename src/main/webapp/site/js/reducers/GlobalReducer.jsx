@@ -23,6 +23,10 @@ import {
     SET_UNREAD_MESSAGES
 } from '../actions/MessageActions.jsx';
 
+import {
+    SET_NEW_FRIENDS
+} from '../actions/AuthorActions.jsx';
+
 const initialState = {
     registered: false,
     token: '',
@@ -40,7 +44,8 @@ const initialState = {
     editableBook: null,
     alerts: [],
     goToComments: false,
-    unreadMessages: 0
+    unreadMessages: 0,
+    newFriends: 0
 };
 
 const GlobalReducer = (state = initialState, action) => {
@@ -132,6 +137,9 @@ const GlobalReducer = (state = initialState, action) => {
 
         case SET_UNREAD_MESSAGES:
             return Object.assign({}, state, {unreadMessages: action.unreadCount});
+
+        case SET_NEW_FRIENDS:
+            return Object.assign({}, state, {newFriends: action.newFriends});
     }
     return state;
 };

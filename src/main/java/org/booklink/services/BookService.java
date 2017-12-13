@@ -39,6 +39,7 @@ public class BookService {
     private BookTextRepository bookTextRepository;
     private SerieRepository serieRepository;
     private AuthorRepository authorRepository;
+    private NewsService newsService;
 
     @Autowired
     public BookService(final Environment env,
@@ -46,13 +47,15 @@ public class BookService {
                        final BookCommentsRepository bookCommentsRepository,
                        final BookTextRepository bookTextRepository,
                        final SerieRepository serieRepository,
-                       final AuthorRepository authorRepository) {
+                       final AuthorRepository authorRepository,
+                       final NewsService newsService) {
         this.env = env;
         this.bookRepository = bookRepository;
         this.bookCommentsRepository = bookCommentsRepository;
         this.bookTextRepository = bookTextRepository;
         this.serieRepository = serieRepository;
         this.authorRepository = authorRepository;
+        this.newsService = newsService;
     }
 
     public Page<Book> getBooks(final Pageable pageable) {
@@ -127,6 +130,7 @@ public class BookService {
             User user = updateDateInUserSection(book.getAuthorName());
             if (user != null) {
                 savedBook.setAuthor(user);
+                newsService.createNews(NewsService.NEWS_TYPE.BOOK_UPDATED, user, savedBook);
             }
         }
         bookRepository.save(savedBook);
@@ -185,6 +189,7 @@ public class BookService {
         }
         checkCredentials(book.getAuthor().getUsername());   //only owner can delete his book
         removeAllComments(book);
+        newsService.createNews(NewsService.NEWS_TYPE.BOOK_DELETED, book.getAuthor(), book);
         bookRepository.delete(bookId);
         updateDateInUserSection(book.getAuthor().getUsername());
     }
