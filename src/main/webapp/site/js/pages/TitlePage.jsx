@@ -19,18 +19,18 @@ class TitlePage extends React.Component {
         let settings = {
             dots: true,
             vertical: true,
+            adaptiveHeight: true,
             infinite: false
         };
         return (
             <div onWheel={(e) => this.wheel(e)}>
                     TITLE
                 <Slider {...settings} ref={(s) => this.slider = s}>
-                    <div><h3>1</h3></div>
-                    <div><h3>2</h3></div>
-                    <div><h3>3</h3></div>
-                    <div><h3>4</h3></div>
-                    <div><h3>5</h3></div>
-                    <div><h3>6</h3></div>
+                    <div><h3>WritersNets.com is a simple</h3>You can easily create your account and start to add your novels! We show you how it simple in the next screens.</div>
+                    <div><h3>WritersNets.com is a simple</h3>You can easily create your account and start to add your novels! We show you how it simple in the next screens.</div>
+                    <div><h3>WritersNets.com is a simple</h3>You can easily create your account and start to add your novels! We show you how it simple in the next screens.</div>
+                    <div><h3>WritersNets.com is a simple</h3>You can easily create your account and start to add your novels! We show you how it simple in the next screens.</div>
+                    <div><h3>WritersNets.com is a simple</h3>You can easily create your account and start to add your novels! We show you how it simple in the next screens.</div>
                 </Slider>
             </div>
         )

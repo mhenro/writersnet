@@ -134,14 +134,17 @@ public class BookService {
         } else {
             savedBook.setBookSerie(null);
         }
+        User user = null;
         if (book.getAuthorName() != null) {
-            User user = updateDateInUserSection(book.getAuthorName());
+            user = updateDateInUserSection(book.getAuthorName());
             if (user != null) {
                 savedBook.setAuthor(user);
-                newsService.createNews(NewsService.NEWS_TYPE.BOOK_UPDATED, user, savedBook);
             }
         }
         bookRepository.save(savedBook);
+        if (user != null) {
+            newsService.createNews(NewsService.NEWS_TYPE.BOOK_UPDATED, user, savedBook);
+        }
 
         return savedBook.getId();
     }

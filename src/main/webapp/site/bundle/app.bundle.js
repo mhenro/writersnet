@@ -65886,7 +65886,6 @@ var TitlePage = function (_React$Component) {
     }, {
         key: 'wheel',
         value: function wheel(e) {
-            console.log(e.deltaX);
             var delta = e.deltaY;
             if (delta > 0) {
                 this.slider.slickNext();
@@ -65902,6 +65901,7 @@ var TitlePage = function (_React$Component) {
             var settings = {
                 dots: true,
                 vertical: true,
+                adaptiveHeight: true,
                 infinite: false
             };
             return _react2.default.createElement(
@@ -65921,8 +65921,9 @@ var TitlePage = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            '1'
-                        )
+                            'WritersNets.com is a simple'
+                        ),
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
                     ),
                     _react2.default.createElement(
                         'div',
@@ -65930,8 +65931,9 @@ var TitlePage = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            '2'
-                        )
+                            'WritersNets.com is a simple'
+                        ),
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
                     ),
                     _react2.default.createElement(
                         'div',
@@ -65939,8 +65941,9 @@ var TitlePage = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            '3'
-                        )
+                            'WritersNets.com is a simple'
+                        ),
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
                     ),
                     _react2.default.createElement(
                         'div',
@@ -65948,8 +65951,9 @@ var TitlePage = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            '4'
-                        )
+                            'WritersNets.com is a simple'
+                        ),
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
                     ),
                     _react2.default.createElement(
                         'div',
@@ -65957,17 +65961,9 @@ var TitlePage = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            '5'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement(
-                            'h3',
-                            null,
-                            '6'
-                        )
+                            'WritersNets.com is a simple'
+                        ),
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
                     )
                 )
             );
