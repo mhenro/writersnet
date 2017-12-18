@@ -10,6 +10,9 @@ import {
 import NavBar from '../components/NavBar.jsx';
 import MainMenu from '../components/MainMenu.jsx';
 import Footer from '../components/Footer.jsx';
+import ScrollToTopButton from '../components/ScrollToTopButton.jsx';
+
+import TitlePage from '../pages/TitlePage.jsx';
 import AuthorPage from '../pages/AuthorPage.jsx';
 import BookPage from '../pages/BookPage.jsx';
 import BookReader from '../pages/BookReader.jsx';
@@ -21,7 +24,6 @@ import FriendsPage from '../pages/FriendsPage.jsx';
 import MessagesPage from '../pages/MessagesPage.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
 import NewsPage from '../pages/NewsPage.jsx';
-import ScrollToTopButton from '../components/ScrollToTopButton.jsx';
 
 class MainPage extends React.Component {
     constructor(props) {
@@ -62,6 +64,7 @@ class MainPage extends React.Component {
                                 {this.renderMainMenu()}
                             </div>
                             <div className="col-sm-12 col-lg-10">
+                                <Route exact path="/" component={TitlePage}/>
                                 <Route exact path="/authors" component={AuthorPage}/>
                                 <Route exact path="/authors/:authorName" component={SectionPage}/>
                                 <Route exact path="/books" component={BookPage}/>
