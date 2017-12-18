@@ -11,6 +11,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * Created by mhenr on 02.10.2017.
  */
 public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
+    @Query("SELECT b FROM Book b WHERE UPPER(b.name) LIKE CONCAT(UPPER(?1), '%') ORDER BY b.lastUpdate DESC")
+    Page<Book> findBooksByName(String name, Pageable pageable);
+
+    Page<Book> findAllByOrderByLastUpdateDesc(Pageable pageable);
+
+    /* tops */
     @Query("SELECT new org.booklink.models.top_models.TopBookNovelties(b.id, b.name, b.lastUpdate) FROM Book b ORDER BY b.lastUpdate DESC")
     Page<TopBookNovelties> findAllByLastUpdate(Pageable pageable);
 

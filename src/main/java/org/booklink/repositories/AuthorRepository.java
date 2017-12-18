@@ -1,5 +1,6 @@
 package org.booklink.repositories;
 
+import org.booklink.models.entities.Book;
 import org.booklink.models.entities.User;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.response_models.FriendResponse;
@@ -17,6 +18,9 @@ import java.util.List;
  * Created by mhenr on 16.10.2017.
  */
 public interface AuthorRepository extends PagingAndSortingRepository<User, String> {
+    @Query("SELECT u FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%')")  //TODO: sort by premium account
+    Page<User> findAuthorsByName(String name, Pageable pageable);
+
     @Query("SELECT u FROM User u WHERE u.enabled = true")
     Page<User> findAllEnabled(final Pageable pageable);
 

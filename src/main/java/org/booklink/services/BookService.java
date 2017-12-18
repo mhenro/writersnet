@@ -59,7 +59,15 @@ public class BookService {
     }
 
     public Page<Book> getBooks(final Pageable pageable) {
-        Page<Book> books = bookRepository.findAll(pageable);
+        Page<Book> books = bookRepository.findAllByOrderByLastUpdateDesc(pageable);
+        if (books != null) {
+            processBooks(books);
+        }
+        return books;
+    }
+
+    public Page<Book> getBooksByName(final String bookName, final Pageable pageable) {
+        Page<Book> books = bookRepository.findBooksByName(bookName, pageable);
         if (books != null) {
             processBooks(books);
         }

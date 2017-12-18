@@ -1,16 +1,20 @@
 Current sprint:
-45. Add filters to Books page.
-IN PROGRESS - 66. Add paginagion by alphabet in authors and books pages.
+
+
 
 Features:
 26. Add Main page to the site. Something like summary of ratings and recently general news.
+28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
+54. Add reviews page.
 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
+41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
+55. Add discussions page.
+56. Add help page.
 2. Add changing password functional to Options page.
 11. Add "forgot your password?" functional to login form.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
-21. Add pay gateway.
-24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
-28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
+44. Autoupdate jwt token when user is active.
+34. Create online/offline statuses for authors.
 30. Add concept of the premium account. It should allow:
                    - to use more large photos and book texts;
                    - gold highlight of the author panel and all of the author books in all rating lists;
@@ -22,23 +26,21 @@ Features:
                    - buy premium account;
                    - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
                    - buy additional stuff, such as pdf convertation of the book, some medals to show them on author section page and so on.
-44. Autoupdate jwt token when user is active.
-32. Refactor jpa entities.
-34. Create online/offline statuses for authors.
-41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
+21. Add pay gateway.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
-46. Add filters to Authors page.
 47. Add text to the user policy component.
-29. Support full localization mechanism.
-54. Add reviews page.
-55. Add discussions page.
-56. Add help page.
 64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
-65. Add test for ChatGroupResponse class constructor.
 66. Mark as unread whole chat to determine where unread messages are placed.
-
+24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
+29. Support full localization mechanism.
+65. Add test for ChatGroupResponse class constructor.
+32. Refactor jpa entities.
+68. Add logic to "Restore default cover" button on BookPropsForm.
+69. Add logic to "Restore default photo" button on OptionsPage.
+46. Add filters to Authors page.
+45. Add filters to Books page.
 
 
 Bugs:
@@ -95,3 +97,5 @@ DONE - 50. Add news page.
 DONE - 51. Add news content generator mechanism.
 DONE - 67. Add other news for news page (create book, update personal info etc).
 DONE - 63. Add "read news" button logic to friends page.
+DONE - 66. Add paginagion by alphabet in books page.
+DONE - 67. Add paginagion by alphabet in authors page.

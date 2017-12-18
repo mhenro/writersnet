@@ -121,3 +121,17 @@ footer {
     font-size: 10pt;
     margin-top: 10px;
 }
+
+.alphabet-rectangle {
+    font-size: 10pt;
+    width: 30px;
+    height: 30px;
+    margin-right: 2px;
+}
+
+.alphabet-rectangle-active {
+    font-size: 10pt;
+    width: 30px;
+    height: 30px;
+    margin-right: 2px;
+}

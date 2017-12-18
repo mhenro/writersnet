@@ -1,8 +1,12 @@
 import doFetch from './fetch';
 import { getHost } from '../utils.jsx';
 
-export const getAuthors = (page) => {
-    return doFetch(getHost() + 'authors?page=' + page + '&size=20');
+export const getAuthors = (name, page) => {
+    if (name) {
+        return doFetch(getHost() + 'authors/name/' + name + '?page=' + page + '&size=5');
+    } else {
+        return doFetch(getHost() + 'authors?page=' + page + '&size=5');
+    }
 };
 
 export const getAuthorDetails = (userId) => {

@@ -18,31 +18,53 @@ class BookPage extends React.Component {
         super(props);
         this.state = {
             currentPage: 1,
+            currentName: null,
             totalPages: 1
         };
-        ['handleSelect'].map(fn => this[fn] = this[fn].bind(this));
+        ['pageSelect', 'onLetterClick', 'updatePaginator'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        this.updateBooks();
+        this.updateBooks(null, 1);
     }
 
-    updateBooks() {
-        this.props.onGetBooks(this.state.currentPage - 1);
+    updateBooks(name, page) {
+        this.props.onGetBooks(name, page - 1, this.updatePaginator);
     }
 
-    handleSelect(eventKey) {
+    onLetterClick(letter) {
         this.setState({
-            currentPage: eventKey
+            currentName: letter,
+            currentPage: 1
         });
-        this.updateBooks();
+        this.updateBooks(letter, 1);
+    }
+
+    pageSelect(page) {
+        this.setState({
+            currentPage: page
+        });
+        this.updateBooks(this.state.currentName, page);
+    }
+
+    updatePaginator(pageDetails) {
+        this.setState({
+            totalPages: pageDetails.totalPages
+        });
     }
 
     render() {
         return (
             <div>
                 <div className="col-sm-12">
+                    <AlphabetPagination onClick={this.onLetterClick}/>
+                    <br/>
+                </div>
+                <div className="col-sm-12">
+                    <BookBriefList books={this.props.books} language={this.props.language}/>
+                </div>
+                <div className="col-sm-12 text-center">
                     <Pagination
                         className={'shown'}
                         prev
@@ -54,14 +76,7 @@ class BookPage extends React.Component {
                         items={this.state.totalPages}
                         maxButtons={3}
                         activePage={this.state.currentPage}
-                        onSelect={this.handleSelect}/>
-                </div>
-                <div className="col-sm-12">
-                    <AlphabetPagination/>
-                    <br/>
-                </div>
-                <div className="col-sm-12">
-                    <BookBriefList books={this.props.books} language={this.props.language}/>
+                        onSelect={this.pageSelect}/>
                 </div>
             </div>
         )
@@ -77,10 +92,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetBooks: (page) => {
-            return getBooks(page).then(([response, json]) => {
+        onGetBooks: (name, page, callback) => {
+            return getBooks(name, page).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBooks(json.content));
+                    callback(json);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

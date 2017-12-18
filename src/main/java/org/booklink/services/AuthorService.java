@@ -62,6 +62,18 @@ public class AuthorService {
         return authors;
     }
 
+    public Page<User> getAuthorsByName(final String name, final Pageable pageable) {
+        Page<User> authors = authorRepository.findAuthorsByName(name, pageable);
+        authors.forEach(author -> {
+            hideAuthInfo(author);
+            removeRecursionFromAuthor(author);
+            setDefaultAvatar(author);
+            calcBookSize(author);
+            hideText(author);
+        });
+        return authors;
+    }
+
     public Page<TopAuthorRating> getAuthorsByRating(final Pageable pageable) {
         Page<TopAuthorRating> authors = authorRepository.findAllByRating(pageable);
         return authors;

@@ -1,16 +1,16 @@
 import doFetch from './fetch';
 import {getHost} from '../utils.jsx';
 
-export const getBooks = (page) => {
-    if (page) {
-        return doFetch(getHost() + 'books?page=' + page + '&size=20');
+export const getBooks = (name, page) => {
+    if (name) {
+        return doFetch(getHost() + 'books/name/' + name + '?page=' + page + '&size=5');
     } else {
-        return doFetch(getHost() + 'books');
+        return doFetch(getHost() + 'books?page=' + page + '&size=5');
     }
 };
 
 export const getSeries = (userId, page) => {
-    if (page) {
+    if (page != null) {
         return doFetch(getHost() + 'series/' + userId + '?page=' + page + '&size=20');
     } else {
         return doFetch(getHost() + 'series/' + userId);

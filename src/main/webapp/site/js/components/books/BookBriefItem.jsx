@@ -47,6 +47,11 @@ class BookBriefItem extends React.Component {
         return created.getFullYear();   //formatDate(created, 'D-M-Y');
     }
 
+    getLastUpdate() {
+        let lastUpdate = new Date(this.props.book.lastUpdate);
+        return formatDate(lastUpdate, 'D-M-Y');
+    }
+
     onBookClick() {
         this.context.router.history.push('/reader/' + this.props.book.id);
     }
@@ -83,8 +88,12 @@ class BookBriefItem extends React.Component {
                                         <td>{this.getDescription()}</td>
                                     </tr>
                                     <tr>
-                                        <td>Year</td>
+                                        <td>Created</td>
                                         <td>{this.getCreated()}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last update</td>
+                                        <td>{this.getLastUpdate()}</td>
                                     </tr>
                                 </tbody>
                             </table>
