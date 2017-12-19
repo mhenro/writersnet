@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "users")
-@SecondaryTable(name = "authorities", pkJoinColumns = @PrimaryKeyJoinColumn(name = "username", referencedColumnName = "username"))
 //@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="username")
 public class User {
     private String username;
@@ -72,7 +71,7 @@ public class User {
         this.activationToken = activationToken;
     }
 
-    @Column(table = "authorities", name = "authority")
+    @Column(name = "authority")
     public String getAuthority() {
         return authority;
     }
