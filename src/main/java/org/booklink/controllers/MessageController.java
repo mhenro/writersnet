@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import static org.booklink.utils.SecurityHelper.generateActivationToken;
+
 /**
  * Created by mhenr on 07.12.2017.
  */
@@ -41,6 +43,7 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "messages/add", method = RequestMethod.POST)
     public ResponseEntity<?> addMessageToGroup(@RequestBody MessageRequest message) {
+        String token = generateActivationToken();
         final Long groupId;
         try {
             groupId = messageService.addMessageToGroup(message.getCreator(), message.getPrimaryRecipient(), message.getText(), message.getGroupId());
@@ -48,11 +51,13 @@ public class MessageController {
             Response<String> response = new Response<>();
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         Response<Long> response = new Response<>();
         response.setCode(0);
         response.setMessage(groupId);
+        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -60,6 +65,7 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "groups/get", method = RequestMethod.POST)
     public ResponseEntity<?> getGroupIdFromRecipient(@RequestBody MessageRequest messageRequest) {
+        String token = generateActivationToken();
         Long groupId = null;
         try {
             ChatGroup group = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
@@ -70,11 +76,13 @@ public class MessageController {
             Response<String> response = new Response<>();
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         Response<Long> response = new Response<>();
         response.setCode(0);
         response.setMessage(groupId);
+        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -83,12 +91,15 @@ public class MessageController {
     @RequestMapping(value = "groups/{groupId}/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> getGroupName(@PathVariable final Long groupId, @PathVariable final String userId) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         try {
             response.setCode(0);
             response.setMessage(messageService.getGroupName(groupId, userId));
+            response.setToken(token);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -98,15 +109,18 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesFromUser(@PathVariable final String userId) {
+        String token = generateActivationToken();
         try {
             Response<Long> response = new Response<>();
             response.setCode(0);
             response.setMessage(messageService.getUnreadMessagesFromUser(userId));
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             Response<String> response = new Response<>();
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -115,15 +129,18 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "groups/{groupId}/{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesInGroup(@PathVariable final Long groupId, @PathVariable final String userId) {
+        String token = generateActivationToken();
         try {
             Response<Long> response = new Response<>();
             response.setCode(0);
             response.setMessage(messageService.getUnreadMessagesInGroup(userId, groupId));
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             Response<String> response = new Response<>();
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -133,14 +150,17 @@ public class MessageController {
     @RequestMapping(value = "groups/messages/read", method = RequestMethod.POST)
     public ResponseEntity<?> markAllAsReadInGroup(@RequestBody ReadMessageRequest readMessageRequest) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         try {
             messageService.markAsReadInGroup(readMessageRequest.getUserId(), readMessageRequest.getGroupId());
             response.setCode(0);
             response.setMessage("All messages are read");
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

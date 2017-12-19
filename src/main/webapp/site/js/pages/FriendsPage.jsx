@@ -15,6 +15,7 @@ import {
 import {
     getGroupIdByRecipient
 } from '../actions/MessageActions.jsx';
+import { setToken } from '../actions/AuthActions.jsx';
 
 class FriendsPage extends React.Component {
     constructor(props) {
@@ -258,6 +259,7 @@ const mapDispatchToProps = (dispatch) => {
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
+                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
@@ -272,6 +274,7 @@ const mapDispatchToProps = (dispatch) => {
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
+                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
@@ -285,6 +288,7 @@ const mapDispatchToProps = (dispatch) => {
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
+                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });

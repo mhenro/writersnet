@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 
 import javax.sql.DataSource;
 
@@ -18,6 +21,7 @@ import javax.sql.DataSource;
  */
 @Profile("production")
 @Configuration
+@EnableScheduling
 public class RootConfig {
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
@@ -41,5 +45,10 @@ public class RootConfig {
     public JavaMailSender mailSender() {
         JavaMailSender mailSender = new JavaMailSenderImpl();
         return mailSender;
+    }
+
+    @Bean
+    public TaskScheduler taskScheduler() {
+        return new ConcurrentTaskScheduler();
     }
 }

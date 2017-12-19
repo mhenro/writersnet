@@ -4,6 +4,7 @@ import { Pagination } from 'react-bootstrap';
 
 import { getNews } from '../actions/NewsActions.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
+import { setToken } from '../actions/AuthActions.jsx';
 
 import NewsList from '../components/news/NewsList.jsx';
 

@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import static org.booklink.utils.SecurityHelper.generateActivationToken;
+
 /**
  * Created by mhenr on 15.11.2017.
  */
@@ -51,15 +53,18 @@ public class CommentsController {
     @RequestMapping(value = "books/{bookId}/comments/{commentId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteComment(@PathVariable Long bookId, @PathVariable Long commentId) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         try {
             commentsService.deleteComment(bookId, commentId);
         } catch (Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
         response.setMessage("Your comment was deleted");
+        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

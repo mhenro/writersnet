@@ -11,6 +11,7 @@ import {
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
+import { setToken } from '../actions/AuthActions.jsx';
 import { locale } from '../locale.jsx';
 
 import FileUploader from '../components/FileUploader.jsx';
@@ -290,6 +291,7 @@ const mapDispatchToProps = (dispatch) => {
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
+                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
@@ -304,6 +306,7 @@ const mapDispatchToProps = (dispatch) => {
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
+                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });

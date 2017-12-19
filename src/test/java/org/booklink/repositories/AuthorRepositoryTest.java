@@ -94,6 +94,9 @@ public class AuthorRepositoryTest {
         final ChatGroup group = new ChatGroup();
         group.setCreated(new Date());
         group.setCreator(user);
+        group.setAvatar("avatar");
+        group.setName("name");
+        group.setPrimaryRecipient(user);
         entityManager.persist(group);
 
         return group;

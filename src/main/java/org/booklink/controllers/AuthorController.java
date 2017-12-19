@@ -8,6 +8,7 @@ import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.response_models.FriendResponse;
 import org.booklink.services.AuthorService;
+import org.booklink.services.SessionService;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.booklink.utils.SecurityHelper.generateActivationToken;
+
 
 /**
  * Created by mhenr on 16.10.2017.
@@ -26,10 +29,12 @@ import java.util.List;
 @RestController
 public class AuthorController {
     private AuthorService authorService;
+    private SessionService sessionService;
 
     @Autowired
-    public AuthorController(AuthorService authorService) {
+    public AuthorController(final AuthorService authorService, final SessionService sessionService) {
         this.authorService = authorService;
+        this.sessionService = sessionService;
     }
 
     @CrossOrigin
@@ -62,15 +67,19 @@ public class AuthorController {
     @RequestMapping(value = "authors", method = RequestMethod.POST)
     public ResponseEntity<?> saveAuthor(@RequestBody User author) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             authorService.saveAuthor(author);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
         response.setMessage("Author was saved");
+        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -79,14 +88,17 @@ public class AuthorController {
     @RequestMapping(value = "avatar", method = RequestMethod.POST)
     public ResponseEntity<?> saveAvatar(AvatarRequest avatarRequest) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         try {
             authorService.saveAvatar(avatarRequest);
             response.setCode(0);
             response.setMessage("Avatar was saved successfully");
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -96,12 +108,15 @@ public class AuthorController {
     @RequestMapping(value = "authors/subscribe", method = RequestMethod.POST)
     public ResponseEntity<?> subscribeOnUser(@RequestBody final String subscriptionId) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         try {
             response = authorService.subscribeOnUser(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -111,12 +126,15 @@ public class AuthorController {
     @RequestMapping(value = "authors/unsubscribe", method = RequestMethod.POST)
     public ResponseEntity<?> removeSubscription(@RequestBody final String subscriptionId) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         try {
             response = authorService.removeSubscription(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

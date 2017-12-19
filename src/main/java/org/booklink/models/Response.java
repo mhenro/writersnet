@@ -6,6 +6,7 @@ package org.booklink.models;
 public class Response<T> {
     private int code;
     private T message;
+    private String token;
 
     public int getCode() {
         return code;
@@ -21,5 +22,13 @@ public class Response<T> {
 
     public void setMessage(T message) {
         this.message = message;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

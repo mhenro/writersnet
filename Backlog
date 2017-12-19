@@ -21,7 +21,6 @@ Features:
 2. Add changing password functional to Options page.
 11. Add "forgot your password?" functional to login form.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
-44. Autoupdate jwt token when user is active.
 30. Add concept of the premium account. It should allow:
                    - to use more large photos and book texts;
                    - gold highlight of the author panel and all of the author books in all rating lists;
@@ -107,3 +106,4 @@ DONE - 63. Add "read news" button logic to friends page.
 DONE - 66. Add paginagion by alphabet in books page.
 DONE - 67. Add paginagion by alphabet in authors page.
 DONE - 70. Add vertical carousel with mouse scroll on TitlePage. 
+DONE - 44. Autoupdate jwt token when user is active.

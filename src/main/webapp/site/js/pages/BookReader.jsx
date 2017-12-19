@@ -14,6 +14,7 @@ import {
     createNotify,
     goToComments
 } from '../actions/GlobalActions.jsx';
+import { setToken } from '../actions/AuthActions.jsx';
 
 import UserComments from '../components/UserComments.jsx';
 
@@ -212,6 +213,7 @@ const mapDispatchToProps = (dispatch) => {
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
+                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });

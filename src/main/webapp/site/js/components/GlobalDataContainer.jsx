@@ -112,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
-                else if (response.status === 500 && json.message.includes('JWT expired at')) {
+                else if (response.status === 500/* && json.message.includes('JWT expired at')*/) {
                     dispatch(setToken(''));
                 }
                 else {

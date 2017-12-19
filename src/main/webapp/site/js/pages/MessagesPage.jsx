@@ -14,6 +14,7 @@ import {
     openWriteMessageForm,
     createNotify
 } from '../actions/GlobalActions.jsx';
+import { setToken } from '../actions/AuthActions.jsx';
 
 class MessagesPage extends React.Component {
     constructor(props) {

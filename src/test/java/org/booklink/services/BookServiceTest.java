@@ -82,6 +82,8 @@ public class BookServiceTest {
         Mockito.when(env.getProperty("writersnet.coverstorage.path")).thenReturn("c:\\Java\\nginx\\html\\css\\images\\covers\\");
         Mockito.when(env.getProperty("writersnet.tempstorage")).thenReturn("c:\\Java\\nginx\\html\\temp\\");
         Mockito.when(bookRepository.findAll((Pageable)null)).thenReturn(page);
+        Mockito.when(bookRepository.findAllByOrderByLastUpdateDesc((Pageable)null)).thenReturn(page);
+        Mockito.when(bookRepository.findAll((Pageable)null)).thenReturn(page);
         Mockito.when(bookRepository.findOne(145L)).thenReturn(createBook(145));
         final Book book = new Book();
         final User user = new User();
@@ -119,7 +121,7 @@ public class BookServiceTest {
     public void getBooksByLastUpdate() throws Exception{
         List<Book> booksArr = generateBooks(3);
         final Page<Book> page = new PageImpl<>(booksArr);
-        Mockito.when(bookRepository.findAll((Pageable)null)).thenReturn(page);
+        Mockito.when(bookRepository.findAllByOrderByLastUpdateDesc((Pageable)null)).thenReturn(page);
         Page<Book> books = bookService.getBooks(null);
         Assert.assertEquals(3, books.getTotalElements());
     }

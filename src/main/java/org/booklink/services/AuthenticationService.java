@@ -1,7 +1,5 @@
 package org.booklink.services;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
 import org.booklink.models.request_models.Credentials;
@@ -15,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+
+import static org.booklink.utils.SecurityHelper.generateActivationToken;
 
 /**
  * Created by mhenr on 14.11.2017.
@@ -71,12 +71,6 @@ public class AuthenticationService {
         createRegistrationLink(user);
 
         return true;
-    }
-
-    private String generateActivationToken(User user) {
-        String result = Jwts.builder().setSubject(user.getUsername()).claim("roles", user.getAuthority()).claim("enabled", user.getEnabled()).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis()+15*60*1000)).signWith(SignatureAlgorithm.HS256, "booklink").compact();;
-
-        return result;
     }
 
     private void createRegistrationLink(final User user) {

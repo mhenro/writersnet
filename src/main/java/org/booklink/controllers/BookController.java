@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.booklink.utils.SecurityHelper.generateActivationToken;
+
 /**
  * Created by mhenr on 02.10.2017.
  */
@@ -63,16 +65,19 @@ public class BookController {
     @RequestMapping(value = "books", method = RequestMethod.POST)
     public ResponseEntity<?> saveBook(@RequestBody Book book) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         Long bookId = null;
         try {
             bookId = bookService.saveBook(book);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
         response.setMessage(String.valueOf(bookId));
+        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -81,15 +86,18 @@ public class BookController {
     @RequestMapping(value = "cover", method = RequestMethod.POST)
     public ResponseEntity<?> saveCover(CoverRequest coverRequest) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         try {
             bookService.saveCover(coverRequest);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
         response.setMessage("Cover was saved successfully");
+        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -98,6 +106,7 @@ public class BookController {
     @RequestMapping(value = "text", method = RequestMethod.POST)
     public ResponseEntity<?> saveBookText(BookTextRequest bookTextRequest) {
         final Response<Date> response = new Response<>();
+        String token = generateActivationToken();
         final Date lastUpdated;
         try {
             lastUpdated = bookService.saveBookText(bookTextRequest);
@@ -105,10 +114,12 @@ public class BookController {
             final Response<String> error = new Response<>();
             error.setCode(1);
             error.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
         response.setMessage(lastUpdated);
+        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -117,15 +128,18 @@ public class BookController {
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
         Response<String> response = new Response<>();
+        String token = generateActivationToken();
         try {
             bookService.deleteBook(bookId);
         } catch (Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
+            response.setToken(token);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.setCode(0);
         response.setMessage("Book was deleted successfully");
+        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

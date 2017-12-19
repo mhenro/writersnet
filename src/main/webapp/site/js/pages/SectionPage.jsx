@@ -14,6 +14,7 @@ import {
     createNotify,
     goToComments
 } from '../actions/GlobalActions.jsx';
+import { setToken } from '../actions/AuthActions.jsx';
 
 import AuthorFile from '../components/section/AuthorFile.jsx';
 import AuthorShortInfo from '../components/section/AuthorShortInfo.jsx';
@@ -170,6 +171,7 @@ const mapDispatchToProps = (dispatch) => {
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
+                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
@@ -188,6 +190,7 @@ const mapDispatchToProps = (dispatch) => {
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
+                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
