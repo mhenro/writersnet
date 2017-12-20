@@ -47,6 +47,7 @@ Features:
 69. Add logic to "Restore default photo" button on OptionsPage.
 46. Add filters to Authors page.
 45. Add filters to Books page.
+75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt.
 
 
 Bugs:
