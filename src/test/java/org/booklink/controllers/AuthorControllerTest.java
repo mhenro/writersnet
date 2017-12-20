@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.booklink.models.Response;
 import org.booklink.models.entities.User;
 import org.booklink.models.request_models.AvatarRequest;
+import org.booklink.models.response_models.AuthorResponse;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.security.JwtFilter;
 import org.booklink.services.AuthorService;
@@ -65,7 +66,7 @@ public class AuthorControllerTest {
     @Test
     public void getAuthors() throws Exception {
         final Pageable pageable = Mockito.mock(Pageable.class);
-        final Page<User> page = Mockito.mock(Page.class);
+        final Page<AuthorResponse> page = Mockito.mock(Page.class);
         when(authorService.getAuthors(pageable)).thenReturn(page);
         mvc.perform(get("/authors")).andExpect(status().isOk());
         mvc.perform(get("/wrong")).andExpect(status().isNotFound());
@@ -73,7 +74,7 @@ public class AuthorControllerTest {
 
     @Test
     public void getAuthor() throws Exception {
-        User user = new User();
+        AuthorResponse user = new AuthorResponse();
         user.setUsername("user");
         when(authorService.getAuthor(user.getUsername())).thenReturn(user);
         mvc.perform(get("/authors/user")).andExpect(status().isOk()).andExpect(jsonPath("username", is("user")));

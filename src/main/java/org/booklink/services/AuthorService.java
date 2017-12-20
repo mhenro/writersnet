@@ -8,6 +8,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
+import org.booklink.models.response_models.AuthorResponse;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.response_models.FriendResponse;
 import org.booklink.models.top_models.*;
@@ -50,26 +51,28 @@ public class AuthorService {
         this.newsService = newsService;
     }
 
-    public Page<User> getAuthors(final Pageable pageable) {
-        Page<User> authors = authorRepository.findAllEnabled(pageable);
+    public Page<AuthorResponse> getAuthors(final Pageable pageable) {
+        Page<AuthorResponse> authors = authorRepository.findAllEnabled(pageable);
         authors.forEach(author -> {
-            hideAuthInfo(author);
+            setDefaultAvatar(author);
+            /*hideAuthInfo(author);
             removeRecursionFromAuthor(author);
             setDefaultAvatar(author);
             calcBookSize(author);
-            hideText(author);
+            hideText(author);*/
         });
         return authors;
     }
 
-    public Page<User> getAuthorsByName(final String name, final Pageable pageable) {
-        Page<User> authors = authorRepository.findAuthorsByName(name, pageable);
+    public Page<AuthorResponse> getAuthorsByName(final String name, final Pageable pageable) {
+        Page<AuthorResponse> authors = authorRepository.findAuthorsByName(name, pageable);
         authors.forEach(author -> {
-            hideAuthInfo(author);
+            setDefaultAvatar(author);
+            /*hideAuthInfo(author);
             removeRecursionFromAuthor(author);
             setDefaultAvatar(author);
             calcBookSize(author);
-            hideText(author);
+            hideText(author);*/
         });
         return authors;
     }
@@ -94,16 +97,19 @@ public class AuthorService {
         return authors;
     }
 
-    public User getAuthor(final String authorId) {
-        final User author = authorRepository.findOne(authorId);
+    public AuthorResponse getAuthor(final String authorId) {
+        final User user = authorRepository.findOne(authorId);
+        final AuthorResponse author = new AuthorResponse(user);
         if (author != null) {
-            increaseAuthorViews(author);
+            setDefaultCoverForBooks(author);
+            setDefaultAvatar(author);
+            /*increaseAuthorViews(author);
             hideAuthInfo(author);
             removeRecursionFromAuthor(author);
             setDefaultAvatar(author);
             setDefaultCoverForBooks(author);
             calcBookSize(author);
-            hideText(author);
+            hideText(author);*/
         }
         return author;
     }
@@ -252,6 +258,7 @@ public class AuthorService {
         }
     }
 
+    @Deprecated
     private void setDefaultAvatar(User user) {
         final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
         if (user.getAvatar() == null) {
@@ -259,6 +266,14 @@ public class AuthorService {
         }
     }
 
+    private void setDefaultAvatar(AuthorResponse user) {
+        final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
+        if (user.getAvatar() == null) {
+            user.setAvatar(defaultAvatar);
+        }
+    }
+
+    @Deprecated
     private void setDefaultCoverForBooks(User user) {
         final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
         user.getBooks().stream()
@@ -266,6 +281,14 @@ public class AuthorService {
                 .forEach(book -> book.setCover(defaultCover));
     }
 
+    private void setDefaultCoverForBooks(AuthorResponse user) {
+        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
+        user.getBooks().stream()
+                .filter(book -> book.getCover() == null || book.getCover().isEmpty())
+                .forEach(book -> book.setCover(defaultCover));
+    }
+
+    @Deprecated
     private void calcBookSize(User user) {
         user.getBooks().stream().forEach(book -> {
             int size = Optional.ofNullable(book.getBookText()).map(bookText -> bookText.getText().length()).orElse(0);

@@ -52,7 +52,7 @@ public class Book {
         this.name = name;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "text_id")
     public BookText getBookText() {
         return bookText;
@@ -60,6 +60,9 @@ public class Book {
 
     public void setBookText(BookText bookText) {
         this.bookText = bookText;
+        if (bookText != null) {
+            bookText.setBook(this);
+        }
     }
 
     public String getDescription() {
@@ -146,11 +149,11 @@ public class Book {
     }
 
     @Transient
-    public Integer getSize() {
-        if (size != null) {
-            return size;
-        }
-        return 0;
+    public long getSize() {
+        return Optional.ofNullable(bookText)
+                .flatMap(text -> Optional.ofNullable(text.getText()))
+                .map(text -> text.length())
+                .orElse(0);
     }
 
     public void setSize(Integer size) {

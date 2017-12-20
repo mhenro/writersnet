@@ -4,27 +4,27 @@ package org.booklink.models.request_models;
  * Created by mhenr on 22.10.2017.
  */
 public class TotalSize {
-    private int totalSize;  //bytes
-    private int totalBooks;
+    private long totalSize;  //bytes
+    private long totalBooks;
 
     public TotalSize() {
         totalSize = 0;
         totalBooks = 0;
     }
 
-    public int getTotalSize() {
+    public long getTotalSize() {
         return totalSize;
     }
 
-    public void setTotalSize(int totalSize) {
+    public void setTotalSize(long totalSize) {
         this.totalSize = totalSize;
     }
 
-    public int getTotalBooks() {
+    public long getTotalBooks() {
         return totalBooks;
     }
 
-    public void setTotalBooks(int totalBooks) {
+    public void setTotalBooks(long totalBooks) {
         this.totalBooks = totalBooks;
     }
 }

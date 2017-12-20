@@ -3,9 +3,10 @@ package org.booklink.services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.booklink.models.entities.Session;
+import org.booklink.models.entities.User;
+import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SessionRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,14 @@ import java.util.Date;
  */
 @Service
 public class SessionService {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    //private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private SessionRepository sessionRepository;
+    private AuthorRepository authorRepository;
 
-    public SessionService(final SessionRepository sessionRepository) {
+    @Autowired
+    public SessionService(final SessionRepository sessionRepository, final AuthorRepository authorRepository) {
         this.sessionRepository = sessionRepository;
+        this.authorRepository = authorRepository;
     }
 
     public void updateSession(final String token) {
@@ -34,14 +38,30 @@ public class SessionService {
             sessionRepository.save(existedSession);
         } else {
             final Session session = new Session();
-            session.setUsername(username);
-            session.setExpired(expireDate);
-            sessionRepository.save(session);
+            final User user = authorRepository.findOne(username);
+            if (user != null) {
+                session.setAuthor(user);
+                session.setExpired(expireDate);
+                sessionRepository.save(session);
+            }
         }
+    }
+
+    public long getOnlineUsers() {
+        return sessionRepository.count();
+    }
+
+    public boolean isUserOnline(final String username) {
+        final Session session = sessionRepository.findByUsername(username);
+        if (session != null) {
+            return true;
+        }
+        return false;
     }
 
     @Scheduled(fixedDelay = 900000) //15 min
     public void removeOldSessions() {
-        logger.info("try to remove old sessions ;)");
+        //logger.info("try to remove old sessions ;)");
+        sessionRepository.deleteOldSessions(new Date());
     }
 }

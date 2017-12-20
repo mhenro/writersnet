@@ -23,6 +23,9 @@ public class NewsResponse {
     private String subscriptionFullName;
 
     public NewsResponse(final News news) {
+        if (news == null) {
+            return;
+        }
         this.id = news.getId();
         this.type = news.getType();
         this.authorId = news.getAuthor().getUsername();

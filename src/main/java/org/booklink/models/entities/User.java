@@ -36,6 +36,7 @@ public class User {
     private Set<Friendship> subscribers = new HashSet<>();
     private Set<Friendship> subscriptions = new HashSet<>();
     private List<UserChatGroup> chatGroups = new ArrayList<>();
+    private Session session;
 
     @Id
     public String getUsername() {
@@ -150,73 +151,6 @@ public class User {
         this.section = section;
     }
 
-    @Transient
-    public String getSectionName() {
-        return sectionName;
-    }
-
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
-    }
-
-    @Transient
-    public String getSectionDescription() {
-        return sectionDescription;
-    }
-
-    public void setSectionDescription(String sectionDescription) {
-        this.sectionDescription = sectionDescription;
-    }
-
-    /* method for calculating total rating of the author */
-    @Transient
-    public TotalRating getRating() {
-        TotalRating authorRating = new TotalRating();
-        if (books == null) {
-            return authorRating;
-        }
-        int totalUsers = books.stream().map(book -> book.getTotalRating().getUserCount()).collect(Collectors.summingInt(n -> n));
-        Map<Integer, Long> countByStars = books.stream().flatMap(book -> book.getRating().stream())
-                .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
-        float averageRating = (float)countByStars.entrySet().stream()
-                .map(map -> map.getKey() * map.getValue().intValue())
-                .collect(Collectors.summingInt(n -> n)) / totalUsers;
-
-        if (totalUsers == 0) {
-            return authorRating;
-        }
-        authorRating.setUserCount(totalUsers);
-        authorRating.setAverageRating(averageRating);
-
-        return authorRating;
-    }
-
-    @Transient
-    public TotalSize getTotalSize() {
-        TotalSize totalSize = new TotalSize();
-        int size = Optional.ofNullable(books)
-                .map(books -> books.stream()
-                        .map(book -> book.getSize())
-                        .collect(Collectors.summingInt(n -> n)))
-                .orElse(0);
-        int booksCount = Optional.ofNullable(books)
-                .map(books -> books.size())
-                .orElse(0);
-        totalSize.setTotalSize(size);
-        totalSize.setTotalBooks(booksCount);
-        return totalSize;
-    }
-
-    @Transient
-    public Set<BookSerie> getBookSeries() {
-        return Optional.ofNullable(books)
-                .map(books -> books.stream()
-                        .map(book -> book.getBookSerie())
-                        .filter(book -> book != null)
-                        .collect(Collectors.toSet()))
-                .orElseGet(() -> Collections.emptySet());
-    }
-
     public String getLanguage() {
         return language;
     }
@@ -271,7 +205,77 @@ public class User {
         this.chatGroups = chatGroups;
     }
 
+    @OneToOne(mappedBy = "author")
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
     /* -----------------------------business logic-------------------------------------------------------- */
+
+    @Transient
+    @Deprecated
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    @Transient
+    @Deprecated
+    public String getSectionDescription() {
+        return sectionDescription;
+    }
+
+    /* method for calculating total rating of the author */
+    @Transient
+    public TotalRating getRating() {
+        TotalRating authorRating = new TotalRating();
+        if (books == null) {
+            return authorRating;
+        }
+        int totalUsers = books.stream().map(book -> book.getTotalRating().getUserCount()).collect(Collectors.summingInt(n -> n));
+        Map<Integer, Long> countByStars = books.stream().flatMap(book -> book.getRating().stream())
+                .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
+        float averageRating = (float)countByStars.entrySet().stream()
+                .map(map -> map.getKey() * map.getValue().intValue())
+                .collect(Collectors.summingInt(n -> n)) / totalUsers;
+
+        if (totalUsers == 0) {
+            return authorRating;
+        }
+        authorRating.setUserCount(totalUsers);
+        authorRating.setAverageRating(averageRating);
+
+        return authorRating;
+    }
+
+    @Transient
+    public TotalSize getTotalSize() {
+        TotalSize totalSize = new TotalSize();
+        long size = Optional.ofNullable(books)
+                .map(books -> books.stream()
+                        .map(book -> book.getSize())
+                        .collect(Collectors.summingLong(n -> n)))
+                .orElse(0L);
+        long booksCount = Optional.ofNullable(books)
+                .map(books -> books.size())
+                .orElse(0);
+        totalSize.setTotalSize(size);
+        totalSize.setTotalBooks(booksCount);
+        return totalSize;
+    }
+
+    @Transient
+    public Set<BookSerie> getBookSeries() {
+        return Optional.ofNullable(books)
+                .map(books -> books.stream()
+                        .map(book -> book.getBookSerie())
+                        .filter(book -> book != null)
+                        .collect(Collectors.toSet()))
+                .orElseGet(() -> Collections.emptySet());
+    }
 
     @Transient
     @JsonIgnore

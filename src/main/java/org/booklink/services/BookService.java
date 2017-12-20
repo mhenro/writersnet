@@ -4,6 +4,7 @@ import liquibase.util.file.FilenameUtils;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.response_models.BookWithTextResponse;
 import org.booklink.models.top_models.*;
 import org.booklink.models.request_models.BookTextRequest;
 import org.booklink.models.request_models.CoverRequest;
@@ -99,15 +100,15 @@ public class BookService {
         return books;
     }
 
-    public Book getBook(final Long bookId) {
-        final Book book = bookRepository.findOne(bookId);
-        if (book != null) {
-            increaseBookViews(book);
-            hideAuthInfo(book);
-            calcBookSize(book);
-            removeRecursionFromBook(book);
+    public BookWithTextResponse getBook(final Long bookId) {
+        final Book bookEntity = bookRepository.findOne(bookId);
+        if (bookEntity != null) {
+            increaseBookViews(bookEntity);
+            //hideAuthInfo(book);
+            //calcBookSize(book);
+            //removeRecursionFromBook(book);
         }
-        return book;
+        return new BookWithTextResponse(bookEntity);
     }
 
     public Long saveBook(final Book book) {
@@ -117,6 +118,8 @@ public class BookService {
             savedBook = new Book();
             savedBook.setCreated(new Date());
             savedBook.setLastUpdate(new Date());
+            final BookText bookText = new BookText();
+            savedBook.setBookText(bookText);
         } else {    //saved book was edited
             savedBook = bookRepository.findOne(book.getId());
             if (savedBook == null) {
@@ -256,8 +259,12 @@ public class BookService {
         user.setChatGroups(null);
     }
 
+    @Deprecated
     private void calcBookSize(Book book) {
-        int size = Optional.ofNullable(book.getBookText()).map(bookText -> bookText.getText().length()).orElse(0);
+        int size = Optional.ofNullable(book.getBookText())
+                .flatMap(text -> Optional.ofNullable(text.getText()))
+                .map(text -> text.length())
+                .orElse(0);
         book.setSize(size);
     }
 

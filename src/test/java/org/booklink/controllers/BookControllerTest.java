@@ -6,6 +6,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.request_models.BookComment;
 import org.booklink.models.request_models.BookTextRequest;
 import org.booklink.models.request_models.CoverRequest;
+import org.booklink.models.response_models.BookWithTextResponse;
 import org.booklink.services.AuthorService;
 import org.booklink.services.BookService;
 import org.junit.Before;
@@ -76,7 +77,7 @@ public class BookControllerTest {
 
     @Test
     public void getBook() throws Exception {
-        final Book book = new Book();
+        final BookWithTextResponse book = new BookWithTextResponse();
         book.setId(24L);
         book.setName("test");
         when(bookService.getBook(book.getId())).thenReturn(book);

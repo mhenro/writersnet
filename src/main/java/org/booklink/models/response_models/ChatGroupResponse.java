@@ -26,6 +26,9 @@ public class ChatGroupResponse implements Serializable {
     private String recipients;
 
     public ChatGroupResponse(final UserChatGroup userChatGroup) {
+        if (userChatGroup == null) {
+            return;
+        }
         final ChatGroup group = userChatGroup.getUserChatGroupPK().getGroup();
         final User primaryRecipient = group.getPrimaryRecipient();
         final List<Message> messages = group.getMessages();

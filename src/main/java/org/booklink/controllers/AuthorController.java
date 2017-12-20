@@ -5,6 +5,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
+import org.booklink.models.response_models.AuthorResponse;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.response_models.FriendResponse;
 import org.booklink.services.AuthorService;
@@ -39,20 +40,20 @@ public class AuthorController {
 
     @CrossOrigin
     @RequestMapping(value = "authors", method = RequestMethod.GET)
-    public Page<User> getAuthors(Pageable pageable) {
+    public Page<AuthorResponse> getAuthors(Pageable pageable) {
         return authorService.getAuthors(pageable);
     }
 
     @CrossOrigin
-    @RequestMapping(value = "authors/name/{authorName}", method = RequestMethod.GET)
-    public Page<User> getAuthorsByName(@PathVariable final String authorName, final Pageable pageable) {
+    @RequestMapping(value = "authors/name/{authorName:.+}", method = RequestMethod.GET)
+    public Page<AuthorResponse> getAuthorsByName(@PathVariable final String authorName, final Pageable pageable) {
         return authorService.getAuthorsByName(authorName, pageable);
     }
 
     @CrossOrigin
     @RequestMapping(value = "authors/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getAuthor(@PathVariable String authorId) {
-        User author = authorService.getAuthor(authorId);
+        AuthorResponse author = authorService.getAuthor(authorId);
         if (author != null) {
             return new ResponseEntity<>(author, HttpStatus.OK);
         }

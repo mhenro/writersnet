@@ -2,6 +2,7 @@ package org.booklink.repositories;
 
 import org.booklink.config.RootConfigTest;
 import org.booklink.models.entities.*;
+import org.booklink.models.response_models.AuthorResponse;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.top_models.TopAuthorBookCount;
 import org.booklink.models.top_models.TopAuthorComments;
@@ -236,7 +237,7 @@ public class AuthorRepositoryTest {
     @Test
     public void findAllEnable() throws Exception {
         init();
-        Page<User> users = authorRepository.findAllEnabled(null);
+        Page<AuthorResponse> users = authorRepository.findAllEnabled(null);
         Assert.assertEquals(1, users.getTotalElements());
         Assert.assertEquals("mhenro", users.getContent().get(0).getUsername());
     }

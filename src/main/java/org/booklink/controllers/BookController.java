@@ -7,6 +7,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.BookTextRequest;
 import org.booklink.models.request_models.CoverRequest;
+import org.booklink.models.response_models.BookWithTextResponse;
 import org.booklink.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,8 +51,9 @@ public class BookController {
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> getBook(@PathVariable Long bookId) {
-        Book book = bookService.getBook(bookId);
+        BookWithTextResponse book = bookService.getBook(bookId);
         if (book != null) {
+            book.getBookText().setBook(null);
             return new ResponseEntity<>(book, HttpStatus.OK);
         }
         Response<String> response = new Response<>();

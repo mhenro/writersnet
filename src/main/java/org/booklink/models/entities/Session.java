@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(name = "sessions")
 public class Session {
     private Long id;
-    private String username;
+    private User author;
     private Date expired;
 
     @Id
@@ -23,12 +23,14 @@ public class Session {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    @OneToOne
+    @JoinColumn(name = "username")
+    public User getAuthor() {
+        return author;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
