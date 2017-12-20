@@ -42,7 +42,7 @@ Features:
 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 29. Support full localization mechanism.
 65. Add test for ChatGroupResponse class constructor.
-32. Refactor jpa entities.
+32. Refactor jpa entities. FetchType.LAZY for all @ManyToOne relations. Enable transactions and add @Transactional annotation to service layers.
 68. Add logic to "Restore default cover" button on BookPropsForm.
 69. Add logic to "Restore default photo" button on OptionsPage.
 46. Add filters to Authors page.
