@@ -27,14 +27,11 @@ public class AuthenticationServiceTest {
         private UserRepository userRepository;
 
         @MockBean
-        private SectionRepository sectionRepository;
-
-        @MockBean
         private JavaMailSender mailSender;
 
         @Bean
         public AuthenticationService authenticationService() {
-            return new AuthenticationService(userRepository, sectionRepository, mailSender);
+            return new AuthenticationService(userRepository, mailSender);
         }
     }
 

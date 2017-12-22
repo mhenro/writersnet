@@ -99,6 +99,21 @@ public class AuthorService {
         return author;
     }
 
+    public boolean isFriendOf(final String authorId) {
+        final User authorizedUser = getAuthorizedUser();
+        return authorizedUser.isFriendOf(authorId);
+    }
+
+    public boolean isSubscriberOf(final String authorId) {
+        final User authorizedUser = getAuthorizedUser();
+        return authorizedUser.isSubscriberOf(authorId);
+    }
+
+    public boolean isSubscription(final String authorId) {
+        final User authorizedUser = getAuthorizedUser();
+        return authorizedUser.isSubscriptionOf(authorId);
+    }
+
     public void saveAuthor(final User author) {
         checkCredentials(author.getUsername());
         User user = authorRepository.findOne(author.getUsername());
@@ -221,11 +236,19 @@ public class AuthorService {
     }
 
     private void checkCredentials(final String userId) {
+        if (!getAuthorizedUser().getUsername().equals(userId)) {
+            throw new UnauthorizedUserException("Bad credentials");
+        }
+    }
+
+    private User getAuthorizedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = auth.getName();
-        if (!currentUser.equals(userId)) {
-            throw new UnauthorizedUserException();
+        final User user = authorRepository.findOne(currentUser);
+        if (user == null) {
+            throw new UnauthorizedUserException("User not found");
         }
+        return user;
     }
 
     private void hideAuthInfo(User user) {

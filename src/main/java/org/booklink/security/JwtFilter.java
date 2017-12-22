@@ -111,6 +111,15 @@ public class JwtFilter extends GenericFilterBean {
         if (method.startsWith("/news") && "GET".equalsIgnoreCase(methodType)) {
             return true;
         }
+        if (method.startsWith("/friends") && "GET".equalsIgnoreCase(methodType)) {
+            return true;
+        }
+        if (method.startsWith("/subscribers") && "GET".equalsIgnoreCase(methodType)) {
+            return true;
+        }
+        if (method.startsWith("/subscriptions") && "GET".equalsIgnoreCase(methodType)) {
+            return true;
+        }
         return false;
     }
 }

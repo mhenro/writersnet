@@ -152,7 +152,7 @@ public class User {
         this.bookSeries = bookSeries;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "section_id")
     public Section getSection() {
         return section;

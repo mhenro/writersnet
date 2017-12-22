@@ -66,6 +66,39 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
+    @RequestMapping(value = "friends/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> isFriendOf(@PathVariable String authorId) {
+        final boolean result = authorService.isFriendOf(authorId);
+        Response<Boolean> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "subscribers/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> isSubscriberOf(@PathVariable String authorId) {
+        final boolean result = authorService.isSubscriberOf(authorId);
+        Response<Boolean> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "subscriptions/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> isSubscriptionOf(@PathVariable String authorId) {
+        final boolean result = authorService.isSubscription(authorId);
+        Response<Boolean> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
     @RequestMapping(value = "authors", method = RequestMethod.POST)
     public ResponseEntity<?> saveAuthor(@RequestBody User author) {
         Response<String> response = new Response<>();

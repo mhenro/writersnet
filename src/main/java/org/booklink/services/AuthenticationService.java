@@ -22,19 +22,17 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 @Service
 public class AuthenticationService {
     private UserRepository userRepository;
-    private SectionRepository sectionRepository;
     private JavaMailSender mailSender;
 
     @Autowired
-    public AuthenticationService(final UserRepository userRepository, final SectionRepository sectionRepository, final JavaMailSender mailSender) {
+    public AuthenticationService(final UserRepository userRepository, final JavaMailSender mailSender) {
         this.userRepository = userRepository;
-        this.sectionRepository = sectionRepository;
         this.mailSender = mailSender;
     }
 
     public String auth(final Credentials credentials) {
         String result = null;
-        User user = userRepository.findOne(credentials.getUsername());
+        final User user = userRepository.findOne(credentials.getUsername());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (user != null && passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
             result = generateActivationToken(user);
@@ -75,17 +73,16 @@ public class AuthenticationService {
 
     private void createRegistrationLink(final User user) {
         final String token = generateActivationToken(user);
-        user.setActivationToken(token);
-        userRepository.save(user);
-
         final Section defaultSection = createDefaultSection(user);
-        sectionRepository.save(defaultSection);
+        user.setActivationToken(token);
+        user.setSection(defaultSection);
+        userRepository.save(user);
 
         sendRegistrationEmail(user.getEmail(), token);
     }
 
     private Section createDefaultSection(User user) {
-        Section section = new Section();
+        final Section section = new Section();
         section.setAuthor(user);
         section.setLastUpdated(new Date());
         section.setName("Author section");

@@ -1,5 +1,7 @@
 package org.booklink.models.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,8 +22,18 @@ public class ChatGroup {
     private List<Message> messages = new ArrayList<>();
     private List<User> users;
 
+    @GenericGenerator(
+            name = "chat_group_generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "chat_group_id_seq"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "0"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chat_group_generator")
+    @Column(updatable = false, nullable = false)
     public Long getId() {
         return id;
     }

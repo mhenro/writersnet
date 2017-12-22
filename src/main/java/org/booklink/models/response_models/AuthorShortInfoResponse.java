@@ -24,7 +24,7 @@ public class AuthorShortInfoResponse {
 
     public AuthorShortInfoResponse(final String username, final String firstName, final String lastName,
                                    final String avatar, final String preferredLanguages, final Long views,
-                                   final Float rating, final Long votesCount) {
+                                   final Float totalRating, final Long totalVotes) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,7 +32,11 @@ public class AuthorShortInfoResponse {
         this.avatar = avatar;
         this.preferredLanguages = preferredLanguages;
         this.views = views;
-        this.rating = new TotalRating(rating, votesCount);
+        if (totalRating != null && totalVotes != null) {
+            this.rating = new TotalRating(totalRating, totalVotes);
+        } else {
+            this.rating = new TotalRating(0, 0);
+        }
     }
 
     public String getUsername() {

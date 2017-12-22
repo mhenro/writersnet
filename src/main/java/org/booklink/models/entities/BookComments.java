@@ -2,8 +2,12 @@ package org.booklink.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.booklink.models.request_models.AuthorInfo;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Parameter;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -20,8 +24,18 @@ public class BookComments {
     private Date created;
     private AuthorInfo authorInfo = new AuthorInfo();
 
+    @GenericGenerator(
+            name = "book_comment_generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "comment_id_seq"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "0"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_comment_generator")
+    @Column(updatable = false, nullable = false)
     public Long getId() {
         return id;
     }
