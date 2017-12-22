@@ -19,48 +19,45 @@ public class AuthorResponse {
     private String lastName;
     private String fullName;
     private String avatar;
-    private Set<BookResponse> books;
-    private Set<BookSerieResponse> bookSeries;
+    //private Set<BookResponse> books;
+    //private Set<BookSerieResponse> bookSeries;
     private SectionResponse section;
-    private String sectionDescription;
-    private String sectionName;
     private String language;
     private String preferredLanguages;
     private Long views = 0L;
-    private SessionResponse session;
+    //private SessionResponse session;
     private TotalRating rating;
     private TotalSize totalSize;
-    private Set<FriendshipResponse> subscribers;
-    private Set<FriendshipResponse> subscriptions;
+    //private Set<FriendshipResponse> subscribers;
+    //private Set<FriendshipResponse> subscriptions;
 
     public AuthorResponse() {}
 
-    public AuthorResponse(final User user) {
-        if (user == null) {
-            return;
-        }
-        this.username = user.getUsername();
-        this.email = user.getEmail();
-        this.birthday = user.getBirthday();
-        this.city = user.getCity();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.fullName = user.getFullName();
-        this.avatar = user.getAvatar();
-        this.sectionDescription = user.getSection().getDescription();
-        this.sectionName = user.getSection().getName();
-        this.language = user.getLanguage();
-        this.preferredLanguages = user.getPreferredLanguages();
-        this.views = user.getViews();
-        this.rating = user.getRating();
-        this.totalSize = user.getTotalSize();
+    public AuthorResponse(final String username, final String email, final Date birthday, final String city, final String firstName,
+                          final String lastName, final String avatar, final Section section,
+                          final String language, final String preferredLanguages, final Long views, final Float totalRating, final Long totalVotes) {
+        this.username = username;
+        this.email = email;
+        this.birthday = birthday;
+        this.city = city;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.fullName = firstName + lastName;
+        this.avatar = avatar;
+        this.section = new SectionResponse(section);
+        this.language = language;
+        this.preferredLanguages = preferredLanguages;
+        this.views = views;
+        this.rating = new TotalRating(totalRating, totalVotes);
+        this.totalSize = new TotalSize(0, 0);
 
+        /*
         this.bookSeries = user.getBookSeries().stream().map(this::convertSerie).collect(Collectors.toSet());
         this.books = user.getBooks().stream().map(this::convertBook).collect(Collectors.toSet());
         this.subscribers = user.getSubscribers().stream().map(this::convertFriendship).collect(Collectors.toSet());
         this.subscriptions = user.getSubscriptions().stream().map(this::convertFriendship).collect(Collectors.toSet());
-        this.section = new SectionResponse(user.getSection());
         this.session = new SessionResponse(user.getSession());
+        */
     }
 
     private BookSerieResponse convertSerie(final BookSerie bookSerie) {
@@ -139,6 +136,7 @@ public class AuthorResponse {
         this.avatar = avatar;
     }
 
+    /*
     public Set<BookResponse> getBooks() {
         return books;
     }
@@ -154,29 +152,13 @@ public class AuthorResponse {
     public void setBookSeries(Set<BookSerieResponse> bookSeries) {
         this.bookSeries = bookSeries;
     }
-
+*/
     public SectionResponse getSection() {
         return section;
     }
 
     public void setSection(SectionResponse section) {
         this.section = section;
-    }
-
-    public String getSectionDescription() {
-        return sectionDescription;
-    }
-
-    public void setSectionDescription(String sectionDescription) {
-        this.sectionDescription = sectionDescription;
-    }
-
-    public String getSectionName() {
-        return sectionName;
-    }
-
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
     }
 
     public String getLanguage() {
@@ -202,7 +184,7 @@ public class AuthorResponse {
     public void setViews(Long views) {
         this.views = views;
     }
-
+/*
     public SessionResponse getSession() {
         return session;
     }
@@ -210,7 +192,7 @@ public class AuthorResponse {
     public void setSession(SessionResponse session) {
         this.session = session;
     }
-
+*/
     public TotalRating getRating() {
         return rating;
     }
@@ -226,7 +208,7 @@ public class AuthorResponse {
     public void setTotalSize(TotalSize totalSize) {
         this.totalSize = totalSize;
     }
-
+/*
     public Set<FriendshipResponse> getSubscribers() {
         return subscribers;
     }
@@ -242,4 +224,5 @@ public class AuthorResponse {
     public void setSubscriptions(Set<FriendshipResponse> subscriptions) {
         this.subscriptions = subscriptions;
     }
+    */
 }

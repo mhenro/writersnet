@@ -9,6 +9,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.models.response_models.AuthorResponse;
+import org.booklink.models.response_models.AuthorShortInfoResponse;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.response_models.FriendResponse;
 import org.booklink.models.top_models.*;
@@ -51,28 +52,18 @@ public class AuthorService {
         this.newsService = newsService;
     }
 
-    public Page<AuthorResponse> getAuthors(final Pageable pageable) {
-        Page<AuthorResponse> authors = authorRepository.findAllEnabled(pageable);
+    public Page<AuthorShortInfoResponse> getAuthors(final Pageable pageable) {
+        Page<AuthorShortInfoResponse> authors = authorRepository.findAllEnabled(pageable);
         authors.forEach(author -> {
             setDefaultAvatar(author);
-            /*hideAuthInfo(author);
-            removeRecursionFromAuthor(author);
-            setDefaultAvatar(author);
-            calcBookSize(author);
-            hideText(author);*/
         });
         return authors;
     }
 
-    public Page<AuthorResponse> getAuthorsByName(final String name, final Pageable pageable) {
-        Page<AuthorResponse> authors = authorRepository.findAuthorsByName(name, pageable);
+    public Page<AuthorShortInfoResponse> getAuthorsByName(final String name, final Pageable pageable) {
+        Page<AuthorShortInfoResponse> authors = authorRepository.findAuthorsByName(name, pageable);
         authors.forEach(author -> {
             setDefaultAvatar(author);
-            /*hideAuthInfo(author);
-            removeRecursionFromAuthor(author);
-            setDefaultAvatar(author);
-            calcBookSize(author);
-            hideText(author);*/
         });
         return authors;
     }
@@ -98,18 +89,12 @@ public class AuthorService {
     }
 
     public AuthorResponse getAuthor(final String authorId) {
-        final User user = authorRepository.findOne(authorId);
-        final AuthorResponse author = new AuthorResponse(user);
+        //final User user = authorRepository.findOne(authorId);
+        //final AuthorResponse author = new AuthorResponse(user);
+        final AuthorResponse author = authorRepository.findAuthor(authorId);
         if (author != null) {
             setDefaultCoverForBooks(author);
-            setDefaultAvatar(author);
-            /*increaseAuthorViews(author);
-            hideAuthInfo(author);
-            removeRecursionFromAuthor(author);
-            setDefaultAvatar(author);
-            setDefaultCoverForBooks(author);
-            calcBookSize(author);
-            hideText(author);*/
+            //setDefaultAvatar(author);
         }
         return author;
     }
@@ -266,7 +251,7 @@ public class AuthorService {
         }
     }
 
-    private void setDefaultAvatar(AuthorResponse user) {
+    private void setDefaultAvatar(AuthorShortInfoResponse user) {
         final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
         if (user.getAvatar() == null) {
             user.setAvatar(defaultAvatar);
@@ -283,9 +268,9 @@ public class AuthorService {
 
     private void setDefaultCoverForBooks(AuthorResponse user) {
         final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
-        user.getBooks().stream()
-                .filter(book -> book.getCover() == null || book.getCover().isEmpty())
-                .forEach(book -> book.setCover(defaultCover));
+        //user.getBooks().stream()
+        //        .filter(book -> book.getCover() == null || book.getCover().isEmpty())
+        //        .forEach(book -> book.setCover(defaultCover));
     }
 
     @Deprecated

@@ -23,7 +23,7 @@ public class Session {
         this.id = id;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
     public User getAuthor() {
         return author;

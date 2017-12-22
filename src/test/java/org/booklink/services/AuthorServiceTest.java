@@ -6,6 +6,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.models.response_models.AuthorResponse;
+import org.booklink.models.response_models.AuthorShortInfoResponse;
 import org.booklink.models.response_models.BookResponse;
 import org.booklink.models.response_models.SectionResponse;
 import org.booklink.repositories.AuthorRepository;
@@ -72,7 +73,7 @@ public class AuthorServiceTest {
 
     @Before
     public void init() {
-        List<AuthorResponse> authors = generateAuthors(2);
+        List<AuthorShortInfoResponse> authors = generateAuthors(2);
         final Friendship friendship = new Friendship();
         final FriendshipPK friendshipPK = new FriendshipPK();
         friendship.setFriendshipPK(friendshipPK);
@@ -80,7 +81,7 @@ public class AuthorServiceTest {
         //friendship.getFriendshipPK().setSubscription(authors.get(1));
         //authors.get(0).getSubscribers().add(friendship);
 
-        final Page<AuthorResponse> page = new PageImpl<>(authors);
+        final Page<AuthorShortInfoResponse> page = new PageImpl<>(authors);
         Mockito.when(env.getProperty("writersnet.coverwebstorage.path")).thenReturn("https://localhost/css/images/covers/");
         Mockito.when(env.getProperty("writersnet.avatarwebstorage.path")).thenReturn("https://localhost/css/images/avatars/");
         Mockito.when(env.getProperty("writersnet.avatarstorage.path")).thenReturn("c:\\Java\\nginx\\html\\css\\images\\avatars\\");
@@ -97,7 +98,7 @@ public class AuthorServiceTest {
 
     @Test
     public void getAuthors() throws Exception {
-        Page<AuthorResponse> authors = authorService.getAuthors(null);
+        Page<AuthorShortInfoResponse> authors = authorService.getAuthors(null);
         Assert.assertEquals(2, authors.getTotalElements());
         Assert.assertEquals("user0", authors.getContent().get(0).getUsername());
         //Assert.assertEquals("", authors.getContent().get(0).getPassword());
@@ -107,7 +108,7 @@ public class AuthorServiceTest {
         //Assert.assertEquals(null, authors.getContent().get(0).getSection().getAuthor());
         Assert.assertEquals("https://localhost/css/images/avatars/default_avatar.png", authors.getContent().get(0).getAvatar());
 
-        List<BookResponse> books = new ArrayList<>(authors.getContent().get(0).getBooks());
+        //List<BookResponse> books = new ArrayList<>(authors.getContent().get(0).getBooks());
         /*books.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
         Assert.assertEquals(null, books.get(0).getAuthor());
         Assert.assertEquals(null, books.get(0).getCover());
@@ -126,7 +127,7 @@ public class AuthorServiceTest {
         //Assert.assertEquals(null, authors.getContent().get(1).getSection().getAuthor());
         Assert.assertEquals("http://avatar.png", authors.getContent().get(1).getAvatar());
 
-        books = new ArrayList<>(authors.getContent().get(1).getBooks());
+        //books = new ArrayList<>(authors.getContent().get(1).getBooks());
         /*books.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
         Assert.assertEquals(null, books.get(0).getAuthor());
         Assert.assertEquals(null, books.get(0).getCover());
@@ -153,15 +154,15 @@ public class AuthorServiceTest {
         Assert.assertEquals(null, user.getSection().getAuthor());*/
         Assert.assertEquals("https://localhost/css/images/avatars/default_avatar.png", user.getAvatar());
 
-        List<BookResponse> books = new ArrayList<>(user.getBooks());
-        books.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
+        //List<BookResponse> books = new ArrayList<>(user.getBooks());
+        //books.sort((a, b) -> a.getName().compareToIgnoreCase(b.getName()));
         //Assert.assertEquals(null, books.get(0).getAuthor());
-        Assert.assertEquals("https://localhost/css/images/covers/default_cover.png", books.get(0).getCover());
-        Assert.assertEquals(5, (int)books.get(0).getSize());
+        //Assert.assertEquals("https://localhost/css/images/covers/default_cover.png", books.get(0).getCover());
+        //Assert.assertEquals(5, (int)books.get(0).getSize());
         //Assert.assertEquals(null, books.get(0).getBookText());
         //Assert.assertEquals(null, books.get(1).getAuthor());
-        Assert.assertEquals("http://cover.png", books.get(1).getCover());
-        Assert.assertEquals(5, (int)books.get(1).getSize());
+        //Assert.assertEquals("http://cover.png", books.get(1).getCover());
+        //Assert.assertEquals(5, (int)books.get(1).getSize());
         //Assert.assertEquals(null, books.get(1).getBookText());
 
         AuthorResponse notFound = authorService.getAuthor("unknown");
@@ -280,13 +281,13 @@ public class AuthorServiceTest {
         return section;
     }
 
-    private List<AuthorResponse> generateAuthors(final int count) {
-        List<AuthorResponse> authors = IntStream.range(0, count).mapToObj(this::createAuthor).collect(Collectors.toList());
+    private List<AuthorShortInfoResponse> generateAuthors(final int count) {
+        List<AuthorShortInfoResponse> authors = IntStream.range(0, count).mapToObj(this::createAuthor).collect(Collectors.toList());
         return authors;
     }
 
-    private AuthorResponse createAuthor(final int i) {
-        final AuthorResponse user = new AuthorResponse();
+    private AuthorShortInfoResponse createAuthor(final int i) {
+        final AuthorShortInfoResponse user = new AuthorShortInfoResponse();
         user.setUsername("user" + i);
         //user.setPassword("$2a$10$9deKO8TOxquIiUstzBuJLO8lMkSaZX/yxG2Ix/OK5Tl5TMVbkxeP6");
         //user.setActivationToken("token111");
@@ -294,8 +295,8 @@ public class AuthorServiceTest {
         //user.setEnabled(true);
         user.setFirstName("first" + i);
         user.setLastName("last" + i);
-        user.setBooks(generateBooks(2));
-        user.setSection(createSection(user));
+        //user.setBooks(generateBooks(2));
+        //user.setSection(createSection(user));
         user.setAvatar(i == 1 ? "http://avatar.png" : null);
 
         return user;

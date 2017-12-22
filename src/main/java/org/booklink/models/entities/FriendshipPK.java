@@ -15,7 +15,6 @@ public class FriendshipPK implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "subscriber_id", referencedColumnName = "username")
-    @JsonIgnore
     public User getSubscriber() {
         return subscriber;
     }
@@ -26,7 +25,6 @@ public class FriendshipPK implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "subscription_id", referencedColumnName = "username")
-    @JsonIgnore
     public User getSubscription() {
         return subscription;
     }
@@ -42,15 +40,15 @@ public class FriendshipPK implements Serializable{
 
         FriendshipPK that = (FriendshipPK) o;
 
-        if (!subscriber.equals(that.subscriber)) return false;
-        return subscription.equals(that.subscription);
+        if (subscriber != null ? !subscriber.equals(that.subscriber) : that.subscriber != null) return false;
+        return subscription != null ? subscription.equals(that.subscription) : that.subscription == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = subscriber.hashCode();
-        result = 31 * result + subscription.hashCode();
+        int result = subscriber != null ? subscriber.hashCode() : 0;
+        result = 31 * result + (subscription != null ? subscription.hashCode() : 0);
         return result;
     }
 }

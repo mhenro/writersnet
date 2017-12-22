@@ -14,10 +14,9 @@ import java.util.Date;
 public class Friendship implements Serializable {
     private FriendshipPK friendshipPK;
     private Date date;
-    private boolean active;
+    private Boolean active;
 
     @EmbeddedId
-    @JsonIgnore
     public FriendshipPK getFriendshipPK() {
         return friendshipPK;
     }
@@ -36,11 +35,11 @@ public class Friendship implements Serializable {
     }
 
     @Column(nullable = false)
-    public boolean isActive() {
+    public Boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 

@@ -18,7 +18,7 @@ public class BookSerieResponse {
         }
         this.id = bookSerie.getId();
         this.name = bookSerie.getName();
-        this.userId = bookSerie.getUserId();
+        this.userId = bookSerie.getAuthor().getUsername();
     }
 
     public long getId() {

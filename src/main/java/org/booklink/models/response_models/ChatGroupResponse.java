@@ -3,7 +3,6 @@ package org.booklink.models.response_models;
 import org.booklink.models.entities.ChatGroup;
 import org.booklink.models.entities.Message;
 import org.booklink.models.entities.User;
-import org.booklink.models.entities.UserChatGroup;
 
 import java.io.Serializable;
 import java.util.*;
@@ -25,11 +24,10 @@ public class ChatGroupResponse implements Serializable {
     private String primaryRecipientAvatar;
     private String recipients;
 
-    public ChatGroupResponse(final UserChatGroup userChatGroup) {
-        if (userChatGroup == null) {
+    public ChatGroupResponse(final ChatGroup group) {
+        if (group == null) {
             return;
         }
-        final ChatGroup group = userChatGroup.getUserChatGroupPK().getGroup();
         final User primaryRecipient = group.getPrimaryRecipient();
         final List<Message> messages = group.getMessages();
 

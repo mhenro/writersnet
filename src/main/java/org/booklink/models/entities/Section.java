@@ -51,8 +51,7 @@ public class Section {
         this.lastUpdated = lastUpdated;
     }
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id")
+    @OneToOne(mappedBy = "section", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     public User getAuthor() {
         return author;
     }

@@ -46,7 +46,7 @@ public class RatingRepositoryTest {
         final RatingId ratingId = new RatingId();
         ratingId.setClientIp("127.0.0.1");
         ratingId.setEstimation(5);
-        ratingId.setBookId(book.getId());
+        ratingId.setBook(book);
         rating.setRatingId(ratingId);
 
         entityManager.persist(rating);
@@ -57,7 +57,7 @@ public class RatingRepositoryTest {
     public void findRatingByBookIdAndClientIp() {
         final Rating rating = ratingRepository.findRatingByBookIdAndClientIp(1L, "127.0.0.1");
         Assert.assertNotEquals(null, rating);
-        Assert.assertEquals(1L, (long)rating.getRatingId().getBookId());
+        Assert.assertEquals(1L, (long)rating.getRatingId().getBook().getId());
         Assert.assertEquals("127.0.0.1", rating.getRatingId().getClientIp());
     }
 }

@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by mhenr on 06.12.2017.
@@ -19,6 +18,7 @@ public class ChatGroup {
     private Date created;
     private User primaryRecipient;
     private List<Message> messages = new ArrayList<>();
+    private List<User> users;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +46,7 @@ public class ChatGroup {
         this.avatar = avatar;
     }
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
     public User getCreator() {
         return creator;
@@ -54,6 +54,9 @@ public class ChatGroup {
 
     public void setCreator(User creator) {
         this.creator = creator;
+        if (creator != null) {
+            creator.getChatGroups().add(this);
+        }
     }
 
     public Date getCreated() {
@@ -64,7 +67,7 @@ public class ChatGroup {
         this.created = created;
     }
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "primary_recipient")
     public User getPrimaryRecipient() {
         return primaryRecipient;
@@ -72,14 +75,26 @@ public class ChatGroup {
 
     public void setPrimaryRecipient(User primaryRecipient) {
         this.primaryRecipient = primaryRecipient;
+        if (primaryRecipient != null) {
+            primaryRecipient.getChatGroups().add(this);
+        }
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Message> getMessages() {
         return messages;
     }
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    @ManyToMany(mappedBy = "chatGroups", fetch = FetchType.LAZY)
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

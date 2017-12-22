@@ -2,6 +2,8 @@ package org.booklink.services;
 
 import org.booklink.models.entities.Rating;
 import org.booklink.models.exceptions.ObjectAlreadyExistException;
+import org.booklink.repositories.AuthorRepository;
+import org.booklink.repositories.BookRepository;
 import org.booklink.repositories.RatingRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,10 +26,12 @@ public class RatingServiceTest {
     static class AuthenticationServiceConfiguration {
         @MockBean
         RatingRepository ratingRepository;
+        @MockBean
+        BookRepository bookRepository;
 
         @Bean
         public RatingService ratingService() {
-            return new RatingService(ratingRepository);
+            return new RatingService(ratingRepository, bookRepository);
         }
     }
 

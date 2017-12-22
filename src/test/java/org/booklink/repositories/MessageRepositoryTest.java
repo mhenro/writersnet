@@ -65,17 +65,6 @@ public class MessageRepositoryTest {
         return group;
     }
 
-    private UserChatGroup createUserChatGroup(final User user, final ChatGroup chatGroup) {
-        final UserChatGroup group = new UserChatGroup();
-        final UserChatGroupPK groupPK = new UserChatGroupPK();
-        group.setUserChatGroupPK(groupPK);
-        groupPK.setUser(user);
-        groupPK.setGroup(chatGroup);
-        entityManager.persist(group);
-
-        return group;
-    }
-
     @Before
     public void init() {
         final User user = createUser("mhenro", true, 0);
@@ -89,7 +78,7 @@ public class MessageRepositoryTest {
         group1.getMessages().add(msg1);
         group1.getMessages().add(msg2);
         group1.getMessages().add(msg3);
-        user.getChatGroups().add(createUserChatGroup(user, group1));
+        user.getChatGroups().add(group1);
 
 
         final ChatGroup group2 = createChatGroup(user);
@@ -102,7 +91,7 @@ public class MessageRepositoryTest {
         group2.getMessages().add(msg11);
         group2.getMessages().add(msg12);
         group2.getMessages().add(msg13);
-        user.getChatGroups().add(createUserChatGroup(user, group2));
+        user.getChatGroups().add(group2);
 
 
         entityManager.flush();

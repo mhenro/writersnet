@@ -28,9 +28,8 @@ public class Message {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
-    @JsonIgnore
     public User getCreator() {
         return creator;
     }
@@ -57,15 +56,17 @@ public class Message {
         this.created = created;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
-    @JsonIgnore
     public ChatGroup getGroup() {
         return group;
     }
 
     public void setGroup(ChatGroup group) {
         this.group = group;
+        if (group != null) {
+            group.getMessages().add(this);
+        }
     }
 
     public Boolean getUnread() {
@@ -79,21 +80,25 @@ public class Message {
     /* --------------------------------------------business logic-------------------------------------------- */
 
     @Transient
+    @Deprecated
     public String getCreatorId() {
         return creator.getUsername();
     }
 
     @Transient
+    @Deprecated
     public String getCreatorFullName() {
         return creator.getFullName();
     }
 
     @Transient
+    @Deprecated
     public Long getChatGroupId() {
         return group.getId();
     }
 
     @Transient
+    @Deprecated
     public String getCreatorAvatar() {
         return creator.getAvatar();
     }

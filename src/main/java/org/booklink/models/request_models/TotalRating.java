@@ -5,11 +5,16 @@ package org.booklink.models.request_models;
  */
 public class TotalRating {
     private float averageRating;
-    private int userCount;
+    private long userCount;
 
     public TotalRating() {
         averageRating = 0;
         userCount = 0;
+    }
+
+    public TotalRating(float averageRating, long userCount) {
+        this.averageRating = averageRating;
+        this.userCount = userCount;
     }
 
     public float getAverageRating() {
@@ -20,11 +25,11 @@ public class TotalRating {
         this.averageRating = averageRating;
     }
 
-    public int getUserCount() {
+    public long getUserCount() {
         return userCount;
     }
 
-    public void setUserCount(int userCount) {
+    public void setUserCount(long userCount) {
         this.userCount = userCount;
     }
 }

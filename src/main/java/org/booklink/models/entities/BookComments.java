@@ -16,7 +16,7 @@ public class BookComments {
     private Book book;
     private User user;
     private String comment;
-    private Long relatedTo;
+    private BookComments relatedTo;
     private Date created;
     private AuthorInfo authorInfo = new AuthorInfo();
 
@@ -30,24 +30,27 @@ public class BookComments {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
     public Book getBook() {
         return book;
     }
 
     public void setBook(Book book) {
         this.book = book;
+        if (book != null) {
+            book.getComments().add(this);
+        }
     }
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     public User getUser() {
         return user;
     }
 
     @Transient
+    @Deprecated
     public AuthorInfo getAuthorInfo() {
         authorInfo.setAvatar(this.user != null ? this.user.getAvatar() : authorInfo.getAvatar());
         authorInfo.setFirstName(this.user != null ? this.user.getFirstName() : "Anonymous");
@@ -67,12 +70,13 @@ public class BookComments {
         this.comment = comment;
     }
 
-    @Column(name = "related_to")
-    public Long getRelatedTo() {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "related_to")
+    public BookComments getRelatedTo() {
         return relatedTo;
     }
 
-    public void setRelatedTo(Long relatedTo) {
+    public void setRelatedTo(BookComments relatedTo) {
         this.relatedTo = relatedTo;
     }
 

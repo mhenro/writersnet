@@ -33,7 +33,8 @@ public class BookText {
         this.text = text;
     }
 
-    @OneToOne(mappedBy = "bookText")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
     public Book getBook() {
         return book;
     }

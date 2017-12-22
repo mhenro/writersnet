@@ -6,6 +6,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.AvatarRequest;
 import org.booklink.models.response_models.AuthorResponse;
+import org.booklink.models.response_models.AuthorShortInfoResponse;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.response_models.FriendResponse;
 import org.booklink.services.AuthorService;
@@ -40,13 +41,13 @@ public class AuthorController {
 
     @CrossOrigin
     @RequestMapping(value = "authors", method = RequestMethod.GET)
-    public Page<AuthorResponse> getAuthors(Pageable pageable) {
+    public Page<AuthorShortInfoResponse> getAuthors(Pageable pageable) {
         return authorService.getAuthors(pageable);
     }
 
     @CrossOrigin
     @RequestMapping(value = "authors/name/{authorName:.+}", method = RequestMethod.GET)
-    public Page<AuthorResponse> getAuthorsByName(@PathVariable final String authorName, final Pageable pageable) {
+    public Page<AuthorShortInfoResponse> getAuthorsByName(@PathVariable final String authorName, final Pageable pageable) {
         return authorService.getAuthorsByName(authorName, pageable);
     }
 

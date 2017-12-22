@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "users")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="username")
 public class User {
     private String username;
     private String password;
@@ -27,6 +26,7 @@ public class User {
     private String lastName;
     private String avatar;
     private Set<Book> books;
+    private Set<BookSerie> bookSeries;
     private Section section;
     private String sectionDescription;
     private String sectionName;
@@ -35,8 +35,10 @@ public class User {
     private Long views = 0L;
     private Set<Friendship> subscribers = new HashSet<>();
     private Set<Friendship> subscriptions = new HashSet<>();
-    private List<UserChatGroup> chatGroups = new ArrayList<>();
+    private List<ChatGroup> chatGroups = new ArrayList<>();
     private Session session;
+    private Float totalRating;
+    private Long totalVotes;
 
     @Id
     public String getUsername() {
@@ -132,8 +134,7 @@ public class User {
         this.avatar = avatar;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "author")
-   // @JsonManagedReference
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     public Set<Book> getBooks() {
         return books;
     }
@@ -142,7 +143,17 @@ public class User {
         this.books = books;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "author")
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    public Set<BookSerie> getBookSeries() {
+        return bookSeries;
+    }
+
+    public void setBookSeries(Set<BookSerie> bookSeries) {
+        this.bookSeries = bookSeries;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id")
     public Section getSection() {
         return section;
     }
@@ -195,23 +206,45 @@ public class User {
         this.subscriptions = subscriptions;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userChatGroupPK.user")
-    @JsonIgnore
-    public List<UserChatGroup> getChatGroups() {
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "chat_groups_users",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id")
+    )
+    public List<ChatGroup> getChatGroups() {
         return chatGroups;
     }
 
-    public void setChatGroups(List<UserChatGroup> chatGroups) {
+    public void setChatGroups(List<ChatGroup> chatGroups) {
         this.chatGroups = chatGroups;
     }
 
-    @OneToOne(mappedBy = "author")
+    @OneToOne(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     public Session getSession() {
         return session;
     }
 
     public void setSession(Session session) {
         this.session = session;
+    }
+
+    @Column(name = "total_rating", precision = 2, scale=1)
+    public Float getTotalRating() {
+        return totalRating;
+    }
+
+    public void setTotalRating(Float totalRating) {
+        this.totalRating = totalRating;
+    }
+
+    @Column(name = "total_votes")
+    public Long getTotalVotes() {
+        return totalVotes;
+    }
+
+    public void setTotalVotes(Long totalVotes) {
+        this.totalVotes = totalVotes;
     }
 
     /* -----------------------------business logic-------------------------------------------------------- */
@@ -235,7 +268,7 @@ public class User {
         if (books == null) {
             return authorRating;
         }
-        int totalUsers = books.stream().map(book -> book.getTotalRating().getUserCount()).collect(Collectors.summingInt(n -> n));
+        long totalUsers = books.stream().map(book -> book.getTotalRating().getUserCount()).collect(Collectors.summingLong(n -> n));
         Map<Integer, Long> countByStars = books.stream().flatMap(book -> book.getRating().stream())
                 .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
         float averageRating = (float)countByStars.entrySet().stream()
@@ -265,16 +298,6 @@ public class User {
         totalSize.setTotalSize(size);
         totalSize.setTotalBooks(booksCount);
         return totalSize;
-    }
-
-    @Transient
-    public Set<BookSerie> getBookSeries() {
-        return Optional.ofNullable(books)
-                .map(books -> books.stream()
-                        .map(book -> book.getBookSerie())
-                        .filter(book -> book != null)
-                        .collect(Collectors.toSet()))
-                .orElseGet(() -> Collections.emptySet());
     }
 
     @Transient

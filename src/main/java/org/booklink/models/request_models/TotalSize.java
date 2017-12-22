@@ -12,6 +12,11 @@ public class TotalSize {
         totalBooks = 0;
     }
 
+    public TotalSize(long totalSize, long totalBooks) {
+        this.totalSize = totalSize;
+        this.totalBooks = totalBooks;
+    }
+
     public long getTotalSize() {
         return totalSize;
     }

@@ -32,7 +32,7 @@ public class BookResponse {
             return;
         }
         this.id = book.getId();
-        this.commentsCount = book.getCommentsCount();
+        this.commentsCount = book.getComments().size();
         this.cover = book.getCover();
         this.created = book.getCreated();
         this.description = book.getDescription();
@@ -48,7 +48,7 @@ public class BookResponse {
             this.bookSerie = new BookSerieResponse();
             this.bookSerie.setId(book.getBookSerie().getId());
             this.bookSerie.setName(book.getBookSerie().getName());
-            this.bookSerie.setUserId(book.getBookSerie().getUserId());
+            this.bookSerie.setUserId(book.getBookSerie().getAuthor().getUsername());
         }
     }
 

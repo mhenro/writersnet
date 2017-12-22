@@ -6,7 +6,6 @@ import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.ChatGroupRepository;
 import org.booklink.repositories.MessageRepository;
-import org.booklink.repositories.UserChatGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,17 +24,14 @@ public class MessageService {
     private MessageRepository messageRepository;
     private AuthorRepository authorRepository;
     private ChatGroupRepository chatGroupRepository;
-    private UserChatGroupRepository userChatGroupRepository;
 
     @Autowired
     public MessageService(final MessageRepository messageRepository,
                           final AuthorRepository authorRepository,
-                          final ChatGroupRepository chatGroupRepository,
-                          final UserChatGroupRepository userChatGroupRepository) {
+                          final ChatGroupRepository chatGroupRepository) {
         this.messageRepository = messageRepository;
         this.authorRepository = authorRepository;
         this.chatGroupRepository = chatGroupRepository;
-        this.userChatGroupRepository = userChatGroupRepository;
     }
 
     public Page<Message> getMessagesByGroup(final String userId, final Long groupId, final Pageable pageable) {
@@ -106,7 +102,11 @@ public class MessageService {
     }
 
     public long getUnreadMessagesFromUser(final String userId) {
-        final List<ChatGroup> groups = userChatGroupRepository.findAllByUserId(userId);
+        final User user = authorRepository.findOne(userId);
+        if (user == null) {
+            throw new ObjectNotFoundException("User was not found");
+        }
+        final List<ChatGroup> groups = user.getChatGroups();
         return groups.stream()
                 .flatMap(group -> group.getMessages().stream())
                 .filter(message -> !message.getCreator().getUsername().equals(userId))
@@ -146,8 +146,7 @@ public class MessageService {
 
     private ChatGroup getChatGroupFromRecipient(final User recipient) {
         return recipient.getChatGroups().stream()
-                .filter(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup().getPrimaryRecipient().equals(recipient))
-                .map(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup())
+                .filter(group -> group.getPrimaryRecipient().equals(recipient))
                 .findAny()
                 .orElseGet(() -> null);
     }
@@ -158,12 +157,6 @@ public class MessageService {
         group.setCreator(author);
         group.setPrimaryRecipient(recipient);
         chatGroupRepository.save(group);
-        final UserChatGroup userChatGroup = createUserChatGroup(author, group);
-        author.getChatGroups().add(userChatGroup);
-        userChatGroupRepository.save(userChatGroup);
-        final UserChatGroup recipientChatGroup = createUserChatGroup(recipient, group);
-        recipient.getChatGroups().add(recipientChatGroup);
-        userChatGroupRepository.save(recipientChatGroup);
 
         return group;
     }
@@ -171,8 +164,7 @@ public class MessageService {
     private ChatGroup getChatGroup(final User author, final Long groupId, final User recipient) {
         if (groupId != null) {
             return author.getChatGroups().stream()
-                    .filter(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup().getId() == groupId)
-                    .map(userChatGroup -> userChatGroup.getUserChatGroupPK().getGroup())
+                    .filter(group -> group.getId() == groupId)
                     .findAny()
                     .orElseThrow(() -> new ObjectNotFoundException("Chat group is not found"));
         }
@@ -181,15 +173,6 @@ public class MessageService {
             return group;
         }
         throw new RuntimeException("Undefined behavior");
-    }
-
-    private UserChatGroup createUserChatGroup(final User user, final ChatGroup group) {
-        final UserChatGroup userChatGroup = new UserChatGroup();
-        final UserChatGroupPK pk = new UserChatGroupPK();
-        userChatGroup.setUserChatGroupPK(pk);
-        pk.setUser(user);
-        pk.setGroup(group);
-        return userChatGroup;
     }
 
     private void checkCredentials(final String userId) {

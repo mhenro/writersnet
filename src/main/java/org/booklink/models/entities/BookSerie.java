@@ -11,7 +11,7 @@ import java.util.Set;
 public class BookSerie implements Serializable {
     private Long id;
     private String name;
-    private String userId;
+    private User author;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +31,16 @@ public class BookSerie implements Serializable {
         this.name = name;
     }
 
-    @Column(name = "user_id")
-    public String getUserId() {
-        return userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    public User getAuthor() {
+        return author;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setAuthor(User author) {
+        this.author = author;
+        if (author != null) {
+            author.getBookSeries().add(this);
+        }
     }
 }

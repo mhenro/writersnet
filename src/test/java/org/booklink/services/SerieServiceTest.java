@@ -1,9 +1,11 @@
 package org.booklink.services;
 
 import org.booklink.models.entities.BookSerie;
+import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request_models.Serie;
+import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SerieRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,10 +36,12 @@ public class SerieServiceTest {
     static class AuthenticationServiceConfiguration {
         @MockBean
         private SerieRepository serieRepository;
+        @MockBean
+        private AuthorRepository authorRepository;
 
         @Bean
         public SerieService serieService() {
-            return new SerieService(serieRepository);
+            return new SerieService(serieRepository, authorRepository);
         }
     }
 
@@ -52,8 +56,9 @@ public class SerieServiceTest {
         List<BookSerie> series = generateSeries(2);
         final Page<BookSerie> page = new PageImpl<>(series);
         Mockito.when(serieRepository.findAllByUserId("user", null)).thenReturn(page);
+        final User author = createUser("user0");
         final BookSerie bookSerie = new BookSerie();
-        bookSerie.setUserId("user0");
+        bookSerie.setAuthor(author);
         Mockito.when(serieRepository.findOne(55L)).thenReturn(bookSerie);
 
         Authentication authentication = Mockito.mock(Authentication.class);
@@ -101,8 +106,9 @@ public class SerieServiceTest {
 
     @Test(expected = UnauthorizedUserException.class)
     public void saveSerie_unauthorized2() throws Exception {
+        final User author = createUser("user1");
         final BookSerie bookSerie = new BookSerie();
-        bookSerie.setUserId("user1");
+        bookSerie.setAuthor(author);
         Mockito.when(serieRepository.findOne(55L)).thenReturn(bookSerie);
 
         final Serie serie = new Serie();
@@ -123,8 +129,9 @@ public class SerieServiceTest {
 
     @Test(expected = UnauthorizedUserException.class)
     public void deleteSerie_unauthorized() throws Exception {
+        final User author = createUser("user10");
         final BookSerie bookSerie = new BookSerie();
-        bookSerie.setUserId("user10");
+        bookSerie.setAuthor(author);
         Mockito.when(serieRepository.findOne(55L)).thenReturn(bookSerie);
 
         serieService.deleteSerie(55L);
@@ -135,10 +142,17 @@ public class SerieServiceTest {
     }
 
     private BookSerie createSerie(final int i) {
+        final User author = createUser("user" + i);
         final BookSerie bookSerie = new BookSerie();
         bookSerie.setId(Long.valueOf(i));
-        bookSerie.setUserId("user" + i);
+        bookSerie.setAuthor(author);
         bookSerie.setName("serie" + i);
         return bookSerie;
+    }
+
+    private User createUser(final String username) {
+        final User user = new User();
+        user.setUsername(username);
+        return user;
     }
 }

@@ -2,10 +2,7 @@ package org.booklink.repositories;
 
 import org.booklink.models.entities.Book;
 import org.booklink.models.entities.User;
-import org.booklink.models.response_models.AuthorResponse;
-import org.booklink.models.response_models.ChatGroupResponse;
-import org.booklink.models.response_models.FriendResponse;
-import org.booklink.models.response_models.MessageResponse;
+import org.booklink.models.response_models.*;
 import org.booklink.models.top_models.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +16,14 @@ import java.util.List;
  * Created by mhenr on 16.10.2017.
  */
 public interface AuthorRepository extends PagingAndSortingRepository<User, String> {
-    @Query("SELECT new org.booklink.models.response_models.AuthorResponse(u) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true")  //TODO: sort by premium account
-    Page<AuthorResponse> findAuthorsByName(String name, Pageable pageable);
+    @Query("SELECT new org.booklink.models.response_models.AuthorResponse(u.username, u.email, u.birthday, u.city, u.firstName, u.lastName, u.avatar, u.section, u.language, u.preferredLanguages, u.views, u.totalRating, u.totalVotes) FROM User u WHERE u.username = ?1")
+    AuthorResponse findAuthor(final String username);
 
-    @Query("SELECT new org.booklink.models.response_models.AuthorResponse(u) FROM User u WHERE u.enabled = true")
-    Page<AuthorResponse> findAllEnabled(final Pageable pageable);
+    @Query("SELECT new org.booklink.models.response_models.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true")  //TODO: sort by premium account
+    Page<AuthorShortInfoResponse> findAuthorsByName(String name, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response_models.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes) FROM User u WHERE u.enabled = true")
+    Page<AuthorShortInfoResponse> findAllEnabled(final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.top_models.TopAuthorRating(u.username, u.firstName, u.lastName, COALESCE(sum(r.ratingId.estimation), 0), count(r.ratingId.estimation)) FROM User u LEFT JOIN u.books b LEFT JOIN b.rating r WHERE u.enabled = true GROUP BY u.username ORDER BY count(r.ratingId.estimation)*COALESCE(sum(r.ratingId.estimation), 0) DESC")
     Page<TopAuthorRating> findAllByRating(final Pageable pageable);
@@ -37,7 +37,7 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.top_models.TopAuthorViews(u.username, u.firstName, u.lastName, u.views) FROM User u WHERE u.enabled = true ORDER BY u.views DESC")
     Page<TopAuthorViews> findAllByViews(final Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.response_models.ChatGroupResponse(g) FROM User u LEFT JOIN u.chatGroups g WHERE g.userChatGroupPK.user.username = ?1 AND u.enabled = true")
+    @Query("SELECT new org.booklink.models.response_models.ChatGroupResponse(g) FROM User u LEFT JOIN u.chatGroups g WHERE u.username = ?1 AND u.enabled = true")
     Page<ChatGroupResponse> getChatGroups(final String userId, final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.response_models.FriendResponse(u.username, u.firstName, u.lastName) FROM User u LEFT JOIN u.subscribers scr LEFT JOIN u.subscriptions sub WHERE scr.friendshipPK.subscription.username = ?1 AND sub.friendshipPK.subscriber.username = ?1 AND UPPER(u.firstName) LIKE UPPER(?2)||'%' AND u.enabled = true")

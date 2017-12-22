@@ -1,7 +1,5 @@
 package org.booklink.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,18 +8,22 @@ import java.io.Serializable;
  */
 @Embeddable
 public class RatingId implements Serializable {
-    private Long bookId;
+    private Book book;
     private Integer estimation;
     private String clientIp;
+    private Rating rating;
 
-    @JsonIgnore
-    @Column(name = "book_id")
-    public Long getBookId() {
-        return bookId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
+        if (book != null) {
+            book.getRating().add(this.rating);
+        }
     }
 
     public Integer getEstimation() {
@@ -41,6 +43,15 @@ public class RatingId implements Serializable {
         this.clientIp = clientIp;
     }
 
+    @org.hibernate.annotations.Parent
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,7 +59,7 @@ public class RatingId implements Serializable {
 
         RatingId ratingId = (RatingId) o;
 
-        if (bookId != null ? !bookId.equals(ratingId.bookId) : ratingId.bookId != null) return false;
+        if (book != null ? !book.equals(ratingId.book) : ratingId.book != null) return false;
         if (estimation != null ? !estimation.equals(ratingId.estimation) : ratingId.estimation != null) return false;
         return clientIp != null ? clientIp.equals(ratingId.clientIp) : ratingId.clientIp == null;
 
@@ -56,7 +67,7 @@ public class RatingId implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = bookId != null ? bookId.hashCode() : 0;
+        int result = book != null ? book.hashCode() : 0;
         result = 31 * result + (estimation != null ? estimation.hashCode() : 0);
         result = 31 * result + (clientIp != null ? clientIp.hashCode() : 0);
         return result;

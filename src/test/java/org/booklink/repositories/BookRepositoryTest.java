@@ -68,7 +68,7 @@ public class BookRepositoryTest {
         final RatingId ratingId = new RatingId();
         ratingId.setClientIp(ip);
         ratingId.setEstimation(estimation);
-        ratingId.setBookId(book.getId());
+        ratingId.setBook(book);
         rating.setRatingId(ratingId);
         entityManager.persist(rating);
     }

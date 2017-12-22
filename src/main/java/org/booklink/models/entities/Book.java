@@ -31,8 +31,8 @@ public class Book {
     private String language;
     private String cover;
     private Integer size;
-    private List<BookComments> comments;
     private Long views = 0L;
+    private List<BookComments> comments;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +52,7 @@ public class Book {
         this.name = name;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "text_id")
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     public BookText getBookText() {
         return bookText;
     }
@@ -100,9 +99,8 @@ public class Book {
         this.genre = genre;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author", nullable = false)
-    //@JsonBackReference
     public User getAuthor() {
         return author;
     }
@@ -112,36 +110,19 @@ public class Book {
     }
 
     @Transient
+    @Deprecated
     public String getAuthorName() {
         return authorName;
     }
 
+    @Deprecated
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ratingId.bookId")
-    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ratingId.book", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Rating> getRating() {
         return rating;
-    }
-
-    @Transient
-    public TotalRating getTotalRating() {
-        if (rating == null) {
-            return null;
-        }
-        Long totalUsers = rating.stream().filter(rating -> rating.getRatingId().getBookId() == id).count();
-        Map<Integer, Long> countByStars = rating.stream()
-                .filter(rating -> rating.getRatingId().getBookId() == id)
-                .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
-        float averageRating = (float)countByStars.entrySet().stream()
-                .map(map -> map.getKey() * map.getValue().intValue())
-                .collect(Collectors.summingInt(n -> n)) / totalUsers;
-        TotalRating totalRating = new TotalRating();
-        totalRating.setUserCount(totalUsers.intValue());
-        totalRating.setAverageRating(totalUsers > 0 ? averageRating : 0);
-        return totalRating;
     }
 
     public void setRating(List<Rating> rating) {
@@ -160,7 +141,7 @@ public class Book {
         this.size = size;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "serie_id")
     public BookSerie getBookSerie() {
         return bookSerie;
@@ -171,10 +152,12 @@ public class Book {
     }
 
     @Transient
+    @Deprecated
     public Long getSerieId() {
         return serieId;
     }
 
+    @Deprecated
     public void setSerieId(Long serieId) {
         this.serieId = serieId;
     }
@@ -195,22 +178,6 @@ public class Book {
         this.cover = cover;
     }
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    @JsonIgnore
-    public List<BookComments> getComments() {
-        return comments;
-    }
-
-    @Transient
-    public int getCommentsCount() {
-        return Optional.ofNullable(comments).map(comments -> comments.size()).orElse(0);
-    }
-
-    public void setComments(List<BookComments> comments) {
-        this.comments = comments;
-    }
-
     @Column(nullable = false)
     public Long getViews() {
         return views;
@@ -218,5 +185,34 @@ public class Book {
 
     public void setViews(Long views) {
         this.views = views;
+    }
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<BookComments> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<BookComments> comments) {
+        this.comments = comments;
+    }
+
+    /* -----------------------------------------business logic----------------------------------------- */
+
+    @Transient
+    public TotalRating getTotalRating() {
+        if (rating == null) {
+            return null;
+        }
+        Long totalUsers = rating.stream().filter(rating -> rating.getRatingId().getBook().getId() == id).count();
+        Map<Integer, Long> countByStars = rating.stream()
+                .filter(rating -> rating.getRatingId().getBook().getId() == id)
+                .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
+        float averageRating = (float)countByStars.entrySet().stream()
+                .map(map -> map.getKey() * map.getValue().intValue())
+                .collect(Collectors.summingInt(n -> n)) / totalUsers;
+        TotalRating totalRating = new TotalRating();
+        totalRating.setUserCount(totalUsers.intValue());
+        totalRating.setAverageRating(totalUsers > 0 ? averageRating : 0);
+        return totalRating;
     }
 }

@@ -44,7 +44,7 @@ public class News {
         this.type = type;
     }
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     public User getAuthor() {
         return author;
@@ -54,7 +54,7 @@ public class News {
         this.author = author;
     }
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     public Book getBook() {
         return book;
@@ -73,7 +73,7 @@ public class News {
         this.created = created;
     }
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subscription_id")
     public User getSubscription() {
         return subscription;

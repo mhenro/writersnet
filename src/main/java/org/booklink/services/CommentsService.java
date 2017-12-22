@@ -52,6 +52,10 @@ public class CommentsService {
     }
 
     public void saveComment(final BookComment bookComment) {
+        final BookComments relatedComment = bookCommentsRepository.findOne(bookComment.getRelatedTo());
+        if (relatedComment == null) {
+            throw new ObjectNotFoundException("Related comment was not found");
+        }
         BookComments entity = new BookComments();
         Book book = bookRepository.findOne(bookComment.getBookId());
         if (book == null) {
@@ -67,7 +71,7 @@ public class CommentsService {
         }
         entity.setBook(book);
         entity.setComment(bookComment.getComment());
-        entity.setRelatedTo(bookComment.getRelatedTo());
+        entity.setRelatedTo(relatedComment);
         entity.setCreated(new Date());
         bookCommentsRepository.save(entity);
     }

@@ -3,6 +3,7 @@ package org.booklink.repositories;
 import org.booklink.config.RootConfigTest;
 import org.booklink.models.entities.*;
 import org.booklink.models.response_models.AuthorResponse;
+import org.booklink.models.response_models.AuthorShortInfoResponse;
 import org.booklink.models.response_models.ChatGroupResponse;
 import org.booklink.models.top_models.TopAuthorBookCount;
 import org.booklink.models.top_models.TopAuthorComments;
@@ -73,7 +74,7 @@ public class AuthorRepositoryTest {
         final RatingId ratingId = new RatingId();
         ratingId.setClientIp(ip);
         ratingId.setEstimation(estimation);
-        ratingId.setBookId(book.getId());
+        ratingId.setBook(book);
         rating.setRatingId(ratingId);
         entityManager.persist(rating);
 
@@ -98,17 +99,6 @@ public class AuthorRepositoryTest {
         group.setAvatar("avatar");
         group.setName("name");
         group.setPrimaryRecipient(user);
-        entityManager.persist(group);
-
-        return group;
-    }
-
-    private UserChatGroup createUserChatGroup(final User user, final ChatGroup chatGroup) {
-        final UserChatGroup group = new UserChatGroup();
-        final UserChatGroupPK groupPK = new UserChatGroupPK();
-        group.setUserChatGroupPK(groupPK);
-        groupPK.setUser(user);
-        groupPK.setGroup(chatGroup);
         entityManager.persist(group);
 
         return group;
@@ -179,7 +169,7 @@ public class AuthorRepositoryTest {
         group1.getMessages().add(msg1);
         group1.getMessages().add(msg2);
         group1.getMessages().add(msg3);
-        user.getChatGroups().add(createUserChatGroup(user, group1));
+        user.getChatGroups().add(group1);
 
 
         final ChatGroup group2 = createChatGroup(user);
@@ -192,7 +182,7 @@ public class AuthorRepositoryTest {
         group2.getMessages().add(msg11);
         group2.getMessages().add(msg12);
         group2.getMessages().add(msg13);
-        user.getChatGroups().add(createUserChatGroup(user, group2));
+        user.getChatGroups().add(group2);
 
 
         entityManager.flush();
@@ -237,7 +227,7 @@ public class AuthorRepositoryTest {
     @Test
     public void findAllEnable() throws Exception {
         init();
-        Page<AuthorResponse> users = authorRepository.findAllEnabled(null);
+        Page<AuthorShortInfoResponse> users = authorRepository.findAllEnabled(null);
         Assert.assertEquals(1, users.getTotalElements());
         Assert.assertEquals("mhenro", users.getContent().get(0).getUsername());
     }
