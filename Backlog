@@ -1,7 +1,7 @@
 ﻿Current sprint:
-TODO: finish book entity refactoring.
 IN PROGRESS - 32. Refactor jpa entities. FetchType.LAZY for all @ManyToOne relations. Enable transactions and add @Transactional annotation to service layers. http://in.relation.to/2016/09/28/performance-tuning-and-best-practices/
-IN PROGRESS - 26. Add Main page to the site. Something like summary of ratings and recently general news. Use bootstrap scrollspy component for this.
+IN PROGRESS - 78. Change queries to DTO projections with constructors.
+26. Add Main page to the site. Something like summary of ratings and recently general news. Use bootstrap scrollspy component for this.
 71. Add first screen into the TitlePage carousel. It should be summary of the following:
           Welcome to %Site_name%!
 	  We are already xxxx! (where xxx - count of authors).
@@ -10,12 +10,6 @@ IN PROGRESS - 26. Add Main page to the site. Something like summary of ratings a
 
 
 Features:
-75. Change generation id strategy to SEQUENCE, cos it's more perfomance solution for Hibernate & Postgres. Something like this:
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_generator")
-	@SequenceGenerator(name="book_generator", sequenceName = "book_seq", allocationSize=1)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
 76. The parent-side @OneToOne association requires bytecode enhancement so that the association can be loaded lazily. 
 Otherwise, the parent-side is always fetched even if the association is marked with FetchType.LAZY.
 For this reason, it’s best to map @OneToOne association using @MapsId so that the PRIMARY KEY is shared between the 
@@ -24,8 +18,6 @@ fetched using the parent entity identifier.
 77. For unidirectional collections, Sets are the best choice because they generate the most efficient SQL statements. 
 Unidirectional Lists are less efficient than a @ManyToOne association.
 Bidirectional associations are usually a better choice because the @ManyToOne side controls the association.
-78. Change queries to DTO projections with constructors.
-79. Avoid EAGER fetching if possible.
 80. if you forget to specify that an EAGER association needs to be JOIN FETCH-ed by a JPQL query, Hibernate is going to issue a secondary select for every uninitialized association, leading to N+1 query problems.
 	For example:
 	comments = entityManager.createQuery(
@@ -36,9 +28,6 @@ Bidirectional associations are usually a better choice because the @ManyToOne si
 	.setParameter("review", review)
 	.getResultList();
 81. Move series action from BookActions to AuthorActions in client.
-72. Create new table "sessions" in db with 2 columns - id and session, where id is bigint, session is a string. Session column should contain jwt token. This table will be filled in JwtFilter on every authorized call.
-73. Create sessionRepository. We should receive each jwt token and then extract expireDate from them. If token is not expired then user is active. If token is expired then delete this row from db table.
-74. If the above solution is slow then create db with 3 columns - id, username, online. And fill it in JwtFilter. Remove rows by schedule.
 34. Create online/offline statuses for authors.
 28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
 54. Add reviews page.
@@ -135,3 +124,13 @@ DONE - 66. Add paginagion by alphabet in books page.
 DONE - 67. Add paginagion by alphabet in authors page.
 DONE - 70. Add vertical carousel with mouse scroll on TitlePage. 
 DONE - 44. Autoupdate jwt token when user is active.
+DONE - 75. Change generation id strategy to SEQUENCE, cos it's more perfomance solution for Hibernate & Postgres. Something like this:
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_generator")
+	@SequenceGenerator(name="book_generator", sequenceName = "book_seq", allocationSize=1)
+	@Column(name = "id", updatable = false, nullable = false)
+	private Long id;
+DONE - 79. Avoid EAGER fetching if possible.
+DONE - 72. Create new table "sessions" in db with 2 columns - id and session, where id is bigint, session is a string. Session column should contain jwt token. This table will be filled in JwtFilter on every authorized call.
+DONE - 73. Create sessionRepository. We should receive each jwt token and then extract expireDate from them. If token is not expired then user is active. If token is expired then delete this row from db table.
+DONE - 74. If the above solution is slow then create db with 3 columns - id, username, online. And fill it in JwtFilter. Remove rows by schedule.
