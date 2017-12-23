@@ -3,7 +3,7 @@ package org.booklink.controllers;
 import org.booklink.models.*;
 import org.booklink.models.exceptions.ObjectAlreadyExistException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.Credentials;
+import org.booklink.models.request.Credentials;
 import org.booklink.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

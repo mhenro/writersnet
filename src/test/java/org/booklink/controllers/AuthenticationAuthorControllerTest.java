@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.booklink.models.entities.User;
-import org.booklink.models.response_models.ChatGroupResponse;
+import org.booklink.models.response.ChatGroupResponse;
 import org.booklink.security.JwtFilter;
 import org.booklink.services.AuthorService;
 import org.junit.Before;

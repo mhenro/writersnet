@@ -1,6 +1,6 @@
 package org.booklink.controllers;
 
-import org.booklink.models.response_models.NewsResponse;
+import org.booklink.models.response.NewsResponse;
 import org.booklink.services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

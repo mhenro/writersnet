@@ -3,9 +3,12 @@ import { connect } from 'react-redux';
 import {
     getAuthorDetails,
     setAuthor,
+    checkFriendshipWith,
     subscribeOn
 } from '../actions/AuthorActions.jsx';
 import {
+    getSeries,
+    getBooks,
     deleteBook,
     openBookPropsForm,
     openEditSeriesForm
@@ -29,13 +32,59 @@ import EditSeriesForm from '../components/section/EditSeriesForm.jsx';
 class SectionPage extends React.Component {
     constructor(props) {
         super(props);
-
-        ['onEditSeries', 'onEditBook', 'onDeleteBook', 'onAddToFriends'].map(fn => this[fn] = this[fn].bind(this));
+        this.state = {
+            friendship: null,
+            series: [],
+            books: []
+        };
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
         this.props.onGetAuthorDetails(this.props.match.params.authorName);
+        this.setState({
+            friendship: null,
+            series: [],
+            books: []
+        });
+        this.props.onGetSeries(this.props.match.params.authorName, series => this.updateSeries(series));
+        this.props.onGetBooks(this.props.match.params.authorName, 0, books => this.updateBooks(books));
+
+        this.checkFriendship();
+    }
+
+    checkFriendship() {
+        setTimeout(() => {
+            if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
+                this.props.onCheckFriendshipWith(this.props.login, this.props.token, friendship => this.updateFriendshipRelation(friendship));
+            } else {
+                this.setState({
+                    friendship: {
+                        friend: false,
+                        subscriber: false,
+                        subscription: false
+                    }
+                });
+            }
+        }, 500);
+    }
+
+    updateFriendshipRelation(friendship) {
+        this.setState({
+            friendship: friendship
+        });
+    }
+
+    updateSeries(series) {
+        this.setState({
+            series: series
+        });
+    }
+
+    updateBooks(books) {
+        this.setState({
+            books: books
+        });
     }
 
     onAddNewBook() {
@@ -74,8 +123,18 @@ class SectionPage extends React.Component {
         }
     }
 
-    render() {
+    isDataLoaded() {
         if (!this.props.author) {
+            return false;
+        }
+        if (!this.state.friendship) {
+            return false;
+        }
+        return true;
+    }
+
+    render() {
+        if (!this.isDataLoaded()) {
             return null;
         }
         return (
@@ -92,10 +151,12 @@ class SectionPage extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-12 col-lg-3">
-                        <AuthorFile author={this.props.author}
+                        <AuthorFile me={this.props.registered && this.props.login === this.props.author.username}
+                                    author={this.props.author}
                                     registered={this.props.registered}
                                     login={this.props.login}
-                                    onAddToFriends={this.onAddToFriends}/>
+                                    onAddToFriends={(user, friend) => this.onAddToFriends(user, friend)}
+                                    friendship={this.state.friendship}/>
                     </div>
                     <div className="col-sm-12 col-lg-9">
                         <AuthorShortInfo author={this.props.author}/>
@@ -108,13 +169,13 @@ class SectionPage extends React.Component {
                 </div>
                 {this.renderSectionToolbar()}
                 <hr/>
-                <BookSerieList series={this.props.author.bookSeries}
-                               books={this.props.author.books}
+                <BookSerieList series={this.state.series}
+                               books={this.state.books}
                                registered={this.props.registered}
                                login={this.props.login}
                                author={this.props.author}
-                               onEditBook={this.onEditBook}
-                               onDeleteBook={this.onDeleteBook}
+                               onEditBook={book => this.onEditBook(book)}
+                               onDeleteBook={(bookId, token) => this.onDeleteBook(bookId, token)}
                                token={this.props.token}
                                onGoToComments={this.props.onGoToComments}
                                language={this.props.language}/>
@@ -123,7 +184,7 @@ class SectionPage extends React.Component {
                 <BookPropsForm/>
 
                 {/* Edit series form */}
-                <EditSeriesForm/>
+                <EditSeriesForm onCloseUpdate={() => this.props.onGetSeries(this.props.match.params.authorName, series => this.updateSeries(series))}/>
             </div>
         )
     }
@@ -167,11 +228,14 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Book was deleted successfully'));
                     callback();
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
-                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
@@ -181,16 +245,68 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(goToComments(state));
         },
 
+        onCheckFriendshipWith: (userId, token, callback) => {
+            return checkFriendshipWith(userId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                }
+                else if (response.status === 500) {
+                    if (json.message.includes('JWT expired at')) {
+                        dispatch(setToken(''));
+                    }
+                    callback({
+                        friend: false,
+                        subscriber: false,
+                        subscription: false
+                    });
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
         onSubcribeOn: (authorName, token, callback) => {
             return subscribeOn(authorName, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
-                dispatch(setToken(json.token));
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetSeries: (userId, callback) => {
+            return getSeries(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.content);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetBooks: (name, page, callback) => {
+            return getBooks(name, page, 100).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.content);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });

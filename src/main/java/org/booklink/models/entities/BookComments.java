@@ -1,12 +1,10 @@
 package org.booklink.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.booklink.models.request_models.AuthorInfo;
+import org.booklink.models.request.AuthorInfo;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Parameter;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -52,9 +50,6 @@ public class BookComments {
 
     public void setBook(Book book) {
         this.book = book;
-        if (book != null) {
-            book.getComments().add(this);
-        }
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

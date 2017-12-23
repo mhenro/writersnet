@@ -4,7 +4,8 @@ import org.booklink.models.entities.BookSerie;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.Serie;
+import org.booklink.models.request.SerieRequest;
+import org.booklink.models.response.BookSerieResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SerieRepository;
 import org.junit.Assert;
@@ -53,8 +54,8 @@ public class SerieServiceTest {
 
     @Before
     public void init() {
-        List<BookSerie> series = generateSeries(2);
-        final Page<BookSerie> page = new PageImpl<>(series);
+        List<BookSerieResponse> series = generateSeries(2);
+        final Page<BookSerieResponse> page = new PageImpl<>(series);
         Mockito.when(serieRepository.findAllByUserId("user", null)).thenReturn(page);
         final User author = createUser("user0");
         final BookSerie bookSerie = new BookSerie();
@@ -70,36 +71,33 @@ public class SerieServiceTest {
 
     @Test
     public void getBookSeries() throws Exception {
-        Page<BookSerie> series = serieService.getBookSeries("user", null);
+        Page<BookSerieResponse> series = serieService.getBookSeries("user", null);
         Assert.assertEquals(2, series.getTotalElements());
     }
 
     @Test
     public void getBookSeries_userNotFound() throws Exception {
-        Page<BookSerie> series = serieService.getBookSeries("wrong", null);
+        Page<BookSerieResponse> series = serieService.getBookSeries("wrong", null);
         Assert.assertEquals(null, series);
     }
 
     @Test
     public void saveSerie() throws Exception {
-        final Serie serie = new Serie();
-        serie.setUserId("user0");
+        final SerieRequest serie = new SerieRequest();
         serie.setId(55L);
         serieService.saveSerie(serie);
     }
 
     @Test(expected = UnauthorizedUserException.class)
     public void saveSerie_unauthorized() throws Exception {
-        final Serie serie = new Serie();
-        serie.setUserId("wrong");
+        final SerieRequest serie = new SerieRequest();
         serie.setId(55L);
         serieService.saveSerie(serie);
     }
 
     @Test(expected = ObjectNotFoundException.class)
     public void saveSerie_serieNotFound() throws Exception {
-        final Serie serie = new Serie();
-        serie.setUserId("user0");
+        final SerieRequest serie = new SerieRequest();
         serie.setId(54L);
         serieService.saveSerie(serie);
     }
@@ -111,8 +109,7 @@ public class SerieServiceTest {
         bookSerie.setAuthor(author);
         Mockito.when(serieRepository.findOne(55L)).thenReturn(bookSerie);
 
-        final Serie serie = new Serie();
-        serie.setUserId("user0");
+        final SerieRequest serie = new SerieRequest();
         serie.setId(55L);
         serieService.saveSerie(serie);
     }
@@ -137,15 +134,14 @@ public class SerieServiceTest {
         serieService.deleteSerie(55L);
     }
 
-    private List<BookSerie> generateSeries(final int count) {
+    private List<BookSerieResponse> generateSeries(final int count) {
         return IntStream.range(0, count).mapToObj(this::createSerie).collect(Collectors.toList());
     }
 
-    private BookSerie createSerie(final int i) {
+    private BookSerieResponse createSerie(final int i) {
         final User author = createUser("user" + i);
-        final BookSerie bookSerie = new BookSerie();
+        final BookSerieResponse bookSerie = new BookSerieResponse();
         bookSerie.setId(Long.valueOf(i));
-        bookSerie.setAuthor(author);
         bookSerie.setName("serie" + i);
         return bookSerie;
     }

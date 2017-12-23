@@ -209,11 +209,14 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Comment was deleted'));
                     callback();
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
-                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });

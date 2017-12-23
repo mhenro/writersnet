@@ -1,7 +1,7 @@
 package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.booklink.models.request_models.Credentials;
+import org.booklink.models.request.Credentials;
 import org.booklink.services.AuthenticationService;
 import org.junit.Before;
 import org.junit.Test;

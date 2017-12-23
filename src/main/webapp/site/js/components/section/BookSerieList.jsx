@@ -4,7 +4,7 @@ import BookSerieItem from './BookSerieItem.jsx';
 /*
     props:
     - author
-    - series
+    - series - array of series
     - books
     - registered
     - login - user id

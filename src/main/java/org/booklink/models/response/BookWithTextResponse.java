@@ -1,9 +1,9 @@
-package org.booklink.models.response_models;
+package org.booklink.models.response;
 
 import org.booklink.models.Genre;
 import org.booklink.models.entities.Book;
 import org.booklink.models.entities.BookText;
-import org.booklink.models.request_models.TotalRating;
+import org.booklink.models.request.TotalRating;
 
 import java.util.Date;
 
@@ -49,7 +49,6 @@ public class BookWithTextResponse {
         if (book.getBookSerie() != null) {
             this.bookSerie.setId(book.getBookSerie().getId());
             this.bookSerie.setName(book.getBookSerie().getName());
-            this.bookSerie.setUserId(book.getBookSerie().getAuthor().getUsername());
         }
 
         if (book.getBookText() != null) {

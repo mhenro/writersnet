@@ -43,8 +43,8 @@ class GlobalDataContainer extends React.Component {
 
         this.globalTimer = setInterval(() => {
             if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
-                this.props.onGetUnreadMessages(this.props.login, this.props.token, this.onSetUnreadMessages);
-                this.props.onGetAuthorDetails(this.props.login, this.getSubscribersCount);
+                //this.props.onGetUnreadMessages(this.props.login, this.props.token, this.onSetUnreadMessages);     //TODO: activate it!
+                //this.props.onGetAuthorDetails(this.props.login, this.getSubscribersCount);                        //TODO: activate it!
             }
         }, 5000);
     }
@@ -112,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
-                else if (response.status === 500/* && json.message.includes('JWT expired at')*/) {
+                else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));
                 }
                 else {

@@ -4,11 +4,12 @@ import org.booklink.models.Response;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.AvatarRequest;
-import org.booklink.models.response_models.AuthorResponse;
-import org.booklink.models.response_models.AuthorShortInfoResponse;
-import org.booklink.models.response_models.BookResponse;
-import org.booklink.models.response_models.SectionResponse;
+import org.booklink.models.request.AuthorRequest;
+import org.booklink.models.request.AvatarRequest;
+import org.booklink.models.response.AuthorResponse;
+import org.booklink.models.response.AuthorShortInfoResponse;
+import org.booklink.models.response.BookResponse;
+import org.booklink.models.response.SectionResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.FriendshipRepository;
 import org.junit.Assert;
@@ -29,13 +30,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static org.hamcrest.CoreMatchers.any;
 
 /**
  * Created by mhenr on 20.11.2017.
@@ -171,16 +169,16 @@ public class AuthorServiceTest {
 
     @Test(expected = Test.None.class)
     public void saveAuthor_noExceptions() throws Exception {
-        final User author = new User();
+        final AuthorRequest author = new AuthorRequest();
         author.setUsername("user0");
-        authorService.saveAuthor(author);
+        authorService.updateAuthor(author);
     }
 
     @Test(expected = UnauthorizedUserException.class)
     public void saveAuthor_unauthorized() throws Exception {
-        final User author = new User();
+        final AuthorRequest author = new AuthorRequest();
         author.setUsername("wrong");
-        authorService.saveAuthor(author);
+        authorService.updateAuthor(author);
     }
 
     @Test(expected = ObjectNotFoundException.class)
@@ -191,9 +189,9 @@ public class AuthorServiceTest {
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
 
-        final User author = new User();
+        final AuthorRequest author = new AuthorRequest();
         author.setUsername("user5");
-        authorService.saveAuthor(author);
+        authorService.updateAuthor(author);
     }
 
     @Test(expected = Test.None.class)

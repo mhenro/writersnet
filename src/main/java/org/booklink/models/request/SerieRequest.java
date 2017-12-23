@@ -1,12 +1,11 @@
-package org.booklink.models.request_models;
+package org.booklink.models.request;
 
 /**
- * Created by mhenr on 13.11.2017.
+ * Created by mhenr on 23.12.2017.
  */
-public class Serie {
+public class SerieRequest {
     private Long id;
     private String name;
-    private String userId;
 
     public Long getId() {
         return id;
@@ -22,13 +21,5 @@ public class Serie {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

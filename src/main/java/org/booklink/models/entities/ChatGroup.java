@@ -66,9 +66,6 @@ public class ChatGroup {
 
     public void setCreator(User creator) {
         this.creator = creator;
-        if (creator != null) {
-            creator.getChatGroups().add(this);
-        }
     }
 
     public Date getCreated() {
@@ -87,9 +84,6 @@ public class ChatGroup {
 
     public void setPrimaryRecipient(User primaryRecipient) {
         this.primaryRecipient = primaryRecipient;
-        if (primaryRecipient != null) {
-            primaryRecipient.getChatGroups().add(this);
-        }
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)

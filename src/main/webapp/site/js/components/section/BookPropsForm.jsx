@@ -23,6 +23,7 @@ import {
     setGenres,
     saveCover
 } from '../../actions/BookActions.jsx';
+import { setToken } from '../../actions/AuthActions.jsx';
 
 import FileUploader from '../FileUploader.jsx';
 
@@ -47,9 +48,6 @@ class BookPropsForm extends React.Component {
             cover: '',
             lastUpdated: ''
         };
-
-        ['save', 'close', 'onShow', 'onFieldChange', 'onCoverChange', 'onSaveText', 'onSerieChange',
-            'onGenreChange', 'onLanguageChange', 'updateForm', 'onUpdateLastUpdatedField', 'updateState', 'onSubmit'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     onShow() {
@@ -71,7 +69,7 @@ class BookPropsForm extends React.Component {
     }
 
     updateForm(id) {
-        this.props.onGetBookDetails(id, this.updateState);
+        this.props.onGetBookDetails(id, () => this.updateState());
     }
 
     updateState() {
@@ -98,7 +96,7 @@ class BookPropsForm extends React.Component {
             language: this.state.language.value,
             cover: this.state.cover
         };
-        this.props.onSaveBook(book, this.props.token, this.close);
+        this.props.onSaveBook(book, this.props.token, () => this.close());
     }
 
     close() {
@@ -179,7 +177,7 @@ class BookPropsForm extends React.Component {
         formData.append('userId', this.props.author.username);
         formData.append('cover', event.target.files[0]);
 
-        this.props.onSaveCover(formData, this.props.token, this.updateForm, this.props.editableBook.id);
+        this.props.onSaveCover(formData, this.props.token, id => this.updateForm(id), this.props.editableBook.id);
     }
 
     onSaveText(event) {
@@ -192,7 +190,7 @@ class BookPropsForm extends React.Component {
         bookTextRequest.append('userId', this.props.author.username,);
         bookTextRequest.append('text', event.target.files[0]);
 
-        this.props.onSaveBookText(bookTextRequest, this.props.token, this.onUpdateLastUpdatedField);
+        this.props.onSaveBookText(bookTextRequest, this.props.token, date => this.onUpdateLastUpdatedField(date));
     }
 
     onUpdateLastUpdatedField(date) {
@@ -218,40 +216,40 @@ class BookPropsForm extends React.Component {
             return null;
         }
         return (
-            <Modal show={this.props.showBookPropsForm} onHide={this.close} onShow={this.onShow}>
+            <Modal show={this.props.showBookPropsForm} onHide={() => this.close()} onShow={() => this.onShow()}>
                 <Modal.Header>
                     {this.props.editableBook ? 'Editing "' + this.props.editableBook.name + '"' : 'Adding a new book'}
                 </Modal.Header>
                 <Modal.Body>
-                    <form className="form-horizontal" onSubmit={this.onSubmit}>
+                    <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="name">Name:</label>
                             <div className="col-sm-10">
-                                <input value={this.state.name} onChange={this.onFieldChange} type="text" className="form-control" id="name" placeholder="Enter the book name" name="name"/>
+                                <input value={this.state.name} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="name" placeholder="Enter the book name" name="name"/>
                             </div>
                         </div>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="description">Description:</label>
                             <div className="col-sm-10">
-                                <input value={this.state.description} onChange={this.onFieldChange} type="text" className="form-control" id="description" placeholder="Enter the book description" name="description"/>
+                                <input value={this.state.description} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="description" placeholder="Enter the book description" name="description"/>
                             </div>
                         </div>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="serie">Serie's name:</label>
                             <div className="col-sm-10">
-                                <Select value={this.state.serie} id="serie" options={this.getSerieItems()} onChange={this.onSerieChange} placeholder="Choose the book serie"/>
+                                <Select value={this.state.serie} id="serie" options={this.getSerieItems()} onChange={serie => this.onSerieChange(serie)} placeholder="Choose the book serie"/>
                             </div>
                         </div>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="genre">Genre:</label>
                             <div className="col-sm-10">
-                                <Select value={this.state.genre} id="genre" options={this.getGenreItems()} onChange={this.onGenreChange} placeholder="Choose the book genre"/>
+                                <Select value={this.state.genre} id="genre" options={this.getGenreItems()} onChange={genre => this.onGenreChange(genre)} placeholder="Choose the book genre"/>
                             </div>
                         </div>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="language">Language:</label>
                             <div className="col-sm-10">
-                                <Select value={this.state.language} id="language" options={this.getLanguageItems()} onChange={this.onLanguageChange} placeholder="Choose the book language"/>
+                                <Select value={this.state.language} id="language" options={this.getLanguageItems()} onChange={lang => this.onLanguageChange(lang)} placeholder="Choose the book language"/>
                             </div>
                         </div>
 
@@ -270,7 +268,7 @@ class BookPropsForm extends React.Component {
                                             name="cover"
                                             accept=".png,.jpg"
                                             className="btn btn-success"
-                                            onChange={this.onCoverChange}
+                                            onChange={event => this.onCoverChange(event)}
                                         />
                                         <br/>
                                         <button type="button" className="btn btn-success">Restore default cover</button>
@@ -291,7 +289,7 @@ class BookPropsForm extends React.Component {
                                             name="text"
                                             accept=".txt,.docx,.pdf"
                                             className="btn btn-success"
-                                            onChange={this.onSaveText}
+                                            onChange={event => this.onSaveText(event)}
                                         />
                                         <br/>
                                     </div>
@@ -302,8 +300,8 @@ class BookPropsForm extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-group">
-                        <Button onClick={this.save} className="btn btn-success">Save</Button>
-                        <Button onClick={this.close} className="btn btn-default">Close</Button>
+                        <Button onClick={() => this.save()} className="btn btn-success">Save</Button>
+                        <Button onClick={() => this.close()} className="btn btn-default">Close</Button>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -379,6 +377,9 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(createNotify('success', 'Success', 'Cover was saved successfully'));
                     callback(bookId);
                 }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
@@ -393,6 +394,9 @@ const mapDispatchToProps = (dispatch) => {
                     callback();
                     dispatch(createNotify('success', 'Success', 'Book was added successfully'));
                 }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
@@ -406,6 +410,9 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback(json.message);
                     dispatch(createNotify('success', 'Success', 'Book text was saved successfully'));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

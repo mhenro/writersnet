@@ -2,8 +2,7 @@ package org.booklink.services;
 
 import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
-import org.booklink.models.request_models.Credentials;
-import org.booklink.repositories.SectionRepository;
+import org.booklink.models.request.Credentials;
 import org.booklink.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

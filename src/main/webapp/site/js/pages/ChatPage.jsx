@@ -13,7 +13,6 @@ import {
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
-
 import { setToken } from '../actions/AuthActions.jsx';
 
 class ChatPage extends React.Component {
@@ -165,6 +164,9 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback(json);
                 }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
@@ -178,11 +180,14 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     //dispatch(createNotify('success', 'Success', 'Your message was added successfully'));
                     callback();
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
-                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
@@ -192,11 +197,14 @@ const mapDispatchToProps = (dispatch) => {
             return getGroupName(groupId, userId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
-                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
@@ -206,8 +214,11 @@ const mapDispatchToProps = (dispatch) => {
             return markAllAsReadInGroup(groupId, userId, token).then(([response, json]) => {
                 if (response.status !== 200) {
                     dispatch(createNotify('danger', 'Error', json.message));
+                    dispatch(setToken(json.token));
                 }
-                dispatch(setToken(json.token));
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });

@@ -1,4 +1,4 @@
-Current sprint:
+﻿Current sprint:
 TODO: finish book entity refactoring.
 IN PROGRESS - 32. Refactor jpa entities. FetchType.LAZY for all @ManyToOne relations. Enable transactions and add @Transactional annotation to service layers. http://in.relation.to/2016/09/28/performance-tuning-and-best-practices/
 IN PROGRESS - 26. Add Main page to the site. Something like summary of ratings and recently general news. Use bootstrap scrollspy component for this.
@@ -35,6 +35,7 @@ Bidirectional associations are usually a better choice because the @ManyToOne si
 	    "where pc.review = :review", PostComment.class)
 	.setParameter("review", review)
 	.getResultList();
+81. Move series action from BookActions to AuthorActions in client.
 72. Create new table "sessions" in db with 2 columns - id and session, where id is bigint, session is a string. Session column should contain jwt token. This table will be filled in JwtFilter on every authorized call.
 73. Create sessionRepository. We should receive each jwt token and then extract expireDate from them. If token is not expired then user is active. If token is expired then delete this row from db table.
 74. If the above solution is slow then create db with 3 columns - id, username, online. And fill it in JwtFilter. Remove rows by schedule.

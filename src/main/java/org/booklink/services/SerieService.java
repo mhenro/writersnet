@@ -4,7 +4,8 @@ import org.booklink.models.entities.BookSerie;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.Serie;
+import org.booklink.models.request.SerieRequest;
+import org.booklink.models.response.BookSerieResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,27 +29,22 @@ public class SerieService {
         this.authorRepository = authorRepository;
     }
 
-    public Page<BookSerie> getBookSeries(final String userId, final Pageable pageable) {
+    public Page<BookSerieResponse> getBookSeries(final String userId, final Pageable pageable) {
         return serieRepository.findAllByUserId(userId, pageable);
     }
 
-    public Long saveSerie(final Serie serie) {
-        checkCredentials(serie.getUserId());   //only owner can edit his series
-        final User author = authorRepository.findOne(serie.getUserId());
-        if (author == null) {
-            throw new ObjectNotFoundException("Author was not found");
-        }
+    public Long saveSerie(final SerieRequest serie) {
+        checkCredentials();   //only owner can edit his series
         BookSerie bookSerie;
         if (serie.getId() == null) {    //adding new serie
             bookSerie = new BookSerie();
             bookSerie.setName(serie.getName());
-            bookSerie.setAuthor(author);
+            bookSerie.setAuthor(getAuthorizedUser());
         } else {    //editing existed serie
             bookSerie = serieRepository.findOne(serie.getId());
             if (bookSerie == null) {
                 throw new ObjectNotFoundException("Serie was not found");
             }
-            checkCredentials(bookSerie.getAuthor().getUsername());   //only owner can edit his series
             bookSerie.setName(serie.getName());
         }
         serieRepository.save(bookSerie);
@@ -57,19 +53,25 @@ public class SerieService {
     }
 
     public void deleteSerie(final Long serieId) {
+        checkCredentials();   //only owner can delete his series
         BookSerie bookSerie = serieRepository.findOne(serieId);
         if (bookSerie == null) {
             throw new ObjectNotFoundException("Serie was not found");
         }
-        checkCredentials(bookSerie.getAuthor().getUsername());   //only owner can delete his series
         serieRepository.delete(bookSerie);
     }
 
-    private void checkCredentials(final String userId) {
+    private void checkCredentials() {
+        getAuthorizedUser();
+    }
+
+    private User getAuthorizedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = auth.getName();
-        if (!currentUser.equals(userId)) {
-            throw new UnauthorizedUserException();
+        final User user = authorRepository.findOne(currentUser);
+        if (user == null) {
+            throw new ObjectNotFoundException("Bad credentials");
         }
+        return user;
     }
 }

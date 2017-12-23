@@ -4,11 +4,9 @@ import org.booklink.models.Response;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.AvatarRequest;
-import org.booklink.models.response_models.AuthorResponse;
-import org.booklink.models.response_models.AuthorShortInfoResponse;
-import org.booklink.models.response_models.ChatGroupResponse;
-import org.booklink.models.response_models.FriendResponse;
+import org.booklink.models.request.AuthorRequest;
+import org.booklink.models.request.AvatarRequest;
+import org.booklink.models.response.*;
 import org.booklink.services.AuthorService;
 import org.booklink.services.SessionService;
 import org.codehaus.plexus.util.StringUtils;
@@ -19,8 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static org.booklink.utils.SecurityHelper.generateActivationToken;
 
@@ -66,46 +62,13 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "friends/{authorId}", method = RequestMethod.GET)
-    public ResponseEntity<?> isFriendOf(@PathVariable String authorId) {
-        final boolean result = authorService.isFriendOf(authorId);
-        Response<Boolean> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(result);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
-    @RequestMapping(value = "subscribers/{authorId}", method = RequestMethod.GET)
-    public ResponseEntity<?> isSubscriberOf(@PathVariable String authorId) {
-        final boolean result = authorService.isSubscriberOf(authorId);
-        Response<Boolean> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(result);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
-    @RequestMapping(value = "subscriptions/{authorId}", method = RequestMethod.GET)
-    public ResponseEntity<?> isSubscriptionOf(@PathVariable String authorId) {
-        final boolean result = authorService.isSubscription(authorId);
-        Response<Boolean> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(result);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "authors", method = RequestMethod.POST)
-    public ResponseEntity<?> saveAuthor(@RequestBody User author) {
+    public ResponseEntity<?> saveAuthor(@RequestBody AuthorRequest author) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
         sessionService.updateSession(token);
         try {
-            authorService.saveAuthor(author);
+            authorService.updateAuthor(author);
         } catch(Exception e) {
             response.setCode(1);
             response.setMessage(e.getMessage());
@@ -186,6 +149,50 @@ public class AuthorController {
     @RequestMapping(value = "friends/{userId:.+}/{matcher}", method = RequestMethod.GET)
     public Page<FriendResponse> getFriends(@PathVariable final String userId, @PathVariable final String matcher, final Pageable pageable) {
         return authorService.getFriends(userId, matcher, pageable);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "friends/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> isFriendOf(@PathVariable String authorId) {
+        final boolean result = authorService.isFriendOf(authorId);
+        Response<Boolean> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "subscribers/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> isSubscriberOf(@PathVariable String authorId) {
+        final boolean result = authorService.isSubscriberOf(authorId);
+        Response<Boolean> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "subscriptions/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> isSubscriptionOf(@PathVariable String authorId) {
+        final boolean result = authorService.isSubscription(authorId);
+        Response<Boolean> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "friendship/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> checkFriendshipWith(@PathVariable String authorId) {
+        final CheckFriendshipResponse result = authorService.checkFriendshipWith(authorId);
+        Response<CheckFriendshipResponse> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(result);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

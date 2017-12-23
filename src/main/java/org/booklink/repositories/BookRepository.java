@@ -1,8 +1,7 @@
 package org.booklink.repositories;
 
 import org.booklink.models.entities.Book;
-import org.booklink.models.response_models.BookResponse;
-import org.booklink.models.response_models.BookWithTextResponse;
+import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.models.top_models.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +12,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * Created by mhenr on 02.10.2017.
  */
 public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
-    @Query("SELECT new org.booklink.models.response_models.BookWithTextResponse(b) FROM Book b WHERE b.id = ?1")
+    @Query("SELECT new org.booklink.models.response.BookWithTextResponse(b) FROM Book b WHERE b.id = ?1")
     BookWithTextResponse findBookWithText(final long id);
 
     @Query("SELECT b FROM Book b WHERE UPPER(b.name) LIKE CONCAT(UPPER(?1), '%') ORDER BY b.lastUpdate DESC")

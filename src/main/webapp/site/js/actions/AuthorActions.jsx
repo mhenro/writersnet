@@ -18,7 +18,23 @@ export const getAuthorChatGroups = (userId, token, page) => {
 };
 
 export const getFriends = (userId, matcher, token, page) => {
-    return doFetch(getHost() + '/friends/' + userId + '/' + matcher + '?page=' + page + '&size=20', null, token);
+    return doFetch(getHost() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=20', null, token);
+};
+
+export const isFriendOf = (authorId, token) => {
+    return doFetch(getHost() + 'friends/' + authorId, null, token);
+};
+
+export const isSubscriberOf = (authorId, token) => {
+    return doFetch(getHost() + 'subscribers/' + authorId, null, token);
+};
+
+export const isSubscriptionOf = (authorId, token) => {
+    return doFetch(getHost() + 'subscriptions/' + authorId, null, token);
+};
+
+export const checkFriendshipWith = (authorId, token) => {
+    return doFetch(getHost() + 'friendship/' + authorId, null, token);
 };
 
 export const saveAuthor = (author, token) => {
@@ -36,6 +52,8 @@ export const subscribeOn = (authorName, token) => {
 export const removeSubscription = (authorName, token) => {
     return doFetch(getHost() + 'authors/unsubscribe', authorName, token);
 };
+
+
 
 export const SET_AUTHORS = 'SET_AUTHORS';
 export const SET_AUTHOR = 'SET_AUTHOR';

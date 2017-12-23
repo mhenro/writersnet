@@ -4,10 +4,10 @@ import liquibase.util.file.FilenameUtils;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.response_models.BookWithTextResponse;
+import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.models.top_models.*;
-import org.booklink.models.request_models.BookTextRequest;
-import org.booklink.models.request_models.CoverRequest;
+import org.booklink.models.request.BookTextRequest;
+import org.booklink.models.request.CoverRequest;
 import org.booklink.repositories.*;
 import org.booklink.services.convertors.BookConvertor;
 import org.booklink.services.convertors.DocToHtmlConvertor;
@@ -237,10 +237,18 @@ public class BookService {
             calcBookSize(book);
             hideText(book);
             removeRecursionFromBook(book);
+            setDefaultCoverForBook(book);
             if (book.getCover() == null || book.getCover().isEmpty()) {
                 book.setCover(defaultCover);
             }
         });
+    }
+
+    private void setDefaultCoverForBook(final Book book) {
+        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
+        if (book.getCover() == null || book.getCover().isEmpty()) {
+            book.setCover(defaultCover);
+        }
     }
 
     private void hideAuthInfo(Book book) {

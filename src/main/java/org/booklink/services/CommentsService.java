@@ -5,7 +5,7 @@ import org.booklink.models.entities.BookComments;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.BookComment;
+import org.booklink.models.request.BookComment;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookCommentsRepository;
 import org.booklink.repositories.BookRepository;

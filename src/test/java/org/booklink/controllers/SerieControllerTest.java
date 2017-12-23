@@ -2,8 +2,8 @@ package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.booklink.models.entities.BookSerie;
-import org.booklink.models.request_models.BookComment;
-import org.booklink.models.request_models.Serie;
+import org.booklink.models.request.SerieRequest;
+import org.booklink.models.response.BookSerieResponse;
 import org.booklink.services.SerieService;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,22 +56,22 @@ public class SerieControllerTest {
     @Test
     public void getBookSeries() throws Exception {
         final Pageable pageable = Mockito.mock(Pageable.class);
-        final Page<BookSerie> page = Mockito.mock(Page.class);
+        final Page<BookSerieResponse> page = Mockito.mock(Page.class);
         when(serieService.getBookSeries("user", pageable)).thenReturn(page);
         mvc.perform(get("/series/user")).andExpect(status().isOk());
     }
 
     @Test
     public void saveSerie() throws Exception {
-        final Serie serie = new Serie();
+        final SerieRequest serie = new SerieRequest();
         serie.setId(5L);
         final String json = mapper.writeValueAsString(serie);
-        when(serieService.saveSerie(any(Serie.class))).thenReturn(serie.getId());
+        when(serieService.saveSerie(any(SerieRequest.class))).thenReturn(serie.getId());
         mvc.perform(post("/series").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: '" + serie.getId() + "'}"));
         mvc.perform(post("/series").content(json)).andExpect(status().isUnsupportedMediaType());
         mvc.perform(post("/series")).andExpect(status().isBadRequest());
         mvc.perform(post("/wrong")).andExpect(status().isNotFound());
-        doThrow(new RuntimeException("test error")).when(serieService).saveSerie(any(Serie.class));
+        doThrow(new RuntimeException("test error")).when(serieService).saveSerie(any(SerieRequest.class));
         mvc.perform(post("/series").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError()).andExpect(content().json("{code: 1, message: 'test error'}"));
     }
 

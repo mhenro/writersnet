@@ -35,8 +35,6 @@ class OptionsPage extends React.Component {
             siteLanguage: {value: 'EN', label: 'English'},
             preferredLanguages: []
         };
-
-        ['onSubmit', 'onDateChange', 'onLanguageChange', 'onMultiLanguageChange', 'updateForm', 'updateState', 'onFieldChange', 'onAvatarChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -45,7 +43,7 @@ class OptionsPage extends React.Component {
     }
 
     updateForm() {
-        this.props.onGetAuthorDetails(this.props.login, this.updateState);
+        this.props.onGetAuthorDetails(this.props.login, () => this.updateState());
     }
 
     updateState() {
@@ -85,16 +83,12 @@ class OptionsPage extends React.Component {
         this.setState({
            siteLanguage: siteLanguage
         });
-        //console.log('you selected ' + siteLanguage.label);
     }
 
     onMultiLanguageChange(preferredLanguages) {
         this.setState({
             preferredLanguages: preferredLanguages
         });
-        /*for (var key in preferredLanguages) {
-            console.log('you selected ' + preferredLanguages[key].label);
-        }*/
     }
 
     onAvatarChange(event) {
@@ -106,7 +100,7 @@ class OptionsPage extends React.Component {
         formData.append('avatar', event.target.files[0]);
         formData.append('userId', this.props.author.username);
 
-        this.props.onSaveAvatar(formData, this.props.token, this.updateForm);
+        this.props.onSaveAvatar(formData, this.props.token, () => this.updateForm());
     }
 
     getDatePickerProps() {
@@ -161,53 +155,53 @@ class OptionsPage extends React.Component {
                         General
                     </div>
                     <div className="panel-body">
-                        <form className="form-horizontal" onSubmit={this.onSubmit}>
+                        <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="first_name">First name:</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.firstName} onChange={this.onFieldChange} type="text" className="form-control" id="first_name" placeholder="Enter your first name" name="first_name"/>
+                                    <input value={this.state.firstName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="first_name" placeholder="Enter your first name" name="first_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="last_name">Last name:</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.lastName} onChange={this.onFieldChange} type="text" className="form-control" id="last_name" placeholder="Enter your last name" name="last_name"/>
+                                    <input value={this.state.lastName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="last_name" placeholder="Enter your last name" name="last_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="section_name">Section name:</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.sectionName} onChange={this.onFieldChange} type="text" className="form-control" id="section_name" placeholder="Enter the name of your section" name="section_name"/>
+                                    <input value={this.state.sectionName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="section_name" placeholder="Enter the name of your section" name="section_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="section_description">Section description:</label>
                                 <div className="col-sm-10">
-                                    <textarea value={this.state.sectionDescription} onChange={this.onFieldChange} rows="5" className="form-control" id="section_description" placeholder="Enter the description of your section" name="section_description"/>
+                                    <textarea value={this.state.sectionDescription} onChange={proxy => this.onFieldChange(proxy)} rows="5" className="form-control" id="section_description" placeholder="Enter the description of your section" name="section_description"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="birthday">Birthday:</label>
                                 <div className="col-sm-10">
-                                    <DatePicker dateTime={this.state.birthday} onChange={this.onDateChange} inputProps={this.getDatePickerProps()} id="birthday" defaultText="" format="YYYY-MM-DD" inputFormat="DD-MM-YYYY" mode="date"/>
+                                    <DatePicker dateTime={this.state.birthday} onChange={value => this.onDateChange(value)} inputProps={this.getDatePickerProps()} id="birthday" defaultText="" format="YYYY-MM-DD" inputFormat="DD-MM-YYYY" mode="date"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="city">City:</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.city} onChange={this.onFieldChange} type="text" className="form-control" id="city" placeholder="Enter your city" name="city"/>
+                                    <input value={this.state.city} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="city" placeholder="Enter your city" name="city"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="language">Interface language:</label>
                                 <div className="col-sm-10">
-                                    <Select value={this.state.siteLanguage} id="siteLanguage" options={this.getComboboxItems()} onChange={this.onLanguageChange} placeholder="Choose website language"/>
+                                    <Select value={this.state.siteLanguage} id="siteLanguage" options={this.getComboboxItems()} onChange={lang => this.onLanguageChange(lang)} placeholder="Choose website language"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="language">Preferred languages:</label>
                                 <div className="col-sm-10">
-                                    <Select value={this.state.preferredLanguages} id="preferredLanguages" options={this.getComboboxItems()} multi={true} onChange={this.onMultiLanguageChange} placeholder="Choose your preferred languages"/>
+                                    <Select value={this.state.preferredLanguages} id="preferredLanguages" options={this.getComboboxItems()} multi={true} onChange={lang => this.onMultiLanguageChange(lang)} placeholder="Choose your preferred languages"/>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -234,7 +228,7 @@ class OptionsPage extends React.Component {
                                     name="avatar"
                                     accept=".png,.jpg"
                                     className="btn btn-success"
-                                    onChange={this.onAvatarChange}
+                                    onChange={event => this.onAvatarChange(event)}
                                 />
                                 <br/>
                                 <button type="button" className="btn btn-success">Restore default photo</button>
@@ -287,11 +281,14 @@ const mapDispatchToProps = (dispatch) => {
             return saveAuthor(author, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Data was saved successfully'));
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
-                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
@@ -302,11 +299,14 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Avatar was saved successfully'));
                     callback();
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
-                dispatch(setToken(json.token));
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });

@@ -2,17 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {
-    isSubscription,
-    isFriend
-} from '../../utils.jsx';
-
 /*
     props:
-    - author
+    - me - boolean - authorized user on his page
+    - author - page owner
     - registered
-    - login - user id
+    - login - registered user id
     - onAddToFriends - callback function
+    - friendship - array of booleans which represents relationships between authors
  */
 class AuthorFile extends React.Component {
     static contextTypes = {
@@ -26,24 +23,24 @@ class AuthorFile extends React.Component {
     };
 
     onAuthorClick() {
-        if (this.props.registered && this.props.login === this.props.author.username) {
+        if (this.props.me) {
             this.context.router.history.push('/options');
         }
     }
 
     getFriendsButtonCaption() {
-        if (isFriend(this.props.login, this.props.author)) {
+        if (this.props.friendship.friend) {
             return 'Already in friends';
         }
-        if (isSubscription(this.props.login, this.props.author)) {
+        if (this.props.friendship.subscription) {
             return 'You are already subscribed';
         }
         return 'Add to friends';
     }
 
     getFriendsButtonClass() {
-        let baseCls = 'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username? '' : 'hidden');
-        if (isFriend(this.props.login, this.props.author) || isSubscription(this.props.login, this.props.author)) {
+        let baseCls = 'btn btn-success ' + (this.props.me ? 'hidden' : '');
+        if (this.props.friendship.friend || this.props.friendship.subscription) {
             baseCls += ' disabled';
         }
 
@@ -51,7 +48,7 @@ class AuthorFile extends React.Component {
     }
 
     onAddToFriends() {
-        if (!isFriend(this.props.login, this.props.author) && !isSubscription(this.props.login, this.props.author)) {
+        if (!this.props.friendship.friend && !this.props.friendship.subscription) {
             this.props.onAddToFriends(this.props.login, this.props.author.username);
         }
     }
@@ -68,11 +65,11 @@ class AuthorFile extends React.Component {
                 <div className="row">
                     <div className="col-sm-12" style={{textAlign: 'center'}}>
                         <div className="btn-group-vertical">
-                            <button className={'btn btn-success ' + (this.props.registered && this.props.login !== this.props.author.username ? '' : 'hidden')}>Send message</button>
+                            <button className={'btn btn-success ' + (this.props.registered && !this.props.me ? '' : 'hidden')}>Send message</button>
                             <br/>
                             <button onClick={() => this.onAddToFriends()} className={this.getFriendsButtonClass()}>{this.getFriendsButtonCaption()}</button>
                             <br/>
-                            <Link to="/options" className={'btn btn-success ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>Options</Link>
+                            <Link to="/options" className={'btn btn-success ' + (this.props.me ? '' : 'hidden')}>Options</Link>
                         </div>
                     </div>
                 </div>

@@ -1,11 +1,6 @@
-package org.booklink.models.response_models;
+package org.booklink.models.response;
 
-import org.booklink.models.entities.Book;
-import org.booklink.models.entities.User;
-import org.booklink.models.request_models.TotalRating;
-import org.booklink.models.request_models.TotalSize;
-
-import java.util.List;
+import org.booklink.models.request.TotalRating;
 
 /**
  * Created by mhenr on 22.12.2017.

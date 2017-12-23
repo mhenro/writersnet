@@ -10,6 +10,7 @@ import {
 } from '../../actions/GlobalActions.jsx';
 import { getFriends } from '../../actions/AuthorActions.jsx';
 import { addMessageToGroup } from '../../actions/MessageActions.jsx';
+import { setToken } from '../../actions/AuthActions.jsx';
 
 /*
     props:
@@ -144,6 +145,9 @@ const mapDispatchToProps = (dispatch) => {
                     });
                     return {options};
                 }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
@@ -158,6 +162,9 @@ const mapDispatchToProps = (dispatch) => {
                     if (json.code === 0) {
                         callback(json.message);
                     }
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

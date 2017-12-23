@@ -87,6 +87,15 @@ public class JwtFilter extends GenericFilterBean {
         if (method.startsWith("/friends/") && "GET".equalsIgnoreCase(methodType)) {
             return true;
         }
+        if (method.startsWith("/subscribers") && "GET".equalsIgnoreCase(methodType)) {
+            return true;
+        }
+        if (method.startsWith("/subscriptions") && "GET".equalsIgnoreCase(methodType)) {
+            return true;
+        }
+        if (method.startsWith("/friendship") && "GET".equalsIgnoreCase(methodType)) {
+            return true;
+        }
         if (method.startsWith("/authors/") && method.endsWith("/groups") && "GET".equalsIgnoreCase(methodType)) {
             return true;
         }
@@ -109,15 +118,6 @@ public class JwtFilter extends GenericFilterBean {
             return true;
         }
         if (method.startsWith("/news") && "GET".equalsIgnoreCase(methodType)) {
-            return true;
-        }
-        if (method.startsWith("/friends") && "GET".equalsIgnoreCase(methodType)) {
-            return true;
-        }
-        if (method.startsWith("/subscribers") && "GET".equalsIgnoreCase(methodType)) {
-            return true;
-        }
-        if (method.startsWith("/subscriptions") && "GET".equalsIgnoreCase(methodType)) {
             return true;
         }
         return false;

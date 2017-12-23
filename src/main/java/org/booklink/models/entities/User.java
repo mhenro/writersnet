@@ -1,8 +1,8 @@
 package org.booklink.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.booklink.models.request_models.TotalRating;
-import org.booklink.models.request_models.TotalSize;
+import org.booklink.models.request.TotalRating;
+import org.booklink.models.request.TotalSize;
 
 import javax.persistence.*;
 import java.util.*;
@@ -26,10 +26,7 @@ public class User {
     private String lastName;
     private String avatar;
     private Set<Book> books;
-    private Set<BookSerie> bookSeries;
     private Section section;
-    private String sectionDescription;
-    private String sectionName;
     private String language;
     private String preferredLanguages;
     private Long views = 0L;
@@ -143,15 +140,6 @@ public class User {
         this.books = books;
     }
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<BookSerie> getBookSeries() {
-        return bookSeries;
-    }
-
-    public void setBookSeries(Set<BookSerie> bookSeries) {
-        this.bookSeries = bookSeries;
-    }
-
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "section_id")
     public Section getSection() {
@@ -248,18 +236,6 @@ public class User {
     }
 
     /* -----------------------------business logic-------------------------------------------------------- */
-
-    @Transient
-    @Deprecated
-    public String getSectionName() {
-        return sectionName;
-    }
-
-    @Transient
-    @Deprecated
-    public String getSectionDescription() {
-        return sectionDescription;
-    }
 
     /* method for calculating total rating of the author */
     @Transient

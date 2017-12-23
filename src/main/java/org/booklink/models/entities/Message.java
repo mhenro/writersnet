@@ -75,9 +75,6 @@ public class Message {
 
     public void setGroup(ChatGroup group) {
         this.group = group;
-        if (group != null) {
-            group.getMessages().add(this);
-        }
     }
 
     public Boolean getUnread() {

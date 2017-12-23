@@ -3,7 +3,7 @@ package org.booklink.services;
 import org.booklink.models.entities.Book;
 import org.booklink.models.entities.News;
 import org.booklink.models.entities.User;
-import org.booklink.models.response_models.NewsResponse;
+import org.booklink.models.response.NewsResponse;
 import org.booklink.repositories.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

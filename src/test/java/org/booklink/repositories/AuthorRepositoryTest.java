@@ -2,9 +2,8 @@ package org.booklink.repositories;
 
 import org.booklink.config.RootConfigTest;
 import org.booklink.models.entities.*;
-import org.booklink.models.response_models.AuthorResponse;
-import org.booklink.models.response_models.AuthorShortInfoResponse;
-import org.booklink.models.response_models.ChatGroupResponse;
+import org.booklink.models.response.AuthorShortInfoResponse;
+import org.booklink.models.response.ChatGroupResponse;
 import org.booklink.models.top_models.TopAuthorBookCount;
 import org.booklink.models.top_models.TopAuthorComments;
 import org.booklink.models.top_models.TopAuthorRating;

@@ -2,7 +2,7 @@ package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.booklink.models.entities.BookComments;
-import org.booklink.models.request_models.BookComment;
+import org.booklink.models.request.BookComment;
 import org.booklink.services.CommentsService;
 import org.junit.Before;
 import org.junit.Test;

@@ -12,15 +12,13 @@ import {
     deleteSerie,
     closeEditSeriesForm
 } from '../../actions/BookActions.jsx';
-import {
-    getAuthorDetails,
-    setAuthor
-} from '../../actions/AuthorActions.jsx';
+import { setToken } from '../../actions/AuthActions.jsx';
 
 /*
     props:
     - showEditSeriesForm
     - userId
+    - onCloseUpdate - callback
  */
 class EditSeriesForm extends React.Component {
     constructor(props) {
@@ -37,7 +35,6 @@ class EditSeriesForm extends React.Component {
             showAddSerieDialog: false,
             showEditSerieDialog: false
         };
-        ['onSubmit', 'onSeriesChange', 'setSeries', 'onSerieNameChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     setSeries(series) {
@@ -75,12 +72,12 @@ class EditSeriesForm extends React.Component {
             showAddSerieDialog: false,
             showEditSerieDialog: false
         };
-        this.props.onGetSeries(this.props.userId, this.setSeries);
+        this.props.onGetSeries(this.props.userId, series => this.setSeries(series));
     }
 
     onClose() {
         this.props.onCloseEditSeriesForm();
-        this.props.onGetAuthorDetails(this.props.userId);
+        this.props.onCloseUpdate();
     }
 
     onAddSerie() {
@@ -88,10 +85,9 @@ class EditSeriesForm extends React.Component {
             return;
         }
         let serie = {
-            name: this.state.newSerieName,
-            userId: this.props.userId
+            name: this.state.newSerieName
         };
-        this.props.onSaveSerie(serie, this.props.token, () => this.props.onGetSeries(this.props.userId, this.setSeries));
+        this.props.onSaveSerie(serie, this.props.token, () => this.props.onGetSeries(this.props.userId, series => this.setSeries(series)));
         this.onCloseAddSerieDialog();
     }
 
@@ -102,10 +98,9 @@ class EditSeriesForm extends React.Component {
         }
         let serie = {
             id: this.state.selectedSerie.value.id,
-            name: this.state.newSerieName,
-            userId: this.props.userId
+            name: this.state.newSerieName
         };
-        this.props.onSaveSerie(serie, this.props.token, () => this.props.onGetSeries(this.props.userId, this.setSeries));
+        this.props.onSaveSerie(serie, this.props.token, () => this.props.onGetSeries(this.props.userId, series => this.setSeries(series)));
         this.onCloseAddSerieDialog();
     }
 
@@ -115,7 +110,7 @@ class EditSeriesForm extends React.Component {
             return;
         }
         let id = this.state.selectedSerie.value.id;
-        this.props.onDeleteSerie(id, this.props.token, () => this.props.onGetSeries(this.props.userId, this.setSeries));
+        this.props.onDeleteSerie(id, this.props.token, () => this.props.onGetSeries(this.props.userId, series => this.setSeries(series)));
         this.onCloseConfirmDialog();
     }
 
@@ -175,14 +170,14 @@ class EditSeriesForm extends React.Component {
                         Edit your series
                     </Modal.Header>
                     <Modal.Body>
-                        <form className="form-horizontal" onSubmit={this.onSubmit}>
+                        <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                             <div className="form-group col-sm-12">
                                 <Button onClick={() => this.onShowAddSerieDialog()} className="btn btn-success">Add new serie</Button>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-2" htmlFor="serie">Existed series:</label>
                                 <div className="col-sm-6">
-                                    <Select value={this.state.selectedSerie} id="serie" options={this.getSeriesItems()} onChange={this.onSeriesChange} placeholder="Choose the book serie"/>
+                                    <Select value={this.state.selectedSerie} id="serie" options={this.getSeriesItems()} onChange={serie => this.onSeriesChange(serie)} placeholder="Choose the book serie"/>
                                 </div>
                                 <div className="col-sm-4 btn-group">
                                     <Button onClick={() => this.onShowConfirmDialog()} className="btn btn-danger">Delete serie</Button>
@@ -216,10 +211,10 @@ class EditSeriesForm extends React.Component {
                         {this.state.showAddSerieDialog ? 'Type the name of the new serie' : 'Edit the name of the serie'}
                     </Modal.Header>
                     <Modal.Body>
-                        <form className="form-horizontal" onSubmit={this.onSubmit}>
+                        <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                             <div className="form-group">
                                 <div className="col-sm-12">
-                                    <input type="text" onChange={this.onSerieNameChange} value={this.state.newSerieName} className="form-control" placeholder="Enter the serie's name"/>
+                                    <input type="text" onChange={event => this.onSerieNameChange(event)} value={this.state.newSerieName} className="form-control" placeholder="Enter the serie's name"/>
                                 </div>
                             </div>
                         </form>
@@ -263,6 +258,9 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(createNotify('success', 'Success', 'Serie was added successfully'));
                     callback();
                 }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
@@ -277,18 +275,8 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(createNotify('success', 'Success', 'Serie was deleted successfully'));
                     callback();
                 }
-                else {
-                    dispatch(createNotify('danger', 'Error', json.message));
-                }
-            }).catch(error => {
-                dispatch(createNotify('danger', 'Error', error.message));
-            });
-        },
-
-        onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
-                if (response.status === 200) {
-                    dispatch(setAuthor(json));
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

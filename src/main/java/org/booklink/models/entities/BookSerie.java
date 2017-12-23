@@ -51,8 +51,5 @@ public class BookSerie implements Serializable {
 
     public void setAuthor(User author) {
         this.author = author;
-        if (author != null) {
-            author.getBookSeries().add(this);
-        }
     }
 }

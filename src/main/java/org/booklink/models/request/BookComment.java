@@ -1,4 +1,4 @@
-package org.booklink.models.request_models;
+package org.booklink.models.request;
 
 import java.util.Date;
 

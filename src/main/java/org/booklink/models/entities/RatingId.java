@@ -11,7 +11,6 @@ public class RatingId implements Serializable {
     private Book book;
     private Integer estimation;
     private String clientIp;
-    private Rating rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
@@ -21,9 +20,6 @@ public class RatingId implements Serializable {
 
     public void setBook(Book book) {
         this.book = book;
-        if (book != null) {
-            book.getRating().add(this.rating);
-        }
     }
 
     public Integer getEstimation() {
@@ -41,15 +37,6 @@ public class RatingId implements Serializable {
 
     public void setClientIp(String clientIp) {
         this.clientIp = clientIp;
-    }
-
-    @org.hibernate.annotations.Parent
-    public Rating getRating() {
-        return rating;
-    }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
     }
 
     @Override

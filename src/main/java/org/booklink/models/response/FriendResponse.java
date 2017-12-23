@@ -1,4 +1,4 @@
-package org.booklink.models.response_models;
+package org.booklink.models.response;
 
 /**
  * Created by mhenr on 08.12.2017.

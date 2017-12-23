@@ -2,12 +2,9 @@ package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.booklink.models.entities.Book;
-import org.booklink.models.entities.User;
-import org.booklink.models.request_models.BookComment;
-import org.booklink.models.request_models.BookTextRequest;
-import org.booklink.models.request_models.CoverRequest;
-import org.booklink.models.response_models.BookWithTextResponse;
-import org.booklink.services.AuthorService;
+import org.booklink.models.request.BookTextRequest;
+import org.booklink.models.request.CoverRequest;
+import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.services.BookService;
 import org.junit.Before;
 import org.junit.Test;

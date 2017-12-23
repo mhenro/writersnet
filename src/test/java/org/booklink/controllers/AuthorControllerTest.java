@@ -1,15 +1,13 @@
 package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.booklink.models.Response;
 import org.booklink.models.entities.User;
-import org.booklink.models.request_models.AvatarRequest;
-import org.booklink.models.response_models.AuthorResponse;
-import org.booklink.models.response_models.AuthorShortInfoResponse;
-import org.booklink.models.response_models.ChatGroupResponse;
-import org.booklink.security.JwtFilter;
+import org.booklink.models.request.AuthorRequest;
+import org.booklink.models.request.AvatarRequest;
+import org.booklink.models.response.AuthorResponse;
+import org.booklink.models.response.AuthorShortInfoResponse;
+import org.booklink.models.response.ChatGroupResponse;
 import org.booklink.services.AuthorService;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-
-import java.util.Date;
 
 import static org.hamcrest.core.Is.is;
 
@@ -92,7 +88,7 @@ public class AuthorControllerTest {
         mvc.perform(post("/authors").content(json)).andExpect(status().isUnsupportedMediaType());
         mvc.perform(post("/authors")).andExpect(status().isBadRequest());
         mvc.perform(post("/wrong")).andExpect(status().isNotFound());
-        doThrow(new RuntimeException("test error")).when(authorService).saveAuthor(any(User.class));
+        doThrow(new RuntimeException("test error")).when(authorService).updateAuthor(any(AuthorRequest.class));
         mvc.perform(post("/authors").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError()).andExpect(content().json("{code: 1, message: 'test error'}"));
     }
 

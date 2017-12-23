@@ -1,7 +1,7 @@
 package org.booklink.models.entities;
 
 import org.booklink.models.Genre;
-import org.booklink.models.request_models.TotalRating;
+import org.booklink.models.request.TotalRating;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 

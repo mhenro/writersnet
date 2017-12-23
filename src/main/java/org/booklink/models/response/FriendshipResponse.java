@@ -1,7 +1,6 @@
-package org.booklink.models.response_models;
+package org.booklink.models.response;
 
 import org.booklink.models.entities.Friendship;
-import org.booklink.models.entities.User;
 
 import java.util.Date;
 

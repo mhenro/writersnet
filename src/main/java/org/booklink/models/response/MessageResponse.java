@@ -1,4 +1,4 @@
-package org.booklink.models.response_models;
+package org.booklink.models.response;
 
 import java.io.Serializable;
 

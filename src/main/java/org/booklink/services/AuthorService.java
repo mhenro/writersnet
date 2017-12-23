@@ -7,11 +7,9 @@ import org.booklink.models.entities.FriendshipPK;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.AvatarRequest;
-import org.booklink.models.response_models.AuthorResponse;
-import org.booklink.models.response_models.AuthorShortInfoResponse;
-import org.booklink.models.response_models.ChatGroupResponse;
-import org.booklink.models.response_models.FriendResponse;
+import org.booklink.models.request.AuthorRequest;
+import org.booklink.models.request.AvatarRequest;
+import org.booklink.models.response.*;
 import org.booklink.models.top_models.*;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.FriendshipRepository;
@@ -21,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -30,7 +26,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -54,17 +49,13 @@ public class AuthorService {
 
     public Page<AuthorShortInfoResponse> getAuthors(final Pageable pageable) {
         Page<AuthorShortInfoResponse> authors = authorRepository.findAllEnabled(pageable);
-        authors.forEach(author -> {
-            setDefaultAvatar(author);
-        });
+        authors.forEach(this::setDefaultAvatar);
         return authors;
     }
 
     public Page<AuthorShortInfoResponse> getAuthorsByName(final String name, final Pageable pageable) {
         Page<AuthorShortInfoResponse> authors = authorRepository.findAuthorsByName(name, pageable);
-        authors.forEach(author -> {
-            setDefaultAvatar(author);
-        });
+        authors.forEach(this::setDefaultAvatar);
         return authors;
     }
 
@@ -89,13 +80,9 @@ public class AuthorService {
     }
 
     public AuthorResponse getAuthor(final String authorId) {
-        //final User user = authorRepository.findOne(authorId);
-        //final AuthorResponse author = new AuthorResponse(user);
         final AuthorResponse author = authorRepository.findAuthor(authorId);
-        if (author != null) {
-            setDefaultCoverForBooks(author);
-            //setDefaultAvatar(author);
-        }
+        setDefaultAvatar(author);
+        increaseAuthorViews(authorId);
         return author;
     }
 
@@ -114,7 +101,16 @@ public class AuthorService {
         return authorizedUser.isSubscriptionOf(authorId);
     }
 
-    public void saveAuthor(final User author) {
+    public CheckFriendshipResponse checkFriendshipWith(final String authorId) {
+        final User authorizedUser = getAuthorizedUser();
+        final boolean friend = authorizedUser.isFriendOf(authorId);
+        final boolean subscriber = authorizedUser.isSubscriberOf(authorId);
+        final boolean subscription = authorizedUser.isSubscriptionOf(authorId);
+        final CheckFriendshipResponse response = new CheckFriendshipResponse(friend, subscriber, subscription);
+        return response;
+    }
+
+    public void updateAuthor(final AuthorRequest author) {
         checkCredentials(author.getUsername());
         User user = authorRepository.findOne(author.getUsername());
         if (user == null) {
@@ -227,7 +223,8 @@ public class AuthorService {
         return friends;
     }
 
-    private void increaseAuthorViews(final User author) {
+    private void increaseAuthorViews(final String authorId) {
+        final User author = authorRepository.findOne(authorId);
         if (author != null) {
             final long views = author.getViews() + 1;
             author.setViews(views);
@@ -251,61 +248,21 @@ public class AuthorService {
         return user;
     }
 
-    private void hideAuthInfo(User user) {
-        user.setPassword("");
-        user.setActivationToken("");
-        user.setAuthority("");
-    }
-
-    private void removeRecursionFromAuthor(User user){
-        user.getBooks().stream().forEach(book -> {
-            book.setAuthor(null);
-        });
-        if (user.getSection() != null) {
-            user.getSection().setAuthor(null);
-        }
-    }
-
-    @Deprecated
-    private void setDefaultAvatar(User user) {
-        final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
-        if (user.getAvatar() == null) {
-            user.setAvatar(defaultAvatar);
-        }
-    }
-
     private void setDefaultAvatar(AuthorShortInfoResponse user) {
-        final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
-        if (user.getAvatar() == null) {
-            user.setAvatar(defaultAvatar);
+        if (user != null) {
+            final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
+            if (user.getAvatar() == null) {
+                user.setAvatar(defaultAvatar);
+            }
         }
     }
 
-    @Deprecated
-    private void setDefaultCoverForBooks(User user) {
-        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
-        user.getBooks().stream()
-                .filter(book -> book.getCover() == null || book.getCover().isEmpty())
-                .forEach(book -> book.setCover(defaultCover));
-    }
-
-    private void setDefaultCoverForBooks(AuthorResponse user) {
-        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
-        //user.getBooks().stream()
-        //        .filter(book -> book.getCover() == null || book.getCover().isEmpty())
-        //        .forEach(book -> book.setCover(defaultCover));
-    }
-
-    @Deprecated
-    private void calcBookSize(User user) {
-        user.getBooks().stream().forEach(book -> {
-            int size = Optional.ofNullable(book.getBookText()).map(bookText -> bookText.getText().length()).orElse(0);
-            book.setSize(size);
-        });
-
-    }
-
-    private void hideText(User user) {
-        user.getBooks().stream().forEach(book -> book.setBookText(null));
+    private void setDefaultAvatar(AuthorResponse user) {
+        if (user != null) {
+            final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
+            if (user.getAvatar() == null) {
+                user.setAvatar(defaultAvatar);
+            }
+        }
     }
 }

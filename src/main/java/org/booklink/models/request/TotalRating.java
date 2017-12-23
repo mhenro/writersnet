@@ -1,4 +1,4 @@
-package org.booklink.models.request_models;
+package org.booklink.models.request;
 
 /**
  * Created by mhenr on 21.10.2017.

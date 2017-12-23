@@ -1,11 +1,10 @@
-package org.booklink.models.response_models;
+package org.booklink.models.response;
 
 import org.booklink.models.entities.*;
-import org.booklink.models.request_models.TotalRating;
-import org.booklink.models.request_models.TotalSize;
+import org.booklink.models.request.TotalRating;
+import org.booklink.models.request.TotalSize;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by mhenr on 20.12.2017.
@@ -66,7 +65,7 @@ public class AuthorResponse {
     }
 
     private BookSerieResponse convertSerie(final BookSerie bookSerie) {
-        return new BookSerieResponse(bookSerie);
+        return new BookSerieResponse(bookSerie.getId(), bookSerie.getName());
     }
 
     private BookResponse convertBook(final Book book) {

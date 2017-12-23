@@ -5,8 +5,7 @@ import org.booklink.models.entities.BookComments;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request_models.AuthorInfo;
-import org.booklink.models.request_models.BookComment;
+import org.booklink.models.request.BookComment;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookCommentsRepository;
 import org.booklink.repositories.BookRepository;
@@ -27,7 +26,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
