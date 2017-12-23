@@ -8,10 +8,6 @@ import {
     createNotify
 } from '../../actions/GlobalActions.jsx';
 import {
-    getAuthorDetails,
-    setAuthor
-} from '../../actions/AuthorActions.jsx';
-import {
     closeBookPropsForm,
     setBook,
     getBookDetails,
@@ -34,6 +30,7 @@ import { locale, getLocale } from '../../locale.jsx';
     - showBookPropsForm
     - editableBook
     - author
+    - onCloseUpdate - callback
  */
 class BookPropsForm extends React.Component {
     constructor(props) {
@@ -93,15 +90,14 @@ class BookPropsForm extends React.Component {
             description: this.state.description,
             serieId: this.state.serie ? this.state.serie.value : null,
             genre: this.state.genre ? this.state.genre.value : null,
-            language: this.state.language.value,
-            cover: this.state.cover
+            language: this.state.language.value
         };
         this.props.onSaveBook(book, this.props.token, () => this.close());
     }
 
     close() {
         this.props.closeBookPropsForm();
-        this.props.onGetAuthorDetails(this.props.author.username);
+        this.props.onCloseUpdate();
     }
 
     onFieldChange(proxy) {
@@ -413,19 +409,6 @@ const mapDispatchToProps = (dispatch) => {
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));
-                }
-                else {
-                    dispatch(createNotify('danger', 'Error', json.message));
-                }
-            }).catch(error => {
-                dispatch(createNotify('danger', 'Error', error.message));
-            });
-        },
-
-        onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
-                if (response.status === 200) {
-                    dispatch(setAuthor(json));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

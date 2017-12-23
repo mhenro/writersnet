@@ -1,7 +1,7 @@
 import doFetch from './fetch';
 import {getHost} from '../utils.jsx';
 
-export const getBooks = (name, page, size = 5) => {
+export const getBooks = (name, page = 0, size = 5) => {
     if (name) {
         return doFetch(getHost() + 'books/name/' + name + '?page=' + page + '&size=' + size);
     } else {
@@ -9,8 +9,12 @@ export const getBooks = (name, page, size = 5) => {
     }
 };
 
-export const getSeries = (userId, page) => {
-    return doFetch(getHost() + 'series/' + userId + '?page=' + page + '&size=200');
+export const getBooksByAuthor = (authorId, page = 0, size = 200) => {
+    return doFetch(getHost() + 'books/author/' + authorId + '?page=' + page + '&size=' + size);
+};
+
+export const getSeries = (userId, page = 0, size = 200) => {
+    return doFetch(getHost() + 'series/' + userId + '?page=' + page + '&size=' + size);
 };
 
 export const saveSerie = (bookSerie, token) => {

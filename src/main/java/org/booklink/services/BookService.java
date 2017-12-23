@@ -4,6 +4,8 @@ import liquibase.util.file.FilenameUtils;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request.BookRequest;
+import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.models.top_models.*;
 import org.booklink.models.request.BookTextRequest;
@@ -75,6 +77,11 @@ public class BookService {
         return books;
     }
 
+    public Page<BookResponse> getBooksByAuthor(final String authorId, final Pageable pageable) {
+        Page<BookResponse> books = bookRepository.findBooksByAuthor(authorId, pageable);
+        return books;
+    }
+
     public Page<TopBookNovelties> getBooksByLastUpdate(final Pageable pageable) {
         Page<TopBookNovelties> books = bookRepository.findAllByLastUpdate(pageable);
         return books;
@@ -91,7 +98,7 @@ public class BookService {
     }
 
     public Page<TopBookComments> getBooksByComments(final Pageable pageable) {
-        Page<TopBookComments> books = bookRepository.findAllByComments(pageable);
+        Page<TopBookComments> books = null; //bookRepository.findAllByComments(pageable);   //TODO: fixme!
         return books;
     }
 
@@ -101,20 +108,15 @@ public class BookService {
     }
 
     public BookWithTextResponse getBook(final Long bookId) {
-        final Book bookEntity = bookRepository.findOne(bookId);
-        if (bookEntity != null) {
-            increaseBookViews(bookEntity);
-            //hideAuthInfo(book);
-            //calcBookSize(book);
-            //removeRecursionFromBook(book);
-        }
-        return new BookWithTextResponse(bookEntity);
+        final BookWithTextResponse book = bookRepository.getBookById(bookId);
+        increaseBookViews(bookId);
+        return book;
     }
 
-    public Long saveBook(final Book book) {
+    public Long saveBook(final BookRequest book) {
+        checkCredentials(book.getAuthorName());   //only owner can edit his book
         Book savedBook;
         if (book.getId() == null) { //new book
-            checkCredentials(book.getAuthorName());   //only owner can edit his book
             savedBook = new Book();
             savedBook.setCreated(new Date());
             savedBook.setLastUpdate(new Date());
@@ -208,7 +210,8 @@ public class BookService {
         updateDateInUserSection(book.getAuthor().getUsername());
     }
 
-    private void increaseBookViews(final Book book) {
+    private void increaseBookViews(final Long bookId) {
+        final Book book = bookRepository.findOne(bookId);
         if (book != null) {
             final long views = book.getViews() + 1;
             book.setViews(views);
@@ -281,11 +284,19 @@ public class BookService {
     }
 
     private void checkCredentials(final String userId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = auth.getName();
-        if (!currentUser.equals(userId)) {
+        if (!getAuthorizedUser().getUsername().equals(userId)) {
             throw new UnauthorizedUserException();
         }
+    }
+
+    private User getAuthorizedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = auth.getName();
+        final User user = authorRepository.findOne(currentUser);
+        if (user == null) {
+            throw new UnauthorizedUserException("User not found");
+        }
+        return user;
     }
 
     /* convert user file to our internal html format */

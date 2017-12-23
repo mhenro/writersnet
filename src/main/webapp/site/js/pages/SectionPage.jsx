@@ -8,7 +8,7 @@ import {
 } from '../actions/AuthorActions.jsx';
 import {
     getSeries,
-    getBooks,
+    getBooksByAuthor,
     deleteBook,
     openBookPropsForm,
     openEditSeriesForm
@@ -48,7 +48,7 @@ class SectionPage extends React.Component {
             books: []
         });
         this.props.onGetSeries(this.props.match.params.authorName, series => this.updateSeries(series));
-        this.props.onGetBooks(this.props.match.params.authorName, 0, books => this.updateBooks(books));
+        this.props.onGetBooks(this.props.match.params.authorName, books => this.updateBooks(books));
 
         this.checkFriendship();
     }
@@ -159,7 +159,7 @@ class SectionPage extends React.Component {
                                     friendship={this.state.friendship}/>
                     </div>
                     <div className="col-sm-12 col-lg-9">
-                        <AuthorShortInfo author={this.props.author}/>
+                        <AuthorShortInfo author={this.props.author} books={this.state.books}/>
                     </div>
                 </div>
                 <div className="col-sm-12 panel panel-success">
@@ -181,7 +181,7 @@ class SectionPage extends React.Component {
                                language={this.props.language}/>
 
                 {/* form for editing properties of the selected book */}
-                <BookPropsForm/>
+                <BookPropsForm onCloseUpdate={() => this.props.onGetBooks(this.props.match.params.authorName, books => this.updateBooks(books))}/>
 
                 {/* Edit series form */}
                 <EditSeriesForm onCloseUpdate={() => this.props.onGetSeries(this.props.match.params.authorName, series => this.updateSeries(series))}/>
@@ -299,8 +299,8 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onGetBooks: (name, page, callback) => {
-            return getBooks(name, page, 100).then(([response, json]) => {
+        onGetBooks: (authorId, callback) => {
+            return getBooksByAuthor(authorId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.content);
                 }

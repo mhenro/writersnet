@@ -11,9 +11,11 @@ import java.util.Date;
  * Created by mhenr on 21.12.2017.
  */
 public class BookWithTextResponse {
-    private long id;
-    private BookSerieResponse bookSerie = new BookSerieResponse();
-    private long commentsCount;
+    private Long id;
+    private BookSerieResponse bookSerie;
+    private String authorId;
+    private String authorFullName;
+    private Long commentsCount;
     private String cover;
     private Date created;
     private String description;
@@ -21,53 +23,46 @@ public class BookWithTextResponse {
     private String language;
     private Date lastUpdate;
     private String name;
-    private long size;
+    private Integer size;
     private TotalRating totalRating;
-    private long views;
-    private BookText bookText = new BookText();
-    private AuthorResponse author;
+    private Long views;
+    private BookTextResponse bookText;
 
     public BookWithTextResponse(){}
 
-    public BookWithTextResponse(final Book book) {
-        if (book == null) {
-            return;
+    public BookWithTextResponse(final Long id, final Long serieId, final String serieName, final String authorId,
+                                final String authorFirstName, final String authorLastName, final Long commentsCount,
+                                final String cover, final Date created, final String description, final Genre genre,
+                                final String language, final Date lastUpdate, final String name, final Integer size,
+                                final Float totalRating, final Long totalVotes, final Long views, final Long textId,
+                                final String text) {
+        this.id = id;
+        if (serieId == null && serieName == null) {
+            this.bookSerie = null;
+        } else {
+            this.bookSerie = new BookSerieResponse(serieId, serieName);
         }
-        this.id = book.getId();
-        this.commentsCount = book.getComments().size();
-        this.cover = book.getCover();
-        this.created = book.getCreated();
-        this.description = book.getDescription();
-        this.genre = book.getGenre();
-        this.language = book.getLanguage();
-        this.lastUpdate = book.getLastUpdate();
-        this.name = book.getName();
-        this.size = book.getSize();
-        this.totalRating = book.getTotalRating();
-        this.views = book.getViews();
-
-        if (book.getBookSerie() != null) {
-            this.bookSerie.setId(book.getBookSerie().getId());
-            this.bookSerie.setName(book.getBookSerie().getName());
-        }
-
-        if (book.getBookText() != null) {
-            this.bookText.setId(book.getBookText().getId());
-            this.bookText.setText(book.getBookText().getText());
-        }
-
-        if (book.getAuthor() != null) {
-            this.author = new AuthorResponse();
-            this.author.setFirstName(book.getAuthor().getFirstName());
-            this.author.setLastName(book.getAuthor().getLastName());
-        }
+        this.authorId = authorId;
+        this.authorFullName = authorFirstName + " " + authorLastName;
+        this.commentsCount = commentsCount;
+        this.cover = cover;
+        this.created = created;
+        this.description = description;
+        this.genre = genre;
+        this.language = language;
+        this.lastUpdate = lastUpdate;
+        this.name = name;
+        this.size = size;
+        this.totalRating = new TotalRating(totalRating, totalVotes);
+        this.views = views;
+        this.bookText = new BookTextResponse(textId, text);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -79,11 +74,27 @@ public class BookWithTextResponse {
         this.bookSerie = bookSerie;
     }
 
-    public long getCommentsCount() {
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getAuthorFullName() {
+        return authorFullName;
+    }
+
+    public void setAuthorFullName(String authorFullName) {
+        this.authorFullName = authorFullName;
+    }
+
+    public Long getCommentsCount() {
         return commentsCount;
     }
 
-    public void setCommentsCount(long commentsCount) {
+    public void setCommentsCount(Long commentsCount) {
         this.commentsCount = commentsCount;
     }
 
@@ -143,11 +154,11 @@ public class BookWithTextResponse {
         this.name = name;
     }
 
-    public long getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
@@ -159,27 +170,19 @@ public class BookWithTextResponse {
         this.totalRating = totalRating;
     }
 
-    public long getViews() {
+    public Long getViews() {
         return views;
     }
 
-    public void setViews(long views) {
+    public void setViews(Long views) {
         this.views = views;
     }
 
-    public BookText getBookText() {
+    public BookTextResponse getBookText() {
         return bookText;
     }
 
-    public void setBookText(BookText bookText) {
+    public void setBookText(BookTextResponse bookText) {
         this.bookText = bookText;
-    }
-
-    public AuthorResponse getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(AuthorResponse author) {
-        this.author = author;
     }
 }

@@ -2,6 +2,7 @@ package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.booklink.models.entities.Book;
+import org.booklink.models.request.BookRequest;
 import org.booklink.models.request.BookTextRequest;
 import org.booklink.models.request.CoverRequest;
 import org.booklink.models.response.BookWithTextResponse;
@@ -86,14 +87,14 @@ public class BookControllerTest {
 
     @Test
     public void saveBook() throws Exception {
-        final Book book = new Book();
+        final BookRequest book = new BookRequest();
         final String json = mapper.writeValueAsString(book);
-        when(bookService.saveBook(any(Book.class))).thenReturn(24L);
+        when(bookService.saveBook(any(BookRequest.class))).thenReturn(24L);
         mvc.perform(post("/books").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: '24'}"));
         mvc.perform(post("/books").content(json)).andExpect(status().isUnsupportedMediaType());
         mvc.perform(post("/books")).andExpect(status().isBadRequest());
         mvc.perform(post("/wrong")).andExpect(status().isNotFound());
-        doThrow(new RuntimeException("test error")).when(bookService).saveBook(any(Book.class));
+        doThrow(new RuntimeException("test error")).when(bookService).saveBook(any(BookRequest.class));
         mvc.perform(post("/books").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError()).andExpect(content().json("{code: 1, message: 'test error'}"));
     }
 

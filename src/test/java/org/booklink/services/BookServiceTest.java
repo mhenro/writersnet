@@ -3,6 +3,7 @@ package org.booklink.services;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request.BookRequest;
 import org.booklink.models.request.BookTextRequest;
 import org.booklink.models.request.CoverRequest;
 import org.booklink.models.response.BookWithTextResponse;
@@ -142,21 +143,21 @@ public class BookServiceTest {
 
     @Test(expected = Test.None.class)
     public void saveNewBook() throws Exception {
-        final Book book = new Book();
+        final BookRequest book = new BookRequest();
         book.setAuthorName("user0");
         bookService.saveBook(book);
     }
 
     @Test(expected = UnauthorizedUserException.class)
     public void saveNewBook_unathorized() throws Exception {
-        final Book book = new Book();
+        final BookRequest book = new BookRequest();
         book.setAuthorName("user10");
         bookService.saveBook(book);
     }
 
     @Test(expected = Test.None.class)
     public void saveExistedBook() throws Exception {
-        final Book book = new Book();
+        final BookRequest book = new BookRequest();
         book.setId(111L);
         bookService.saveBook(book);
     }
@@ -169,7 +170,7 @@ public class BookServiceTest {
         bookEntity.setAuthor(user);
         Mockito.when(bookRepository.findOne(111L)).thenReturn(bookEntity);
 
-        final Book book = new Book();
+        final BookRequest book = new BookRequest();
         book.setId(111L);
         bookService.saveBook(book);
     }

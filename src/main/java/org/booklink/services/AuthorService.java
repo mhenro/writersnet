@@ -70,7 +70,7 @@ public class AuthorService {
     }
 
     public Page<TopAuthorComments> getAuthorsByComments(final Pageable pageable) {
-        Page<TopAuthorComments> authors = authorRepository.findAllByComments(pageable);
+        Page<TopAuthorComments> authors = null; //authorRepository.findAllByComments(pageable);     //TODO: fixme!
         return authors;
     }
 

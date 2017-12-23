@@ -16,7 +16,7 @@ import BookSerieItem from './BookSerieItem.jsx';
  */
 class BookSerieList extends React.Component {
     getBooksForSerie(serie) {
-        return this.props.books.sort((a, b) => a.name.localeCompare(b.name)).filter(book => {
+        return this.props.books.filter(book => {
             if (serie && !book.bookSerie) {
                 return false;
             }
@@ -35,7 +35,7 @@ class BookSerieList extends React.Component {
     render() {
         return (
             <div>
-                {this.props.series.sort((a, b) => a.name.localeCompare(b.name)).map((serie, key) => {
+                {this.props.series.map((serie, key) => {
                     return (
                         <div className="row" key={key}>
                             <div className="col-sm-12">

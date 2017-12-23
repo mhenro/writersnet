@@ -53,7 +53,7 @@ class BookReader extends React.Component {
     }
 
     getAuthorName() {
-        return <Link className="section-name" to={'/authors/' + this.props.book.author.username}>{this.props.book.author.firstName + ' ' + this.props.book.author.lastName}</Link>
+        return <Link className="section-name" to={'/authors/' + this.props.book.authorId}>{this.props.book.authorFullName}</Link>
     }
 
     getAverageRating() {
@@ -135,7 +135,7 @@ class BookReader extends React.Component {
                 </div>
                 <div id="commentsAnchor" className="col-sm-12"></div>
                 <UserComments comments={this.state.comments}
-                              owner={this.props.login === this.props.book.author.username}
+                              owner={this.props.login === this.props.book.authorId}
                               onGetComments={this.props.onGetBookComments}
                               onSaveComment={this.props.onSaveComment}
                               onDeleteComment={this.props.onDeleteComment}

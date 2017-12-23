@@ -5,8 +5,10 @@ import org.booklink.models.Response;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.request.BookRequest;
 import org.booklink.models.request.BookTextRequest;
 import org.booklink.models.request.CoverRequest;
+import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +55,6 @@ public class BookController {
     public ResponseEntity<?> getBook(@PathVariable Long bookId) {
         BookWithTextResponse book = bookService.getBook(bookId);
         if (book != null) {
-            book.getBookText().setBook(null);
             return new ResponseEntity<>(book, HttpStatus.OK);
         }
         Response<String> response = new Response<>();
@@ -62,10 +63,16 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "books/author/{authorId}", method = RequestMethod.GET)
+    public Page<BookResponse> getBooksByAuthor(@PathVariable final String authorId, final Pageable pageable) {
+        return bookService.getBooksByAuthor(authorId, pageable);
+    }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "books", method = RequestMethod.POST)
-    public ResponseEntity<?> saveBook(@RequestBody Book book) {
+    public ResponseEntity<?> saveBook(@RequestBody BookRequest book) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
         Long bookId = null;

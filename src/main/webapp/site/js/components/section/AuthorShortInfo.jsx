@@ -5,6 +5,7 @@ import { getLocale } from '../../locale.jsx';
 /*
     props:
     - author
+    - books - array
  */
 class AuthorShortInfo extends React.Component {
     getBirthday() {
@@ -33,9 +34,10 @@ class AuthorShortInfo extends React.Component {
     }
 
     getTotalSize() {
-        let size = formatBytes(this.props.author.totalSize.totalSize),
-            books = this.props.author.totalSize.totalBooks;
-        return size + ' / ' + books + ' books';
+        let totalSize = this.props.books.map(book => book.size).reduce((a, b) => a + b),
+            formatSize = formatBytes(totalSize),
+            bookCount = this.props.books.length;
+        return formatSize + ' / ' + bookCount + ' books';
     }
 
     getAverageRating() {

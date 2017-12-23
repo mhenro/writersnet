@@ -244,7 +244,7 @@ public class User {
         if (books == null) {
             return authorRating;
         }
-        long totalUsers = books.stream().map(book -> book.getTotalRating().getUserCount()).collect(Collectors.summingLong(n -> n));
+        long totalUsers = books.stream().map(book -> book.getTotalRatingDeprecated().getUserCount()).collect(Collectors.summingLong(n -> n));
         Map<Integer, Long> countByStars = books.stream().flatMap(book -> book.getRating().stream())
                 .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
         float averageRating = (float)countByStars.entrySet().stream()

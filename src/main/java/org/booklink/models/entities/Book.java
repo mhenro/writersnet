@@ -33,7 +33,9 @@ public class Book {
     private String cover;
     private Integer size;
     private Long views = 0L;
-    private List<BookComments> comments;
+    private Long commentsCount = 0L;
+    private Float totalRating = 0f;
+    private Long totalVotes = 0l;
 
     @GenericGenerator(
             name = "book_generator",
@@ -102,6 +104,7 @@ public class Book {
         this.lastUpdate = lastUpdate;
     }
 
+    @Enumerated(EnumType.ORDINAL)
     public Genre getGenre() {
         return genre;
     }
@@ -141,6 +144,7 @@ public class Book {
     }
 
     @Transient
+    @Deprecated
     public long getSize() {
         return Optional.ofNullable(bookText)
                 .flatMap(text -> Optional.ofNullable(text.getText()))
@@ -152,7 +156,7 @@ public class Book {
         this.size = size;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "serie_id")
     public BookSerie getBookSerie() {
         return bookSerie;
@@ -198,19 +202,38 @@ public class Book {
         this.views = views;
     }
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<BookComments> getComments() {
-        return comments;
+    @Column(name = "comments_count")
+    public Long getCommentsCount() {
+        return commentsCount;
     }
 
-    public void setComments(List<BookComments> comments) {
-        this.comments = comments;
+    public void setCommentsCount(Long commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    @Column(name = "total_rating", precision = 2, scale=1)
+    public Float getTotalRating() {
+        return totalRating;
+    }
+
+    public void setTotalRating(Float totalRating) {
+        this.totalRating = totalRating;
+    }
+
+    @Column(name = "total_votes")
+    public Long getTotalVotes() {
+        return totalVotes;
+    }
+
+    public void setTotalVotes(Long totalVotes) {
+        this.totalVotes = totalVotes;
     }
 
     /* -----------------------------------------business logic----------------------------------------- */
 
     @Transient
-    public TotalRating getTotalRating() {
+    @Deprecated
+    public TotalRating getTotalRatingDeprecated() {
         if (rating == null) {
             return null;
         }

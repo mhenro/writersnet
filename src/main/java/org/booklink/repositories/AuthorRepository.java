@@ -27,8 +27,9 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.top_models.TopAuthorBookCount(u.username, u.firstName, u.lastName, count(b.name)) FROM User u LEFT JOIN u.books b WHERE u.enabled = true GROUP BY u.username ORDER BY count(b.name) DESC")
     Page<TopAuthorBookCount> findAllByBookCount(final Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.top_models.TopAuthorComments(u.username, u.firstName, u.lastName, count(c.comment)) FROM User u LEFT JOIN u.books b LEFT JOIN b.comments c WHERE u.enabled = true GROUP BY u.username ORDER BY count(c.comment) DESC")
-    Page<TopAuthorComments> findAllByComments(final Pageable pageable);
+    //TODO: fixme!
+    //@Query("SELECT new org.booklink.models.top_models.TopAuthorComments(u.username, u.firstName, u.lastName, count(c.comment)) FROM User u LEFT JOIN u.books b LEFT JOIN b.comments c WHERE u.enabled = true GROUP BY u.username ORDER BY count(c.comment) DESC")
+    //Page<TopAuthorComments> findAllByComments(final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.top_models.TopAuthorViews(u.username, u.firstName, u.lastName, u.views) FROM User u WHERE u.enabled = true ORDER BY u.views DESC")
     Page<TopAuthorViews> findAllByViews(final Pageable pageable);
