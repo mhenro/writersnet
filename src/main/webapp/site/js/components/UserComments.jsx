@@ -15,7 +15,7 @@ import CommentItem from './CommentItem.jsx';
     - login - user login if existed
     - token
     - bookId
-    - callback - updateReader function
+    - updateComments - callback
     - totalPagesCallback
  */
 class UserComments extends React.Component {
@@ -25,24 +25,6 @@ class UserComments extends React.Component {
             comment: '',
             relatedComment: null
         };
-        ['onCommentChange', 'onQuoteComment', 'handleSelect', 'onSubmit'].map(fn => this[fn] = this[fn].bind(this));
-    }
-
-    sortComments(a, b) {
-        if (a.created < b.created) {
-            return -1;
-        }
-        if (a.created > b.created) {
-            return 1;
-        }
-        return 0;
-    }
-
-    getRelatedComment(parentId) {
-        if (!parentId) {
-            return null;
-        }
-        return this.props.comments.filter(comment => comment.id === parentId)[0];
     }
 
     onCommentChange(event) {
@@ -71,7 +53,7 @@ class UserComments extends React.Component {
                     <small>Quoted comment:</small>
                     <div className="well well-sm">
                         <small>
-                            <h4>{this.state.relatedComment.authorInfo.firstName + ' ' + this.state.relatedComment.authorInfo.lastName}</h4>
+                            <h4>{this.state.relatedComment.userFullName}</h4>
                             <p>{this.state.relatedComment.comment}</p>
                         </small>
                     </div>
@@ -82,7 +64,7 @@ class UserComments extends React.Component {
 
     handleSelect(eventKey) {
         this.props.onSetCommentPage(eventKey);
-        this.props.onGetComments(this.props.bookId, eventKey, this.props.callback, this.props.totalPagesCallback);
+        this.props.onGetComments(this.props.bookId, eventKey, this.props.updateComments, this.props.totalPagesCallback);
     }
 
     saveComment() {
@@ -92,7 +74,7 @@ class UserComments extends React.Component {
             comment: this.state.comment,
             relatedTo: this.state.relatedComment ? this.state.relatedComment.id : undefined
         };
-        this.props.onSaveComment(comment, this.props.callback);
+        this.props.onSaveComment(comment, this.props.updateComments);
     }
 
     onSubmit(event) {
@@ -101,17 +83,15 @@ class UserComments extends React.Component {
     }
 
     render() {
-        let sort = (a, b) => this.sortComments(a, b);
-
         return (
             <div>
                 <h4>Leave a comment:</h4>
-                <form role="form" onSubmit={this.onSubmit}>
+                <form role="form" onSubmit={event => this.onSubmit(event)}>
                     <div className="form-group">
                         {this.renderRelatedComment()}
                     </div>
                     <div className="form-group">
-                        <textarea onChange={this.onCommentChange} value={this.state.comment} className="form-control" rows="3" required></textarea>
+                        <textarea onChange={event => this.onCommentChange(event)} value={this.state.comment} className="form-control" rows="3" required></textarea>
                     </div>
                     <button onClick={() => this.saveComment()} type="submit" className="btn btn-success">Submit</button>
                 </form>
@@ -129,17 +109,16 @@ class UserComments extends React.Component {
                     items={this.props.totalPages}
                     maxButtons={3}
                     activePage={this.props.currentPage}
-                    onSelect={this.handleSelect}/>
+                    onSelect={event => this.handleSelect(event)}/>
                 <br/>
-                {this.props.comments.sort(sort).map((comment, key) =>
+                {this.props.comments.map((comment, key) =>
                     <CommentItem comment={comment}
-                                 relatedComment={this.getRelatedComment(comment.relatedTo)}
                                  owner={this.props.owner}
                                  onDeleteComment={this.props.onDeleteComment}
-                                 onQuoteComment={this.onQuoteComment}
+                                 onQuoteComment={comment => this.onQuoteComment(comment)}
                                  token={this.props.token}
                                  bookId={this.props.bookId}
-                                 callback={this.props.callback}
+                                 updateComments={this.props.updateComments}
                                  key={key}/>
                 )}
                 <div className="col-sm-12 text-center">
@@ -154,7 +133,7 @@ class UserComments extends React.Component {
                         items={this.props.totalPages}
                         maxButtons={3}
                         activePage={this.props.currentPage}
-                        onSelect={this.handleSelect}/>
+                        onSelect={event => this.handleSelect(event)}/>
                 </div>
             </div>
         )

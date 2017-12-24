@@ -11,7 +11,7 @@ import { formatDate } from '../utils.jsx';
     - onQuoteComment - callback
     - token
     - bookId
-    - callback - updateReader function
+    - updateComments - callback
  */
 class CommentItem extends React.Component {
     constructor(props) {
@@ -22,11 +22,11 @@ class CommentItem extends React.Component {
     }
 
     getAuthorName() {
-        return this.props.comment.authorInfo.firstName + ' ' + this.props.comment.authorInfo.lastName;
+        return this.props.comment.userFullName;
     }
 
-    getCommentDate() {
-        let date = new Date(this.props.comment.created);
+    getCommentDate(created = this.props.comment.created) {
+        let date = new Date(created);
         return formatDate(date);
     }
 
@@ -35,11 +35,11 @@ class CommentItem extends React.Component {
     }
 
     renderRelatedComment() {
-        if (this.props.relatedComment) {
+        if (this.props.comment.relatedTo) {
             return (
                 <div className="well">
-                    <h4>{this.props.relatedComment.authorInfo.firstName + ' ' + this.props.relatedComment.authorInfo.lastName}</h4>
-                    <p>{this.props.relatedComment.comment}</p>
+                    <h4>{this.props.comment.relatedTo.userFullName} <small>{this.getCommentDate(this.props.comment.relatedTo.created)}</small></h4>
+                    <p>{this.props.comment.relatedTo.comment}</p>
                 </div>
             )
         }
@@ -78,7 +78,7 @@ class CommentItem extends React.Component {
     }
 
     onDelete() {
-        this.props.onDeleteComment(this.props.bookId, this.props.comment.id, this.props.token, this.props.callback);
+        this.props.onDeleteComment(this.props.bookId, this.props.comment.id, this.props.token, this.props.updateComments);
         this.onCancel();
     }
 
@@ -92,7 +92,7 @@ class CommentItem extends React.Component {
         return (
             <div className="row">
                 <div className="col-sm-2 text-center">
-                    <img src={this.props.comment.authorInfo.avatar + '?date=' + new Date()} className="img-rounded" width="65" height="auto" alt="avatar"/>
+                    <img src={this.props.comment.userAvatar + '?date=' + new Date()} className="img-rounded" width="65" height="auto" alt="avatar"/>
                 </div>
                 <div className="col-sm-10">
                     <h4>{this.getAuthorName()} <small>{this.getCommentDate()} &nbsp; {this.renderQuoteButton()} &nbsp; {this.renderCloseButton()}</small></h4>

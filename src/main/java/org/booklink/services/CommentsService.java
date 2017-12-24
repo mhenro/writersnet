@@ -6,6 +6,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.BookComment;
+import org.booklink.models.response.BookCommentResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookCommentsRepository;
 import org.booklink.repositories.BookRepository;
@@ -43,8 +44,8 @@ public class CommentsService {
         this.newsService = newsService;
     }
 
-    public Page<BookComments> getComments(final Long bookId, final Pageable pageable) {
-        Page<BookComments> comments = bookCommentsRepository.findAllByBookId(bookId, pageable);
+    public Page<BookCommentResponse> getComments(final Long bookId, final Pageable pageable) {
+        Page<BookCommentResponse> comments = bookCommentsRepository.findAllByBookId(bookId, pageable);
         if (comments != null) {
             setDefaultAvatars(comments);
         }
@@ -52,10 +53,6 @@ public class CommentsService {
     }
 
     public void saveComment(final BookComment bookComment) {
-        final BookComments relatedComment = bookCommentsRepository.findOne(bookComment.getRelatedTo());
-        if (relatedComment == null) {
-            throw new ObjectNotFoundException("Related comment was not found");
-        }
         BookComments entity = new BookComments();
         Book book = bookRepository.findOne(bookComment.getBookId());
         if (book == null) {
@@ -71,8 +68,14 @@ public class CommentsService {
         }
         entity.setBook(book);
         entity.setComment(bookComment.getComment());
-        entity.setRelatedTo(relatedComment);
         entity.setCreated(new Date());
+        if (bookComment.getRelatedTo() != null) {
+            final BookComments relatedComment = bookCommentsRepository.findOne(bookComment.getRelatedTo());
+            if (relatedComment == null) {
+                throw new ObjectNotFoundException("Related comment was not found");
+            }
+            entity.setRelatedTo(relatedComment);
+        }
         bookCommentsRepository.save(entity);
     }
 
@@ -85,11 +88,11 @@ public class CommentsService {
         bookCommentsRepository.delete(commentId);
     }
 
-    private void setDefaultAvatars(final Page<BookComments> comments) {
+    private void setDefaultAvatars(final Page<BookCommentResponse> comments) {
         final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
         comments.getContent().stream()
-                .filter(comment -> comment.getAuthorInfo().getAvatar() == null || comment.getAuthorInfo().getAvatar().isEmpty())
-                .forEach(comment -> comment.getAuthorInfo().setAvatar(defaultAvatar));
+                .filter(comment -> comment.getUserAvatar() == null || comment.getUserAvatar().isEmpty())
+                .forEach(comment -> comment.setUserAvatar(defaultAvatar));
     }
 
     private void checkCredentials(final String userId) {

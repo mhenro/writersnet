@@ -3,6 +3,7 @@ package org.booklink.controllers;
 import org.booklink.models.Response;
 import org.booklink.models.entities.BookComments;
 import org.booklink.models.request.BookComment;
+import org.booklink.models.response.BookCommentResponse;
 import org.booklink.services.CommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class CommentsController {
 
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}/comments", method = RequestMethod.GET)
-    public Page<BookComments> getComments(@PathVariable Long bookId, Pageable pageable) {
+    public Page<BookCommentResponse> getComments(@PathVariable Long bookId, Pageable pageable) {
         return commentsService.getComments(bookId, pageable);
     }
 

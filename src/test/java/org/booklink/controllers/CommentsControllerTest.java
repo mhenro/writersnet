@@ -3,6 +3,7 @@ package org.booklink.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.booklink.models.entities.BookComments;
 import org.booklink.models.request.BookComment;
+import org.booklink.models.response.BookCommentResponse;
 import org.booklink.services.CommentsService;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class CommentsControllerTest {
     @Test
     public void getComments() throws Exception {
         final Pageable pageable = Mockito.mock(Pageable.class);
-        final Page<BookComments> page = Mockito.mock(Page.class);
+        final Page<BookCommentResponse> page = Mockito.mock(Page.class);
         when(commentsService.getComments(1L, pageable)).thenReturn(page);
         mvc.perform(get("/books/1/comments")).andExpect(status().isOk());
         mvc.perform(get("/books/1/wrong")).andExpect(status().isNotFound());

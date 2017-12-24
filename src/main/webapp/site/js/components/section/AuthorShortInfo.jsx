@@ -34,7 +34,7 @@ class AuthorShortInfo extends React.Component {
     }
 
     getTotalSize() {
-        let totalSize = this.props.books.map(book => book.size).reduce((a, b) => a + b),
+        let totalSize = this.props.books.length > 0 ? this.props.books.map(book => book.size).reduce((a, b) => a + b) : 0,
             formatSize = formatBytes(totalSize),
             bookCount = this.props.books.length;
         return formatSize + ' / ' + bookCount + ' books';

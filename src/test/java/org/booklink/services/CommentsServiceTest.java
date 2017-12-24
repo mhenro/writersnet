@@ -6,6 +6,7 @@ import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.BookComment;
+import org.booklink.models.response.BookCommentResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookCommentsRepository;
 import org.booklink.repositories.BookRepository;
@@ -34,7 +35,7 @@ import java.util.stream.IntStream;
  * Created by mhenr on 23.11.2017.
  */
 @RunWith(SpringRunner.class)
-public class CommentsServiceClass {
+public class CommentsServiceTest {
     @TestConfiguration
     static class AuthenticationServiceConfiguration {
         @MockBean
@@ -70,8 +71,8 @@ public class CommentsServiceClass {
 
     @Before
     public void init() {
-        List<BookComments> comments = generateComments(2);
-        final Page<BookComments> page = new PageImpl<>(comments);
+        List<BookCommentResponse> comments = generateComments(2);
+        final Page<BookCommentResponse> page = new PageImpl<>(comments);
         Mockito.when(env.getProperty("writersnet.avatarwebstorage.path")).thenReturn("https://localhost/css/images/avatars/");
         Mockito.when(bookCommentsRepository.findAllByBookId(4L, null)).thenReturn(page);
         final User user = new User();
@@ -91,19 +92,17 @@ public class CommentsServiceClass {
 
     @Test
     public void getComments() throws Exception {
-        Page<BookComments> comments = commentsService.getComments(4L, null);
+        Page<BookCommentResponse> comments = commentsService.getComments(4L, null);
         Assert.assertEquals(2, comments.getTotalElements());
-        Assert.assertEquals("https://localhost/css/images/avatars/default_avatar.png", comments.getContent().get(0).getAuthorInfo().getAvatar());
-        Assert.assertEquals("Anonymous", comments.getContent().get(0).getAuthorInfo().getFirstName());
-        Assert.assertEquals("", comments.getContent().get(0).getAuthorInfo().getLastName());
-        Assert.assertEquals("avatar_path", comments.getContent().get(1).getAuthorInfo().getAvatar());
-        Assert.assertEquals("First", comments.getContent().get(1).getAuthorInfo().getFirstName());
-        Assert.assertEquals("Last", comments.getContent().get(1).getAuthorInfo().getLastName());
+        Assert.assertEquals("https://localhost/css/images/avatars/default_avatar.png", comments.getContent().get(0).getUserAvatar());
+        Assert.assertEquals("Anonymous", comments.getContent().get(0).getUserFullName().trim());
+        Assert.assertEquals("avatar_path", comments.getContent().get(1).getUserAvatar());
+        Assert.assertEquals("First Last", comments.getContent().get(1).getUserFullName());
     }
 
     @Test
     public void getComments_wrongBook() throws Exception {
-        Page<BookComments> comments = commentsService.getComments(5L, null);
+        Page<BookCommentResponse> comments = commentsService.getComments(5L, null);
         Assert.assertEquals(null, comments);
     }
 
@@ -151,19 +150,17 @@ public class CommentsServiceClass {
         commentsService.deleteComment(4L, 150L);
     }
 
-    private List<BookComments> generateComments(final int count) {
+    private List<BookCommentResponse> generateComments(final int count) {
         return IntStream.range(0, count).mapToObj(this::createComment).collect(Collectors.toList());
     }
 
-    private BookComments createComment(final int i) {
-        final BookComments bookComments = new BookComments();
-        final User user = new User();
-        user.setAvatar("avatar_path");
-        user.setFirstName("First");
-        user.setLastName("Last");
+    private BookCommentResponse createComment(final int i) {
+        final BookCommentResponse comment = new BookCommentResponse();
+        comment.setUserFullName("Anonymous ");
         if (i == 1) {
-            bookComments.setUser(user);
+            comment.setUserAvatar("avatar_path");
+            comment.setUserFullName("First Last");
         }
-        return bookComments;
+        return comment;
     }
 }

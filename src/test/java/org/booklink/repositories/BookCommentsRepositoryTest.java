@@ -2,6 +2,7 @@ package org.booklink.repositories;
 
 import org.booklink.config.RootConfigTest;
 import org.booklink.models.entities.*;
+import org.booklink.models.response.BookCommentResponse;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -57,7 +58,7 @@ public class BookCommentsRepositoryTest {
     //@Test
     public void findAllByBookId() throws Exception {
         final Pageable pageable = Mockito.mock(Pageable.class);
-        final Page<BookComments> comments = bookCommentsRepository.findAllByBookId(1L, pageable);
+        final Page<BookCommentResponse> comments = bookCommentsRepository.findAllByBookId(1L, pageable);
         Assert.assertEquals(2, comments.getTotalElements());
     }
 

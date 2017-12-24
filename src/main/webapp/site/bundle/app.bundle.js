@@ -79609,12 +79609,13 @@ var BookReader = function (_React$Component) {
             currentPage: 1,
             totalPages: 1
         };
-        ['updateReader', 'newVote', 'renderComments', 'setCommentPage', 'setTotalPages'].map(function (fn) {
-            return _this[fn] = _this[fn].bind(_this);
-        });
 
         _this.props.onGetBookDetails(_this.props.match.params.bookId);
-        _this.props.onGetBookComments(_this.props.match.params.bookId, _this.state.currentPage, _this.renderComments, _this.setTotalPages);
+        _this.props.onGetBookComments(_this.props.match.params.bookId, _this.state.currentPage, function (comments) {
+            return _this.renderComments(comments);
+        }, function (totalPages) {
+            return _this.setTotalPages(totalPages);
+        });
         return _this;
     }
 
@@ -79658,7 +79659,11 @@ var BookReader = function (_React$Component) {
     }, {
         key: 'newVote',
         value: function newVote(estimation) {
-            this.props.onAddStar(this.props.book.id, estimation, this.updateReader);
+            var _this3 = this;
+
+            this.props.onAddStar(this.props.book.id, estimation, function () {
+                return _this3.updateBook();
+            });
         }
     }, {
         key: 'isRatingAllowed',
@@ -79680,10 +79685,20 @@ var BookReader = function (_React$Component) {
             });
         }
     }, {
-        key: 'updateReader',
-        value: function updateReader() {
+        key: 'updateBook',
+        value: function updateBook() {
             this.props.onGetBookDetails(this.props.match.params.bookId);
-            this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, this.renderComments, this.setTotalPages);
+        }
+    }, {
+        key: 'updateComments',
+        value: function updateComments() {
+            var _this4 = this;
+
+            this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, function (comments) {
+                return _this4.renderComments(comments);
+            }, function (totalPages) {
+                return _this4.setTotalPages(totalPages);
+            });
         }
     }, {
         key: 'renderComments',
@@ -79703,6 +79718,8 @@ var BookReader = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this5 = this;
+
             if (!this.isDataLoaded()) {
                 return null;
             }
@@ -79729,7 +79746,9 @@ var BookReader = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'col-sm-6' },
-                        _react2.default.createElement(_reactStars2.default, { count: 5, size: 18, color2: 'orange', half: false, value: this.getAverageRating(), onChange: this.newVote }),
+                        _react2.default.createElement(_reactStars2.default, { count: 5, size: 18, color2: 'orange', half: false, value: this.getAverageRating(), onChange: function onChange(estimation) {
+                                return _this5.newVote(estimation);
+                            } }),
                         '\xA0',
                         _react2.default.createElement(
                             'span',
@@ -79748,7 +79767,7 @@ var BookReader = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'col-sm-12' },
+                    { className: 'col-sm-12 text-justify' },
                     _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.book.bookText.text } }),
                     _react2.default.createElement('hr', null)
                 ),
@@ -79758,13 +79777,19 @@ var BookReader = function (_React$Component) {
                     onGetComments: this.props.onGetBookComments,
                     onSaveComment: this.props.onSaveComment,
                     onDeleteComment: this.props.onDeleteComment,
-                    onSetCommentPage: this.setCommentPage,
+                    onSetCommentPage: function onSetCommentPage(page) {
+                        return _this5.setCommentPage(page);
+                    },
                     currentPage: this.state.currentPage,
                     totalPages: this.state.totalPages,
                     bookId: this.props.book.id,
                     login: this.props.login,
-                    callback: this.updateReader,
-                    totalPagesCallback: this.setTotalPages,
+                    updateComments: function updateComments() {
+                        return _this5.updateComments();
+                    },
+                    totalPagesCallback: function totalPagesCallback(totalPages) {
+                        return _this5.setTotalPages(totalPages);
+                    },
                     token: this.props.token })
             );
         }
@@ -79923,7 +79948,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     - login - user login if existed
     - token
     - bookId
-    - callback - updateReader function
+    - updateComments - callback
     - totalPagesCallback
  */
 var UserComments = function (_React$Component) {
@@ -79938,34 +79963,10 @@ var UserComments = function (_React$Component) {
             comment: '',
             relatedComment: null
         };
-        ['onCommentChange', 'onQuoteComment', 'handleSelect', 'onSubmit'].map(function (fn) {
-            return _this[fn] = _this[fn].bind(_this);
-        });
         return _this;
     }
 
     _createClass(UserComments, [{
-        key: 'sortComments',
-        value: function sortComments(a, b) {
-            if (a.created < b.created) {
-                return -1;
-            }
-            if (a.created > b.created) {
-                return 1;
-            }
-            return 0;
-        }
-    }, {
-        key: 'getRelatedComment',
-        value: function getRelatedComment(parentId) {
-            if (!parentId) {
-                return null;
-            }
-            return this.props.comments.filter(function (comment) {
-                return comment.id === parentId;
-            })[0];
-        }
-    }, {
         key: 'onCommentChange',
         value: function onCommentChange(event) {
             this.setState({
@@ -80008,7 +80009,7 @@ var UserComments = function (_React$Component) {
                             _react2.default.createElement(
                                 'h4',
                                 null,
-                                this.state.relatedComment.authorInfo.firstName + ' ' + this.state.relatedComment.authorInfo.lastName
+                                this.state.relatedComment.userFullName
                             ),
                             _react2.default.createElement(
                                 'p',
@@ -80024,7 +80025,7 @@ var UserComments = function (_React$Component) {
         key: 'handleSelect',
         value: function handleSelect(eventKey) {
             this.props.onSetCommentPage(eventKey);
-            this.props.onGetComments(this.props.bookId, eventKey, this.props.callback, this.props.totalPagesCallback);
+            this.props.onGetComments(this.props.bookId, eventKey, this.props.updateComments, this.props.totalPagesCallback);
         }
     }, {
         key: 'saveComment',
@@ -80035,7 +80036,7 @@ var UserComments = function (_React$Component) {
                 comment: this.state.comment,
                 relatedTo: this.state.relatedComment ? this.state.relatedComment.id : undefined
             };
-            this.props.onSaveComment(comment, this.props.callback);
+            this.props.onSaveComment(comment, this.props.updateComments);
         }
     }, {
         key: 'onSubmit',
@@ -80048,10 +80049,6 @@ var UserComments = function (_React$Component) {
         value: function render() {
             var _this2 = this;
 
-            var sort = function sort(a, b) {
-                return _this2.sortComments(a, b);
-            };
-
             return _react2.default.createElement(
                 'div',
                 null,
@@ -80062,7 +80059,9 @@ var UserComments = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     'form',
-                    { role: 'form', onSubmit: this.onSubmit },
+                    { role: 'form', onSubmit: function onSubmit(event) {
+                            return _this2.onSubmit(event);
+                        } },
                     _react2.default.createElement(
                         'div',
                         { className: 'form-group' },
@@ -80071,7 +80070,9 @@ var UserComments = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'form-group' },
-                        _react2.default.createElement('textarea', { onChange: this.onCommentChange, value: this.state.comment, className: 'form-control', rows: '3', required: true })
+                        _react2.default.createElement('textarea', { onChange: function onChange(event) {
+                                return _this2.onCommentChange(event);
+                            }, value: this.state.comment, className: 'form-control', rows: '3', required: true })
                     ),
                     _react2.default.createElement(
                         'button',
@@ -80099,17 +80100,20 @@ var UserComments = function (_React$Component) {
                     items: this.props.totalPages,
                     maxButtons: 3,
                     activePage: this.props.currentPage,
-                    onSelect: this.handleSelect }),
+                    onSelect: function onSelect(event) {
+                        return _this2.handleSelect(event);
+                    } }),
                 _react2.default.createElement('br', null),
-                this.props.comments.sort(sort).map(function (comment, key) {
+                this.props.comments.map(function (comment, key) {
                     return _react2.default.createElement(_CommentItem2.default, { comment: comment,
-                        relatedComment: _this2.getRelatedComment(comment.relatedTo),
                         owner: _this2.props.owner,
                         onDeleteComment: _this2.props.onDeleteComment,
-                        onQuoteComment: _this2.onQuoteComment,
+                        onQuoteComment: function onQuoteComment(comment) {
+                            return _this2.onQuoteComment(comment);
+                        },
                         token: _this2.props.token,
                         bookId: _this2.props.bookId,
-                        callback: _this2.props.callback,
+                        updateComments: _this2.props.updateComments,
                         key: key });
                 }),
                 _react2.default.createElement(
@@ -80126,7 +80130,9 @@ var UserComments = function (_React$Component) {
                         items: this.props.totalPages,
                         maxButtons: 3,
                         activePage: this.props.currentPage,
-                        onSelect: this.handleSelect })
+                        onSelect: function onSelect(event) {
+                            return _this2.handleSelect(event);
+                        } })
                 )
             );
         }
@@ -80175,7 +80181,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     - onQuoteComment - callback
     - token
     - bookId
-    - callback - updateReader function
+    - updateComments - callback
  */
 var CommentItem = function (_React$Component) {
     _inherits(CommentItem, _React$Component);
@@ -80194,12 +80200,14 @@ var CommentItem = function (_React$Component) {
     _createClass(CommentItem, [{
         key: 'getAuthorName',
         value: function getAuthorName() {
-            return this.props.comment.authorInfo.firstName + ' ' + this.props.comment.authorInfo.lastName;
+            return this.props.comment.userFullName;
         }
     }, {
         key: 'getCommentDate',
         value: function getCommentDate() {
-            var date = new Date(this.props.comment.created);
+            var created = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props.comment.created;
+
+            var date = new Date(created);
             return (0, _utils.formatDate)(date);
         }
     }, {
@@ -80210,19 +80218,25 @@ var CommentItem = function (_React$Component) {
     }, {
         key: 'renderRelatedComment',
         value: function renderRelatedComment() {
-            if (this.props.relatedComment) {
+            if (this.props.comment.relatedTo) {
                 return _react2.default.createElement(
                     'div',
                     { className: 'well' },
                     _react2.default.createElement(
                         'h4',
                         null,
-                        this.props.relatedComment.authorInfo.firstName + ' ' + this.props.relatedComment.authorInfo.lastName
+                        this.props.comment.relatedTo.userFullName,
+                        ' ',
+                        _react2.default.createElement(
+                            'small',
+                            null,
+                            this.getCommentDate(this.props.comment.relatedTo.created)
+                        )
                     ),
                     _react2.default.createElement(
                         'p',
                         null,
-                        this.props.relatedComment.comment
+                        this.props.comment.relatedTo.comment
                     )
                 );
             }
@@ -80277,7 +80291,7 @@ var CommentItem = function (_React$Component) {
     }, {
         key: 'onDelete',
         value: function onDelete() {
-            this.props.onDeleteComment(this.props.bookId, this.props.comment.id, this.props.token, this.props.callback);
+            this.props.onDeleteComment(this.props.bookId, this.props.comment.id, this.props.token, this.props.updateComments);
             this.onCancel();
         }
     }, {
@@ -80298,7 +80312,7 @@ var CommentItem = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'col-sm-2 text-center' },
-                    _react2.default.createElement('img', { src: this.props.comment.authorInfo.avatar + '?date=' + new Date(), className: 'img-rounded', width: '65', height: 'auto', alt: 'avatar' })
+                    _react2.default.createElement('img', { src: this.props.comment.userAvatar + '?date=' + new Date(), className: 'img-rounded', width: '65', height: 'auto', alt: 'avatar' })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -80544,7 +80558,9 @@ var SectionPage = function (_React$Component) {
             var _this4 = this;
 
             this.props.onDeleteBook(bookId, token, function () {
-                return _this4.props.onGetAuthorDetails(_this4.props.match.params.authorName);
+                return _this4.props.onGetBooks(_this4.props.match.params.authorName, function (books) {
+                    return _this4.updateBooks(books);
+                });
             });
         }
     }, {
@@ -81067,11 +81083,11 @@ var AuthorShortInfo = function (_React$Component) {
     }, {
         key: 'getTotalSize',
         value: function getTotalSize() {
-            var totalSize = this.props.books.map(function (book) {
+            var totalSize = this.props.books.length > 0 ? this.props.books.map(function (book) {
                 return book.size;
             }).reduce(function (a, b) {
                 return a + b;
-            }),
+            }) : 0,
                 formatSize = (0, _utils.formatBytes)(totalSize),
                 bookCount = this.props.books.length;
             return formatSize + ' / ' + bookCount + ' books';

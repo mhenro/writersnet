@@ -31,10 +31,9 @@ class BookReader extends React.Component {
             currentPage: 1,
             totalPages: 1
         };
-        ['updateReader', 'newVote', 'renderComments', 'setCommentPage', 'setTotalPages'].map(fn => this[fn] = this[fn].bind(this));
 
         this.props.onGetBookDetails(this.props.match.params.bookId);
-        this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, this.renderComments, this.setTotalPages);
+        this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, comments => this.renderComments(comments), totalPages => this.setTotalPages(totalPages));
     }
 
     componentDidMount() {
@@ -65,7 +64,7 @@ class BookReader extends React.Component {
     }
 
     newVote(estimation) {
-        this.props.onAddStar(this.props.book.id, estimation, this.updateReader);
+        this.props.onAddStar(this.props.book.id, estimation, () => this.updateBook());
     }
 
     isRatingAllowed() {
@@ -84,9 +83,12 @@ class BookReader extends React.Component {
         });
     }
 
-    updateReader() {
+    updateBook() {
         this.props.onGetBookDetails(this.props.match.params.bookId);
-        this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, this.renderComments, this.setTotalPages);
+    }
+
+    updateComments() {
+        this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, comments => this.renderComments(comments), totalPages => this.setTotalPages(totalPages));
     }
 
     renderComments(comments) {
@@ -120,7 +122,7 @@ class BookReader extends React.Component {
                     <hr/>
                     <br/>
                     <div className="col-sm-6">
-                        <ReactStars count={5} size={18} color2={'orange'} half={false} value={this.getAverageRating()} onChange={this.newVote}/>
+                        <ReactStars count={5} size={18} color2={'orange'} half={false} value={this.getAverageRating()} onChange={estimation => this.newVote(estimation)}/>
                         &nbsp;
                         <span><b>{this.getAverageRating() + ' * ' + this.getTotalVotes()}</b></span>
                         <br/>
@@ -129,7 +131,7 @@ class BookReader extends React.Component {
                     </div>
                     <div className="col-sm-6"></div>
                 </div>
-                <div className="col-sm-12">
+                <div className="col-sm-12 text-justify">
                     <div dangerouslySetInnerHTML={{ __html: this.props.book.bookText.text }} />
                     <hr/>
                 </div>
@@ -139,13 +141,13 @@ class BookReader extends React.Component {
                               onGetComments={this.props.onGetBookComments}
                               onSaveComment={this.props.onSaveComment}
                               onDeleteComment={this.props.onDeleteComment}
-                              onSetCommentPage={this.setCommentPage}
+                              onSetCommentPage={page => this.setCommentPage(page)}
                               currentPage={this.state.currentPage}
                               totalPages={this.state.totalPages}
                               bookId={this.props.book.id}
                               login={this.props.login}
-                              callback={this.updateReader}
-                              totalPagesCallback={this.setTotalPages}
+                              updateComments={() => this.updateComments()}
+                              totalPagesCallback={totalPages => this.setTotalPages(totalPages)}
                               token={this.props.token}/>
             </div>
         )

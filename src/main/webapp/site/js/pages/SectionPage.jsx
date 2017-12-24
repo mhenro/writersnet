@@ -100,7 +100,7 @@ class SectionPage extends React.Component {
     }
 
     onDeleteBook(bookId, token) {
-        this.props.onDeleteBook(bookId, token, () => this.props.onGetAuthorDetails(this.props.match.params.authorName));
+        this.props.onDeleteBook(bookId, token, () => this.props.onGetBooks(this.props.match.params.authorName, books => this.updateBooks(books)));
     }
 
     onAddToFriends(user, friend) {
