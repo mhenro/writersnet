@@ -61,11 +61,4 @@ public class BookCommentsRepositoryTest {
         final Page<BookCommentResponse> comments = bookCommentsRepository.findAllByBookId(1L, pageable);
         Assert.assertEquals(2, comments.getTotalElements());
     }
-
-    @Test
-    public void findAllByBookId2() throws Exception {
-        final Iterable<BookComments> comments = bookCommentsRepository.findAllByBookId(1L);
-        Assert.assertEquals(true, comments.iterator().hasNext());
-        Assert.assertEquals(1L, (long)comments.iterator().next().getId());
-    }
 }

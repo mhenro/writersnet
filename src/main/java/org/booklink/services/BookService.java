@@ -38,7 +38,6 @@ import java.util.Optional;
 public class BookService {
     private Environment env;
     private BookRepository bookRepository;
-    private BookCommentsRepository bookCommentsRepository;
     private BookTextRepository bookTextRepository;
     private SerieRepository serieRepository;
     private AuthorRepository authorRepository;
@@ -47,14 +46,12 @@ public class BookService {
     @Autowired
     public BookService(final Environment env,
                        final BookRepository bookRepository,
-                       final BookCommentsRepository bookCommentsRepository,
                        final BookTextRepository bookTextRepository,
                        final SerieRepository serieRepository,
                        final AuthorRepository authorRepository,
                        final NewsService newsService) {
         this.env = env;
         this.bookRepository = bookRepository;
-        this.bookCommentsRepository = bookCommentsRepository;
         this.bookTextRepository = bookTextRepository;
         this.serieRepository = serieRepository;
         this.authorRepository = authorRepository;
@@ -204,7 +201,6 @@ public class BookService {
             throw new ObjectNotFoundException("Book was not found");
         }
         checkCredentials(book.getAuthor().getUsername());   //only owner can delete his book
-        removeAllComments(book);
         newsService.createNews(NewsService.NEWS_TYPE.BOOK_DELETED, book.getAuthor(), book);
         bookRepository.delete(bookId);
         updateDateInUserSection(book.getAuthor().getUsername());
@@ -217,11 +213,6 @@ public class BookService {
             book.setViews(views);
             bookRepository.save(book);
         }
-    }
-
-    private void removeAllComments(final Book book) {
-        Iterable<BookComments> comments = bookCommentsRepository.findAllByBookId(book.getId());
-        bookCommentsRepository.delete(comments);
     }
 
     private User updateDateInUserSection(final String userId) {

@@ -13,6 +13,4 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface BookCommentsRepository extends PagingAndSortingRepository<BookComments, Long> {
     @Query("SELECT new org.booklink.models.response.BookCommentResponse(c.id, c.book.id, c.user.username, c.user.firstName, c.user.lastName, c.user.avatar, c.comment, c.relatedTo, c.created) FROM BookComments c LEFT JOIN c.relatedTo LEFT JOIN c.user WHERE c.book.id = ?1 ORDER BY c.created DESC")
     Page<BookCommentResponse> findAllByBookId(Long bookId, Pageable pageable);
-
-    Iterable<BookComments> findAllByBookId(Long bookId);
 }
