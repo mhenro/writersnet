@@ -1,27 +1,26 @@
 package org.booklink.models.response;
 
-import org.booklink.models.entities.BookComments;
-import org.booklink.models.request.AuthorInfo;
+import org.booklink.models.entities.Comment;
 
 import java.util.Date;
 
 /**
  * Created by mhenr on 24.12.2017.
  */
-public class BookCommentResponse {
+public class CommentResponse {
     private Long id;
     private Long bookId;
     private String userId;
     private String userFullName;
     private String userAvatar;
     private String comment;
-    private BookCommentResponse relatedTo;
+    private CommentResponse relatedTo;
     private Date created;
 
-    public BookCommentResponse() {}
+    public CommentResponse() {}
 
-    public BookCommentResponse(final Long id, final Long bookId, final String userId, final String firstName, final String lastName,
-                               final String avatar, final String comment, final BookComments relatedTo, final Date created) {
+    public CommentResponse(final Long id, final Long bookId, final String userId, final String firstName, final String lastName,
+                           final String avatar, final String comment, final Comment relatedTo, final Date created) {
         this.id = id;
         this.bookId = bookId;
         this.userId = userId;
@@ -35,7 +34,7 @@ public class BookCommentResponse {
         this.created = created;
 
         if (relatedTo != null&& relatedTo.getComment() != null && relatedTo.getCreated() != null) {
-            this.relatedTo = new BookCommentResponse();
+            this.relatedTo = new CommentResponse();
             this.relatedTo.setId(relatedTo.getId());
             if (relatedTo.getUser() != null) {
                 this.relatedTo.setUserFullName(relatedTo.getUser().getFullName());
@@ -96,11 +95,11 @@ public class BookCommentResponse {
         this.comment = comment;
     }
 
-    public BookCommentResponse getRelatedTo() {
+    public CommentResponse getRelatedTo() {
         return relatedTo;
     }
 
-    public void setRelatedTo(BookCommentResponse relatedTo) {
+    public void setRelatedTo(CommentResponse relatedTo) {
         this.relatedTo = relatedTo;
     }
 

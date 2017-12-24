@@ -74,7 +74,7 @@ public class BookRepositoryTest {
     }
 
     private void createComment(final User user, final Book book) {
-        final BookComments bookComments = new BookComments();
+        final Comment bookComments = new Comment();
         bookComments.setUser(user);
         bookComments.setBook(book);
         bookComments.setComment("comment");

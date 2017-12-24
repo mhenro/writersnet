@@ -2,11 +2,9 @@ package org.booklink.repositories;
 
 import org.booklink.config.RootConfigTest;
 import org.booklink.models.entities.*;
-import org.booklink.models.response.BookCommentResponse;
-import org.junit.After;
+import org.booklink.models.response.CommentResponse;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Date;
 
 /**
  * Created by mhenr on 25.11.2017.
@@ -38,7 +34,7 @@ public class BookCommentsRepositoryTest {
 
     @Before
     public void init() {
-        final BookComments bookComments = new BookComments();
+        final Comment bookComments = new Comment();
         final Book book = new Book();
         final User user = new User();
         final BookText bookText = new BookText();
@@ -58,7 +54,7 @@ public class BookCommentsRepositoryTest {
     //@Test
     public void findAllByBookId() throws Exception {
         final Pageable pageable = Mockito.mock(Pageable.class);
-        final Page<BookCommentResponse> comments = bookCommentsRepository.findAllByBookId(1L, pageable);
+        final Page<CommentResponse> comments = bookCommentsRepository.findAllByBookId(1L, pageable);
         Assert.assertEquals(2, comments.getTotalElements());
     }
 }

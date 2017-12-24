@@ -1,12 +1,11 @@
 package org.booklink.services;
 
 import org.booklink.models.entities.Book;
-import org.booklink.models.entities.BookComments;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request.BookComment;
-import org.booklink.models.response.BookCommentResponse;
+import org.booklink.models.request.CommentRequest;
+import org.booklink.models.response.CommentResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookCommentsRepository;
 import org.booklink.repositories.BookRepository;
@@ -71,8 +70,8 @@ public class CommentsServiceTest {
 
     @Before
     public void init() {
-        List<BookCommentResponse> comments = generateComments(2);
-        final Page<BookCommentResponse> page = new PageImpl<>(comments);
+        List<CommentResponse> comments = generateComments(2);
+        final Page<CommentResponse> page = new PageImpl<>(comments);
         Mockito.when(env.getProperty("writersnet.avatarwebstorage.path")).thenReturn("https://localhost/css/images/avatars/");
         Mockito.when(bookCommentsRepository.findAllByBookId(4L, null)).thenReturn(page);
         final User user = new User();
@@ -92,7 +91,7 @@ public class CommentsServiceTest {
 
     @Test
     public void getComments() throws Exception {
-        Page<BookCommentResponse> comments = commentsService.getComments(4L, null);
+        Page<CommentResponse> comments = commentsService.getComments(4L, null);
         Assert.assertEquals(2, comments.getTotalElements());
         Assert.assertEquals("https://localhost/css/images/avatars/default_avatar.png", comments.getContent().get(0).getUserAvatar());
         Assert.assertEquals("Anonymous", comments.getContent().get(0).getUserFullName().trim());
@@ -102,20 +101,20 @@ public class CommentsServiceTest {
 
     @Test
     public void getComments_wrongBook() throws Exception {
-        Page<BookCommentResponse> comments = commentsService.getComments(5L, null);
+        Page<CommentResponse> comments = commentsService.getComments(5L, null);
         Assert.assertEquals(null, comments);
     }
 
     @Test(expected = Test.None.class)
     public void saveComment() throws Exception {
-        final BookComment bookComment = new BookComment();
+        final CommentRequest bookComment = new CommentRequest();
         bookComment.setBookId(4L);
         commentsService.saveComment(bookComment);
     }
 
     @Test(expected = Test.None.class)
     public void saveComment_withUser() throws Exception {
-        final BookComment bookComment = new BookComment();
+        final CommentRequest bookComment = new CommentRequest();
         bookComment.setBookId(4L);
         bookComment.setUserId("user");
         commentsService.saveComment(bookComment);
@@ -123,7 +122,7 @@ public class CommentsServiceTest {
 
     @Test(expected = ObjectNotFoundException.class)
     public void saveComment_wrongUser() throws Exception {
-        final BookComment bookComment = new BookComment();
+        final CommentRequest bookComment = new CommentRequest();
         bookComment.setBookId(4L);
         bookComment.setUserId("user2");
         commentsService.saveComment(bookComment);
@@ -150,12 +149,12 @@ public class CommentsServiceTest {
         commentsService.deleteComment(4L, 150L);
     }
 
-    private List<BookCommentResponse> generateComments(final int count) {
+    private List<CommentResponse> generateComments(final int count) {
         return IntStream.range(0, count).mapToObj(this::createComment).collect(Collectors.toList());
     }
 
-    private BookCommentResponse createComment(final int i) {
-        final BookCommentResponse comment = new BookCommentResponse();
+    private CommentResponse createComment(final int i) {
+        final CommentResponse comment = new CommentResponse();
         comment.setUserFullName("Anonymous ");
         if (i == 1) {
             comment.setUserAvatar("avatar_path");

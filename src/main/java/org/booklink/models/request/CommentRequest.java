@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by mhenr on 07.11.2017.
  */
-public class BookComment {
+public class CommentRequest {
     private Long id;
     private Long bookId;
     private String userId;

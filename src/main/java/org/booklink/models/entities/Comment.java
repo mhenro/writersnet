@@ -1,6 +1,5 @@
 package org.booklink.models.entities;
 
-import org.booklink.models.request.AuthorInfo;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -13,14 +12,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "book_comments")
-public class BookComments {
+public class Comment {
     private Long id;
     private Book book;
     private User user;
     private String comment;
-    private BookComments relatedTo;
+    private Comment relatedTo;
     private Date created;
-    private AuthorInfo authorInfo = new AuthorInfo();
 
     @GenericGenerator(
             name = "book_comment_generator",
@@ -58,15 +56,6 @@ public class BookComments {
         return user;
     }
 
-    @Transient
-    @Deprecated
-    public AuthorInfo getAuthorInfo() {
-        authorInfo.setAvatar(this.user != null ? this.user.getAvatar() : authorInfo.getAvatar());
-        authorInfo.setFirstName(this.user != null ? this.user.getFirstName() : "Anonymous");
-        authorInfo.setLastName(this.user != null ? this.user.getLastName() : "");
-        return authorInfo;
-    }
-
     public void setUser(User user) {
         this.user = user;
     }
@@ -81,11 +70,11 @@ public class BookComments {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "related_to")
-    public BookComments getRelatedTo() {
+    public Comment getRelatedTo() {
         return relatedTo;
     }
 
-    public void setRelatedTo(BookComments relatedTo) {
+    public void setRelatedTo(Comment relatedTo) {
         this.relatedTo = relatedTo;
     }
 

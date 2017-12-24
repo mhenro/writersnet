@@ -1,9 +1,8 @@
 package org.booklink.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.booklink.models.entities.BookComments;
-import org.booklink.models.request.BookComment;
-import org.booklink.models.response.BookCommentResponse;
+import org.booklink.models.request.CommentRequest;
+import org.booklink.models.response.CommentResponse;
 import org.booklink.services.CommentsService;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +55,7 @@ public class CommentsControllerTest {
     @Test
     public void getComments() throws Exception {
         final Pageable pageable = Mockito.mock(Pageable.class);
-        final Page<BookCommentResponse> page = Mockito.mock(Page.class);
+        final Page<CommentResponse> page = Mockito.mock(Page.class);
         when(commentsService.getComments(1L, pageable)).thenReturn(page);
         mvc.perform(get("/books/1/comments")).andExpect(status().isOk());
         mvc.perform(get("/books/1/wrong")).andExpect(status().isNotFound());
@@ -64,19 +63,19 @@ public class CommentsControllerTest {
 
     @Test
     public void saveComment() throws Exception {
-        final BookComment bookComment = new BookComment();
+        final CommentRequest bookComment = new CommentRequest();
         final String json = mapper.writeValueAsString(bookComment);
         mvc.perform(post("/books/comments").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: 'Your comment was added'}"));
         mvc.perform(post("/books/comments").content(json)).andExpect(status().isUnsupportedMediaType());
         mvc.perform(post("/books/comments")).andExpect(status().isBadRequest());
         mvc.perform(post("/wrong")).andExpect(status().isNotFound());
-        doThrow(new RuntimeException("test error")).when(commentsService).saveComment(any(BookComment.class));
+        doThrow(new RuntimeException("test error")).when(commentsService).saveComment(any(CommentRequest.class));
         mvc.perform(post("/books/comments").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError()).andExpect(content().json("{code: 1, message: 'test error'}"));
     }
 
     @Test
     public void deleteComment() throws Exception {
-        final BookComment bookComment = new BookComment();
+        final CommentRequest bookComment = new CommentRequest();
         final String json = mapper.writeValueAsString(bookComment);
         mvc.perform(delete("/books/1/comments/2")).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: 'Your comment was deleted'}"));
         mvc.perform(delete("/wrong/1/commets/2")).andExpect(status().isNotFound());

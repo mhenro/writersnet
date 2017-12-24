@@ -1,12 +1,12 @@
 package org.booklink.services;
 
 import org.booklink.models.entities.Book;
-import org.booklink.models.entities.BookComments;
+import org.booklink.models.entities.Comment;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
-import org.booklink.models.request.BookComment;
-import org.booklink.models.response.BookCommentResponse;
+import org.booklink.models.request.CommentRequest;
+import org.booklink.models.response.CommentResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookCommentsRepository;
 import org.booklink.repositories.BookRepository;
@@ -44,16 +44,16 @@ public class CommentsService {
         this.newsService = newsService;
     }
 
-    public Page<BookCommentResponse> getComments(final Long bookId, final Pageable pageable) {
-        Page<BookCommentResponse> comments = bookCommentsRepository.findAllByBookId(bookId, pageable);
+    public Page<CommentResponse> getComments(final Long bookId, final Pageable pageable) {
+        Page<CommentResponse> comments = bookCommentsRepository.findAllByBookId(bookId, pageable);
         if (comments != null) {
             setDefaultAvatars(comments);
         }
         return comments;
     }
 
-    public void saveComment(final BookComment bookComment) {
-        BookComments entity = new BookComments();
+    public void saveComment(final CommentRequest bookComment) {
+        Comment entity = new Comment();
         Book book = bookRepository.findOne(bookComment.getBookId());
         if (book == null) {
             throw new ObjectNotFoundException("Book was not found");
@@ -70,7 +70,7 @@ public class CommentsService {
         entity.setComment(bookComment.getComment());
         entity.setCreated(new Date());
         if (bookComment.getRelatedTo() != null) {
-            final BookComments relatedComment = bookCommentsRepository.findOne(bookComment.getRelatedTo());
+            final Comment relatedComment = bookCommentsRepository.findOne(bookComment.getRelatedTo());
             if (relatedComment == null) {
                 throw new ObjectNotFoundException("Related comment was not found");
             }
@@ -88,7 +88,7 @@ public class CommentsService {
         bookCommentsRepository.delete(commentId);
     }
 
-    private void setDefaultAvatars(final Page<BookCommentResponse> comments) {
+    private void setDefaultAvatars(final Page<CommentResponse> comments) {
         final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
         comments.getContent().stream()
                 .filter(comment -> comment.getUserAvatar() == null || comment.getUserAvatar().isEmpty())

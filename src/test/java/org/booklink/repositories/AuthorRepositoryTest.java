@@ -5,7 +5,6 @@ import org.booklink.models.entities.*;
 import org.booklink.models.response.AuthorShortInfoResponse;
 import org.booklink.models.response.ChatGroupResponse;
 import org.booklink.models.top_models.TopAuthorBookCount;
-import org.booklink.models.top_models.TopAuthorComments;
 import org.booklink.models.top_models.TopAuthorRating;
 import org.booklink.models.top_models.TopAuthorViews;
 import org.junit.Assert;
@@ -58,8 +57,8 @@ public class AuthorRepositoryTest {
         return book;
     }
 
-    private BookComments createComment(final User user, final Book book) {
-        final BookComments bookComments = new BookComments();
+    private Comment createComment(final User user, final Book book) {
+        final Comment bookComments = new Comment();
         bookComments.setUser(user);
         bookComments.setBook(book);
         bookComments.setComment("comment");
