@@ -34,7 +34,7 @@ public class Book {
     private Integer size;
     private Long views = 0L;
     private Long commentsCount = 0L;
-    private Float totalRating = 0f;
+    private Long totalRating = 0l;
     private Long totalVotes = 0l;
 
     @GenericGenerator(
@@ -211,12 +211,12 @@ public class Book {
         this.commentsCount = commentsCount;
     }
 
-    @Column(name = "total_rating", precision = 2, scale=1)
-    public Float getTotalRating() {
+    @Column(name = "total_rating")
+    public Long getTotalRating() {
         return totalRating;
     }
 
-    public void setTotalRating(Float totalRating) {
+    public void setTotalRating(Long totalRating) {
         this.totalRating = totalRating;
     }
 

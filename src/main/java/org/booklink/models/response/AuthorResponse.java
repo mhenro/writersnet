@@ -28,7 +28,7 @@ public class AuthorResponse {
 
     public AuthorResponse(final String username, final String email, final Date birthday, final String city, final String firstName,
                           final String lastName, final String avatar, final Section section,
-                          final String language, final String preferredLanguages, final Long views, final Float totalRating,
+                          final String language, final String preferredLanguages, final Long views, final Long totalRating,
                           final Long totalVotes) {
         this.username = username;
         this.email = email;
@@ -42,8 +42,8 @@ public class AuthorResponse {
         this.language = language;
         this.preferredLanguages = preferredLanguages;
         this.views = views;
-        if (totalRating != null && totalVotes != null) {
-            this.rating = new TotalRating(totalRating, totalVotes);
+        if (totalVotes != null && totalVotes != 0) {
+            this.rating = new TotalRating((float)totalRating/totalVotes, totalVotes);
         } else {
             this.rating = new TotalRating(0, 0);
         }

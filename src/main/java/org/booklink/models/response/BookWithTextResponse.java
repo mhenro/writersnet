@@ -34,7 +34,7 @@ public class BookWithTextResponse {
                                 final String authorFirstName, final String authorLastName, final Long commentsCount,
                                 final String cover, final Date created, final String description, final Genre genre,
                                 final String language, final Date lastUpdate, final String name, final Integer size,
-                                final Float totalRating, final Long totalVotes, final Long views, final Long textId,
+                                final Long totalRating, final Long totalVotes, final Long views, final Long textId,
                                 final String text) {
         this.id = id;
         if (serieId == null && serieName == null) {
@@ -53,7 +53,11 @@ public class BookWithTextResponse {
         this.lastUpdate = lastUpdate;
         this.name = name;
         this.size = size;
-        this.totalRating = new TotalRating(totalRating, totalVotes);
+        if (totalVotes != null && totalVotes != 0) {
+            this.totalRating = new TotalRating((float)totalRating / totalVotes, totalVotes);
+        } else {
+            this.totalRating = new TotalRating(0, 0);
+        }
         this.views = views;
         this.bookText = new BookTextResponse(textId, text);
     }

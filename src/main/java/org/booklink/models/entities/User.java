@@ -34,8 +34,8 @@ public class User {
     private Set<Friendship> subscriptions = new HashSet<>();
     private List<ChatGroup> chatGroups = new ArrayList<>();
     private Session session;
-    private Float totalRating;
-    private Long totalVotes;
+    private Long totalRating = 0L;
+    private Long totalVotes = 0L;
 
     @Id
     public String getUsername() {
@@ -217,12 +217,12 @@ public class User {
         this.session = session;
     }
 
-    @Column(name = "total_rating", precision = 2, scale=1)
-    public Float getTotalRating() {
+    @Column(name = "total_rating")
+    public Long getTotalRating() {
         return totalRating;
     }
 
-    public void setTotalRating(Float totalRating) {
+    public void setTotalRating(Long totalRating) {
         this.totalRating = totalRating;
     }
 
@@ -236,6 +236,14 @@ public class User {
     }
 
     /* -----------------------------business logic-------------------------------------------------------- */
+
+    @Transient
+    public void refreshRatingFromBooks() {
+        final Long totalRating = books.stream().map(Book::getTotalRating).collect(Collectors.summingLong(n -> n));
+        final Long totalVotes = books.stream().map(Book::getTotalVotes).collect(Collectors.summingLong(n -> n));
+        this.totalRating = totalRating;
+        this.totalVotes = totalVotes;
+    }
 
     /* method for calculating total rating of the author */
     @Transient
