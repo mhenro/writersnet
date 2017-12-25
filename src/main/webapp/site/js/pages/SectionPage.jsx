@@ -56,7 +56,7 @@ class SectionPage extends React.Component {
     checkFriendship() {
         setTimeout(() => {
             if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
-                this.props.onCheckFriendshipWith(this.props.login, this.props.token, friendship => this.updateFriendshipRelation(friendship));
+                this.props.onCheckFriendshipWith(this.props.match.params.authorName, this.props.token, friendship => this.updateFriendshipRelation(friendship));
             } else {
                 this.setState({
                     friendship: {
@@ -103,8 +103,8 @@ class SectionPage extends React.Component {
         this.props.onDeleteBook(bookId, token, () => this.props.onGetBooks(this.props.match.params.authorName, books => this.updateBooks(books)));
     }
 
-    onAddToFriends(user, friend) {
-        this.props.onSubcribeOn(friend, this.props.token, () => this.props.onGetAuthorDetails(this.props.match.params.authorName));
+    onAddToFriends(friend) {
+        this.props.onSubcribeOn(friend, this.props.token, () => this.props.onCheckFriendshipWith(this.props.match.params.authorName, this.props.token, friendship => this.updateFriendshipRelation(friendship)));
     }
 
     renderSectionToolbar() {
@@ -155,7 +155,7 @@ class SectionPage extends React.Component {
                                     author={this.props.author}
                                     registered={this.props.registered}
                                     login={this.props.login}
-                                    onAddToFriends={(user, friend) => this.onAddToFriends(user, friend)}
+                                    onAddToFriends={friend => this.onAddToFriends(friend)}
                                     friendship={this.state.friendship}/>
                     </div>
                     <div className="col-sm-12 col-lg-9">

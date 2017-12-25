@@ -32,7 +32,7 @@ class AuthorFile extends React.Component {
         if (this.props.friendship.friend) {
             return 'Already in friends';
         }
-        if (this.props.friendship.subscription) {
+        if (this.props.friendship.subscriber) {
             return 'You are already subscribed';
         }
         return 'Add to friends';
@@ -40,7 +40,7 @@ class AuthorFile extends React.Component {
 
     getFriendsButtonClass() {
         let baseCls = 'btn btn-success ' + (this.props.me ? 'hidden' : '');
-        if (this.props.friendship.friend || this.props.friendship.subscription) {
+        if (this.props.friendship.friend || this.props.friendship.subscriber) {
             baseCls += ' disabled';
         }
 
@@ -48,8 +48,8 @@ class AuthorFile extends React.Component {
     }
 
     onAddToFriends() {
-        if (!this.props.friendship.friend && !this.props.friendship.subscription) {
-            this.props.onAddToFriends(this.props.login, this.props.author.username);
+        if (!this.props.friendship.friend && !this.props.friendship.subscriber) {
+            this.props.onAddToFriends(this.props.author.username);
         }
     }
 

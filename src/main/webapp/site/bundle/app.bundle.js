@@ -80502,7 +80502,7 @@ var SectionPage = function (_React$Component) {
 
             setTimeout(function () {
                 if (_this3.props.login !== 'Anonymous' && _this3.props.token !== '') {
-                    _this3.props.onCheckFriendshipWith(_this3.props.login, _this3.props.token, function (friendship) {
+                    _this3.props.onCheckFriendshipWith(_this3.props.match.params.authorName, _this3.props.token, function (friendship) {
                         return _this3.updateFriendshipRelation(friendship);
                     });
                 } else {
@@ -80565,11 +80565,13 @@ var SectionPage = function (_React$Component) {
         }
     }, {
         key: 'onAddToFriends',
-        value: function onAddToFriends(user, friend) {
+        value: function onAddToFriends(friend) {
             var _this5 = this;
 
             this.props.onSubcribeOn(friend, this.props.token, function () {
-                return _this5.props.onGetAuthorDetails(_this5.props.match.params.authorName);
+                return _this5.props.onCheckFriendshipWith(_this5.props.match.params.authorName, _this5.props.token, function (friendship) {
+                    return _this5.updateFriendshipRelation(friendship);
+                });
             });
         }
     }, {
@@ -80655,8 +80657,8 @@ var SectionPage = function (_React$Component) {
                             author: this.props.author,
                             registered: this.props.registered,
                             login: this.props.login,
-                            onAddToFriends: function onAddToFriends(user, friend) {
-                                return _this7.onAddToFriends(user, friend);
+                            onAddToFriends: function onAddToFriends(friend) {
+                                return _this7.onAddToFriends(friend);
                             },
                             friendship: this.state.friendship })
                     ),
@@ -80911,7 +80913,7 @@ var AuthorFile = function (_React$Component) {
             if (this.props.friendship.friend) {
                 return 'Already in friends';
             }
-            if (this.props.friendship.subscription) {
+            if (this.props.friendship.subscriber) {
                 return 'You are already subscribed';
             }
             return 'Add to friends';
@@ -80920,7 +80922,7 @@ var AuthorFile = function (_React$Component) {
         key: 'getFriendsButtonClass',
         value: function getFriendsButtonClass() {
             var baseCls = 'btn btn-success ' + (this.props.me ? 'hidden' : '');
-            if (this.props.friendship.friend || this.props.friendship.subscription) {
+            if (this.props.friendship.friend || this.props.friendship.subscriber) {
                 baseCls += ' disabled';
             }
 
@@ -80929,8 +80931,8 @@ var AuthorFile = function (_React$Component) {
     }, {
         key: 'onAddToFriends',
         value: function onAddToFriends() {
-            if (!this.props.friendship.friend && !this.props.friendship.subscription) {
-                this.props.onAddToFriends(this.props.login, this.props.author.username);
+            if (!this.props.friendship.friend && !this.props.friendship.subscriber) {
+                this.props.onAddToFriends(this.props.author.username);
             }
         }
     }, {
