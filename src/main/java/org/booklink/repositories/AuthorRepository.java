@@ -27,9 +27,8 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.top_models.TopAuthorBookCount(u.username, u.firstName, u.lastName, count(b.name)) FROM User u LEFT JOIN u.books b WHERE u.enabled = true GROUP BY u.username ORDER BY count(b.name) DESC")
     Page<TopAuthorBookCount> findAllByBookCount(final Pageable pageable);
 
-    //TODO: fixme!
-    //@Query("SELECT new org.booklink.models.top_models.TopAuthorComments(u.username, u.firstName, u.lastName, count(c.comment)) FROM User u LEFT JOIN u.books b LEFT JOIN b.comments c WHERE u.enabled = true GROUP BY u.username ORDER BY count(c.comment) DESC")
-    //Page<TopAuthorComments> findAllByComments(final Pageable pageable);
+    @Query("SELECT new org.booklink.models.top_models.TopAuthorComments(u.username, u.firstName, u.lastName, u.commentsCount) FROM User u WHERE u.enabled = true ORDER BY u.commentsCount DESC")
+    Page<TopAuthorComments> findAllByComments(final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.top_models.TopAuthorViews(u.username, u.firstName, u.lastName, u.views) FROM User u WHERE u.enabled = true ORDER BY u.views DESC")
     Page<TopAuthorViews> findAllByViews(final Pageable pageable);
@@ -39,7 +38,4 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
 
     @Query("SELECT new org.booklink.models.response.FriendResponse(u.username, u.firstName, u.lastName) FROM User u LEFT JOIN u.subscribers scr LEFT JOIN u.subscriptions sub WHERE scr.friendshipPK.subscription.username = ?1 AND sub.friendshipPK.subscriber.username = ?1 AND UPPER(u.firstName) LIKE UPPER(?2)||'%' AND u.enabled = true")
     Page<FriendResponse> getFriends(final String userId, final String matcher, final Pageable pageable);
-
-    //@Query("")
-    //Page<>
 }

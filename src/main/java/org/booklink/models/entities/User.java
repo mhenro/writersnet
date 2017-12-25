@@ -36,6 +36,7 @@ public class User {
     private Session session;
     private Long totalRating = 0L;
     private Long totalVotes = 0L;
+    private Long commentsCount = 0L;
 
     @Id
     public String getUsername() {
@@ -235,6 +236,15 @@ public class User {
         this.totalVotes = totalVotes;
     }
 
+    @Column(name = "comments_count")
+    public Long getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(Long commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
     /* -----------------------------business logic-------------------------------------------------------- */
 
     @Transient
@@ -243,6 +253,12 @@ public class User {
         final Long totalVotes = books.stream().map(Book::getTotalVotes).collect(Collectors.summingLong(n -> n));
         this.totalRating = totalRating;
         this.totalVotes = totalVotes;
+    }
+
+    @Transient
+    public void refreshCommentsCountFromBooks() {
+        final long commentsCount = books.stream().map(Book::getCommentsCount).collect(Collectors.summingLong(n -> n));
+        this.commentsCount = commentsCount;
     }
 
     /* method for calculating total rating of the author */

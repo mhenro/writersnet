@@ -95,7 +95,7 @@ public class BookService {
     }
 
     public Page<TopBookComments> getBooksByComments(final Pageable pageable) {
-        Page<TopBookComments> books = null; //bookRepository.findAllByComments(pageable);   //TODO: fixme!
+        Page<TopBookComments> books = bookRepository.findAllByComments(pageable);
         return books;
     }
 

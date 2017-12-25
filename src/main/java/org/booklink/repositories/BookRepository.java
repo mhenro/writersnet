@@ -34,9 +34,8 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
     @Query("SELECT new org.booklink.models.top_models.TopBookVolume(b.id, b.name, COALESCE(length(t.text), 0) ) FROM Book b LEFT JOIN b.bookText t ORDER BY length(t.text) DESC")
     Page<TopBookVolume> findAllByVolume(Pageable pageable);
 
-    //TODO: fixme
-    //@Query("SELECT new org.booklink.models.top_models.TopBookComments(b.id, b.name, count(c.comment)) FROM Book b LEFT JOIN b.comments c GROUP BY b.id ORDER BY count(c.comment) DESC")
-    //Page<TopBookComments> findAllByComments(Pageable pageable);
+    @Query("SELECT new org.booklink.models.top_models.TopBookComments(b.id, b.name, b.commentsCount) FROM Book b ORDER BY b.commentsCount DESC")
+    Page<TopBookComments> findAllByComments(Pageable pageable);
 
     @Query("SELECT new org.booklink.models.top_models.TopBookViews(b.id, b.name, b.views) FROM Book b ORDER BY b.views DESC")
     Page<TopBookViews> findAllByViews(Pageable pageable);

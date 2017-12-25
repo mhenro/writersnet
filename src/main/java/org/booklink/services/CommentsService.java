@@ -76,6 +76,7 @@ public class CommentsService {
             }
             entity.setRelatedTo(relatedComment);
         }
+        increaseCommentsInBookAndUser(entity);
         bookCommentsRepository.save(entity);
     }
 
@@ -85,6 +86,7 @@ public class CommentsService {
             throw new ObjectNotFoundException("Book was not found");
         }
         checkCredentials(book.getAuthor().getUsername());   //only owner can delete comments from his book
+        decreaseCommentsInBookAndUser(commentId);
         bookCommentsRepository.delete(commentId);
     }
 
@@ -93,6 +95,31 @@ public class CommentsService {
         comments.getContent().stream()
                 .filter(comment -> comment.getUserAvatar() == null || comment.getUserAvatar().isEmpty())
                 .forEach(comment -> comment.setUserAvatar(defaultAvatar));
+    }
+
+    private void increaseCommentsInBookAndUser(final Comment comment) {
+        if (comment.getBook() != null) {
+            final Long bookComments = comment.getBook().getCommentsCount() + 1;
+            comment.getBook().setCommentsCount(bookComments);
+        }
+        if (comment.getUser() != null) {
+            comment.getUser().refreshCommentsCountFromBooks();
+        }
+    }
+
+    private void decreaseCommentsInBookAndUser(final Long commentId) {
+        final Comment comment = bookCommentsRepository.findOne(commentId);
+        decreaseCommentsInBookAndUser(comment);
+    }
+
+    private void decreaseCommentsInBookAndUser(final Comment comment) {
+        if (comment.getBook() != null) {
+            final Long bookComments = comment.getBook().getCommentsCount() > 0 ? comment.getBook().getCommentsCount() - 1 : 0;
+            comment.getBook().setCommentsCount(bookComments);
+        }
+        if (comment.getUser() != null) {
+            comment.getUser().refreshCommentsCountFromBooks();
+        }
     }
 
     private void checkCredentials(final String userId) {
