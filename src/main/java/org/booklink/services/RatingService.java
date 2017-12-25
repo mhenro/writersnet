@@ -20,13 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 public class RatingService {
     private RatingRepository ratingRepository;
     private BookRepository bookRepository;
-    private AuthorRepository authorRepository;
 
     @Autowired
-    public RatingService(final RatingRepository ratingRepository, final BookRepository bookRepository/*, final AuthorRepository authorRepository*/) {
+    public RatingService(final RatingRepository ratingRepository, final BookRepository bookRepository) {
         this.ratingRepository = ratingRepository;
         this.bookRepository = bookRepository;
-        //this.authorRepository = authorRepository;
     }
 
     public void addStar(final Long bookId, final Integer value, final HttpServletRequest request) {
