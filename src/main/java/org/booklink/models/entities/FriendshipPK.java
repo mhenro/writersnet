@@ -13,7 +13,7 @@ public class FriendshipPK implements Serializable{
     private User subscriber;
     private User subscription;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subscriber_id", referencedColumnName = "username")
     public User getSubscriber() {
         return subscriber;
@@ -23,7 +23,7 @@ public class FriendshipPK implements Serializable{
         this.subscriber = subscriber;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subscription_id", referencedColumnName = "username")
     public User getSubscription() {
         return subscription;

@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Pagination } from 'react-bootstrap';
 
 import FriendList from '../components/friends/FriendList.jsx';
 
 import {
-    getAuthorDetails,
-    setAuthor,
+    getAllFriends,
+    getAllSubscribers,
+    getAllSubscriptions,
     subscribeOn,
     removeSubscription
 } from '../actions/AuthorActions.jsx';
@@ -22,18 +24,52 @@ class FriendsPage extends React.Component {
         super(props);
         this.state = {
             activeTab: 'friends',    //requests
-            searchPattern: ''
+            searchPattern: '',
+            friends: [],
+            subscribers: [],
+            subscriptions: [],
+            currentPage: 1,
+            totalPages: 1,
+            totalFriends: 0,
+            totalSubscribers: 0,
+            totalSubscriptions: 0
         };
-        ['onAddToFriends', 'onRemoveFriend', 'onSearchChange'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
         let timer = setInterval(() => {
             if (this.props.login) {
-                this.props.onGetAuthorDetails(this.props.login);
+                this.getFriendships('subscriptions');   //not a good solution. It is for counting friend groups
+                this.getFriendships('subscribers');     //not a good solution. It is for counting friend groups
+                this.getFriendships('friends');         //not a good solution. It is for counting friend groups
                 clearInterval(timer);
             }
         }, 1000);
+    }
+
+    getFriendships(activeTab = this.state.activeTab, page = this.state.currentPage) {
+        switch(activeTab) {
+            case 'friends': this.props.onGetAllFriends(this.props.login, this.props.token, page - 1, friendships => this.updateFriendships(friendships, 'friends', 'totalFriends')); break;
+            case 'subscribers': this.props.onGetAllSubscribers(this.props.login, this.props.token, page - 1, friendships => this.updateFriendships(friendships, 'subscribers', 'totalSubscribers')); break;
+            case 'subscriptions': this.props.onGetAllSubscriptions(this.props.login, this.props.token, page - 1, friendships => this.updateFriendships(friendships, 'subscriptions', 'totalSubscriptions')); break;
+        }
+    }
+
+    pageSelect(page) {
+        this.setState({
+            currentPage: page
+        });
+        this.getFriendships(this.state.activeTab, page);
+    }
+
+    updateFriendships(friendships, array, friendshipGroup) {
+        let state = {
+            currentPage: friendships.number + 1,
+            totalPages: friendships.totalPages,
+        };
+        state[array] = friendships.content;
+        state[friendshipGroup] = friendships.totalElements;
+        this.setState(state);
     }
 
     getActiveClass(tabName) {
@@ -47,70 +83,13 @@ class FriendsPage extends React.Component {
         this.setState({
             activeTab: tabName
         });
+        this.getFriendships(tabName);
     }
 
     onSearchChange(event) {
         this.setState({
             searchPattern: event.target.value
         });
-    }
-
-    getFriendIds() {
-        return this.props.author.subscribers
-            .filter(subscriber => this.props.author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
-            .map(friend => friend.subscriptionId);
-    }
-
-    getFriends() {
-        return this.props.author.subscribers
-            .filter(subscriber => this.props.author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
-            .filter(friend => (this.state.searchPattern !== '' ? friend.subscriptionFullName.toLowerCase().includes(this.state.searchPattern.toLowerCase()) : true))
-            .map(friend => {
-                return {
-                    date: friend.date,
-                    active: friend.active,
-                    id: friend.subscriptionId,
-                    name: friend.subscriptionFullName,
-                    section: friend.subscriptionSectionName,
-                    avatar: friend.subscriptionAvatar
-                };
-            });
-    }
-
-    getSubscribers() {
-        let friends = this.getFriendIds();
-        return this.props.author.subscriptions
-            .filter(subscription => subscription.subscriptionId === this.props.author.username)
-            .filter(subscription => !friends.some(friend => friend === subscription.subscriberId))
-            .filter(subscriber => (this.state.searchPattern !== '' ? subscriber.subscriberFullName.toLowerCase().includes(this.state.searchPattern.toLowerCase()) : true))
-            .map(subscriber => {
-                return {
-                    date: subscriber.date,
-                    active: subscriber.active,
-                    id: subscriber.subscriberId,
-                    name: subscriber.subscriberFullName,
-                    section: subscriber.subscriberSectionName,
-                    avatar: subscriber.subscriberAvatar
-                };
-            });
-    }
-
-    getSubscriptions() {
-        let friends = this.getFriendIds();
-        return this.props.author.subscribers
-            .filter(subscriber => subscriber.subscriberId === this.props.author.username)
-            .filter(subscriber => !friends.some(friend => friend === subscriber.subscriptionId))
-            .filter(subscription => (this.state.searchPattern !== '' ? subscription.subscriptionFullName.toLowerCase().includes(this.state.searchPattern.toLowerCase()) : true))
-            .map(subscription => {
-                return {
-                    date: subscription.date,
-                    active: subscription.active,
-                    id: subscription.subscriptionId,
-                    name: subscription.subscriptionFullName,
-                    section: subscription.subscriptionSectionName,
-                    avatar: subscription.subscriptionAvatar
-                };
-            });
     }
 
     getSendMsgButtonVisibility() {
@@ -154,41 +133,39 @@ class FriendsPage extends React.Component {
     }
 
     isDataLoaded() {
-        if (this.props.author && this.props.login) {
+        if (this.props.login && this.props.token) {
             return true;
         }
         return false;
     }
 
-    getItems() {
-        if (this.state.activeTab === 'friends') {
-            return this.getFriends();
-        } else if (this.state.activeTab === 'subscribers') {
-            return this.getSubscribers();
-        } else if (this.state.activeTab === 'subscriptions') {
-            return this.getSubscriptions();
-        }
-    }
-
     getTabCaption(tabName) {
         if (tabName === 'friends') {
-            let count = this.getFriends().length;
+            let count = this.state.totalFriends;
             return <span>My friends <span className="counter">{count}</span></span>;
         } else if (tabName === 'subscribers') {
-            let count = this.getSubscribers().length;
+            let count = this.state.totalSubscribers;
             return <span>Subscribers <span className="counter">{count}</span></span>;
         } else if (tabName === 'subscriptions') {
-            let count = this.getSubscriptions().length;
+            let count = this.state.totalSubscriptions;
             return <span>Subscriptions <span className="counter">{count}</span></span>;
         }
     }
 
     onAddToFriends(friend) {
-        this.props.onSubcribeOn(friend, this.props.token, () => this.props.onGetAuthorDetails(this.props.login));
+        this.props.onSubcribeOn(friend, this.props.token, () => this.componentDidMount());
     }
 
     onRemoveFriend(friend) {
-        this.props.onRemoveSubscription(friend, this.props.token, () => this.props.onGetAuthorDetails(this.props.login));
+        this.props.onRemoveSubscription(friend, this.props.token, () => this.componentDidMount());
+    }
+
+    getItems() {
+        switch (this.state.activeTab) {
+            case 'friends': return this.state.friends; break;
+            case 'subscribers': return this.state.subscribers; break;
+            case 'subscriptions': return this.state.subscriptions; break;
+        }
     }
 
     render() {
@@ -198,30 +175,53 @@ class FriendsPage extends React.Component {
 
         return (
             <div>
-                <ul className="nav nav-tabs">
-                    <li className={this.getActiveClass('friends')}><a onClick={() => this.changeTab('friends')}>{this.getTabCaption('friends')}</a></li>
-                    <li className={this.getActiveClass('subscribers')}><a onClick={() => this.changeTab('subscribers')}>{this.getTabCaption('subscribers')}</a></li>
-                    <li className={this.getActiveClass('subscriptions')}><a onClick={() => this.changeTab('subscriptions')}>{this.getTabCaption('subscriptions')}</a></li>
-                </ul>
-                <br/>
-                <div className="input-group">
-                    <input value={this.state.searchPattern} onChange={this.onSearchChange} type="text" className="form-control" placeholder="Input friend name" />
-                        <div className="input-group-btn">
-                            <button className="btn btn-default" type="submit">
-                                <i className="glyphicon glyphicon-search"></i>
-                            </button>
-                        </div>
+                <div className="col-sm-12">
+                    <ul className="nav nav-tabs">
+                        <li className={this.getActiveClass('friends')}><a onClick={() => this.changeTab('friends')}>{this.getTabCaption('friends')}</a></li>
+                        <li className={this.getActiveClass('subscribers')}><a onClick={() => this.changeTab('subscribers')}>{this.getTabCaption('subscribers')}</a></li>
+                        <li className={this.getActiveClass('subscriptions')}><a onClick={() => this.changeTab('subscriptions')}>{this.getTabCaption('subscriptions')}</a></li>
+                    </ul>
+                    <br/>
                 </div>
-                <FriendList friends={this.getItems()}
-                            sendMsgButton={this.getSendMsgButtonVisibility()}
-                            addFriendButton={this.getAddFriendButtonVisibility()}
-                            readNewsButton={this.getReadNewsButtonVisibility()}
-                            removeFriendButton={this.getRemoveFriendButtonVisibility()}
-                            onAddToFriends={this.onAddToFriends}
-                            onRemoveSubscription={this.onRemoveFriend}
-                            login={this.props.login}
-                            token={this.props.token}
-                            onGetGroupId={this.props.onGetGroupIdByRecipient}/>
+                <div className="col-sm-12">
+                    <div className="input-group">
+                        <input value={this.state.searchPattern} onChange={event => this.onSearchChange(event)} type="text" className="form-control" placeholder="Input friend name" />
+                            <div className="input-group-btn">
+                                <button className="btn btn-default" type="submit">
+                                    <i className="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                    </div>
+                    <br/>
+                </div>
+                <div className="col-sm-12 text-center">
+                    <Pagination
+                        className={'shown'}
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.state.totalPages}
+                        maxButtons={3}
+                        activePage={this.state.currentPage}
+                        onSelect={page => this.pageSelect(page)}/>
+                    <br/>
+                </div>
+                <div className="col-sm-12">
+                    <FriendList friends={this.getItems()}
+                                sendMsgButton={this.getSendMsgButtonVisibility()}
+                                addFriendButton={this.getAddFriendButtonVisibility()}
+                                readNewsButton={this.getReadNewsButtonVisibility()}
+                                removeFriendButton={this.getRemoveFriendButtonVisibility()}
+                                onAddToFriends={friend => this.onAddToFriends(friend)}
+                                onRemoveSubscription={friend => this.onRemoveFriend(friend)}
+                                login={this.props.login}
+                                token={this.props.token}
+                                onGetGroupId={this.props.onGetGroupIdByRecipient}/>
+                    <br/>
+                </div>
             </div>
         )
     }
@@ -230,17 +230,51 @@ class FriendsPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token,
-        author: state.AuthorReducer.author
+        token: state.GlobalReducer.token
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+        onGetAllFriends: (userId, token, page, callback) => {
+            return getAllFriends(userId, token, page).then(([response, json]) => {
                 if (response.status === 200) {
-                    dispatch(setAuthor(json));
+                    callback(json);
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetAllSubscribers: (userId, token, page, callback) => {
+            return getAllSubscribers(userId, token, page).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetAllSubscriptions: (userId, token, page, callback) => {
+            return getAllSubscriptions(userId, token, page).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

@@ -30,17 +30,16 @@ class FriendListItem extends React.Component {
         this.state = {
             groupId: null
         };
-        ['setGroupId'].map(fn => this[fn] = this[fn].bind(this));
+    }
+
+    componentDidMount() {
+        this.props.onGetGroupId(this.props.friend.id, this.props.login, this.props.token, groupId => this.setGroupId(groupId));
     }
 
     setGroupId(groupId) {
         this.setState({
             groupId: groupId
         });
-    }
-
-    componentDidMount() {
-        this.props.onGetGroupId(this.props.friend.id, this.props.login, this.props.token, this.setGroupId);
     }
 
     onAuthorClick() {

@@ -15,16 +15,10 @@ import FriendListItem from './FriendListItem.jsx';
     - onGetGroupId - callback
  */
 class FriendList extends React.Component {
-    getSortedFriends() {
-        return this.props.friends.sort((a, b) => {
-            return a.name.localeCompare(b.name);
-        });
-    }
-
     render() {
         return (
             <div>
-                {this.getSortedFriends().map((friend, key) => {
+                {this.props.friends.map((friend, key) => {
                     return (
                         <FriendListItem friend={friend} key={key}
                                         sendMsgButton={this.props.sendMsgButton}

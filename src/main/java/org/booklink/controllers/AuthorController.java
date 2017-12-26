@@ -195,6 +195,27 @@ public class AuthorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "friendship/friends/{authorId}", method = RequestMethod.GET)
+    public Page<FriendshipResponse> getAllFriends(@PathVariable String authorId, final Pageable pageable) {
+        return authorService.getAllFriends(authorId, pageable);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "friendship/subscribers/{authorId}", method = RequestMethod.GET)
+    public Page<FriendshipResponse> getAllSubscribers(@PathVariable String authorId, final Pageable pageable) {
+        return authorService.getAllSubscribers(authorId, pageable);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "friendship/subscriptions/{authorId}", method = RequestMethod.GET)
+    public Page<FriendshipResponse> getAllSubscriptions(@PathVariable String authorId, final Pageable pageable) {
+        return authorService.getAllSubscriptions(authorId, pageable);
+    }
+
     /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)

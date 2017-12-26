@@ -1,9 +1,9 @@
 import doFetch from './fetch';
 import { getHost } from '../utils.jsx';
 
-export const getAuthors = (name, page) => {
+export const getAuthors = (name, page = 0, size = 5) => {
     if (name) {
-        return doFetch(getHost() + 'authors/name/' + name + '?page=' + page + '&size=5');
+        return doFetch(getHost() + 'authors/name/' + name + '?page=' + page + '&size=' + size);
     } else {
         return doFetch(getHost() + 'authors?page=' + page + '&size=5');
     }
@@ -13,12 +13,24 @@ export const getAuthorDetails = (userId) => {
     return doFetch(getHost() + 'authors/' + userId);
 };
 
-export const getAuthorChatGroups = (userId, token, page) => {
-    return doFetch(getHost() + 'authors/' + userId + '/groups?page=' + page + '&size=20', null, token);
+export const getAuthorChatGroups = (userId, token, page = 0, size = 20) => {
+    return doFetch(getHost() + 'authors/' + userId + '/groups?page=' + page + '&size=' + size, null, token);
 };
 
-export const getFriends = (userId, matcher, token, page) => {
-    return doFetch(getHost() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=20', null, token);
+export const getFriends = (userId, matcher, token, page = 0, size = 20) => {
+    return doFetch(getHost() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=' + size, null, token);
+};
+
+export const getAllFriends = (userId, token, page = 0, size = 20) => {
+    return doFetch(getHost() + 'friendship/friends/' + userId + '?page=' + page + '&size=' + size, null, token);
+};
+
+export const getAllSubscribers = (userId, token, page = 0, size = 20) => {
+    return doFetch(getHost() + 'friendship/subscribers/' + userId + '?page=' + page + '&size=' + size, null, token);
+};
+
+export const getAllSubscriptions = (userId, token, page = 0, size = 20) => {
+    return doFetch(getHost() + 'friendship/subscriptions/' + userId + '?page=' + page + '&size=' + size, null, token);
 };
 
 export const isFriendOf = (authorId, token) => {

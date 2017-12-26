@@ -223,6 +223,21 @@ public class AuthorService {
         return friends;
     }
 
+    public Page<FriendshipResponse> getAllFriends(final String userId, final Pageable pageable) {
+        checkCredentials(userId);
+        return friendshipRepository.getAllFriends(userId, pageable);
+    }
+
+    public Page<FriendshipResponse> getAllSubscribers(final String userId, final Pageable pageable) {
+        checkCredentials(userId);
+        return friendshipRepository.getAllSubscribers(userId, pageable);
+    }
+
+    public Page<FriendshipResponse> getAllSubscriptions(final String userId, final Pageable pageable) {
+        checkCredentials(userId);
+        return friendshipRepository.getAllSubscriptions(userId, pageable);
+    }
+
     private void increaseAuthorViews(final String authorId) {
         final User author = authorRepository.findOne(authorId);
         if (author != null) {

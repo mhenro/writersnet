@@ -6180,86 +6180,6 @@ var Style = {
 
 /***/ }),
 /* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.setToken = exports.setPasswordConfirm = exports.setPassword = exports.setLogin = exports.setEmail = exports.SET_TOKEN = exports.SET_PASSWORD_CONFIRM = exports.SET_PASSWORD = exports.SET_LOGIN = exports.SET_EMAIL = exports.sendActivationToken = exports.sendRegister = exports.sendLogin = undefined;
-
-var _fetch = __webpack_require__(58);
-
-var _fetch2 = _interopRequireDefault(_fetch);
-
-var _utils = __webpack_require__(23);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var sendLogin = exports.sendLogin = function sendLogin(username, password) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'auth', {
-        username: username,
-        password: password
-    });
-};
-
-var sendRegister = exports.sendRegister = function sendRegister(email, username, password) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'register', {
-        email: email,
-        username: username,
-        password: password
-    });
-};
-
-var sendActivationToken = exports.sendActivationToken = function sendActivationToken(activationToken) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'activate?activationToken=' + activationToken);
-};
-
-var SET_EMAIL = exports.SET_EMAIL = 'SET_EMAIL';
-var SET_LOGIN = exports.SET_LOGIN = 'SET_LOGIN';
-var SET_PASSWORD = exports.SET_PASSWORD = 'SET_PASSWORD';
-var SET_PASSWORD_CONFIRM = exports.SET_PASSWORD_CONFIRM = 'SET_PASSWORD_CONFIRM';
-var SET_TOKEN = exports.SET_TOKEN = 'SET_TOKEN';
-
-var setEmail = exports.setEmail = function setEmail(email) {
-    return {
-        type: SET_EMAIL,
-        email: email
-    };
-};
-
-var setLogin = exports.setLogin = function setLogin(login) {
-    return {
-        type: SET_LOGIN,
-        login: login
-    };
-};
-
-var setPassword = exports.setPassword = function setPassword(password) {
-    return {
-        type: SET_PASSWORD,
-        password: password
-    };
-};
-
-var setPasswordConfirm = exports.setPasswordConfirm = function setPasswordConfirm(passwordConfirm) {
-    return {
-        type: SET_PASSWORD_CONFIRM,
-        passwordConfirm: passwordConfirm
-    };
-};
-
-var setToken = exports.setToken = function setToken(token) {
-    return {
-        type: SET_TOKEN,
-        token: token
-    };
-};
-
-/***/ }),
-/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6548,6 +6468,86 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.setToken = exports.setPasswordConfirm = exports.setPassword = exports.setLogin = exports.setEmail = exports.SET_TOKEN = exports.SET_PASSWORD_CONFIRM = exports.SET_PASSWORD = exports.SET_LOGIN = exports.SET_EMAIL = exports.sendActivationToken = exports.sendRegister = exports.sendLogin = undefined;
+
+var _fetch = __webpack_require__(58);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+var _utils = __webpack_require__(23);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var sendLogin = exports.sendLogin = function sendLogin(username, password) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'auth', {
+        username: username,
+        password: password
+    });
+};
+
+var sendRegister = exports.sendRegister = function sendRegister(email, username, password) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'register', {
+        email: email,
+        username: username,
+        password: password
+    });
+};
+
+var sendActivationToken = exports.sendActivationToken = function sendActivationToken(activationToken) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'activate?activationToken=' + activationToken);
+};
+
+var SET_EMAIL = exports.SET_EMAIL = 'SET_EMAIL';
+var SET_LOGIN = exports.SET_LOGIN = 'SET_LOGIN';
+var SET_PASSWORD = exports.SET_PASSWORD = 'SET_PASSWORD';
+var SET_PASSWORD_CONFIRM = exports.SET_PASSWORD_CONFIRM = 'SET_PASSWORD_CONFIRM';
+var SET_TOKEN = exports.SET_TOKEN = 'SET_TOKEN';
+
+var setEmail = exports.setEmail = function setEmail(email) {
+    return {
+        type: SET_EMAIL,
+        email: email
+    };
+};
+
+var setLogin = exports.setLogin = function setLogin(login) {
+    return {
+        type: SET_LOGIN,
+        login: login
+    };
+};
+
+var setPassword = exports.setPassword = function setPassword(password) {
+    return {
+        type: SET_PASSWORD,
+        password: password
+    };
+};
+
+var setPasswordConfirm = exports.setPasswordConfirm = function setPasswordConfirm(passwordConfirm) {
+    return {
+        type: SET_PASSWORD_CONFIRM,
+        passwordConfirm: passwordConfirm
+    };
+};
+
+var setToken = exports.setToken = function setToken(token) {
+    return {
+        type: SET_TOKEN,
+        token: token
+    };
+};
 
 /***/ }),
 /* 28 */
@@ -7985,7 +7985,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthors = undefined;
+exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthors = undefined;
 
 var _fetch = __webpack_require__(58);
 
@@ -7995,9 +7995,12 @@ var _utils = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getAuthors = exports.getAuthors = function getAuthors(name, page) {
+var getAuthors = exports.getAuthors = function getAuthors(name) {
+    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
+
     if (name) {
-        return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/name/' + name + '?page=' + page + '&size=5');
+        return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/name/' + name + '?page=' + page + '&size=' + size);
     } else {
         return (0, _fetch2.default)((0, _utils.getHost)() + 'authors?page=' + page + '&size=5');
     }
@@ -8007,12 +8010,39 @@ var getAuthorDetails = exports.getAuthorDetails = function getAuthorDetails(user
     return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/' + userId);
 };
 
-var getAuthorChatGroups = exports.getAuthorChatGroups = function getAuthorChatGroups(userId, token, page) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/' + userId + '/groups?page=' + page + '&size=20', null, token);
+var getAuthorChatGroups = exports.getAuthorChatGroups = function getAuthorChatGroups(userId, token) {
+    var page = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var size = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 20;
+
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/' + userId + '/groups?page=' + page + '&size=' + size, null, token);
 };
 
-var getFriends = exports.getFriends = function getFriends(userId, matcher, token, page) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=20', null, token);
+var getFriends = exports.getFriends = function getFriends(userId, matcher, token) {
+    var page = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+    var size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 20;
+
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=' + size, null, token);
+};
+
+var getAllFriends = exports.getAllFriends = function getAllFriends(userId, token) {
+    var page = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var size = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 20;
+
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'friendship/friends/' + userId + '?page=' + page + '&size=' + size, null, token);
+};
+
+var getAllSubscribers = exports.getAllSubscribers = function getAllSubscribers(userId, token) {
+    var page = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var size = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 20;
+
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'friendship/subscribers/' + userId + '?page=' + page + '&size=' + size, null, token);
+};
+
+var getAllSubscriptions = exports.getAllSubscriptions = function getAllSubscriptions(userId, token) {
+    var page = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var size = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 20;
+
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'friendship/subscriptions/' + userId + '?page=' + page + '&size=' + size, null, token);
 };
 
 var isFriendOf = exports.isFriendOf = function isFriendOf(authorId, token) {
@@ -56744,7 +56774,7 @@ var _reactRedux = __webpack_require__(18);
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 var _NavBar = __webpack_require__(633);
 
@@ -67708,7 +67738,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _reactRedux = __webpack_require__(18);
 
@@ -79077,7 +79107,7 @@ var _BookBriefList = __webpack_require__(793);
 
 var _BookBriefList2 = _interopRequireDefault(_BookBriefList);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _AlphabetPagination = __webpack_require__(293);
 
@@ -79578,7 +79608,7 @@ var _BookActions = __webpack_require__(66);
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 var _UserComments = __webpack_require__(796);
 
@@ -79921,7 +79951,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _CommentItem = __webpack_require__(797);
 
@@ -80160,7 +80190,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _utils = __webpack_require__(23);
 
@@ -80424,7 +80454,7 @@ var _BookActions = __webpack_require__(66);
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 var _AuthorFile = __webpack_require__(799);
 
@@ -81417,7 +81447,7 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _locale = __webpack_require__(82);
 
@@ -81777,7 +81807,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _reactSelect = __webpack_require__(112);
 
@@ -81789,7 +81819,7 @@ var _GlobalActions = __webpack_require__(19);
 
 var _BookActions = __webpack_require__(66);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 var _FileUploader = __webpack_require__(300);
 
@@ -82962,7 +82992,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _reactSelect = __webpack_require__(112);
 
@@ -82972,7 +83002,7 @@ var _GlobalActions = __webpack_require__(19);
 
 var _BookActions = __webpack_require__(66);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -83441,7 +83471,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _UserPolicy = __webpack_require__(811);
 
@@ -83449,7 +83479,7 @@ var _UserPolicy2 = _interopRequireDefault(_UserPolicy);
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -83778,7 +83808,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _GlobalActions = __webpack_require__(19);
 
@@ -83895,7 +83925,7 @@ var _AuthorActions = __webpack_require__(39);
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 var _locale = __webpack_require__(82);
 
@@ -86818,7 +86848,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _TopSelector = __webpack_require__(847);
 
@@ -88313,6 +88343,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
+var _reactBootstrap = __webpack_require__(26);
+
 var _FriendList = __webpack_require__(852);
 
 var _FriendList2 = _interopRequireDefault(_FriendList);
@@ -88323,7 +88355,7 @@ var _GlobalActions = __webpack_require__(19);
 
 var _MessageActions = __webpack_require__(86);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -88343,11 +88375,16 @@ var FriendsPage = function (_React$Component) {
 
         _this.state = {
             activeTab: 'friends', //requests
-            searchPattern: ''
+            searchPattern: '',
+            friends: [],
+            subscribers: [],
+            subscriptions: [],
+            currentPage: 1,
+            totalPages: 1,
+            totalFriends: 0,
+            totalSubscribers: 0,
+            totalSubscriptions: 0
         };
-        ['onAddToFriends', 'onRemoveFriend', 'onSearchChange'].map(function (fn) {
-            return _this[fn] = _this[fn].bind(_this);
-        });
         return _this;
     }
 
@@ -88358,10 +88395,54 @@ var FriendsPage = function (_React$Component) {
 
             var timer = setInterval(function () {
                 if (_this2.props.login) {
-                    _this2.props.onGetAuthorDetails(_this2.props.login);
+                    _this2.getFriendships('subscriptions'); //not a good solution. It is for counting friend groups
+                    _this2.getFriendships('subscribers'); //not a good solution. It is for counting friend groups
+                    _this2.getFriendships('friends'); //not a good solution. It is for counting friend groups
                     clearInterval(timer);
                 }
             }, 1000);
+        }
+    }, {
+        key: 'getFriendships',
+        value: function getFriendships() {
+            var _this3 = this;
+
+            var activeTab = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.state.activeTab;
+            var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state.currentPage;
+
+            switch (activeTab) {
+                case 'friends':
+                    this.props.onGetAllFriends(this.props.login, this.props.token, page - 1, function (friendships) {
+                        return _this3.updateFriendships(friendships, 'friends', 'totalFriends');
+                    });break;
+                case 'subscribers':
+                    this.props.onGetAllSubscribers(this.props.login, this.props.token, page - 1, function (friendships) {
+                        return _this3.updateFriendships(friendships, 'subscribers', 'totalSubscribers');
+                    });break;
+                case 'subscriptions':
+                    this.props.onGetAllSubscriptions(this.props.login, this.props.token, page - 1, function (friendships) {
+                        return _this3.updateFriendships(friendships, 'subscriptions', 'totalSubscriptions');
+                    });break;
+            }
+        }
+    }, {
+        key: 'pageSelect',
+        value: function pageSelect(page) {
+            this.setState({
+                currentPage: page
+            });
+            this.getFriendships(this.state.activeTab, page);
+        }
+    }, {
+        key: 'updateFriendships',
+        value: function updateFriendships(friendships, array, friendshipGroup) {
+            var state = {
+                currentPage: friendships.number + 1,
+                totalPages: friendships.totalPages
+            };
+            state[array] = friendships.content;
+            state[friendshipGroup] = friendships.totalElements;
+            this.setState(state);
         }
     }, {
         key: 'getActiveClass',
@@ -88377,97 +88458,13 @@ var FriendsPage = function (_React$Component) {
             this.setState({
                 activeTab: tabName
             });
+            this.getFriendships(tabName);
         }
     }, {
         key: 'onSearchChange',
         value: function onSearchChange(event) {
             this.setState({
                 searchPattern: event.target.value
-            });
-        }
-    }, {
-        key: 'getFriendIds',
-        value: function getFriendIds() {
-            var _this3 = this;
-
-            return this.props.author.subscribers.filter(function (subscriber) {
-                return _this3.props.author.subscriptions.some(function (subscription) {
-                    return subscription.subscriberId === subscriber.subscriptionId;
-                });
-            }).map(function (friend) {
-                return friend.subscriptionId;
-            });
-        }
-    }, {
-        key: 'getFriends',
-        value: function getFriends() {
-            var _this4 = this;
-
-            return this.props.author.subscribers.filter(function (subscriber) {
-                return _this4.props.author.subscriptions.some(function (subscription) {
-                    return subscription.subscriberId === subscriber.subscriptionId;
-                });
-            }).filter(function (friend) {
-                return _this4.state.searchPattern !== '' ? friend.subscriptionFullName.toLowerCase().includes(_this4.state.searchPattern.toLowerCase()) : true;
-            }).map(function (friend) {
-                return {
-                    date: friend.date,
-                    active: friend.active,
-                    id: friend.subscriptionId,
-                    name: friend.subscriptionFullName,
-                    section: friend.subscriptionSectionName,
-                    avatar: friend.subscriptionAvatar
-                };
-            });
-        }
-    }, {
-        key: 'getSubscribers',
-        value: function getSubscribers() {
-            var _this5 = this;
-
-            var friends = this.getFriendIds();
-            return this.props.author.subscriptions.filter(function (subscription) {
-                return subscription.subscriptionId === _this5.props.author.username;
-            }).filter(function (subscription) {
-                return !friends.some(function (friend) {
-                    return friend === subscription.subscriberId;
-                });
-            }).filter(function (subscriber) {
-                return _this5.state.searchPattern !== '' ? subscriber.subscriberFullName.toLowerCase().includes(_this5.state.searchPattern.toLowerCase()) : true;
-            }).map(function (subscriber) {
-                return {
-                    date: subscriber.date,
-                    active: subscriber.active,
-                    id: subscriber.subscriberId,
-                    name: subscriber.subscriberFullName,
-                    section: subscriber.subscriberSectionName,
-                    avatar: subscriber.subscriberAvatar
-                };
-            });
-        }
-    }, {
-        key: 'getSubscriptions',
-        value: function getSubscriptions() {
-            var _this6 = this;
-
-            var friends = this.getFriendIds();
-            return this.props.author.subscribers.filter(function (subscriber) {
-                return subscriber.subscriberId === _this6.props.author.username;
-            }).filter(function (subscriber) {
-                return !friends.some(function (friend) {
-                    return friend === subscriber.subscriptionId;
-                });
-            }).filter(function (subscription) {
-                return _this6.state.searchPattern !== '' ? subscription.subscriptionFullName.toLowerCase().includes(_this6.state.searchPattern.toLowerCase()) : true;
-            }).map(function (subscription) {
-                return {
-                    date: subscription.date,
-                    active: subscription.active,
-                    id: subscription.subscriptionId,
-                    name: subscription.subscriptionFullName,
-                    section: subscription.subscriptionSectionName,
-                    avatar: subscription.subscriptionAvatar
-                };
             });
         }
     }, {
@@ -88517,27 +88514,16 @@ var FriendsPage = function (_React$Component) {
     }, {
         key: 'isDataLoaded',
         value: function isDataLoaded() {
-            if (this.props.author && this.props.login) {
+            if (this.props.login && this.props.token) {
                 return true;
             }
             return false;
         }
     }, {
-        key: 'getItems',
-        value: function getItems() {
-            if (this.state.activeTab === 'friends') {
-                return this.getFriends();
-            } else if (this.state.activeTab === 'subscribers') {
-                return this.getSubscribers();
-            } else if (this.state.activeTab === 'subscriptions') {
-                return this.getSubscriptions();
-            }
-        }
-    }, {
         key: 'getTabCaption',
         value: function getTabCaption(tabName) {
             if (tabName === 'friends') {
-                var count = this.getFriends().length;
+                var count = this.state.totalFriends;
                 return _react2.default.createElement(
                     'span',
                     null,
@@ -88549,7 +88535,7 @@ var FriendsPage = function (_React$Component) {
                     )
                 );
             } else if (tabName === 'subscribers') {
-                var _count = this.getSubscribers().length;
+                var _count = this.state.totalSubscribers;
                 return _react2.default.createElement(
                     'span',
                     null,
@@ -88561,7 +88547,7 @@ var FriendsPage = function (_React$Component) {
                     )
                 );
             } else if (tabName === 'subscriptions') {
-                var _count2 = this.getSubscriptions().length;
+                var _count2 = this.state.totalSubscriptions;
                 return _react2.default.createElement(
                     'span',
                     null,
@@ -88577,25 +88563,37 @@ var FriendsPage = function (_React$Component) {
     }, {
         key: 'onAddToFriends',
         value: function onAddToFriends(friend) {
-            var _this7 = this;
+            var _this4 = this;
 
             this.props.onSubcribeOn(friend, this.props.token, function () {
-                return _this7.props.onGetAuthorDetails(_this7.props.login);
+                return _this4.componentDidMount();
             });
         }
     }, {
         key: 'onRemoveFriend',
         value: function onRemoveFriend(friend) {
-            var _this8 = this;
+            var _this5 = this;
 
             this.props.onRemoveSubscription(friend, this.props.token, function () {
-                return _this8.props.onGetAuthorDetails(_this8.props.login);
+                return _this5.componentDidMount();
             });
+        }
+    }, {
+        key: 'getItems',
+        value: function getItems() {
+            switch (this.state.activeTab) {
+                case 'friends':
+                    return this.state.friends;break;
+                case 'subscribers':
+                    return this.state.subscribers;break;
+                case 'subscriptions':
+                    return this.state.subscriptions;break;
+            }
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this9 = this;
+            var _this6 = this;
 
             if (!this.isDataLoaded()) {
                 return null;
@@ -88605,67 +88603,106 @@ var FriendsPage = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    'ul',
-                    { className: 'nav nav-tabs' },
+                    'div',
+                    { className: 'col-sm-12' },
                     _react2.default.createElement(
-                        'li',
-                        { className: this.getActiveClass('friends') },
+                        'ul',
+                        { className: 'nav nav-tabs' },
                         _react2.default.createElement(
-                            'a',
-                            { onClick: function onClick() {
-                                    return _this9.changeTab('friends');
-                                } },
-                            this.getTabCaption('friends')
+                            'li',
+                            { className: this.getActiveClass('friends') },
+                            _react2.default.createElement(
+                                'a',
+                                { onClick: function onClick() {
+                                        return _this6.changeTab('friends');
+                                    } },
+                                this.getTabCaption('friends')
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            { className: this.getActiveClass('subscribers') },
+                            _react2.default.createElement(
+                                'a',
+                                { onClick: function onClick() {
+                                        return _this6.changeTab('subscribers');
+                                    } },
+                                this.getTabCaption('subscribers')
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            { className: this.getActiveClass('subscriptions') },
+                            _react2.default.createElement(
+                                'a',
+                                { onClick: function onClick() {
+                                        return _this6.changeTab('subscriptions');
+                                    } },
+                                this.getTabCaption('subscriptions')
+                            )
                         )
                     ),
-                    _react2.default.createElement(
-                        'li',
-                        { className: this.getActiveClass('subscribers') },
-                        _react2.default.createElement(
-                            'a',
-                            { onClick: function onClick() {
-                                    return _this9.changeTab('subscribers');
-                                } },
-                            this.getTabCaption('subscribers')
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'li',
-                        { className: this.getActiveClass('subscriptions') },
-                        _react2.default.createElement(
-                            'a',
-                            { onClick: function onClick() {
-                                    return _this9.changeTab('subscriptions');
-                                } },
-                            this.getTabCaption('subscriptions')
-                        )
-                    )
+                    _react2.default.createElement('br', null)
                 ),
-                _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'div',
-                    { className: 'input-group' },
-                    _react2.default.createElement('input', { value: this.state.searchPattern, onChange: this.onSearchChange, type: 'text', className: 'form-control', placeholder: 'Input friend name' }),
+                    { className: 'col-sm-12' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'input-group-btn' },
+                        { className: 'input-group' },
+                        _react2.default.createElement('input', { value: this.state.searchPattern, onChange: function onChange(event) {
+                                return _this6.onSearchChange(event);
+                            }, type: 'text', className: 'form-control', placeholder: 'Input friend name' }),
                         _react2.default.createElement(
-                            'button',
-                            { className: 'btn btn-default', type: 'submit' },
-                            _react2.default.createElement('i', { className: 'glyphicon glyphicon-search' })
+                            'div',
+                            { className: 'input-group-btn' },
+                            _react2.default.createElement(
+                                'button',
+                                { className: 'btn btn-default', type: 'submit' },
+                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-search' })
+                            )
                         )
-                    )
+                    ),
+                    _react2.default.createElement('br', null)
                 ),
-                _react2.default.createElement(_FriendList2.default, { friends: this.getItems(),
-                    sendMsgButton: this.getSendMsgButtonVisibility(),
-                    addFriendButton: this.getAddFriendButtonVisibility(),
-                    readNewsButton: this.getReadNewsButtonVisibility(),
-                    removeFriendButton: this.getRemoveFriendButtonVisibility(),
-                    onAddToFriends: this.onAddToFriends,
-                    onRemoveSubscription: this.onRemoveFriend,
-                    login: this.props.login,
-                    token: this.props.token,
-                    onGetGroupId: this.props.onGetGroupIdByRecipient })
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12 text-center' },
+                    _react2.default.createElement(_reactBootstrap.Pagination, {
+                        className: 'shown',
+                        prev: true,
+                        next: true,
+                        first: true,
+                        last: true,
+                        ellipsis: true,
+                        boundaryLinks: true,
+                        items: this.state.totalPages,
+                        maxButtons: 3,
+                        activePage: this.state.currentPage,
+                        onSelect: function onSelect(page) {
+                            return _this6.pageSelect(page);
+                        } }),
+                    _react2.default.createElement('br', null)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(_FriendList2.default, { friends: this.getItems(),
+                        sendMsgButton: this.getSendMsgButtonVisibility(),
+                        addFriendButton: this.getAddFriendButtonVisibility(),
+                        readNewsButton: this.getReadNewsButtonVisibility(),
+                        removeFriendButton: this.getRemoveFriendButtonVisibility(),
+                        onAddToFriends: function onAddToFriends(friend) {
+                            return _this6.onAddToFriends(friend);
+                        },
+                        onRemoveSubscription: function onRemoveSubscription(friend) {
+                            return _this6.onRemoveFriend(friend);
+                        },
+                        login: this.props.login,
+                        token: this.props.token,
+                        onGetGroupId: this.props.onGetGroupIdByRecipient }),
+                    _react2.default.createElement('br', null)
+                )
             );
         }
     }]);
@@ -88676,21 +88713,58 @@ var FriendsPage = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
     return {
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token,
-        author: state.AuthorReducer.author
+        token: state.GlobalReducer.token
     };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        onGetAuthorDetails: function onGetAuthorDetails(userId) {
-            return (0, _AuthorActions.getAuthorDetails)(userId).then(function (_ref) {
+        onGetAllFriends: function onGetAllFriends(userId, token, page, callback) {
+            return (0, _AuthorActions.getAllFriends)(userId, token, page).then(function (_ref) {
                 var _ref2 = _slicedToArray(_ref, 2),
                     response = _ref2[0],
                     json = _ref2[1];
 
                 if (response.status === 200) {
-                    dispatch((0, _AuthorActions.setAuthor)(json));
+                    callback(json);
+                } else if (json.message.includes('JWT expired at')) {
+                    dispatch((0, _AuthActions.setToken)(''));
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onGetAllSubscribers: function onGetAllSubscribers(userId, token, page, callback) {
+            return (0, _AuthorActions.getAllSubscribers)(userId, token, page).then(function (_ref3) {
+                var _ref4 = _slicedToArray(_ref3, 2),
+                    response = _ref4[0],
+                    json = _ref4[1];
+
+                if (response.status === 200) {
+                    callback(json);
+                } else if (json.message.includes('JWT expired at')) {
+                    dispatch((0, _AuthActions.setToken)(''));
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onGetAllSubscriptions: function onGetAllSubscriptions(userId, token, page, callback) {
+            return (0, _AuthorActions.getAllSubscriptions)(userId, token, page).then(function (_ref5) {
+                var _ref6 = _slicedToArray(_ref5, 2),
+                    response = _ref6[0],
+                    json = _ref6[1];
+
+                if (response.status === 200) {
+                    callback(json);
+                } else if (json.message.includes('JWT expired at')) {
+                    dispatch((0, _AuthActions.setToken)(''));
                 } else {
                     dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
                 }
@@ -88700,10 +88774,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         },
 
         onSubcribeOn: function onSubcribeOn(authorName, token, callback) {
-            return (0, _AuthorActions.subscribeOn)(authorName, token).then(function (_ref3) {
-                var _ref4 = _slicedToArray(_ref3, 2),
-                    response = _ref4[0],
-                    json = _ref4[1];
+            return (0, _AuthorActions.subscribeOn)(authorName, token).then(function (_ref7) {
+                var _ref8 = _slicedToArray(_ref7, 2),
+                    response = _ref8[0],
+                    json = _ref8[1];
 
                 if (response.status === 200) {
                     dispatch((0, _GlobalActions.createNotify)('success', 'Success', json.message));
@@ -88720,10 +88794,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         },
 
         onRemoveSubscription: function onRemoveSubscription(authorName, token, callback) {
-            return (0, _AuthorActions.removeSubscription)(authorName, token).then(function (_ref5) {
-                var _ref6 = _slicedToArray(_ref5, 2),
-                    response = _ref6[0],
-                    json = _ref6[1];
+            return (0, _AuthorActions.removeSubscription)(authorName, token).then(function (_ref9) {
+                var _ref10 = _slicedToArray(_ref9, 2),
+                    response = _ref10[0],
+                    json = _ref10[1];
 
                 if (response.status === 200) {
                     dispatch((0, _GlobalActions.createNotify)('success', 'Success', json.message));
@@ -88740,10 +88814,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         },
 
         onGetGroupIdByRecipient: function onGetGroupIdByRecipient(recipientId, userId, token, callback) {
-            return (0, _MessageActions.getGroupIdByRecipient)(recipientId, userId, token).then(function (_ref7) {
-                var _ref8 = _slicedToArray(_ref7, 2),
-                    response = _ref8[0],
-                    json = _ref8[1];
+            return (0, _MessageActions.getGroupIdByRecipient)(recipientId, userId, token).then(function (_ref11) {
+                var _ref12 = _slicedToArray(_ref11, 2),
+                    response = _ref12[0],
+                    json = _ref12[1];
 
                 if (response.status === 200) {
                     callback(json.message);
@@ -88814,13 +88888,6 @@ var FriendList = function (_React$Component) {
     }
 
     _createClass(FriendList, [{
-        key: 'getSortedFriends',
-        value: function getSortedFriends() {
-            return this.props.friends.sort(function (a, b) {
-                return a.name.localeCompare(b.name);
-            });
-        }
-    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
@@ -88828,7 +88895,7 @@ var FriendList = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                this.getSortedFriends().map(function (friend, key) {
+                this.props.friends.map(function (friend, key) {
                     return _react2.default.createElement(_FriendListItem2.default, { friend: friend, key: key,
                         sendMsgButton: _this2.props.sendMsgButton,
                         addFriendButton: _this2.props.addFriendButton,
@@ -88902,23 +88969,24 @@ var FriendListItem = function (_React$Component) {
         _this.state = {
             groupId: null
         };
-        ['setGroupId'].map(function (fn) {
-            return _this[fn] = _this[fn].bind(_this);
-        });
         return _this;
     }
 
     _createClass(FriendListItem, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            this.props.onGetGroupId(this.props.friend.id, this.props.login, this.props.token, function (groupId) {
+                return _this2.setGroupId(groupId);
+            });
+        }
+    }, {
         key: 'setGroupId',
         value: function setGroupId(groupId) {
             this.setState({
                 groupId: groupId
             });
-        }
-    }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.props.onGetGroupId(this.props.friend.id, this.props.login, this.props.token, this.setGroupId);
         }
     }, {
         key: 'onAuthorClick',
@@ -88928,13 +88996,13 @@ var FriendListItem = function (_React$Component) {
     }, {
         key: 'renderAddFriendButton',
         value: function renderAddFriendButton() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.props.addFriendButton) {
                 return _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            return _this2.props.onAddToFriends(_this2.props.friend.id);
+                            return _this3.props.onAddToFriends(_this3.props.friend.id);
                         }, className: 'btn btn-xs btn-success' },
                     'Add to friends'
                 );
@@ -88948,13 +89016,13 @@ var FriendListItem = function (_React$Component) {
     }, {
         key: 'renderSendMsgButton',
         value: function renderSendMsgButton() {
-            var _this3 = this;
+            var _this4 = this;
 
             if (this.props.sendMsgButton && this.state.groupId) {
                 return _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            return _this3.onSendMessage();
+                            return _this4.onSendMessage();
                         }, className: 'btn btn-xs btn-success' },
                     'Send message'
                 );
@@ -88971,13 +89039,13 @@ var FriendListItem = function (_React$Component) {
     }, {
         key: 'renderRemoveFriendButton',
         value: function renderRemoveFriendButton() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.props.removeFriendButton) {
                 return _react2.default.createElement(
                     'button',
                     { onClick: function onClick() {
-                            return _this4.props.onRemoveSubscription(_this4.props.friend.id);
+                            return _this5.props.onRemoveSubscription(_this5.props.friend.id);
                         }, className: 'btn btn-xs btn-success' },
                     'Remove'
                 );
@@ -88986,7 +89054,7 @@ var FriendListItem = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this5 = this;
+            var _this6 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -88996,7 +89064,7 @@ var FriendListItem = function (_React$Component) {
                     'div',
                     { className: 'col-sm-1' },
                     _react2.default.createElement('img', { src: this.props.friend.avatar + '?date=' + new Date(), onClick: function onClick() {
-                            return _this5.onAuthorClick();
+                            return _this6.onAuthorClick();
                         }, className: 'img-rounded clickable', width: '100%', height: 'auto' })
                 ),
                 _react2.default.createElement(
@@ -89060,7 +89128,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _ChatGroupList = __webpack_require__(855);
 
@@ -89074,7 +89142,7 @@ var _AuthorActions = __webpack_require__(39);
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -89565,7 +89633,7 @@ var _reactSelect = __webpack_require__(112);
 
 var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _propTypes = __webpack_require__(2);
 
@@ -89577,7 +89645,7 @@ var _AuthorActions = __webpack_require__(39);
 
 var _MessageActions = __webpack_require__(86);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -89845,7 +89913,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _reactRedux = __webpack_require__(18);
 
@@ -89857,7 +89925,7 @@ var _MessageActions = __webpack_require__(86);
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90343,13 +90411,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
-var _reactBootstrap = __webpack_require__(27);
+var _reactBootstrap = __webpack_require__(26);
 
 var _NewsActions = __webpack_require__(862);
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 var _NewsList = __webpack_require__(863);
 
@@ -90763,7 +90831,7 @@ var _utils = __webpack_require__(23);
 
 var _reactRedux = __webpack_require__(18);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 var _GlobalActions = __webpack_require__(19);
 
@@ -90988,7 +91056,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _GlobalActions = __webpack_require__(19);
 
-var _AuthActions = __webpack_require__(26);
+var _AuthActions = __webpack_require__(27);
 
 var _MessageActions = __webpack_require__(86);
 
