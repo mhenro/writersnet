@@ -36,6 +36,7 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.response.ChatGroupResponse(g) FROM User u LEFT JOIN u.chatGroups g WHERE u.username = ?1 AND u.enabled = true")
     Page<ChatGroupResponse> getChatGroups(final String userId, final Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.response.FriendResponse(u.username, u.firstName, u.lastName) FROM User u LEFT JOIN u.subscribers scr LEFT JOIN u.subscriptions sub WHERE scr.friendshipPK.subscription.username = ?1 AND sub.friendshipPK.subscriber.username = ?1 AND UPPER(u.firstName) LIKE UPPER(?2)||'%' AND u.enabled = true")
-    Page<FriendResponse> getFriends(final String userId, final String matcher, final Pageable pageable);
+    //TODO: fixme!
+    //@Query("SELECT new org.booklink.models.response.FriendResponse(u.username, u.firstName, u.lastName) FROM User u LEFT JOIN u.subscribers scr LEFT JOIN u.subscriptions sub WHERE scr.friendshipPK.subscription.username = ?1 AND sub.friendshipPK.subscriber.username = ?1 AND UPPER(u.firstName) LIKE UPPER(?2)||'%' AND u.enabled = true")
+    //Page<FriendResponse> getFriends(final String userId, final String matcher, final Pageable pageable);
 }

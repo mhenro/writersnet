@@ -10,6 +10,7 @@ import org.booklink.repositories.BookRepository;
 import org.booklink.repositories.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by mhenr on 15.11.2017.
  */
 @Service
+@Transactional
 public class RatingService {
     private RatingRepository ratingRepository;
     private BookRepository bookRepository;

@@ -144,12 +144,15 @@ public class AuthorController {
         return authorService.getChatGroups(userId, pageable);
     }
 
+    //TODO: fixme!
+    /*
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "friends/{userId:.+}/{matcher}", method = RequestMethod.GET)
     public Page<FriendResponse> getFriends(@PathVariable final String userId, @PathVariable final String matcher, final Pageable pageable) {
         return authorService.getFriends(userId, matcher, pageable);
     }
+    */
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
@@ -177,7 +180,7 @@ public class AuthorController {
     @CrossOrigin
     @RequestMapping(value = "subscriptions/{authorId}", method = RequestMethod.GET)
     public ResponseEntity<?> isSubscriptionOf(@PathVariable String authorId) {
-        final boolean result = authorService.isSubscription(authorId);
+        final boolean result = authorService.isSubscriptionOf(authorId);
         Response<Boolean> response = new Response<>();
         response.setCode(0);
         response.setMessage(result);
@@ -214,6 +217,17 @@ public class AuthorController {
     @RequestMapping(value = "friendship/subscriptions/{authorId}", method = RequestMethod.GET)
     public Page<FriendshipResponse> getAllSubscriptions(@PathVariable String authorId, final Pageable pageable) {
         return authorService.getAllSubscriptions(authorId, pageable);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "friendship/new/friends/{authorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getNewFriendsCount(@PathVariable String authorId) {
+        final long count = authorService.getNewFriendsCount(authorId);
+        final Response<Long> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(count);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

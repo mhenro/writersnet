@@ -21,6 +21,10 @@ export const getFriends = (userId, matcher, token, page = 0, size = 20) => {
     return doFetch(getHost() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=' + size, null, token);
 };
 
+export const getNewFriendsCount = (userId, token) => {
+    return doFetch(getHost() + 'friendship/new/friends/' + userId, null, token);
+};
+
 export const getAllFriends = (userId, token, page = 0, size = 20) => {
     return doFetch(getHost() + 'friendship/friends/' + userId + '?page=' + page + '&size=' + size, null, token);
 };

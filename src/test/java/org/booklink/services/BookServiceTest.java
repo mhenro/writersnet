@@ -113,8 +113,8 @@ public class BookServiceTest {
         Assert.assertEquals(null, books.getContent().get(0).getBookText());
         Assert.assertEquals(null, books.getContent().get(0).getAuthor().getBooks());
         Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSection());
-        Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSubscribers());
-        Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSubscriptions());
+        //Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSubscribers());
+        //Assert.assertEquals(null, books.getContent().get(0).getAuthor().getSubscriptions());
     }
 
     @Test

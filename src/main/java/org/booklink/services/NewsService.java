@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -18,6 +19,7 @@ import java.util.Date;
  * Created by mhenr on 13.12.2017.
  */
 @Service
+@Transactional(readOnly = true)
 public class NewsService {
     private NewsRepository newsRepository;
 
@@ -48,6 +50,7 @@ public class NewsService {
         this.newsRepository = newsRepository;
     }
 
+    @Transactional
     public void createNews(final NEWS_TYPE type, final User author, final Book book) {
         final News news = new News();
         news.setType(type.getType());
@@ -57,6 +60,7 @@ public class NewsService {
         newsRepository.save(news);
     }
 
+    @Transactional
     public void createNews(final NEWS_TYPE type, final User author, final User subscription) {
         final News news = new News();
         news.setType(type.getType());
@@ -66,6 +70,7 @@ public class NewsService {
         newsRepository.save(news);
     }
 
+    @Transactional
     public void createNews(final NEWS_TYPE type, final User author) {
         final News news = new News();
         news.setType(type.getType());

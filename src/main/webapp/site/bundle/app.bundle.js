@@ -7985,7 +7985,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthors = undefined;
+exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getNewFriendsCount = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthors = undefined;
 
 var _fetch = __webpack_require__(58);
 
@@ -8022,6 +8022,10 @@ var getFriends = exports.getFriends = function getFriends(userId, matcher, token
     var size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 20;
 
     return (0, _fetch2.default)((0, _utils.getHost)() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=' + size, null, token);
+};
+
+var getNewFriendsCount = exports.getNewFriendsCount = function getNewFriendsCount(userId, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'friendship/new/friends/' + userId, null, token);
 };
 
 var getAllFriends = exports.getAllFriends = function getAllFriends(userId, token) {
@@ -11164,7 +11168,7 @@ var addMessageToGroup = exports.addMessageToGroup = function addMessageToGroup(u
         primaryRecipient: recipientId,
         groupId: groupId
     };
-    return (0, _fetch2.default)((0, _utils.getHost)() + '/messages/add', messageRequest, token);
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'messages/add', messageRequest, token);
 };
 
 var getGroupIdByRecipient = exports.getGroupIdByRecipient = function getGroupIdByRecipient(recipientId, userId, token) {
@@ -11172,7 +11176,7 @@ var getGroupIdByRecipient = exports.getGroupIdByRecipient = function getGroupIdB
         creator: userId,
         primaryRecipient: recipientId
     };
-    return (0, _fetch2.default)((0, _utils.getHost)() + '/groups/get', messageRequest, token);
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'groups/get', messageRequest, token);
 };
 
 var getUnreadMessagesInGroup = exports.getUnreadMessagesInGroup = function getUnreadMessagesInGroup(groupId, userId, token) {
@@ -80943,7 +80947,7 @@ var AuthorFile = function (_React$Component) {
             if (this.props.friendship.friend) {
                 return 'Already in friends';
             }
-            if (this.props.friendship.subscriber) {
+            if (this.props.friendship.subscription) {
                 return 'You are already subscribed';
             }
             return 'Add to friends';
@@ -80952,7 +80956,7 @@ var AuthorFile = function (_React$Component) {
         key: 'getFriendsButtonClass',
         value: function getFriendsButtonClass() {
             var baseCls = 'btn btn-success ' + (this.props.me ? 'hidden' : '');
-            if (this.props.friendship.friend || this.props.friendship.subscriber) {
+            if (this.props.friendship.friend || this.props.friendship.subscription) {
                 baseCls += ' disabled';
             }
 
@@ -80961,7 +80965,7 @@ var AuthorFile = function (_React$Component) {
     }, {
         key: 'onAddToFriends',
         value: function onAddToFriends() {
-            if (!this.props.friendship.friend && !this.props.friendship.subscriber) {
+            if (!this.props.friendship.friend && !this.props.friendship.subscription) {
                 this.props.onAddToFriends(this.props.author.username);
             }
         }
@@ -89972,6 +89976,7 @@ var ChatPage = function (_React$Component) {
             this.timer = setInterval(function () {
                 if (_this2.props.login && _this2.props.token) {
                     _this2.props.onGetMessagesByGroup(_this2.props.login, _this2.props.match.params.groupId, _this2.props.token, _this2.state.activePage, _this2.updateMessages);
+                    _this2.props.onMarkAllAsReadInGroup(_this2.props.match.params.groupId, _this2.props.login, _this2.props.token);
                 }
             }, 3000);
         }
@@ -89994,12 +89999,12 @@ var ChatPage = function (_React$Component) {
             this.setState({
                 messages: page.content,
                 totalPages: page.totalPages,
-                activePage: firstUpdate ? page.totalPages : page.number + 1,
+                activePage: page.number + 1, //firstUpdate ? page.totalPages : page.number + 1,
                 firstUpdate: false
             });
-            if (firstUpdate) {
-                window.scrollTo(0, screen.availHeight);
-            }
+            //if (firstUpdate) {
+            //    window.scrollTo(0, screen.availHeight);
+            //}
         }
     }, {
         key: 'pageSelect',
@@ -90075,7 +90080,7 @@ var ChatPage = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'col-sm-12' },
+                    { className: 'col-sm-12 text-center' },
                     _react2.default.createElement(_reactBootstrap.Pagination, {
                         className: 'shown',
                         prev: true,
@@ -90088,11 +90093,6 @@ var ChatPage = function (_React$Component) {
                         maxButtons: 3,
                         activePage: this.state.activePage,
                         onSelect: this.pageSelect })
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'col-sm-12' },
-                    _react2.default.createElement(_MessageList2.default, { messages: this.state.messages })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -90114,6 +90114,11 @@ var ChatPage = function (_React$Component) {
                             )
                         )
                     )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(_MessageList2.default, { messages: this.state.messages })
                 )
             );
         }
@@ -90886,8 +90891,8 @@ var GlobalDataContainer = function (_React$Component) {
 
             this.globalTimer = setInterval(function () {
                 if (_this2.props.login !== 'Anonymous' && _this2.props.token !== '') {
-                    //this.props.onGetUnreadMessages(this.props.login, this.props.token, this.onSetUnreadMessages);     //TODO: activate it!
-                    //this.props.onGetAuthorDetails(this.props.login, this.getSubscribersCount);                        //TODO: activate it!
+                    _this2.props.onGetUnreadMessages(_this2.props.login, _this2.props.token, _this2.onSetUnreadMessages);
+                    _this2.props.onGetNewFriendsCount(_this2.props.login, _this2.props.token);
                 }
             }, 5000);
         }
@@ -90987,15 +90992,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
             dispatch((0, _MessageActions.setUnreadMessages)(unreadCount));
         },
 
-        onGetAuthorDetails: function onGetAuthorDetails(userId, getSubscribersCount) {
-            return (0, _AuthorActions.getAuthorDetails)(userId).then(function (_ref5) {
+        onGetNewFriendsCount: function onGetNewFriendsCount(userId, token) {
+            return (0, _AuthorActions.getNewFriendsCount)(userId, token).then(function (_ref5) {
                 var _ref6 = _slicedToArray(_ref5, 2),
                     response = _ref6[0],
                     json = _ref6[1];
 
                 if (response.status === 200) {
-                    var friendsCount = getSubscribersCount(json);
-                    dispatch((0, _AuthorActions.setNewFriends)(friendsCount));
+                    dispatch((0, _AuthorActions.setNewFriends)(json.message));
                 } else {
                     dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
                 }

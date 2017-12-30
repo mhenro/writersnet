@@ -2,6 +2,7 @@ package org.booklink.repositories;
 
 import org.booklink.config.RootConfigTest;
 import org.booklink.models.entities.*;
+import org.booklink.models.response.MessageResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,8 +99,8 @@ public class MessageRepositoryTest {
     }
 
     @Test
-    public void getMessagesByGroupIdOrderByCreatedAsc() throws Exception {
-        Page<Message> messages = messageRepository.getMessagesByGroupIdOrderByCreatedAsc(1, null);
+    public void getMessagesByGroup() throws Exception {
+        Page<MessageResponse> messages = messageRepository.getMessagesByGroup(1, null);
         Assert.assertEquals(3, messages.getTotalElements());
         Assert.assertEquals("first last", messages.getContent().get(0).getCreatorFullName());
         Assert.assertEquals("msg #1", messages.getContent().get(0).getMessage());

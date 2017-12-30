@@ -9,6 +9,7 @@ import org.booklink.repositories.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -16,6 +17,7 @@ import java.util.Date;
  * Created by mhenr on 20.12.2017.
  */
 @Service
+@Transactional(readOnly = true)
 public class SessionService {
     //private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private SessionRepository sessionRepository;
@@ -27,6 +29,7 @@ public class SessionService {
         this.authorRepository = authorRepository;
     }
 
+    @Transactional
     public void updateSession(final String token) {
         final Claims claims = Jwts.parser().setSigningKey("booklink").parseClaimsJws(token).getBody();
         final String username = (String)claims.get("sub");
@@ -59,6 +62,7 @@ public class SessionService {
         return false;
     }
 
+    @Transactional
     @Scheduled(fixedDelay = 900000) //15 min
     public void removeOldSessions() {
         //logger.info("try to remove old sessions ;)");

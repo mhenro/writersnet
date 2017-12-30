@@ -14,11 +14,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by mhenr on 15.11.2017.
  */
 @Service
+@Transactional(readOnly = true)
 public class SerieService {
     private SerieRepository serieRepository;
     private AuthorRepository authorRepository;
@@ -33,6 +35,7 @@ public class SerieService {
         return serieRepository.findAllByUserId(userId, pageable);
     }
 
+    @Transactional
     public Long saveSerie(final SerieRequest serie) {
         checkCredentials();   //only owner can edit his series
         BookSerie bookSerie;
@@ -52,6 +55,7 @@ public class SerieService {
         return bookSerie.getId();
     }
 
+    @Transactional
     public void deleteSerie(final Long serieId) {
         checkCredentials();   //only owner can delete his series
         BookSerie bookSerie = serieRepository.findOne(serieId);

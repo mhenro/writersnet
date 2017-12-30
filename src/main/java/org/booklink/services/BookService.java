@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -35,6 +36,7 @@ import java.util.Optional;
  * Created by mhenr on 15.11.2017.
  */
 @Service
+@Transactional(readOnly = true)
 public class BookService {
     private Environment env;
     private BookRepository bookRepository;
@@ -104,12 +106,14 @@ public class BookService {
         return books;
     }
 
+    @Transactional
     public BookWithTextResponse getBook(final Long bookId) {
         final BookWithTextResponse book = bookRepository.getBookById(bookId);
         increaseBookViews(bookId);
         return book;
     }
 
+    @Transactional
     public Long saveBook(final BookRequest book) {
         checkCredentials(book.getAuthorName());   //only owner can edit his book
         Book savedBook;
@@ -151,6 +155,7 @@ public class BookService {
         return savedBook.getId();
     }
 
+    @Transactional
     public void saveCover(final CoverRequest coverRequest) throws IOException {
         checkCredentials(coverRequest.getUserId()); //only the owner can change the cover of his book
 
@@ -176,6 +181,7 @@ public class BookService {
         bookRepository.save(book);
     }
 
+    @Transactional
     public Date saveBookText(final BookTextRequest bookTextRequest) throws Exception {
         checkCredentials(bookTextRequest.getUserId()); //only the owner can change the cover of his book
 
@@ -195,6 +201,7 @@ public class BookService {
         return book.getLastUpdate();
     }
 
+    @Transactional
     public void deleteBook(final Long bookId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
@@ -256,8 +263,6 @@ public class BookService {
         User user = book.getAuthor();
         user.setBooks(null);
         user.setSection(null);
-        user.setSubscriptions(null);
-        user.setSubscribers(null);
         user.setChatGroups(null);
     }
 

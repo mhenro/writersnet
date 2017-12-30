@@ -40,6 +40,7 @@ class ChatPage extends React.Component {
         this.timer = setInterval(() => {
             if (this.props.login && this.props.token) {
                 this.props.onGetMessagesByGroup(this.props.login, this.props.match.params.groupId, this.props.token, this.state.activePage, this.updateMessages);
+                this.props.onMarkAllAsReadInGroup(this.props.match.params.groupId, this.props.login, this.props.token);
             }
         }, 3000);
     }
@@ -59,12 +60,12 @@ class ChatPage extends React.Component {
         this.setState({
             messages: page.content,
             totalPages: page.totalPages,
-            activePage: firstUpdate ? page.totalPages : page.number + 1,
+            activePage: page.number + 1,    //firstUpdate ? page.totalPages : page.number + 1,
             firstUpdate: false
         });
-        if (firstUpdate) {
-            window.scrollTo(0, screen.availHeight);
-        }
+        //if (firstUpdate) {
+        //    window.scrollTo(0, screen.availHeight);
+        //}
     }
 
     pageSelect(page) {
@@ -117,7 +118,7 @@ class ChatPage extends React.Component {
                 <div className="col-sm-12 text-center">
                     {this.getGroupName()}
                 </div>
-                <div className="col-sm-12">
+                <div className="col-sm-12 text-center">
                     <Pagination
                         className={'shown'}
                         prev
@@ -132,9 +133,6 @@ class ChatPage extends React.Component {
                         onSelect={this.pageSelect}/>
                 </div>
                 <div className="col-sm-12">
-                    <MessageList messages={this.state.messages}/>
-                </div>
-                <div className="col-sm-12">
                     <hr/>
                     <div className="input-group">
                         <input value={this.state.text} onChange={this.onEditMessage} onKeyDown={this.onKeyDown} type="text" className="form-control" placeholder="Write" />
@@ -144,6 +142,9 @@ class ChatPage extends React.Component {
                             </button>
                         </div>
                     </div>
+                </div>
+                <div className="col-sm-12">
+                    <MessageList messages={this.state.messages}/>
                 </div>
             </div>
         )

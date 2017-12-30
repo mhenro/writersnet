@@ -30,8 +30,8 @@ public class User {
     private String language;
     private String preferredLanguages;
     private Long views = 0L;
-    private Set<Friendship> subscribers = new HashSet<>();
-    private Set<Friendship> subscriptions = new HashSet<>();
+    //private Set<Friendship> subscribers = new HashSet<>();
+    //private Set<Friendship> subscriptions = new HashSet<>();
     private List<ChatGroup> chatGroups = new ArrayList<>();
     private Session session;
     private Long totalRating = 0L;
@@ -177,6 +177,7 @@ public class User {
         this.views = views;
     }
 
+    /*
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "friendshipPK.subscriber")
     public Set<Friendship> getSubscribers() {
         return subscribers;
@@ -194,8 +195,9 @@ public class User {
     public void setSubscriptions(Set<Friendship> subscriptions) {
         this.subscriptions = subscriptions;
     }
+    */
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "chat_groups_users",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "username"),
@@ -261,45 +263,7 @@ public class User {
         this.commentsCount = commentsCount;
     }
 
-    /* method for calculating total rating of the author */
-    @Transient
-    public TotalRating getRating() {
-        TotalRating authorRating = new TotalRating();
-        if (books == null) {
-            return authorRating;
-        }
-        long totalUsers = books.stream().map(book -> book.getTotalRatingDeprecated().getUserCount()).collect(Collectors.summingLong(n -> n));
-        Map<Integer, Long> countByStars = books.stream().flatMap(book -> book.getRating().stream())
-                .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
-        float averageRating = (float)countByStars.entrySet().stream()
-                .map(map -> map.getKey() * map.getValue().intValue())
-                .collect(Collectors.summingInt(n -> n)) / totalUsers;
-
-        if (totalUsers == 0) {
-            return authorRating;
-        }
-        authorRating.setUserCount(totalUsers);
-        authorRating.setAverageRating(averageRating);
-
-        return authorRating;
-    }
-
-    @Transient
-    public TotalSize getTotalSize() {
-        TotalSize totalSize = new TotalSize();
-        long size = Optional.ofNullable(books)
-                .map(books -> books.stream()
-                        .map(book -> book.getSize())
-                        .collect(Collectors.summingLong(n -> n)))
-                .orElse(0L);
-        long booksCount = Optional.ofNullable(books)
-                .map(books -> books.size())
-                .orElse(0);
-        totalSize.setTotalSize(size);
-        totalSize.setTotalBooks(booksCount);
-        return totalSize;
-    }
-
+    /*
     @Transient
     @JsonIgnore
     public boolean isSubscriberOf(final String anotherUser) {
@@ -323,6 +287,7 @@ public class User {
     public boolean isFriendOf(final String anotherUser) {
         return isSubscriberOf(anotherUser) && isSubscriptionOf(anotherUser);
     }
+    */
 
     @Transient
     @JsonIgnore

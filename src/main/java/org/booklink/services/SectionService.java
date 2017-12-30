@@ -5,11 +5,13 @@ import org.booklink.models.entities.User;
 import org.booklink.repositories.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by mhenr on 20.11.2017.
  */
 @Service
+@Transactional(readOnly = true)
 public class SectionService {
     private SectionRepository sectionRepository;
 

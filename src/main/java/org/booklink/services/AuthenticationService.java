@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -19,6 +20,7 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
  * Created by mhenr on 14.11.2017.
  */
 @Service
+@Transactional(readOnly = true)
 public class AuthenticationService {
     private UserRepository userRepository;
     private JavaMailSender mailSender;
@@ -39,6 +41,7 @@ public class AuthenticationService {
         return result;
     }
 
+    @Transactional
     public boolean activate(final String token) {
         User user = userRepository.findUserByActivationToken(token);
         if (user != null) {
@@ -50,6 +53,7 @@ public class AuthenticationService {
         return false;
     }
 
+    @Transactional
     public boolean register(final Credentials credentials) {
         User user = userRepository.findOne(credentials.getUsername());
         User userByEmail = userRepository.findUserByEmail(credentials.getEmail());

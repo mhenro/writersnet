@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -24,6 +25,7 @@ import java.util.Date;
  * Created by mhenr on 15.11.2017.
  */
 @Service
+@Transactional(readOnly = true)
 public class CommentsService {
     private Environment env;
     private BookCommentsRepository bookCommentsRepository;
@@ -52,6 +54,7 @@ public class CommentsService {
         return comments;
     }
 
+    @Transactional
     public void saveComment(final CommentRequest bookComment) {
         Comment entity = new Comment();
         Book book = bookRepository.findOne(bookComment.getBookId());
@@ -80,6 +83,7 @@ public class CommentsService {
         bookCommentsRepository.save(entity);
     }
 
+    @Transactional
     public void deleteComment(final Long bookId, final Long commentId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {

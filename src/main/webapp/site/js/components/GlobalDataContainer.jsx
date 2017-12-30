@@ -12,7 +12,7 @@ import {
     setUnreadMessages
 } from '../actions/MessageActions.jsx';
 import {
-    getAuthorDetails,
+    getNewFriendsCount,
     setNewFriends
 } from '../actions/AuthorActions.jsx';
 
@@ -43,8 +43,8 @@ class GlobalDataContainer extends React.Component {
 
         this.globalTimer = setInterval(() => {
             if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
-                //this.props.onGetUnreadMessages(this.props.login, this.props.token, this.onSetUnreadMessages);     //TODO: activate it!
-                //this.props.onGetAuthorDetails(this.props.login, this.getSubscribersCount);                        //TODO: activate it!
+                this.props.onGetUnreadMessages(this.props.login, this.props.token, this.onSetUnreadMessages);
+                this.props.onGetNewFriendsCount(this.props.login, this.props.token);
             }
         }, 5000);
     }
@@ -127,11 +127,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(setUnreadMessages(unreadCount));
         },
 
-        onGetAuthorDetails: (userId, getSubscribersCount) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+        onGetNewFriendsCount: (userId, token) => {
+            return getNewFriendsCount(userId, token).then(([response, json]) => {
                 if (response.status === 200) {
-                    let friendsCount = getSubscribersCount(json);
-                    dispatch(setNewFriends(friendsCount));
+                    dispatch(setNewFriends(json.message));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

@@ -7,6 +7,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.MessageRequest;
 import org.booklink.models.request.ReadMessageRequest;
+import org.booklink.models.response.MessageResponse;
 import org.booklink.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,7 @@ public class MessageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "{userId:.+}/messages/{groupId}", method = RequestMethod.GET)
-    public Page<Message> getMessagesByGroup(@PathVariable String userId, @PathVariable Long groupId, Pageable pageable) {
+    public Page<MessageResponse> getMessagesByGroup(@PathVariable String userId, @PathVariable Long groupId, Pageable pageable) {
         return messageService.getMessagesByGroup(userId, groupId, pageable);
     }
 

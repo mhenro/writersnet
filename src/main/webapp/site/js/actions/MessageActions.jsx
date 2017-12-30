@@ -16,7 +16,7 @@ export const addMessageToGroup = (userId, groupId, recipientId, text, token) => 
         primaryRecipient: recipientId,
         groupId: groupId
     };
-    return doFetch(getHost() + '/messages/add', messageRequest, token);
+    return doFetch(getHost() + 'messages/add', messageRequest, token);
 };
 
 export const getGroupIdByRecipient = (recipientId, userId, token) => {
@@ -24,7 +24,7 @@ export const getGroupIdByRecipient = (recipientId, userId, token) => {
         creator: userId,
         primaryRecipient: recipientId
     };
-    return doFetch(getHost() + '/groups/get', messageRequest, token);
+    return doFetch(getHost() + 'groups/get', messageRequest, token);
 };
 
 export const getUnreadMessagesInGroup = (groupId, userId, token) => {

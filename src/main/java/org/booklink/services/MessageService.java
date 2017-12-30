@@ -3,8 +3,10 @@ package org.booklink.services;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.response.MessageResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.ChatGroupRepository;
+import org.booklink.repositories.FriendshipRepository;
 import org.booklink.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,33 +14,40 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by mhenr on 07.12.2017.
  */
 @Service
+@Transactional(readOnly = true)
 public class MessageService {
     private MessageRepository messageRepository;
     private AuthorRepository authorRepository;
     private ChatGroupRepository chatGroupRepository;
+    private FriendshipRepository friendshipRepository;
 
     @Autowired
     public MessageService(final MessageRepository messageRepository,
                           final AuthorRepository authorRepository,
-                          final ChatGroupRepository chatGroupRepository) {
+                          final ChatGroupRepository chatGroupRepository,
+                          final FriendshipRepository friendshipRepository) {
         this.messageRepository = messageRepository;
         this.authorRepository = authorRepository;
         this.chatGroupRepository = chatGroupRepository;
+        this.friendshipRepository = friendshipRepository;
     }
 
-    public Page<Message> getMessagesByGroup(final String userId, final Long groupId, final Pageable pageable) {
+    public Page<MessageResponse> getMessagesByGroup(final String userId, final Long groupId, final Pageable pageable) {
         checkCredentials(userId);
-        return messageRepository.getMessagesByGroupIdOrderByCreatedAsc(groupId, pageable);
+        return messageRepository.getMessagesByGroup(groupId, pageable);
     }
 
+    @Transactional
     public Long addMessageToGroup(final String creator, final String primaryRecipient, final String text, final Long groupId) {
         checkCredentials(creator);
         final User author = authorRepository.findOne(creator);
@@ -60,6 +69,7 @@ public class MessageService {
         return group.getId();
     }
 
+    @Transactional
     public ChatGroup getGroupByRecipient(final String recipientId, final String authorId) {
         checkCredentials(authorId);
         final User author = authorRepository.findOne(authorId);
@@ -102,34 +112,20 @@ public class MessageService {
     }
 
     public long getUnreadMessagesFromUser(final String userId) {
-        final User user = authorRepository.findOne(userId);
-        if (user == null) {
-            throw new ObjectNotFoundException("User was not found");
-        }
-        final List<ChatGroup> groups = user.getChatGroups();
-        return groups.stream()
-                .flatMap(group -> group.getMessages().stream())
-                .filter(message -> !message.getCreator().getUsername().equals(userId))
-                .filter(message -> message.getUnread())
-                .count();
+        checkCredentials(userId);
+        return messageRepository.getUnreadMessages(userId);
     }
 
+    @Transactional
     public void markAsReadInGroup(final String userId, final Long groupId) {
-        final ChatGroup group = chatGroupRepository.findOne(groupId);
-        if (group == null) {
-            throw new ObjectNotFoundException("Chat group is not found");
-        }
-        group.getMessages().parallelStream()
-                .filter(message -> !message.getCreator().getUsername().equals(userId))
-                .forEach(message -> {
-                    message.setUnread(false);
-                    messageRepository.save(message);
-                });
+        messageRepository.markAsReadInGroup(userId, groupId);
     }
 
     private ChatGroup getGroupByRecipient(final User recipient, final User author) {
         ChatGroup result = null;
-        if (recipient != null && author.isFriendOf(recipient.getUsername())) {
+        final boolean friend = Optional.ofNullable(friendshipRepository.getFriendByName(author.getUsername(), recipient.getUsername()))
+                .map(element -> true).orElse(false);
+        if (recipient != null && friend) {
             ChatGroup group = getChatGroupFromRecipient(recipient);
             if (group != null) {
                 return group;
@@ -156,6 +152,8 @@ public class MessageService {
         group.setCreated(new Date());
         group.setCreator(author);
         group.setPrimaryRecipient(recipient);
+        author.getChatGroups().add(group);
+        recipient.getChatGroups().add(group);
         chatGroupRepository.save(group);
 
         return group;
