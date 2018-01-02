@@ -65968,7 +65968,6 @@ var TitlePage = function (_React$Component) {
                 { onWheel: function onWheel(e) {
                         return _this2.wheel(e);
                     } },
-                'TITLE',
                 _react2.default.createElement(
                     _reactSlick2.default,
                     _extends({}, settings, { ref: function ref(s) {
@@ -65976,13 +65975,74 @@ var TitlePage = function (_React$Component) {
                         } }),
                     _react2.default.createElement(
                         'div',
-                        null,
+                        { className: 'align-middle' },
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
                         _react2.default.createElement(
                             'h3',
-                            null,
-                            'WritersNets.com is a simple'
+                            { className: 'text-center' },
+                            'Welcome to WritersNets.com!'
                         ),
-                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'row' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-sm-4' },
+                                _react2.default.createElement('img', { width: '200', height: 'auto', src: 'https://localhost/css/images/author.png' }),
+                                _react2.default.createElement('br', null),
+                                'We are already ',
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'big-counter' },
+                                    '150'
+                                ),
+                                '!'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-sm-4' },
+                                _react2.default.createElement('img', { width: '200', height: 'auto', src: 'https://localhost/css/images/books.png' }),
+                                _react2.default.createElement('br', null),
+                                'We have ',
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'big-counter' },
+                                    '100'
+                                ),
+                                ' books!'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-sm-4' },
+                                _react2.default.createElement('img', { width: '200', height: 'auto', src: 'https://localhost/css/images/online.jpg' }),
+                                _react2.default.createElement('br', null),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'big-counter' },
+                                    '25'
+                                ),
+                                ' authors online!'
+                            )
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null)
                     ),
                     _react2.default.createElement(
                         'div',
@@ -65992,7 +66052,26 @@ var TitlePage = function (_React$Component) {
                             null,
                             'WritersNets.com is a simple'
                         ),
-                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null)
                     ),
                     _react2.default.createElement(
                         'div',
@@ -66002,7 +66081,26 @@ var TitlePage = function (_React$Component) {
                             null,
                             'WritersNets.com is a simple'
                         ),
-                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null)
                     ),
                     _react2.default.createElement(
                         'div',
@@ -66012,7 +66110,26 @@ var TitlePage = function (_React$Component) {
                             null,
                             'WritersNets.com is a simple'
                         ),
-                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null)
                     ),
                     _react2.default.createElement(
                         'div',
@@ -66022,7 +66139,26 @@ var TitlePage = function (_React$Component) {
                             null,
                             'WritersNets.com is a simple'
                         ),
-                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.'
+                        'You can easily create your account and start to add your novels! We show you how it simple in the next screens.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null)
                     )
                 )
             );
@@ -67783,27 +67919,31 @@ var AuthorPage = function (_React$Component) {
             totalPages: 1,
             currentName: null
         };
-
-        ['pageSelect', 'setTotalPages', 'onLetterClick'].map(function (fn) {
-            return _this[fn] = _this[fn].bind(_this);
-        });
         return _this;
     }
 
     _createClass(AuthorPage, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this2 = this;
+
             window.scrollTo(0, 0);
-            this.props.onGetAuthors(this.state.currentName, this.state.activePage, this.setTotalPages);
+            this.props.onGetAuthors(this.state.currentName, this.state.activePage, function (totalPages) {
+                return _this2.setTotalPages(totalPages);
+            });
         }
     }, {
         key: 'pageSelect',
         value: function pageSelect(page) {
+            var _this3 = this;
+
             this.setState({
                 activePage: page
             });
 
-            this.props.onGetAuthors(this.state.currentName, page, this.setTotalPages);
+            this.props.onGetAuthors(this.state.currentName, page, function (totalPages) {
+                return _this3.setTotalPages(totalPages);
+            });
         }
     }, {
         key: 'setTotalPages',
@@ -67815,22 +67955,30 @@ var AuthorPage = function (_React$Component) {
     }, {
         key: 'onLetterClick',
         value: function onLetterClick(letter) {
+            var _this4 = this;
+
             this.setState({
                 currentName: letter,
                 currentPage: 1
             });
-            this.props.onGetAuthors(letter, 1, this.setTotalPages);
+            this.props.onGetAuthors(letter, 1, function (totalPages) {
+                return _this4.setTotalPages(totalPages);
+            });
         }
     }, {
         key: 'render',
         value: function render() {
+            var _this5 = this;
+
             return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(
                     'div',
                     { className: 'col-sm-12' },
-                    _react2.default.createElement(_AlphabetPagination2.default, { onClick: this.onLetterClick }),
+                    _react2.default.createElement(_AlphabetPagination2.default, { onClick: function onClick(letter) {
+                            return _this5.onLetterClick(letter);
+                        } }),
                     _react2.default.createElement('br', null)
                 ),
                 _react2.default.createElement(
@@ -67852,7 +68000,9 @@ var AuthorPage = function (_React$Component) {
                         items: this.state.totalPages,
                         maxButtons: 3,
                         activePage: this.state.activePage,
-                        onSelect: this.pageSelect })
+                        onSelect: function onSelect(page) {
+                            return _this5.pageSelect(page);
+                        } })
                 )
             );
         }
@@ -79002,6 +79152,26 @@ var AuthorListItem = function (_React$Component) {
         value: function goToAuthor() {
             this.context.router.history.push('/authors/' + this.props.author.username);
         }
+
+        //TODO: Add logic to determine status of the user
+
+    }, {
+        key: 'renderOnlineStatus',
+        value: function renderOnlineStatus() {
+            if (this.props.author.online) {
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'online-user' },
+                    'online'
+                );
+            } else {
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'offline-user' },
+                    'offline'
+                );
+            }
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -79058,11 +79228,7 @@ var AuthorListItem = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-sm-6' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'offline'
-                                    )
+                                    this.renderOnlineStatus()
                                 )
                             )
                         )
@@ -90977,6 +91143,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
                     json = _ref4[1];
 
                 if (response.status === 200) {
+                    dispatch((0, _AuthActions.setToken)(json.token));
                     callback(json.message);
                 } else if (json.message.includes('JWT expired at')) {
                     dispatch((0, _AuthActions.setToken)(''));

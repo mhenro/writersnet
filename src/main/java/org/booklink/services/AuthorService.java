@@ -277,7 +277,6 @@ public class AuthorService {
         return friendshipRepository.getAllSubscriptions(userId, pageable);
     }
 
-    @Transactional
     private void increaseAuthorViews(final String authorId) {
         final User author = authorRepository.findOne(authorId);
         if (author != null) {

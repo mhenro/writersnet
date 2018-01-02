@@ -5,6 +5,7 @@ import org.booklink.models.entities.BookSerie;
 import org.booklink.models.request.SerieRequest;
 import org.booklink.models.response.BookSerieResponse;
 import org.booklink.services.SerieService;
+import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +22,12 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 @RestController
 public class SerieController {
     private SerieService serieService;
+    private SessionService sessionService;
 
     @Autowired
-    public SerieController(final SerieService serieService) {
+    public SerieController(final SerieService serieService, final SessionService sessionService) {
         this.serieService = serieService;
+        this.sessionService = sessionService;
     }
 
     @CrossOrigin
@@ -39,6 +42,7 @@ public class SerieController {
     public ResponseEntity<?> saveSerie(@RequestBody SerieRequest serie) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         Long serieId = null;
         try {
             serieId = serieService.saveSerie(serie);
@@ -60,6 +64,7 @@ public class SerieController {
     public ResponseEntity<?> deleteSerie(@PathVariable Long serieId) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             serieService.deleteSerie(serieId);
         }  catch(Exception e) {

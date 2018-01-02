@@ -23,13 +23,14 @@ public class AuthorResponse {
     private String preferredLanguages;
     private Long views = 0L;
     private TotalRating rating;
+    private Boolean online;
 
     public AuthorResponse() {}
 
     public AuthorResponse(final String username, final String email, final Date birthday, final String city, final String firstName,
                           final String lastName, final String avatar, final Section section,
                           final String language, final String preferredLanguages, final Long views, final Long totalRating,
-                          final Long totalVotes) {
+                          final Long totalVotes, final Boolean online) {
         this.username = username;
         this.email = email;
         this.birthday = birthday;
@@ -47,6 +48,7 @@ public class AuthorResponse {
         } else {
             this.rating = new TotalRating(0, 0);
         }
+        this.online = online;
     }
 
     public String getUsername() {
@@ -151,5 +153,13 @@ public class AuthorResponse {
 
     public void setRating(TotalRating rating) {
         this.rating = rating;
+    }
+
+    public Boolean getOnline() {
+        return online;
+    }
+
+    public void setOnline(Boolean online) {
+        this.online = online;
     }
 }

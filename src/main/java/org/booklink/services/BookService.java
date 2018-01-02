@@ -74,6 +74,7 @@ public class BookService {
 
     public Page<BookResponse> getBooksByAuthor(final String authorId, final Pageable pageable) {
         Page<BookResponse> books = bookRepository.findBooksByAuthor(authorId, pageable);
+        books.forEach(this::setDefaultCoverForBookAndUser);
         return books;
     }
 

@@ -1,8 +1,6 @@
 ﻿Current sprint:
-IN PROGRESS - 32. Refactor jpa entities. FetchType.LAZY for all @ManyToOne relations. Enable transactions and add @Transactional annotation to service layers. http://in.relation.to/2016/09/28/performance-tuning-and-best-practices/
-IN PROGRESS - 78. Change queries to DTO projections with constructors.
-26. Add Main page to the site. Something like summary of ratings and recently general news. Use bootstrap scrollspy component for this.
-71. Add first screen into the TitlePage carousel. It should be summary of the following:
+IN PROGRESS - 26. Add Main page to the site. Something like summary of ratings and recently general news. Use bootstrap scrollspy component for this.
+IN PROGRESS - 71. Add first screen into the TitlePage carousel. It should be summary of the following:
           Welcome to %Site_name%!
 	  We are already xxxx! (where xxx - count of authors).
 	  We have xxx books!
@@ -10,33 +8,18 @@ IN PROGRESS - 78. Change queries to DTO projections with constructors.
 
 
 Features:
-76. The parent-side @OneToOne association requires bytecode enhancement so that the association can be loaded lazily. 
-Otherwise, the parent-side is always fetched even if the association is marked with FetchType.LAZY.
-For this reason, it’s best to map @OneToOne association using @MapsId so that the PRIMARY KEY is shared between the 
-child and the parent entities. When using @MapsId, the parent-side becomes redundant since the child-entity can be easily 
-fetched using the parent entity identifier.
-77. For unidirectional collections, Sets are the best choice because they generate the most efficient SQL statements. 
-Unidirectional Lists are less efficient than a @ManyToOne association.
-Bidirectional associations are usually a better choice because the @ManyToOne side controls the association.
-80. if you forget to specify that an EAGER association needs to be JOIN FETCH-ed by a JPQL query, Hibernate is going to issue a secondary select for every uninitialized association, leading to N+1 query problems.
-	For example:
-	comments = entityManager.createQuery(
-	    "select pc " +
-	    "from PostComment pc " +
-	    "join fetch pc.post " +
-	    "where pc.review = :review", PostComment.class)
-	.setParameter("review", review)
-	.getResultList();
-81. Move series action from BookActions to AuthorActions in client.
-34. Create online/offline statuses for authors.
-28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
+83. Fix AddNewMessage popup form.
 54. Add reviews page.
 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
 55. Add discussions page.
 56. Add help page.
+28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
 2. Add changing password functional to Options page.
+64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
 11. Add "forgot your password?" functional to login form.
+68. Add logic to "Restore default cover" button on BookPropsForm.
+69. Add logic to "Restore default photo" button on OptionsPage.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 30. Add concept of the premium account. It should allow:
                    - to use more large photos and book texts;
@@ -54,16 +37,29 @@ Bidirectional associations are usually a better choice because the @ManyToOne si
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
 47. Add text to the user policy component.
-64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
 66. Mark as unread whole chat to determine where unread messages are placed.
 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 29. Support full localization mechanism.
 65. Add test for ChatGroupResponse class constructor.
-68. Add logic to "Restore default cover" button on BookPropsForm.
-69. Add logic to "Restore default photo" button on OptionsPage.
 46. Add filters to Authors page.
 45. Add filters to Books page.
 75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt.
+82. Optimize Hibernate queries.
+81. Move series action from BookActions to AuthorActions in client.
+76. The parent-side @OneToOne association requires bytecode enhancement so that the association can be loaded lazily. 
+Otherwise, the parent-side is always fetched even if the association is marked with FetchType.LAZY.
+For this reason, it’s best to map @OneToOne association using @MapsId so that the PRIMARY KEY is shared between the 
+child and the parent entities. When using @MapsId, the parent-side becomes redundant since the child-entity can be easily 
+fetched using the parent entity identifier.
+80. if you forget to specify that an EAGER association needs to be JOIN FETCH-ed by a JPQL query, Hibernate is going to issue a secondary select for every uninitialized association, leading to N+1 query problems.
+	For example:
+	comments = entityManager.createQuery(
+	    "select pc " +
+	    "from PostComment pc " +
+	    "join fetch pc.post " +
+	    "where pc.review = :review", PostComment.class)
+	.setParameter("review", review)
+	.getResultList();
 
 
 Bugs:
@@ -134,3 +130,9 @@ DONE - 79. Avoid EAGER fetching if possible.
 DONE - 72. Create new table "sessions" in db with 2 columns - id and session, where id is bigint, session is a string. Session column should contain jwt token. This table will be filled in JwtFilter on every authorized call.
 DONE - 73. Create sessionRepository. We should receive each jwt token and then extract expireDate from them. If token is not expired then user is active. If token is expired then delete this row from db table.
 DONE - 74. If the above solution is slow then create db with 3 columns - id, username, online. And fill it in JwtFilter. Remove rows by schedule.
+DONE - 32. Refactor jpa entities. FetchType.LAZY for all @ManyToOne relations. Enable transactions and add @Transactional annotation to service layers. http://in.relation.to/2016/09/28/performance-tuning-and-best-practices/
+DONE - 78. Change queries to DTO projections with constructors.
+DONE - 77. For unidirectional collections, Sets are the best choice because they generate the most efficient SQL statements. 
+Unidirectional Lists are less efficient than a @ManyToOne association.
+Bidirectional associations are usually a better choice because the @ManyToOne side controls the association.
+DONE - 34. Create online/offline statuses for authors.

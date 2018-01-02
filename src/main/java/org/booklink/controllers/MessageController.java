@@ -9,6 +9,7 @@ import org.booklink.models.request.MessageRequest;
 import org.booklink.models.request.ReadMessageRequest;
 import org.booklink.models.response.MessageResponse;
 import org.booklink.services.MessageService;
+import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,10 +26,12 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 @RestController
 public class MessageController {
     private MessageService messageService;
+    private SessionService sessionService;
 
     @Autowired
-    public MessageController(final MessageService messageService) {
+    public MessageController(final MessageService messageService, final SessionService sessionService) {
         this.messageService = messageService;
+        this.sessionService = sessionService;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -43,6 +46,7 @@ public class MessageController {
     @RequestMapping(value = "messages/add", method = RequestMethod.POST)
     public ResponseEntity<?> addMessageToGroup(@RequestBody MessageRequest message) {
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         final Long groupId;
         try {
             groupId = messageService.addMessageToGroup(message.getCreator(), message.getPrimaryRecipient(), message.getText(), message.getGroupId());
@@ -65,6 +69,7 @@ public class MessageController {
     @RequestMapping(value = "groups/get", method = RequestMethod.POST)
     public ResponseEntity<?> getGroupIdFromRecipient(@RequestBody MessageRequest messageRequest) {
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         Long groupId = null;
         try {
             groupId = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
@@ -88,6 +93,7 @@ public class MessageController {
     public ResponseEntity<?> getGroupName(@PathVariable final Long groupId, @PathVariable final String userId) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             response.setCode(0);
             response.setMessage(messageService.getGroupName(groupId, userId));
@@ -106,6 +112,7 @@ public class MessageController {
     @RequestMapping(value = "{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesFromUser(@PathVariable final String userId) {
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             Response<Long> response = new Response<>();
             response.setCode(0);
@@ -126,6 +133,7 @@ public class MessageController {
     @RequestMapping(value = "groups/{groupId}/{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesInGroup(@PathVariable final Long groupId, @PathVariable final String userId) {
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             Response<Long> response = new Response<>();
             response.setCode(0);
@@ -147,6 +155,7 @@ public class MessageController {
     public ResponseEntity<?> markAllAsReadInGroup(@RequestBody ReadMessageRequest readMessageRequest) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             messageService.markAsReadInGroup(readMessageRequest.getUserId(), readMessageRequest.getGroupId());
             response.setCode(0);

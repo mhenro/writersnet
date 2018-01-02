@@ -87,6 +87,7 @@ public class AuthorController {
     public ResponseEntity<?> saveAvatar(AvatarRequest avatarRequest) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             authorService.saveAvatar(avatarRequest);
             response.setCode(0);
@@ -107,6 +108,7 @@ public class AuthorController {
     public ResponseEntity<?> subscribeOnUser(@RequestBody final String subscriptionId) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             response = authorService.subscribeOnUser(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
             response.setToken(token);
@@ -125,6 +127,7 @@ public class AuthorController {
     public ResponseEntity<?> removeSubscription(@RequestBody final String subscriptionId) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             response = authorService.removeSubscription(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
             response.setToken(token);

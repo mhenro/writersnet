@@ -37,6 +37,7 @@ public class User {
     private Long totalRating = 0L;
     private Long totalVotes = 0L;
     private Long commentsCount = 0L;
+    private Boolean online;
 
     @Id
     public String getUsername() {
@@ -247,6 +248,14 @@ public class User {
         this.commentsCount = commentsCount;
     }
 
+    public Boolean getOnline() {
+        return online;
+    }
+
+    public void setOnline(Boolean online) {
+        this.online = online;
+    }
+
     /* -----------------------------business logic-------------------------------------------------------- */
 
     @Transient
@@ -262,32 +271,6 @@ public class User {
         final long commentsCount = books.stream().map(Book::getCommentsCount).collect(Collectors.summingLong(n -> n));
         this.commentsCount = commentsCount;
     }
-
-    /*
-    @Transient
-    @JsonIgnore
-    public boolean isSubscriberOf(final String anotherUser) {
-        return getSubscribers().stream()
-                .filter(subscriber -> subscriber.getFriendshipPK().getSubscription().getUsername().equals(anotherUser))
-                .findAny()
-                .isPresent();
-    }
-
-    @Transient
-    @JsonIgnore
-    public boolean isSubscriptionOf(final String anotherUser) {
-        return getSubscriptions().stream()
-                .filter(subscription -> subscription.getFriendshipPK().getSubscriber().getUsername().equals(anotherUser))
-                .findAny()
-                .isPresent();
-    }
-
-    @Transient
-    @JsonIgnore
-    public boolean isFriendOf(final String anotherUser) {
-        return isSubscriberOf(anotherUser) && isSubscriptionOf(anotherUser);
-    }
-    */
 
     @Transient
     @JsonIgnore

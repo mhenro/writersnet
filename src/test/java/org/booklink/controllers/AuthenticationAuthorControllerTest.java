@@ -45,7 +45,12 @@ public class AuthenticationAuthorControllerTest {
     private ObjectMapper mapper = new ObjectMapper();
 
     private String generateActivationToken(User user) {
-        String result = Jwts.builder().setSubject(user.getUsername()).claim("roles", user.getAuthority()).claim("enabled", user.getEnabled()).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis()+15*60*1000)).signWith(SignatureAlgorithm.HS256, "booklink").compact();;
+        String result = Jwts.builder().setSubject(user.getUsername())
+                .claim("roles", user.getAuthority())
+                .claim("enabled", user.getEnabled())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis()+15*60*1000))
+                .signWith(SignatureAlgorithm.HS256, "booklink").compact();
 
         return result;
     }

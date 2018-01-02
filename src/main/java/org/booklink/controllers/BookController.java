@@ -11,6 +11,7 @@ import org.booklink.models.request.CoverRequest;
 import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.services.BookService;
+import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,10 +33,12 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 @RestController
 public class BookController {
     private BookService bookService;
+    private SessionService sessionService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(final BookService bookService, final SessionService sessionService) {
         this.bookService = bookService;
+        this.sessionService = sessionService;
     }
 
     @CrossOrigin
@@ -75,6 +78,7 @@ public class BookController {
     public ResponseEntity<?> saveBook(@RequestBody BookRequest book) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         Long bookId = null;
         try {
             bookId = bookService.saveBook(book);
@@ -96,6 +100,7 @@ public class BookController {
     public ResponseEntity<?> saveCover(CoverRequest coverRequest) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             bookService.saveCover(coverRequest);
         } catch(Exception e) {
@@ -116,6 +121,7 @@ public class BookController {
     public ResponseEntity<?> saveBookText(BookTextRequest bookTextRequest) {
         final Response<Date> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         final Date lastUpdated;
         try {
             lastUpdated = bookService.saveBookText(bookTextRequest);
@@ -138,6 +144,7 @@ public class BookController {
     public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             bookService.deleteBook(bookId);
         } catch (Exception e) {

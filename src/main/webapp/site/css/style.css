@@ -128,3 +128,19 @@ footer {
     height: 30px;
     margin-right: 2px;
 }
+
+.offline-user {
+    font-weight: bold;
+    color: red;
+}
+
+.online-user {
+    font-weight: bold;
+    color: green;
+}
+
+.big-counter {
+    font-size: 20pt;
+    font-weight: bold;
+    color: green;
+}

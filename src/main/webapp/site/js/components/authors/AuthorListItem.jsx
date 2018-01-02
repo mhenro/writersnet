@@ -26,6 +26,23 @@ class AuthorListItem extends React.Component {
         this.context.router.history.push('/authors/' + this.props.author.username);
     }
 
+    //TODO: Add logic to determine status of the user
+    renderOnlineStatus() {
+        if (this.props.author.online) {
+            return (
+                <div className="online-user">
+                    online
+                </div>
+            )
+        } else {
+            return (
+                <div className="offline-user">
+                    offline
+                </div>
+            )
+        }
+    }
+
     render() {
         return (
             <div className="panel panel-default">
@@ -49,7 +66,7 @@ class AuthorListItem extends React.Component {
                                     <Link to={'/authors/' + this.props.author.username} className="btn btn-success btn-sm">Author page</Link>
                                 </div>
                                 <div className="col-sm-6">
-                                    <span>offline</span>
+                                    {this.renderOnlineStatus()}
                                 </div>
                             </div>
                         </div>

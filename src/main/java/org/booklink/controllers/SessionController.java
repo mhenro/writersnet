@@ -5,10 +5,7 @@ import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by mhenr on 20.12.2017.
@@ -28,6 +25,15 @@ public class SessionController {
         Response<Long> response = new Response<>();
         response.setCode(0);
         response.setMessage(sessionService.getOnlineUsers());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "sessions/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<?> isUserOnline(@PathVariable final String userId) {
+        Response<Boolean> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(sessionService.isUserOnline(userId));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

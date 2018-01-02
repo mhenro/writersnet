@@ -1,9 +1,11 @@
 package org.booklink.controllers;
 
 import org.booklink.models.Response;
+import org.booklink.models.entities.Session;
 import org.booklink.models.request.CommentRequest;
 import org.booklink.models.response.CommentResponse;
 import org.booklink.services.CommentsService;
+import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +22,12 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 @RestController
 public class CommentsController {
     private CommentsService commentsService;
+    private SessionService sessionService;
 
     @Autowired
-    public CommentsController(final CommentsService commentsService) {
+    public CommentsController(final CommentsService commentsService, final SessionService sessionService) {
         this.commentsService = commentsService;
+        this.sessionService = sessionService;
     }
 
     @CrossOrigin
@@ -54,6 +58,7 @@ public class CommentsController {
     public ResponseEntity<?> deleteComment(@PathVariable Long bookId, @PathVariable Long commentId) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
+        sessionService.updateSession(token);
         try {
             commentsService.deleteComment(bookId, commentId);
         } catch (Exception e) {

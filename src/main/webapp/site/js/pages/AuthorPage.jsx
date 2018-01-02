@@ -24,13 +24,11 @@ class AuthorPage extends React.Component {
             totalPages: 1,
             currentName: null
         };
-
-        ['pageSelect', 'setTotalPages', 'onLetterClick'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        this.props.onGetAuthors(this.state.currentName, this.state.activePage, this.setTotalPages);
+        this.props.onGetAuthors(this.state.currentName, this.state.activePage, totalPages => this.setTotalPages(totalPages));
     }
 
     pageSelect(page) {
@@ -38,7 +36,7 @@ class AuthorPage extends React.Component {
             activePage: page
         });
 
-        this.props.onGetAuthors(this.state.currentName, page, this.setTotalPages);
+        this.props.onGetAuthors(this.state.currentName, page, totalPages => this.setTotalPages(totalPages));
     }
 
     setTotalPages(totalPages) {
@@ -52,14 +50,14 @@ class AuthorPage extends React.Component {
             currentName: letter,
             currentPage: 1
         });
-        this.props.onGetAuthors(letter, 1, this.setTotalPages);
+        this.props.onGetAuthors(letter, 1, totalPages => this.setTotalPages(totalPages));
     }
 
     render() {
         return (
             <div>
                 <div className="col-sm-12">
-                    <AlphabetPagination onClick={this.onLetterClick}/>
+                    <AlphabetPagination onClick={letter => this.onLetterClick(letter)}/>
                     <br/>
                 </div>
                 <div className="col-sm-12">
@@ -77,7 +75,7 @@ class AuthorPage extends React.Component {
                         items={this.state.totalPages}
                         maxButtons={3}
                         activePage={this.state.activePage}
-                        onSelect={this.pageSelect}/>
+                        onSelect={page => this.pageSelect(page)}/>
                 </div>
             </div>
         )
