@@ -23,12 +23,14 @@ public class BookResponse {
     private Integer size;
     private TotalRating totalRating;
     private Long views;
+    private AuthorResponse author;
 
     public BookResponse(){}
 
     public BookResponse(final Long id, final Long serieId, final String serieName, final Long commentsCount, final String cover, final Date created,
                         final String description, final Genre genre, final String language, final Date lastUpdate, final String name,
-                        final Integer size, final Long totalRating, final Long totalVotes, final Long views) {
+                        final Integer size, final Long totalRating, final Long totalVotes, final Long views, final String username,
+                        final String firstName, final String lastName, final String avatar) {
         this.id = id;
         if (serieId == null && serieName == null) {
             this.bookSerie = null;
@@ -50,6 +52,12 @@ public class BookResponse {
             this.totalRating = new TotalRating(0, 0);
         }
         this.views = views;
+
+        this.author = new AuthorResponse();
+        author.setUsername(username);
+        author.setFirstName(firstName);
+        author.setLastName(lastName);
+        author.setAvatar(avatar);
     }
 
     public Long getId() {
@@ -154,5 +162,13 @@ public class BookResponse {
 
     public void setViews(Long views) {
         this.views = views;
+    }
+
+    public AuthorResponse getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AuthorResponse author) {
+        this.author = author;
     }
 }

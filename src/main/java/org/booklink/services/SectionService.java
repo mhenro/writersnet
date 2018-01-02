@@ -2,6 +2,7 @@ package org.booklink.services;
 
 import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
+import org.booklink.models.response.SectionResponse;
 import org.booklink.repositories.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,18 +21,7 @@ public class SectionService {
         this.sectionRepository = sectionRepository;
     }
 
-    public Section getSection(final Long sectionId) {
-        Section section = sectionRepository.findOne(sectionId);
-        if (section != null) {
-            User author = section.getAuthor();
-            hideAuthInfo(author);
-        }
-        return section;
-    }
-
-    private void hideAuthInfo(User user) {
-        user.setPassword("");
-        user.setActivationToken("");
-        user.setAuthority("");
+    public SectionResponse getSection(final Long sectionId) {
+        return sectionRepository.getSectionById(sectionId);
     }
 }

@@ -25,6 +25,13 @@ public class SectionResponse {
         this.lastUpdated = section.getLastUpdated();
     }
 
+    public SectionResponse(final Long id, final String name, final String description, final Date lastUpdated) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.lastUpdated = lastUpdated;
+    }
+
     public long getId() {
         return id;
     }

@@ -67,10 +67,7 @@ public class MessageController {
         String token = generateActivationToken();
         Long groupId = null;
         try {
-            ChatGroup group = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
-            if (group != null) {
-                groupId = group.getId();
-            }
+            groupId = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
         } catch(Exception e) {
             Response<String> response = new Response<>();
             response.setCode(1);

@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1513978495761-1",
+      "id": "1514915601834-1",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -15,7 +15,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-2",
+      "id": "1514915601834-2",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -29,7 +29,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-3",
+      "id": "1514915601834-3",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -43,7 +43,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-4",
+      "id": "1514915601834-4",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -57,7 +57,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-5",
+      "id": "1514915601834-5",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -71,7 +71,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-6",
+      "id": "1514915601834-6",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -85,7 +85,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-7",
+      "id": "1514915601834-7",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -99,7 +99,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-8",
+      "id": "1514915601834-8",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -113,7 +113,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-9",
+      "id": "1514915601834-9",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -127,7 +127,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-10",
+      "id": "1514915601834-10",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -210,6 +210,30 @@
                   "name": "views",
                   "type": "BIGINT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "comments_count",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "defaultValueNumeric": 0,
+                  "name": "total_rating",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "defaultValueNumeric": 0,
+                  "name": "total_votes",
+                  "type": "BIGINT"
+                }
               }]
           ,
             "tableName": "book"
@@ -221,7 +245,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-11",
+      "id": "1514915601834-11",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -284,7 +308,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-12",
+      "id": "1514915601834-12",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -326,7 +350,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-13",
+      "id": "1514915601834-13",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -368,7 +392,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-14",
+      "id": "1514915601834-14",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -428,7 +452,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-15",
+      "id": "1514915601834-15",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -462,7 +486,50 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-16",
+      "id": "1514915601834-16",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "friend_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "owner_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "added",
+                  "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
+                }
+              }]
+          ,
+            "tableName": "friends"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-17",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -515,7 +582,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-17",
+      "id": "1514915601834-18",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -588,7 +655,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-18",
+      "id": "1514915601834-19",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -654,7 +721,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-19",
+      "id": "1514915601834-20",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -697,7 +764,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-20",
+      "id": "1514915601834-21",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -742,7 +809,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-21",
+      "id": "1514915601834-22",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -787,7 +854,93 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-22",
+      "id": "1514915601834-23",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "subscriber_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "owner_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "added",
+                  "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
+                }
+              }]
+          ,
+            "tableName": "subscribers"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-24",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "subscription_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "owner_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "added",
+                  "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
+                }
+              }]
+          ,
+            "tableName": "subscriptions"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-25",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -899,9 +1052,9 @@
               },
               {
                 "column": {
-                  "defaultValueComputed": "0.0",
+                  "defaultValueNumeric": 0,
                   "name": "total_rating",
-                  "type": "numeric(2, 1)"
+                  "type": "BIGINT"
                 }
               },
               {
@@ -919,6 +1072,16 @@
                   "name": "section_id",
                   "type": "BIGINT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "comments_count",
+                  "type": "BIGINT"
+                }
               }]
           ,
             "tableName": "users"
@@ -930,7 +1093,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-23",
+      "id": "1514915601834-26",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -946,7 +1109,23 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-24",
+      "id": "1514915601834-27",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "friend_id, owner_id",
+            "constraintName": "friends_pkey",
+            "tableName": "friends"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-28",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -962,7 +1141,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-25",
+      "id": "1514915601834-29",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -978,7 +1157,39 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-26",
+      "id": "1514915601834-30",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "subscriber_id, owner_id",
+            "constraintName": "subscribers_pkey",
+            "tableName": "subscribers"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-31",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "subscription_id, owner_id",
+            "constraintName": "subscriptions_pkey",
+            "tableName": "subscriptions"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-32",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -994,7 +1205,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-27",
+      "id": "1514915601834-33",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1010,7 +1221,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-28",
+      "id": "1514915601834-34",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1026,7 +1237,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-29",
+      "id": "1514915601834-35",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1048,7 +1259,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-30",
+      "id": "1514915601834-36",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1070,7 +1281,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-31",
+      "id": "1514915601834-37",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1092,7 +1303,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-32",
+      "id": "1514915601834-38",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1114,7 +1325,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-33",
+      "id": "1514915601834-39",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1136,7 +1347,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-34",
+      "id": "1514915601834-40",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1158,7 +1369,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-35",
+      "id": "1514915601834-41",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1180,7 +1391,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-36",
+      "id": "1514915601834-42",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1202,7 +1413,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-37",
+      "id": "1514915601834-43",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1224,7 +1435,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-38",
+      "id": "1514915601834-44",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1246,7 +1457,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-39",
+      "id": "1514915601834-45",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1268,7 +1479,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-40",
+      "id": "1514915601834-46",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1290,7 +1501,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-41",
+      "id": "1514915601834-47",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1312,7 +1523,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-42",
+      "id": "1514915601834-48",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1334,7 +1545,29 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-43",
+      "id": "1514915601834-49",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "owner_id"
+                }
+              }]
+          ,
+            "indexName": "fki_owner_fk",
+            "tableName": "friends"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-50",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1361,7 +1594,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-44",
+      "id": "1514915601834-51",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1383,7 +1616,51 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-45",
+      "id": "1514915601834-52",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "owner_id"
+                }
+              }]
+          ,
+            "indexName": "fki_subscribers_owner_fk",
+            "tableName": "subscribers"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-53",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "owner_id"
+                }
+              }]
+          ,
+            "indexName": "fki_subscription_owner_fk",
+            "tableName": "subscriptions"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-54",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1405,7 +1682,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-46",
+      "id": "1514915601834-55",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1427,7 +1704,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-47",
+      "id": "1514915601834-56",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1449,7 +1726,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-48",
+      "id": "1514915601834-57",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1471,7 +1748,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-49",
+      "id": "1514915601834-58",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1493,7 +1770,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-50",
+      "id": "1514915601834-59",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1515,7 +1792,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-51",
+      "id": "1514915601834-60",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1537,7 +1814,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-52",
+      "id": "1514915601834-61",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1559,7 +1836,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-53",
+      "id": "1514915601834-62",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1581,7 +1858,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-54",
+      "id": "1514915601834-63",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1603,7 +1880,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-55",
+      "id": "1514915601834-64",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1625,7 +1902,29 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-56",
+      "id": "1514915601834-65",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "friend_id",
+            "baseTableName": "friends",
+            "constraintName": "friend_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "username",
+            "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-66",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1647,7 +1946,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-57",
+      "id": "1514915601834-67",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1669,7 +1968,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-58",
+      "id": "1514915601834-68",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1691,7 +1990,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-59",
+      "id": "1514915601834-69",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1713,7 +2012,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-60",
+      "id": "1514915601834-70",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1735,7 +2034,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-61",
+      "id": "1514915601834-71",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1757,7 +2056,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-62",
+      "id": "1514915601834-72",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1779,7 +2078,29 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-63",
+      "id": "1514915601834-73",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "owner_id",
+            "baseTableName": "friends",
+            "constraintName": "owner_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "username",
+            "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-74",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1801,7 +2122,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-64",
+      "id": "1514915601834-75",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1823,7 +2144,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-65",
+      "id": "1514915601834-76",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1845,7 +2166,95 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-66",
+      "id": "1514915601834-77",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "subscriber_id",
+            "baseTableName": "subscribers",
+            "constraintName": "subscriber_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "username",
+            "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-78",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "owner_id",
+            "baseTableName": "subscribers",
+            "constraintName": "subscribers_owner_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "username",
+            "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-79",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "subscription_id",
+            "baseTableName": "subscriptions",
+            "constraintName": "subscription_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "username",
+            "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-80",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "owner_id",
+            "baseTableName": "subscriptions",
+            "constraintName": "subscription_owner_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "username",
+            "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1514915601834-81",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1867,7 +2276,7 @@
 
   {
     "changeSet": {
-      "id": "1513978495761-67",
+      "id": "1514915601834-82",
       "author": "mhenr (generated)",
       "changes": [
         {

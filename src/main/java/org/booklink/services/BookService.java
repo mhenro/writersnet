@@ -60,19 +60,15 @@ public class BookService {
         this.newsService = newsService;
     }
 
-    public Page<Book> getBooks(final Pageable pageable) {
-        Page<Book> books = bookRepository.findAllByOrderByLastUpdateDesc(pageable);
-        if (books != null) {
-            processBooks(books);
-        }
+    public Page<BookResponse> getBooks(final Pageable pageable) {
+        Page<BookResponse> books = bookRepository.getAllBooksSortedByDate(pageable);
+        books.forEach(this::setDefaultCoverForBookAndUser);
         return books;
     }
 
-    public Page<Book> getBooksByName(final String bookName, final Pageable pageable) {
-        Page<Book> books = bookRepository.findBooksByName(bookName, pageable);
-        if (books != null) {
-            processBooks(books);
-        }
+    public Page<BookResponse> getBooksByName(final String bookName, final Pageable pageable) {
+        Page<BookResponse> books = bookRepository.findBooksByName(bookName, pageable);
+        books.forEach(this::setDefaultCoverForBookAndUser);
         return books;
     }
 
@@ -231,52 +227,15 @@ public class BookService {
         return user;
     }
 
-    private void processBooks(final Page<Book> books) {
-        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "\\default_cover.png";
-        books.forEach(book -> {
-            hideAuthInfo(book);
-            calcBookSize(book);
-            hideText(book);
-            removeRecursionFromBook(book);
-            setDefaultCoverForBook(book);
-            if (book.getCover() == null || book.getCover().isEmpty()) {
-                book.setCover(defaultCover);
-            }
-        });
-    }
-
-    private void setDefaultCoverForBook(final Book book) {
+    private void setDefaultCoverForBookAndUser(final BookResponse book) {
         final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
+        final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
         if (book.getCover() == null || book.getCover().isEmpty()) {
             book.setCover(defaultCover);
         }
-    }
-
-    private void hideAuthInfo(Book book) {
-        User user = book.getAuthor();
-        user.setPassword("");
-        user.setActivationToken("");
-        user.setAuthority("");
-    }
-
-    private void removeRecursionFromBook(Book book) {
-        User user = book.getAuthor();
-        user.setBooks(null);
-        user.setSection(null);
-        user.setChatGroups(null);
-    }
-
-    @Deprecated
-    private void calcBookSize(Book book) {
-        int size = Optional.ofNullable(book.getBookText())
-                .flatMap(text -> Optional.ofNullable(text.getText()))
-                .map(text -> text.length())
-                .orElse(0);
-        book.setSize(size);
-    }
-
-    private void hideText(Book book) {
-        book.setBookText(null);
+        if (book.getAuthor().getAvatar() == null || book.getAuthor().getAvatar().isEmpty()) {
+            book.getAuthor().setAvatar(defaultAvatar);
+        }
     }
 
     private void checkCredentials(final String userId) {

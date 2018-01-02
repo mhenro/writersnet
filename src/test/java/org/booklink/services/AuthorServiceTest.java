@@ -72,12 +72,6 @@ public class AuthorServiceTest {
     @Before
     public void init() {
         List<AuthorShortInfoResponse> authors = generateAuthors(2);
-        final Friendship friendship = new Friendship();
-        final FriendshipPK friendshipPK = new FriendshipPK();
-        friendship.setFriendshipPK(friendshipPK);
-        //friendship.getFriendshipPK().setSubscriber(authors.get(0));
-        //friendship.getFriendshipPK().setSubscription(authors.get(1));
-        //authors.get(0).getSubscribers().add(friendship);
 
         final Page<AuthorShortInfoResponse> page = new PageImpl<>(authors);
         Mockito.when(env.getProperty("writersnet.coverwebstorage.path")).thenReturn("https://localhost/css/images/covers/");

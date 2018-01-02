@@ -2,6 +2,7 @@ package org.booklink.services;
 
 import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
+import org.booklink.models.response.SectionResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SectionRepository;
 import org.codehaus.plexus.util.xml.SerializerXMLWriter;
@@ -59,16 +60,8 @@ public class SectionServiceTest {
     }
 
     @Test
-    public void getSection() throws Exception {
-        Section section = sectionService.getSection(5L);
-        Assert.assertEquals("", section.getAuthor().getPassword());
-        Assert.assertEquals("", section.getAuthor().getActivationToken());
-        Assert.assertEquals("", section.getAuthor().getAuthority());
-    }
-
-    @Test
     public void getSection_notFound() throws Exception {
-        Section section = sectionService.getSection(6L);
+        SectionResponse section = sectionService.getSection(6L);
         Assert.assertEquals(null, section);
     }
 }

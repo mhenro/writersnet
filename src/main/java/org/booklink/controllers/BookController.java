@@ -40,13 +40,13 @@ public class BookController {
 
     @CrossOrigin
     @RequestMapping(value = "books", method = RequestMethod.GET)
-    public Page<Book> getBooks(Pageable pageable) {
+    public Page<BookResponse> getBooks(Pageable pageable) {
         return bookService.getBooks(pageable);
     }
 
     @CrossOrigin
     @RequestMapping(value = "books/name/{bookName}", method = RequestMethod.GET)
-    public Page<Book> getBooksByName(@PathVariable final String bookName, final Pageable pageable) {
+    public Page<BookResponse> getBooksByName(@PathVariable final String bookName, final Pageable pageable) {
         return bookService.getBooksByName(bookName, pageable);
     }
 

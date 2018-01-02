@@ -1,7 +1,7 @@
 package org.booklink.repositories;
 
-import org.booklink.models.entities.Friendship;
-import org.booklink.models.entities.FriendshipPK;
+import org.booklink.models.entities.Friend;
+import org.booklink.models.entities.FriendPK;
 import org.booklink.models.response.FriendshipResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * Created by mhenr on 05.12.2017.
  */
-public interface FriendshipRepository extends PagingAndSortingRepository<Friendship, FriendshipPK> {
+public interface FriendshipRepository extends PagingAndSortingRepository<Friend, FriendPK> {
     @Query("SELECT new org.booklink.models.response.FriendshipResponse(tmp.added, true, f.username, f.firstName, f.lastName, f.section.name, f.avatar) FROM Friend tmp LEFT JOIN tmp.friendPK.friend f WHERE tmp.friendPK.owner.username = ?1")
     Page<FriendshipResponse> getAllFriends(final String userId, final Pageable pageable);
 

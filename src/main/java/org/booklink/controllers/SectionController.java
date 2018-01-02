@@ -3,6 +3,7 @@ package org.booklink.controllers;
 import org.booklink.models.Response;
 import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
+import org.booklink.models.response.SectionResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SectionRepository;
 import org.booklink.services.SectionService;
@@ -27,7 +28,7 @@ public class SectionController {
     @CrossOrigin
     @RequestMapping(value = "sections/{sectionId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getSection(@PathVariable Long sectionId) {
-        Section section = sectionService.getSection(sectionId);
+        SectionResponse section = sectionService.getSection(sectionId);
         if (section != null) {
             return new ResponseEntity<>(section, HttpStatus.OK);
         }

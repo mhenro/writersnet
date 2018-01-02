@@ -5,6 +5,7 @@ import org.booklink.models.entities.Book;
 import org.booklink.models.request.BookRequest;
 import org.booklink.models.request.BookTextRequest;
 import org.booklink.models.request.CoverRequest;
+import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.services.BookService;
 import org.junit.Before;
@@ -67,7 +68,7 @@ public class BookControllerTest {
     @Test
     public void getBooks() throws Exception {
         final Pageable pageable = Mockito.mock(Pageable.class);
-        final Page<Book> page = Mockito.mock(Page.class);
+        final Page<BookResponse> page = Mockito.mock(Page.class);
         when(bookService.getBooks(pageable)).thenReturn(page);
         mvc.perform(get("/books")).andExpect(status().isOk());
         mvc.perform(get("/wrong")).andExpect(status().isNotFound());

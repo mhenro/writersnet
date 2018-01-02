@@ -2,8 +2,6 @@ package org.booklink.services;
 
 import liquibase.util.file.FilenameUtils;
 import org.booklink.models.Response;
-import org.booklink.models.entities.Friendship;
-import org.booklink.models.entities.FriendshipPK;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
@@ -28,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Created by mhenr on 14.11.2017.

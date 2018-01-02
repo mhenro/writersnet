@@ -1,6 +1,7 @@
 package org.booklink.controllers;
 
 import org.booklink.models.entities.Section;
+import org.booklink.models.response.SectionResponse;
 import org.booklink.services.SectionService;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,7 @@ public class SectionControllerTest {
 
     @Test
     public void getSection() throws Exception {
-        Section section = new Section();
+        SectionResponse section = new SectionResponse();
         section.setId(1L);
         when(sectionService.getSection(section.getId())).thenReturn(section);
         mvc.perform(get("/sections/1")).andExpect(status().isOk()).andExpect(jsonPath("id", is(1)));

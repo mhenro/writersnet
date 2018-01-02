@@ -70,7 +70,7 @@ public class MessageService {
     }
 
     @Transactional
-    public ChatGroup getGroupByRecipient(final String recipientId, final String authorId) {
+    public Long getGroupByRecipient(final String recipientId, final String authorId) {
         checkCredentials(authorId);
         final User author = authorRepository.findOne(authorId);
         if (author == null) {
@@ -80,7 +80,8 @@ public class MessageService {
         if (recipient == null) {
             throw new ObjectNotFoundException("Recipient is not found");
         }
-        return getGroupByRecipient(recipient, author);
+        final ChatGroup group = getGroupByRecipient(recipient, author);
+        return Optional.ofNullable(group).map(chatGroup -> chatGroup.getId()).orElse(null);
     }
 
     public String getGroupName(final Long groupId, final String author) {
