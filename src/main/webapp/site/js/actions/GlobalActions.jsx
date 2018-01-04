@@ -2,7 +2,7 @@ import doFetch from './fetch';
 import { getHost } from '../utils.jsx';
 
 export const getSessionsCount = () => {
-    return doFetch(getHost() + 'sessions/count');
+    return doFetch(getHost() + 'count/sessions');
 };
 
 export const OPEN_LOGIN_FORM = 'OPEN_LOGIN_FORM';

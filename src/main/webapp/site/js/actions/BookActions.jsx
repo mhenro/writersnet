@@ -14,7 +14,7 @@ export const getBooksByAuthor = (authorId, page = 0, size = 200) => {
 };
 
 export const getBooksCount = () => {
-    return doFetch(getHost() + 'books/count');
+    return doFetch(getHost() + 'count/books');
 };
 
 export const getSeries = (userId, page = 0, size = 200) => {

@@ -10,7 +10,7 @@ export const getAuthors = (name, page = 0, size = 5) => {
 };
 
 export const getAuthorsCount = () => {
-    return doFetch(getHost() + 'authors/count');
+    return doFetch(getHost() + 'count/authors');
 };
 
 export const getAuthorDetails = (userId) => {

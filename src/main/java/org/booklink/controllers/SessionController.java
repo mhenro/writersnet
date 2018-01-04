@@ -20,7 +20,7 @@ public class SessionController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "sessions/count", method = RequestMethod.GET)
+    @RequestMapping(value = "count/sessions", method = RequestMethod.GET)
     public ResponseEntity<?> getSessionCount() {
         Response<Long> response = new Response<>();
         response.setCode(0);

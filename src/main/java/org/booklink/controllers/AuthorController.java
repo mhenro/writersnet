@@ -42,7 +42,7 @@ public class AuthorController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "authors/count", method = RequestMethod.GET)
+    @RequestMapping(value = "count/authors", method = RequestMethod.GET)
     public ResponseEntity<?> getAuthorsCount() {
         final long count = authorService.getAuthorsCount();
         Response<Long> response = new Response<>();

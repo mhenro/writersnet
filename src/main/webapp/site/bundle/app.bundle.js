@@ -5836,7 +5836,7 @@ var _utils = __webpack_require__(22);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getSessionsCount = exports.getSessionsCount = function getSessionsCount() {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'sessions/count');
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'count/sessions');
 };
 
 var OPEN_LOGIN_FORM = exports.OPEN_LOGIN_FORM = 'OPEN_LOGIN_FORM';
@@ -7585,7 +7585,7 @@ var getAuthors = exports.getAuthors = function getAuthors(name) {
 };
 
 var getAuthorsCount = exports.getAuthorsCount = function getAuthorsCount() {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/count');
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'count/authors');
 };
 
 var getAuthorDetails = exports.getAuthorDetails = function getAuthorDetails(userId) {
@@ -9125,7 +9125,7 @@ var getBooksByAuthor = exports.getBooksByAuthor = function getBooksByAuthor(auth
 };
 
 var getBooksCount = exports.getBooksCount = function getBooksCount() {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/count');
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'count/books');
 };
 
 var getSeries = exports.getSeries = function getSeries(userId) {
