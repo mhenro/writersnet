@@ -6,7 +6,7 @@ import {
     setToken,
     setLogin
 } from '../actions/AuthActions.jsx';
-import { createNotify } from '../actions/GlobalActions.jsx';
+import { createNotify, updateMutableDate } from '../actions/GlobalActions.jsx';
 import {
     getUnreadMessagesFromUser,
     setUnreadMessages
@@ -17,11 +17,6 @@ import {
 } from '../actions/AuthorActions.jsx';
 
 class GlobalDataContainer extends React.Component {
-    constructor(props) {
-        super(props);
-        ['onSetUnreadMessages', 'getSubscribersCount'].map(fn => this[fn] = this[fn].bind(this));
-    }
-
     componentDidMount() {
         /* activating new user if needed */
         let query = getQueryParams(document.location.search);
@@ -43,23 +38,23 @@ class GlobalDataContainer extends React.Component {
 
         this.globalTimer = setInterval(() => {
             if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
-                this.props.onGetUnreadMessages(this.props.login, this.props.token, this.onSetUnreadMessages);
+                this.props.onGetUnreadMessages(this.props.login, this.props.token, unreadCount => this.onSetUnreadMessages(unreadCount));
                 this.props.onGetNewFriendsCount(this.props.login, this.props.token);
             }
         }, 5000);
+
+        this.cacheImgTimer = setInterval(() => {
+            this.updateMutableDate();
+        }, 20000);
     }
 
-    getFriendIds(author) {
-        return author.subscribers
-            .filter(subscriber => author.subscriptions.some(subscription => subscription.subscriberId === subscriber.subscriptionId))
-            .map(friend => friend.subscriptionId);
+    componentWillUnmount() {
+        clearInterval(this.globalTimer);
+        clearInterval(this.cacheImgTimer);
     }
 
-    getSubscribersCount(author) {
-        let friends = this.getFriendIds(author);
-        return author.subscriptions
-            .filter(subscription => subscription.subscriptionId === author.username)
-            .filter(subscription => !friends.some(friend => friend === subscription.subscriberId)).length;
+    updateMutableDate() {
+        this.props.onUpdateMutableDate();
     }
 
     onSetUnreadMessages(unreadCount) {
@@ -77,7 +72,8 @@ const mapStateToProps = (state) => {
     return {
         registered: state.GlobalReducer.registered,
         token: state.GlobalReducer.token,
-        login: state.GlobalReducer.user.login
+        login: state.GlobalReducer.user.login,
+        mutableDate: state.GlobalReducer.mutableDate
     }
 };
 
@@ -139,6 +135,10 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onUpdateMutableDate: () => {
+            dispatch(updateMutableDate(new Date()));
         }
     }
 };

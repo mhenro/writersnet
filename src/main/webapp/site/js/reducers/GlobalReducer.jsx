@@ -8,7 +8,8 @@ import {
     CREATE_NOTIFY,
     REMOVE_NOTIFIES,
     REMOVE_NOTIFY,
-    GO_TO_COMMENTS
+    GO_TO_COMMENTS,
+    UPDATE_MUTABLE_DATE
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -41,11 +42,11 @@ const initialState = {
     showUserPolicy: false,
     showWriteMessageForm: false,
     loginFormRegister: true,
-    editableBook: null,
     alerts: [],
     goToComments: false,
     unreadMessages: 0,
-    newFriends: 0
+    newFriends: 0,
+    mutableDate: null
 };
 
 const GlobalReducer = (state = initialState, action) => {
@@ -140,6 +141,9 @@ const GlobalReducer = (state = initialState, action) => {
 
         case SET_NEW_FRIENDS:
             return Object.assign({}, state, {newFriends: action.newFriends});
+
+        case UPDATE_MUTABLE_DATE:
+            return Object.assign({}, state, {mutableDate: action.mutableDate});
     }
     return state;
 };

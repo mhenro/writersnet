@@ -9,6 +9,7 @@ import BookSerieItem from './BookSerieItem.jsx';
     - registered
     - login - user id
     - onEditBook - callback function
+    - onAddReview - callback
     - onDeleteBook - callback
     - language
     - token
@@ -52,6 +53,7 @@ class BookSerieList extends React.Component {
                                                                login={this.props.login}
                                                                author={this.props.author}
                                                                onEditBook={this.props.onEditBook}
+                                                               onAddReview={this.props.onAddReview}
                                                                onDeleteBook={this.props.onDeleteBook}
                                                                token={this.props.token}
                                                                onGoToComments={this.props.onGoToComments}

@@ -39,7 +39,7 @@ class ChatGroupListItem extends React.Component {
                 <hr/>
                 <div className="row">
                     <div className="col-sm-1">
-                        <img src={this.getAuthorAvatar() + '?date=' + new Date()} className="img-rounded" width="100%" height="auto"/>
+                        <img src={this.getAuthorAvatar()/* + '?date=' + new Date()*/} className="img-rounded" width="100%" height="auto"/>
                     </div>
                     <div className="col-sm-11">
                         <div className="row">

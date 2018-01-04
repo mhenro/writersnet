@@ -19,6 +19,8 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.7",
+    "draft-js": "^0.10.4",
+    "draft-js-export-html": "^1.2.0",
     "isomorphic-fetch": "^2.2.1",
     "react": "^15.6.2",
     "react-bootstrap": "^0.31.3",

@@ -14,6 +14,7 @@ import ReactStars from 'react-stars';
     - registered
     - login
     - onEditBook - callback function
+    - onAddReview - callback
     - onDeleteBook - callback
     - language
     - token
@@ -93,7 +94,7 @@ class BookSerieItem extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-sm-12 col-lg-4">
-                        <img src={this.props.book.cover + '?date=' + new Date()} onClick={() => this.onBookClick()} className="img-rounded clickable" width="200" height="auto"/>
+                        <img src={this.props.book.cover /*+ '?date=' + new Date()*/} onClick={() => this.onBookClick()} className="img-rounded clickable" width="200" height="auto"/>
                     </div>
                     <div className="col-sm-12 col-lg-8">
                         <div className="book-item-name">
@@ -136,14 +137,17 @@ class BookSerieItem extends React.Component {
                         {this.renderCounters()}
                         <hr/>
                         <div className="row">
-                            <div className={'col-sm-12 col-md-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
+                            <div className={'col-sm-12 col-md-3 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
                                 <button onClick={() => this.onConfirm()} className="btn btn-danger btn-block">Remove</button>
                             </div>
-                            <div className={'col-sm-12 col-md-4 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
+                            <div className={'col-sm-12 col-md-3 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
                                 <button onClick={() => this.props.onEditBook(this.props.book)} className="btn btn-success btn-block">Edit</button>
                             </div>
-                            <div className="col-sm-12 col-md-4">
+                            <div className="col-sm-12 col-md-3">
                                 <Link to={'/reader/' + this.props.book.id} className="btn btn-success btn-block">Read</Link>
+                            </div>
+                            <div className="col-sm-12 col-md-3">
+                                <button onClick={() => this.props.onAddReview(this.props.book)} className="btn btn-success btn-block">Add review</button>
                             </div>
                         </div>
                     </div>

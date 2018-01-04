@@ -4,14 +4,15 @@ import NewsListItem from './NewsListItem.jsx';
 
 /*
     props:
-    news - array
+    news - array,
+    dt - date for cached images
  */
 class NewsList extends React.Component {
     render() {
         return (
             <div>
                 {this.props.news.map((news, key) => {
-                    return <NewsListItem news={news} key={key}/>
+                    return <NewsListItem news={news} key={key} dt={this.props.dt}/>
                 })}
             </div>
         )

@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils.jsx';
 
 /*
- props:
- news - array
+    props:
+    news - array
+    dt - date for cached images
  */
 class NewsListItem extends React.Component {
     getAuthorAvatar() {
@@ -75,7 +76,7 @@ class NewsListItem extends React.Component {
                 <hr/>
                 <div className="row">
                     <div className="col-sm-1">
-                        <img src={this.getAuthorAvatar() + '?date=' + new Date()} className="img-rounded" width="100%" height="auto"/>
+                        <img src={this.getAuthorAvatar() /*+ '?date=' + this.props.dt*/} className="img-rounded" width="100%" height="auto"/>
                     </div>
                     <div className="col-sm-11">
                         <div className="col-sm-12">{this.getSubscriptionName()}</div>

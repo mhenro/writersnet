@@ -9,9 +9,8 @@ Features:
 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
 55. Add discussions page.
 56. Add help page.
-28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
+86. Add feedback page to the help page with captcha.
 2. Add changing password functional to Options page.
-64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
 11. Add "forgot your password?" functional to login form.
 68. Add logic to "Restore default cover" button on BookPropsForm.
 69. Add logic to "Restore default photo" button on OptionsPage.
@@ -139,3 +138,6 @@ DONE - 71. Add first screen into the TitlePage carousel. It should be summary of
 DONE - 84. Add second screen to the TitlePage carousel. "You can become our author or reader or even both!" 
 DONE - 47. Add text to the user policy component.
 DONE - 83. Fix AddNewMessage popup form.
+DONE - 64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
+DONE - 29. Add "Add review" button to book item component in Section page.
+DONE - 28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.

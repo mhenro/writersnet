@@ -80,6 +80,8 @@ export const CLOSE_BOOKPROPS_FORM = 'CLOSE_BOOKPROPS_FORM';
 export const OPEN_EDITSERIES_FORM = 'OPEN_EDITSERIES_FORM';
 export const CLOSE_EDITSERIES_FORM = 'CLOSE_EDITSERIES_FORM';
 
+export const OPEN_REVIEW_FORM = 'OPEN_REVIEW_FORM';
+export const CLOSE_REVIEW_FORM = 'CLOSE_REVIEW_FORM';
 
 export const setBooks = (books) => {
     return {
@@ -131,5 +133,18 @@ export const openEditSeriesForm = () => {
 export const closeEditSeriesForm = () => {
     return {
         type: CLOSE_EDITSERIES_FORM
+    }
+};
+
+export const openReviewForm = (book) => {
+    return {
+        type: OPEN_REVIEW_FORM,
+        book
+    }
+};
+
+export const closeReviewForm = () => {
+    return {
+        type: CLOSE_REVIEW_FORM
     }
 };

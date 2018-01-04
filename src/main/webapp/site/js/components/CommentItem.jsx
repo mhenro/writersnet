@@ -92,7 +92,7 @@ class CommentItem extends React.Component {
         return (
             <div className="row">
                 <div className="col-sm-2 text-center">
-                    <img src={this.props.comment.userAvatar + '?date=' + new Date()} className="img-rounded" width="65" height="auto" alt="avatar"/>
+                    <img src={this.props.comment.userAvatar /*+ '?date=' + new Date()*/} className="img-rounded" width="65" height="auto" alt="avatar"/>
                 </div>
                 <div className="col-sm-10">
                     <h4>{this.getAuthorName()} <small>{this.getCommentDate()} &nbsp; {this.renderQuoteButton()} &nbsp; {this.renderCloseButton()}</small></h4>

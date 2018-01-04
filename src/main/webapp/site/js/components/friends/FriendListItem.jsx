@@ -80,7 +80,7 @@ class FriendListItem extends React.Component {
             <div className="col-sm-12">
                 <hr/>
                 <div className="col-sm-1">
-                    <img src={this.props.friend.avatar + '?date=' + new Date()} onClick={() => this.onAuthorClick()} className="img-rounded clickable" width="100%" height="auto"/>
+                    <img src={this.props.friend.avatar /*+ '?date=' + new Date()*/} onClick={() => this.onAuthorClick()} className="img-rounded clickable" width="100%" height="auto"/>
                 </div>
                 <div className="col-sm-11">
                     <div className="friendlist-item-name">{this.props.friend.name}</div>

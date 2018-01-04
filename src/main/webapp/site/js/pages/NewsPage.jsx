@@ -60,7 +60,7 @@ class NewsPage extends React.Component {
                         activePage={this.state.activePage}
                         onSelect={this.pageSelect}/>
                 </div>
-                <NewsList news={this.state.news}/>
+                <NewsList news={this.state.news} dt={this.props.mutableDate}/>
             </div>
         )
     }
@@ -68,7 +68,8 @@ class NewsPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        token: state.GlobalReducer.token
+        token: state.GlobalReducer.token,
+        mutableDate: state.GlobalReducer.mutableDate
     }
 };
 

@@ -11,7 +11,8 @@ import {
     getBooksByAuthor,
     deleteBook,
     openBookPropsForm,
-    openEditSeriesForm
+    openEditSeriesForm,
+    openReviewForm
 } from '../actions/BookActions.jsx';
 import {
     createNotify,
@@ -24,6 +25,7 @@ import AuthorShortInfo from '../components/section/AuthorShortInfo.jsx';
 import BookSerieList from '../components/section/BookSerieList.jsx';
 import BookPropsForm from '../components/section/BookPropsForm.jsx';
 import EditSeriesForm from '../components/section/EditSeriesForm.jsx';
+import ReviewForm from '../components/section/ReviewForm.jsx';
 
 /*
     props:
@@ -97,6 +99,10 @@ class SectionPage extends React.Component {
 
     onEditBook(book) {
         this.props.onOpenBookPropsForm(book);
+    }
+
+    onAddReview(book) {
+        this.props.onOpenReviewForm(book);
     }
 
     onDeleteBook(bookId, token) {
@@ -175,6 +181,7 @@ class SectionPage extends React.Component {
                                login={this.props.login}
                                author={this.props.author}
                                onEditBook={book => this.onEditBook(book)}
+                               onAddReview={book => this.onAddReview(book)}
                                onDeleteBook={(bookId, token) => this.onDeleteBook(bookId, token)}
                                token={this.props.token}
                                onGoToComments={this.props.onGoToComments}
@@ -185,6 +192,9 @@ class SectionPage extends React.Component {
 
                 {/* Edit series form */}
                 <EditSeriesForm onCloseUpdate={() => this.props.onGetSeries(this.props.match.params.authorName, series => this.updateSeries(series))}/>
+
+                {/* Form for adding reviews */}
+                <ReviewForm/>
             </div>
         )
     }
@@ -221,6 +231,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onOpenEditSeriesForm: () => {
             dispatch(openEditSeriesForm());
+        },
+
+        onOpenReviewForm: (book) => {
+            dispatch(openReviewForm(book));
         },
 
         onDeleteBook: (bookId, token, callback) => {

@@ -42,6 +42,11 @@ class BookBriefItem extends React.Component {
         return description;
     }
 
+    getLanguage() {
+        let language = getLocale(this.props.book.language).label;
+        return language;
+    }
+
     getCreated() {
         let created = new Date(this.props.book.created);
         return created.getFullYear();   //formatDate(created, 'D-M-Y');
@@ -66,7 +71,7 @@ class BookBriefItem extends React.Component {
                 <div className="panel-body">
                     <div className="row">
                         <div className="col-sm-3">
-                            <img src={this.props.book.cover + '?date=' + new Date()} onClick={() => this.onBookClick()} className="img-rounded clickable" width="100%" height="auto"/>
+                            <img src={this.props.book.cover /*+ '?date=' + new Date()*/} onClick={() => this.onBookClick()} className="img-rounded clickable" width="100%" height="auto"/>
                         </div>
                         <div className="col-sm-6">
                             <table className="table">
@@ -88,6 +93,10 @@ class BookBriefItem extends React.Component {
                                         <td>{this.getDescription()}</td>
                                     </tr>
                                     <tr>
+                                        <td>Language</td>
+                                        <td>{this.getLanguage()}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Created</td>
                                         <td>{this.getCreated()}</td>
                                     </tr>
@@ -99,7 +108,7 @@ class BookBriefItem extends React.Component {
                             </table>
                         </div>
                         <div className="col-sm-3">
-                            <img src={this.props.book.author.avatar + '?date=' + new Date()} onClick={() => this.onAuthorClick()} className="img-rounded clickable" width="100%" height="auto"/>
+                            <img src={this.props.book.author.avatar/* + '?date=' + new Date()*/} onClick={() => this.onAuthorClick()} className="img-rounded clickable" width="100%" height="auto"/>
                         </div>
                     </div>
                 </div>

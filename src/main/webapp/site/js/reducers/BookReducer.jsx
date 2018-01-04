@@ -6,7 +6,9 @@ import {
     OPEN_BOOKPROPS_FORM,
     CLOSE_BOOKPROPS_FORM,
     OPEN_EDITSERIES_FORM,
-    CLOSE_EDITSERIES_FORM
+    CLOSE_EDITSERIES_FORM,
+    OPEN_REVIEW_FORM,
+    CLOSE_REVIEW_FORM
 } from '../actions/BookActions.jsx';
 
 const initialState = {
@@ -15,7 +17,9 @@ const initialState = {
     genres: [],
     book: null,
     showBookPropsForm: false,
-    showEditSeriesForm: false
+    showEditSeriesForm: false,
+    showReviewForm: false,
+    editableBook: null
 };
 
 const BookReducer = (state = initialState, action) => {
@@ -43,6 +47,12 @@ const BookReducer = (state = initialState, action) => {
 
         case CLOSE_EDITSERIES_FORM:
             return Object.assign({}, state, {showEditSeriesForm: false});
+
+        case OPEN_REVIEW_FORM:
+            return Object.assign({}, state, {showReviewForm: true, editableBook: action.book});
+
+        case CLOSE_REVIEW_FORM:
+            return Object.assign({}, state, {showReviewForm: false, editableBook: null});
     }
     return state;
 };

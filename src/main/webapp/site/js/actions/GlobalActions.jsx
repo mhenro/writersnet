@@ -20,6 +20,8 @@ export const REMOVE_NOTIFY = 'REMOVE_NOTIFY';
 
 export const GO_TO_COMMENTS = 'GO_TO_COMMENTS';
 
+export const UPDATE_MUTABLE_DATE = 'UPDATE_MUTABLE_DATE';
+
 export const openLoginForm = (loginFormRegister) => {
     return {
         type: OPEN_LOGIN_FORM,
@@ -83,5 +85,12 @@ export const goToComments = (goToComments) => {
     return {
         type: GO_TO_COMMENTS,
         goToComments
+    }
+};
+
+export const updateMutableDate = (mutableDate) => {
+    return {
+        type: UPDATE_MUTABLE_DATE,
+        mutableDate
     }
 };
