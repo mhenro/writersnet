@@ -157,19 +157,9 @@ public class AuthorController {
         return authorService.getChatGroups(userId, pageable);
     }
 
-    //TODO: fixme!
-    /*
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "friends/{userId:.+}/{matcher}", method = RequestMethod.GET)
-    public Page<FriendResponse> getFriends(@PathVariable final String userId, @PathVariable final String matcher, final Pageable pageable) {
-        return authorService.getFriends(userId, matcher, pageable);
-    }
-    */
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
-    @RequestMapping(value = "friends/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "friends/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> isFriendOf(@PathVariable String authorId) {
         final boolean result = authorService.isFriendOf(authorId);
         Response<Boolean> response = new Response<>();
@@ -180,7 +170,7 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "subscribers/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "subscribers/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> isSubscriberOf(@PathVariable String authorId) {
         final boolean result = authorService.isSubscriberOf(authorId);
         Response<Boolean> response = new Response<>();
@@ -191,7 +181,7 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "subscriptions/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "subscriptions/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> isSubscriptionOf(@PathVariable String authorId) {
         final boolean result = authorService.isSubscriptionOf(authorId);
         Response<Boolean> response = new Response<>();
@@ -202,7 +192,7 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "friendship/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "friendship/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> checkFriendshipWith(@PathVariable String authorId) {
         final CheckFriendshipResponse result = authorService.checkFriendshipWith(authorId);
         Response<CheckFriendshipResponse> response = new Response<>();
@@ -213,28 +203,35 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "friendship/friends/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "friendship/friends/{authorId:.+}", method = RequestMethod.GET)
     public Page<FriendshipResponse> getAllFriends(@PathVariable String authorId, final Pageable pageable) {
         return authorService.getAllFriends(authorId, pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "friendship/subscribers/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "friendship/friends/{authorId:.+}/{matcher}", method = RequestMethod.GET)
+    public Page<FriendResponse> getAllFriendsByName(@PathVariable final String authorId, @PathVariable final String matcher, final Pageable pageable) {
+        return authorService.getAllFriendsByName(authorId, matcher, pageable);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "friendship/subscribers/{authorId:.+}", method = RequestMethod.GET)
     public Page<FriendshipResponse> getAllSubscribers(@PathVariable String authorId, final Pageable pageable) {
         return authorService.getAllSubscribers(authorId, pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "friendship/subscriptions/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "friendship/subscriptions/{authorId:.+}", method = RequestMethod.GET)
     public Page<FriendshipResponse> getAllSubscriptions(@PathVariable String authorId, final Pageable pageable) {
         return authorService.getAllSubscriptions(authorId, pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "friendship/new/friends/{authorId}", method = RequestMethod.GET)
+    @RequestMapping(value = "friendship/new/friends/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getNewFriendsCount(@PathVariable String authorId) {
         final long count = authorService.getNewFriendsCount(authorId);
         final Response<Long> response = new Response<>();

@@ -21,8 +21,8 @@ export const getAuthorChatGroups = (userId, token, page = 0, size = 20) => {
     return doFetch(getHost() + 'authors/' + userId + '/groups?page=' + page + '&size=' + size, null, token);
 };
 
-export const getFriends = (userId, matcher, token, page = 0, size = 20) => {
-    return doFetch(getHost() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=' + size, null, token);
+export const getFriends = (userId, matcher, token, page = 0, size = 200) => {
+    return doFetch(getHost() + 'friendship/friends/' + userId + '/' + matcher + '?page=' + page + '&size=' + size, null, token);
 };
 
 export const getNewFriendsCount = (userId, token) => {

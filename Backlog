@@ -1,5 +1,5 @@
 ﻿Current sprint:
-83. Fix AddNewMessage popup form.
+
 
 
 Features:
@@ -138,3 +138,4 @@ DONE - 71. Add first screen into the TitlePage carousel. It should be summary of
 	  Online authors - xxx! 
 DONE - 84. Add second screen to the TitlePage carousel. "You can become our author or reader or even both!" 
 DONE - 47. Add text to the user policy component.
+DONE - 83. Fix AddNewMessage popup form.

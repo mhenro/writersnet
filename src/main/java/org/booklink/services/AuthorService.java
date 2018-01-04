@@ -253,17 +253,15 @@ public class AuthorService {
         return groups;
     }
 
-    //TODO: fixme!
-    /*
-    public Page<FriendResponse> getFriends(final String userId, final String matcher, final Pageable pageable) {
-        checkCredentials(userId);
-        Page<FriendResponse> friends = authorRepository.getFriends(userId, matcher, pageable);
-        return friends;
-    }*/
-
     public Page<FriendshipResponse> getAllFriends(final String userId, final Pageable pageable) {
         checkCredentials(userId);
         return friendshipRepository.getAllFriends(userId, pageable);
+    }
+
+    public Page<FriendResponse> getAllFriendsByName(final String userId, final String matcher, final Pageable pageable) {
+        checkCredentials(userId);
+        Page<FriendResponse> friends = friendshipRepository.getAllFriendsByName(userId, matcher, pageable);
+        return friends;
     }
 
     public Long getNewFriendsCount(final String userId) {

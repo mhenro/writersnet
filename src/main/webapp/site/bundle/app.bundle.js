@@ -7601,9 +7601,9 @@ var getAuthorChatGroups = exports.getAuthorChatGroups = function getAuthorChatGr
 
 var getFriends = exports.getFriends = function getFriends(userId, matcher, token) {
     var page = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-    var size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 20;
+    var size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 200;
 
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'friends/' + userId + '/' + matcher + '?page=' + page + '&size=' + size, null, token);
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'friendship/friends/' + userId + '/' + matcher + '?page=' + page + '&size=' + size, null, token);
 };
 
 var getNewFriendsCount = exports.getNewFriendsCount = function getNewFriendsCount(userId, token) {

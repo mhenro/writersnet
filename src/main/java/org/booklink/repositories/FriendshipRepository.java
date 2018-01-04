@@ -2,6 +2,7 @@ package org.booklink.repositories;
 
 import org.booklink.models.entities.Friend;
 import org.booklink.models.entities.FriendPK;
+import org.booklink.models.response.FriendResponse;
 import org.booklink.models.response.FriendshipResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,9 @@ import java.util.Date;
 public interface FriendshipRepository extends PagingAndSortingRepository<Friend, FriendPK> {
     @Query("SELECT new org.booklink.models.response.FriendshipResponse(tmp.added, true, f.username, f.firstName, f.lastName, f.section.name, f.avatar) FROM Friend tmp LEFT JOIN tmp.friendPK.friend f WHERE tmp.friendPK.owner.username = ?1")
     Page<FriendshipResponse> getAllFriends(final String userId, final Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.FriendResponse(f.username, f.firstName, f.lastName) FROM Friend tmp LEFT JOIN tmp.friendPK.friend f WHERE tmp.friendPK.owner.username = ?1 AND UPPER(f.firstName) LIKE UPPER(?2)||'%' AND f.enabled = true")
+    Page<FriendResponse> getAllFriendsByName(final String userId, final String matcher, final Pageable pageable);
 
     @Query("SELECT COUNT(s) FROM Subscriber s WHERE s.subscriberPK.owner.username = ?1")
     Long getNewFriendsCount(final String userId);
