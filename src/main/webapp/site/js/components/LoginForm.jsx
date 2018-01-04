@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 
-import UserPolicy from '../components/UserPolicy.jsx';
+import UserAgreement from './UserAgreement.jsx';
 
 import {
     closeLoginForm,
@@ -69,7 +69,7 @@ class LoginForm extends React.Component {
         event.preventDefault();
         if (this.state.activeItem === 'sign-up') {
             if (!this.state.policyAgreed) {
-                this.props.generateNotify('warning', 'Warning', 'You must agree with user policy');
+                this.props.generateNotify('warning', 'Warning', 'You must agree with user agreement');
                 return;
             }
             this.props.onSendRegister(this.props.email, this.props.login, this.props.password, this.props.passwordConfirm, this); //register new user
@@ -125,7 +125,7 @@ class LoginForm extends React.Component {
                             }
                             {this.state.activeItem === 'sign-up' ?
                                 <div className="checkbox">
-                                    <label><input type="checkbox" onClick={this.policyClick} checked={this.state.policyAgreed}/> I agree with <a href="#" onClick={() => this.onReadUserPolicy()}>user policy</a></label>
+                                    <label><input type="checkbox" onClick={this.policyClick} checked={this.state.policyAgreed}/> I agree with <a href="#" onClick={() => this.onReadUserPolicy()}>user agreement</a></label>
                                 </div>
                                 : <a href="#">Forgot your password?</a>
                             }
@@ -138,7 +138,7 @@ class LoginForm extends React.Component {
                         <Button onClick={this.close}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-                <UserPolicy/>
+                <UserAgreement/>
             </div>
         )
     }

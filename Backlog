@@ -1,10 +1,9 @@
 ﻿Current sprint:
-
+83. Fix AddNewMessage popup form.
 
 
 Features:
 75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.
-83. Fix AddNewMessage popup form.
 54. Add reviews page.
 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
@@ -32,7 +31,6 @@ Features:
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
-47. Add text to the user policy component.
 66. Mark as unread whole chat to determine where unread messages are placed.
 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 29. Support full localization mechanism.
@@ -46,6 +44,7 @@ Otherwise, the parent-side is always fetched even if the association is marked w
 For this reason, it’s best to map @OneToOne association using @MapsId so that the PRIMARY KEY is shared between the 
 child and the parent entities. When using @MapsId, the parent-side becomes redundant since the child-entity can be easily 
 fetched using the parent entity identifier.
+85. Fix layout of the TitlePage for mobile devices.
 80. if you forget to specify that an EAGER association needs to be JOIN FETCH-ed by a JPQL query, Hibernate is going to issue a secondary select for every uninitialized association, leading to N+1 query problems.
 	For example:
 	comments = entityManager.createQuery(
@@ -138,3 +137,4 @@ DONE - 71. Add first screen into the TitlePage carousel. It should be summary of
 	  We have xxx books!
 	  Online authors - xxx! 
 DONE - 84. Add second screen to the TitlePage carousel. "You can become our author or reader or even both!" 
+DONE - 47. Add text to the user policy component.

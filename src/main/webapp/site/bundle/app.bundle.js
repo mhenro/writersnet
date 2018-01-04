@@ -83798,9 +83798,9 @@ var _reactRedux = __webpack_require__(18);
 
 var _reactBootstrap = __webpack_require__(26);
 
-var _UserPolicy = __webpack_require__(811);
+var _UserAgreement = __webpack_require__(811);
 
-var _UserPolicy2 = _interopRequireDefault(_UserPolicy);
+var _UserAgreement2 = _interopRequireDefault(_UserAgreement);
 
 var _GlobalActions = __webpack_require__(19);
 
@@ -83880,7 +83880,7 @@ var LoginForm = function (_React$Component) {
             event.preventDefault();
             if (this.state.activeItem === 'sign-up') {
                 if (!this.state.policyAgreed) {
-                    this.props.generateNotify('warning', 'Warning', 'You must agree with user policy');
+                    this.props.generateNotify('warning', 'Warning', 'You must agree with user agreement');
                     return;
                 }
                 this.props.onSendRegister(this.props.email, this.props.login, this.props.password, this.props.passwordConfirm, this); //register new user
@@ -83987,7 +83987,7 @@ var LoginForm = function (_React$Component) {
                                         { href: '#', onClick: function onClick() {
                                                 return _this2.onReadUserPolicy();
                                             } },
-                                        'user policy'
+                                        'user agreement'
                                     )
                                 )
                             ) : _react2.default.createElement(
@@ -84016,7 +84016,7 @@ var LoginForm = function (_React$Component) {
                         )
                     )
                 ),
-                _react2.default.createElement(_UserPolicy2.default, null)
+                _react2.default.createElement(_UserAgreement2.default, null)
             );
         }
     }]);
@@ -84145,16 +84145,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var UserPolicy = function (_React$Component) {
-    _inherits(UserPolicy, _React$Component);
+var UserAgreement = function (_React$Component) {
+    _inherits(UserAgreement, _React$Component);
 
-    function UserPolicy() {
-        _classCallCheck(this, UserPolicy);
+    function UserAgreement() {
+        _classCallCheck(this, UserAgreement);
 
-        return _possibleConstructorReturn(this, (UserPolicy.__proto__ || Object.getPrototypeOf(UserPolicy)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (UserAgreement.__proto__ || Object.getPrototypeOf(UserAgreement)).apply(this, arguments));
     }
 
-    _createClass(UserPolicy, [{
+    _createClass(UserAgreement, [{
         key: 'onClose',
         value: function onClose() {
             this.props.onCloseUserPolicy();
@@ -84172,7 +84172,7 @@ var UserPolicy = function (_React$Component) {
                 _react2.default.createElement(
                     _reactBootstrap.Modal.Header,
                     null,
-                    'User policy'
+                    'User Agreement'
                 ),
                 _react2.default.createElement(
                     _reactBootstrap.Modal.Body,
@@ -84180,7 +84180,291 @@ var UserPolicy = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         null,
-                        'User policy text.'
+                        _react2.default.createElement(
+                            'h3',
+                            null,
+                            '1. PURPOSE'
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '1.1. ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' provides all users with a free Internet platform for placing their electronic novels on the Internet, i.e. it performs the role of free electronic publisher for author novels.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '1.2. Each registered user receives a personal page and an online personal account, in which he independently places his works.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '1.3. You agree to abide by this ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Agreement'
+                        ),
+                        ', the actuality of which is certified by this document. All changes made to the document take effect 2 days after the publication of the new version. Users who are not aware of the existence of the ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Agreement'
+                        ),
+                        ' are not exempt from liability for its non-fulfillment.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '1.4. The ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Agreement'
+                        ),
+                        ' is not subject to the establishment of agency relations between you and ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ', partnership relations, joint activity relations, personal hiring relations, or any other relations, and are not a contract of public offer. The ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Agreement'
+                        ),
+                        ' regulates your activities on ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' to ensure your security and avoid deactivation of your resources.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '1.5. ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' reserves the right to change the ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Agreement'
+                        ),
+                        ' at any time without prior notice to users.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'h3',
+                            null,
+                            '2. REGISTRATION AND SAFETY'
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '2.1. Becoming a member of ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ', you receive registration information: login and password - to enter your personal account. We strongly recommend that you be attentive to your login and password, not to allow their loss and transfer to third parties.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '2.2 You are fully responsible for the security of the registration data. Conversely, ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' is not responsible for the impossibility of your access to your own account in case of lost password. You agree that ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' has the right to refuse to authenticate you with the simultaneous absence of your email, login and password.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'h3',
+                            null,
+                            '3. YOUR CONTENT'
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.1. Our Service allow you to store and share ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Your Content'
+                        ),
+                        '. We don\u2019t claim ownership of ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Your Content'
+                        ),
+                        '. ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Your Content'
+                        ),
+                        ' remains your content and you are responsible for it.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.2. You agree that you are responsible for all materials published in your personal account. On the contrary, ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' does not bear any responsibility for the materials published in your personal account. The opinion expressed on the pages and electronic novels of your personal account may not coincide with the opinion of ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        '.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.3. The personal accounts created in the ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' service are prohibited to post the following information:',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.3.1) propaganda of hatred and / or discrimination of people on racial, ethnic, sexual, religious and social grounds, as well as any other manifestation of intolerance to the opinions and way of life of people and their communities;',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.3.2) slander and / or insult to third parties and organizations, incl. use of obscene words and expressions to achieve this goal;',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.3.3) malicious programs designed to infringe, destroy or limit the functionality of any equipment or other programs, serial numbers to commercial software products and programs for their generation, means for obtaining unauthorized access to paid resources on the Internet, and links to such information;',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.3.4) objects of intellectual property, to which copyrights, copies of other people\'s works, texts, pages and separate elements from other projects placed on the Internet are copied, if copying is forbidden by the owners of the original (plagiarism);',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.3.5) materials that are contrary to the legislation of your country, incl. materials calling for unlawful activities, explaining the use of explosives, weapons, training in the production of malicious programs, etc;',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.3.6) spam and intrusive advertising in comments and discussions, if this information is not directly related to the topic of discussion. For example, advertising of other sites, products or services in discussion (comments) to works of authors.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.4. You agree to respect the standards of network ethics in relation to the administration of ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ', other participants, authors and your readers. Proceeding from this provision, ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' forbids:',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.4.1) post content consisting entirely of links to other sites (link dumps) or spam advertising;',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.4.2) use the account and its functions solely to promote other sites: spam links, scoring visits, ratings and scores;',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.4.3) engage in trolling - social provocation or bullying in a network of communication aimed at other participants in the project.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '3.4.4) register in the system many times, creating artificial or fake accounts for the purpose of cheating ratings or anti-ratings, cheating statistics of works, authors or other content, gaining access to content bypassing the ban or for other purposes.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'h3',
+                            null,
+                            '4. RESOURCES.'
+                        ),
+                        '4.1. You agree to use the services of ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' in the form in which they exist ("as is"). ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' does not upgrade individual services and does not develop new services in accordance with your personal needs.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '4.2. ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' does not bear any responsibility for the loss of data in users\' accounts, any errors and malfunctions in the system operation and possible delays in data transmission. ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' does not provide any guarantees of the operability of the services. You agree to use the services of ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' "at your own peril and risk".',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '4.3. You realize that the resources of ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ', for all its significance, are not unlimited, and providing them in mass order requires the introduction of standard restrictions on their use. Limitations established for various services may change over time, depending on the number of participants and the resource capacity of the project.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '4.4. ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' can stop the work of any of its functions by prior notification of users.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '4.5. ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' can simultaneously stop all functions for general prevention and service updates. This can occur both on prior notification to users, and without prior notice.',
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null),
+                        '4.6. ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'WritersNets.com'
+                        ),
+                        ' has the right to block access to the project\'s functions to any user in case of violation of this ',
+                        _react2.default.createElement(
+                            'b',
+                            null,
+                            'Agreement'
+                        ),
+                        ', and also, in case of receipt of grounded complaints from other Internet visitors.'
                     )
                 ),
                 _react2.default.createElement(
@@ -84198,7 +84482,7 @@ var UserPolicy = function (_React$Component) {
         }
     }]);
 
-    return UserPolicy;
+    return UserAgreement;
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -84215,7 +84499,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(UserPolicy);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(UserAgreement);
 
 /***/ }),
 /* 812 */
