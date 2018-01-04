@@ -21,6 +21,9 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true")  //TODO: sort by premium account
     Page<AuthorShortInfoResponse> findAuthorsByName(String name, Pageable pageable);
 
+    @Query("SELECT COUNT(u) FROM User u")
+    Long getAuthorsCount();
+
     @Modifying
     @Query("UPDATE User u SET u.online = false WHERE u.username IN (SELECT s.author.username FROM Session s WHERE s.expired < ?1)")
     void setOfflineStatus(final Date currentDate);

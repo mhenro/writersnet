@@ -1,3 +1,10 @@
+import doFetch from './fetch';
+import { getHost } from '../utils.jsx';
+
+export const getSessionsCount = () => {
+    return doFetch(getHost() + 'sessions/count');
+};
+
 export const OPEN_LOGIN_FORM = 'OPEN_LOGIN_FORM';
 export const CLOSE_LOGIN_FORM = 'CLOSE_LOGIN_FORM';
 

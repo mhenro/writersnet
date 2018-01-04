@@ -78,6 +78,10 @@ public class BookService {
         return books;
     }
 
+    public Long getBooksCount() {
+        return bookRepository.getBooksCount();
+    }
+
     public Page<TopBookNovelties> getBooksByLastUpdate(final Pageable pageable) {
         Page<TopBookNovelties> books = bookRepository.findAllByLastUpdate(pageable);
         return books;

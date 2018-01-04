@@ -52,6 +52,10 @@ public class AuthorService {
         return authors;
     }
 
+    public Long getAuthorsCount() {
+        return authorRepository.getAuthorsCount();
+    }
+
     public Page<AuthorShortInfoResponse> getAuthorsByName(final String name, final Pageable pageable) {
         Page<AuthorShortInfoResponse> authors = authorRepository.findAuthorsByName(name, pageable);
         authors.forEach(this::setDefaultAvatar);

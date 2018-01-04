@@ -42,6 +42,16 @@ public class AuthorController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "authors/count", method = RequestMethod.GET)
+    public ResponseEntity<?> getAuthorsCount() {
+        final long count = authorService.getAuthorsCount();
+        Response<Long> response = new Response<>();
+        response.setCode(0);
+        response.setMessage(count);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "authors/name/{authorName:.+}", method = RequestMethod.GET)
     public Page<AuthorShortInfoResponse> getAuthorsByName(@PathVariable final String authorName, final Pageable pageable) {
         return authorService.getAuthorsByName(authorName, pageable);

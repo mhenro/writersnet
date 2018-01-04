@@ -16,6 +16,9 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
     @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar) FROM Book b LEFT JOIN b.bookSerie WHERE b.author.username = ?1 ORDER BY b.name")
     Page<BookResponse> findBooksByAuthor(final String authorId, final Pageable pageable);
 
+    @Query("SELECT COUNT(b) FROM Book b")
+    Long getBooksCount();
+
     @Query("SELECT new org.booklink.models.response.BookWithTextResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.author.username, b.author.firstName, b.author.lastName, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.bookText.id, b.bookText.text) FROM Book b LEFT JOIN b.bookSerie WHERE b.id = ?1 ORDER BY b.name")
     BookWithTextResponse getBookById(final Long id);
 

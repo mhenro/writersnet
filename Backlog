@@ -1,13 +1,9 @@
 ﻿Current sprint:
-IN PROGRESS - 26. Add Main page to the site. Something like summary of ratings and recently general news. Use bootstrap scrollspy component for this.
-IN PROGRESS - 71. Add first screen into the TitlePage carousel. It should be summary of the following:
-          Welcome to %Site_name%!
-	  We are already xxxx! (where xxx - count of authors).
-	  We have xxx books!
-	  Online authors - xxx! 
+
 
 
 Features:
+75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.
 83. Fix AddNewMessage popup form.
 54. Add reviews page.
 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
@@ -43,7 +39,6 @@ Features:
 65. Add test for ChatGroupResponse class constructor.
 46. Add filters to Authors page.
 45. Add filters to Books page.
-75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt.
 82. Optimize Hibernate queries.
 81. Move series action from BookActions to AuthorActions in client.
 76. The parent-side @OneToOne association requires bytecode enhancement so that the association can be loaded lazily. 
@@ -136,3 +131,10 @@ DONE - 77. For unidirectional collections, Sets are the best choice because they
 Unidirectional Lists are less efficient than a @ManyToOne association.
 Bidirectional associations are usually a better choice because the @ManyToOne side controls the association.
 DONE - 34. Create online/offline statuses for authors.
+DONE - 26. Add Main page to the site. Something like summary of ratings and recently general news. Use bootstrap scrollspy component for this.
+DONE - 71. Add first screen into the TitlePage carousel. It should be summary of the following:
+          Welcome to %Site_name%!
+	  We are already xxxx! (where xxx - count of authors).
+	  We have xxx books!
+	  Online authors - xxx! 
+DONE - 84. Add second screen to the TitlePage carousel. "You can become our author or reader or even both!" 

@@ -13,6 +13,10 @@ export const getBooksByAuthor = (authorId, page = 0, size = 200) => {
     return doFetch(getHost() + 'books/author/' + authorId + '?page=' + page + '&size=' + size);
 };
 
+export const getBooksCount = () => {
+    return doFetch(getHost() + 'books/count');
+};
+
 export const getSeries = (userId, page = 0, size = 200) => {
     return doFetch(getHost() + 'series/' + userId + '?page=' + page + '&size=' + size);
 };

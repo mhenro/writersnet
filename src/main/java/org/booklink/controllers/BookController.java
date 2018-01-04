@@ -54,6 +54,16 @@ public class BookController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "books/count", method = RequestMethod.GET)
+    public ResponseEntity<?> getBooksCount() {
+        final Response<Long> response = new Response<>();
+        final long count = bookService.getBooksCount();
+        response.setCode(0);
+        response.setMessage(count);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> getBook(@PathVariable Long bookId) {
         BookWithTextResponse book = bookService.getBook(bookId);
