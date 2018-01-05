@@ -4,9 +4,12 @@ import org.booklink.models.Response;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.ReviewRequest;
+import org.booklink.models.response.ReviewResponse;
 import org.booklink.services.ReviewService;
 import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,10 +31,22 @@ public class ReviewController {
         this.sessionService = sessionService;
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "reviews", method = RequestMethod.GET)
+    public Page<ReviewResponse> getReviews(final Pageable pageable) {
+        return reviewService.getReviews(pageable);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "reviews/{bookId}", method = RequestMethod.GET)
+    public Page<ReviewResponse> getReviews(@PathVariable final Long bookId, final Pageable pageable) {
+        return reviewService.getReviewsByBookId(bookId, pageable);
+    }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "review", method = RequestMethod.POST)
-    public ResponseEntity<?> saveReview(ReviewRequest reviewRequest) {
+    public ResponseEntity<?> saveReview(@RequestBody ReviewRequest reviewRequest) {
         Response<String> response = new Response<>();
         String token = generateActivationToken();
         sessionService.updateSession(token);

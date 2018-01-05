@@ -34,8 +34,9 @@ public class Book {
     private Integer size;
     private Long views = 0L;
     private Long commentsCount = 0L;
-    private Long totalRating = 0l;
-    private Long totalVotes = 0l;
+    private Long totalRating = 0L;
+    private Long totalVotes = 0L;
+    private Long reviewCount = 0L;
 
     @GenericGenerator(
             name = "book_generator",
@@ -229,24 +230,12 @@ public class Book {
         this.totalVotes = totalVotes;
     }
 
-    /* -----------------------------------------business logic----------------------------------------- */
+    @Column(name = "review_count")
+    public Long getReviewCount() {
+        return reviewCount;
+    }
 
-    @Transient
-    @Deprecated
-    public TotalRating getTotalRatingDeprecated() {
-        if (rating == null) {
-            return null;
-        }
-        Long totalUsers = rating.stream().filter(rating -> rating.getRatingId().getBook().getId() == id).count();
-        Map<Integer, Long> countByStars = rating.stream()
-                .filter(rating -> rating.getRatingId().getBook().getId() == id)
-                .collect(Collectors.groupingBy(Rating::getEstimation, Collectors.counting()));
-        float averageRating = (float)countByStars.entrySet().stream()
-                .map(map -> map.getKey() * map.getValue().intValue())
-                .collect(Collectors.summingInt(n -> n)) / totalUsers;
-        TotalRating totalRating = new TotalRating();
-        totalRating.setUserCount(totalUsers.intValue());
-        totalRating.setAverageRating(totalUsers > 0 ? averageRating : 0);
-        return totalRating;
+    public void setReviewCount(Long reviewCount) {
+        this.reviewCount = reviewCount;
     }
 }

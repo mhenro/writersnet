@@ -7,6 +7,9 @@ public class ReviewRequest {
     private Long id;
     private Long bookId;
     private String text;
+    private String authorId;
+    private String name;
+    private Integer score;
 
     public Long getId() {
         return id;
@@ -30,5 +33,29 @@ public class ReviewRequest {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

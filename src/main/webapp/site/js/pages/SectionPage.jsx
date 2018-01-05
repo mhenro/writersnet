@@ -194,7 +194,7 @@ class SectionPage extends React.Component {
                 <EditSeriesForm onCloseUpdate={() => this.props.onGetSeries(this.props.match.params.authorName, series => this.updateSeries(series))}/>
 
                 {/* Form for adding reviews */}
-                <ReviewForm/>
+                <ReviewForm onCloseUpdate={() => this.props.onGetBooks(this.props.match.params.authorName, books => this.updateBooks(books))}/>
             </div>
         )
     }

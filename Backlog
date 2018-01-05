@@ -1,12 +1,11 @@
 ﻿Current sprint:
+IN PROGRESS - 54. Add reviews page.
+41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
 
 
 
 Features:
 75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.
-54. Add reviews page.
-36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
-41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
 55. Add discussions page.
 56. Add help page.
 86. Add feedback page to the help page with captcha.
@@ -56,7 +55,6 @@ fetched using the parent entity identifier.
 
 
 Bugs:
-90. Fix bug with pagination on News page.
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
@@ -142,3 +140,6 @@ DONE - 83. Fix AddNewMessage popup form.
 DONE - 64. Change image fetching algorithm to reduce loading on nginx server. Instead of new Date() create a function that change date in interval (1 min at least).
 DONE - 29. Add "Add review" button to book item component in Section page.
 DONE - 28. Import word-like editor to create formatted text on the frontend. For instance. you can use Draft.js component - https://draftjs.org/docs/overview.html.
+DONE - 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
+DONE - 91. Update SectionPage after adding new review.
+DONE - 90. Fix bug with pagination on News page.

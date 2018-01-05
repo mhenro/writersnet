@@ -63,7 +63,9 @@ class BookSerieItem extends React.Component {
     renderCounters() {
         return (
             <div>
-                {this.props.book.views} views | <Link to={'/reader/' + this.props.book.id} onClick={() => this.props.onGoToComments(true)}>{this.props.book.commentsCount} comments</Link> | 20 reviews
+                {this.props.book.views} views |&nbsp;
+                <Link to={'/reader/' + this.props.book.id} onClick={() => this.props.onGoToComments(true)}>{this.props.book.commentsCount} comments</Link> |&nbsp;
+                <Link to={'/reader/' + this.props.book.id} onClick={() => this.props.onGoToComments(true)}>{this.props.book.reviewCount} reviews</Link>
             </div>
         )
     }

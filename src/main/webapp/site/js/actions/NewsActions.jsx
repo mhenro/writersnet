@@ -1,6 +1,6 @@
 import doFetch from './fetch';
 import { getHost } from '../utils.jsx';
 
-export const getNews = (token, page) => {
-    return doFetch(getHost() + 'news?page=' + page + '?size=20', null, token);
+export const getNews = (token, page = 0, size = 20) => {
+    return doFetch(getHost() + 'news?page=' + page + '&size=' + size, null, token);
 };

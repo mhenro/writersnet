@@ -14,6 +14,9 @@ public class Review {
     private Long id;
     private Book book;
     private String text;
+    private User author;
+    private String name;
+    private Integer score;
 
     @GenericGenerator(
             name = "review_generator",
@@ -52,5 +55,31 @@ public class Review {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

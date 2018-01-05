@@ -24,6 +24,7 @@ import FriendsPage from '../pages/FriendsPage.jsx';
 import MessagesPage from '../pages/MessagesPage.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
 import NewsPage from '../pages/NewsPage.jsx';
+import ReviewPage from '../pages/ReviewPage.jsx';
 
 class MainPage extends React.Component {
     constructor(props) {
@@ -69,6 +70,7 @@ class MainPage extends React.Component {
                                 <Route exact path="/authors/:authorName" component={SectionPage}/>
                                 <Route exact path="/books" component={BookPage}/>
                                 <Route exact path="/ratings" component={RatingPage}/>
+                                <Route exact path="/reviews" component={ReviewPage}/>
                                 <Route exact path="/reader/:bookId" component={BookReader}/>
                                 <Route exact path="/options" component={this.props.registered ? OptionsPage : BookPage}/>
                                 <Route exact path="/news" component={NewsPage}/>
