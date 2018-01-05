@@ -32,10 +32,11 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
     @Query("SELECT new org.booklink.models.top_models.TopBookNovelties(b.id, b.name, b.lastUpdate) FROM Book b ORDER BY b.lastUpdate DESC")
     Page<TopBookNovelties> findAllByLastUpdate(Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.top_models.TopBookRating(b.id, b.name, COALESCE(sum(r.ratingId.estimation), 0), count(r.ratingId.estimation)) FROM Book b LEFT JOIN b.rating r GROUP BY b.id ORDER BY count(r.ratingId.estimation)*COALESCE(sum(r.ratingId.estimation), 0) DESC")
+    //@Query("SELECT new org.booklink.models.top_models.TopBookRating(b.id, b.name, COALESCE(sum(r.ratingId.estimation), 0), count(r.ratingId.estimation)) FROM Book b LEFT JOIN b.rating r GROUP BY b.id ORDER BY COALESCE(sum(r.ratingId.estimation), 0) / (count(r.ratingId.estimation)+1) DESC")
+    @Query("SELECT new org.booklink.models.top_models.TopBookRating(b.id, b.name, b.totalRating, b.totalVotes) FROM Book b ORDER BY b.totalRating / (b.totalVotes+1) DESC")
     Page<TopBookRating> findAllByRating(Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.top_models.TopBookVolume(b.id, b.name, COALESCE(length(t.text), 0) ) FROM Book b LEFT JOIN b.bookText t ORDER BY length(t.text) DESC")
+    @Query("SELECT new org.booklink.models.top_models.TopBookVolume(b.id, b.name, COALESCE(length(t.text), 0) ) FROM Book b LEFT JOIN b.bookText t ORDER BY COALESCE(length(t.text), 0) DESC")
     Page<TopBookVolume> findAllByVolume(Pageable pageable);
 
     @Query("SELECT new org.booklink.models.top_models.TopBookComments(b.id, b.name, b.commentsCount) FROM Book b ORDER BY b.commentsCount DESC")

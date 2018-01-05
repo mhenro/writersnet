@@ -65,7 +65,7 @@ class UserAgreement extends React.Component {
                         <br/><br/>
                         3.4.4) register in the system many times, creating artificial or fake accounts for the purpose of cheating ratings or anti-ratings, cheating statistics of works, authors or other content, gaining access to content bypassing the ban or for other purposes.
                         <br/><br/>
-                        <h3>4. RESOURCES.</h3>
+                        <h3>4. RESOURCES</h3>
                         4.1. You agree to use the services of <b>WritersNets.com</b> in the form in which they exist ("as is"). <b>WritersNets.com</b> does not upgrade individual services and does not develop new services in accordance with your personal needs.
                         <br/><br/>
                         4.2. <b>WritersNets.com</b> does not bear any responsibility for the loss of data in users' accounts, any errors and malfunctions in the system operation and possible delays in data transmission. <b>WritersNets.com</b> does not provide any guarantees of the operability of the services. You agree to use the services of <b>WritersNets.com</b> "at your own peril and risk".

@@ -31,7 +31,8 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online) FROM User u WHERE u.enabled = true")
     Page<AuthorShortInfoResponse> findAllEnabled(final Pageable pageable);
 
-    @Query("SELECT new org.booklink.models.top_models.TopAuthorRating(u.username, u.firstName, u.lastName, COALESCE(sum(r.ratingId.estimation), 0), count(r.ratingId.estimation)) FROM User u LEFT JOIN u.books b LEFT JOIN b.rating r WHERE u.enabled = true GROUP BY u.username ORDER BY count(r.ratingId.estimation)*COALESCE(sum(r.ratingId.estimation), 0) DESC")
+    //@Query("SELECT new org.booklink.models.top_models.TopAuthorRating(u.username, u.firstName, u.lastName, COALESCE(sum(r.ratingId.estimation), 0), count(r.ratingId.estimation)) FROM User u LEFT JOIN u.books b LEFT JOIN b.rating r WHERE u.enabled = true GROUP BY u.username ORDER BY COALESCE(sum(r.ratingId.estimation)+1, 0) / (count(r.ratingId.estimation)+1) DESC")
+    @Query("SELECT new org.booklink.models.top_models.TopAuthorRating(u.username, u.firstName, u.lastName, u.totalRating, u.totalVotes) FROM User u WHERE u.enabled = true ORDER BY u.totalRating / (u.totalVotes+1) DESC")
     Page<TopAuthorRating> findAllByRating(final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.top_models.TopAuthorBookCount(u.username, u.firstName, u.lastName, count(b.name)) FROM User u LEFT JOIN u.books b WHERE u.enabled = true GROUP BY u.username ORDER BY count(b.name) DESC")

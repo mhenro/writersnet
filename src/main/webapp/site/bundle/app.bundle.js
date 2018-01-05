@@ -92977,7 +92977,7 @@ var BookSerieItem = function (_React$Component) {
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-12 col-md-3' },
+                                { className: 'col-sm-12 col-md-3 ' + (this.props.registered ? '' : 'hidden') },
                                 _react2.default.createElement(
                                     'button',
                                     { onClick: function onClick() {
@@ -104639,7 +104639,7 @@ var UserAgreement = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            '4. RESOURCES.'
+                            '4. RESOURCES'
                         ),
                         '4.1. You agree to use the services of ',
                         _react2.default.createElement(

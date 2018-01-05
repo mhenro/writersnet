@@ -146,7 +146,7 @@ class BookSerieItem extends React.Component {
                             <div className="col-sm-12 col-md-3">
                                 <Link to={'/reader/' + this.props.book.id} className="btn btn-success btn-block">Read</Link>
                             </div>
-                            <div className="col-sm-12 col-md-3">
+                            <div className={'col-sm-12 col-md-3 ' + (this.props.registered ? '' : 'hidden')}>
                                 <button onClick={() => this.props.onAddReview(this.props.book)} className="btn btn-success btn-block">Add review</button>
                             </div>
                         </div>
