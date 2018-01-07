@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static org.booklink.utils.SecurityHelper.generateActivationToken;
 
 /**
@@ -59,12 +61,12 @@ public class ReviewController {
 
     @CrossOrigin
     @RequestMapping(value = "review/{reviewId}/like", method = RequestMethod.GET)
-    public ResponseEntity<?> likeReview(@PathVariable final Long reviewId) {
+    public ResponseEntity<?> likeReview(@PathVariable final Long reviewId, HttpServletRequest request) {
         String token = generateActivationToken();
         sessionService.updateSession(token);
         long likes;
         try {
-            likes = reviewService.likeReview(reviewId);
+            likes = reviewService.likeReview(reviewId, request);
         } catch(Exception e) {
             return getErrorMessage(e, token);
         }
@@ -77,12 +79,12 @@ public class ReviewController {
 
     @CrossOrigin
     @RequestMapping(value = "review/{reviewId}/dislike", method = RequestMethod.GET)
-    public ResponseEntity<?> dislikeReview(@PathVariable final Long reviewId) {
+    public ResponseEntity<?> dislikeReview(@PathVariable final Long reviewId, HttpServletRequest request) {
         String token = generateActivationToken();
         sessionService.updateSession(token);
         long dislikes;
         try {
-            dislikes = reviewService.dislikeReview(reviewId);
+            dislikes = reviewService.dislikeReview(reviewId, request);
         } catch(Exception e) {
             return getErrorMessage(e, token);
         }
