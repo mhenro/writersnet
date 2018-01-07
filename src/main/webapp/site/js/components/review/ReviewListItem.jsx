@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 /*
     props:
     - review - object
+    - onOpenReview - callback
 */
 class ReviewListItem extends React.Component {
     static contextTypes = {
@@ -41,6 +42,10 @@ class ReviewListItem extends React.Component {
         this.context.router.history.push('/reader/' + this.props.review.bookId);
     }
 
+    onOpenReview() {
+        this.props.onOpenReview(this.props.review);
+    }
+
     render() {
         return (
             <div className="panel panel-default">
@@ -73,7 +78,7 @@ class ReviewListItem extends React.Component {
                                 </tbody>
                             </table>
                             <div className="col-sm-12">
-                                <button className="btn btn-success">Read</button>
+                                <button className="btn btn-success" onClick={() => this.onOpenReview()}>Read</button>
                             </div>
                         </div>
                     </div>

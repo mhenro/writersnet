@@ -3,12 +3,14 @@ import ReviewListItem from './ReviewListItem.jsx';
 
 /*
     props:
-    reviews - array
+    - reviews - array
+    - onOpenReview - callback
 */
 class ReviewList extends React.Component {
     renderItems() {
         return this.props.reviews.map((review, key) => {
-            return <ReviewListItem review={review} key={key}/>
+            return <ReviewListItem review={review} key={key}
+                                   onOpenReview={this.props.onOpenReview}/>
         });
     }
 

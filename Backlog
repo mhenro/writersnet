@@ -1,5 +1,5 @@
 ﻿Current sprint:
-IN PROGRESS - 93. Add review reading page.
+
 
 
 Features:
@@ -143,3 +143,4 @@ DONE - 91. Update SectionPage after adding new review.
 DONE - 90. Fix bug with pagination on News page.
 DONE - 54. Add reviews page.
 DONE - 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
+DONE - 93. Add review reading page.

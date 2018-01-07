@@ -13,9 +13,12 @@ public class ReviewResponse {
     private String authorFullName;
     private Integer score;
     private String text;
+    private Long likes;
+    private Long dislikes;
 
     public ReviewResponse(final Long id, final Long bookId, final String bookName, final String bookCover, final String name,
-                          final String authorId, final String firstName, final String lastName, final Integer score, final String text) {
+                          final String authorId, final String firstName, final String lastName, final Integer score, final String text,
+                          final Long likes, final Long dislikes) {
         this.id = id;
         this.bookId = bookId;
         this.bookName = bookName;
@@ -25,6 +28,8 @@ public class ReviewResponse {
         this.authorFullName = firstName + " " + lastName;
         this.score = score;
         this.text = text;
+        this.likes = likes;
+        this.dislikes = dislikes;
     }
 
     public Long getId() {
@@ -97,5 +102,21 @@ public class ReviewResponse {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
+
+    public Long getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Long dislikes) {
+        this.dislikes = dislikes;
     }
 }

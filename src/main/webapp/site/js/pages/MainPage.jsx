@@ -71,6 +71,7 @@ class MainPage extends React.Component {
                                 <Route exact path="/books" component={BookPage}/>
                                 <Route exact path="/ratings" component={RatingPage}/>
                                 <Route exact path="/reviews/:bookId" component={ReviewPage}/>
+                                <Route exact path="/reviews" component={ReviewPage}/>
                                 <Route exact path="/reader/:bookId" component={BookReader}/>
                                 <Route exact path="/options" component={this.props.registered ? OptionsPage : BookPage}/>
                                 <Route exact path="/news" component={NewsPage}/>

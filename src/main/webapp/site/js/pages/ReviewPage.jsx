@@ -4,11 +4,15 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 
 import ReviewList from '../components/review/ReviewList.jsx';
+import ReviewReaderForm from '../components/review/ReviewReaderForm.jsx';
 
 import { createNotify } from '../actions/GlobalActions.jsx';
-import { setToken } from '../actions/AuthActions.jsx';
 import { getReviews } from '../actions/ReviewActions.jsx';
 import { getBooks } from '../actions/BookActions.jsx';
+
+import {
+    openReviewReaderForm
+} from '../actions/ReviewActions.jsx';
 
 class ReviewPage extends React.Component {
     constructor(props) {
@@ -26,7 +30,7 @@ class ReviewPage extends React.Component {
     }
 
     componentDidMount() {
-        let bookId = this.state.book.value !== -1 ? this.state.book.value : this.props.match.params.bookId;
+        let bookId = this.props.match.params.bookId ? this.props.match.params.bookId : this.state.book.value;
         this.props.onGetReviews(bookId, this.state.activePage, page => this.updatePage(page));
     }
 
@@ -111,8 +115,12 @@ class ReviewPage extends React.Component {
                     <br/>
                 </div>
                 <div className="col-sm-12">
-                    <ReviewList reviews={this.state.reviews}/>
+                    <ReviewList reviews={this.state.reviews}
+                                onOpenReview={review => this.props.onOpenReviewReaderForm(review)}/>
                 </div>
+
+                {/* popup form for reading book review */}
+                <ReviewReaderForm/>
             </div>
         )
     }
@@ -158,6 +166,10 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onOpenReviewReaderForm: (review) => {
+            dispatch(openReviewReaderForm(review));
         }
     }
 };

@@ -17,6 +17,8 @@ public class Review {
     private User author;
     private String name;
     private Integer score;
+    private Long likes;
+    private Long dislikes;
 
     @GenericGenerator(
             name = "review_generator",
@@ -81,5 +83,21 @@ public class Review {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
+
+    public Long getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Long dislikes) {
+        this.dislikes = dislikes;
     }
 }

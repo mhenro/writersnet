@@ -40,6 +40,32 @@ public class ReviewService {
         return reviewRepository.getReviewsByBookId(bookId, pageable);
     }
 
+    public ReviewResponse getReviewDetails(final Long reviewId) {
+        return reviewRepository.getReviewDetails(reviewId);
+    }
+
+    @Transactional
+    public long likeReview(final Long reviewId) {
+        final Review review = reviewRepository.findOne(reviewId);
+        if (review == null) {
+            throw new ObjectNotFoundException("Review was not found");
+        }
+        final long likes = review.getLikes() + 1;
+        review.setLikes(likes);
+        return likes;
+    }
+
+    @Transactional
+    public long dislikeReview(final Long reviewId) {
+        final Review review = reviewRepository.findOne(reviewId);
+        if (review == null) {
+            throw new ObjectNotFoundException("Review was not found");
+        }
+        final long dislikes = review.getDislikes() + 1;
+        review.setDislikes(dislikes);
+        return dislikes;
+    }
+
     @Transactional
     public void saveReview(final ReviewRequest reviewRequest) {
         final User author = authorRepository.findOne(reviewRequest.getAuthorId());
