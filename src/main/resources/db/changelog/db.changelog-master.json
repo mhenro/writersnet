@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1515157328265-1",
+      "id": "1515341731660-1",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -15,7 +15,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-2",
+      "id": "1515341731660-2",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -29,7 +29,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-3",
+      "id": "1515341731660-3",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -43,7 +43,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-4",
+      "id": "1515341731660-4",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -57,7 +57,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-5",
+      "id": "1515341731660-5",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -71,7 +71,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-6",
+      "id": "1515341731660-6",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -85,7 +85,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-7",
+      "id": "1515341731660-7",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -99,7 +99,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-8",
+      "id": "1515341731660-8",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -113,7 +113,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-9",
+      "id": "1515341731660-9",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -127,7 +127,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-10",
+      "id": "1515341731660-10",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -141,7 +141,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-11",
+      "id": "1515341731660-11",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -269,7 +269,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-12",
+      "id": "1515341731660-12",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -332,7 +332,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-13",
+      "id": "1515341731660-13",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -374,7 +374,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-14",
+      "id": "1515341731660-14",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -416,7 +416,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-15",
+      "id": "1515341731660-15",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -476,7 +476,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-16",
+      "id": "1515341731660-16",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -510,7 +510,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-17",
+      "id": "1515341731660-17",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -553,7 +553,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-18",
+      "id": "1515341731660-18",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -606,7 +606,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-19",
+      "id": "1515341731660-19",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -679,7 +679,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-20",
+      "id": "1515341731660-20",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -745,7 +745,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-21",
+      "id": "1515341731660-21",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -788,7 +788,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-22",
+      "id": "1515341731660-22",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -847,6 +847,26 @@
                   "name": "score",
                   "type": "INT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "likes",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "dislikes",
+                  "type": "BIGINT"
+                }
               }]
           ,
             "tableName": "reviews"
@@ -858,7 +878,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-23",
+      "id": "1515341731660-23",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -903,7 +923,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-24",
+      "id": "1515341731660-24",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -948,7 +968,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-25",
+      "id": "1515341731660-25",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -991,7 +1011,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-26",
+      "id": "1515341731660-26",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1034,7 +1054,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-27",
+      "id": "1515341731660-27",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1197,7 +1217,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-28",
+      "id": "1515341731660-28",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1213,7 +1233,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-29",
+      "id": "1515341731660-29",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1229,7 +1249,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-30",
+      "id": "1515341731660-30",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1245,7 +1265,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-31",
+      "id": "1515341731660-31",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1261,7 +1281,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-32",
+      "id": "1515341731660-32",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1277,7 +1297,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-33",
+      "id": "1515341731660-33",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1293,7 +1313,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-34",
+      "id": "1515341731660-34",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1309,7 +1329,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-35",
+      "id": "1515341731660-35",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1325,7 +1345,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-36",
+      "id": "1515341731660-36",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1341,7 +1361,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-37",
+      "id": "1515341731660-37",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1363,7 +1383,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-38",
+      "id": "1515341731660-38",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1385,7 +1405,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-39",
+      "id": "1515341731660-39",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1407,7 +1427,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-40",
+      "id": "1515341731660-40",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1429,7 +1449,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-41",
+      "id": "1515341731660-41",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1451,7 +1471,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-42",
+      "id": "1515341731660-42",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1473,7 +1493,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-43",
+      "id": "1515341731660-43",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1495,7 +1515,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-44",
+      "id": "1515341731660-44",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1517,7 +1537,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-45",
+      "id": "1515341731660-45",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1539,7 +1559,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-46",
+      "id": "1515341731660-46",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1561,7 +1581,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-47",
+      "id": "1515341731660-47",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1583,7 +1603,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-48",
+      "id": "1515341731660-48",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1605,7 +1625,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-49",
+      "id": "1515341731660-49",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1627,7 +1647,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-50",
+      "id": "1515341731660-50",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1649,7 +1669,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-51",
+      "id": "1515341731660-51",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1671,7 +1691,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-52",
+      "id": "1515341731660-52",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1693,7 +1713,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-53",
+      "id": "1515341731660-53",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1715,7 +1735,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-54",
+      "id": "1515341731660-54",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1742,7 +1762,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-55",
+      "id": "1515341731660-55",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1764,7 +1784,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-56",
+      "id": "1515341731660-56",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1786,7 +1806,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-57",
+      "id": "1515341731660-57",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1808,7 +1828,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-58",
+      "id": "1515341731660-58",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1830,7 +1850,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-59",
+      "id": "1515341731660-59",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1852,7 +1872,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-60",
+      "id": "1515341731660-60",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1874,7 +1894,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-61",
+      "id": "1515341731660-61",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1896,7 +1916,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-62",
+      "id": "1515341731660-62",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1918,7 +1938,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-63",
+      "id": "1515341731660-63",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1940,7 +1960,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-64",
+      "id": "1515341731660-64",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1962,7 +1982,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-65",
+      "id": "1515341731660-65",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1984,7 +2004,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-66",
+      "id": "1515341731660-66",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2006,7 +2026,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-67",
+      "id": "1515341731660-67",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2028,7 +2048,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-68",
+      "id": "1515341731660-68",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2050,7 +2070,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-69",
+      "id": "1515341731660-69",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2072,7 +2092,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-70",
+      "id": "1515341731660-70",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2094,7 +2114,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-71",
+      "id": "1515341731660-71",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2116,7 +2136,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-72",
+      "id": "1515341731660-72",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2138,7 +2158,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-73",
+      "id": "1515341731660-73",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2160,7 +2180,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-74",
+      "id": "1515341731660-74",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2182,7 +2202,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-75",
+      "id": "1515341731660-75",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2204,7 +2224,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-76",
+      "id": "1515341731660-76",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2226,7 +2246,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-77",
+      "id": "1515341731660-77",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2248,7 +2268,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-78",
+      "id": "1515341731660-78",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2270,7 +2290,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-79",
+      "id": "1515341731660-79",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2292,7 +2312,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-80",
+      "id": "1515341731660-80",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2314,7 +2334,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-81",
+      "id": "1515341731660-81",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2336,7 +2356,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-82",
+      "id": "1515341731660-82",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2358,7 +2378,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-83",
+      "id": "1515341731660-83",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2380,7 +2400,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-84",
+      "id": "1515341731660-84",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2402,7 +2422,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-85",
+      "id": "1515341731660-85",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2424,7 +2444,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-86",
+      "id": "1515341731660-86",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2446,7 +2466,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-87",
+      "id": "1515341731660-87",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2468,7 +2488,7 @@
 
   {
     "changeSet": {
-      "id": "1515157328265-88",
+      "id": "1515341731660-88",
       "author": "mhenr (generated)",
       "changes": [
         {
