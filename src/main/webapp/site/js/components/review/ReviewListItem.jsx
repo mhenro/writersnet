@@ -30,7 +30,7 @@ class ReviewListItem extends React.Component {
     }
 
     getAuthorName() {
-        return this.props.review.authorFullName;
+        return <Link to={'/authors/' + this.props.review.authorId}>{this.props.review.authorFullName}</Link>;
     }
 
     getScore() {

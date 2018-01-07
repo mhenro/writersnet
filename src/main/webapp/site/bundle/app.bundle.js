@@ -11191,7 +11191,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.updateMutableDate = exports.goToComments = exports.removeNotify = exports.removeNotifies = exports.createNotify = exports.closeWriteMessageForm = exports.openWriteMessageForm = exports.closeUserPolicy = exports.openUserPolicy = exports.closeLoginForm = exports.openLoginForm = exports.UPDATE_MUTABLE_DATE = exports.GO_TO_COMMENTS = exports.REMOVE_NOTIFY = exports.REMOVE_NOTIFIES = exports.CREATE_NOTIFY = exports.CLOSE_WRITE_MESSAGE_FORM = exports.OPEN_WRITE_MESSAGE_FORM = exports.CLOSE_USER_POLICY = exports.OPEN_USER_POLICY = exports.CLOSE_LOGIN_FORM = exports.OPEN_LOGIN_FORM = exports.getSessionsCount = undefined;
 
-var _fetch = __webpack_require__(54);
+var _fetch = __webpack_require__(55);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -11310,7 +11310,7 @@ var updateMutableDate = exports.updateMutableDate = function updateMutableDate(m
 
 var _prodInvariant = __webpack_require__(15);
 
-var DOMProperty = __webpack_require__(53);
+var DOMProperty = __webpack_require__(54);
 var ReactDOMComponentFlags = __webpack_require__(217);
 
 var invariant = __webpack_require__(11);
@@ -12099,7 +12099,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setToken = exports.setPasswordConfirm = exports.setPassword = exports.setLogin = exports.setEmail = exports.SET_TOKEN = exports.SET_PASSWORD_CONFIRM = exports.SET_PASSWORD = exports.SET_LOGIN = exports.SET_EMAIL = exports.sendActivationToken = exports.sendRegister = exports.sendLogin = undefined;
 
-var _fetch = __webpack_require__(54);
+var _fetch = __webpack_require__(55);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -13464,7 +13464,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getNewFriendsCount = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthorsCount = exports.getAuthors = undefined;
 
-var _fetch = __webpack_require__(54);
+var _fetch = __webpack_require__(55);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -14310,6 +14310,183 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.closeReviewForm = exports.openReviewForm = exports.closeEditSeriesForm = exports.openEditSeriesForm = exports.closeBookPropsForm = exports.openBookPropsForm = exports.setGenres = exports.setSeries = exports.setBook = exports.setBooks = exports.CLOSE_REVIEW_FORM = exports.OPEN_REVIEW_FORM = exports.CLOSE_EDITSERIES_FORM = exports.OPEN_EDITSERIES_FORM = exports.CLOSE_BOOKPROPS_FORM = exports.OPEN_BOOKPROPS_FORM = exports.SET_GENRES = exports.SET_SERIES = exports.SET_BOOK = exports.SET_BOOKS = exports.deleteBook = exports.saveCover = exports.saveBookText = exports.saveBook = exports.deleteComment = exports.saveComment = exports.getBookComments = exports.getBookDetails = exports.addStar = exports.getGenres = exports.deleteSerie = exports.saveSerie = exports.getSeries = exports.getBooksCount = exports.getBooksByAuthor = exports.getBooks = undefined;
+
+var _fetch = __webpack_require__(55);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+var _utils = __webpack_require__(23);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getBooks = exports.getBooks = function getBooks(name) {
+    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
+
+    if (name) {
+        return (0, _fetch2.default)((0, _utils.getHost)() + 'books/name/' + name + '?page=' + page + '&size=' + size);
+    } else {
+        return (0, _fetch2.default)((0, _utils.getHost)() + 'books?page=' + page + '&size=' + size);
+    }
+};
+
+var getBooksByAuthor = exports.getBooksByAuthor = function getBooksByAuthor(authorId) {
+    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 200;
+
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/author/' + authorId + '?page=' + page + '&size=' + size);
+};
+
+var getBooksCount = exports.getBooksCount = function getBooksCount() {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'count/books');
+};
+
+var getSeries = exports.getSeries = function getSeries(userId) {
+    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 200;
+
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'series/' + userId + '?page=' + page + '&size=' + size);
+};
+
+var saveSerie = exports.saveSerie = function saveSerie(bookSerie, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'series', bookSerie, token);
+};
+
+var deleteSerie = exports.deleteSerie = function deleteSerie(id, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'series/' + id, 'DELETE', token);
+};
+
+var getGenres = exports.getGenres = function getGenres() {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'genres');
+};
+
+var addStar = exports.addStar = function addStar(bookId, starValue) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookId + '/rating/' + starValue);
+};
+
+var getBookDetails = exports.getBookDetails = function getBookDetails(bookId) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookId);
+};
+
+var getBookComments = exports.getBookComments = function getBookComments(bookid, page) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookid + '/comments?page=' + page + '&size=10');
+};
+
+var saveComment = exports.saveComment = function saveComment(comment) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/comments', comment);
+};
+
+var deleteComment = exports.deleteComment = function deleteComment(bookId, commentId, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookId + '/comments/' + commentId, 'DELETE', token);
+};
+
+var saveBook = exports.saveBook = function saveBook(book, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books', book, token);
+};
+
+var saveBookText = exports.saveBookText = function saveBookText(bookText, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'text', bookText, token, 'multipart/form-data');
+};
+
+var saveCover = exports.saveCover = function saveCover(cover, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'cover', cover, token, 'multipart/form-data');
+};
+
+var deleteBook = exports.deleteBook = function deleteBook(bookTextRequest, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookTextRequest, 'DELETE', token);
+};
+
+var SET_BOOKS = exports.SET_BOOKS = 'SET_BOOKS';
+var SET_BOOK = exports.SET_BOOK = 'SET_BOOK';
+var SET_SERIES = exports.SET_SERIES = 'SET_SERIES';
+var SET_GENRES = exports.SET_GENRES = 'SET_GENRES';
+
+var OPEN_BOOKPROPS_FORM = exports.OPEN_BOOKPROPS_FORM = 'OPEN_BOOKPROPS_FORM';
+var CLOSE_BOOKPROPS_FORM = exports.CLOSE_BOOKPROPS_FORM = 'CLOSE_BOOKPROPS_FORM';
+
+var OPEN_EDITSERIES_FORM = exports.OPEN_EDITSERIES_FORM = 'OPEN_EDITSERIES_FORM';
+var CLOSE_EDITSERIES_FORM = exports.CLOSE_EDITSERIES_FORM = 'CLOSE_EDITSERIES_FORM';
+
+var OPEN_REVIEW_FORM = exports.OPEN_REVIEW_FORM = 'OPEN_REVIEW_FORM';
+var CLOSE_REVIEW_FORM = exports.CLOSE_REVIEW_FORM = 'CLOSE_REVIEW_FORM';
+
+var setBooks = exports.setBooks = function setBooks(books) {
+    return {
+        type: SET_BOOKS,
+        books: books
+    };
+};
+
+var setBook = exports.setBook = function setBook(book) {
+    return {
+        type: SET_BOOK,
+        book: book
+    };
+};
+
+var setSeries = exports.setSeries = function setSeries(series) {
+    return {
+        type: SET_SERIES,
+        series: series
+    };
+};
+
+var setGenres = exports.setGenres = function setGenres(genres) {
+    return {
+        type: SET_GENRES,
+        genres: genres
+    };
+};
+
+var openBookPropsForm = exports.openBookPropsForm = function openBookPropsForm(book) {
+    return {
+        type: OPEN_BOOKPROPS_FORM,
+        book: book
+    };
+};
+
+var closeBookPropsForm = exports.closeBookPropsForm = function closeBookPropsForm() {
+    return {
+        type: CLOSE_BOOKPROPS_FORM
+    };
+};
+
+var openEditSeriesForm = exports.openEditSeriesForm = function openEditSeriesForm() {
+    return {
+        type: OPEN_EDITSERIES_FORM
+    };
+};
+
+var closeEditSeriesForm = exports.closeEditSeriesForm = function closeEditSeriesForm() {
+    return {
+        type: CLOSE_EDITSERIES_FORM
+    };
+};
+
+var openReviewForm = exports.openReviewForm = function openReviewForm(book) {
+    return {
+        type: OPEN_REVIEW_FORM,
+        book: book
+    };
+};
+
+var closeReviewForm = exports.closeReviewForm = function closeReviewForm() {
+    return {
+        type: CLOSE_REVIEW_FORM
+    };
+};
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var _Object$getOwnPropertyDescriptor = __webpack_require__(962)["default"];
 
 exports["default"] = function get(_x, _x2, _x3) {
@@ -14354,7 +14531,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 exports.__esModule = true;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14383,7 +14560,7 @@ exports["default"] = function (subClass, superClass) {
 exports.__esModule = true;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14413,7 +14590,7 @@ exports["default"] = (function () {
 exports.__esModule = true;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14428,7 +14605,7 @@ exports["default"] = function (instance, Constructor) {
 exports.__esModule = true;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14443,7 +14620,7 @@ exports["default"] = function (obj) {
 exports.__esModule = true;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14656,7 +14833,7 @@ module.exports = DOMProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14710,183 +14887,6 @@ var doFetch = function doFetch(url, request, token) {
 };
 
 exports.default = doFetch;
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.closeReviewForm = exports.openReviewForm = exports.closeEditSeriesForm = exports.openEditSeriesForm = exports.closeBookPropsForm = exports.openBookPropsForm = exports.setGenres = exports.setSeries = exports.setBook = exports.setBooks = exports.CLOSE_REVIEW_FORM = exports.OPEN_REVIEW_FORM = exports.CLOSE_EDITSERIES_FORM = exports.OPEN_EDITSERIES_FORM = exports.CLOSE_BOOKPROPS_FORM = exports.OPEN_BOOKPROPS_FORM = exports.SET_GENRES = exports.SET_SERIES = exports.SET_BOOK = exports.SET_BOOKS = exports.deleteBook = exports.saveCover = exports.saveBookText = exports.saveBook = exports.deleteComment = exports.saveComment = exports.getBookComments = exports.getBookDetails = exports.addStar = exports.getGenres = exports.deleteSerie = exports.saveSerie = exports.getSeries = exports.getBooksCount = exports.getBooksByAuthor = exports.getBooks = undefined;
-
-var _fetch = __webpack_require__(54);
-
-var _fetch2 = _interopRequireDefault(_fetch);
-
-var _utils = __webpack_require__(23);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var getBooks = exports.getBooks = function getBooks(name) {
-    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
-
-    if (name) {
-        return (0, _fetch2.default)((0, _utils.getHost)() + 'books/name/' + name + '?page=' + page + '&size=' + size);
-    } else {
-        return (0, _fetch2.default)((0, _utils.getHost)() + 'books?page=' + page + '&size=' + size);
-    }
-};
-
-var getBooksByAuthor = exports.getBooksByAuthor = function getBooksByAuthor(authorId) {
-    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 200;
-
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/author/' + authorId + '?page=' + page + '&size=' + size);
-};
-
-var getBooksCount = exports.getBooksCount = function getBooksCount() {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'count/books');
-};
-
-var getSeries = exports.getSeries = function getSeries(userId) {
-    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 200;
-
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'series/' + userId + '?page=' + page + '&size=' + size);
-};
-
-var saveSerie = exports.saveSerie = function saveSerie(bookSerie, token) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'series', bookSerie, token);
-};
-
-var deleteSerie = exports.deleteSerie = function deleteSerie(id, token) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'series/' + id, 'DELETE', token);
-};
-
-var getGenres = exports.getGenres = function getGenres() {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'genres');
-};
-
-var addStar = exports.addStar = function addStar(bookId, starValue) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookId + '/rating/' + starValue);
-};
-
-var getBookDetails = exports.getBookDetails = function getBookDetails(bookId) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookId);
-};
-
-var getBookComments = exports.getBookComments = function getBookComments(bookid, page) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookid + '/comments?page=' + page + '&size=10');
-};
-
-var saveComment = exports.saveComment = function saveComment(comment) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/comments', comment);
-};
-
-var deleteComment = exports.deleteComment = function deleteComment(bookId, commentId, token) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookId + '/comments/' + commentId, 'DELETE', token);
-};
-
-var saveBook = exports.saveBook = function saveBook(book, token) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books', book, token);
-};
-
-var saveBookText = exports.saveBookText = function saveBookText(bookText, token) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'text', bookText, token, 'multipart/form-data');
-};
-
-var saveCover = exports.saveCover = function saveCover(cover, token) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'cover', cover, token, 'multipart/form-data');
-};
-
-var deleteBook = exports.deleteBook = function deleteBook(bookTextRequest, token) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookTextRequest, 'DELETE', token);
-};
-
-var SET_BOOKS = exports.SET_BOOKS = 'SET_BOOKS';
-var SET_BOOK = exports.SET_BOOK = 'SET_BOOK';
-var SET_SERIES = exports.SET_SERIES = 'SET_SERIES';
-var SET_GENRES = exports.SET_GENRES = 'SET_GENRES';
-
-var OPEN_BOOKPROPS_FORM = exports.OPEN_BOOKPROPS_FORM = 'OPEN_BOOKPROPS_FORM';
-var CLOSE_BOOKPROPS_FORM = exports.CLOSE_BOOKPROPS_FORM = 'CLOSE_BOOKPROPS_FORM';
-
-var OPEN_EDITSERIES_FORM = exports.OPEN_EDITSERIES_FORM = 'OPEN_EDITSERIES_FORM';
-var CLOSE_EDITSERIES_FORM = exports.CLOSE_EDITSERIES_FORM = 'CLOSE_EDITSERIES_FORM';
-
-var OPEN_REVIEW_FORM = exports.OPEN_REVIEW_FORM = 'OPEN_REVIEW_FORM';
-var CLOSE_REVIEW_FORM = exports.CLOSE_REVIEW_FORM = 'CLOSE_REVIEW_FORM';
-
-var setBooks = exports.setBooks = function setBooks(books) {
-    return {
-        type: SET_BOOKS,
-        books: books
-    };
-};
-
-var setBook = exports.setBook = function setBook(book) {
-    return {
-        type: SET_BOOK,
-        book: book
-    };
-};
-
-var setSeries = exports.setSeries = function setSeries(series) {
-    return {
-        type: SET_SERIES,
-        series: series
-    };
-};
-
-var setGenres = exports.setGenres = function setGenres(genres) {
-    return {
-        type: SET_GENRES,
-        genres: genres
-    };
-};
-
-var openBookPropsForm = exports.openBookPropsForm = function openBookPropsForm(book) {
-    return {
-        type: OPEN_BOOKPROPS_FORM,
-        book: book
-    };
-};
-
-var closeBookPropsForm = exports.closeBookPropsForm = function closeBookPropsForm() {
-    return {
-        type: CLOSE_BOOKPROPS_FORM
-    };
-};
-
-var openEditSeriesForm = exports.openEditSeriesForm = function openEditSeriesForm() {
-    return {
-        type: OPEN_EDITSERIES_FORM
-    };
-};
-
-var closeEditSeriesForm = exports.closeEditSeriesForm = function closeEditSeriesForm() {
-    return {
-        type: CLOSE_EDITSERIES_FORM
-    };
-};
-
-var openReviewForm = exports.openReviewForm = function openReviewForm(book) {
-    return {
-        type: OPEN_REVIEW_FORM,
-        book: book
-    };
-};
-
-var closeReviewForm = exports.closeReviewForm = function closeReviewForm() {
-    return {
-        type: CLOSE_REVIEW_FORM
-    };
-};
 
 /***/ }),
 /* 56 */
@@ -18018,7 +18018,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setUnreadMessages = exports.SET_UNREAD_MESSAGES = exports.markAllAsReadInGroup = exports.getUnreadMessagesFromUser = exports.getUnreadMessagesInGroup = exports.getGroupIdByRecipient = exports.addMessageToGroup = exports.getGroupName = exports.getMessagesByGroup = undefined;
 
-var _fetch = __webpack_require__(54);
+var _fetch = __webpack_require__(55);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -30807,7 +30807,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var DOMProperty = __webpack_require__(53);
+var DOMProperty = __webpack_require__(54);
 var ReactDOMComponentTree = __webpack_require__(22);
 var ReactInstrumentation = __webpack_require__(34);
 
@@ -31984,7 +31984,7 @@ module.exports = ReactInputSelection;
 var _prodInvariant = __webpack_require__(15);
 
 var DOMLazyTree = __webpack_require__(69);
-var DOMProperty = __webpack_require__(53);
+var DOMProperty = __webpack_require__(54);
 var React = __webpack_require__(66);
 var ReactBrowserEventEmitter = __webpack_require__(109);
 var ReactCurrentOwner = __webpack_require__(39);
@@ -43707,7 +43707,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getReviews = exports.saveReview = undefined;
 
-var _fetch = __webpack_require__(54);
+var _fetch = __webpack_require__(55);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -58830,7 +58830,7 @@ module.exports = EnterLeaveEventPlugin;
 
 
 
-var DOMProperty = __webpack_require__(53);
+var DOMProperty = __webpack_require__(54);
 
 var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
 var HAS_BOOLEAN_VALUE = DOMProperty.injection.HAS_BOOLEAN_VALUE;
@@ -59383,7 +59383,7 @@ var AutoFocusUtils = __webpack_require__(529);
 var CSSPropertyOperations = __webpack_require__(530);
 var DOMLazyTree = __webpack_require__(69);
 var DOMNamespaces = __webpack_require__(143);
-var DOMProperty = __webpack_require__(53);
+var DOMProperty = __webpack_require__(54);
 var DOMPropertyOperations = __webpack_require__(233);
 var EventPluginHub = __webpack_require__(79);
 var EventPluginRegistry = __webpack_require__(104);
@@ -64192,7 +64192,7 @@ module.exports = ReactEventListener;
 
 
 
-var DOMProperty = __webpack_require__(53);
+var DOMProperty = __webpack_require__(54);
 var EventPluginHub = __webpack_require__(79);
 var EventPluginUtils = __webpack_require__(137);
 var ReactComponentEnvironment = __webpack_require__(146);
@@ -66251,7 +66251,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 
-var DOMProperty = __webpack_require__(53);
+var DOMProperty = __webpack_require__(54);
 var EventPluginRegistry = __webpack_require__(104);
 var ReactComponentTreeHook = __webpack_require__(33);
 
@@ -66414,7 +66414,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 
 
-var DOMProperty = __webpack_require__(53);
+var DOMProperty = __webpack_require__(54);
 var ReactComponentTreeHook = __webpack_require__(33);
 
 var warning = __webpack_require__(12);
@@ -67863,7 +67863,7 @@ var MainPage = function (_React$Component) {
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/authors/:authorName', component: _SectionPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/books', component: _BookPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/ratings', component: _RatingPage2.default }),
-                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/reviews', component: _ReviewPage2.default }),
+                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/reviews/:bookId', component: _ReviewPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/reader/:bookId', component: _BookReader2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/options', component: this.props.registered ? _OptionsPage2.default : _BookPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/news', component: _NewsPage2.default }),
@@ -76730,7 +76730,7 @@ var Footer = function (_React$Component) {
                     _react2.default.createElement(
                         "div",
                         { className: "col-sm-12", style: { textAlign: 'center' } },
-                        "\xA9 2017 \"WritersNets.com\""
+                        "\xA9 2018 \"WritersNets.com\""
                     )
                 )
             );
@@ -76874,7 +76874,7 @@ var _reactSlick2 = _interopRequireDefault(_reactSlick);
 
 var _AuthorActions = __webpack_require__(41);
 
-var _BookActions = __webpack_require__(55);
+var _BookActions = __webpack_require__(48);
 
 var _GlobalActions = __webpack_require__(21);
 
@@ -90364,7 +90364,7 @@ var _AlphabetPagination2 = _interopRequireDefault(_AlphabetPagination);
 
 var _GlobalActions = __webpack_require__(21);
 
-var _BookActions = __webpack_require__(55);
+var _BookActions = __webpack_require__(48);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90873,7 +90873,7 @@ var _reactStars2 = _interopRequireDefault(_reactStars);
 
 var _reactRouterDom = __webpack_require__(36);
 
-var _BookActions = __webpack_require__(55);
+var _BookActions = __webpack_require__(48);
 
 var _GlobalActions = __webpack_require__(21);
 
@@ -91719,7 +91719,7 @@ var _reactRedux = __webpack_require__(20);
 
 var _AuthorActions = __webpack_require__(41);
 
-var _BookActions = __webpack_require__(55);
+var _BookActions = __webpack_require__(48);
 
 var _GlobalActions = __webpack_require__(21);
 
@@ -92832,9 +92832,7 @@ var BookSerieItem = function (_React$Component) {
                 ' |\xA0',
                 _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '/reader/' + this.props.book.id, onClick: function onClick() {
-                            return _this2.props.onGoToComments(true);
-                        } },
+                    { to: '/reviews/' + this.props.book.id },
                     this.props.book.reviewCount,
                     ' reviews'
                 )
@@ -93129,7 +93127,7 @@ var _utils = __webpack_require__(23);
 
 var _GlobalActions = __webpack_require__(21);
 
-var _BookActions = __webpack_require__(55);
+var _BookActions = __webpack_require__(48);
 
 var _AuthActions = __webpack_require__(30);
 
@@ -94312,7 +94310,7 @@ var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
 var _GlobalActions = __webpack_require__(21);
 
-var _BookActions = __webpack_require__(55);
+var _BookActions = __webpack_require__(48);
 
 var _AuthActions = __webpack_require__(30);
 
@@ -94793,7 +94791,7 @@ var _TextEditor = __webpack_require__(867);
 
 var _TextEditor2 = _interopRequireDefault(_TextEditor);
 
-var _BookActions = __webpack_require__(55);
+var _BookActions = __webpack_require__(48);
 
 var _ReviewActions = __webpack_require__(362);
 
@@ -105474,17 +105472,17 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
 var _extends = __webpack_require__(369)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -106400,15 +106398,15 @@ webpackContext.id = 982;
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -106569,17 +106567,17 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
 var _Object$keys = __webpack_require__(985)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -106784,15 +106782,15 @@ __webpack_require__(365)('keys', function($keys){
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -106994,15 +106992,15 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107126,15 +107124,15 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107259,17 +107257,17 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
 var _extends = __webpack_require__(369)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107489,15 +107487,15 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107650,15 +107648,15 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(48)["default"];
+var _get = __webpack_require__(49)["default"];
 
-var _inherits = __webpack_require__(49)["default"];
+var _inherits = __webpack_require__(50)["default"];
 
-var _createClass = __webpack_require__(50)["default"];
+var _createClass = __webpack_require__(51)["default"];
 
-var _classCallCheck = __webpack_require__(51)["default"];
+var _classCallCheck = __webpack_require__(52)["default"];
 
-var _interopRequireDefault = __webpack_require__(52)["default"];
+var _interopRequireDefault = __webpack_require__(53)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -109289,7 +109287,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getTopBooksByViews = exports.getTopBooksByComments = exports.getTopBooksByVolume = exports.getTopBooksByRating = exports.getTopBooksByNovelty = exports.getTopAuthorsByViews = exports.getTopAuthorsByComments = exports.getTopAuthorsByBookCount = exports.getTopAuthorsByRating = undefined;
 
-var _fetch = __webpack_require__(54);
+var _fetch = __webpack_require__(55);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -111600,7 +111598,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getNews = undefined;
 
-var _fetch = __webpack_require__(54);
+var _fetch = __webpack_require__(55);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -111903,6 +111901,8 @@ var _AuthActions = __webpack_require__(30);
 
 var _ReviewActions = __webpack_require__(362);
 
+var _BookActions = __webpack_require__(48);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -111936,7 +111936,8 @@ var ReviewPage = function (_React$Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
-            this.props.onGetReviews(this.state.book.value, this.state.activePage, function (page) {
+            var bookId = this.state.book.value !== -1 ? this.state.book.value : this.props.match.params.bookId;
+            this.props.onGetReviews(bookId, this.state.activePage, function (page) {
                 return _this2.updatePage(page);
             });
         }
@@ -111948,26 +111949,39 @@ var ReviewPage = function (_React$Component) {
                     options: []
                 });
             }
-            return this.props.onGetFriends(this.props.login, value, this.props.token, 1);
+            return this.props.onGetBooks(value, 1);
         }
     }, {
         key: 'onBookChange',
         value: function onBookChange(book) {
+            var _this3 = this;
+
             this.setState({
                 book: book
             });
+            this.props.onGetReviews(book.value, 0, function (page) {
+                return _this3.updatePage(page);
+            });
+        }
+    }, {
+        key: 'filterOption',
+        value: function filterOption(option, filter) {
+            if (option.label === 'ALL' && option.value === -1) {
+                return true;
+            }
+            return option.label.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
         }
     }, {
         key: 'pageSelect',
         value: function pageSelect(page) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.setState({
                 activePage: page
             });
 
             this.props.onGetReviews(this.state.book.value, page, function (page) {
-                return _this3.updatePage(page);
+                return _this4.updatePage(page);
             });
         }
     }, {
@@ -111987,7 +112001,7 @@ var ReviewPage = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -111998,7 +112012,7 @@ var ReviewPage = function (_React$Component) {
                     _react2.default.createElement(
                         'form',
                         { className: 'form-horizontal', onSubmit: function onSubmit(event) {
-                                return _this4.onSubmit(event);
+                                return _this5.onSubmit(event);
                             } },
                         _react2.default.createElement(
                             'div',
@@ -112014,10 +112028,13 @@ var ReviewPage = function (_React$Component) {
                                 _react2.default.createElement(_reactSelect2.default.Async, { value: this.state.book,
                                     id: 'book',
                                     loadOptions: function loadOptions(value) {
-                                        return _this4.loadBooks(value);
+                                        return _this5.loadBooks(value);
                                     },
                                     onChange: function onChange(book) {
-                                        return _this4.onBookChange(book);
+                                        return _this5.onBookChange(book);
+                                    },
+                                    filterOption: function filterOption(option, filter) {
+                                        return _this5.filterOption(option, filter);
                                     },
                                     noResultsText: 'Nothing found',
                                     loadingPlaceholder: 'Searching...',
@@ -112042,7 +112059,7 @@ var ReviewPage = function (_React$Component) {
                         maxButtons: 3,
                         activePage: this.state.activePage,
                         onSelect: function onSelect(page) {
-                            return _this4.pageSelect(page);
+                            return _this5.pageSelect(page);
                         } }),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement('br', null)
@@ -112067,24 +112084,22 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        onGetFriends: function onGetFriends(userId, matcher, token, page /*, callback*/) {
-            return getFriends(userId, matcher, token, page - 1).then(function (_ref) {
+        onGetBooks: function onGetBooks(name, page) {
+            return (0, _BookActions.getBooks)(name, page - 1).then(function (_ref) {
                 var _ref2 = _slicedToArray(_ref, 2),
                     response = _ref2[0],
                     json = _ref2[1];
 
                 if (response.status === 200) {
-                    var options = [],
-                        friends = json.content;
-                    friends.forEach(function (friend) {
+                    var options = [{ value: -1, label: 'ALL' }],
+                        books = json.content;
+                    books.forEach(function (book) {
                         options.push({
-                            value: friend.friendId,
-                            label: friend.fullName
+                            value: book.id,
+                            label: book.name
                         });
                     });
                     return { options: options };
-                } else if (json.message.includes('JWT expired at')) {
-                    dispatch((0, _AuthActions.setToken)(''));
                 } else {
                     dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
                 }
@@ -112248,7 +112263,11 @@ var ReviewListItem = function (_React$Component) {
     }, {
         key: 'getAuthorName',
         value: function getAuthorName() {
-            return this.props.review.authorFullName;
+            return _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/authors/' + this.props.review.authorId },
+                this.props.review.authorFullName
+            );
         }
     }, {
         key: 'getScore',
@@ -112790,7 +112809,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _BookActions = __webpack_require__(55);
+var _BookActions = __webpack_require__(48);
 
 var initialState = {
     books: [],

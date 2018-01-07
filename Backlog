@@ -1,7 +1,5 @@
 ﻿Current sprint:
-IN PROGRESS - 54. Add reviews page.
-41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
-
+IN PROGRESS - 93. Add review reading page.
 
 
 Features:
@@ -143,3 +141,5 @@ DONE - 28. Import word-like editor to create formatted text on the frontend. For
 DONE - 36. Create reviews counter in "13000 views | 775 comments | 20 reviews" component on author page.
 DONE - 91. Update SectionPage after adding new review.
 DONE - 90. Fix bug with pagination on News page.
+DONE - 54. Add reviews page.
+DONE - 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.

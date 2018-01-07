@@ -7,7 +7,7 @@ class Footer extends React.Component {
                 <br/><br/>
                 <footer className="container-fluid text-center">
                     <div className="col-sm-12" style={{textAlign: 'center'}}>
-                        © 2017 "WritersNets.com"
+                        © 2018 "WritersNets.com"
                     </div>
                 </footer>
             </div>

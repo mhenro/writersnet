@@ -8,6 +8,7 @@ import ReviewList from '../components/review/ReviewList.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
 import { getReviews } from '../actions/ReviewActions.jsx';
+import { getBooks } from '../actions/BookActions.jsx';
 
 class ReviewPage extends React.Component {
     constructor(props) {
@@ -25,7 +26,8 @@ class ReviewPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.onGetReviews(this.state.book.value, this.state.activePage, page => this.updatePage(page));
+        let bookId = this.state.book.value !== -1 ? this.state.book.value : this.props.match.params.bookId;
+        this.props.onGetReviews(bookId, this.state.activePage, page => this.updatePage(page));
     }
 
     loadBooks(value) {
@@ -34,13 +36,21 @@ class ReviewPage extends React.Component {
                 options: []
             });
         }
-        return this.props.onGetFriends(this.props.login, value, this.props.token, 1);
+        return this.props.onGetBooks(value, 1);
     }
 
     onBookChange(book) {
         this.setState({
             book: book
         });
+        this.props.onGetReviews(book.value, 0, page => this.updatePage(page));
+    }
+
+    filterOption(option, filter) {
+        if (option.label === 'ALL' && option.value === -1) {
+            return true;
+        }
+        return option.label.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
     }
 
     pageSelect(page) {
@@ -75,6 +85,7 @@ class ReviewPage extends React.Component {
                                               id="book"
                                               loadOptions={value => this.loadBooks(value)}
                                               onChange={book => this.onBookChange(book)}
+                                              filterOption={(option, filter) => this.filterOption(option, filter)}
                                               noResultsText="Nothing found"
                                               loadingPlaceholder="Searching..."
                                               placeholder="Select a book"/>
@@ -115,21 +126,18 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetFriends: (userId, matcher, token, page/*, callback*/) => {
-            return getFriends(userId, matcher, token, page - 1).then(([response, json]) => {
+        onGetBooks: (name, page) => {
+            return getBooks(name, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
-                    let options = [],
-                        friends = json.content;
-                    friends.forEach(friend => {
+                    let options = [{value: -1, label: 'ALL'}],
+                        books = json.content;
+                    books.forEach(book => {
                         options.push({
-                            value: friend.friendId,
-                            label: friend.fullName
+                            value: book.id,
+                            label: book.name
                         });
                     });
                     return {options};
-                }
-                else if (json.message.includes('JWT expired at')) {
-                    dispatch(setToken(''));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
