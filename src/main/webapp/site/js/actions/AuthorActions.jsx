@@ -65,6 +65,10 @@ export const saveAvatar = (avatar, token) => {
     return doFetch(getHost() + 'avatar', avatar, token, 'multipart/form-data');
 };
 
+export const changePassword = (changePasswordRequest, token) => {
+    return doFetch(getHost() + 'authors/password', changePasswordRequest, token);
+};
+
 export const restoreDefaultAvatar = (token) => {
     return doFetch(getHost() + 'avatar/restore', null, token);
 };

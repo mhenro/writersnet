@@ -6,6 +6,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.AuthorRequest;
 import org.booklink.models.request.AvatarRequest;
+import org.booklink.models.request.ChangePasswordRequest;
 import org.booklink.models.response.*;
 import org.booklink.services.AuthorService;
 import org.booklink.services.SessionService;
@@ -87,6 +88,27 @@ public class AuthorController {
         }
         response.setCode(0);
         response.setMessage("Author was saved");
+        response.setToken(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "authors/password", method = RequestMethod.POST)
+    public ResponseEntity<?> changePassword(@RequestBody final ChangePasswordRequest request) {
+        Response<String> response = new Response<>();
+        String token = generateActivationToken();
+        sessionService.updateSession(token);
+        try {
+            authorService.changePassword(request);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            response.setToken(token);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Your password was changed");
         response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

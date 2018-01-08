@@ -7,6 +7,7 @@ import {
     setAuthor,
     saveAuthor,
     saveAvatar,
+    changePassword,
     restoreDefaultAvatar
 } from '../actions/AuthorActions.jsx';
 import {
@@ -34,7 +35,10 @@ class OptionsPage extends React.Component {
             birthday: new Date().toISOString().split('T')[0],
             city: '',
             siteLanguage: {value: 'EN', label: 'English'},
-            preferredLanguages: []
+            preferredLanguages: [],
+            currentPassword: '',
+            newPassword: '',
+            confirmNewPassword: ''
         };
     }
 
@@ -77,6 +81,9 @@ class OptionsPage extends React.Component {
             case 'city': this.setState({city: proxy.target.value}); break;
             case 'siteLanguage': this.setState({siteLanguage: proxy.target.value}); break;
             case 'preferredLanguages': this.setState({preferredLanguages: proxy.target.value}); break;
+            case 'current_password': this.setState({currentPassword: proxy.target.value}); break;
+            case 'new_password': this.setState({newPassword: proxy.target.value}); break;
+            case 'confirm_new_password': this.setState({confirmNewPassword: proxy.target.value}); break;
         }
     }
 
@@ -129,6 +136,16 @@ class OptionsPage extends React.Component {
             preferredLanguages: this.state.preferredLanguages.map(lang => lang.value).reduce((cur, next) => cur + ';' + next)
         };
         this.props.onSaveAuthor(author, this.props.token);
+    }
+
+    onChangePassword(event) {
+        event.preventDefault();
+        let changePasswordRequest = {
+            currentPassword: this.state.currentPassword,
+            newPassword: this.state.newPassword,
+            confirmNewPassword: this.state.confirmNewPassword
+        };
+        this.props.onChangePassword(changePasswordRequest, this.props.token);
     }
 
     getComboboxItems() {
@@ -210,7 +227,7 @@ class OptionsPage extends React.Component {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <div className="col-sm-12" style={{textAlign: 'center'}}>
+                                <div className="col-sm-12 text-center">
                                     <button type="submit" className="btn btn-success">Save</button>
                                 </div>
                             </div>
@@ -247,9 +264,31 @@ class OptionsPage extends React.Component {
                         Security
                     </div>
                     <div className="panel-body">
-                        Login
-                        <br/>
-                        Password
+                        <form className="form-horizontal" onSubmit={event => this.onChangePassword(event)}>
+                            <div className="form-group">
+                                <label className="control-label col-sm-2" htmlFor="current_password">Current password:</label>
+                                <div className="col-sm-10">
+                                    <input value={this.state.currentPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="current_password" placeholder="Enter your current password" name="current_password"/>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="control-label col-sm-2" htmlFor="new_password">New password:</label>
+                                <div className="col-sm-10">
+                                    <input value={this.state.newPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="new_password" placeholder="Enter your new password" name="new_password"/>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="control-label col-sm-2" htmlFor="confirm_new_password">Confirm new password:</label>
+                                <div className="col-sm-10">
+                                    <input value={this.state.confirmNewPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="confirm_new_password" placeholder="Confirm your new password" name="confirm_new_password"/>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <div className="col-sm-12 text-center">
+                                    <button type="submit" className="btn btn-success">Change password</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -304,6 +343,32 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Avatar was saved successfully'));
                     callback();
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onChangePassword: (changePasswordRequest, token) => {
+            if (!changePasswordRequest.currentPassword || changePasswordRequest.currentPassword.length === 0) {
+                dispatch(createNotify('warning', 'Warning', 'Please input a correct password'));
+                return;
+            }
+            if (changePasswordRequest.newPassword !== changePasswordRequest.confirmNewPassword) {
+                dispatch(createNotify('warning', 'Warning', 'Your new password doesn\'t equlas to your confirmation password'));
+                return;
+            }
+
+            return changePassword(changePasswordRequest, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'Your password was changed successfully'));
                     dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {

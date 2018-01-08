@@ -1,7 +1,6 @@
 ﻿Current sprint:
 56. Add help page.
 86. Add feedback page to the help page with captcha.
-2. Add changing password functional to Options page.
 11. Add "forgot your password?" functional to login form.
 
 
@@ -144,3 +143,4 @@ DONE - 94. Add defense for overclicking likes/dislikes reviews.
 DONE - 55. Add discussions page.
 DONE - 69. Add logic to "Restore default photo" button on OptionsPage.
 DONE - 68. Add logic to "Restore default cover" button on BookPropsForm.
+DONE - 2. Add changing password functional in the Options page.

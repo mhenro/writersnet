@@ -13462,7 +13462,7 @@ module.exports = ReactUpdates;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.restoreDefaultAvatar = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getNewFriendsCount = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthorsCount = exports.getAuthors = undefined;
+exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.restoreDefaultAvatar = exports.changePassword = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getNewFriendsCount = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthorsCount = exports.getAuthors = undefined;
 
 var _fetch = __webpack_require__(55);
 
@@ -13552,6 +13552,10 @@ var saveAuthor = exports.saveAuthor = function saveAuthor(author, token) {
 
 var saveAvatar = exports.saveAvatar = function saveAvatar(avatar, token) {
     return (0, _fetch2.default)((0, _utils.getHost)() + 'avatar', avatar, token, 'multipart/form-data');
+};
+
+var changePassword = exports.changePassword = function changePassword(changePasswordRequest, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/password', changePasswordRequest, token);
 };
 
 var restoreDefaultAvatar = exports.restoreDefaultAvatar = function restoreDefaultAvatar(token) {
@@ -105095,7 +105099,10 @@ var OptionsPage = function (_React$Component) {
             birthday: new Date().toISOString().split('T')[0],
             city: '',
             siteLanguage: { value: 'EN', label: 'English' },
-            preferredLanguages: []
+            preferredLanguages: [],
+            currentPassword: '',
+            newPassword: '',
+            confirmNewPassword: ''
         };
         return _this;
     }
@@ -105159,6 +105166,12 @@ var OptionsPage = function (_React$Component) {
                     this.setState({ siteLanguage: proxy.target.value });break;
                 case 'preferredLanguages':
                     this.setState({ preferredLanguages: proxy.target.value });break;
+                case 'current_password':
+                    this.setState({ currentPassword: proxy.target.value });break;
+                case 'new_password':
+                    this.setState({ newPassword: proxy.target.value });break;
+                case 'confirm_new_password':
+                    this.setState({ confirmNewPassword: proxy.target.value });break;
             }
         }
     }, {
@@ -105229,6 +105242,17 @@ var OptionsPage = function (_React$Component) {
                 })
             };
             this.props.onSaveAuthor(author, this.props.token);
+        }
+    }, {
+        key: 'onChangePassword',
+        value: function onChangePassword(event) {
+            event.preventDefault();
+            var changePasswordRequest = {
+                currentPassword: this.state.currentPassword,
+                newPassword: this.state.newPassword,
+                confirmNewPassword: this.state.confirmNewPassword
+            };
+            this.props.onChangePassword(changePasswordRequest, this.props.token);
         }
     }, {
         key: 'getComboboxItems',
@@ -105410,7 +105434,7 @@ var OptionsPage = function (_React$Component) {
                                 { className: 'form-group' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'col-sm-12', style: { textAlign: 'center' } },
+                                    { className: 'col-sm-12 text-center' },
                                     _react2.default.createElement(
                                         'button',
                                         { type: 'submit', className: 'btn btn-success' },
@@ -105475,9 +105499,73 @@ var OptionsPage = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'panel-body' },
-                        'Login',
-                        _react2.default.createElement('br', null),
-                        'Password'
+                        _react2.default.createElement(
+                            'form',
+                            { className: 'form-horizontal', onSubmit: function onSubmit(event) {
+                                    return _this5.onChangePassword(event);
+                                } },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label col-sm-2', htmlFor: 'current_password' },
+                                    'Current password:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'col-sm-10' },
+                                    _react2.default.createElement('input', { value: this.state.currentPassword, onChange: function onChange(proxy) {
+                                            return _this5.onFieldChange(proxy);
+                                        }, type: 'password', className: 'form-control', id: 'current_password', placeholder: 'Enter your current password', name: 'current_password' })
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label col-sm-2', htmlFor: 'new_password' },
+                                    'New password:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'col-sm-10' },
+                                    _react2.default.createElement('input', { value: this.state.newPassword, onChange: function onChange(proxy) {
+                                            return _this5.onFieldChange(proxy);
+                                        }, type: 'password', className: 'form-control', id: 'new_password', placeholder: 'Enter your new password', name: 'new_password' })
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'label',
+                                    { className: 'control-label col-sm-2', htmlFor: 'confirm_new_password' },
+                                    'Confirm new password:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'col-sm-10' },
+                                    _react2.default.createElement('input', { value: this.state.confirmNewPassword, onChange: function onChange(proxy) {
+                                            return _this5.onFieldChange(proxy);
+                                        }, type: 'password', className: 'form-control', id: 'confirm_new_password', placeholder: 'Confirm your new password', name: 'confirm_new_password' })
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'col-sm-12 text-center' },
+                                    _react2.default.createElement(
+                                        'button',
+                                        { type: 'submit', className: 'btn btn-success' },
+                                        'Change password'
+                                    )
+                                )
+                            )
+                        )
                     )
                 )
             );
@@ -105554,11 +105642,39 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
             });
         },
 
-        onRestoreDefaultAvatar: function onRestoreDefaultAvatar(token, callback) {
-            return (0, _AuthorActions.restoreDefaultAvatar)(token).then(function (_ref7) {
+        onChangePassword: function onChangePassword(changePasswordRequest, token) {
+            if (!changePasswordRequest.currentPassword || changePasswordRequest.currentPassword.length === 0) {
+                dispatch((0, _GlobalActions.createNotify)('warning', 'Warning', 'Please input a correct password'));
+                return;
+            }
+            if (changePasswordRequest.newPassword !== changePasswordRequest.confirmNewPassword) {
+                dispatch((0, _GlobalActions.createNotify)('warning', 'Warning', 'Your new password doesn\'t equlas to your confirmation password'));
+                return;
+            }
+
+            return (0, _AuthorActions.changePassword)(changePasswordRequest, token).then(function (_ref7) {
                 var _ref8 = _slicedToArray(_ref7, 2),
                     response = _ref8[0],
                     json = _ref8[1];
+
+                if (response.status === 200) {
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Your password was changed successfully'));
+                    dispatch((0, _AuthActions.setToken)(json.token));
+                } else if (json.message.includes('JWT expired at')) {
+                    dispatch((0, _AuthActions.setToken)(''));
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onRestoreDefaultAvatar: function onRestoreDefaultAvatar(token, callback) {
+            return (0, _AuthorActions.restoreDefaultAvatar)(token).then(function (_ref9) {
+                var _ref10 = _slicedToArray(_ref9, 2),
+                    response = _ref10[0],
+                    json = _ref10[1];
 
                 if (response.status === 200) {
                     dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Avatar was restored successfully'));

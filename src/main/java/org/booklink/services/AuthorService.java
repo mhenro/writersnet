@@ -7,6 +7,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.AuthorRequest;
 import org.booklink.models.request.AvatarRequest;
+import org.booklink.models.request.ChangePasswordRequest;
 import org.booklink.models.response.*;
 import org.booklink.models.top_models.*;
 import org.booklink.repositories.AuthorRepository;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -132,6 +135,20 @@ public class AuthorService {
         }
         authorRepository.save(user);
         newsService.createNews(NewsService.NEWS_TYPE.PERSONAL_INFO_UPDATED, user);
+    }
+
+    @Transactional
+    public void changePassword(final ChangePasswordRequest request) {
+        final User user = getAuthorizedUser();
+        final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new UnauthorizedUserException("Your current password is incorrect");
+        }
+        if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
+            throw new UnauthorizedUserException("Your new password doesn't equals to your password confirmation");
+        }
+        final String password = passwordEncoder.encode(request.getNewPassword());
+        user.setPassword(password);
     }
 
     @Transactional
