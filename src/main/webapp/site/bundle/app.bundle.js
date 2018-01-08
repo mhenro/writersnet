@@ -112874,13 +112874,22 @@ var DiscussionPage = function (_React$Component) {
                 return _react2.default.createElement(
                     'div',
                     null,
-                    _react2.default.createElement('img', { src: bookCover, className: 'img-rounded', width: '32', height: 'auto' }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'discussion-short-avatar' },
+                        _react2.default.createElement('img', { src: bookCover, className: 'img-rounded', width: '32', height: 'auto' })
+                    ),
                     '\xA0',
                     _react2.default.createElement(
-                        _reactRouterDom.Link,
-                        { to: '/reader/' + bookId },
-                        name
-                    )
+                        'div',
+                        { className: 'discussion-text-float' },
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: '/reader/' + bookId },
+                            name
+                        )
+                    ),
+                    _react2.default.createElement('div', { className: 'stars-end' })
                 );
             };
             var getAuthorName = function getAuthorName(authorId, authorName, authorAvatar) {
@@ -112893,13 +112902,22 @@ var DiscussionPage = function (_React$Component) {
                 return _react2.default.createElement(
                     'div',
                     null,
-                    _react2.default.createElement('img', { src: authorAvatar, className: 'img-rounded', width: '32', height: 'auto' }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'discussion-short-avatar' },
+                        _react2.default.createElement('img', { src: authorAvatar, className: 'img-rounded', width: '32', height: 'auto' })
+                    ),
                     '\xA0',
                     _react2.default.createElement(
-                        _reactRouterDom.Link,
-                        { to: '/authors/' + authorId },
-                        name
-                    )
+                        'div',
+                        { className: 'discussion-text-float' },
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: '/authors/' + authorId },
+                            name
+                        )
+                    ),
+                    _react2.default.createElement('div', { className: 'stars-end' })
                 );
             };
             var getUserName = function getUserName(authorName) {
@@ -112909,18 +112927,32 @@ var DiscussionPage = function (_React$Component) {
                 } else {
                     name = authorName;
                 }
-                return name;
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'discussion-text' },
+                    name
+                );
             };
-            var getCommentText = function getCommentText(text) {
-                if (text.length > 30) {
-                    return text.substr(0, 30) + '...';
+            var getCommentText = function getCommentText(commentText) {
+                var text = void 0;
+                if (commentText.length > 30) {
+                    text = commentText.substr(0, 30) + '...';
                 } else {
-                    return text;
+                    text = commentText;
                 }
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'discussion-text' },
+                    text
+                );
             };
             var getCommentDate = function getCommentDate(created) {
                 var date = new Date(created);
-                return (0, _utils.formatDate)(date, 'h:m Y-M-D');
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'discussion-text' },
+                    (0, _utils.formatDate)(date, 'h:m Y-M-D')
+                );
             };
 
             return _react2.default.createElement(
@@ -113053,9 +113085,7 @@ var DiscussionPage = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-    return {
-        authors: state.AuthorReducer.authors
-    };
+    return {};
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {

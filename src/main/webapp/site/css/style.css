@@ -150,3 +150,19 @@ footer {
     height: 100px;
     overflow: hidden;
 }
+
+.discussion-short-avatar {
+    float: left;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+}
+
+.discussion-text-float {
+    float: right;
+    margin-top: 5px;
+}
+
+.discussion-text {
+    margin-top: 5px;
+}

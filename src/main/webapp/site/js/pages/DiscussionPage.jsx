@@ -60,8 +60,13 @@ class DiscussionPage extends React.Component {
             }
             return (
                 <div>
-                    <img src={bookCover} className="img-rounded" width="32" height="auto"/>&nbsp;
-                    <Link to={'/reader/' + bookId}>{name}</Link>
+                    <div className="discussion-short-avatar">
+                        <img src={bookCover} className="img-rounded" width="32" height="auto"/>
+                    </div>&nbsp;
+                    <div className="discussion-text-float">
+                        <Link to={'/reader/' + bookId}>{name}</Link>
+                    </div>
+                    <div className="stars-end"></div>
                 </div>
             )
         };
@@ -74,8 +79,13 @@ class DiscussionPage extends React.Component {
             }
             return (
                 <div>
-                    <img src={authorAvatar} className="img-rounded" width="32" height="auto"/>&nbsp;
-                    <Link to={'/authors/' + authorId}>{name}</Link>
+                    <div className="discussion-short-avatar">
+                        <img src={authorAvatar} className="img-rounded" width="32" height="auto"/>
+                    </div>&nbsp;
+                    <div className="discussion-text-float">
+                        <Link to={'/authors/' + authorId}>{name}</Link>
+                    </div>
+                    <div className="stars-end"></div>
                 </div>
             )
         };
@@ -86,18 +96,20 @@ class DiscussionPage extends React.Component {
             } else {
                 name = authorName;
             }
-            return name;
+            return <div className="discussion-text">{name}</div>;
         };
-        let getCommentText = (text) => {
-            if (text.length > 30) {
-                return text.substr(0, 30) + '...';
+        let getCommentText = (commentText) => {
+            let text;
+            if (commentText.length > 30) {
+                text = commentText.substr(0, 30) + '...';
             } else {
-                return text;
+                text = commentText;
             }
+            return <div className="discussion-text">{text}</div>
         };
         let getCommentDate = (created) => {
             let date = new Date(created);
-            return formatDate(date, 'h:m Y-M-D');
+            return <div className="discussion-text">{formatDate(date, 'h:m Y-M-D')}</div>
         };
 
         return (
@@ -167,7 +179,7 @@ class DiscussionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        authors: state.AuthorReducer.authors
+
     }
 };
 
