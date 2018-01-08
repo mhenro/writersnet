@@ -5,8 +5,8 @@ class Footer extends React.Component {
         return (
             <div>
                 <br/><br/>
-                <footer className="container-fluid text-center">
-                    <div className="col-sm-12" style={{textAlign: 'center'}}>
+                <footer className="container-fluid">
+                    <div className="col-sm-12 text-center">
                         © 2018 "WritersNets.com"
                     </div>
                 </footer>

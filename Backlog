@@ -1,16 +1,13 @@
 ﻿Current sprint:
-
-
-
-Features:
-75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.
-55. Add discussions page.
+68. Add logic to "Restore default cover" button on BookPropsForm.
+69. Add logic to "Restore default photo" button on OptionsPage.
 56. Add help page.
 86. Add feedback page to the help page with captcha.
 2. Add changing password functional to Options page.
 11. Add "forgot your password?" functional to login form.
-68. Add logic to "Restore default cover" button on BookPropsForm.
-69. Add logic to "Restore default photo" button on OptionsPage.
+
+
+Features:
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 30. Add concept of the premium account. It should allow:
                    - to use more large photos and book texts;
@@ -24,6 +21,7 @@ Features:
                    - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
                    - buy additional stuff, such as pdf convertation of the book, some medals to show them on author section page and so on.
 21. Add pay gateway.
+75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
@@ -145,3 +143,4 @@ DONE - 54. Add reviews page.
 DONE - 41. When click on "reviews" in "13000 views | 775 comments | 20 reviews" component user is moved to review list of that book.
 DONE - 93. Add review reading page.
 DONE - 94. Add defense for overclicking likes/dislikes reviews.
+DONE - 55. Add discussions page.

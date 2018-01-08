@@ -4,6 +4,7 @@ import org.booklink.models.Response;
 import org.booklink.models.entities.Session;
 import org.booklink.models.request.CommentRequest;
 import org.booklink.models.response.CommentResponse;
+import org.booklink.models.response.DetailedCommentResponse;
 import org.booklink.services.CommentsService;
 import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,12 @@ public class CommentsController {
     @RequestMapping(value = "books/{bookId}/comments", method = RequestMethod.GET)
     public Page<CommentResponse> getComments(@PathVariable Long bookId, Pageable pageable) {
         return commentsService.getComments(bookId, pageable);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "books/comments", method = RequestMethod.GET)
+    public Page<DetailedCommentResponse> getCommentsGroupByBookOrderByDate(final Pageable pageable) {
+        return commentsService.getCommentsGroupByBookOrderByDate(pageable);
     }
 
     @CrossOrigin

@@ -144,3 +144,9 @@ footer {
     font-weight: bold;
     color: green;
 }
+
+.author-short-avatar {
+    width: 200px;
+    height: 100px;
+    overflow: hidden;
+}

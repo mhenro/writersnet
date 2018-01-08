@@ -48,8 +48,8 @@ class AuthorListItem extends React.Component {
             <div className="panel panel-default">
                 <div className="panel-body">
                     <div className="row">
-                        <div className="col-sm-4">
-                            <img src={this.props.author.avatar /*+ '?date=' + new Date()*/} onClick={() => this.goToAuthor()} className="img-rounded clickable" width="150" height="auto"/>
+                        <div className="col-sm-4 author-short-avatar">
+                            <img src={this.props.author.avatar} onClick={() => this.goToAuthor()} className="img-rounded clickable" width="150" height="auto"/>
                         </div>
                         <div className="col-sm-8">
                             <div>

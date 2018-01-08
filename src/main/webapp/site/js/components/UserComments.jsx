@@ -98,19 +98,21 @@ class UserComments extends React.Component {
                 <br/>
                 <br/>
                 <p>Comments:</p>
-                <Pagination
-                    className={'shown'}
-                    prev
-                    next
-                    first
-                    last
-                    ellipsis
-                    boundaryLinks
-                    items={this.props.totalPages}
-                    maxButtons={3}
-                    activePage={this.props.currentPage}
-                    onSelect={event => this.handleSelect(event)}/>
-                <br/>
+                <div className="col-sm-12 text-center">
+                    <Pagination
+                        className={'shown'}
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.props.totalPages}
+                        maxButtons={3}
+                        activePage={this.props.currentPage}
+                        onSelect={event => this.handleSelect(event)}/>
+                    <br/>
+                </div>
                 {this.props.comments.map((comment, key) =>
                     <CommentItem comment={comment}
                                  owner={this.props.owner}

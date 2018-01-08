@@ -61,22 +61,24 @@ class ReviewListItem extends React.Component {
                             </div>
                         </div>
                         <div className="col-sm-9">
-                            <table className="table">
-                                <tbody>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>{this.getReviewName()}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Author</td>
-                                        <td>{this.getAuthorName()}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Score</td>
-                                        <td>{this.getScore()}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="col-sm-12">
+                                <table className="table borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>{this.getReviewName()}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Author</td>
+                                            <td>{this.getAuthorName()}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Score</td>
+                                            <td>{this.getScore()}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div className="col-sm-12">
                                 <button className="btn btn-success" onClick={() => this.onOpenReview()}>Read</button>
                             </div>

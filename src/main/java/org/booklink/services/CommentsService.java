@@ -7,6 +7,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.CommentRequest;
 import org.booklink.models.response.CommentResponse;
+import org.booklink.models.response.DetailedCommentResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.BookCommentsRepository;
 import org.booklink.repositories.BookRepository;
@@ -50,6 +51,14 @@ public class CommentsService {
         Page<CommentResponse> comments = bookCommentsRepository.findAllByBookId(bookId, pageable);
         if (comments != null) {
             setDefaultAvatars(comments);
+        }
+        return comments;
+    }
+
+    public Page<DetailedCommentResponse> getCommentsGroupByBookOrderByDate(final Pageable pageable) {
+        Page<DetailedCommentResponse> comments = bookCommentsRepository.getCommentsGroupByBookOrderByDate(pageable);
+        if (comments != null) {
+            setDefaultAvatarsAndCovers(comments);
         }
         return comments;
     }
@@ -99,6 +108,17 @@ public class CommentsService {
         comments.getContent().stream()
                 .filter(comment -> comment.getUserAvatar() == null || comment.getUserAvatar().isEmpty())
                 .forEach(comment -> comment.setUserAvatar(defaultAvatar));
+    }
+
+    private void setDefaultAvatarsAndCovers(final Page<DetailedCommentResponse> comments) {
+        final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
+        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
+        comments.getContent().stream()
+                .filter(comment -> comment.getUserAvatar() == null || comment.getUserAvatar().isEmpty())
+                .forEach(comment -> comment.setUserAvatar(defaultAvatar));
+        comments.getContent().stream()
+                .filter(comment -> comment.getBookCover() == null || comment.getBookCover().isEmpty())
+                .forEach(comment -> comment.setBookCover(defaultCover));
     }
 
     private void increaseCommentsInBookAndUser(final Comment comment) {
