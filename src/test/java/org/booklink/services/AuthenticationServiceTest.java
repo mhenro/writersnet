@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -28,9 +29,12 @@ public class AuthenticationServiceTest {
         @MockBean
         private JavaMailSender mailSender;
 
+        @MockBean
+        private Environment environment;
+
         @Bean
         public AuthenticationService authenticationService() {
-            return new AuthenticationService(userRepository, mailSender);
+            return new AuthenticationService(userRepository, mailSender, environment);
         }
     }
 
