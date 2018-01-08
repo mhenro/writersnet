@@ -110,6 +110,7 @@ public class BookService {
     @Transactional
     public BookWithTextResponse getBook(final Long bookId) {
         final BookWithTextResponse book = bookRepository.getBookById(bookId);
+        setDefaultCoverForBook(book);
         increaseBookViews(bookId);
         return book;
     }
@@ -183,6 +184,17 @@ public class BookService {
     }
 
     @Transactional
+    public void restoreDefaultCover(final Long bookId) {
+        final User author = getAuthorizedUser();
+        final Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            throw new ObjectNotFoundException("Book was not found");
+        }
+        book.setCover(null);
+        newsService.createNews(NewsService.NEWS_TYPE.BOOK_UPDATED, book.getAuthor(), book);
+    }
+
+    @Transactional
     public Date saveBookText(final BookTextRequest bookTextRequest) throws Exception {
         checkCredentials(bookTextRequest.getUserId()); //only the owner can change the cover of his book
 
@@ -240,6 +252,13 @@ public class BookService {
         }
         if (book.getAuthor().getAvatar() == null || book.getAuthor().getAvatar().isEmpty()) {
             book.getAuthor().setAvatar(defaultAvatar);
+        }
+    }
+
+    private void setDefaultCoverForBook(final BookWithTextResponse book) {
+        final String defaultCover = env.getProperty("writersnet.coverwebstorage.path") + "default_cover.png";
+        if (book.getCover() == null || book.getCover().isEmpty()) {
+            book.setCover(defaultCover);
         }
     }
 

@@ -161,6 +161,13 @@ public class AuthorService {
     }
 
     @Transactional
+    public void restoreDefaultAvatar() {
+        final User authorizedUser = getAuthorizedUser();
+        authorizedUser.setAvatar(null);
+        newsService.createNews(NewsService.NEWS_TYPE.PERSONAL_INFO_UPDATED, authorizedUser);
+    }
+
+    @Transactional
     public Response<String> subscribeOnUser(final String subscriptionId) {
         Response<String> response = new Response<>();
         response.setCode(0);

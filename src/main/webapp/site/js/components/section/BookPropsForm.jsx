@@ -17,7 +17,8 @@ import {
     setSeries,
     getGenres,
     setGenres,
-    saveCover
+    saveCover,
+    restoreDefaultCover
 } from '../../actions/BookActions.jsx';
 import { setToken } from '../../actions/AuthActions.jsx';
 
@@ -176,6 +177,10 @@ class BookPropsForm extends React.Component {
         this.props.onSaveCover(formData, this.props.token, id => this.updateForm(id), this.props.editableBook.id);
     }
 
+    onRestoreDefaultCover() {
+        this.props.onRestoreDefaultCover(this.props.editableBook.id, this.props.token, id => this.updateForm(id));
+    }
+
     onSaveText(event) {
         if (event.target.files[0].size >= 10485760) {
             this.props.onCreateNotify('warning', 'Warning', 'Book text size should not be larger than 10Mb');
@@ -267,7 +272,7 @@ class BookPropsForm extends React.Component {
                                             onChange={event => this.onCoverChange(event)}
                                         />
                                         <br/>
-                                        <button type="button" className="btn btn-success">Restore default cover</button>
+                                        <button onClick={() => this.onRestoreDefaultCover()} type="button" className="btn btn-success">Restore default cover</button>
                                     </div>
                                 </div>
                             </div>
@@ -371,6 +376,23 @@ const mapDispatchToProps = (dispatch) => {
             return saveCover(cover, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Cover was saved successfully'));
+                    callback(bookId);
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRestoreDefaultCover: (bookId, token, callback) => {
+            return restoreDefaultCover(bookId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'Cover was restored successfully'));
                     callback(bookId);
                 }
                 else if (json.message.includes('JWT expired at')) {

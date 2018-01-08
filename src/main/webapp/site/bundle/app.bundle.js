@@ -13462,7 +13462,7 @@ module.exports = ReactUpdates;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getNewFriendsCount = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthorsCount = exports.getAuthors = undefined;
+exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.restoreDefaultAvatar = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getNewFriendsCount = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthorsCount = exports.getAuthors = undefined;
 
 var _fetch = __webpack_require__(55);
 
@@ -13554,6 +13554,10 @@ var saveAvatar = exports.saveAvatar = function saveAvatar(avatar, token) {
     return (0, _fetch2.default)((0, _utils.getHost)() + 'avatar', avatar, token, 'multipart/form-data');
 };
 
+var restoreDefaultAvatar = exports.restoreDefaultAvatar = function restoreDefaultAvatar(token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'avatar/restore', null, token);
+};
+
 var subscribeOn = exports.subscribeOn = function subscribeOn(authorName, token) {
     return (0, _fetch2.default)((0, _utils.getHost)() + 'authors/subscribe', authorName, token);
 };
@@ -13598,7 +13602,7 @@ var setNewFriends = exports.setNewFriends = function setNewFriends(newFriends) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.closeReviewForm = exports.openReviewForm = exports.closeEditSeriesForm = exports.openEditSeriesForm = exports.closeBookPropsForm = exports.openBookPropsForm = exports.setGenres = exports.setSeries = exports.setBook = exports.setBooks = exports.CLOSE_REVIEW_FORM = exports.OPEN_REVIEW_FORM = exports.CLOSE_EDITSERIES_FORM = exports.OPEN_EDITSERIES_FORM = exports.CLOSE_BOOKPROPS_FORM = exports.OPEN_BOOKPROPS_FORM = exports.SET_GENRES = exports.SET_SERIES = exports.SET_BOOK = exports.SET_BOOKS = exports.deleteBook = exports.saveCover = exports.saveBookText = exports.saveBook = exports.deleteComment = exports.saveComment = exports.getAllComments = exports.getBookComments = exports.getBookDetails = exports.addStar = exports.getGenres = exports.deleteSerie = exports.saveSerie = exports.getSeries = exports.getBooksCount = exports.getBooksByAuthor = exports.getBooks = undefined;
+exports.closeReviewForm = exports.openReviewForm = exports.closeEditSeriesForm = exports.openEditSeriesForm = exports.closeBookPropsForm = exports.openBookPropsForm = exports.setGenres = exports.setSeries = exports.setBook = exports.setBooks = exports.CLOSE_REVIEW_FORM = exports.OPEN_REVIEW_FORM = exports.CLOSE_EDITSERIES_FORM = exports.OPEN_EDITSERIES_FORM = exports.CLOSE_BOOKPROPS_FORM = exports.OPEN_BOOKPROPS_FORM = exports.SET_GENRES = exports.SET_SERIES = exports.SET_BOOK = exports.SET_BOOKS = exports.deleteBook = exports.restoreDefaultCover = exports.saveCover = exports.saveBookText = exports.saveBook = exports.deleteComment = exports.saveComment = exports.getAllComments = exports.getBookComments = exports.getBookDetails = exports.addStar = exports.getGenres = exports.deleteSerie = exports.saveSerie = exports.getSeries = exports.getBooksCount = exports.getBooksByAuthor = exports.getBooks = undefined;
 
 var _fetch = __webpack_require__(55);
 
@@ -13689,6 +13693,10 @@ var saveBookText = exports.saveBookText = function saveBookText(bookText, token)
 
 var saveCover = exports.saveCover = function saveCover(cover, token) {
     return (0, _fetch2.default)((0, _utils.getHost)() + 'cover', cover, token, 'multipart/form-data');
+};
+
+var restoreDefaultCover = exports.restoreDefaultCover = function restoreDefaultCover(bookId, token) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'cover/restore/' + bookId, null, token);
 };
 
 var deleteBook = exports.deleteBook = function deleteBook(bookTextRequest, token) {
@@ -93380,9 +93388,18 @@ var BookPropsForm = function (_React$Component) {
             }, this.props.editableBook.id);
         }
     }, {
+        key: 'onRestoreDefaultCover',
+        value: function onRestoreDefaultCover() {
+            var _this6 = this;
+
+            this.props.onRestoreDefaultCover(this.props.editableBook.id, this.props.token, function (id) {
+                return _this6.updateForm(id);
+            });
+        }
+    }, {
         key: 'onSaveText',
         value: function onSaveText(event) {
-            var _this6 = this;
+            var _this7 = this;
 
             if (event.target.files[0].size >= 10485760) {
                 this.props.onCreateNotify('warning', 'Warning', 'Book text size should not be larger than 10Mb');
@@ -93394,7 +93411,7 @@ var BookPropsForm = function (_React$Component) {
             bookTextRequest.append('text', event.target.files[0]);
 
             this.props.onSaveBookText(bookTextRequest, this.props.token, function (date) {
-                return _this6.onUpdateLastUpdatedField(date);
+                return _this7.onUpdateLastUpdatedField(date);
             });
         }
     }, {
@@ -93421,7 +93438,7 @@ var BookPropsForm = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this7 = this;
+            var _this8 = this;
 
             if (!this.isDataLoaded()) {
                 return null;
@@ -93429,9 +93446,9 @@ var BookPropsForm = function (_React$Component) {
             return _react2.default.createElement(
                 _reactBootstrap.Modal,
                 { show: this.props.showBookPropsForm, onHide: function onHide() {
-                        return _this7.close();
+                        return _this8.close();
                     }, onShow: function onShow() {
-                        return _this7.onShow();
+                        return _this8.onShow();
                     } },
                 _react2.default.createElement(
                     _reactBootstrap.Modal.Header,
@@ -93444,7 +93461,7 @@ var BookPropsForm = function (_React$Component) {
                     _react2.default.createElement(
                         'form',
                         { className: 'form-horizontal', onSubmit: function onSubmit(event) {
-                                return _this7.onSubmit(event);
+                                return _this8.onSubmit(event);
                             } },
                         _react2.default.createElement(
                             'div',
@@ -93458,7 +93475,7 @@ var BookPropsForm = function (_React$Component) {
                                 'div',
                                 { className: 'col-sm-10' },
                                 _react2.default.createElement('input', { value: this.state.name, onChange: function onChange(proxy) {
-                                        return _this7.onFieldChange(proxy);
+                                        return _this8.onFieldChange(proxy);
                                     }, type: 'text', className: 'form-control', id: 'name', placeholder: 'Enter the book name', name: 'name' })
                             )
                         ),
@@ -93474,7 +93491,7 @@ var BookPropsForm = function (_React$Component) {
                                 'div',
                                 { className: 'col-sm-10' },
                                 _react2.default.createElement('input', { value: this.state.description, onChange: function onChange(proxy) {
-                                        return _this7.onFieldChange(proxy);
+                                        return _this8.onFieldChange(proxy);
                                     }, type: 'text', className: 'form-control', id: 'description', placeholder: 'Enter the book description', name: 'description' })
                             )
                         ),
@@ -93490,7 +93507,7 @@ var BookPropsForm = function (_React$Component) {
                                 'div',
                                 { className: 'col-sm-10' },
                                 _react2.default.createElement(_reactSelect2.default, { value: this.state.serie, id: 'serie', options: this.getSerieItems(), onChange: function onChange(serie) {
-                                        return _this7.onSerieChange(serie);
+                                        return _this8.onSerieChange(serie);
                                     }, placeholder: 'Choose the book serie' })
                             )
                         ),
@@ -93506,7 +93523,7 @@ var BookPropsForm = function (_React$Component) {
                                 'div',
                                 { className: 'col-sm-10' },
                                 _react2.default.createElement(_reactSelect2.default, { value: this.state.genre, id: 'genre', options: this.getGenreItems(), onChange: function onChange(genre) {
-                                        return _this7.onGenreChange(genre);
+                                        return _this8.onGenreChange(genre);
                                     }, placeholder: 'Choose the book genre' })
                             )
                         ),
@@ -93522,7 +93539,7 @@ var BookPropsForm = function (_React$Component) {
                                 'div',
                                 { className: 'col-sm-10' },
                                 _react2.default.createElement(_reactSelect2.default, { value: this.state.language, id: 'language', options: this.getLanguageItems(), onChange: function onChange(lang) {
-                                        return _this7.onLanguageChange(lang);
+                                        return _this8.onLanguageChange(lang);
                                     }, placeholder: 'Choose the book language' })
                             )
                         ),
@@ -93554,13 +93571,15 @@ var BookPropsForm = function (_React$Component) {
                                             accept: '.png,.jpg',
                                             className: 'btn btn-success',
                                             onChange: function onChange(event) {
-                                                return _this7.onCoverChange(event);
+                                                return _this8.onCoverChange(event);
                                             }
                                         }),
                                         _react2.default.createElement('br', null),
                                         _react2.default.createElement(
                                             'button',
-                                            { type: 'button', className: 'btn btn-success' },
+                                            { onClick: function onClick() {
+                                                    return _this8.onRestoreDefaultCover();
+                                                }, type: 'button', className: 'btn btn-success' },
                                             'Restore default cover'
                                         )
                                     )
@@ -93591,7 +93610,7 @@ var BookPropsForm = function (_React$Component) {
                                             accept: '.txt,.docx,.pdf',
                                             className: 'btn btn-success',
                                             onChange: function onChange(event) {
-                                                return _this7.onSaveText(event);
+                                                return _this8.onSaveText(event);
                                             }
                                         }),
                                         _react2.default.createElement('br', null)
@@ -93610,14 +93629,14 @@ var BookPropsForm = function (_React$Component) {
                         _react2.default.createElement(
                             _reactBootstrap.Button,
                             { onClick: function onClick() {
-                                    return _this7.save();
+                                    return _this8.save();
                                 }, className: 'btn btn-success' },
                             'Save'
                         ),
                         _react2.default.createElement(
                             _reactBootstrap.Button,
                             { onClick: function onClick() {
-                                    return _this7.close();
+                                    return _this8.close();
                                 }, className: 'btn btn-default' },
                             'Close'
                         )
@@ -93720,11 +93739,30 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
             });
         },
 
-        onSaveBook: function onSaveBook(book, token, callback) {
-            return (0, _BookActions.saveBook)(book, token).then(function (_ref9) {
+        onRestoreDefaultCover: function onRestoreDefaultCover(bookId, token, callback) {
+            return (0, _BookActions.restoreDefaultCover)(bookId, token).then(function (_ref9) {
                 var _ref10 = _slicedToArray(_ref9, 2),
                     response = _ref10[0],
                     json = _ref10[1];
+
+                if (response.status === 200) {
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Cover was restored successfully'));
+                    callback(bookId);
+                } else if (json.message.includes('JWT expired at')) {
+                    dispatch((0, _AuthActions.setToken)(''));
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onSaveBook: function onSaveBook(book, token, callback) {
+            return (0, _BookActions.saveBook)(book, token).then(function (_ref11) {
+                var _ref12 = _slicedToArray(_ref11, 2),
+                    response = _ref12[0],
+                    json = _ref12[1];
 
                 if (response.status === 200) {
                     callback();
@@ -93740,10 +93778,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         },
 
         onSaveBookText: function onSaveBookText(bookTextRequest, token, callback) {
-            return (0, _BookActions.saveBookText)(bookTextRequest, token).then(function (_ref11) {
-                var _ref12 = _slicedToArray(_ref11, 2),
-                    response = _ref12[0],
-                    json = _ref12[1];
+            return (0, _BookActions.saveBookText)(bookTextRequest, token).then(function (_ref13) {
+                var _ref14 = _slicedToArray(_ref13, 2),
+                    response = _ref14[0],
+                    json = _ref14[1];
 
                 if (response.status === 200) {
                     callback(json.message);
@@ -105155,6 +105193,15 @@ var OptionsPage = function (_React$Component) {
             });
         }
     }, {
+        key: 'onRestoreDefaultAvatar',
+        value: function onRestoreDefaultAvatar() {
+            var _this4 = this;
+
+            this.props.onRestoreDefaultAvatar(this.props.token, function () {
+                return _this4.updateForm();
+            });
+        }
+    }, {
         key: 'getDatePickerProps',
         value: function getDatePickerProps() {
             return {
@@ -105206,7 +105253,7 @@ var OptionsPage = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (!this.isDataLoaded()) {
                 return null;
@@ -105228,7 +105275,7 @@ var OptionsPage = function (_React$Component) {
                         _react2.default.createElement(
                             'form',
                             { className: 'form-horizontal', onSubmit: function onSubmit(event) {
-                                    return _this4.onSubmit(event);
+                                    return _this5.onSubmit(event);
                                 } },
                             _react2.default.createElement(
                                 'div',
@@ -105242,7 +105289,7 @@ var OptionsPage = function (_React$Component) {
                                     'div',
                                     { className: 'col-sm-10' },
                                     _react2.default.createElement('input', { value: this.state.firstName, onChange: function onChange(proxy) {
-                                            return _this4.onFieldChange(proxy);
+                                            return _this5.onFieldChange(proxy);
                                         }, type: 'text', className: 'form-control', id: 'first_name', placeholder: 'Enter your first name', name: 'first_name' })
                                 )
                             ),
@@ -105258,7 +105305,7 @@ var OptionsPage = function (_React$Component) {
                                     'div',
                                     { className: 'col-sm-10' },
                                     _react2.default.createElement('input', { value: this.state.lastName, onChange: function onChange(proxy) {
-                                            return _this4.onFieldChange(proxy);
+                                            return _this5.onFieldChange(proxy);
                                         }, type: 'text', className: 'form-control', id: 'last_name', placeholder: 'Enter your last name', name: 'last_name' })
                                 )
                             ),
@@ -105274,7 +105321,7 @@ var OptionsPage = function (_React$Component) {
                                     'div',
                                     { className: 'col-sm-10' },
                                     _react2.default.createElement('input', { value: this.state.sectionName, onChange: function onChange(proxy) {
-                                            return _this4.onFieldChange(proxy);
+                                            return _this5.onFieldChange(proxy);
                                         }, type: 'text', className: 'form-control', id: 'section_name', placeholder: 'Enter the name of your section', name: 'section_name' })
                                 )
                             ),
@@ -105290,7 +105337,7 @@ var OptionsPage = function (_React$Component) {
                                     'div',
                                     { className: 'col-sm-10' },
                                     _react2.default.createElement('textarea', { value: this.state.sectionDescription, onChange: function onChange(proxy) {
-                                            return _this4.onFieldChange(proxy);
+                                            return _this5.onFieldChange(proxy);
                                         }, rows: '5', className: 'form-control', id: 'section_description', placeholder: 'Enter the description of your section', name: 'section_description' })
                                 )
                             ),
@@ -105306,7 +105353,7 @@ var OptionsPage = function (_React$Component) {
                                     'div',
                                     { className: 'col-sm-10' },
                                     _react2.default.createElement(_reactBootstrapDatetimepicker2.default, { dateTime: this.state.birthday, onChange: function onChange(value) {
-                                            return _this4.onDateChange(value);
+                                            return _this5.onDateChange(value);
                                         }, inputProps: this.getDatePickerProps(), id: 'birthday', defaultText: '', format: 'YYYY-MM-DD', inputFormat: 'DD-MM-YYYY', mode: 'date' })
                                 )
                             ),
@@ -105322,7 +105369,7 @@ var OptionsPage = function (_React$Component) {
                                     'div',
                                     { className: 'col-sm-10' },
                                     _react2.default.createElement('input', { value: this.state.city, onChange: function onChange(proxy) {
-                                            return _this4.onFieldChange(proxy);
+                                            return _this5.onFieldChange(proxy);
                                         }, type: 'text', className: 'form-control', id: 'city', placeholder: 'Enter your city', name: 'city' })
                                 )
                             ),
@@ -105338,7 +105385,7 @@ var OptionsPage = function (_React$Component) {
                                     'div',
                                     { className: 'col-sm-10' },
                                     _react2.default.createElement(_reactSelect2.default, { value: this.state.siteLanguage, id: 'siteLanguage', options: this.getComboboxItems(), onChange: function onChange(lang) {
-                                            return _this4.onLanguageChange(lang);
+                                            return _this5.onLanguageChange(lang);
                                         }, placeholder: 'Choose website language' })
                                 )
                             ),
@@ -105354,7 +105401,7 @@ var OptionsPage = function (_React$Component) {
                                     'div',
                                     { className: 'col-sm-10' },
                                     _react2.default.createElement(_reactSelect2.default, { value: this.state.preferredLanguages, id: 'preferredLanguages', options: this.getComboboxItems(), multi: true, onChange: function onChange(lang) {
-                                            return _this4.onMultiLanguageChange(lang);
+                                            return _this5.onMultiLanguageChange(lang);
                                         }, placeholder: 'Choose your preferred languages' })
                                 )
                             ),
@@ -105402,13 +105449,15 @@ var OptionsPage = function (_React$Component) {
                                     accept: '.png,.jpg',
                                     className: 'btn btn-success',
                                     onChange: function onChange(event) {
-                                        return _this4.onAvatarChange(event);
+                                        return _this5.onAvatarChange(event);
                                     }
                                 }),
                                 _react2.default.createElement('br', null),
                                 _react2.default.createElement(
                                     'button',
-                                    { type: 'button', className: 'btn btn-success' },
+                                    { onClick: function onClick() {
+                                            return _this5.onRestoreDefaultAvatar();
+                                        }, type: 'button', className: 'btn btn-success' },
                                     'Restore default photo'
                                 )
                             )
@@ -105493,6 +105542,26 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
                 if (response.status === 200) {
                     dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Avatar was saved successfully'));
+                    callback();
+                    dispatch((0, _AuthActions.setToken)(json.token));
+                } else if (json.message.includes('JWT expired at')) {
+                    dispatch((0, _AuthActions.setToken)(''));
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        },
+
+        onRestoreDefaultAvatar: function onRestoreDefaultAvatar(token, callback) {
+            return (0, _AuthorActions.restoreDefaultAvatar)(token).then(function (_ref7) {
+                var _ref8 = _slicedToArray(_ref7, 2),
+                    response = _ref8[0],
+                    json = _ref8[1];
+
+                if (response.status === 200) {
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Avatar was restored successfully'));
                     callback();
                     dispatch((0, _AuthActions.setToken)(json.token));
                 } else if (json.message.includes('JWT expired at')) {

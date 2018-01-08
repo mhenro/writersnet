@@ -127,6 +127,27 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
+    @RequestMapping(value = "cover/restore/{bookId}", method = RequestMethod.GET)
+    public ResponseEntity<?> restoreDefaultCover(@PathVariable final Long bookId) {
+        Response<String> response = new Response<>();
+        String token = generateActivationToken();
+        sessionService.updateSession(token);
+        try {
+            bookService.restoreDefaultCover(bookId);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            response.setToken(token);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.setCode(0);
+        response.setMessage("Cover was restored successfully");
+        response.setToken(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
     @RequestMapping(value = "text", method = RequestMethod.POST)
     public ResponseEntity<?> saveBookText(BookTextRequest bookTextRequest) {
         final Response<Date> response = new Response<>();

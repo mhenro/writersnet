@@ -69,6 +69,10 @@ export const saveCover = (cover, token) => {
     return doFetch(getHost() + 'cover', cover, token, 'multipart/form-data');
 };
 
+export const restoreDefaultCover = (bookId, token) => {
+    return doFetch(getHost() + 'cover/restore/' + bookId, null, token);
+};
+
 export const deleteBook = (bookTextRequest, token) => {
     return doFetch(getHost() + 'books/' + bookTextRequest, 'DELETE', token);
 };

@@ -6,7 +6,8 @@ import {
     getAuthorDetails,
     setAuthor,
     saveAuthor,
-    saveAvatar
+    saveAvatar,
+    restoreDefaultAvatar
 } from '../actions/AuthorActions.jsx';
 import {
     createNotify
@@ -101,6 +102,10 @@ class OptionsPage extends React.Component {
         formData.append('userId', this.props.author.username);
 
         this.props.onSaveAvatar(formData, this.props.token, () => this.updateForm());
+    }
+
+    onRestoreDefaultAvatar() {
+        this.props.onRestoreDefaultAvatar(this.props.token, () => this.updateForm());
     }
 
     getDatePickerProps() {
@@ -231,7 +236,7 @@ class OptionsPage extends React.Component {
                                     onChange={event => this.onAvatarChange(event)}
                                 />
                                 <br/>
-                                <button type="button" className="btn btn-success">Restore default photo</button>
+                                <button onClick={() => this.onRestoreDefaultAvatar()} type="button" className="btn btn-success">Restore default photo</button>
                             </div>
                         </div>
                     </div>
@@ -298,6 +303,24 @@ const mapDispatchToProps = (dispatch) => {
             return saveAvatar(avatar, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Avatar was saved successfully'));
+                    callback();
+                    dispatch(setToken(json.token));
+                }
+                else if (json.message.includes('JWT expired at')) {
+                    dispatch(setToken(''));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRestoreDefaultAvatar: (token, callback) => {
+            return restoreDefaultAvatar(token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'Avatar was restored successfully'));
                     callback();
                     dispatch(setToken(json.token));
                 }

@@ -65,6 +65,10 @@ export const saveAvatar = (avatar, token) => {
     return doFetch(getHost() + 'avatar', avatar, token, 'multipart/form-data');
 };
 
+export const restoreDefaultAvatar = (token) => {
+    return doFetch(getHost() + 'avatar/restore', null, token);
+};
+
 export const subscribeOn = (authorName, token) => {
     return doFetch(getHost() + 'authors/subscribe', authorName, token);
 };

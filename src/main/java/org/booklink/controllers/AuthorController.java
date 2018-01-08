@@ -114,6 +114,27 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
+    @RequestMapping(value = "avatar/restore", method = RequestMethod.GET)
+    public ResponseEntity<?> restoreDefaultAvatar() {
+        Response<String> response = new Response<>();
+        String token = generateActivationToken();
+        sessionService.updateSession(token);
+        try {
+            authorService.restoreDefaultAvatar();
+            response.setCode(0);
+            response.setMessage("Avatar was restored successfully");
+            response.setToken(token);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch(Exception e) {
+            response.setCode(1);
+            response.setMessage(e.getMessage());
+            response.setToken(token);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
     @RequestMapping(value = "authors/subscribe", method = RequestMethod.POST)
     public ResponseEntity<?> subscribeOnUser(@RequestBody final String subscriptionId) {
         Response<String> response = new Response<>();

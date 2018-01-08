@@ -63,6 +63,9 @@ public class JwtFilter extends GenericFilterBean {
         if ("/avatar".equals(method) && "POST".equalsIgnoreCase(methodType)) {
             return true;
         }
+        if ("/avatar/restore".equals(method) && "GET".equalsIgnoreCase(methodType)) {
+            return true;
+        }
         if ("/books".equals(method) && "POST".equalsIgnoreCase(methodType)) {
             return true;
         }
@@ -70,6 +73,9 @@ public class JwtFilter extends GenericFilterBean {
             return true;
         }
         if ("/cover".equals(method) && "POST".equalsIgnoreCase(methodType)) {
+            return true;
+        }
+        if (method.startsWith("/cover/restore") && "GET".equalsIgnoreCase(methodType)) {
             return true;
         }
         if ("/text".equals(method) && "POST".equalsIgnoreCase(methodType)) {
