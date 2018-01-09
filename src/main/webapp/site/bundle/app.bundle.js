@@ -13662,7 +13662,10 @@ var addStar = exports.addStar = function addStar(bookId, starValue) {
 };
 
 var getBookDetails = exports.getBookDetails = function getBookDetails(bookId) {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookId);
+    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10000;
+
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'books/' + bookId + '?page=' + page + '&size=' + size);
 };
 
 var getBookComments = exports.getBookComments = function getBookComments(bookid) {
@@ -90923,6 +90926,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(19);
 
+var _reactBootstrap = __webpack_require__(24);
+
 var _reactStars = __webpack_require__(76);
 
 var _reactStars2 = _interopRequireDefault(_reactStars);
@@ -90962,10 +90967,14 @@ var BookReader = function (_React$Component) {
         _this.state = {
             comments: [],
             currentPage: 1,
-            totalPages: 1
+            totalPages: 1,
+            bookPage: 1,
+            bookTotalPages: 1
         };
 
-        _this.props.onGetBookDetails(_this.props.match.params.bookId);
+        _this.props.onGetBookDetails(_this.props.match.params.bookId, _this.state.bookPage, function (totalPages) {
+            return _this.setBookTotalPages(totalPages);
+        });
         _this.props.onGetBookComments(_this.props.match.params.bookId, _this.state.currentPage, function (comments) {
             return _this.renderComments(comments);
         }, function (totalPages) {
@@ -91042,17 +91051,39 @@ var BookReader = function (_React$Component) {
     }, {
         key: 'updateBook',
         value: function updateBook() {
-            this.props.onGetBookDetails(this.props.match.params.bookId);
+            var _this4 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            this.props.onGetBookDetails(this.props.match.params.bookId, page, function (totalPages) {
+                return _this4.setBookTotalPages(totalPages);
+            });
+        }
+    }, {
+        key: 'pageSelect',
+        value: function pageSelect(page) {
+            this.setState({
+                bookPage: page
+            });
+            this.updateBook(page);
+            window.scrollTo(0, 0);
+        }
+    }, {
+        key: 'setBookTotalPages',
+        value: function setBookTotalPages(totalPages) {
+            this.setState({
+                bookTotalPages: totalPages + 1
+            });
         }
     }, {
         key: 'updateComments',
         value: function updateComments() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, function (comments) {
-                return _this4.renderComments(comments);
+                return _this5.renderComments(comments);
             }, function (totalPages) {
-                return _this4.setTotalPages(totalPages);
+                return _this5.setTotalPages(totalPages);
             });
         }
     }, {
@@ -91073,7 +91104,7 @@ var BookReader = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this5 = this;
+            var _this6 = this;
 
             if (!this.isDataLoaded()) {
                 return null;
@@ -91102,7 +91133,7 @@ var BookReader = function (_React$Component) {
                         'div',
                         { className: 'col-sm-6' },
                         _react2.default.createElement(_reactStars2.default, { count: 5, size: 18, color2: 'orange', half: false, value: this.getAverageRating(), onChange: function onChange(estimation) {
-                                return _this5.newVote(estimation);
+                                return _this6.newVote(estimation);
                             } }),
                         '\xA0',
                         _react2.default.createElement(
@@ -91122,8 +91153,46 @@ var BookReader = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     'div',
+                    { className: 'col-sm-12 text-center' },
+                    _react2.default.createElement(_reactBootstrap.Pagination, {
+                        className: 'shown',
+                        prev: true,
+                        next: true,
+                        first: true,
+                        last: true,
+                        ellipsis: true,
+                        boundaryLinks: true,
+                        items: this.state.bookTotalPages,
+                        maxButtons: 3,
+                        activePage: this.state.bookPage,
+                        onSelect: function onSelect(page) {
+                            return _this6.pageSelect(page);
+                        } }),
+                    _react2.default.createElement('br', null)
+                ),
+                _react2.default.createElement(
+                    'div',
                     { className: 'col-sm-12 text-justify' },
-                    _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.book.bookText.text } }),
+                    _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.book.bookText.text } })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12 text-center' },
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement(_reactBootstrap.Pagination, {
+                        className: 'shown',
+                        prev: true,
+                        next: true,
+                        first: true,
+                        last: true,
+                        ellipsis: true,
+                        boundaryLinks: true,
+                        items: this.state.bookTotalPages,
+                        maxButtons: 3,
+                        activePage: this.state.bookPage,
+                        onSelect: function onSelect(page) {
+                            return _this6.pageSelect(page);
+                        } }),
                     _react2.default.createElement('hr', null)
                 ),
                 _react2.default.createElement('div', { id: 'commentsAnchor', className: 'col-sm-12' }),
@@ -91133,17 +91202,17 @@ var BookReader = function (_React$Component) {
                     onSaveComment: this.props.onSaveComment,
                     onDeleteComment: this.props.onDeleteComment,
                     onSetCommentPage: function onSetCommentPage(page) {
-                        return _this5.setCommentPage(page);
+                        return _this6.setCommentPage(page);
                     },
                     currentPage: this.state.currentPage,
                     totalPages: this.state.totalPages,
                     bookId: this.props.book.id,
                     login: this.props.login,
                     updateComments: function updateComments() {
-                        return _this5.updateComments();
+                        return _this6.updateComments();
                     },
                     totalPagesCallback: function totalPagesCallback(totalPages) {
-                        return _this5.setTotalPages(totalPages);
+                        return _this6.setTotalPages(totalPages);
                     },
                     token: this.props.token })
             );
@@ -91164,14 +91233,15 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        onGetBookDetails: function onGetBookDetails(bookId) {
-            return (0, _BookActions.getBookDetails)(bookId).then(function (_ref) {
+        onGetBookDetails: function onGetBookDetails(bookId, page, callbackTotalPages) {
+            return (0, _BookActions.getBookDetails)(bookId, page - 1).then(function (_ref) {
                 var _ref2 = _slicedToArray(_ref, 2),
                     response = _ref2[0],
                     json = _ref2[1];
 
                 if (response.status === 200) {
                     dispatch((0, _BookActions.setBook)(json));
+                    callbackTotalPages(json.totalPages);
                 } else {
                     dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
                 }

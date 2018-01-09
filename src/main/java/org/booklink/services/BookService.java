@@ -108,8 +108,21 @@ public class BookService {
     }
 
     @Transactional
-    public BookWithTextResponse getBook(final Long bookId) {
+    public BookWithTextResponse getBook(final Long bookId, final Integer page, final Integer size) {
         final BookWithTextResponse book = bookRepository.getBookById(bookId);
+        final String oldText = book.getBookText().getText();
+        if (page != null && size != null && page * size < oldText.length()) {
+            final String newText;
+            final int offset = page * size;
+            final String prefix = offset > 0 ? "..." : "";
+            if (offset + size > oldText.length()) {
+                newText = prefix + book.getBookText().getText().substring(offset);
+            } else {
+                newText = prefix + book.getBookText().getText().substring(offset, offset + size) + "...";
+            }
+            book.getBookText().setText(newText);
+            book.setTotalPages(oldText.length() / size);
+        }
         setDefaultCoverForBook(book);
         increaseBookViews(bookId);
         return book;

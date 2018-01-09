@@ -23,19 +23,16 @@ Features:
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
 66. Mark as unread whole chat to determine where unread messages are placed.
-24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 29. Support full localization mechanism.
-65. Add test for ChatGroupResponse class constructor.
 46. Add filters to Authors page.
 45. Add filters to Books page.
-82. Optimize Hibernate queries.
-81. Move series action from BookActions to AuthorActions in client.
+85. Fix layout of the TitlePage for mobile devices.
+96. Show another title page when user is registered. On this page we can show book banners and so on.
 76. The parent-side @OneToOne association requires bytecode enhancement so that the association can be loaded lazily. 
 Otherwise, the parent-side is always fetched even if the association is marked with FetchType.LAZY.
 For this reason, it’s best to map @OneToOne association using @MapsId so that the PRIMARY KEY is shared between the 
 child and the parent entities. When using @MapsId, the parent-side becomes redundant since the child-entity can be easily 
 fetched using the parent entity identifier.
-85. Fix layout of the TitlePage for mobile devices.
 80. if you forget to specify that an EAGER association needs to be JOIN FETCH-ed by a JPQL query, Hibernate is going to issue a secondary select for every uninitialized association, leading to N+1 query problems.
 	For example:
 	comments = entityManager.createQuery(
@@ -45,6 +42,9 @@ fetched using the parent entity identifier.
 	    "where pc.review = :review", PostComment.class)
 	.setParameter("review", review)
 	.getResultList();
+82. Optimize Hibernate queries.
+65. Add test for ChatGroupResponse class constructor.
+81. Move series action from BookActions to AuthorActions in client.
 
 
 Bugs:
@@ -145,3 +145,4 @@ DONE - 69. Add logic to "Restore default photo" button on OptionsPage.
 DONE - 68. Add logic to "Restore default cover" button on BookPropsForm.
 DONE - 2. Add changing password functional in the Options page.
 DONE - 94. Change mail template.
+DONE - 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.

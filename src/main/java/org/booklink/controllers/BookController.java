@@ -65,14 +65,14 @@ public class BookController {
 
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.GET)
-    public ResponseEntity<?> getBook(@PathVariable Long bookId) {
-        BookWithTextResponse book = bookService.getBook(bookId);
+    public ResponseEntity<?> getBook(@PathVariable Long bookId, final Integer page, final Integer size) {
+        BookWithTextResponse book = bookService.getBook(bookId, page, size);
         if (book != null) {
             return new ResponseEntity<>(book, HttpStatus.OK);
         }
         Response<String> response = new Response<>();
         response.setCode(1);
-        response.setMessage("Book not found");
+        response.setMessage("Book was not found");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 

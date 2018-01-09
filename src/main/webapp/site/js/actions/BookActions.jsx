@@ -37,8 +37,8 @@ export const addStar = (bookId, starValue) => {
     return doFetch(getHost() + 'books/' + bookId + '/rating/' + starValue);
 };
 
-export const getBookDetails = (bookId) => {
-    return doFetch(getHost() + 'books/' + bookId);
+export const getBookDetails = (bookId, page = 0, size = 10000) => {
+    return doFetch(getHost() + 'books/' + bookId + '?page=' + page + '&size=' + size);
 };
 
 export const getBookComments = (bookid, page = 0, size = 10) => {

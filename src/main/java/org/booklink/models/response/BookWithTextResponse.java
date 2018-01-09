@@ -28,6 +28,8 @@ public class BookWithTextResponse {
     private Long views;
     private BookTextResponse bookText;
 
+    private Integer totalPages;
+
     public BookWithTextResponse(){}
 
     public BookWithTextResponse(final Long id, final Long serieId, final String serieName, final String authorId,
@@ -60,6 +62,7 @@ public class BookWithTextResponse {
         }
         this.views = views;
         this.bookText = new BookTextResponse(textId, text);
+        this.totalPages = 1;
     }
 
     public Long getId() {
@@ -188,5 +191,13 @@ public class BookWithTextResponse {
 
     public void setBookText(BookTextResponse bookText) {
         this.bookText = bookText;
+    }
+
+    public Integer getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(Integer totalPages) {
+        this.totalPages = totalPages;
     }
 }

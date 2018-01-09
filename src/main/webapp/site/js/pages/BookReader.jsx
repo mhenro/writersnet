@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Pagination } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 import {
@@ -29,10 +30,12 @@ class BookReader extends React.Component {
         this.state = {
             comments: [],
             currentPage: 1,
-            totalPages: 1
+            totalPages: 1,
+            bookPage: 1,
+            bookTotalPages: 1
         };
 
-        this.props.onGetBookDetails(this.props.match.params.bookId);
+        this.props.onGetBookDetails(this.props.match.params.bookId, this.state.bookPage, totalPages => this.setBookTotalPages(totalPages));
         this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, comments => this.renderComments(comments), totalPages => this.setTotalPages(totalPages));
     }
 
@@ -83,8 +86,22 @@ class BookReader extends React.Component {
         });
     }
 
-    updateBook() {
-        this.props.onGetBookDetails(this.props.match.params.bookId);
+    updateBook(page = 1) {
+        this.props.onGetBookDetails(this.props.match.params.bookId, page, totalPages => this.setBookTotalPages(totalPages));
+    }
+
+    pageSelect(page) {
+        this.setState({
+            bookPage: page
+        });
+        this.updateBook(page);
+        window.scrollTo(0, 0);
+    }
+
+    setBookTotalPages(totalPages) {
+        this.setState({
+            bookTotalPages: totalPages + 1
+        });
     }
 
     updateComments() {
@@ -131,8 +148,38 @@ class BookReader extends React.Component {
                     </div>
                     <div className="col-sm-6"></div>
                 </div>
+                <div className="col-sm-12 text-center">
+                    <Pagination
+                        className={'shown'}
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.state.bookTotalPages}
+                        maxButtons={3}
+                        activePage={this.state.bookPage}
+                        onSelect={page => this.pageSelect(page)}/>
+                    <br/>
+                </div>
                 <div className="col-sm-12 text-justify">
                     <div dangerouslySetInnerHTML={{ __html: this.props.book.bookText.text }} />
+                </div>
+                <div className="col-sm-12 text-center">
+                    <br/>
+                    <Pagination
+                        className={'shown'}
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.state.bookTotalPages}
+                        maxButtons={3}
+                        activePage={this.state.bookPage}
+                        onSelect={page => this.pageSelect(page)}/>
                     <hr/>
                 </div>
                 <div id="commentsAnchor" className="col-sm-12"></div>
@@ -165,10 +212,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetBookDetails: (bookId) => {
-            return getBookDetails(bookId).then(([response, json]) => {
+        onGetBookDetails: (bookId, page, callbackTotalPages) => {
+            return getBookDetails(bookId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBook(json));
+                    callbackTotalPages(json.totalPages);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
