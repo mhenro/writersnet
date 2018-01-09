@@ -1,25 +1,41 @@
 package org.booklink.services;
 
+import org.booklink.models.entities.Captcha;
+import org.booklink.repositories.CaptchaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 /**
  * Created by mhenr on 09.01.2018.
  */
 @Service
+@Transactional
 public class CaptchaService {
     private final int CAPTCHA_WIDTH = 200;
     private final int CAPTCHA_HEIGHT = 40;
     private final int CAPTCHA_MAX_LENGTH = 4;
     private final int FONT_SIZE = 25;
     private final int LETTER_WIDTH = 14;
+    private final long ONE_MINUTE_IN_MILLIS = 60000;    //millisecs
     private final char data[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'w', 'x', 'y', 'z'};
+
+    private CaptchaRepository captchaRepository;
+
+    @Autowired
+    public CaptchaService(final CaptchaRepository captchaRepository) {
+        this.captchaRepository = captchaRepository;
+    }
 
     public byte[] getCaptcha() throws IOException {
         final BufferedImage captcha = createCaptcha();
@@ -29,16 +45,36 @@ public class CaptchaService {
     private BufferedImage createCaptcha() {
         final BufferedImage captcha = new BufferedImage(CAPTCHA_WIDTH, CAPTCHA_HEIGHT, BufferedImage.TYPE_INT_RGB);
         final Graphics2D graphics2D = captcha.createGraphics();
+        final StringBuffer buffer = getRandomBuffer();
         initializeBackground(graphics2D);
-        renderCaptcha(graphics2D);
+        renderCaptcha(graphics2D, buffer);
         graphics2D.dispose();
+        saveCaptchaInDB(buffer);
 
         return captcha;
     }
 
-    private void renderCaptcha(final Graphics2D graphics2D) {
+    private void saveCaptchaInDB(final StringBuffer buffer) {
+        final Captcha captcha = new Captcha();
+        captcha.setCode(buffer.toString());
+        captcha.setExpired(getExpiredDate());
+        captchaRepository.save(captcha);
+    }
+
+    private Date getExpiredDate() {
+        final Calendar date = Calendar.getInstance();
+        final long time = date.getTimeInMillis();
+        final Date result = new Date(time + (1 * ONE_MINUTE_IN_MILLIS));
+        return result;
+    }
+
+    @Scheduled(fixedDelay = 300000) //5 min
+    public void removeOldCaptchaSessions() {
+        captchaRepository.deleteOldCaptcha(new Date());
+    }
+
+    private void renderCaptcha(final Graphics2D graphics2D, final StringBuffer buffer) {
         final Font font = new Font(Font.SANS_SERIF, Font.BOLD, FONT_SIZE);
-        final StringBuffer buffer = getRandomBuffer();
         final Random r = new Random();
         graphics2D.setFont(font);
         graphics2D.setColor(new Color(255, 153, 0));

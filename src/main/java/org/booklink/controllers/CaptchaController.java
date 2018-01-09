@@ -23,12 +23,9 @@ public class CaptchaController {
     @CrossOrigin
     @RequestMapping(value = "captcha", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<?> getCaptcha() throws IOException {
-        final Response<byte[]> response = new Response<>();
         final HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         final byte[] captcha = captchaService.getCaptcha();
-        response.setCode(0);
-        response.setMessage(captcha);
         return new ResponseEntity<>(captcha, headers, HttpStatus.OK);
     }
 
