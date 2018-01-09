@@ -11181,7 +11181,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.updateMutableDate = exports.goToComments = exports.removeNotify = exports.removeNotifies = exports.createNotify = exports.closeWriteMessageForm = exports.openWriteMessageForm = exports.closeUserPolicy = exports.openUserPolicy = exports.closeLoginForm = exports.openLoginForm = exports.UPDATE_MUTABLE_DATE = exports.GO_TO_COMMENTS = exports.REMOVE_NOTIFY = exports.REMOVE_NOTIFIES = exports.CREATE_NOTIFY = exports.CLOSE_WRITE_MESSAGE_FORM = exports.OPEN_WRITE_MESSAGE_FORM = exports.CLOSE_USER_POLICY = exports.OPEN_USER_POLICY = exports.CLOSE_LOGIN_FORM = exports.OPEN_LOGIN_FORM = exports.getSessionsCount = undefined;
 
-var _fetch = __webpack_require__(55);
+var _fetch = __webpack_require__(49);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -11310,7 +11310,7 @@ module.exports = __webpack_require__(505);
 
 var _prodInvariant = __webpack_require__(15);
 
-var DOMProperty = __webpack_require__(54);
+var DOMProperty = __webpack_require__(55);
 var ReactDOMComponentFlags = __webpack_require__(218);
 
 var invariant = __webpack_require__(11);
@@ -12099,7 +12099,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setToken = exports.setPasswordConfirm = exports.setPassword = exports.setLogin = exports.setEmail = exports.SET_TOKEN = exports.SET_PASSWORD_CONFIRM = exports.SET_PASSWORD = exports.SET_LOGIN = exports.SET_EMAIL = exports.sendActivationToken = exports.sendRegister = exports.sendLogin = undefined;
 
-var _fetch = __webpack_require__(55);
+var _fetch = __webpack_require__(49);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -13464,7 +13464,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setNewFriends = exports.setAuthor = exports.setAuthors = exports.SET_NEW_FRIENDS = exports.SET_AUTHOR = exports.SET_AUTHORS = exports.removeSubscription = exports.subscribeOn = exports.restoreDefaultAvatar = exports.changePassword = exports.saveAvatar = exports.saveAuthor = exports.checkFriendshipWith = exports.isSubscriptionOf = exports.isSubscriberOf = exports.isFriendOf = exports.getAllSubscriptions = exports.getAllSubscribers = exports.getAllFriends = exports.getNewFriendsCount = exports.getFriends = exports.getAuthorChatGroups = exports.getAuthorDetails = exports.getAuthorsCount = exports.getAuthors = undefined;
 
-var _fetch = __webpack_require__(55);
+var _fetch = __webpack_require__(49);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -13608,7 +13608,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.closeReviewForm = exports.openReviewForm = exports.closeEditSeriesForm = exports.openEditSeriesForm = exports.closeBookPropsForm = exports.openBookPropsForm = exports.setGenres = exports.setSeries = exports.setBook = exports.setBooks = exports.CLOSE_REVIEW_FORM = exports.OPEN_REVIEW_FORM = exports.CLOSE_EDITSERIES_FORM = exports.OPEN_EDITSERIES_FORM = exports.CLOSE_BOOKPROPS_FORM = exports.OPEN_BOOKPROPS_FORM = exports.SET_GENRES = exports.SET_SERIES = exports.SET_BOOK = exports.SET_BOOKS = exports.deleteBook = exports.restoreDefaultCover = exports.saveCover = exports.saveBookText = exports.saveBook = exports.deleteComment = exports.saveComment = exports.getAllComments = exports.getBookComments = exports.getBookDetails = exports.addStar = exports.getGenres = exports.deleteSerie = exports.saveSerie = exports.getSeries = exports.getBooksCount = exports.getBooksByAuthor = exports.getBooks = undefined;
 
-var _fetch = __webpack_require__(55);
+var _fetch = __webpack_require__(49);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -14512,6 +14512,62 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _isomorphicFetch = __webpack_require__(687);
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var doFetch = function doFetch(url, request, token) {
+    var contentType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'application/json';
+    var responseType = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'json';
+
+    var header = {
+        method: request ? 'POST' : 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    };
+
+    if (request === 'DELETE') {
+        header.method = 'DELETE';
+    }
+
+    if (contentType !== 'multipart/form-data') {
+        header.headers['Content-Type'] = contentType;
+    }
+
+    if (request) {
+        header.body = contentType === 'application/json' ? JSON.stringify(request) : request;
+    }
+    if (token) {
+        header.headers.Authorization = 'Bearer ' + token;
+    }
+    if (responseType === 'blob') {
+        header.responseType = 'blob';
+    }
+
+    return (0, _isomorphicFetch2.default)(url, header).then(function (response) {
+        return Promise.all([response, responseType === 'json' ? response.json() : response.blob()]);
+    }).catch(function (error) {
+        console.log('Error requesting ' + url + ' : ' + error.message);
+        throw error;
+    });
+};
+
+exports.default = doFetch;
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var _Object$getOwnPropertyDescriptor = __webpack_require__(962)["default"];
 
 exports["default"] = function get(_x, _x2, _x3) {
@@ -14556,7 +14612,7 @@ exports["default"] = function get(_x, _x2, _x3) {
 exports.__esModule = true;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14585,7 +14641,7 @@ exports["default"] = function (subClass, superClass) {
 exports.__esModule = true;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14615,7 +14671,7 @@ exports["default"] = (function () {
 exports.__esModule = true;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14630,7 +14686,7 @@ exports["default"] = function (instance, Constructor) {
 exports.__esModule = true;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14645,7 +14701,7 @@ exports["default"] = function (obj) {
 exports.__esModule = true;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14856,62 +14912,6 @@ var DOMProperty = {
 
 module.exports = DOMProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _isomorphicFetch = __webpack_require__(687);
-
-var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var doFetch = function doFetch(url, request, token) {
-    var contentType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'application/json';
-    var responseType = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'json';
-
-    var header = {
-        method: request ? 'POST' : 'GET',
-        headers: {
-            'Accept': 'application/json'
-        }
-    };
-
-    if (request === 'DELETE') {
-        header.method = 'DELETE';
-    }
-
-    if (contentType !== 'multipart/form-data') {
-        header.headers['Content-Type'] = contentType;
-    }
-
-    if (request) {
-        header.body = contentType === 'application/json' ? JSON.stringify(request) : request;
-    }
-    if (token) {
-        header.headers.Authorization = 'Bearer ' + token;
-    }
-    if (responseType === 'blob') {
-        header.responseType = 'blob';
-    }
-
-    return (0, _isomorphicFetch2.default)(url, header).then(function (response) {
-        return Promise.all([response, responseType === 'json' ? response.json() : response.blob()]);
-    }).catch(function (error) {
-        console.log('Error requesting ' + url + ' : ' + error.message);
-        throw error;
-    });
-};
-
-exports.default = doFetch;
 
 /***/ }),
 /* 56 */
@@ -18043,7 +18043,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setUnreadMessages = exports.SET_UNREAD_MESSAGES = exports.markAllAsReadInGroup = exports.getUnreadMessagesFromUser = exports.getUnreadMessagesInGroup = exports.getGroupIdByRecipient = exports.addMessageToGroup = exports.getGroupName = exports.getMessagesByGroup = undefined;
 
-var _fetch = __webpack_require__(55);
+var _fetch = __webpack_require__(49);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -22362,7 +22362,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.closeReviewReaderForm = exports.openReviewReaderForm = exports.CLOSE_REVIEW_READER_FORM = exports.OPEN_REVIEW_READER_FORM = exports.dislikeReview = exports.likeReview = exports.getReviewDetails = exports.getReviews = exports.saveReview = undefined;
 
-var _fetch = __webpack_require__(55);
+var _fetch = __webpack_require__(49);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -30895,7 +30895,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var DOMProperty = __webpack_require__(54);
+var DOMProperty = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(22);
 var ReactInstrumentation = __webpack_require__(35);
 
@@ -32072,7 +32072,7 @@ module.exports = ReactInputSelection;
 var _prodInvariant = __webpack_require__(15);
 
 var DOMLazyTree = __webpack_require__(69);
-var DOMProperty = __webpack_require__(54);
+var DOMProperty = __webpack_require__(55);
 var React = __webpack_require__(66);
 var ReactBrowserEventEmitter = __webpack_require__(109);
 var ReactCurrentOwner = __webpack_require__(39);
@@ -55448,7 +55448,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(1026);
+var	fixUrls = __webpack_require__(1028);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -55786,17 +55786,17 @@ var _MainPage = __webpack_require__(608);
 
 var _MainPage2 = _interopRequireDefault(_MainPage);
 
-var _GlobalDataContainer = __webpack_require__(1018);
+var _GlobalDataContainer = __webpack_require__(1020);
 
 var _GlobalDataContainer2 = _interopRequireDefault(_GlobalDataContainer);
 
-var _appReducer = __webpack_require__(1019);
+var _appReducer = __webpack_require__(1021);
 
 var _appReducer2 = _interopRequireDefault(_appReducer);
 
-__webpack_require__(1024);
+__webpack_require__(1026);
 
-__webpack_require__(1027);
+__webpack_require__(1029);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -58883,7 +58883,7 @@ module.exports = EnterLeaveEventPlugin;
 
 
 
-var DOMProperty = __webpack_require__(54);
+var DOMProperty = __webpack_require__(55);
 
 var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
 var HAS_BOOLEAN_VALUE = DOMProperty.injection.HAS_BOOLEAN_VALUE;
@@ -59436,7 +59436,7 @@ var AutoFocusUtils = __webpack_require__(529);
 var CSSPropertyOperations = __webpack_require__(530);
 var DOMLazyTree = __webpack_require__(69);
 var DOMNamespaces = __webpack_require__(144);
-var DOMProperty = __webpack_require__(54);
+var DOMProperty = __webpack_require__(55);
 var DOMPropertyOperations = __webpack_require__(234);
 var EventPluginHub = __webpack_require__(79);
 var EventPluginRegistry = __webpack_require__(104);
@@ -64245,7 +64245,7 @@ module.exports = ReactEventListener;
 
 
 
-var DOMProperty = __webpack_require__(54);
+var DOMProperty = __webpack_require__(55);
 var EventPluginHub = __webpack_require__(79);
 var EventPluginUtils = __webpack_require__(138);
 var ReactComponentEnvironment = __webpack_require__(147);
@@ -66304,7 +66304,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 
-var DOMProperty = __webpack_require__(54);
+var DOMProperty = __webpack_require__(55);
 var EventPluginRegistry = __webpack_require__(104);
 var ReactComponentTreeHook = __webpack_require__(33);
 
@@ -66467,7 +66467,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 
 
-var DOMProperty = __webpack_require__(54);
+var DOMProperty = __webpack_require__(55);
 var ReactComponentTreeHook = __webpack_require__(33);
 
 var warning = __webpack_require__(12);
@@ -67846,6 +67846,10 @@ var _DiscussionPage = __webpack_require__(1017);
 
 var _DiscussionPage2 = _interopRequireDefault(_DiscussionPage);
 
+var _HelpPage = __webpack_require__(1018);
+
+var _HelpPage2 = _interopRequireDefault(_HelpPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -67923,6 +67927,7 @@ var MainPage = function (_React$Component) {
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/reviews/:bookId', component: _ReviewPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/reviews', component: _ReviewPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/discussions', component: _DiscussionPage2.default }),
+                                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/help', component: _HelpPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/reader/:bookId', component: _BookReader2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/options', component: this.props.registered ? _OptionsPage2.default : _BookPage2.default }),
                                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/news', component: _NewsPage2.default }),
@@ -105775,17 +105780,17 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
 var _extends = __webpack_require__(369)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -106701,15 +106706,15 @@ webpackContext.id = 982;
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -106870,17 +106875,17 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
 var _Object$keys = __webpack_require__(985)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107085,15 +107090,15 @@ __webpack_require__(365)('keys', function($keys){
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107295,15 +107300,15 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107427,15 +107432,15 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107560,17 +107565,17 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
 var _extends = __webpack_require__(369)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107790,15 +107795,15 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -107951,15 +107956,15 @@ module.exports = exports["default"];
 "use strict";
 
 
-var _get = __webpack_require__(49)["default"];
+var _get = __webpack_require__(50)["default"];
 
-var _inherits = __webpack_require__(50)["default"];
+var _inherits = __webpack_require__(51)["default"];
 
-var _createClass = __webpack_require__(51)["default"];
+var _createClass = __webpack_require__(52)["default"];
 
-var _classCallCheck = __webpack_require__(52)["default"];
+var _classCallCheck = __webpack_require__(53)["default"];
 
-var _interopRequireDefault = __webpack_require__(53)["default"];
+var _interopRequireDefault = __webpack_require__(54)["default"];
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -109590,7 +109595,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getTopBooksByViews = exports.getTopBooksByComments = exports.getTopBooksByVolume = exports.getTopBooksByRating = exports.getTopBooksByNovelty = exports.getTopAuthorsByViews = exports.getTopAuthorsByComments = exports.getTopAuthorsByBookCount = exports.getTopAuthorsByRating = undefined;
 
-var _fetch = __webpack_require__(55);
+var _fetch = __webpack_require__(49);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -111901,7 +111906,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getNews = undefined;
 
-var _fetch = __webpack_require__(55);
+var _fetch = __webpack_require__(49);
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
@@ -113384,6 +113389,292 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(19);
+
+var _CaptchaActions = __webpack_require__(1019);
+
+var _GlobalActions = __webpack_require__(20);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+ props:
+ - authors - list of authors
+ */
+var HelpPage = function (_React$Component) {
+    _inherits(HelpPage, _React$Component);
+
+    function HelpPage(props) {
+        _classCallCheck(this, HelpPage);
+
+        var _this = _possibleConstructorReturn(this, (HelpPage.__proto__ || Object.getPrototypeOf(HelpPage)).call(this, props));
+
+        _this.state = {
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
+            captcha: ''
+        };
+        return _this;
+    }
+
+    _createClass(HelpPage, [{
+        key: 'onFieldChange',
+        value: function onFieldChange(proxy) {
+            switch (proxy.target.id) {
+                case 'name':
+                    this.setState({ name: proxy.target.value });break;
+                case 'email':
+                    this.setState({ email: proxy.target.value });break;
+                case 'subject':
+                    this.setState({ subject: proxy.target.value });break;
+                case 'message':
+                    this.setState({ message: proxy.target.value });break;
+                case 'captcha':
+                    this.setState({ captcha: proxy.target.value });break;
+            }
+        }
+    }, {
+        key: 'onSubmit',
+        value: function onSubmit(event) {
+            event.preventDefault();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'panel panel-default' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel-heading' },
+                            'Contact form'
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel-body' },
+                            _react2.default.createElement('div', null),
+                            _react2.default.createElement(
+                                'form',
+                                { className: 'form-horizontal', onSubmit: function onSubmit(event) {
+                                        return _this2.onSubmit(event);
+                                    } },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group text-center' },
+                                    'Your personal info'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group' },
+                                    _react2.default.createElement(
+                                        'label',
+                                        { className: 'control-label col-sm-2', htmlFor: 'name' },
+                                        'Name:'
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-sm-10' },
+                                        _react2.default.createElement('input', { required: true, value: this.state.name, onChange: function onChange(proxy) {
+                                                return _this2.onFieldChange(proxy);
+                                            }, type: 'text', className: 'form-control', id: 'name', placeholder: 'Enter your name', name: 'name' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group' },
+                                    _react2.default.createElement(
+                                        'label',
+                                        { className: 'control-label col-sm-2', htmlFor: 'email' },
+                                        'Email:'
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-sm-10' },
+                                        _react2.default.createElement('input', { required: true, value: this.state.email, onChange: function onChange(proxy) {
+                                                return _this2.onFieldChange(proxy);
+                                            }, type: 'text', className: 'form-control', id: 'email', placeholder: 'Enter your email', name: 'email' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group text-center' },
+                                    'Your message'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group' },
+                                    _react2.default.createElement(
+                                        'label',
+                                        { className: 'control-label col-sm-2', htmlFor: 'subject' },
+                                        'Subject:'
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-sm-10' },
+                                        _react2.default.createElement('input', { required: true, value: this.state.subject, onChange: function onChange(proxy) {
+                                                return _this2.onFieldChange(proxy);
+                                            }, type: 'text', className: 'form-control', id: 'subject', placeholder: 'Enter the subject', name: 'subject' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group' },
+                                    _react2.default.createElement(
+                                        'label',
+                                        { className: 'control-label col-sm-2', htmlFor: 'message' },
+                                        'Message:'
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-sm-10' },
+                                        _react2.default.createElement('textarea', { required: true, value: this.state.message, onChange: function onChange(proxy) {
+                                                return _this2.onFieldChange(proxy);
+                                            }, rows: '5', className: 'form-control', id: 'message', placeholder: 'Enter your message', name: 'message' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group text-center' },
+                                    'Security'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group' },
+                                    _react2.default.createElement('div', { className: 'col-sm-2' }),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-sm-10' },
+                                        _react2.default.createElement('img', { src: 'https://localhost/api/captcha', className: 'img-rounded', width: '200', height: '40' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group' },
+                                    _react2.default.createElement(
+                                        'label',
+                                        { className: 'control-label col-sm-2', htmlFor: 'captcha' },
+                                        'Captcha:'
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-sm-10' },
+                                        _react2.default.createElement('input', { required: true, value: this.state.captcha, onChange: function onChange(proxy) {
+                                                return _this2.onFieldChange(proxy);
+                                            }, type: 'text', className: 'form-control', id: 'captcha', placeholder: 'Enter the code from the picture above', name: 'captcha' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-sm-12 text-center' },
+                                        _react2.default.createElement(
+                                            'button',
+                                            { type: 'submit', className: 'btn btn-success' },
+                                            'Save'
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement('br', null)
+                )
+            );
+        }
+    }]);
+
+    return HelpPage;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        authors: state.AuthorReducer.authors
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        onGetCaptcha: function onGetCaptcha(callback) {
+            return (0, _CaptchaActions.getCaptcha)().then(function (_ref) {
+                var _ref2 = _slicedToArray(_ref, 2),
+                    response = _ref2[0],
+                    json = _ref2[1];
+
+                if (response.status === 200) {
+                    callback(json.message);
+                } else {
+                    dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
+                }
+            }).catch(function (error) {
+                dispatch((0, _GlobalActions.createNotify)('danger', 'Error', error.message));
+            });
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(HelpPage);
+
+/***/ }),
+/* 1019 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getCaptcha = undefined;
+
+var _fetch = __webpack_require__(49);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+var _utils = __webpack_require__(23);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getCaptcha = exports.getCaptcha = function getCaptcha() {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'captcha', null, null, 'image/jpeg');
+};
+
+/***/ }),
+/* 1020 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
 var _utils = __webpack_require__(23);
 
 var _reactRedux = __webpack_require__(19);
@@ -113560,7 +113851,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GlobalDataContainer);
 
 /***/ }),
-/* 1019 */
+/* 1021 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -113572,19 +113863,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(155);
 
-var _GlobalReducer = __webpack_require__(1020);
+var _GlobalReducer = __webpack_require__(1022);
 
 var _GlobalReducer2 = _interopRequireDefault(_GlobalReducer);
 
-var _AuthorReducer = __webpack_require__(1021);
+var _AuthorReducer = __webpack_require__(1023);
 
 var _AuthorReducer2 = _interopRequireDefault(_AuthorReducer);
 
-var _BookReducer = __webpack_require__(1022);
+var _BookReducer = __webpack_require__(1024);
 
 var _BookReducer2 = _interopRequireDefault(_BookReducer);
 
-var _ReviewReducer = __webpack_require__(1023);
+var _ReviewReducer = __webpack_require__(1025);
 
 var _ReviewReducer2 = _interopRequireDefault(_ReviewReducer);
 
@@ -113600,7 +113891,7 @@ var appReducer = (0, _redux.combineReducers)({
 exports.default = appReducer;
 
 /***/ }),
-/* 1020 */
+/* 1022 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -113746,7 +114037,7 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 1021 */
+/* 1023 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -113780,7 +114071,7 @@ var AuthorReducer = function AuthorReducer() {
 exports.default = AuthorReducer;
 
 /***/ }),
-/* 1022 */
+/* 1024 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -113844,7 +114135,7 @@ var BookReducer = function BookReducer() {
 exports.default = BookReducer;
 
 /***/ }),
-/* 1023 */
+/* 1025 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -113878,13 +114169,13 @@ var GlobalReducer = function GlobalReducer() {
 exports.default = GlobalReducer;
 
 /***/ }),
-/* 1024 */
+/* 1026 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(1025);
+var content = __webpack_require__(1027);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -113909,7 +114200,7 @@ if(false) {
 }
 
 /***/ }),
-/* 1025 */
+/* 1027 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(489)(undefined);
@@ -113923,7 +114214,7 @@ exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Je
 
 
 /***/ }),
-/* 1026 */
+/* 1028 */
 /***/ (function(module, exports) {
 
 
@@ -114018,13 +114309,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 1027 */
+/* 1029 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(1028);
+var content = __webpack_require__(1030);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -114049,7 +114340,7 @@ if(false) {
 }
 
 /***/ }),
-/* 1028 */
+/* 1030 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(489)(undefined);

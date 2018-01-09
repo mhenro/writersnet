@@ -116,9 +116,9 @@ public class BookService {
             final int offset = page * size;
             final String prefix = offset > 0 ? "..." : "";
             if (offset + size > oldText.length()) {
-                newText = prefix + book.getBookText().getText().substring(offset);
+                newText = prefix + oldText.substring(offset);
             } else {
-                newText = prefix + book.getBookText().getText().substring(offset, offset + size) + "...";
+                newText = prefix + oldText.substring(offset, offset + size) + "...";
             }
             book.getBookText().setText(newText);
             book.setTotalPages(oldText.length() / size);
