@@ -103,10 +103,9 @@ public class AuthenticationService {
         final String host = environment.getProperty("writersnet.addr");
         final String mailAddr = environment.getProperty("writersnet.mail");
         String link = "<a href=" + host + "activate?activationToken=" + activationToken + " target=_blank>Register on WritersNets.com</a>";
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = null;
         try {
-            helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
             String htmlMsg = "<!doctype html>" +
                     "<html>" +
                     "  <head>" +
@@ -448,8 +447,8 @@ public class AuthenticationService {
                     "    </table>" +
                     "  </body>" +
                     "</html>";
-            mimeMessage.setHeader("Content-Type", "text/plain; charset=UTF-8");
-            mimeMessage.setContent(htmlMsg, "text/plain");
+            mimeMessage.setHeader("Content-Type", "text/html; charset=UTF-8");
+            mimeMessage.setContent(htmlMsg, "text/html");
             helper.setTo(to);
             helper.setSubject("Registration on WritersNets.com");
             helper.setFrom(mailAddr);

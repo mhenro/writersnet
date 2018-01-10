@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getCaptcha } from '../actions/CaptchaActions.jsx';
+import { sendFeedback } from '../actions/FeedbackActions.jsx';
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
@@ -18,8 +18,26 @@ class HelpPage extends React.Component {
             email: '',
             subject: '',
             message: '',
-            captcha: ''
+            captcha: '',
+            dt: new Date()
         };
+    }
+
+    clearScreen() {
+        this.setState({
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
+            captcha: '',
+            dt: new Date()
+        });
+    }
+
+    updateCaptcha() {
+        this.setState({
+            dt: new Date()
+        });
     }
 
     onFieldChange(proxy) {
@@ -34,6 +52,14 @@ class HelpPage extends React.Component {
 
     onSubmit(event) {
         event.preventDefault();
+        let feedbackRequest = {
+            name: this.state.name,
+            email: this.state.email,
+            subject: this.state. subject,
+            message: this.state.message,
+            captcha: this.state.captcha
+        };
+        this.props.onSendFeedback(feedbackRequest, () => this.clearScreen());
     }
 
     render() {
@@ -85,7 +111,8 @@ class HelpPage extends React.Component {
                                 <div className="form-group">
                                     <div className="col-sm-2"></div>
                                     <div className="col-sm-10">
-                                        <img src="https://localhost/api/captcha" className="img-rounded" width="200" height="40"/>
+                                        <img src={'https://localhost/api/captcha?dt=' + this.state.dt} className="img-rounded" width="200" height="40"/>&nbsp;
+                                        <button onClick={() => this.updateCaptcha()} type="button" className="btn btn-default glyphicon glyphicon-refresh"></button>
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -96,7 +123,7 @@ class HelpPage extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <div className="col-sm-12 text-center">
-                                        <button type="submit" className="btn btn-success">Save</button>
+                                        <button type="submit" className="btn btn-success">Send message</button>
                                     </div>
                                 </div>
                             </form>
@@ -117,10 +144,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetCaptcha: (callback) => {
-            return getCaptcha().then(([response, json]) => {
+        onSendFeedback: (feedbackRequest, callback) => {
+            return sendFeedback(feedbackRequest).then(([response, json]) => {
                 if (response.status === 200) {
-                    callback(json.message);
+                    dispatch(createNotify('success', 'Success', 'Your message was sent successfully'));
+                    callback();
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

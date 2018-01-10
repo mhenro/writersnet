@@ -42,6 +42,16 @@ public class CaptchaService {
         return convertImageToByteArray(captcha);
     }
 
+    public boolean isCaptchaCorrect(final String code) {
+        final Captcha captcha = captchaRepository.findByCode(code);
+        if (captcha != null) {
+            captchaRepository.delete(captcha);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private BufferedImage createCaptcha() {
         final BufferedImage captcha = new BufferedImage(CAPTCHA_WIDTH, CAPTCHA_HEIGHT, BufferedImage.TYPE_INT_RGB);
         final Graphics2D graphics2D = captcha.createGraphics();

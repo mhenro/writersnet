@@ -113391,7 +113391,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(19);
 
-var _CaptchaActions = __webpack_require__(1019);
+var _FeedbackActions = __webpack_require__(1019);
 
 var _GlobalActions = __webpack_require__(20);
 
@@ -113420,12 +113420,32 @@ var HelpPage = function (_React$Component) {
             email: '',
             subject: '',
             message: '',
-            captcha: ''
+            captcha: '',
+            dt: new Date()
         };
         return _this;
     }
 
     _createClass(HelpPage, [{
+        key: 'clearScreen',
+        value: function clearScreen() {
+            this.setState({
+                name: '',
+                email: '',
+                subject: '',
+                message: '',
+                captcha: '',
+                dt: new Date()
+            });
+        }
+    }, {
+        key: 'updateCaptcha',
+        value: function updateCaptcha() {
+            this.setState({
+                dt: new Date()
+            });
+        }
+    }, {
         key: 'onFieldChange',
         value: function onFieldChange(proxy) {
             switch (proxy.target.id) {
@@ -113444,12 +113464,24 @@ var HelpPage = function (_React$Component) {
     }, {
         key: 'onSubmit',
         value: function onSubmit(event) {
+            var _this2 = this;
+
             event.preventDefault();
+            var feedbackRequest = {
+                name: this.state.name,
+                email: this.state.email,
+                subject: this.state.subject,
+                message: this.state.message,
+                captcha: this.state.captcha
+            };
+            this.props.onSendFeedback(feedbackRequest, function () {
+                return _this2.clearScreen();
+            });
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -113472,7 +113504,7 @@ var HelpPage = function (_React$Component) {
                             _react2.default.createElement(
                                 'form',
                                 { className: 'form-horizontal', onSubmit: function onSubmit(event) {
-                                        return _this2.onSubmit(event);
+                                        return _this3.onSubmit(event);
                                     } },
                                 _react2.default.createElement(
                                     'div',
@@ -113491,7 +113523,7 @@ var HelpPage = function (_React$Component) {
                                         'div',
                                         { className: 'col-sm-10' },
                                         _react2.default.createElement('input', { required: true, value: this.state.name, onChange: function onChange(proxy) {
-                                                return _this2.onFieldChange(proxy);
+                                                return _this3.onFieldChange(proxy);
                                             }, type: 'text', className: 'form-control', id: 'name', placeholder: 'Enter your name', name: 'name' })
                                     )
                                 ),
@@ -113507,7 +113539,7 @@ var HelpPage = function (_React$Component) {
                                         'div',
                                         { className: 'col-sm-10' },
                                         _react2.default.createElement('input', { required: true, value: this.state.email, onChange: function onChange(proxy) {
-                                                return _this2.onFieldChange(proxy);
+                                                return _this3.onFieldChange(proxy);
                                             }, type: 'text', className: 'form-control', id: 'email', placeholder: 'Enter your email', name: 'email' })
                                     )
                                 ),
@@ -113528,7 +113560,7 @@ var HelpPage = function (_React$Component) {
                                         'div',
                                         { className: 'col-sm-10' },
                                         _react2.default.createElement('input', { required: true, value: this.state.subject, onChange: function onChange(proxy) {
-                                                return _this2.onFieldChange(proxy);
+                                                return _this3.onFieldChange(proxy);
                                             }, type: 'text', className: 'form-control', id: 'subject', placeholder: 'Enter the subject', name: 'subject' })
                                     )
                                 ),
@@ -113544,7 +113576,7 @@ var HelpPage = function (_React$Component) {
                                         'div',
                                         { className: 'col-sm-10' },
                                         _react2.default.createElement('textarea', { required: true, value: this.state.message, onChange: function onChange(proxy) {
-                                                return _this2.onFieldChange(proxy);
+                                                return _this3.onFieldChange(proxy);
                                             }, rows: '5', className: 'form-control', id: 'message', placeholder: 'Enter your message', name: 'message' })
                                     )
                                 ),
@@ -113560,7 +113592,11 @@ var HelpPage = function (_React$Component) {
                                     _react2.default.createElement(
                                         'div',
                                         { className: 'col-sm-10' },
-                                        _react2.default.createElement('img', { src: 'https://localhost/api/captcha', className: 'img-rounded', width: '200', height: '40' })
+                                        _react2.default.createElement('img', { src: 'https://localhost/api/captcha?dt=' + this.state.dt, className: 'img-rounded', width: '200', height: '40' }),
+                                        '\xA0',
+                                        _react2.default.createElement('button', { onClick: function onClick() {
+                                                return _this3.updateCaptcha();
+                                            }, type: 'button', className: 'btn btn-default glyphicon glyphicon-refresh' })
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -113575,7 +113611,7 @@ var HelpPage = function (_React$Component) {
                                         'div',
                                         { className: 'col-sm-10' },
                                         _react2.default.createElement('input', { required: true, value: this.state.captcha, onChange: function onChange(proxy) {
-                                                return _this2.onFieldChange(proxy);
+                                                return _this3.onFieldChange(proxy);
                                             }, type: 'text', className: 'form-control', id: 'captcha', placeholder: 'Enter the code from the picture above', name: 'captcha' })
                                     )
                                 ),
@@ -113588,7 +113624,7 @@ var HelpPage = function (_React$Component) {
                                         _react2.default.createElement(
                                             'button',
                                             { type: 'submit', className: 'btn btn-success' },
-                                            'Save'
+                                            'Send message'
                                         )
                                     )
                                 )
@@ -113612,14 +113648,15 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        onGetCaptcha: function onGetCaptcha(callback) {
-            return (0, _CaptchaActions.getCaptcha)().then(function (_ref) {
+        onSendFeedback: function onSendFeedback(feedbackRequest, callback) {
+            return (0, _FeedbackActions.sendFeedback)(feedbackRequest).then(function (_ref) {
                 var _ref2 = _slicedToArray(_ref, 2),
                     response = _ref2[0],
                     json = _ref2[1];
 
                 if (response.status === 200) {
-                    callback(json.message);
+                    dispatch((0, _GlobalActions.createNotify)('success', 'Success', 'Your message was sent successfully'));
+                    callback();
                 } else {
                     dispatch((0, _GlobalActions.createNotify)('danger', 'Error', json.message));
                 }
@@ -113642,7 +113679,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getCaptcha = undefined;
+exports.sendFeedback = undefined;
 
 var _fetch = __webpack_require__(49);
 
@@ -113652,8 +113689,8 @@ var _utils = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var getCaptcha = exports.getCaptcha = function getCaptcha() {
-    return (0, _fetch2.default)((0, _utils.getHost)() + 'captcha', null, null, 'image/jpeg');
+var sendFeedback = exports.sendFeedback = function sendFeedback(feedbackRequest) {
+    return (0, _fetch2.default)((0, _utils.getHost)() + 'feedback', feedbackRequest);
 };
 
 /***/ }),
