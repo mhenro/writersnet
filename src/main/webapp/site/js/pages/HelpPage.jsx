@@ -71,8 +71,10 @@ class HelpPage extends React.Component {
                             Contact form
                         </div>
                         <div className="panel-body">
-                            <div>
-
+                            <div className="text-justify">
+                                You can use the following contact form to ask any question about our project. We will try to answer on it asap.<br/>
+                                <b>Note</b>: Before ask a question via contact form please be sure that there is no such question in the <b>FAQ</b>.
+                                <br/><br/>
                             </div>
                             <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                                 <div className="form-group text-center">
@@ -131,6 +133,83 @@ class HelpPage extends React.Component {
                     </div>
                     <br/>
                 </div>
+
+                <div className="col-sm-12">
+                    <div className="panel panel-default">
+                        <div className="panel-heading">
+                            FAQ
+                        </div>
+                        <div className="panel-body">
+                            <p className="faq-question">1. How to sign up?</p>
+                            <div className="faq-answer">
+                                <div>Find the following button on the navigation bar:</div>
+                                <div><img src="https://localhost/css/images/faq/sign-up.png" width="100%" height="auto"/></div>
+                                <div>The following popup form will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/sign-up-2.png" width="100%" height="auto"/></div>
+                                <div>Fill all fields then set checkbox (1) if you agree with "User agreement" and then click on the Register button (2).</div>
+                            </div>
+                            <br/><br/>
+                            <p className="faq-question">2. How to log in?</p>
+                            <div className="faq-answer">
+                                <div>Find the following button on the navigation bar:</div>
+                                <div><img src="https://localhost/css/images/faq/log-in.png" width="100%" height="auto"/></div>
+                                <div>The following popup form will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/log-in-2.png" width="100%" height="auto"/></div>
+                                <div>Fill all fields then click on the Login button (2).</div>
+                                <div>If you forgot your password click on "Forgot you password?" link.</div>
+                            </div>
+                            <br/><br/>
+                            <p className="faq-question">3. How to setup my account?</p>
+                            <div className="faq-answer">
+                                <div><img src="https://localhost/css/images/faq/options.png" width="100%" height="auto"/></div>
+                                <div>After you logged in to the site click on "My page" button in the left menu (1).</div>
+                                <div>Then click on the "Options" button (2). The following popup form will appeared:</div>
+                                <div><img src="https://localhost/css/images/faq/options-2.png" width="100%" height="auto"/></div>
+                                <div>Fill all necessary fields and click on "Save" button.</div>
+                                <div>Below you will see additional panel where you can change your avatar:</div>
+                                <div><img src="https://localhost/css/images/faq/options-3.png" width="100%" height="auto"/></div>
+                                <div>To choose a new avatar click on "Choose your avatar" button (1).</div>
+                                <div>If you want to set the default avatar click "Restore default photo" button (2).</div>
+                                <div>Also on this page you can change your password. You should enter your current password then set a new password and confirm it.</div>
+                                <div>After that you should click on "Change password" button (3).</div>
+                            </div>
+                            <br/><br/>
+                            <p className="faq-question">4. How can I add a new book?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">5. How can I add a new serie?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">6. How can I add a review to the book?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">7. How to add author to my subscriptions?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">8. Where can I see events which are happened with authors which I'm subscribed?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">9. How can I write a message to my friend?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">10. How to find a book?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">11. How to find an author?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">12. How to use ratings?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">13. How to use Discussions page?</p>
+                            <span className="faq-answer">Trololo</span>
+                            <br/><br/>
+                            <p className="faq-question">14. How to use Reviews page?</p>
+                            <span className="faq-answer">Trololo</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
     }
@@ -138,7 +217,7 @@ class HelpPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        authors: state.AuthorReducer.authors
+
     }
 };
 

@@ -113500,7 +113500,26 @@ var HelpPage = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'panel-body' },
-                            _react2.default.createElement('div', null),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'text-justify' },
+                                'You can use the following contact form to ask any question about our project. We will try to answer on it asap.',
+                                _react2.default.createElement('br', null),
+                                _react2.default.createElement(
+                                    'b',
+                                    null,
+                                    'Note'
+                                ),
+                                ': Before ask a question via contact form please be sure that there is no such question in the ',
+                                _react2.default.createElement(
+                                    'b',
+                                    null,
+                                    'FAQ'
+                                ),
+                                '.',
+                                _react2.default.createElement('br', null),
+                                _react2.default.createElement('br', null)
+                            ),
                             _react2.default.createElement(
                                 'form',
                                 { className: 'form-horizontal', onSubmit: function onSubmit(event) {
@@ -113632,6 +113651,296 @@ var HelpPage = function (_React$Component) {
                         )
                     ),
                     _react2.default.createElement('br', null)
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-12' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'panel panel-default' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel-heading' },
+                            'FAQ'
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel-body' },
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '1. How to sign up?'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'faq-answer' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Find the following button on the navigation bar:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/sign-up.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'The following popup form will appear:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/sign-up-2.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Fill all fields then set checkbox (1) if you agree with "User agreement" and then click on the Register button (2).'
+                                )
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '2. How to log in?'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'faq-answer' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Find the following button on the navigation bar:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/log-in.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'The following popup form will appear:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/log-in-2.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Fill all fields then click on the Login button (2).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'If you forgot your password click on "Forgot you password?" link.'
+                                )
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '3. How to setup my account?'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'faq-answer' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/options.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'After you logged in to the site click on "My page" button in the left menu (1).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Then click on the "Options" button (2). The following popup form will appeared:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/options-2.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Fill all necessary fields and click on "Save" button.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Below you will see additional panel where you can change your avatar:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/options-3.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'To choose a new avatar click on "Choose your avatar" button (1).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'If you want to set the default avatar click "Restore default photo" button (2).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Also on this page you can change your password. You should enter your correct password then set a new password and confirm it.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'After that you should click on "Change password" button (3).'
+                                )
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '4. How can I add a new book?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '5. How can I add a new serie?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '6. How can I add a review to the book?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '7. How to add author to my subscriptions?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '8. Where can I see events which are happened with authors which I\'m subscribed?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '9. How can I write a message to my friend?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '10. How to find a book?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '11. How to find an author?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '12. How to use ratings?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '13. How to use Discussions page?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '14. How to use Reviews page?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'faq-answer' },
+                                'Trololo'
+                            )
+                        )
+                    )
                 )
             );
         }
@@ -113641,9 +113950,7 @@ var HelpPage = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-    return {
-        authors: state.AuthorReducer.authors
-    };
+    return {};
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {

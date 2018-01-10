@@ -166,3 +166,13 @@ footer {
 .discussion-text {
     margin-top: 5px;
 }
+
+.faq-question {
+    color: darkblue;
+    font-weight: bold;
+}
+
+.faq-answer {
+    margin-left: 25px;
+    margin-right: 25px;
+}
