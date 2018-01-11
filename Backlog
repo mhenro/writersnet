@@ -1,9 +1,11 @@
 ﻿Current sprint:
+IN PROGRESS - 45. Add filters to Books page.
 IN PROGRESS - 56. Add help page.
 11. Add "forgot your password?" functional to login form.
 
 
 Features:
+46. Add filters to Authors page.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 30. Add concept of the premium account. It should allow:
                    - to use more large photos and book texts;
@@ -18,29 +20,13 @@ Features:
                    - buy additional stuff, such as pdf convertation of the book, some medals to show them on author section page and so on.
 21. Add pay gateway.
 75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.
-46. Add filters to Authors page.
-45. Add filters to Books page.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 29. Support full localization mechanism.
 66. Mark as unread whole chat to determine where unread messages are placed.
 85. Fix layout of the TitlePage for mobile devices.
+47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
-47. Add defence from overclick visitors by user (by IP or something).
-76. The parent-side @OneToOne association requires bytecode enhancement so that the association can be loaded lazily. 
-Otherwise, the parent-side is always fetched even if the association is marked with FetchType.LAZY.
-For this reason, it’s best to map @OneToOne association using @MapsId so that the PRIMARY KEY is shared between the 
-child and the parent entities. When using @MapsId, the parent-side becomes redundant since the child-entity can be easily 
-fetched using the parent entity identifier.
-80. if you forget to specify that an EAGER association needs to be JOIN FETCH-ed by a JPQL query, Hibernate is going to issue a secondary select for every uninitialized association, leading to N+1 query problems.
-	For example:
-	comments = entityManager.createQuery(
-	    "select pc " +
-	    "from PostComment pc " +
-	    "join fetch pc.post " +
-	    "where pc.review = :review", PostComment.class)
-	.setParameter("review", review)
-	.getResultList();
 82. Optimize Hibernate queries.
 65. Add test for ChatGroupResponse class constructor.
 81. Move series action from BookActions to AuthorActions in client.
@@ -147,3 +133,17 @@ DONE - 94. Change mail template.
 DONE - 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 DONE - 86. Add feedback page to the help page with captcha.
 DONE - 95. Fix bug with News page. Currently we can see only friend news, but we should see subscription news as well.
+DONE - 80. if you forget to specify that an EAGER association needs to be JOIN FETCH-ed by a JPQL query, Hibernate is going to issue a secondary select for every uninitialized association, leading to N+1 query problems.
+	For example:
+	comments = entityManager.createQuery(
+	    "select pc " +
+	    "from PostComment pc " +
+	    "join fetch pc.post " +
+	    "where pc.review = :review", PostComment.class)
+	.setParameter("review", review)
+	.getResultList();
+DONE - 76. The parent-side @OneToOne association requires bytecode enhancement so that the association can be loaded lazily. 
+Otherwise, the parent-side is always fetched even if the association is marked with FetchType.LAZY.
+For this reason, it’s best to map @OneToOne association using @MapsId so that the PRIMARY KEY is shared between the 
+child and the parent entities. When using @MapsId, the parent-side becomes redundant since the child-entity can be easily 
+fetched using the parent entity identifier.

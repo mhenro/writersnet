@@ -4,6 +4,7 @@ import BookBriefList from '../components/books/BookBriefList.jsx';
 import { Pagination } from 'react-bootstrap';
 
 import AlphabetPagination from '../components/AlphabetPagination.jsx';
+import BookFilter from '../components/books/BookFilter.jsx';
 
 import {
     createNotify
@@ -19,9 +20,9 @@ class BookPage extends React.Component {
         this.state = {
             currentPage: 1,
             currentName: null,
+            searchPattern: '',
             totalPages: 1
         };
-        ['pageSelect', 'onLetterClick', 'updatePaginator'].map(fn => this[fn] = this[fn].bind(this));
     }
 
     componentDidMount() {
@@ -30,7 +31,7 @@ class BookPage extends React.Component {
     }
 
     updateBooks(name, page) {
-        this.props.onGetBooks(name, page - 1, this.updatePaginator);
+        this.props.onGetBooks(name, page - 1, pageDetails => this.updatePaginator(pageDetails));
     }
 
     onLetterClick(letter) {
@@ -39,6 +40,19 @@ class BookPage extends React.Component {
             currentPage: 1
         });
         this.updateBooks(letter, 1);
+    }
+
+    onSearchChange(event) {
+        this.setState({
+            searchPattern: event.target.value,
+            currentPage: 1
+        });
+    }
+
+    onKeyDown(key) {
+        if (key.key === 'Enter') {
+            this.updateBooks(this.state.searchPattern, this.state.currentPage);
+        }
     }
 
     pageSelect(page) {
@@ -58,8 +72,22 @@ class BookPage extends React.Component {
         return (
             <div>
                 <div className="col-sm-12">
-                    <AlphabetPagination onClick={this.onLetterClick}/>
+                    <AlphabetPagination onClick={letter => this.onLetterClick(letter)}/>
                     <br/>
+                </div>
+                <div className="col-sm-12">
+                    <div className="input-group">
+                        <input value={this.state.searchPattern} onChange={event => this.onSearchChange(event)} onKeyDown={key => this.onKeyDown(key)} type="text" className="form-control" placeholder="Input book name" />
+                        <div className="input-group-btn">
+                            <button className="btn btn-default" type="submit">
+                                <i className="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+                <div className="col-sm-12">
+                    <BookFilter/>
                 </div>
                 <div className="col-sm-12">
                     <BookBriefList books={this.props.books} language={this.props.language}/>
@@ -76,7 +104,7 @@ class BookPage extends React.Component {
                         items={this.state.totalPages}
                         maxButtons={3}
                         activePage={this.state.currentPage}
-                        onSelect={this.pageSelect}/>
+                        onSelect={page => this.pageSelect(page)}/>
                 </div>
             </div>
         )
