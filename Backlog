@@ -47,7 +47,6 @@ fetched using the parent entity identifier.
 
 
 Bugs:
-95. Fix bug with News page. Currently we can see only friend news, but we should see subscription news as well.
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
@@ -147,3 +146,4 @@ DONE - 2. Add changing password functional in the Options page.
 DONE - 94. Change mail template.
 DONE - 24. Split book text on several pages depends on amount of bytes. Added paginator to BookReader component. It's needed for perfomance on mobile devices.
 DONE - 86. Add feedback page to the help page with captcha.
+DONE - 95. Fix bug with News page. Currently we can see only friend news, but we should see subscription news as well.

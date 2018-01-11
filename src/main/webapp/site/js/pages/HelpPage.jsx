@@ -175,36 +175,99 @@ class HelpPage extends React.Component {
                             </div>
                             <br/><br/>
                             <p className="faq-question">4. How can I add a new book?</p>
-                            <span className="faq-answer">Trololo</span>
+                            <div className="faq-answer">
+                                <div><img src="https://localhost/css/images/faq/new-book.png" width="100%" height="auto"/></div>
+                                <div>You can add a new book only if you are registered. After you logged in click on "My page" button (1).</div>
+                                <div>After you click "Add new book" button (2) the following popup form will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/new-book-2.png" width="100%" height="auto"/></div>
+                                <div>Fill all necessary fields and click on "Save" button</div>
+                            </div>
                             <br/><br/>
                             <p className="faq-question">5. How can I add a new serie?</p>
-                            <span className="faq-answer">Trololo</span>
+                            <div className="faq-answer">
+                                <div><img src="https://localhost/css/images/faq/new-serie.png" width="100%" height="auto"/></div>
+                                <div>You can add a new serie only if you are registered. After you logged in click on "My page" button (1).</div>
+                                <div>After you click "Edit series" button (2) the following popup form will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/new-serie-2.png" width="100%" height="auto"/></div>
+                                <div>To add new serie click on "Add new serie" button (1).</div>
+                                <div>To delete serie select it in "Existed series" combobox then click on "Delete serie" button (2).</div>
+                                <div>To edit serie select it in "Existed series" combobox then click on "Rename serie" button (3).</div>
+                            </div>
                             <br/><br/>
                             <p className="faq-question">6. How can I add a review to the book?</p>
-                            <span className="faq-answer">Trololo</span>
+                            <div className="faq-answer">
+                                <div>You can add a new review to the book only if you are registered.</div>
+                                <div>Move to any author page you want, find a necessary book and click on "Add review" button (1) as shown below:</div>
+                                <div><img src="https://localhost/css/images/faq/add-review.png" width="100%" height="auto"/></div>
+                                <div>The following popup form will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/add-review-2.png" width="100%" height="auto"/></div>
+                                <div>Enter a text into the "Name" field.</div>
+                                <div>Choose score from "Score" combobox. It can be "very bad", "bad", "normal", "good" and "great".</div>
+                                <div>In the last field enter a review text. This field allows some html tags such as headers, quotes and so on.</div>
+                                <div>After you write all necessary data click on "Save" button.</div>
+                            </div>
                             <br/><br/>
                             <p className="faq-question">7. How to add author to my subscriptions?</p>
+                            <div className="faq-answer">
+                                <div><img src="https://localhost/css/images/faq/subscription.png" width="100%" height="auto"/></div>
+                                <div>If you want to add author to your subscription list go to the Authors page (1).</div>
+                                <div>Then choose an author which you want and click on "Author page" button (2).</div>
+                                <div>In the new screen click on "Add to friends" button (1):</div>
+                                <div><img src="https://localhost/css/images/faq/subscription-2.png" width="100%" height="auto"/></div>
+                                <div>If all is ok then you should see something like this:</div>
+                                <div><img src="https://localhost/css/images/faq/subscription-3.png" width="100%" height="auto"/></div>
+                                <div>"Add to friends" button" should change on "You are already subscribed" button (1).</div>
+                                <div>Success popup should appear (2).</div>
+                                <div>If you want to delete author from your subscription list you should go on the "Friends" page (1):</div>
+                                <div><img src="https://localhost/css/images/faq/subscription-4.png" width="100%" height="auto"/></div>
+                                <div>Then go to the "Subscriptions" tab (2).</div>
+                                <div>Find the needed author and click on "Remove" button (3).</div>
+                            </div>
+                            <br/><br/>
+                            <p className="faq-question">8. How to add author to my friends?</p>
+                            <div className="faq-answer">
+                                <div>Sometimes you can see a gray circle with number near the "Friends" link (1):</div>
+                                <div><img src="https://localhost/css/images/faq/subscription-5.png" width="100%" height="auto"/></div>
+                                <div>Click on "Friends" link (1) and go to the "Subscribers" tab (2).</div>
+                                <div>You will see the list of authors which are subscribed on you.</div>
+                                <div>Choose a needed author and click on "Add to friends" button (3).</div>
+                            </div>
+                            <br/><br/>
+                            <p className="faq-question">9. Where can I see events which are happened with authors on which I'm subscribed?</p>
+                            <div className="faq-answer">
+                                <div>If you have subscriptions or friends you can see the events which are happened with them.</div>
+                                <div><img src="https://localhost/css/images/faq/news.png" width="100%" height="auto"/></div>
+                                <div>Click on "News" link (1).</div>
+                            </div>
+                            <br/><br/>
+                            <p className="faq-question">10. How can I write a message to my friend?</p>
+                            <div className="faq-answer">
+                                <div>You can chat with your friends in two ways. First way is to go on "Friends" page (1):</div>
+                                <div><img src="https://localhost/css/images/faq/message.png" width="100%" height="auto"/></div>
+                                <div>Then go to the "Friends" tab and click on "Send message" button (2).</div>
+                                <div>The second way is to go on "Messages" link (1):</div>
+                                <div><img src="https://localhost/css/images/faq/message-3.png" width="100%" height="auto"/></div>
+                                <div>On this screen you can see the list of the chat groups (2). You can click on any group to enter the chat.</div>
+                                <div>If you don't see the needed chat group you can click on "Write message" button (3). The following popup form will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/message-4.png" width="100%" height="auto"/></div>
+                                <div>Choose your friend in "Friend" combobox then enter a message in "Message" field then click on "Send" button.</div>
+                                <div>In both ways you will be moved to the following screen:</div>
+                                <div><img src="https://localhost/css/images/faq/message-5.png" width="100%" height="auto"/></div>
+                            </div>
+                            <br/><br/>
+                            <p className="faq-question">11. How to find a book?</p>
                             <span className="faq-answer">Trololo</span>
                             <br/><br/>
-                            <p className="faq-question">8. Where can I see events which are happened with authors which I'm subscribed?</p>
+                            <p className="faq-question">12. How to find an author?</p>
                             <span className="faq-answer">Trololo</span>
                             <br/><br/>
-                            <p className="faq-question">9. How can I write a message to my friend?</p>
+                            <p className="faq-question">13. How to use ratings?</p>
                             <span className="faq-answer">Trololo</span>
                             <br/><br/>
-                            <p className="faq-question">10. How to find a book?</p>
+                            <p className="faq-question">14. How to use Discussions page?</p>
                             <span className="faq-answer">Trololo</span>
                             <br/><br/>
-                            <p className="faq-question">11. How to find an author?</p>
-                            <span className="faq-answer">Trololo</span>
-                            <br/><br/>
-                            <p className="faq-question">12. How to use ratings?</p>
-                            <span className="faq-answer">Trololo</span>
-                            <br/><br/>
-                            <p className="faq-question">13. How to use Discussions page?</p>
-                            <span className="faq-answer">Trololo</span>
-                            <br/><br/>
-                            <p className="faq-question">14. How to use Reviews page?</p>
+                            <p className="faq-question">15. How to use Reviews page?</p>
                             <span className="faq-answer">Trololo</span>
                         </div>
                     </div>

@@ -113799,7 +113799,7 @@ var HelpPage = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     null,
-                                    'Also on this page you can change your password. You should enter your correct password then set a new password and confirm it.'
+                                    'Also on this page you can change your password. You should enter your current password then set a new password and confirm it.'
                                 ),
                                 _react2.default.createElement(
                                     'div',
@@ -113815,9 +113815,33 @@ var HelpPage = function (_React$Component) {
                                 '4. How can I add a new book?'
                             ),
                             _react2.default.createElement(
-                                'span',
+                                'div',
                                 { className: 'faq-answer' },
-                                'Trololo'
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/new-book.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'You can add a new book only if you are registered. After you logged in click on "My page" button (1).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'After you click "Add new book" button (2) the following popup form will appear:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/new-book-2.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Fill all necessary fields and click on "Save" button'
+                                )
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -113827,9 +113851,43 @@ var HelpPage = function (_React$Component) {
                                 '5. How can I add a new serie?'
                             ),
                             _react2.default.createElement(
-                                'span',
+                                'div',
                                 { className: 'faq-answer' },
-                                'Trololo'
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/new-serie.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'You can add a new serie only if you are registered. After you logged in click on "My page" button (1).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'After you click "Edit series" button (2) the following popup form will appear:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/new-serie-2.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'To add new serie click on "Add new serie" button (1).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'To delete serie select it in "Existed series" combobox then click on "Delete serie" button (2).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'To edit serie select it in "Existed series" combobox then click on "Rename serie" button (3).'
+                                )
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -113839,9 +113897,53 @@ var HelpPage = function (_React$Component) {
                                 '6. How can I add a review to the book?'
                             ),
                             _react2.default.createElement(
-                                'span',
+                                'div',
                                 { className: 'faq-answer' },
-                                'Trololo'
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'You can add a new review to the book only if you are registered.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Move to any author page you want, find a necessary book and click on "Add review" button (1) as shown below:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/add-review.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'The following popup form will appear:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/add-review-2.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Enter a text into the "Name" field.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Choose score from "Score" combobox. It can be "very bad", "bad", "normal", "good" and "great".'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'In the last field enter a review text. This field allows some html tags such as headers, quotes and so on.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'After you write all necessary data click on "Save" button.'
+                                )
                             ),
                             _react2.default.createElement('br', null),
                             _react2.default.createElement('br', null),
@@ -113851,6 +113953,210 @@ var HelpPage = function (_React$Component) {
                                 '7. How to add author to my subscriptions?'
                             ),
                             _react2.default.createElement(
+                                'div',
+                                { className: 'faq-answer' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/subscription.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'If you want to add author to your subscription list go to the Authors page (1).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Then choose an author which you want and click on "Author page" button (2).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'In the new screen click on "Add to friends" button (1):'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/subscription-2.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'If all is ok then you should see something like this:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/subscription-3.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    '"Add to friends" button" should change on "You are already subscribed" button (1).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Success popup should appear (2).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'If you want to delete author from your subscription list you should go on the "Friends" page (1):'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/subscription-4.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Then go to the "Subscriptions" tab (2).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Find the needed author and click on "Remove" button (3).'
+                                )
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '8. How to add author to my friends?'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'faq-answer' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Sometimes you can see a gray circle with number near the "Friends" link (1):'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/subscription-5.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Click on "Friends" link (1) and go to the "Subscribers" tab (2).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'You will see the list of authors which are subscribed on you.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Choose a needed author and click on "Add to friends" button (3).'
+                                )
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '9. Where can I see events which are happened with authors on which I\'m subscribed?'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'faq-answer' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'If you have subscriptions or friends you can see the events which are happened with them.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/news.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Click on "News" link (1).'
+                                )
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '10. How can I write a message to my friend?'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'faq-answer' },
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'You can chat with your friends in two ways. First way is to go on "Friends" page (1):'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/message.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Then go to the "Friends" tab and click on "Send message" button (2).'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'The second way is to go on "Messages" link (1):'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/message-3.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'On this screen you can see the list of the chat groups (2). You can click on any group to enter the chat.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'If you don\'t see the needed chat group you can click on "Write message" button (3). The following popup form will appear:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/message-4.png', width: '100%', height: 'auto' })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'Choose your friend in "Friend" combobox then enter a message in "Message" field then click on "Send" button.'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    'In both ways you will be moved on the following screen:'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    null,
+                                    _react2.default.createElement('img', { src: 'https://localhost/css/images/faq/message-5.png', width: '100%', height: 'auto' })
+                                )
+                            ),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'faq-question' },
+                                '11. How to find a book?'
+                            ),
+                            _react2.default.createElement(
                                 'span',
                                 { className: 'faq-answer' },
                                 'Trololo'
@@ -113860,7 +114166,7 @@ var HelpPage = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 { className: 'faq-question' },
-                                '8. Where can I see events which are happened with authors which I\'m subscribed?'
+                                '12. How to find an author?'
                             ),
                             _react2.default.createElement(
                                 'span',
@@ -113872,7 +114178,7 @@ var HelpPage = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 { className: 'faq-question' },
-                                '9. How can I write a message to my friend?'
+                                '13. How to use ratings?'
                             ),
                             _react2.default.createElement(
                                 'span',
@@ -113884,7 +114190,7 @@ var HelpPage = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 { className: 'faq-question' },
-                                '10. How to find a book?'
+                                '14. How to use Discussions page?'
                             ),
                             _react2.default.createElement(
                                 'span',
@@ -113896,43 +114202,7 @@ var HelpPage = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 { className: 'faq-question' },
-                                '11. How to find an author?'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'faq-answer' },
-                                'Trololo'
-                            ),
-                            _react2.default.createElement('br', null),
-                            _react2.default.createElement('br', null),
-                            _react2.default.createElement(
-                                'p',
-                                { className: 'faq-question' },
-                                '12. How to use ratings?'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'faq-answer' },
-                                'Trololo'
-                            ),
-                            _react2.default.createElement('br', null),
-                            _react2.default.createElement('br', null),
-                            _react2.default.createElement(
-                                'p',
-                                { className: 'faq-question' },
-                                '13. How to use Discussions page?'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'faq-answer' },
-                                'Trololo'
-                            ),
-                            _react2.default.createElement('br', null),
-                            _react2.default.createElement('br', null),
-                            _react2.default.createElement(
-                                'p',
-                                { className: 'faq-question' },
-                                '14. How to use Reviews page?'
+                                '15. How to use Reviews page?'
                             ),
                             _react2.default.createElement(
                                 'span',

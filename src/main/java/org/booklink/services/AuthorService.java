@@ -248,7 +248,7 @@ public class AuthorService {
             friendshipRepository.removeFriend(subscriptionId, authorizedUser);
             friendshipRepository.addToSubscriptions(subscriptionId, authorizedUser, new Date());
 
-            response.setMessage(subscriptionUser.getFullName() + "has been removed from your friend list and has been added to your subscribers");
+            response.setMessage(subscriptionUser.getFullName() + " has been removed from your friend list and has been added to your subscribers");
             return response;
         }
         if (isSubscriber) {

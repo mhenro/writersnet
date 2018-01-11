@@ -7,6 +7,7 @@ import org.booklink.services.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -27,7 +28,7 @@ public class FeedbackController {
 
     @CrossOrigin
     @RequestMapping(value = "feedback", method = RequestMethod.POST)
-    public ResponseEntity<?> sendMessage(@RequestBody final FeedbackRequest feedback) {
+    public ResponseEntity<?> sendMessage(@RequestBody final FeedbackRequest feedback) throws MessagingException {
         Response<String> response = new Response<>();
         if (captchaService.isCaptchaCorrect(feedback.getCaptcha())) {
             try {
@@ -36,6 +37,9 @@ public class FeedbackController {
                 response.setMessage("Your message was sent successfully");
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } catch(Exception e) {
+                if (e instanceof MailSendException) {
+                    throw e;
+                }
                 response.setCode(1);
                 response.setMessage("Captcha code is incorrect");
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
