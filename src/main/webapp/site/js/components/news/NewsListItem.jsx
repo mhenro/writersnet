@@ -75,10 +75,10 @@ class NewsListItem extends React.Component {
             <div>
                 <hr/>
                 <div className="row">
-                    <div className="col-sm-1">
+                    <div className="col-sm-1 col-xs-3">
                         <img src={this.getAuthorAvatar() /*+ '?date=' + this.props.dt*/} className="img-rounded" width="100%" height="auto"/>
                     </div>
-                    <div className="col-sm-11">
+                    <div className="col-sm-11 col-xs-9">
                         <div className="col-sm-12">{this.getSubscriptionName()}</div>
                         <div className="col-sm-12">{this.getCreated()}</div>
                     </div>

@@ -54,23 +54,23 @@ class ChatGroupListItem extends React.Component {
             <div>
                 <hr/>
                 <div className="row clickable" onClick={() => this.onItemClick()}>
-                    <div className="col-sm-1">
+                    <div className="col-sm-1 col-xs-3">
                         <img src={this.getGroupAvatar()/* + '?date=' + new Date()*/} className="img-rounded" width="100%" height="auto"/>
                     </div>
-                    <div className="col-sm-11">
+                    <div className="col-sm-11 col-xs-9">
                         <div className="row">
-                            <div className="col-sm-6 chat-group-header">
+                            <div className="col-sm-6 col-xs-6 chat-group-header">
                                 {this.getGroupName()}
                             </div>
-                            <div className="col-sm-6 text-right">
+                            <div className="col-sm-6 col-xs-6 text-right">
                                 {this.getLastMessageDate()}
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-sm-1">
+                            <div className="col-sm-1 col-xs-3">
                                 <img src={this.getLastMessageAvatar() /*+ '?date=' + new Date()*/} className="img-rounded" width="100%" height="auto"/>
                             </div>
-                            <div className="col-sm-11 chat-group-body">
+                            <div className="col-sm-11 col-xs-9 chat-group-body">
                                 {this.getLastMessage()}
                             </div>
                         </div>

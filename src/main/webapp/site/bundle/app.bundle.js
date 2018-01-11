@@ -90918,7 +90918,7 @@ var BookBriefItem = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'col-sm-3' },
+                            { className: 'col-sm-3 col-xs-1' },
                             _react2.default.createElement('img', { src: this.props.book.author.avatar /* + '?date=' + new Date()*/, onClick: function onClick() {
                                     return _this2.onAuthorClick();
                                 }, className: 'img-rounded clickable', width: '100%', height: 'auto' })
@@ -110541,18 +110541,18 @@ var FriendListItem = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'col-sm-12' },
+                { className: 'col-sm-12 col-xs-12' },
                 _react2.default.createElement('hr', null),
                 _react2.default.createElement(
                     'div',
-                    { className: 'col-sm-1' },
+                    { className: 'col-sm-1 col-xs-6' },
                     _react2.default.createElement('img', { src: this.props.friend.avatar /*+ '?date=' + new Date()*/, onClick: function onClick() {
                             return _this6.onAuthorClick();
                         }, className: 'img-rounded clickable', width: '100%', height: 'auto' })
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'col-sm-11' },
+                    { className: 'col-sm-11 col-xs-6' },
                     _react2.default.createElement(
                         'div',
                         { className: 'friendlist-item-name' },
@@ -111037,23 +111037,23 @@ var ChatGroupListItem = function (_React$Component) {
                         } },
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-1' },
+                        { className: 'col-sm-1 col-xs-3' },
                         _react2.default.createElement('img', { src: this.getGroupAvatar() /* + '?date=' + new Date()*/, className: 'img-rounded', width: '100%', height: 'auto' })
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-11' },
+                        { className: 'col-sm-11 col-xs-9' },
                         _react2.default.createElement(
                             'div',
                             { className: 'row' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-6 chat-group-header' },
+                                { className: 'col-sm-6 col-xs-6 chat-group-header' },
                                 this.getGroupName()
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-6 text-right' },
+                                { className: 'col-sm-6 col-xs-6 text-right' },
                                 this.getLastMessageDate()
                             )
                         ),
@@ -111062,12 +111062,12 @@ var ChatGroupListItem = function (_React$Component) {
                             { className: 'row' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-1' },
+                                { className: 'col-sm-1 col-xs-3' },
                                 _react2.default.createElement('img', { src: this.getLastMessageAvatar() /*+ '?date=' + new Date()*/, className: 'img-rounded', width: '100%', height: 'auto' })
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-11 chat-group-body' },
+                                { className: 'col-sm-11 col-xs-9 chat-group-body' },
                                 this.getLastMessage()
                             )
                         )
@@ -111829,23 +111829,23 @@ var ChatGroupListItem = function (_React$Component) {
                     { className: 'row' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-1' },
+                        { className: 'col-sm-1 col-xs-3' },
                         _react2.default.createElement('img', { src: this.getAuthorAvatar() /* + '?date=' + new Date()*/, className: 'img-rounded', width: '100%', height: 'auto' })
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-11' },
+                        { className: 'col-sm-11 col-xs-9' },
                         _react2.default.createElement(
                             'div',
                             { className: 'row' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-6 text-left' },
+                                { className: 'col-sm-6 col-xs-6 text-left' },
                                 this.getAuthorName()
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-sm-6 text-right' },
+                                { className: 'col-sm-6 col-xs-6 text-right' },
                                 this.getMessageDate()
                             )
                         ),
@@ -112263,12 +112263,12 @@ var NewsListItem = function (_React$Component) {
                     { className: 'row' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-1' },
+                        { className: 'col-sm-1 col-xs-3' },
                         _react2.default.createElement('img', { src: this.getAuthorAvatar() /*+ '?date=' + this.props.dt*/, className: 'img-rounded', width: '100%', height: 'auto' })
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-sm-11' },
+                        { className: 'col-sm-11 col-xs-9' },
                         _react2.default.createElement(
                             'div',
                             { className: 'col-sm-12' },

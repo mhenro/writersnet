@@ -38,15 +38,15 @@ class ChatGroupListItem extends React.Component {
             <div>
                 <hr/>
                 <div className="row">
-                    <div className="col-sm-1">
+                    <div className="col-sm-1 col-xs-3">
                         <img src={this.getAuthorAvatar()/* + '?date=' + new Date()*/} className="img-rounded" width="100%" height="auto"/>
                     </div>
-                    <div className="col-sm-11">
+                    <div className="col-sm-11 col-xs-9">
                         <div className="row">
-                            <div className="col-sm-6 text-left">
+                            <div className="col-sm-6 col-xs-6 text-left">
                                 {this.getAuthorName()}
                             </div>
-                            <div className="col-sm-6 text-right">
+                            <div className="col-sm-6 col-xs-6 text-right">
                                 {this.getMessageDate()}
                             </div>
                         </div>

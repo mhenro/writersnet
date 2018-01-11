@@ -77,12 +77,12 @@ class FriendListItem extends React.Component {
 
     render() {
         return (
-            <div className="col-sm-12">
+            <div className="col-sm-12 col-xs-12">
                 <hr/>
-                <div className="col-sm-1">
+                <div className="col-sm-1 col-xs-6">
                     <img src={this.props.friend.avatar /*+ '?date=' + new Date()*/} onClick={() => this.onAuthorClick()} className="img-rounded clickable" width="100%" height="auto"/>
                 </div>
-                <div className="col-sm-11">
+                <div className="col-sm-11 col-xs-6">
                     <div className="friendlist-item-name">{this.props.friend.name}</div>
                     <div className="friendlist-item-section">{this.props.friend.section}</div>
                     <div className="btn-group-vertical">

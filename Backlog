@@ -36,7 +36,6 @@ Bugs:
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
-65. Fix bug with big avatars in messages page on small screens.
 
 
 Closed:
@@ -147,3 +146,4 @@ Otherwise, the parent-side is always fetched even if the association is marked w
 For this reason, it’s best to map @OneToOne association using @MapsId so that the PRIMARY KEY is shared between the 
 child and the parent entities. When using @MapsId, the parent-side becomes redundant since the child-entity can be easily 
 fetched using the parent entity identifier.
+DONE - 65. Fix bug with big avatars in messages page on small screens.

@@ -107,7 +107,7 @@ class BookBriefItem extends React.Component {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-3 col-xs-1">
                             <img src={this.props.book.author.avatar/* + '?date=' + new Date()*/} onClick={() => this.onAuthorClick()} className="img-rounded clickable" width="100%" height="auto"/>
                         </div>
                     </div>
