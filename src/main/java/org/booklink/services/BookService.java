@@ -110,22 +110,10 @@ public class BookService {
     @Transactional
     public BookWithTextResponse getBook(final Long bookId, final Integer page, final Integer size) {
         final BookWithTextResponse book = bookRepository.getBookById(bookId);
-        final String oldText = book.getBookText().getText();
-        if (page != null && size != null && page * size < oldText.length()) {
-            final String newText;
-            final int offset = page * size;
-            final String prefix = offset > 0 ? "..." : "";
-            if (offset + size > oldText.length()) {
-                newText = prefix + oldText.substring(offset);
-            } else {
-                newText = prefix + oldText.substring(offset, offset + size) + "...";
-            }
-            book.getBookText().setText(newText);
-            book.setTotalPages(oldText.length() / size);
-        }
-        setDefaultCoverForBook(book);
+        final BookWithTextResponse pageOfBook = cutPageFromBook(book, page, size);
+        setDefaultCoverForBook(pageOfBook);
         increaseBookViews(bookId);
-        return book;
+        return pageOfBook;
     }
 
     @Transactional
@@ -218,6 +206,7 @@ public class BookService {
         checkCredentials(book.getAuthor().getUsername()); //only the owner can change the text of his book
         String text = convertBookTextToHtml(bookTextRequest);
         BookText bookText = Optional.ofNullable(book.getBookText()).map(txt -> bookTextRepository.findOne(txt.getId())).orElseGet(BookText::new);
+        bookText.setPrevText(bookText.getText());
         bookText.setText(text);
         bookTextRepository.save(bookText);
         book.setBookText(bookText);
@@ -237,6 +226,31 @@ public class BookService {
         newsService.createNews(NewsService.NEWS_TYPE.BOOK_DELETED, book.getAuthor(), book);
         bookRepository.delete(bookId);
         updateDateInUserSection(book.getAuthor().getUsername());
+    }
+
+    private BookWithTextResponse cutPageFromBook(final BookWithTextResponse book, final Integer page, final Integer size) {
+        if (page != null && size != null && book.getBookText().getText() != null) {
+            final String text = getPageText(book.getBookText().getText(), page, size);
+            final String prevText = getPageText(book.getBookText().getPrevText(), page, size);
+            book.setTotalPages(book.getBookText().getText().length() / size);
+            book.getBookText().setText(text);
+            book.getBookText().setPrevText(prevText);
+        }
+        return book;
+    }
+
+    private String getPageText(final String text, final Integer page, final Integer size) {
+        String newText = text;
+        if (page != null && size != null && newText != null && page * size < newText.length()) {
+            final int offset = page * size;
+            final String prefix = offset > 0 ? "..." : "";
+            if (offset + size > newText.length()) {
+                newText = prefix + newText.substring(offset);
+            } else {
+                newText = prefix + newText.substring(offset, offset + size) + "...";
+            }
+        }
+        return newText;
     }
 
     private void increaseBookViews(final Long bookId) {

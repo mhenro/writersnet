@@ -1,6 +1,22 @@
 import React from 'react';
+import Select from 'react-select';
 
 class BookFilter extends React.Component {
+    loadGenres(value) {
+    }
+
+    onGenreChange(genre) {
+
+    }
+
+    filterOption(option, filter) {
+
+    }
+
+    onSubmit(event) {
+        event.preventDefault();
+    }
+
     render() {
         return (
             <form>
@@ -15,13 +31,34 @@ class BookFilter extends React.Component {
                 </fieldset>*/}
                 <fieldset className="scheduler-border">
                     <legend className="scheduler-border">Filters</legend>
-                    <div className="control-group">
-                        <label className="control-label input-label" htmlFor="startTime">Start :</label>
-                        <div className="controls bootstrap-timepicker">
-                            <input type="text" className="datetime" id="startTime" name="startTime" placeholder="Start Time" />
-                            <i className="icon-time"></i>
+                    <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
+                        <div className="form-group">
+                            <label className="control-label col-sm-2" htmlFor="genre">Genre:</label>
+                            <div className="col-sm-10">
+                                <Select.Async value=""
+                                              id="genre"
+                                              loadOptions={value => this.loadGenres(value)}
+                                              onChange={genre => this.onGenreChange(genre)}
+                                              filterOption={(option, filter) => this.filterOption(option, filter)}
+                                              noResultsText="Nothing found"
+                                              loadingPlaceholder="Searching..."
+                                              placeholder="Select a genre"/>
+                            </div>
                         </div>
-                    </div>
+                        <div className="form-group">
+                            <label className="control-label col-sm-2" htmlFor="language">Language:</label>
+                            <div className="col-sm-10">
+                                <Select.Async value=""
+                                              id="language"
+                                              loadOptions={value => this.loadGenres(value)}
+                                              onChange={genre => this.onGenreChange(genre)}
+                                              filterOption={(option, filter) => this.filterOption(option, filter)}
+                                              noResultsText="Nothing found"
+                                              loadingPlaceholder="Searching..."
+                                              placeholder="Select a language"/>
+                            </div>
+                        </div>
+                    </form>
                 </fieldset>
             </form>
         )

@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class BookText {
     private Long id;
     private String text;
+    private String prevText;
     private Book book;
 
     @GenericGenerator(
@@ -42,6 +43,15 @@ public class BookText {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Column(name = "prev_text")
+    public String getPrevText() {
+        return prevText;
+    }
+
+    public void setPrevText(String prevText) {
+        this.prevText = prevText;
     }
 
     @OneToOne(fetch = FetchType.LAZY)

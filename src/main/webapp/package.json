@@ -26,6 +26,7 @@
     "react-bootstrap": "^0.31.3",
     "react-bootstrap-datetimepicker": "0.0.22",
     "react-bs-notifier": "^4.4.1",
+    "react-diff": "0.0.7",
     "react-dom": "^15.6.2",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",

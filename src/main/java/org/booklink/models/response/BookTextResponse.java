@@ -6,10 +6,12 @@ package org.booklink.models.response;
 public class BookTextResponse {
     private Long id;
     private String text;
+    private String prevText;
 
-    public BookTextResponse(final Long id, final String text) {
+    public BookTextResponse(final Long id, final String text, final String prevText) {
         this.id = id;
         this.text = text;
+        this.prevText = prevText;
     }
 
     public Long getId() {
@@ -26,5 +28,13 @@ public class BookTextResponse {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getPrevText() {
+        return prevText;
+    }
+
+    public void setPrevText(String prevText) {
+        this.prevText = prevText;
     }
 }

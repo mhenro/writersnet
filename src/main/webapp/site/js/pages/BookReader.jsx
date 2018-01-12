@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
+import Diff from 'react-diff';
+
 import {
     getBookDetails,
     setBook,
@@ -165,7 +167,12 @@ class BookReader extends React.Component {
                 </div>
                 <div className="col-sm-12 text-justify">
                     <div dangerouslySetInnerHTML={{ __html: this.props.book.bookText.text }} />
+                    <br/>
                 </div>
+                {/* TODO: activate this feature for premium accounts */}
+                {/*<div className="col-sm-12">
+                    <Diff inputA={this.props.book.bookText.prevText ? this.props.book.bookText.prevText.replace(/<br>/g, '') : this.props.book.bookText.text.replace(/<br>/g, '')} inputB={this.props.book.bookText.text.replace(/<br>/g, '')} type="sentences" />
+                </div>*/}
                 <div className="col-sm-12 text-center">
                     <br/>
                     <Pagination

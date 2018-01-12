@@ -1,6 +1,8 @@
 ﻿Current sprint:
+IN PROGRESS - 85. Fix layout of the TitlePage for mobile devices.
 IN PROGRESS - 45. Add filters to Books page.
 IN PROGRESS - 56. Add help page.
+IN PROGRESS - 96. Implement text diff functional like on github to allow reader find new changes in the author book.
 11. Add "forgot your password?" functional to login form.
 
 
@@ -23,7 +25,6 @@ Features:
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 29. Support full localization mechanism.
 66. Mark as unread whole chat to determine where unread messages are placed.
-85. Fix layout of the TitlePage for mobile devices.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.

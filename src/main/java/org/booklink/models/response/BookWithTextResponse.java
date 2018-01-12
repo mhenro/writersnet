@@ -37,7 +37,7 @@ public class BookWithTextResponse {
                                 final String cover, final Date created, final String description, final Genre genre,
                                 final String language, final Date lastUpdate, final String name, final Integer size,
                                 final Long totalRating, final Long totalVotes, final Long views, final Long textId,
-                                final String text) {
+                                final String text, final String prevText) {
         this.id = id;
         if (serieId == null && serieName == null) {
             this.bookSerie = null;
@@ -61,7 +61,7 @@ public class BookWithTextResponse {
             this.totalRating = new TotalRating(0, 0);
         }
         this.views = views;
-        this.bookText = new BookTextResponse(textId, text);
+        this.bookText = new BookTextResponse(textId, text, prevText);
         this.totalPages = 1;
     }
 
