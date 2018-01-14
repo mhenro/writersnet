@@ -256,19 +256,61 @@ class HelpPage extends React.Component {
                             </div>
                             <br/><br/>
                             <p className="faq-question">11. How to find a book?</p>
-                            <span className="faq-answer">Trololo</span>
+                            <div className="faq-answer">
+                                <div>To see all books which existed on the site click on "Books" page in the top menu. The following screen will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/books-page.png" width="100%" height="auto"/></div>
+                                <div>To filter books by alphabet click on (1) button.</div>
+                                <div>If you know the name of the book or its part you can use the search field (2).</div>
+                                <div>Also you can use additional filters by genre (3) and language (4).</div>
+                                <div>To clear all filters click on "Clear filters" button (5).</div>
+                                <div>To read the book click on "Read" button (6).</div>
+                                <div>To move on the author page click on "Go to writer" button (7).</div>
+                            </div>
                             <br/><br/>
                             <p className="faq-question">12. How to find an author?</p>
-                            <span className="faq-answer">Trololo</span>
+                            <div className="faq-answer">
+                                <div>To see all authors which existed on the site click on "Authors" page in the top menu (1). The following screen will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/authors-page.png" width="100%" height="auto"/></div>
+                                <div>To filter authors by alphabet click on (2) button.</div>
+                                <div>If you know the name of the author or its part you can use the search field (3).</div>
+                                <div>To move on the author page click on "Author page" button (4).</div>
+                            </div>
                             <br/><br/>
                             <p className="faq-question">13. How to use ratings?</p>
-                            <span className="faq-answer">Trololo</span>
+                            <div className="faq-answer">
+                                <div>If you click on "Ratings" button in the top menu (1) the following screen will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/ratings.png" width="100%" height="auto"/></div>
+                                <div>This screen is separated on the two parts. The upper part is represented author ratings.</div>
+                                <div>You can choose between several rating types (2) to find author which you want.</div>
+                                <div>When you've found the needed author you can click on his name (3) to move on his page.</div>
+                                <div>The bottom part is represented book ratings. You can choose between several rating types (4) to find book which you want.</div>
+                                <div>When you've found the needed book you can click on its name (5) to move on its page.</div>
+                            </div>
                             <br/><br/>
                             <p className="faq-question">14. How to use Discussions page?</p>
-                            <span className="faq-answer">Trololo</span>
+                            <div className="faq-answer">
+                                <div>If you click on "Discussions" button in the top menu (1) the following screen will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/discussions.png" width="100%" height="auto"/></div>
+                                <div>On this screen you can see the last comments from each book which exist on this site.</div>
+                                <div>If you want to read a book click on (2) button.</div>
+                                <div>If you want to move on the author page click (3) button.</div>
+                            </div>
                             <br/><br/>
                             <p className="faq-question">15. How to use Reviews page?</p>
-                            <span className="faq-answer">Trololo</span>
+                            <div className="faq-answer">
+                                <div>If you click on "Reviews" button in the top menu (1) the following screen will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/reviews.png" width="100%" height="auto"/></div>
+                                <div>On this screen you can see all reviews which were left by other users.</div>
+                                <div>If you want to see the reviews which are related to specific book enter the book name in the "Book" field (2).</div>
+                                <div>In the below list you can see the reviews.</div>
+                                <div>If you want to read the book instead of review you can click on (3) link.</div>
+                                <div>If you want to move on the author page click on (5) link.</div>
+                                <div>If you want to read a review click on "Read" button (4). The following popup form will appear:</div>
+                                <div><img src="https://localhost/css/images/faq/reviews-2.png" width="100%" height="auto"/></div>
+                                <div>If you want to like this review click on "Like" button (1).</div>
+                                <div>If you want to dislike this review click on "Dislike" button (2).</div>
+                                <div>For closing the popup form click on "Close" button (3).</div>
+                            </div>
                         </div>
                     </div>
                 </div>

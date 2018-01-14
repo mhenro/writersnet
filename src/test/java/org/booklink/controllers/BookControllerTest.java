@@ -69,7 +69,7 @@ public class BookControllerTest {
     public void getBooks() throws Exception {
         final Pageable pageable = Mockito.mock(Pageable.class);
         final Page<BookResponse> page = Mockito.mock(Page.class);
-        when(bookService.getBooks(pageable)).thenReturn(page);
+        //when(bookService.getBooks(pageable)).thenReturn(page);
         mvc.perform(get("/books")).andExpect(status().isOk());
         mvc.perform(get("/wrong")).andExpect(status().isNotFound());
     }

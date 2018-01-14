@@ -18,8 +18,11 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.response.AuthorResponse(u.username, u.email, u.birthday, u.city, u.firstName, u.lastName, u.avatar, u.section, u.language, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online) FROM User u WHERE u.username = ?1")
     AuthorResponse findAuthor(final String username);
 
-    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true")  //TODO: sort by premium account
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online) FROM User u WHERE (UPPER(u.firstName) LIKE CONCAT('%', UPPER(?1), '%') OR UPPER(u.lastName) LIKE CONCAT('%', UPPER(?1), '%')) AND u.enabled = true AND u.firstName != null AND u.lastName != null")  //TODO: sort by premium account
     Page<AuthorShortInfoResponse> findAuthorsByName(String name, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true AND u.firstName != null AND u.lastName != null")  //TODO: sort by premium account
+    Page<AuthorShortInfoResponse> findAuthorsByFirstLetter(String letter, Pageable pageable);
 
     @Query("SELECT COUNT(u) FROM User u")
     Long getAuthorsCount();
@@ -28,7 +31,7 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("UPDATE User u SET u.online = false WHERE u.username IN (SELECT s.author.username FROM Session s WHERE s.expired < ?1)")
     void setOfflineStatus(final Date currentDate);
 
-    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online) FROM User u WHERE u.enabled = true")
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null")
     Page<AuthorShortInfoResponse> findAllEnabled(final Pageable pageable);
 
     //@Query("SELECT new org.booklink.models.top_models.TopAuthorRating(u.username, u.firstName, u.lastName, COALESCE(sum(r.ratingId.estimation), 0), count(r.ratingId.estimation)) FROM User u LEFT JOIN u.books b LEFT JOIN b.rating r WHERE u.enabled = true GROUP BY u.username ORDER BY COALESCE(sum(r.ratingId.estimation)+1, 0) / (count(r.ratingId.estimation)+1) DESC")

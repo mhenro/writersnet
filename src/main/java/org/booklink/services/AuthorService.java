@@ -65,6 +65,12 @@ public class AuthorService {
         return authors;
     }
 
+    public Page<AuthorShortInfoResponse> getAuthorsByFirstLetter(final String firstLetter, final Pageable pageable) {
+        Page<AuthorShortInfoResponse> authors = authorRepository.findAuthorsByFirstLetter(firstLetter, pageable);
+        authors.forEach(this::setDefaultAvatar);
+        return authors;
+    }
+
     public Page<TopAuthorRating> getAuthorsByRating(final Pageable pageable) {
         Page<TopAuthorRating> authors = authorRepository.findAllByRating(pageable);
         return authors;

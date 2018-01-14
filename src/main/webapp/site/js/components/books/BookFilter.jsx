@@ -1,16 +1,62 @@
 import React from 'react';
 import Select from 'react-select';
+import { locale, getLocale } from '../../locale.jsx';
 
+/*
+    props:
+    - language - current language
+    - genres - array
+    - onGenreChange - callback
+    - onLanguageChange - callback
+*/
 class BookFilter extends React.Component {
-    loadGenres(value) {
+    constructor(props) {
+        super(props);
+        this.state = {
+            language: {value: null, label: 'ALL'},
+            genre: {value: null, label: 'ALL'}
+        };
+    }
+
+    getGenresItems() {
+        let options = [{value: null, label: 'ALL'}];
+        this.props.genres.forEach(genre => {
+            options.push({
+                value: genre,
+                label: getLocale(this.props.language)[genre]
+            });
+        });
+        return options;
     }
 
     onGenreChange(genre) {
-
+        this.setState({
+            genre: genre
+        });
+        this.props.onGenreChange(genre);
     }
 
-    filterOption(option, filter) {
+    getLanguageItems() {
+        let options = [{value: null, label: 'ALL'}];
+        for (var lang in locale) {
+            options.push({
+                value: lang,
+                label: locale[lang].label
+            });
+        }
+        return options;
+    }
 
+    onLanguageChange(language) {
+        this.setState({
+            language: language
+        });
+        this.props.onLanguageChange(language);
+    }
+
+    clearFilters() {
+        this.onGenreChange({value: null, label: 'ALL'});
+        this.onLanguageChange({value: null, label: 'ALL'});
     }
 
     onSubmit(event) {
@@ -19,48 +65,38 @@ class BookFilter extends React.Component {
 
     render() {
         return (
-            <form>
-                {/*<fieldset className="form-group">
-                    <legend>Filters</legend>
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input type="checkbox" className="form-check-input" />
-                            Check me out
-                        </label>
-                    </div>
-                </fieldset>*/}
+            <div>
                 <fieldset className="scheduler-border">
                     <legend className="scheduler-border">Filters</legend>
                     <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="genre">Genre:</label>
                             <div className="col-sm-10">
-                                <Select.Async value=""
+                                <Select value={this.state.genre}
                                               id="genre"
-                                              loadOptions={value => this.loadGenres(value)}
+                                              options={this.getGenresItems()}
                                               onChange={genre => this.onGenreChange(genre)}
-                                              filterOption={(option, filter) => this.filterOption(option, filter)}
-                                              noResultsText="Nothing found"
-                                              loadingPlaceholder="Searching..."
                                               placeholder="Select a genre"/>
                             </div>
                         </div>
                         <div className="form-group">
                             <label className="control-label col-sm-2" htmlFor="language">Language:</label>
                             <div className="col-sm-10">
-                                <Select.Async value=""
+                                <Select value={this.state.language}
                                               id="language"
-                                              loadOptions={value => this.loadGenres(value)}
-                                              onChange={genre => this.onGenreChange(genre)}
-                                              filterOption={(option, filter) => this.filterOption(option, filter)}
-                                              noResultsText="Nothing found"
-                                              loadingPlaceholder="Searching..."
+                                              options={this.getLanguageItems()}
+                                              onChange={genre => this.onLanguageChange(genre)}
                                               placeholder="Select a language"/>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="col-sm-12 text-right">
+                                <button onClick={() => this.clearFilters()} type="button" className="btn btn-default">Clear filters</button>
                             </div>
                         </div>
                     </form>
                 </fieldset>
-            </form>
+            </div>
         )
     }
 }

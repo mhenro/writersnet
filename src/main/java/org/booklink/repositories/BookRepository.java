@@ -1,5 +1,6 @@
 package org.booklink.repositories;
 
+import org.booklink.models.Genre;
 import org.booklink.models.entities.Book;
 import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
@@ -24,6 +25,24 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
 
     @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount) FROM Book b LEFT JOIN b.bookSerie WHERE UPPER(b.name) LIKE CONCAT(UPPER(?1), '%') ORDER BY b.lastUpdate DESC")
     Page<BookResponse> findBooksByName(String name, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount) FROM Book b LEFT JOIN b.bookSerie WHERE UPPER(b.name) LIKE CONCAT(UPPER(?1), '%') AND b.genre = ?2 AND b.language = ?3 ORDER BY b.lastUpdate DESC")
+    Page<BookResponse> findBooksByName(String name, Genre genre, String language, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount) FROM Book b LEFT JOIN b.bookSerie WHERE UPPER(b.name) LIKE CONCAT(UPPER(?1), '%') AND b.genre = ?2 ORDER BY b.lastUpdate DESC")
+    Page<BookResponse> findBooksByName(String name, Genre genre, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount) FROM Book b LEFT JOIN b.bookSerie WHERE UPPER(b.name) LIKE CONCAT(UPPER(?1), '%') AND b.language = ?2 ORDER BY b.lastUpdate DESC")
+    Page<BookResponse> findBooksByName(String name, String language, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount) FROM Book b LEFT JOIN b.bookSerie WHERE b.genre = ?1 AND b.language = ?2 ORDER BY b.lastUpdate")
+    Page<BookResponse> getAllBooksSortedByDate(Genre genre, String language, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount) FROM Book b LEFT JOIN b.bookSerie WHERE b.language = ?1 ORDER BY b.lastUpdate")
+    Page<BookResponse> getAllBooksSortedByDate(String language, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount) FROM Book b LEFT JOIN b.bookSerie WHERE b.genre = ?1 ORDER BY b.lastUpdate")
+    Page<BookResponse> getAllBooksSortedByDate(Genre genre, Pageable pageable);
 
     @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount) FROM Book b LEFT JOIN b.bookSerie ORDER BY b.lastUpdate")
     Page<BookResponse> getAllBooksSortedByDate(Pageable pageable);

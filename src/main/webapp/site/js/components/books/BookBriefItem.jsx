@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
+import ReactStars from 'react-stars';
+
 import {getLocale} from '../../locale.jsx';
 import {formatDate} from '../../utils.jsx';
 
@@ -29,6 +31,16 @@ class BookBriefItem extends React.Component {
         let author = this.props.book.author;
         return (
             <Link to={'/authors/' + author.username}>{author.firstName + ' ' + author.lastName}</Link>
+        )
+    }
+
+    getRating() {
+        return (
+            <div>
+                <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.props.book.totalRating.averageRating} className="stars"/>
+                <b>{this.props.book.totalRating.averageRating + ' * ' + this.props.book.totalRating.userCount}</b>
+                <div className="stars-end"></div>
+            </div>
         )
     }
 
@@ -83,6 +95,10 @@ class BookBriefItem extends React.Component {
                                     <tr>
                                         <td>Author</td>
                                         <td>{this.getAuthor()}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rating</td>
+                                        <td>{this.getRating()}</td>
                                     </tr>
                                     <tr>
                                         <td>Genre</td>

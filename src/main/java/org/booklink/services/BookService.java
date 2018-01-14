@@ -1,6 +1,7 @@
 package org.booklink.services;
 
 import liquibase.util.file.FilenameUtils;
+import org.booklink.models.Genre;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
@@ -60,14 +61,36 @@ public class BookService {
         this.newsService = newsService;
     }
 
-    public Page<BookResponse> getBooks(final Pageable pageable) {
-        Page<BookResponse> books = bookRepository.getAllBooksSortedByDate(pageable);
+    public Page<BookResponse> getBooks(final String genreStr, final String language, final Pageable pageable) {
+        Page<BookResponse> books;
+        final Genre genre = Optional.ofNullable(genreStr).map(Genre::valueOf).orElse(null);
+        if (genre != null && language != null) {
+            books = bookRepository.getAllBooksSortedByDate(genre, language, pageable);
+        } else if (genre != null) {
+            books = bookRepository.getAllBooksSortedByDate(genre, pageable);
+        }
+        else if (language != null) {
+            books = bookRepository.getAllBooksSortedByDate(language, pageable);
+        } else {
+            books = bookRepository.getAllBooksSortedByDate(pageable);
+        }
+
         books.forEach(this::setDefaultCoverForBookAndUser);
         return books;
     }
 
-    public Page<BookResponse> getBooksByName(final String bookName, final Pageable pageable) {
-        Page<BookResponse> books = bookRepository.findBooksByName(bookName, pageable);
+    public Page<BookResponse> getBooksByName(final String bookName, final String genreStr, final String language, final Pageable pageable) {
+        Page<BookResponse> books;
+        final Genre genre = Optional.ofNullable(genreStr).map(Genre::valueOf).orElse(null);
+        if (genre != null && language != null) {
+            books = bookRepository.findBooksByName(bookName, genre, language, pageable);
+        } else if (genre != null) {
+            books = bookRepository.findBooksByName(bookName, genre, pageable);
+        } else if (language != null) {
+            books = bookRepository.findBooksByName(bookName, language, pageable);
+        } else {
+            books = bookRepository.findBooksByName(bookName, pageable);
+        }
         books.forEach(this::setDefaultCoverForBookAndUser);
         return books;
     }

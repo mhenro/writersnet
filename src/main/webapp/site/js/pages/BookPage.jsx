@@ -11,7 +11,8 @@ import {
 } from '../actions/GlobalActions.jsx';
 import {
     setBooks,
-    getBooks
+    getBooks,
+    getGenres
 } from '../actions/BookActions.jsx';
 
 class BookPage extends React.Component {
@@ -21,17 +22,21 @@ class BookPage extends React.Component {
             currentPage: 1,
             currentName: null,
             searchPattern: '',
-            totalPages: 1
+            totalPages: 1,
+            genres: [],
+            filterGenre: {value: null, label: 'ALL'},
+            filterLanguage: {value: null, label: 'ALL'}
         };
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        this.updateBooks(null, 1);
+        this.updateBooks(null, null, null, 1);
+        this.props.onGetGenres(genres => this.updateGenres(genres));
     }
 
-    updateBooks(name, page) {
-        this.props.onGetBooks(name, page - 1, pageDetails => this.updatePaginator(pageDetails));
+    updateBooks(name, genre, language, page) {
+        this.props.onGetBooks(name, genre, language, page - 1, pageDetails => this.updatePaginator(pageDetails));
     }
 
     onLetterClick(letter) {
@@ -39,7 +44,7 @@ class BookPage extends React.Component {
             currentName: letter,
             currentPage: 1
         });
-        this.updateBooks(letter, 1);
+        this.updateBooks(letter, this.state.filterGenre.value, this.state.filterLanguage.value, 1);
     }
 
     onSearchChange(event) {
@@ -51,7 +56,7 @@ class BookPage extends React.Component {
 
     onKeyDown(key) {
         if (key.key === 'Enter') {
-            this.updateBooks(this.state.searchPattern, this.state.currentPage);
+            this.updateBooks(this.state.searchPattern, this.state.filterGenre.value, this.state.filterLanguage.value, this.state.currentPage);
         }
     }
 
@@ -59,13 +64,33 @@ class BookPage extends React.Component {
         this.setState({
             currentPage: page
         });
-        this.updateBooks(this.state.currentName, page);
+        this.updateBooks(this.state.currentName, this.state.filterGenre.value, this.state.filterLanguage.value, page);
     }
 
     updatePaginator(pageDetails) {
         this.setState({
             totalPages: pageDetails.totalPages
         });
+    }
+
+    updateGenres(genres) {
+        this.setState({
+            genres: genres
+        });
+    }
+
+    onGenreChange(genre) {
+        this.setState({
+            filterGenre: genre
+        });
+        this.updateBooks(this.state.searchPattern, genre.value, this.state.filterLanguage.value, this.state.currentPage);
+    }
+
+    onLanguageChange(language) {
+        this.setState({
+            filterLanguage: language
+        });
+        this.updateBooks(this.state.searchPattern, this.state.filterGenre.value, language.value, this.state.currentPage);
     }
 
     render() {
@@ -87,7 +112,26 @@ class BookPage extends React.Component {
                     <br/>
                 </div>
                 <div className="col-sm-12">
-                    <BookFilter/>
+                    <BookFilter genres={this.state.genres}
+                                language={this.props.language}
+                                onGenreChange={genre => this.onGenreChange(genre)}
+                                onLanguageChange={language => this.onLanguageChange(language)}/>
+                </div>
+                <div className="col-sm-12 text-center">
+                    <Pagination
+                        className={'shown'}
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.state.totalPages}
+                        maxButtons={3}
+                        activePage={this.state.currentPage}
+                        onSelect={page => this.pageSelect(page)}/>
+                    <br/>
+                    <br/>
                 </div>
                 <div className="col-sm-12">
                     <BookBriefList books={this.props.books} language={this.props.language}/>
@@ -120,8 +164,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetBooks: (name, page, callback) => {
-            return getBooks(name, page).then(([response, json]) => {
+        onGetBooks: (name, genre, language, page, callback) => {
+            return getBooks(name, genre, language, page).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBooks(json.content));
                     callback(json);
@@ -132,7 +176,20 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
-        }
+        },
+
+        onGetGenres: (callback) => {
+            return getGenres().then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
     }
 };
 

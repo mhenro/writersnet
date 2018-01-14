@@ -1,12 +1,19 @@
 import doFetch from './fetch';
 import {getHost} from '../utils.jsx';
 
-export const getBooks = (name, page = 0, size = 5) => {
+export const getBooks = (name, genre = null, language = null, page = 0, size = 5) => {
+    let api = getHost() + 'books';
     if (name) {
-        return doFetch(getHost() + 'books/name/' + name + '?page=' + page + '&size=' + size);
-    } else {
-        return doFetch(getHost() + 'books?page=' + page + '&size=' + size);
+        api += '/name/' + name;
     }
+    api += '?page=' + page + '&size=' + size;
+    if (genre) {
+        api += '&genre=' + genre;
+    }
+    if (language) {
+        api += '&language=' + language;
+    }
+    return doFetch(api);
 };
 
 export const getBooksByAuthor = (authorId, page = 0, size = 200) => {

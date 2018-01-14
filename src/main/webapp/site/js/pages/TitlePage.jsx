@@ -118,15 +118,18 @@ class TitlePage extends React.Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-sm-6 col-xs-6">
+                            <div className="col-sm-6 col-xs-6 hidden-xs">
                                 If you become our <span className="big-counter">author</span> you can easily publish your novels on <span className="big-counter">WritersNets.com</span> and let our readers to read them.<br/><br/>
                                 So you will assemble your target audience and people will know about you even before you publish your book on paper.<br/><br/>
                                 Among our readers you can meet publishers and this will open the way to paper publication!<br/><br/>
                             </div>
-                            <div className="col-sm-6 col-xs-6">
+                            <div className="col-sm-6 col-xs-6 hidden-xs">
                                 As our <span className="big-counter">reader</span> you get access to thousands of exclusive novels which are not published yet and you can't see them in stores yet.<br/><br/>
                                 You can chat with author of the novel you like and even enter into a discussion with him about some scenes. Maybe this will affect the final version of the novel and you will be an accomplice to this work!<br/><br/>
                                 Also you can estimate every novel which you like or dislike and help other people to navigate in a variety of novels, creating the ratings of the best novels together with them!<br/><br/>
+                            </div>
+                            <div className="visible-xs text-center">
+                                <img className="img-responsive center-block" width="200" height="auto" src="https://localhost/css/images/animated-down-arrow.gif"/><br/><br/>
                             </div>
                         </div>
                     </div>
