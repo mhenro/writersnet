@@ -1,6 +1,8 @@
 import {
     OPEN_LOGIN_FORM,
     CLOSE_LOGIN_FORM,
+    OPEN_FORGOT_PASSWORD_FORM,
+    CLOSE_FORGOT_PASSWORD_FORM,
     OPEN_USER_POLICY,
     CLOSE_USER_POLICY,
     OPEN_WRITE_MESSAGE_FORM,
@@ -39,6 +41,7 @@ const initialState = {
     },
     language: 'EN',
     showLoginForm: false,
+    showForgotPasswordForm: false,
     showUserPolicy: false,
     showWriteMessageForm: false,
     loginFormRegister: true,
@@ -101,6 +104,12 @@ const GlobalReducer = (state = initialState, action) => {
 
         case OPEN_LOGIN_FORM:
             return Object.assign({}, state, {showLoginForm: true, loginFormRegister: action.loginFormRegister});
+
+        case OPEN_FORGOT_PASSWORD_FORM:
+            return Object.assign({}, state, {showForgotPasswordForm: true});
+
+        case CLOSE_FORGOT_PASSWORD_FORM:
+            return Object.assign({}, state, {showForgotPasswordForm: false});
 
         case OPEN_USER_POLICY:
             return Object.assign({}, state, {showUserPolicy: true});

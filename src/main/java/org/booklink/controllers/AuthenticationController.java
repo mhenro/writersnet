@@ -2,6 +2,7 @@ package org.booklink.controllers;
 
 import org.booklink.models.*;
 import org.booklink.models.exceptions.ObjectAlreadyExistException;
+import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.Credentials;
 import org.booklink.services.AuthenticationService;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
 
 
 /**
@@ -41,14 +44,21 @@ public class AuthenticationController {
     @CrossOrigin
     @RequestMapping(value = "register", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Response<String>> register(@RequestBody Credentials credentials) {
-        final boolean registered = authenticationService.register(credentials);
-        if (!registered) {
-            throw new ObjectAlreadyExistException();
+        try {
+            final boolean registered = authenticationService.register(credentials);
+            if (!registered) {
+                throw new ObjectAlreadyExistException();
+            }
+            Response<String> response = new Response<>();
+            response.setCode(0);
+            response.setMessage("OK");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (MessagingException e) {
+            Response<String> response = new Response<>();
+            response.setCode(4);
+            response.setMessage("Problem with sending email. Please try again later");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Response<String> response = new Response<>();
-        response.setCode(0);
-        response.setMessage("OK");
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -66,6 +76,23 @@ public class AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "reminder/password", method = RequestMethod.POST)
+    public ResponseEntity<?> passwordReminder(@RequestBody final Credentials credentials) {
+        try {
+            Response<String> response = new Response<>();
+            authenticationService.passwordReminder(credentials);
+            response.setCode(0);
+            response.setMessage("Your current password was sent to the specified email");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (MessagingException e) {
+            Response<String> response = new Response<>();
+            response.setCode(4);
+            response.setMessage("Problem with sending email. Please try again later");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /* -----------------------------exception handlers------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)
@@ -81,6 +108,14 @@ public class AuthenticationController {
         Response<String> response = new Response<>();
         response.setCode(2);
         response.setMessage("Object already exist");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<Response<String>> objectNotFound(ObjectNotFoundException e) {
+        Response<String> response = new Response<>();
+        response.setCode(3);
+        response.setMessage(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

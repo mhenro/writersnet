@@ -5,8 +5,15 @@ export const getSessionsCount = () => {
     return doFetch(getHost() + 'count/sessions');
 };
 
+export const passwordReminder = (credentials) => {
+    return doFetch(getHost() + 'reminder/password', credentials);
+};
+
 export const OPEN_LOGIN_FORM = 'OPEN_LOGIN_FORM';
 export const CLOSE_LOGIN_FORM = 'CLOSE_LOGIN_FORM';
+
+export const OPEN_FORGOT_PASSWORD_FORM = 'OPEN_FORGOT_PASSWORD_FORM';
+export const CLOSE_FORGOT_PASSWORD_FORM = 'CLOSE_FORGOT_PASSWORD_FORM';
 
 export const OPEN_USER_POLICY = 'OPEN_USER_POLICY';
 export const CLOSE_USER_POLICY = 'CLOSE_USER_POLICY';
@@ -32,6 +39,18 @@ export const openLoginForm = (loginFormRegister) => {
 export const closeLoginForm = () => {
     return {
         type: CLOSE_LOGIN_FORM
+    }
+};
+
+export const openForgotPasswordForm = () => {
+    return {
+        type: OPEN_FORGOT_PASSWORD_FORM
+    }
+};
+
+export const closeForgotPasswordForm = () => {
+    return {
+        type: CLOSE_FORGOT_PASSWORD_FORM
     }
 };
 

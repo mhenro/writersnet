@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 
 import UserAgreement from './UserAgreement.jsx';
+import ForgotPasswordForm from './ForgotPasswordForm.jsx';
 
 import {
     closeLoginForm,
     createNotify,
-    openUserPolicy
+    openUserPolicy,
+    openForgotPasswordForm
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -127,7 +129,7 @@ class LoginForm extends React.Component {
                                 <div className="checkbox">
                                     <label><input type="checkbox" onClick={this.policyClick} checked={this.state.policyAgreed}/> I agree with <a href="#" onClick={() => this.onReadUserPolicy()}>user agreement</a></label>
                                 </div>
-                                : <a href="#">Forgot your password?</a>
+                                : <a onClick={() => this.props.onOpenForgotPasswordForm()} href="#">Forgot your password?</a>
                             }
                             <div className="text-center">
                                 <button type="submit" className="btn btn-success">{this.state.activeItem === 'sign-up' ? 'Register' : 'Login'}</button>
@@ -139,6 +141,7 @@ class LoginForm extends React.Component {
                     </Modal.Footer>
                 </Modal>
                 <UserAgreement/>
+                <ForgotPasswordForm/>
             </div>
         )
     }
@@ -165,6 +168,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onOpenUserPolicy: () => {
             dispatch(openUserPolicy());
+        },
+
+        onOpenForgotPasswordForm: () => {
+            dispatch(openForgotPasswordForm());
         },
 
         onSendLogin: (username, password, self) => {

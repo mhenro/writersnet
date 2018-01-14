@@ -1,5 +1,4 @@
 ﻿Current sprint:
-11. Add "forgot your password?" functional to login form.
 IN PROGRESS - 96. Implement text diff functional like on github to allow reader find new changes in the author book.
 
 
@@ -149,3 +148,4 @@ DONE - 45. Add filters to Books page.
 DONE - 46. Add filters to Authors page.
 DONE - 56. Add help page.
 DONE - 97. Add rating field to the book item on Books page.
+DONE - 11. Add "forgot your password?" functional to login form.
