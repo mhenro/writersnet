@@ -1,5 +1,7 @@
 package org.booklink.models.top_models;
 
+import org.booklink.models.entities.Book;
+
 /**
  * Created by mhenr on 03.12.2017.
  */
@@ -8,12 +10,14 @@ public class TopAuthorViews {
     private String firstName;
     private String lastName;
     private long views;
+    private Boolean premium;
 
-    public TopAuthorViews(final String username, final String firstName, final String lastName, final long views) {
+    public TopAuthorViews(final String username, final String firstName, final String lastName, final long views, final Boolean premium) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.views = views;
+        this.premium = premium;
     }
 
     public String getUsername() {
@@ -46,5 +50,13 @@ public class TopAuthorViews {
 
     public void setViews(long views) {
         this.views = views;
+    }
+
+    public Boolean getPremium() {
+        return premium;
+    }
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
     }
 }

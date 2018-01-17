@@ -2,6 +2,7 @@ package org.booklink.controllers;
 
 import org.booklink.models.Response;
 import org.booklink.models.entities.User;
+import org.booklink.models.exceptions.IsNotPremiumUser;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.AuthorRequest;
@@ -295,7 +296,7 @@ public class AuthorController {
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
         Response<String> response = new Response<>();
         response.setCode(1);
-        response.setMessage("Bad credentials");
+        response.setMessage(e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
@@ -303,7 +304,15 @@ public class AuthorController {
     public ResponseEntity<?> userNotFound(ObjectNotFoundException e) {
         Response<String> response = new Response<>();
         response.setCode(5);
-        response.setMessage("User not found");
+        response.setMessage(e.getMessage().isEmpty() ? "User not found" : e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IsNotPremiumUser.class)
+    public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUser e) {
+        Response<String> response = new Response<>();
+        response.setCode(6);
+        response.setMessage(e.getMessage().isEmpty() ? "Only a premium user can do this" : e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

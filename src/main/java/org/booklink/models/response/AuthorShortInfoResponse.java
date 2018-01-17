@@ -15,16 +15,18 @@ public class AuthorShortInfoResponse {
     private Long views;
     private TotalRating rating;
     private Boolean online;
+    private Boolean premium;
 
     public AuthorShortInfoResponse(){}
 
     public AuthorShortInfoResponse(final String username, final String firstName, final String lastName,
                                    final String avatar, final String preferredLanguages, final Long views,
-                                   final Long totalRating, final Long totalVotes, final Boolean online) {
+                                   final Long totalRating, final Long totalVotes, final Boolean online,
+                                   final Boolean premium) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.fullName = firstName + lastName;
+        this.fullName = firstName + " " + lastName;
         this.avatar = avatar;
         this.preferredLanguages = preferredLanguages;
         this.views = views;
@@ -34,6 +36,7 @@ public class AuthorShortInfoResponse {
             this.rating = new TotalRating(0, 0);
         }
         this.online = online;
+        this.premium = premium;
     }
 
     public String getUsername() {
@@ -106,5 +109,13 @@ public class AuthorShortInfoResponse {
 
     public void setOnline(Boolean online) {
         this.online = online;
+    }
+
+    public Boolean getPremium() {
+        return premium;
+    }
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
     }
 }

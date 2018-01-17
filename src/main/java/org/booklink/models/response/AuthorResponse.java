@@ -24,20 +24,21 @@ public class AuthorResponse {
     private Long views = 0L;
     private TotalRating rating;
     private Boolean online;
+    private Boolean premium;
 
     public AuthorResponse() {}
 
     public AuthorResponse(final String username, final String email, final Date birthday, final String city, final String firstName,
                           final String lastName, final String avatar, final Section section,
                           final String language, final String preferredLanguages, final Long views, final Long totalRating,
-                          final Long totalVotes, final Boolean online) {
+                          final Long totalVotes, final Boolean online, final Boolean premium) {
         this.username = username;
         this.email = email;
         this.birthday = birthday;
         this.city = city;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.fullName = firstName + lastName;
+        this.fullName = firstName + " " + lastName;
         this.avatar = avatar;
         this.section = new SectionResponse(section);
         this.language = language;
@@ -49,6 +50,7 @@ public class AuthorResponse {
             this.rating = new TotalRating(0, 0);
         }
         this.online = online;
+        this.premium = premium;
     }
 
     public String getUsername() {
@@ -161,5 +163,13 @@ public class AuthorResponse {
 
     public void setOnline(Boolean online) {
         this.online = online;
+    }
+
+    public Boolean getPremium() {
+        return premium;
+    }
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
     }
 }

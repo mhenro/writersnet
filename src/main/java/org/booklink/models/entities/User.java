@@ -30,14 +30,13 @@ public class User {
     private String language;
     private String preferredLanguages;
     private Long views = 0L;
-    //private Set<Friendship> subscribers = new HashSet<>();
-    //private Set<Friendship> subscriptions = new HashSet<>();
     private List<ChatGroup> chatGroups = new ArrayList<>();
     private Session session;
     private Long totalRating = 0L;
     private Long totalVotes = 0L;
     private Long commentsCount = 0L;
     private Boolean online;
+    private Boolean premium;
 
     @Id
     public String getUsername() {
@@ -178,26 +177,6 @@ public class User {
         this.views = views;
     }
 
-    /*
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "friendshipPK.subscriber")
-    public Set<Friendship> getSubscribers() {
-        return subscribers;
-    }
-
-    public void setSubscribers(Set<Friendship> subscribers) {
-        this.subscribers = subscribers;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "friendshipPK.subscription")
-    public Set<Friendship> getSubscriptions() {
-        return subscriptions;
-    }
-
-    public void setSubscriptions(Set<Friendship> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
-    */
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "chat_groups_users",
@@ -254,6 +233,14 @@ public class User {
 
     public void setOnline(Boolean online) {
         this.online = online;
+    }
+
+    public Boolean getPremium() {
+        return premium;
+    }
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
     }
 
     /* -----------------------------business logic-------------------------------------------------------- */

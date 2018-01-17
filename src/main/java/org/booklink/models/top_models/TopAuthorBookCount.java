@@ -8,12 +8,15 @@ public class TopAuthorBookCount {
     private String firstName;
     private String lastName;
     private long bookCount;
+    private Boolean premium;
 
-    public TopAuthorBookCount(final String username, final String firstName, final String lastName, final long bookCount) {
+    public TopAuthorBookCount(final String username, final String firstName, final String lastName, final long bookCount,
+                              final Boolean premium) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.bookCount = bookCount;
+        this.premium = premium;
     }
 
     public String getUsername() {
@@ -46,5 +49,13 @@ public class TopAuthorBookCount {
 
     public void setBookCount(long bookCount) {
         this.bookCount = bookCount;
+    }
+
+    public Boolean getPremium() {
+        return premium;
+    }
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
     }
 }

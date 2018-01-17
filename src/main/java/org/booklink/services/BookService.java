@@ -3,6 +3,7 @@ package org.booklink.services;
 import liquibase.util.file.FilenameUtils;
 import org.booklink.models.Genre;
 import org.booklink.models.entities.*;
+import org.booklink.models.exceptions.IsNotPremiumUser;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.BookRequest;
@@ -189,6 +190,9 @@ public class BookService {
         if (book == null) {
             throw new ObjectNotFoundException();
         }
+        if (coverRequest.getCover().getSize() >= 102400 && !book.getAuthor().getPremium()) {
+            throw new IsNotPremiumUser("Only a premium user can add the book cover larger than 100 Kb");
+        }
         checkCredentials(book.getAuthor().getUsername()); //only the owner can change the cover of his book
         String uploadDir = env.getProperty("writersnet.coverstorage.path");
         File file = new File(uploadDir);
@@ -225,6 +229,9 @@ public class BookService {
         Book book = bookRepository.findOne(bookTextRequest.getBookId());
         if (book == null) {
             throw new ObjectNotFoundException("Book was not found");
+        }
+        if (bookTextRequest.getText().getSize() >= 10485760 && !book.getAuthor().getPremium()) {
+            throw new IsNotPremiumUser("Only a premium user can add the book text larger than 10 Mb");
         }
         checkCredentials(book.getAuthor().getUsername()); //only the owner can change the text of his book
         String text = convertBookTextToHtml(bookTextRequest);

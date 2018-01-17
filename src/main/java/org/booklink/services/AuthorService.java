@@ -3,6 +3,7 @@ package org.booklink.services;
 import liquibase.util.file.FilenameUtils;
 import org.booklink.models.Response;
 import org.booklink.models.entities.User;
+import org.booklink.models.exceptions.IsNotPremiumUser;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.AuthorRequest;
@@ -158,12 +159,15 @@ public class AuthorService {
     }
 
     @Transactional
-    public void saveAvatar(final AvatarRequest avatarRequest) throws IOException{
+    public void saveAvatar(final AvatarRequest avatarRequest) throws IOException {
         checkCredentials(avatarRequest.getUserId()); //only the owner can change his avatar
 
         User author = authorRepository.findOne(avatarRequest.getUserId());
         if (author == null) {
             throw new ObjectNotFoundException("Author is not found");
+        }
+        if (avatarRequest.getAvatar().getSize() >= 102400 && !author.getPremium()) {    //only premium users can have avatars larger than 100Kb
+            throw new IsNotPremiumUser("Only a premium user can add the avatar larger than 100 Kb");
         }
         checkCredentials(author.getUsername()); //only the owner can change his avatar
         String uploadDir = env.getProperty("writersnet.avatarstorage.path");

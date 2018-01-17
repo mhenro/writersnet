@@ -19,6 +19,7 @@ import {
     goToComments
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
+import { getHost } from '../utils.jsx';
 
 import AuthorFile from '../components/section/AuthorFile.jsx';
 import AuthorShortInfo from '../components/section/AuthorShortInfo.jsx';
@@ -129,6 +130,12 @@ class SectionPage extends React.Component {
         }
     }
 
+    renderCrown() {
+        if (this.props.author.premium) {
+            return <img src={getHost() + 'css/images/crown.png'} title="Premium author" width="32" height="auto"/>;
+        }
+    }
+
     isDataLoaded() {
         if (!this.props.author) {
             return false;
@@ -146,14 +153,18 @@ class SectionPage extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-sm-12 section-name">
-                        {this.props.author.firstName + ' ' + this.props.author.lastName}
+                    <div className="col-sm-11 text-center section-name">
+                        {this.props.author.fullName}
+                    </div>
+                    <div className="col-sm-1 text-right">
+                        {this.renderCrown()}
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-12 section-author-name">
+                    <div className="col-sm-11 text-center section-author-name">
                         {this.props.author.section.name}
                     </div>
+                    <div className="col-sm-1"></div>
                 </div>
                 <div className="row">
                     <div className="col-sm-12 col-lg-3">

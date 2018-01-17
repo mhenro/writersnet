@@ -165,8 +165,8 @@ class BookPropsForm extends React.Component {
     }
 
     onCoverChange(event) {
-        if (event.target.files[0].size >= 102400) {
-            this.props.onCreateNotify('warning', 'Warning', 'Image size should not be larger than 100Kb');
+        if (event.target.files[0].size >= 102400 && !this.props.author.premium) {
+            this.props.onCreateNotify('warning', 'Warning', 'For non-premium users image size should not be larger than 100Kb');
             return;
         }
         let formData = new FormData();
@@ -182,8 +182,8 @@ class BookPropsForm extends React.Component {
     }
 
     onSaveText(event) {
-        if (event.target.files[0].size >= 10485760) {
-            this.props.onCreateNotify('warning', 'Warning', 'Book text size should not be larger than 10Mb');
+        if (event.target.files[0].size >= 10485760 && !this.props.author.premium) {
+            this.props.onCreateNotify('warning', 'Warning', 'For non-premium users book text size should not be larger than 10Mb');
             return;
         }
         let bookTextRequest = new FormData;

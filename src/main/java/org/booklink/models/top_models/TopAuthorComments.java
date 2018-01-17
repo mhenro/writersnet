@@ -8,12 +8,15 @@ public class TopAuthorComments {
     private String firstName;
     private String lastName;
     private long commentsCount;
+    private Boolean premium;
 
-    public TopAuthorComments(final String username, final String firstName, final String lastName, final long commentsCount) {
+    public TopAuthorComments(final String username, final String firstName, final String lastName, final long commentsCount,
+                             final Boolean premium) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.commentsCount = commentsCount;
+        this.premium = premium;
     }
 
     public String getUsername() {
@@ -46,5 +49,13 @@ public class TopAuthorComments {
 
     public void setCommentsCount(long commentsCount) {
         this.commentsCount = commentsCount;
+    }
+
+    public Boolean getPremium() {
+        return premium;
+    }
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
     }
 }

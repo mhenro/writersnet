@@ -2,6 +2,8 @@ import React from 'react';
 import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 
+import { getHost } from '../../utils.jsx';
+
 /*
     props:
     - authors
@@ -76,9 +78,18 @@ class AuthorTopTable extends React.Component {
         return fixed ? parseFloat(estimation / votes).toFixed(2) : parseFloat(estimation / votes);
     }
 
+    renderCrown(premium) {
+        if (premium) {
+            return <img src={getHost() + 'css/images/crown.png'} title="Premium author" width="32" height="auto"/>;
+        }
+    }
+
     getAuthorLink(author) {
         return (
-            <Link to={'/authors/' + author.username}>{author.firstName + ' ' + author.lastName}</Link>
+            <div>
+                {this.renderCrown(author.premium)}&nbsp;
+                <Link to={'/authors/' + author.username}>{author.firstName + ' ' + author.lastName}</Link>
+            </div>
         )
     }
 

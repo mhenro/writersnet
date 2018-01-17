@@ -3,6 +3,7 @@ package org.booklink.controllers;
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
 import org.booklink.models.entities.*;
+import org.booklink.models.exceptions.IsNotPremiumUser;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.BookRequest;
@@ -214,5 +215,13 @@ public class BookController {
         response.setCode(5);
         response.setMessage("Book not found");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IsNotPremiumUser.class)
+    public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUser e) {
+        Response<String> response = new Response<>();
+        response.setCode(6);
+        response.setMessage(e.getMessage().isEmpty() ? "Only a premium user can do this" : e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

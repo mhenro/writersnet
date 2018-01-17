@@ -9,13 +9,16 @@ public class TopAuthorRating {
     private String lastName;
     private long totalEstimation;
     private long totalVotes;
+    private Boolean premium;
 
-    public TopAuthorRating(final String username, final String firstName, final String lastName, final long totalEstimation, final long totalVotes) {
+    public TopAuthorRating(final String username, final String firstName, final String lastName,
+                           final long totalEstimation, final long totalVotes, final Boolean premium) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.totalEstimation = totalEstimation;
         this.totalVotes = totalVotes;
+        this.premium = premium;
     }
 
     public String getUsername() {
@@ -56,5 +59,13 @@ public class TopAuthorRating {
 
     public void setTotalVotes(long totalVotes) {
         this.totalVotes = totalVotes;
+    }
+
+    public Boolean getPremium() {
+        return premium;
+    }
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
     }
 }

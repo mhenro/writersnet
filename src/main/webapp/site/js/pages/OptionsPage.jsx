@@ -100,8 +100,8 @@ class OptionsPage extends React.Component {
     }
 
     onAvatarChange(event) {
-        if (event.target.files[0].size >= 102400) {
-            this.props.onCreateNotify('warning', 'Warning', 'Image size should not be larger than 100Kb');
+        if (event.target.files[0].size >= 102400 && !this.props.author.premium) {
+            this.props.onCreateNotify('warning', 'Warning', 'For non-premium authors image size should not be larger than 100Kb');
             return;
         }
         let formData = new FormData();
