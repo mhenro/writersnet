@@ -6,7 +6,7 @@ import {
     setToken,
     setLogin
 } from '../actions/AuthActions.jsx';
-import { createNotify, updateMutableDate } from '../actions/GlobalActions.jsx';
+import { createNotify, updateMutableDate, setDefaultPassword } from '../actions/GlobalActions.jsx';
 import {
     getUnreadMessagesFromUser,
     setUnreadMessages
@@ -23,6 +23,13 @@ class GlobalDataContainer extends React.Component {
         let activationToken = query.activationToken;
         if (activationToken) {
             this.props.onSendActivationToken(activationToken);
+        }
+
+        /* set default password for user if needed */
+        let tokenForPassword = query.token,
+            email = query.email;
+        if (tokenForPassword && email) {
+            this.props.onSetDefaultPassword(tokenForPassword, email);
         }
 
         /* loading session after page refresh */
@@ -83,11 +90,21 @@ const mapDispatchToProps = (dispatch) => {
             return sendActivationToken(activationToken).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('info', 'Info', 'User activation was completed! Please log-in.'));
-                }
-                else if (response.status === 403) {
+                } else if (response.status === 403) {
                     dispatch(createNotify('danger', 'Error', 'Activation user error'));
+                } else {
+                    dispatch(createNotify('danger', 'Error', json.message));
                 }
-                else {
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onSetDefaultPassword: (token, email) => {
+            return setDefaultPassword(token, email).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('info', 'Info', 'Temporary password was generated and was sent to your email. Please, check it.'));
+                } else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
             }).catch(error => {

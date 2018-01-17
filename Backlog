@@ -1,4 +1,5 @@
 ﻿Current sprint:
+99. Fix bug in "Forgot your password?" logic. When user receives an email he should accept password changing and only after this action password will change to random value.
 IN PROGRESS - 96. Implement text diff functional like on github to allow reader find new changes in the author book.
 
 
@@ -30,7 +31,6 @@ Features:
 
 
 Bugs:
-99. Fix bug in "Forgot your password?" logic. When user receives an email he should accept password changing and only after this action password will change to random value.
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.

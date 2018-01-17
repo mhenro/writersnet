@@ -5,8 +5,12 @@ export const getSessionsCount = () => {
     return doFetch(getHost() + 'count/sessions');
 };
 
-export const passwordReminder = (credentials) => {
-    return doFetch(getHost() + 'reminder/password', credentials);
+export const confirmPasswordChanging = (email) => {
+    return doFetch(getHost() + 'reminder/confirm?email=' + email);
+};
+
+export const setDefaultPassword = (token, email) => {
+    return doFetch(getHost() + 'reminder/password?token=' + token + '&email=' + email);
 };
 
 export const OPEN_LOGIN_FORM = 'OPEN_LOGIN_FORM';

@@ -77,17 +77,34 @@ public class AuthenticationController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "reminder/password", method = RequestMethod.POST)
-    public ResponseEntity<?> passwordReminder(@RequestBody final Credentials credentials) {
+    @RequestMapping(value = "reminder/confirm", method = RequestMethod.GET)
+    public ResponseEntity<?> confirmPasswordChanging(final String email) {
         try {
             Response<String> response = new Response<>();
-            authenticationService.passwordReminder(credentials);
+            authenticationService.passwordChangeConfirmation(email);
+            response.setCode(0);
+            response.setMessage("We sent further instructions on your email. Please, check them");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch(MessagingException e) {
+            Response<String> response = new Response<>();
+            response.setCode(4);
+            response.setMessage("Problem with sending email. Please try again later");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "reminder/password", method = RequestMethod.GET)
+    public ResponseEntity<?> setDefaultPassword(final String token, final String email) {
+        try {
+            Response<String> response = new Response<>();
+            authenticationService.setDefaultPassword(token, email);
             response.setCode(0);
             response.setMessage("Your current password was sent to the specified email");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (MessagingException e) {
             Response<String> response = new Response<>();
-            response.setCode(4);
+            response.setCode(5);
             response.setMessage("Problem with sending email. Please try again later");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

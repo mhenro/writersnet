@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
-import { createNotify, closeForgotPasswordForm, passwordReminder } from '../actions/GlobalActions.jsx';
+import { createNotify, closeForgotPasswordForm, confirmPasswordChanging } from '../actions/GlobalActions.jsx';
 
 class ForgotPasswordForm extends React.Component {
     constructor(props) {
@@ -17,12 +17,8 @@ class ForgotPasswordForm extends React.Component {
         }
     }
 
-    sendPassword() {
-        let credentials = {
-            email: this.state.email,
-            username: this.props.login
-        };
-        this.props.onSendPassword(credentials, () => this.onClose());
+    onConfirmPasswordChanging() {
+        this.props.onConfirmPasswordChanging(this.state.email, () => this.onClose());
     }
 
     onSubmit(event) {
@@ -55,7 +51,7 @@ class ForgotPasswordForm extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-group">
-                        <Button onClick={() => this.sendPassword()} className="btn btn-success">Send password</Button>
+                        <Button onClick={() => this.onConfirmPasswordChanging()} className="btn btn-success">Confirm password changing</Button>
                         <Button onClick={() => this.onClose()}>Close</Button>
                     </div>
                 </Modal.Footer>
@@ -73,10 +69,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSendPassword: (credentials, callback) => {
-            return passwordReminder(credentials).then(([response, json]) => {
+        onConfirmPasswordChanging: (email, callback) => {
+            return confirmPasswordChanging(email).then(([response, json]) => {
                 if (response.status === 200) {
-                    dispatch(createNotify('success', 'Success', 'The password was sent to your email'));
+                    dispatch(createNotify('success', 'Success', json.message));
                     callback();
                 }
                 else {
