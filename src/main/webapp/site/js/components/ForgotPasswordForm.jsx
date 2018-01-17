@@ -30,6 +30,9 @@ class ForgotPasswordForm extends React.Component {
     }
 
     onClose() {
+        this.setState({
+            email: ''
+        });
         this.props.onClose();
     }
 
