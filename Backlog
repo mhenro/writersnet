@@ -19,6 +19,7 @@ Features:
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 29. Support full localization mechanism.
 66. Mark as unread whole chat to determine where unread messages are placed.
+98. Add competitions page. On this page users can add new competition then select its name and prizw fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
@@ -29,6 +30,7 @@ Features:
 
 
 Bugs:
+99. Fix bug in "Forgot your password?" logic. When user receives an email he should accept password changing and only after this action password will change to random value.
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
