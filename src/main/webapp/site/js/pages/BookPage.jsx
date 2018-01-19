@@ -25,7 +25,9 @@ class BookPage extends React.Component {
             totalPages: 1,
             genres: [],
             filterGenre: {value: null, label: 'ALL'},
-            filterLanguage: {value: null, label: 'ALL'}
+            filterLanguage: {value: null, label: 'ALL'},
+            size: 5,
+            sortBy: 'name'
         };
     }
 
@@ -35,8 +37,8 @@ class BookPage extends React.Component {
         this.props.onGetGenres(genres => this.updateGenres(genres));
     }
 
-    updateBooks(name, genre, language, page) {
-        this.props.onGetBooks(name, genre, language, page - 1, pageDetails => this.updatePaginator(pageDetails));
+    updateBooks(name, genre, language, page, size, sort) {
+        this.props.onGetBooks(name, genre, language, page - 1, size, sort, pageDetails => this.updatePaginator(pageDetails));
     }
 
     onLetterClick(letter) {
@@ -44,7 +46,7 @@ class BookPage extends React.Component {
             currentName: letter,
             currentPage: 1
         });
-        this.updateBooks(letter, this.state.filterGenre.value, this.state.filterLanguage.value, 1);
+        this.updateBooks(letter, this.state.filterGenre.value, this.state.filterLanguage.value, 1, this.state.size, this.state.sortBy);
     }
 
     onSearchChange(event) {
@@ -56,7 +58,7 @@ class BookPage extends React.Component {
 
     onKeyDown(key) {
         if (key.key === 'Enter') {
-            this.updateBooks(this.state.searchPattern, this.state.filterGenre.value, this.state.filterLanguage.value, this.state.currentPage);
+            this.updateBooks(this.state.searchPattern, this.state.filterGenre.value, this.state.filterLanguage.value, this.state.currentPage, this.state.size, this.state.sortBy);
         }
     }
 
@@ -64,7 +66,7 @@ class BookPage extends React.Component {
         this.setState({
             currentPage: page
         });
-        this.updateBooks(this.state.currentName, this.state.filterGenre.value, this.state.filterLanguage.value, page);
+        this.updateBooks(this.state.currentName, this.state.filterGenre.value, this.state.filterLanguage.value, page, this.state.size, this.state.sortBy);
     }
 
     updatePaginator(pageDetails) {
@@ -83,14 +85,28 @@ class BookPage extends React.Component {
         this.setState({
             filterGenre: genre
         });
-        this.updateBooks(this.state.searchPattern, genre.value, this.state.filterLanguage.value, this.state.currentPage);
+        this.updateBooks(this.state.searchPattern, genre.value, this.state.filterLanguage.value, this.state.currentPage, this.state.size, this.state.sortBy);
     }
 
     onLanguageChange(language) {
         this.setState({
             filterLanguage: language
         });
-        this.updateBooks(this.state.searchPattern, this.state.filterGenre.value, language.value, this.state.currentPage);
+        this.updateBooks(this.state.searchPattern, this.state.filterGenre.value, language.value, this.state.currentPage, this.state.size, this.state.sortBy);
+    }
+
+    selectSortType(sortType) {
+        this.setState({
+            sortBy: sortType
+        });
+        this.updateBooks(this.state.searchPattern, this.state.filterGenre.value, this.state.filterLanguage.value, this.state.currentPage, this.state.size, sortType);
+    }
+
+    getSortClass(sortType) {
+        if (this.state.sortBy === sortType) {
+            return 'btn active btn-xs btn-default';
+        }
+        return 'btn btn-xs btn-default';
     }
 
     render() {
@@ -110,6 +126,14 @@ class BookPage extends React.Component {
                         </div>
                     </div>
                     <br/>
+                </div>
+                <div className="col-sm-12">
+                    Sort by:&nbsp;
+                    <div className="btn-group">
+                        <button onClick={() => this.selectSortType('name')} className={this.getSortClass('name')}>Name</button>
+                        <button onClick={() => this.selectSortType('totalRating')} className={this.getSortClass('totalRating')}>Rating</button>
+                        <button onClick={() => this.selectSortType('lastUpdate')} className={this.getSortClass('lastUpdate')}>Last update</button>
+                    </div>
                 </div>
                 <div className="col-sm-12">
                     <BookFilter genres={this.state.genres}
@@ -164,8 +188,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetBooks: (name, genre, language, page, callback) => {
-            return getBooks(name, genre, language, page).then(([response, json]) => {
+        onGetBooks: (name, genre, language, page, size, sort, callback) => {
+            return getBooks(name, genre, language, page, size, sort).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBooks(json.content));
                     callback(json);

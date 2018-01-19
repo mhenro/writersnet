@@ -51,7 +51,13 @@ public class AuthorService {
     }
 
     public Page<AuthorShortInfoResponse> getAuthors(final Pageable pageable) {
-        Page<AuthorShortInfoResponse> authors = authorRepository.findAllEnabled(pageable);
+        Page<AuthorShortInfoResponse> authors;
+        switch(pageable.getSort().toString().split(":")[0]) {
+            case "totalRating": authors = authorRepository.findAllEnabledSortByRating(pageable); break;
+            case "online": authors = authorRepository.findAllEnabledSortByOnline(pageable); break;
+            default: authors = authorRepository.findAllEnabledSortByName(pageable);
+        }
+
         authors.forEach(this::setDefaultAvatar);
         return authors;
     }
@@ -61,13 +67,23 @@ public class AuthorService {
     }
 
     public Page<AuthorShortInfoResponse> getAuthorsByName(final String name, final Pageable pageable) {
-        Page<AuthorShortInfoResponse> authors = authorRepository.findAuthorsByName(name, pageable);
+        Page<AuthorShortInfoResponse> authors;
+        switch(pageable.getSort().toString().split(":")[0]) {
+            case "totalRating": authors = authorRepository.findAuthorsByNameSortByRating(name, pageable); break;
+            case "online": authors = authorRepository.findAuthorsByNameSortByOnline(name, pageable); break;
+            default: authors = authorRepository.findAuthorsByNameSortByName(name, pageable);
+        }
         authors.forEach(this::setDefaultAvatar);
         return authors;
     }
 
     public Page<AuthorShortInfoResponse> getAuthorsByFirstLetter(final String firstLetter, final Pageable pageable) {
-        Page<AuthorShortInfoResponse> authors = authorRepository.findAuthorsByFirstLetter(firstLetter, pageable);
+        Page<AuthorShortInfoResponse> authors;
+        switch(pageable.getSort().toString().split(":")[0]) {
+            case "totalRating": authors = authorRepository.findAuthorsByFirstLetterSortByRating(firstLetter, pageable); break;
+            case "online": authors = authorRepository.findAuthorsByFirstLetterSortByOnline(firstLetter, pageable); break;
+            default: authors = authorRepository.findAuthorsByFirstLetterSortByName(firstLetter, pageable);
+        }
         authors.forEach(this::setDefaultAvatar);
         return authors;
     }

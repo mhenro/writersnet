@@ -62,35 +62,69 @@ public class BookService {
         this.newsService = newsService;
     }
 
+    //TODO: refactor this hell!
     public Page<BookResponse> getBooks(final String genreStr, final String language, final Pageable pageable) {
         Page<BookResponse> books;
         final Genre genre = Optional.ofNullable(genreStr).map(Genre::valueOf).orElse(null);
         if (genre != null && language != null) {
-            books = bookRepository.getAllBooksSortedByDate(genre, language, pageable);
+            switch(pageable.getSort().toString().split(":")[0]) {
+                case "totalRating": books = bookRepository.getAllBooksSortedByRating(genre, language, pageable); break;
+                case "lastUpdate": books = bookRepository.getAllBooksSortedByDate(genre, language, pageable); break;
+                default: books = bookRepository.getAllBooksSortedByName(genre, language, pageable);
+            }
         } else if (genre != null) {
-            books = bookRepository.getAllBooksSortedByDate(genre, pageable);
+            switch(pageable.getSort().toString().split(":")[0]) {
+                case "totalRating": books = bookRepository.getAllBooksSortedByRating(genre, pageable); break;
+                case "lastUpdate": books = bookRepository.getAllBooksSortedByDate(genre, pageable); break;
+                default: books = bookRepository.getAllBooksSortedByName(genre, pageable);
+            }
         }
         else if (language != null) {
-            books = bookRepository.getAllBooksSortedByDate(language, pageable);
+            switch(pageable.getSort().toString().split(":")[0]) {
+                case "totalRating": books = bookRepository.getAllBooksSortedByRating(language, pageable); break;
+                case "lastUpdate": books = bookRepository.getAllBooksSortedByDate(language, pageable); break;
+                default: books = bookRepository.getAllBooksSortedByName(language, pageable);
+            }
         } else {
-            books = bookRepository.getAllBooksSortedByDate(pageable);
+            switch(pageable.getSort().toString().split(":")[0]) {
+                case "totalRating": books = bookRepository.getAllBooksSortedByRating(pageable); break;
+                case "lastUpdate": books = bookRepository.getAllBooksSortedByDate(pageable); break;
+                default: books = bookRepository.getAllBooksSortedByName(pageable);
+            }
         }
 
         books.forEach(this::setDefaultCoverForBookAndUser);
         return books;
     }
 
+    //TODO: refactor this hell!
     public Page<BookResponse> getBooksByName(final String bookName, final String genreStr, final String language, final Pageable pageable) {
         Page<BookResponse> books;
         final Genre genre = Optional.ofNullable(genreStr).map(Genre::valueOf).orElse(null);
         if (genre != null && language != null) {
-            books = bookRepository.findBooksByName(bookName, genre, language, pageable);
+            switch(pageable.getSort().toString().split(":")[0]) {
+                case "totalRating": books = bookRepository.findBooksByRating(bookName, genre, language, pageable); break;
+                case "lastUpdate": books = bookRepository.findBooksByDate(bookName, genre, language, pageable); break;
+                default: books = bookRepository.findBooksByName(bookName, genre, language, pageable);
+            }
         } else if (genre != null) {
-            books = bookRepository.findBooksByName(bookName, genre, pageable);
+            switch(pageable.getSort().toString().split(":")[0]) {
+                case "totalRating": books = bookRepository.findBooksByRating(bookName, genre, pageable); break;
+                case "lastUpdate": books = bookRepository.findBooksByDate(bookName, genre, pageable); break;
+                default: books = bookRepository.findBooksByName(bookName, genre, pageable);
+            }
         } else if (language != null) {
-            books = bookRepository.findBooksByName(bookName, language, pageable);
+            switch(pageable.getSort().toString().split(":")[0]) {
+                case "totalRating": books = bookRepository.findBooksByRating(bookName, language, pageable); break;
+                case "lastUpdate": books = bookRepository.findBooksByDate(bookName, language, pageable); break;
+                default: books = bookRepository.findBooksByName(bookName, language, pageable);
+            }
         } else {
-            books = bookRepository.findBooksByName(bookName, pageable);
+            switch(pageable.getSort().toString().split(":")[0]) {
+                case "totalRating": books = bookRepository.findBooksByRating(bookName, pageable); break;
+                case "lastUpdate": books = bookRepository.findBooksByDate(bookName, pageable); break;
+                default: books = bookRepository.findBooksByName(bookName, pageable);
+            }
         }
         books.forEach(this::setDefaultCoverForBookAndUser);
         return books;

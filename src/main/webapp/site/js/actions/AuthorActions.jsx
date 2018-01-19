@@ -1,16 +1,16 @@
 import doFetch from './fetch';
 import { getHost } from '../utils.jsx';
 
-export const getAuthors = (name, page = 0, size = 5) => {
+export const getAuthors = (name, page = 0, size = 5, sort = 'firstName') => {
     if (name) {
-        return doFetch(getHost() + 'authors/name/' + name + '?page=' + page + '&size=' + size);
+        return doFetch(getHost() + 'authors/name/' + name + '?page=' + page + '&size=' + size + '&sort=' + sort);
     } else {
-        return doFetch(getHost() + 'authors?page=' + page + '&size=5');
+        return doFetch(getHost() + 'authors?page=' + page + '&size=' + '&size=' + size + '&sort=' + sort);
     }
 };
 
-export const getAuthorsByFirstLetter = (letter, page = 0, size = 5) => {
-    return doFetch(getHost() + 'authors/letter/' + letter + '?page=' + page + '&size=' + size);
+export const getAuthorsByFirstLetter = (letter, page = 0, size = 5, sort = 'firstName') => {
+    return doFetch(getHost() + 'authors/letter/' + letter + '?page=' + page + '&size=' + size + '&sort=' + sort);
 };
 
 export const getAuthorsCount = () => {

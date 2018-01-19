@@ -24,13 +24,15 @@ class AuthorPage extends React.Component {
             activePage: 1,
             totalPages: 1,
             currentName: null,
-            searchPattern: ''
+            searchPattern: '',
+            size: 5,
+            sortBy: 'firstName'
         };
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        this.props.onGetAuthors(this.state.currentName, this.state.activePage, totalPages => this.setTotalPages(totalPages));
+        this.props.onGetAuthors(this.state.currentName, this.state.activePage, this.state.size, this.state.sortBy, totalPages => this.setTotalPages(totalPages));
     }
 
     pageSelect(page) {
@@ -38,7 +40,7 @@ class AuthorPage extends React.Component {
             activePage: page
         });
 
-        this.props.onGetAuthors(this.state.currentName, page, totalPages => this.setTotalPages(totalPages));
+        this.props.onGetAuthors(this.state.currentName, page, this.state.size, this.state.sortBy, totalPages => this.setTotalPages(totalPages));
     }
 
     setTotalPages(totalPages) {
@@ -52,7 +54,7 @@ class AuthorPage extends React.Component {
             currentName: letter,
             activePage: 1
         });
-        this.props.onGetAuthorsByFirstLetter(letter, 1, totalPages => this.setTotalPages(totalPages));
+        this.props.onGetAuthorsByFirstLetter(letter, 1, this.state.size, this.state.sortBy, totalPages => this.setTotalPages(totalPages));
     }
 
     onSearchChange(event) {
@@ -64,9 +66,22 @@ class AuthorPage extends React.Component {
 
     onKeyDown(key) {
         if (key.key === 'Enter') {
-            this.props.onGetAuthors(this.state.searchPattern, 1, totalPages => this.setTotalPages(totalPages));
-            //this.updateBooks(this.state.searchPattern, this.state.filterGenre.value, this.state.filterLanguage.value, this.state.currentPage);
+            this.props.onGetAuthors(this.state.searchPattern, 1, this.state.size, this.state.sortBy, totalPages => this.setTotalPages(totalPages));
         }
+    }
+
+    selectSortType(sortType) {
+        this.setState({
+            sortBy: sortType
+        });
+        this.props.onGetAuthors(this.state.currentName, 1, this.state.size, sortType, totalPages => this.setTotalPages(totalPages));
+    }
+
+    getSortClass(sortType) {
+        if (this.state.sortBy === sortType) {
+            return 'btn active btn-xs btn-default';
+        }
+        return 'btn btn-xs btn-default';
     }
 
     render() {
@@ -86,6 +101,14 @@ class AuthorPage extends React.Component {
                         </div>
                     </div>
                     <br/>
+                </div>
+                <div className="col-sm-12">
+                    Sort by:&nbsp;
+                    <div className="btn-group">
+                        <button onClick={() => this.selectSortType('firstName')} className={this.getSortClass('firstName')}>Name</button>
+                        <button onClick={() => this.selectSortType('totalRating')} className={this.getSortClass('totalRating')}>Rating</button>
+                        <button onClick={() => this.selectSortType('online')} className={this.getSortClass('online')}>Online</button>
+                    </div>
                 </div>
                 <div className="col-sm-12 text-center">
                     <Pagination
@@ -133,8 +156,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetAuthors: (name, page, totalPagesCallback) => {
-            return getAuthors(name, page - 1).then(([response, json]) => {
+        onGetAuthors: (name, page, size, sortType, totalPagesCallback) => {
+            return getAuthors(name, page - 1, size, sortType).then(([response, json]) => {
                 if (response.status === 200) {
                     let authors = json.content;
                     dispatch(setAuthors(authors));
@@ -148,8 +171,8 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onGetAuthorsByFirstLetter: (letter, page, totalPagesCallback) => {
-            return getAuthorsByFirstLetter(letter, page - 1).then(([response, json]) => {
+        onGetAuthorsByFirstLetter: (letter, page, size, sortType, totalPagesCallback) => {
+            return getAuthorsByFirstLetter(letter, page - 1, size, sortType).then(([response, json]) => {
                 if (response.status === 200) {
                     let authors = json.content;
                     dispatch(setAuthors(authors));

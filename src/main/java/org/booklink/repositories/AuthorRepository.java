@@ -21,8 +21,26 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE (UPPER(u.firstName) LIKE CONCAT('%', UPPER(?1), '%') OR UPPER(u.lastName) LIKE CONCAT('%', UPPER(?1), '%')) AND u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.premium DESC")
     Page<AuthorShortInfoResponse> findAuthorsByName(String name, Pageable pageable);
 
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE (UPPER(u.firstName) LIKE CONCAT('%', UPPER(?1), '%') OR UPPER(u.lastName) LIKE CONCAT('%', UPPER(?1), '%')) AND u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.firstName, u.lastName, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAuthorsByNameSortByName(String name, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE (UPPER(u.firstName) LIKE CONCAT('%', UPPER(?1), '%') OR UPPER(u.lastName) LIKE CONCAT('%', UPPER(?1), '%')) AND u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY (u.totalRating+1) / (u.totalVotes+1) DESC, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAuthorsByNameSortByRating(String name, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE (UPPER(u.firstName) LIKE CONCAT('%', UPPER(?1), '%') OR UPPER(u.lastName) LIKE CONCAT('%', UPPER(?1), '%')) AND u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.online DESC, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAuthorsByNameSortByOnline(String name, Pageable pageable);
+
     @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.premium DESC")
     Page<AuthorShortInfoResponse> findAuthorsByFirstLetter(String letter, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.firstName, u.lastName, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAuthorsByFirstLetterSortByName(String letter, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY (u.totalRating+1) / (u.totalVotes+1) DESC, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAuthorsByFirstLetterSortByRating(String letter, Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE UPPER(u.firstName) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.online DESC, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAuthorsByFirstLetterSortByOnline(String letter, Pageable pageable);
 
     @Query("SELECT COUNT(u) FROM User u")
     Long getAuthorsCount();
@@ -33,6 +51,15 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
 
     @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.premium DESC")
     Page<AuthorShortInfoResponse> findAllEnabled(final Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.firstName, u.lastName, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAllEnabledSortByName(final Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY (u.totalRating+1) / (u.totalVotes+1) DESC, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAllEnabledSortByRating(final Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.online DESC, u.premium DESC")
+    Page<AuthorShortInfoResponse> findAllEnabledSortByOnline(final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.top_models.TopAuthorRating(u.username, u.firstName, u.lastName, u.totalRating, u.totalVotes, u.premium) FROM User u WHERE u.enabled = true AND u.totalVotes > 0 ORDER BY u.totalRating / u.totalVotes DESC, u.premium DESC")
     Page<TopAuthorRating> findAllByRating(final Pageable pageable);
