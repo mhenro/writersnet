@@ -31,7 +31,7 @@ public class BookResponse {
     public BookResponse(final Long id, final Long serieId, final String serieName, final Long commentsCount, final String cover, final Date created,
                         final String description, final Genre genre, final String language, final Date lastUpdate, final String name,
                         final Integer size, final Long totalRating, final Long totalVotes, final Long views, final String username,
-                        final String firstName, final String lastName, final String avatar, final Long reviewCount) {
+                        final String firstName, final String lastName, final String avatar, final Long reviewCount, final Boolean premium) {
         this.id = id;
         if (serieId == null && serieName == null) {
             this.bookSerie = null;
@@ -59,6 +59,7 @@ public class BookResponse {
         author.setFirstName(firstName);
         author.setLastName(lastName);
         author.setAvatar(avatar);
+        author.setPremium(premium);
 
         this.reviewCount = reviewCount;
     }

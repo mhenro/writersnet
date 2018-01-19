@@ -34,7 +34,8 @@ class BookReader extends React.Component {
             currentPage: 1,
             totalPages: 1,
             bookPage: 1,
-            bookTotalPages: 1
+            bookTotalPages: 1,
+            showDiff: false
         };
 
         this.props.onGetBookDetails(this.props.match.params.bookId, this.state.bookPage, totalPages => this.setBookTotalPages(totalPages));
@@ -123,6 +124,44 @@ class BookReader extends React.Component {
         return true;
     }
 
+    showDiff() {
+        this.setState(oldState => ({
+            showDiff: !oldState.showDiff
+        }));
+    }
+
+    renderPremiumTools() {
+        if (this.props.book.premium) {
+            return (
+                <div className="col-sm-12">
+                    <hr/>
+                    <div className="checkbox">
+                        <label><input onClick={() => this.showDiff()} type="checkbox" value={this.state.showDiff}/>Show changes</label>
+                    </div>
+                    <hr/>
+                </div>
+            )
+        }
+    }
+
+    renderReader() {
+        if (this.state.showDiff) {
+            return (
+                <div className="col-sm-12">
+                    <Diff
+                        inputA={this.props.book.bookText.prevText ? this.props.book.bookText.prevText.replace(/<br>/g, '') : this.props.book.bookText.text.replace(/<br>/g, '')}
+                        inputB={this.props.book.bookText.text.replace(/<br>/g, '')} type="sentences"/>
+                </div>
+            )
+        }
+        return (
+            <div className="col-sm-12 text-justify">
+                <div dangerouslySetInnerHTML={{__html: this.props.book.bookText.text}}/>
+                <br/>
+            </div>
+        )
+    }
+
     render() {
         if (!this.isDataLoaded()) {
             return null;
@@ -165,14 +204,8 @@ class BookReader extends React.Component {
                         onSelect={page => this.pageSelect(page)}/>
                     <br/>
                 </div>
-                <div className="col-sm-12 text-justify">
-                    <div dangerouslySetInnerHTML={{ __html: this.props.book.bookText.text }} />
-                    <br/>
-                </div>
-                {/* TODO: activate this feature for premium accounts */}
-                {/*<div className="col-sm-12">
-                    <Diff inputA={this.props.book.bookText.prevText ? this.props.book.bookText.prevText.replace(/<br>/g, '') : this.props.book.bookText.text.replace(/<br>/g, '')} inputB={this.props.book.bookText.text.replace(/<br>/g, '')} type="sentences" />
-                </div>*/}
+                {this.renderPremiumTools()}
+                {this.renderReader()}
                 <div className="col-sm-12 text-center">
                     <br/>
                     <Pagination

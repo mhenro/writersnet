@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import ReactStars from 'react-stars';
 
-import {getLocale} from '../../locale.jsx';
-import {formatDate} from '../../utils.jsx';
+import { getLocale } from '../../locale.jsx';
+import { formatDate, getHost } from '../../utils.jsx';
 
 /*
     props:
@@ -77,9 +77,15 @@ class BookBriefItem extends React.Component {
         this.context.router.history.push('/authors/' + this.props.book.author.username);
     }
 
+    renderCrown() {
+        if (this.props.book.author.premium) {
+            return <img src={getHost() + 'css/images/crown.png'} title="Premium author" width="32" height="auto"/>;
+        }
+    }
+
     render() {
         return (
-            <div className="panel panel-default">
+            <div className={'panel panel-default ' + (this.props.book.author.premium ? 'premium' : '')}>
                 <div className="panel-body">
                     <div className="row">
                         <div className="col-sm-3">
@@ -124,7 +130,13 @@ class BookBriefItem extends React.Component {
                             </table>
                         </div>
                         <div className="col-sm-3 col-xs-1">
-                            <img src={this.props.book.author.avatar/* + '?date=' + new Date()*/} onClick={() => this.onAuthorClick()} className="img-rounded clickable" width="100%" height="auto"/>
+                            <div className="col-sm-12">
+                                <img src={this.props.book.author.avatar/* + '?date=' + new Date()*/} onClick={() => this.onAuthorClick()} className="img-rounded clickable" width="100%" height="auto"/>
+                            </div>
+                            <div className="col-sm-12 text-center">
+                                <br/>
+                                {this.renderCrown()}
+                            </div>
                         </div>
                     </div>
                 </div>

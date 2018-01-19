@@ -128,18 +128,18 @@ class BookPage extends React.Component {
                     <br/>
                 </div>
                 <div className="col-sm-12">
+                    <BookFilter genres={this.state.genres}
+                                language={this.props.language}
+                                onGenreChange={genre => this.onGenreChange(genre)}
+                                onLanguageChange={language => this.onLanguageChange(language)}/>
+                </div>
+                <div className="col-sm-12">
                     Sort by:&nbsp;
                     <div className="btn-group">
                         <button onClick={() => this.selectSortType('name')} className={this.getSortClass('name')}>Name</button>
                         <button onClick={() => this.selectSortType('totalRating')} className={this.getSortClass('totalRating')}>Rating</button>
                         <button onClick={() => this.selectSortType('lastUpdate')} className={this.getSortClass('lastUpdate')}>Last update</button>
                     </div>
-                </div>
-                <div className="col-sm-12">
-                    <BookFilter genres={this.state.genres}
-                                language={this.props.language}
-                                onGenreChange={genre => this.onGenreChange(genre)}
-                                onLanguageChange={language => this.onLanguageChange(language)}/>
                 </div>
                 <div className="col-sm-12 text-center">
                     <Pagination

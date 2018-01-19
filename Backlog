@@ -1,9 +1,9 @@
 ﻿Current sprint:
 IN PROGRESS - 30. Add concept of the premium account. It should allow:
                    DONE - to use more large photos and book texts;
-                   - gold highlight of the author panel and all of the author books in all rating lists;
-                   - higher prioritet in rating and in search. This means that if default account and premium account has the same values/rating then the premium account will be sorted higher;
-                   - additional tools in account: text analyzer, create private books and so on;
+                   DONE - gold highlight of the author panel and all of the author books in all rating lists;
+                   DONE - higher prioritet in rating and in search. This means that if default account and premium account has the same values/rating then the premium account will be sorted higher;
+                   IN PROGRESS - additional tools in account: text analyzer, create private books and so on;
 		   - disable the ads.
 IN PROGRESS - 96. Implement text diff functional like on github to allow reader find new changes in the author book.
 
