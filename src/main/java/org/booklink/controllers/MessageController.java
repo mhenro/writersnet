@@ -11,6 +11,8 @@ import org.booklink.models.response.MessageResponse;
 import org.booklink.services.MessageService;
 import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,11 +29,13 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 public class MessageController {
     private MessageService messageService;
     private SessionService sessionService;
+    private Environment environment;
 
     @Autowired
-    public MessageController(final MessageService messageService, final SessionService sessionService) {
+    public MessageController(final MessageService messageService, final SessionService sessionService, final Environment environment) {
         this.messageService = messageService;
         this.sessionService = sessionService;
+        this.environment = environment;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -45,7 +49,8 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "messages/add", method = RequestMethod.POST)
     public ResponseEntity<?> addMessageToGroup(@RequestBody MessageRequest message) {
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         final Long groupId;
         try {
@@ -68,9 +73,10 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "groups/get", method = RequestMethod.POST)
     public ResponseEntity<?> getGroupIdFromRecipient(@RequestBody MessageRequest messageRequest) {
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        Long groupId = null;
+        Long groupId;
         try {
             groupId = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
         } catch(Exception e) {
@@ -92,7 +98,8 @@ public class MessageController {
     @RequestMapping(value = "groups/{groupId}/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> getGroupName(@PathVariable final Long groupId, @PathVariable final String userId) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             response.setCode(0);
@@ -111,7 +118,8 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesFromUser(@PathVariable final String userId) {
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             Response<Long> response = new Response<>();
@@ -132,7 +140,8 @@ public class MessageController {
     @CrossOrigin
     @RequestMapping(value = "groups/{groupId}/{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesInGroup(@PathVariable final Long groupId, @PathVariable final String userId) {
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             Response<Long> response = new Response<>();
@@ -154,7 +163,8 @@ public class MessageController {
     @RequestMapping(value = "groups/messages/read", method = RequestMethod.POST)
     public ResponseEntity<?> markAllAsReadInGroup(@RequestBody ReadMessageRequest readMessageRequest) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             messageService.markAsReadInGroup(readMessageRequest.getUserId(), readMessageRequest.getGroupId());

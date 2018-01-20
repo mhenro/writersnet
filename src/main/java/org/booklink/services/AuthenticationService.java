@@ -45,7 +45,8 @@ public class AuthenticationService {
         final User user = userRepository.findOne(credentials.getUsername());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (user != null && passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
-            result = generateActivationToken(user);
+            final String key = environment.getProperty("jwt.signing-key");
+            result = generateActivationToken(user, key);
         }
         return result;
     }
@@ -98,7 +99,8 @@ public class AuthenticationService {
     }
 
     private String setActivationTokenForUser(final User user) {
-        final String token = generateActivationToken(user);
+        final String key = environment.getProperty("jwt.signing-key");
+        final String token = generateActivationToken(user, key);
         user.setActivationToken(token);
         userRepository.save(user);
         return token;
@@ -118,7 +120,8 @@ public class AuthenticationService {
     }
 
     private void createRegistrationLink(final User user) throws MessagingException {
-        final String token = generateActivationToken(user);
+        final String key = environment.getProperty("jwt.signing-key");
+        final String token = generateActivationToken(user, key);
         final Section defaultSection = createDefaultSection(user);
         user.setActivationToken(token);
         user.setSection(defaultSection);

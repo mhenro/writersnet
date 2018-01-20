@@ -7,6 +7,7 @@ import org.booklink.models.response.BookSerieResponse;
 import org.booklink.services.SerieService;
 import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,13 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 public class SerieController {
     private SerieService serieService;
     private SessionService sessionService;
+    private Environment environment;
 
     @Autowired
-    public SerieController(final SerieService serieService, final SessionService sessionService) {
+    public SerieController(final SerieService serieService, final SessionService sessionService, final Environment environment) {
         this.serieService = serieService;
         this.sessionService = sessionService;
+        this.environment = environment;
     }
 
     @CrossOrigin
@@ -41,7 +44,8 @@ public class SerieController {
     @RequestMapping(value = "series", method = RequestMethod.POST)
     public ResponseEntity<?> saveSerie(@RequestBody SerieRequest serie) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         Long serieId = null;
         try {
@@ -63,7 +67,8 @@ public class SerieController {
     @RequestMapping(value = "series/{serieId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteSerie(@PathVariable Long serieId) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             serieService.deleteSerie(serieId);

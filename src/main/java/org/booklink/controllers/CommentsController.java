@@ -8,6 +8,7 @@ import org.booklink.models.response.DetailedCommentResponse;
 import org.booklink.services.CommentsService;
 import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,13 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 public class CommentsController {
     private CommentsService commentsService;
     private SessionService sessionService;
+    private Environment environment;
 
     @Autowired
-    public CommentsController(final CommentsService commentsService, final SessionService sessionService) {
+    public CommentsController(final CommentsService commentsService, final SessionService sessionService, final Environment environment) {
         this.commentsService = commentsService;
         this.sessionService = sessionService;
+        this.environment = environment;
     }
 
     @CrossOrigin
@@ -64,7 +67,8 @@ public class CommentsController {
     @RequestMapping(value = "books/{bookId}/comments/{commentId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteComment(@PathVariable Long bookId, @PathVariable Long commentId) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             commentsService.deleteComment(bookId, commentId);

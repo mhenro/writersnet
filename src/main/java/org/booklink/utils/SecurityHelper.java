@@ -14,20 +14,20 @@ import java.util.Date;
 public abstract class SecurityHelper {
     private static final long EXPIRATION_DATE = 900000; //15 min
 
-    public static String generateActivationToken(final User user) {
+    public static String generateActivationToken(final User user, final String key) {
         String result = Jwts.builder()
                 .setSubject(user.getUsername())
                 .claim("roles", user.getAuthority())
                 .claim("enabled", user.getEnabled())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+EXPIRATION_DATE))
-                .signWith(SignatureAlgorithm.HS256, "booklink")
+                .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
 
         return result;
     }
 
-    public static String generateActivationToken() {
+    public static String generateActivationToken(final String key) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         final User user = new User();
@@ -35,6 +35,6 @@ public abstract class SecurityHelper {
         user.setAuthority("ROLE_USER");
         user.setEnabled(true);
 
-        return generateActivationToken(user);
+        return generateActivationToken(user, key);
     }
 }

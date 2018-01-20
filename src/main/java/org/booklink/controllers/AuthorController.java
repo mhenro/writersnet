@@ -13,6 +13,7 @@ import org.booklink.services.AuthorService;
 import org.booklink.services.SessionService;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,11 +31,13 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 public class AuthorController {
     private AuthorService authorService;
     private SessionService sessionService;
+    private Environment environment;
 
     @Autowired
-    public AuthorController(final AuthorService authorService, final SessionService sessionService) {
+    public AuthorController(final AuthorService authorService, final SessionService sessionService, final Environment environment) {
         this.authorService = authorService;
         this.sessionService = sessionService;
+        this.environment = environment;
     }
 
     @CrossOrigin
@@ -83,7 +86,8 @@ public class AuthorController {
     @RequestMapping(value = "authors", method = RequestMethod.POST)
     public ResponseEntity<?> saveAuthor(@RequestBody AuthorRequest author) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             authorService.updateAuthor(author);
@@ -104,7 +108,8 @@ public class AuthorController {
     @RequestMapping(value = "authors/password", method = RequestMethod.POST)
     public ResponseEntity<?> changePassword(@RequestBody final ChangePasswordRequest request) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             authorService.changePassword(request);
@@ -125,7 +130,8 @@ public class AuthorController {
     @RequestMapping(value = "avatar", method = RequestMethod.POST)
     public ResponseEntity<?> saveAvatar(AvatarRequest avatarRequest) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             authorService.saveAvatar(avatarRequest);
@@ -146,7 +152,8 @@ public class AuthorController {
     @RequestMapping(value = "avatar/restore", method = RequestMethod.GET)
     public ResponseEntity<?> restoreDefaultAvatar() {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             authorService.restoreDefaultAvatar();
@@ -167,7 +174,8 @@ public class AuthorController {
     @RequestMapping(value = "authors/subscribe", method = RequestMethod.POST)
     public ResponseEntity<?> subscribeOnUser(@RequestBody final String subscriptionId) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             response = authorService.subscribeOnUser(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
@@ -186,7 +194,8 @@ public class AuthorController {
     @RequestMapping(value = "authors/unsubscribe", method = RequestMethod.POST)
     public ResponseEntity<?> removeSubscription(@RequestBody final String subscriptionId) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             response = authorService.removeSubscription(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters

@@ -3,10 +3,12 @@ package org.booklink.config;
 import liquibase.integration.spring.SpringLiquibase;
 import org.booklink.security.JwtFilter;
 import org.booklink.security.SecurityConfigTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,6 +32,9 @@ import java.util.Properties;
 @EntityScan(basePackages = "org.booklink.models.entities")
 @EnableJpaRepositories(basePackages = "org.booklink.repositories")
 public class RootConfigTest {
+    @Autowired
+    private JwtFilter jwtFilter;
+
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
@@ -42,7 +47,7 @@ public class RootConfigTest {
     @Bean
     public FilterRegistrationBean jwtFilter() {
         final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new JwtFilter());
+        registrationBean.setFilter(jwtFilter);
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
     }

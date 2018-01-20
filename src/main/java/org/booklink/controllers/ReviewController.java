@@ -8,6 +8,7 @@ import org.booklink.models.response.ReviewResponse;
 import org.booklink.services.ReviewService;
 import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,11 +27,13 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 public class ReviewController {
     private ReviewService reviewService;
     private SessionService sessionService;
+    private Environment environment;
 
     @Autowired
-    public ReviewController(final ReviewService reviewService, final SessionService sessionService) {
+    public ReviewController(final ReviewService reviewService, final SessionService sessionService, final Environment environment) {
         this.reviewService = reviewService;
         this.sessionService = sessionService;
+        this.environment = environment;
     }
 
     @CrossOrigin
@@ -49,7 +52,8 @@ public class ReviewController {
     @RequestMapping(value = "review/{reviewId}", method = RequestMethod.GET)
     public ResponseEntity<?> getReviewDetails(@PathVariable final Long reviewId) {
         Response<ReviewResponse> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
 
         final ReviewResponse review = reviewService.getReviewDetails(reviewId);
@@ -62,7 +66,8 @@ public class ReviewController {
     @CrossOrigin
     @RequestMapping(value = "review/{reviewId}/like", method = RequestMethod.GET)
     public ResponseEntity<?> likeReview(@PathVariable final Long reviewId, HttpServletRequest request) {
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         long likes;
         try {
@@ -80,7 +85,8 @@ public class ReviewController {
     @CrossOrigin
     @RequestMapping(value = "review/{reviewId}/dislike", method = RequestMethod.GET)
     public ResponseEntity<?> dislikeReview(@PathVariable final Long reviewId, HttpServletRequest request) {
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         long dislikes;
         try {
@@ -100,7 +106,8 @@ public class ReviewController {
     @RequestMapping(value = "review", method = RequestMethod.POST)
     public ResponseEntity<?> saveReview(@RequestBody ReviewRequest reviewRequest) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             reviewService.saveReview(reviewRequest);

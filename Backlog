@@ -15,7 +15,6 @@ Features:
                    - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
                    - buy additional stuff, such as pdf convertation of the book, some medals to show them on author section page and so on.
 21. Add pay gateway.
-75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 29. Support full localization mechanism.
 66. Mark as unread whole chat to determine where unread messages are placed.
@@ -151,3 +150,4 @@ DONE - 56. Add help page.
 DONE - 97. Add rating field to the book item on Books page.
 DONE - 11. Add "forgot your password?" functional to login form.
 DONE - 99. Fix bug in "Forgot your password?" logic. When user receives an email he should accept password changing and only after this action password will change to random value.
+DONE - 75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.

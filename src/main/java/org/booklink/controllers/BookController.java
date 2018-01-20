@@ -14,6 +14,7 @@ import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.services.BookService;
 import org.booklink.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -35,11 +36,13 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
 public class BookController {
     private BookService bookService;
     private SessionService sessionService;
+    private Environment environment;
 
     @Autowired
-    public BookController(final BookService bookService, final SessionService sessionService) {
+    public BookController(final BookService bookService, final SessionService sessionService, final Environment environment) {
         this.bookService = bookService;
         this.sessionService = sessionService;
+        this.environment = environment;
     }
 
     @CrossOrigin
@@ -88,7 +91,8 @@ public class BookController {
     @RequestMapping(value = "books", method = RequestMethod.POST)
     public ResponseEntity<?> saveBook(@RequestBody BookRequest book) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         Long bookId = null;
         try {
@@ -110,7 +114,8 @@ public class BookController {
     @RequestMapping(value = "cover", method = RequestMethod.POST)
     public ResponseEntity<?> saveCover(CoverRequest coverRequest) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             bookService.saveCover(coverRequest);
@@ -131,7 +136,8 @@ public class BookController {
     @RequestMapping(value = "cover/restore/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> restoreDefaultCover(@PathVariable final Long bookId) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             bookService.restoreDefaultCover(bookId);
@@ -152,7 +158,8 @@ public class BookController {
     @RequestMapping(value = "text", method = RequestMethod.POST)
     public ResponseEntity<?> saveBookText(BookTextRequest bookTextRequest) {
         final Response<Date> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         final Date lastUpdated;
         try {
@@ -175,7 +182,8 @@ public class BookController {
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
         Response<String> response = new Response<>();
-        String token = generateActivationToken();
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
         sessionService.updateSession(token);
         try {
             bookService.deleteBook(bookId);
