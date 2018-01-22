@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { getLocale } from '../locale.jsx';
 
 /*
     props: onLoginClick - function
            onLogoutClick - function
+           language
  */
 class NavBar extends React.Component {
     static contextTypes = {
@@ -44,11 +46,11 @@ class NavBar extends React.Component {
     renderLoginButton() {
         if (this.props.registered) {
             return (
-                <li><a onClick={() => this.props.onLogoutClick()} style={{cursor: 'pointer'}}><span className="glyphicon glyphicon-log-in"></span> Log out</a></li>
+                <li><a onClick={() => this.props.onLogoutClick()} style={{cursor: 'pointer'}}><span className="glyphicon glyphicon-log-in"></span> {getLocale(this.props.language)['Log out']}</a></li>
             )
         }
         return (
-            <li><a onClick={() => this.props.onLoginClick(false)} style={{cursor: 'pointer'}}><span className="glyphicon glyphicon-log-in"></span> Log in</a></li>
+            <li><a onClick={() => this.props.onLoginClick(false)} style={{cursor: 'pointer'}}><span className="glyphicon glyphicon-log-in"></span> {getLocale(this.props.language)['Log in']}</a></li>
         )
     }
 
@@ -58,15 +60,15 @@ class NavBar extends React.Component {
                 <div className="container container-fluid">
                     <ul className="nav navbar-nav">
                         <li><img onClick={() => this.onTitleClick()} src="https://localhost/css/images/writersnets.png" className="clickable" width="auto" height="50"/></li>
-                        <li className={this.getActiveItem('books')}><Link to="/books" onClick={() => this.onItemClick('books')}>Books</Link></li>
-                        <li className={this.getActiveItem('authors')}><Link to="/authors" onClick={() => this.onItemClick('authors')}>Authors</Link></li>
-                        <li className={this.getActiveItem('ratings')}><Link to="/ratings" onClick={() => this.onItemClick('ratings')}>Ratings</Link></li>
-                        <li className={this.getActiveItem('discussions')}><Link to="/discussions" onClick={() => this.onItemClick('discussions')}>Discussions</Link></li>
-                        <li className={this.getActiveItem('reviews')}><Link to="/reviews" onClick={() => this.onItemClick('reviews')}>Reviews</Link></li>
-                        <li className={this.getActiveItem('help')}><Link to="/help" onClick={() => this.onItemClick('help')}>Help</Link></li>
+                        <li className={this.getActiveItem('books')}><Link to="/books" onClick={() => this.onItemClick('books')}>{getLocale(this.props.language)['Books']}</Link></li>
+                        <li className={this.getActiveItem('authors')}><Link to="/authors" onClick={() => this.onItemClick('authors')}>{getLocale(this.props.language)['Authors']}</Link></li>
+                        <li className={this.getActiveItem('ratings')}><Link to="/ratings" onClick={() => this.onItemClick('ratings')}>{getLocale(this.props.language)['Ratings']}</Link></li>
+                        <li className={this.getActiveItem('discussions')}><Link to="/discussions" onClick={() => this.onItemClick('discussions')}>{getLocale(this.props.language)['Discussions']}</Link></li>
+                        <li className={this.getActiveItem('reviews')}><Link to="/reviews" onClick={() => this.onItemClick('reviews')}>{getLocale(this.props.language)['Reviews']}</Link></li>
+                        <li className={this.getActiveItem('help')}><Link to="/help" onClick={() => this.onItemClick('help')}>{getLocale(this.props.language)['Help']}</Link></li>
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
-                        <li><a onClick={() => this.props.onLoginClick(true)} style={{cursor: 'pointer'}}><span className="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a onClick={() => this.props.onLoginClick(true)} style={{cursor: 'pointer'}}><span className="glyphicon glyphicon-user"></span> {getLocale(this.props.language)['Sign Up']}</a></li>
                         {this.renderLoginButton()}
                     </ul>
                 </div>

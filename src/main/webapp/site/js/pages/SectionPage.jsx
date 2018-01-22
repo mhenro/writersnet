@@ -16,10 +16,12 @@ import {
 } from '../actions/BookActions.jsx';
 import {
     createNotify,
-    goToComments
+    goToComments,
+    setUserDetails
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
 import { getHost } from '../utils.jsx';
+import { getLocale } from '../locale.jsx';
 
 import AuthorFile from '../components/section/AuthorFile.jsx';
 import AuthorShortInfo from '../components/section/AuthorShortInfo.jsx';
@@ -120,8 +122,8 @@ class SectionPage extends React.Component {
                 <div
                     className="col-sm-12 panel panel-success">
                     <div className="panel-body btn-group">
-                        <button className="btn btn-success" onClick={() => this.onAddNewBook()}>Add new book</button>
-                        <button className="btn btn-success" onClick={() => this.onEditSeries()}>Edit series</button>
+                        <button className="btn btn-success" onClick={() => this.onAddNewBook()}>{getLocale(this.props.language)['Add new book']}</button>
+                        <button className="btn btn-success" onClick={() => this.onEditSeries()}>{getLocale(this.props.language)['Edit series']}</button>
                     </div>
                 </div>
             )
@@ -227,6 +229,7 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
+                    dispatch(setUserDetails(json));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

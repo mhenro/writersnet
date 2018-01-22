@@ -11,10 +11,11 @@ import {
     restoreDefaultAvatar
 } from '../actions/AuthorActions.jsx';
 import {
-    createNotify
+    createNotify,
+    setUserDetails
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
-import { locale } from '../locale.jsx';
+import { locale, getLocale } from '../locale.jsx';
 
 import FileUploader from '../components/FileUploader.jsx';
 
@@ -135,7 +136,7 @@ class OptionsPage extends React.Component {
             language: this.state.siteLanguage.value,
             preferredLanguages: this.state.preferredLanguages.map(lang => lang.value).reduce((cur, next) => cur + ';' + next)
         };
-        this.props.onSaveAuthor(author, this.props.token);
+        this.props.onSaveAuthor(author, this.props.token, () => this.props.onGetAuthorDetails(this.props.login, () => this.updateState()));
     }
 
     onChangePassword(event) {
@@ -174,61 +175,61 @@ class OptionsPage extends React.Component {
             <div>
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        General
+                        {getLocale(this.props.language)['General']}
                     </div>
                     <div className="panel-body">
                         <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="first_name">First name:</label>
+                                <label className="control-label col-sm-2" htmlFor="first_name">{getLocale(this.props.language)['First name:']}</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.firstName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="first_name" placeholder="Enter your first name" name="first_name"/>
+                                    <input value={this.state.firstName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="first_name" placeholder={getLocale(this.props.language)['Enter your first name']} name="first_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="last_name">Last name:</label>
+                                <label className="control-label col-sm-2" htmlFor="last_name">{getLocale(this.props.language)['Last name:']}</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.lastName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="last_name" placeholder="Enter your last name" name="last_name"/>
+                                    <input value={this.state.lastName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="last_name" placeholder={getLocale(this.props.language)['Enter your last name']} name="last_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="section_name">Section name:</label>
+                                <label className="control-label col-sm-2" htmlFor="section_name">{getLocale(this.props.language)['Section name:']}</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.sectionName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="section_name" placeholder="Enter the name of your section" name="section_name"/>
+                                    <input value={this.state.sectionName} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="section_name" placeholder={getLocale(this.props.language)['Enter the name of your section']} name="section_name"/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="section_description">Section description:</label>
+                                <label className="control-label col-sm-2" htmlFor="section_description">{getLocale(this.props.language)['Section description:']}</label>
                                 <div className="col-sm-10">
-                                    <textarea value={this.state.sectionDescription} onChange={proxy => this.onFieldChange(proxy)} rows="5" className="form-control" id="section_description" placeholder="Enter the description of your section" name="section_description"/>
+                                    <textarea value={this.state.sectionDescription} onChange={proxy => this.onFieldChange(proxy)} rows="5" className="form-control" id="section_description" placeholder={getLocale(this.props.language)['Enter the description of your section']} name="section_description"/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="birthday">Birthday:</label>
+                                <label className="control-label col-sm-2" htmlFor="birthday">{getLocale(this.props.language)['Birthday:']}</label>
                                 <div className="col-sm-10">
                                     <DatePicker dateTime={this.state.birthday} onChange={value => this.onDateChange(value)} inputProps={this.getDatePickerProps()} id="birthday" defaultText="" format="YYYY-MM-DD" inputFormat="DD-MM-YYYY" mode="date"/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="city">City:</label>
+                                <label className="control-label col-sm-2" htmlFor="city">{getLocale(this.props.language)['City:']}</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.city} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="city" placeholder="Enter your city" name="city"/>
+                                    <input value={this.state.city} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="city" placeholder={getLocale(this.props.language)['Enter your city']} name="city"/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="language">Interface language:</label>
+                                <label className="control-label col-sm-2" htmlFor="language">{getLocale(this.props.language)['Interface language:']}</label>
                                 <div className="col-sm-10">
-                                    <Select value={this.state.siteLanguage} id="siteLanguage" options={this.getComboboxItems()} onChange={lang => this.onLanguageChange(lang)} placeholder="Choose website language"/>
+                                    <Select value={this.state.siteLanguage} id="siteLanguage" options={this.getComboboxItems()} onChange={lang => this.onLanguageChange(lang)} placeholder={getLocale(this.props.language)['Choose website language']}/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="language">Preferred languages:</label>
+                                <label className="control-label col-sm-2" htmlFor="language">{getLocale(this.props.language)['Preferred languages:']}</label>
                                 <div className="col-sm-10">
-                                    <Select value={this.state.preferredLanguages} id="preferredLanguages" options={this.getComboboxItems()} multi={true} onChange={lang => this.onMultiLanguageChange(lang)} placeholder="Choose your preferred languages"/>
+                                    <Select value={this.state.preferredLanguages} id="preferredLanguages" options={this.getComboboxItems()} multi={true} onChange={lang => this.onMultiLanguageChange(lang)} placeholder={getLocale(this.props.language)['Choose your preferred languages']}/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <div className="col-sm-12 text-center">
-                                    <button type="submit" className="btn btn-success">Save</button>
+                                    <button type="submit" className="btn btn-success">{getLocale(this.props.language)['Save']}</button>
                                 </div>
                             </div>
                         </form>
@@ -237,7 +238,7 @@ class OptionsPage extends React.Component {
 
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        Avatar
+                        {getLocale(this.props.language)['Avatar']}
                     </div>
                     <div className="panel-body">
                         <div className="col-sm-4">
@@ -246,14 +247,14 @@ class OptionsPage extends React.Component {
                         <div className="col-sm-8">
                             <div className="btn-group-vertical">
                                 <FileUploader
-                                    btnName="Choose your avatar"
+                                    btnName={getLocale(this.props.language)['Choose your avatar']}
                                     name="avatar"
                                     accept=".png,.jpg"
                                     className="btn btn-success"
                                     onChange={event => this.onAvatarChange(event)}
                                 />
                                 <br/>
-                                <button onClick={() => this.onRestoreDefaultAvatar()} type="button" className="btn btn-success">Restore default photo</button>
+                                <button onClick={() => this.onRestoreDefaultAvatar()} type="button" className="btn btn-success">{getLocale(this.props.language)['Restore default photo']}</button>
                             </div>
                         </div>
                     </div>
@@ -261,31 +262,31 @@ class OptionsPage extends React.Component {
 
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        Security
+                        {getLocale(this.props.language)['Security']}
                     </div>
                     <div className="panel-body">
                         <form className="form-horizontal" onSubmit={event => this.onChangePassword(event)}>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="current_password">Current password:</label>
+                                <label className="control-label col-sm-2" htmlFor="current_password">{getLocale(this.props.language)['Current password:']}</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.currentPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="current_password" placeholder="Enter your current password" name="current_password"/>
+                                    <input value={this.state.currentPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="current_password" placeholder={getLocale(this.props.language)['Enter your current password']} name="current_password"/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="new_password">New password:</label>
+                                <label className="control-label col-sm-2" htmlFor="new_password">{getLocale(this.props.language)['New password:']}</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.newPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="new_password" placeholder="Enter your new password" name="new_password"/>
+                                    <input value={this.state.newPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="new_password" placeholder={getLocale(this.props.language)['Enter your new password']} name="new_password"/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="confirm_new_password">Confirm new password:</label>
+                                <label className="control-label col-sm-2" htmlFor="confirm_new_password">{getLocale(this.props.language)['Confirm new password:']}</label>
                                 <div className="col-sm-10">
-                                    <input value={this.state.confirmNewPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="confirm_new_password" placeholder="Confirm your new password" name="confirm_new_password"/>
+                                    <input value={this.state.confirmNewPassword} onChange={proxy => this.onFieldChange(proxy)} type="password" className="form-control" id="confirm_new_password" placeholder={getLocale(this.props.language)['Confirm your new password']} name="confirm_new_password"/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <div className="col-sm-12 text-center">
-                                    <button type="submit" className="btn btn-success">Change password</button>
+                                    <button type="submit" className="btn btn-success">{getLocale(this.props.language)['Change password']}</button>
                                 </div>
                             </div>
                         </form>
@@ -301,7 +302,8 @@ const mapStateToProps = (state) => {
         registered: state.GlobalReducer.registered,
         token: state.GlobalReducer.token,
         login: state.GlobalReducer.user.login,
-        author: state.AuthorReducer.author
+        author: state.AuthorReducer.author,
+        language: state.GlobalReducer.language
     }
 };
 
@@ -311,6 +313,7 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
+                    dispatch(setUserDetails(json));
                     callback();
                 }
                 else {
@@ -321,11 +324,12 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onSaveAuthor: (author, token) => {
+        onSaveAuthor: (author, token, callback) => {
             return saveAuthor(author, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Data was saved successfully'));
                     dispatch(setToken(json.token));
+                    callback();
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));

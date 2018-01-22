@@ -165,7 +165,8 @@ const GlobalReducer = (state = initialState, action) => {
                 password: state.user.password,
                 passwordConfirm: state.user.passwordConfirm,
                 details: action.details
-            }});
+            },
+                language: action.details.language});
     }
     return state;
 };

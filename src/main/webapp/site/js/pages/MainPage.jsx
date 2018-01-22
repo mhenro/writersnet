@@ -50,7 +50,7 @@ class MainPage extends React.Component {
     renderMainMenu() {
         if (this.props.registered) {
             return (
-                <MainMenu login={this.props.login} unreadMessages={this.props.unreadMessages} newFriends={this.props.newFriends}/>
+                <MainMenu login={this.props.login} unreadMessages={this.props.unreadMessages} newFriends={this.props.newFriends} language={this.props.language}/>
             )
         }
         return null;
@@ -71,7 +71,7 @@ class MainPage extends React.Component {
         return (
             <BrowserRouter basename="/">
                 <div>
-                    <NavBar onLoginClick={this.onLoginClick} onLogoutClick={this.props.onLogoutClick} registered={this.props.registered}/>
+                    <NavBar onLoginClick={this.onLoginClick} onLogoutClick={this.props.onLogoutClick} registered={this.props.registered} language={this.props.language}/>
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-12 col-lg-2">
@@ -113,7 +113,8 @@ const mapStateToProps = (state) => {
         login: state.GlobalReducer.user.login,
         unreadMessages: state.GlobalReducer.unreadMessages,
         newFriends: state.GlobalReducer.newFriends,
-        userDetails: state.GlobalReducer.user.details
+        userDetails: state.GlobalReducer.user.details,
+        language: state.GlobalReducer.language
     }
 };
 

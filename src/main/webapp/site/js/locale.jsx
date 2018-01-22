@@ -1,19 +1,5 @@
-/* supported languages */
-let EN = {
-    label: 'english', //reserved property
-
-    /* genres */
-    'SCI_FI': 'sci-fi',
-    'FANTASY': 'fantasy'
-};
-
-let RU = {
-    label: 'русский', //reserved property
-
-    /* genres */
-    'SCI_FI': 'научная фантастика',
-    'FANTASY': 'фэнтези'
-};
+import { RU } from './languages/lang-RU.jsx';
+import { EN } from './languages/lang-EN.jsx';
 
 /* locale */
 export const locale = {
