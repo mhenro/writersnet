@@ -6,14 +6,15 @@ import {
     setToken,
     setLogin
 } from '../actions/AuthActions.jsx';
-import { createNotify, updateMutableDate, setDefaultPassword } from '../actions/GlobalActions.jsx';
+import { createNotify, updateMutableDate, setDefaultPassword, setUserDetails } from '../actions/GlobalActions.jsx';
 import {
     getUnreadMessagesFromUser,
     setUnreadMessages
 } from '../actions/MessageActions.jsx';
 import {
     getNewFriendsCount,
-    setNewFriends
+    setNewFriends,
+    getAuthorDetails
 } from '../actions/AuthorActions.jsx';
 
 class GlobalDataContainer extends React.Component {
@@ -40,6 +41,7 @@ class GlobalDataContainer extends React.Component {
             this.props.onSetToken(token);
             if (username) {
                 this.props.onSetLogin(username);
+                this.props.onGetAuthorDetails(username);
             }
         }
 
@@ -156,7 +158,20 @@ const mapDispatchToProps = (dispatch) => {
 
         onUpdateMutableDate: () => {
             dispatch(updateMutableDate(new Date()));
-        }
+        },
+
+        onGetAuthorDetails: (userId) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setUserDetails(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
     }
 };
 

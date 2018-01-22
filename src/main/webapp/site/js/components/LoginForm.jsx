@@ -9,7 +9,8 @@ import {
     closeLoginForm,
     createNotify,
     openUserPolicy,
-    openForgotPasswordForm
+    openForgotPasswordForm,
+    setUserDetails
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -21,6 +22,10 @@ import {
     setPasswordConfirm,
     setToken
 } from '../actions/AuthActions.jsx';
+
+import {
+    getAuthorDetails
+} from '../actions/AuthorActions.jsx';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -76,7 +81,7 @@ class LoginForm extends React.Component {
             }
             this.props.onSendRegister(this.props.email, this.props.login, this.props.password, this.props.passwordConfirm, this); //register new user
         } else {
-            this.props.onSendLogin(this.props.login, this.props.password, this);    //login
+            this.props.onSendLogin(this.props.login, this.props.password, this, () => this.props.onGetAuthorDetails(this.props.login));    //login
         }
     }
 
@@ -174,13 +179,14 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(openForgotPasswordForm());
         },
 
-        onSendLogin: (username, password, self) => {
+        onSendLogin: (username, password, self, callback) => {
             return sendLogin(username, password).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setToken(json.message));
                     sessionStorage.setItem('username', username);
                     dispatch(setPassword(''));
                     self.close();
+                    callback();
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
@@ -203,6 +209,19 @@ const mapDispatchToProps = (dispatch) => {
                 }
                 else if (response.status === 400) {
                     dispatch(createNotify('warning', 'Warning', 'User with such email or login already exist. Please choose another email and/or login.'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetAuthorDetails: (userId) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setUserDetails(json));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

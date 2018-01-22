@@ -56,6 +56,17 @@ class MainPage extends React.Component {
         return null;
     }
 
+    renderAds() {
+        if (this.props.userDetails && this.props.userDetails.premium) {
+            return null;
+        }
+        return (
+            <div className="well">
+                <p>ADS</p>
+            </div>
+        )
+    }
+
     render() {
         return (
             <BrowserRouter basename="/">
@@ -65,6 +76,7 @@ class MainPage extends React.Component {
                         <div className="row">
                             <div className="col-sm-12 col-lg-2">
                                 {this.renderMainMenu()}
+                                {this.renderAds()}
                             </div>
                             <div className="col-sm-12 col-lg-10">
                                 <Route exact path="/" component={TitlePage}/>
@@ -100,7 +112,8 @@ const mapStateToProps = (state) => {
         registered: state.GlobalReducer.registered,
         login: state.GlobalReducer.user.login,
         unreadMessages: state.GlobalReducer.unreadMessages,
-        newFriends: state.GlobalReducer.newFriends
+        newFriends: state.GlobalReducer.newFriends,
+        userDetails: state.GlobalReducer.user.details
     }
 };
 

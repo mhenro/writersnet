@@ -33,6 +33,8 @@ export const GO_TO_COMMENTS = 'GO_TO_COMMENTS';
 
 export const UPDATE_MUTABLE_DATE = 'UPDATE_MUTABLE_DATE';
 
+export const SET_USER_DETAILS = 'SET_USER_DETAILS';
+
 export const openLoginForm = (loginFormRegister) => {
     return {
         type: OPEN_LOGIN_FORM,
@@ -115,5 +117,12 @@ export const updateMutableDate = (mutableDate) => {
     return {
         type: UPDATE_MUTABLE_DATE,
         mutableDate
+    }
+};
+
+export const setUserDetails = (details) => {
+    return {
+        type: SET_USER_DETAILS,
+        details
     }
 };

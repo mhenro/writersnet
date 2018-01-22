@@ -162,6 +162,17 @@ class BookReader extends React.Component {
         )
     }
 
+    renderAds() {
+        if (this.props.userDetails && this.props.userDetails.premium) {
+            return null;
+        }
+        return (
+            <div className="well">
+                <p>ADS</p>
+            </div>
+        )
+    }
+
     render() {
         if (!this.isDataLoaded()) {
             return null;
@@ -203,6 +214,10 @@ class BookReader extends React.Component {
                         activePage={this.state.bookPage}
                         onSelect={page => this.pageSelect(page)}/>
                     <br/>
+                </div>
+                <div className="col-sm-12 text-center">
+                    <br/>
+                    {this.renderAds()}
                 </div>
                 {this.renderPremiumTools()}
                 {this.renderReader()}
@@ -246,7 +261,8 @@ const mapStateToProps = (state) => {
         book: state.BookReducer.book,
         login: state.GlobalReducer.user.login,
         token: state.GlobalReducer.token,
-        goToComments: state.GlobalReducer.goToComments
+        goToComments: state.GlobalReducer.goToComments,
+        userDetails: state.GlobalReducer.user.details
     }
 };
 

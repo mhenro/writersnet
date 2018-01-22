@@ -11,7 +11,8 @@ import {
     REMOVE_NOTIFIES,
     REMOVE_NOTIFY,
     GO_TO_COMMENTS,
-    UPDATE_MUTABLE_DATE
+    UPDATE_MUTABLE_DATE,
+    SET_USER_DETAILS
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -37,7 +38,10 @@ const initialState = {
         email: '',
         login: 'Anonymous',
         password: '',
-        passwordConfirm: ''
+        passwordConfirm: '',
+        details: {
+            premium: false
+        }
     },
     language: 'EN',
     showLoginForm: false,
@@ -153,6 +157,15 @@ const GlobalReducer = (state = initialState, action) => {
 
         case UPDATE_MUTABLE_DATE:
             return Object.assign({}, state, {mutableDate: action.mutableDate});
+
+        case SET_USER_DETAILS:
+            return Object.assign({}, state, {user: {
+                email: state.user.email,
+                login: state.user.login,
+                password: state.user.password,
+                passwordConfirm: state.user.passwordConfirm,
+                details: action.details
+            }});
     }
     return state;
 };
