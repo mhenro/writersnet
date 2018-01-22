@@ -77,7 +77,7 @@ public class AuthenticationService {
         user.setUsername(credentials.getUsername());
         user.setPassword(password);
         user.setEnabled(false);
-        user.setLastName("EN");
+        user.setLanguage("EN");
         user.setAuthority("ROLE_USER");
         user.setOnline(false);
 
