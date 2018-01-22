@@ -21,6 +21,8 @@ public class ChatGroup {
     private User primaryRecipient;
     private List<Message> messages = new ArrayList<>();
     private List<User> users;
+    private Boolean unreadByCreator;
+    private Boolean unreadByRecipient;
 
     @GenericGenerator(
             name = "chat_group_generator",
@@ -102,5 +104,23 @@ public class ChatGroup {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @Column(name = "unread_by_creator")
+    public Boolean getUnreadByCreator() {
+        return unreadByCreator;
+    }
+
+    public void setUnreadByCreator(Boolean unreadByCreator) {
+        this.unreadByCreator = unreadByCreator;
+    }
+
+    @Column(name = "unread_by_recipient")
+    public Boolean getUnreadByRecipient() {
+        return unreadByRecipient;
+    }
+
+    public void setUnreadByRecipient(Boolean unreadByRecipient) {
+        this.unreadByRecipient = unreadByRecipient;
     }
 }

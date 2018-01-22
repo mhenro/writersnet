@@ -23,6 +23,8 @@ public class ChatGroupResponse implements Serializable {
     private String primaryRecipientFullName;
     private String primaryRecipientAvatar;
     private String recipients;
+    private Boolean unreadByCreator;
+    private Boolean unreadByRecipient;
 
     public ChatGroupResponse(final ChatGroup group) {
         if (group == null) {
@@ -38,7 +40,7 @@ public class ChatGroupResponse implements Serializable {
         this.created = group.getCreated();
         this.primaryRecipientFullName = group.getName() == null ? group.getPrimaryRecipient().getFullName() : group.getName();
         this.primaryRecipientAvatar = group.getAvatar() == null ? group.getPrimaryRecipient().getAvatar() : group.getAvatar();
-        final Set<String> recipientSet = messages.stream().map(msg -> msg.getCreatorFullName()).collect(Collectors.toSet());
+        final Set<String> recipientSet = messages.stream().map(Message::getCreatorFullName).collect(Collectors.toSet());
         recipientSet.add(primaryRecipient.getFullName());
         this.recipients = recipientSet.stream().collect(Collectors.joining(", "));
 
@@ -48,6 +50,8 @@ public class ChatGroupResponse implements Serializable {
             this.lastMessageAvatar = lastMessage.getCreator().getAvatar();
             this.lastMessageDate = lastMessage.getCreated();
         }
+        this.unreadByCreator = group.getUnreadByCreator();
+        this.unreadByRecipient = group.getUnreadByRecipient();
     }
 
     public long getId() {
@@ -136,5 +140,21 @@ public class ChatGroupResponse implements Serializable {
 
     public void setRecipients(String recipients) {
         this.recipients = recipients;
+    }
+
+    public Boolean getUnreadByCreator() {
+        return unreadByCreator;
+    }
+
+    public void setUnreadByCreator(Boolean unreadByCreator) {
+        this.unreadByCreator = unreadByCreator;
+    }
+
+    public Boolean getUnreadByRecipient() {
+        return unreadByRecipient;
+    }
+
+    public void setUnreadByRecipient(Boolean unreadByRecipient) {
+        this.unreadByRecipient = unreadByRecipient;
     }
 }

@@ -94,7 +94,6 @@ public class Message {
     }
 
     @Transient
-    @Deprecated
     public String getCreatorFullName() {
         return creator.getFullName();
     }

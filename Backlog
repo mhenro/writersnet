@@ -5,7 +5,6 @@ IN PROGRESS - 30. Add concept of the premium account. It should allow:
                    DONE - higher prioritet in rating and in search. This means that if default account and premium account has the same values/rating then the premium account will be sorted higher;
                    IN PROGRESS - additional tools in account: text analyzer, create private books and so on;
 		   - disable the ads.
-IN PROGRESS - 96. Implement text diff functional like on github to allow reader find new changes in the author book.
 
 
 Features:
@@ -17,7 +16,6 @@ Features:
 21. Add pay gateway.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 29. Support full localization mechanism.
-66. Mark as unread whole chat to determine where unread messages are placed.
 98. Add competitions page. On this page users can add new competition then select its name and prizw fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
@@ -151,3 +149,5 @@ DONE - 97. Add rating field to the book item on Books page.
 DONE - 11. Add "forgot your password?" functional to login form.
 DONE - 99. Fix bug in "Forgot your password?" logic. When user receives an email he should accept password changing and only after this action password will change to random value.
 DONE - 75. Set jwt signing key in application.properties. Inject Environment in every bean, which use jwt. We should remove signing key from src.
+DONE - 96. Implement text diff functional like on github to allow reader find new changes in the author book.
+DONE - 66. Mark as unread whole chat to determine where unread messages are placed.

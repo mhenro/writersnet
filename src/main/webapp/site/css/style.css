@@ -17,6 +17,10 @@ div {
     background-color: #fafad2;
 }
 
+.unread {
+    background-color: #e6ffff;
+}
+
 fieldset.scheduler-border {
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -196,3 +200,4 @@ footer {
     margin-left: 25px;
     margin-right: 25px;
 }
+

@@ -49,11 +49,19 @@ class ChatGroupListItem extends React.Component {
         this.context.router.history.push('/chat/' + this.props.group.id);
     }
 
+    isUnread() {
+        if (this.props.group.creatorId === this.props.author.username) {
+            return this.props.group.unreadByCreator;
+        } else {
+            return this.props.group.unreadByRecipient;
+        }
+    }
+
     render() {
         return (
             <div>
                 <hr/>
-                <div className="row clickable" onClick={() => this.onItemClick()}>
+                <div className={'row clickable ' + (this.isUnread() ? 'unread' : '')} onClick={() => this.onItemClick()}>
                     <div className="col-sm-1 col-xs-3">
                         <img src={this.getGroupAvatar()/* + '?date=' + new Date()*/} className="img-rounded" width="100%" height="auto"/>
                     </div>

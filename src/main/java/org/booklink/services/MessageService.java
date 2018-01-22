@@ -59,6 +59,11 @@ public class MessageService {
             throw new ObjectNotFoundException("Recipient is not found");
         }
         final ChatGroup group = getChatGroup(author, groupId, recipient);
+        if (creator.equals(group.getCreator().getUsername())) {
+            group.setUnreadByRecipient(true);
+        } else {
+            group.setUnreadByCreator(true);
+        }
         final Message message = new Message();
         message.setCreator(author);
         message.setMessage(text);
@@ -120,6 +125,13 @@ public class MessageService {
     @Transactional
     public void markAsReadInGroup(final String userId, final Long groupId) {
         messageRepository.markAsReadInGroup(userId, groupId);
+
+        final ChatGroup group = chatGroupRepository.findOne(groupId);
+        if (userId.equals(group.getCreator().getUsername())) {
+            group.setUnreadByCreator(false);
+        } else {
+            group.setUnreadByRecipient(false);
+        }
     }
 
     private ChatGroup getGroupByRecipient(final User recipient, final User author) {
