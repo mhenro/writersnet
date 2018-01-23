@@ -63,9 +63,9 @@ class BookSerieItem extends React.Component {
     renderCounters() {
         return (
             <div>
-                {this.props.book.views} views |&nbsp;
-                <Link to={'/reader/' + this.props.book.id} onClick={() => this.props.onGoToComments(true)}>{this.props.book.commentsCount} comments</Link> |&nbsp;
-                <Link to={'/reviews/' + this.props.book.id}>{this.props.book.reviewCount} reviews</Link>
+                {this.props.book.views} {getLocale(this.props.language)['views']} |&nbsp;
+                <Link to={'/reader/' + this.props.book.id} onClick={() => this.props.onGoToComments(true)}>{this.props.book.commentsCount} {getLocale(this.props.language)['comments']}</Link> |&nbsp;
+                <Link to={'/reviews/' + this.props.book.id}>{this.props.book.reviewCount} {getLocale(this.props.language)['reviews']}</Link>
             </div>
         )
     }
@@ -114,23 +114,23 @@ class BookSerieItem extends React.Component {
                         <table className="table borderless">
                             <tbody>
                                 <tr>
-                                    <td>Size</td>
+                                    <td>{getLocale(this.props.language)['Size']}</td>
                                     <td>{formatBytes(this.props.book.size) + ' (' + this.getAuthorLists() + ' author sheets)'}</td>
                                 </tr>
                                 <tr>
-                                    <td>Created date</td>
+                                    <td>{getLocale(this.props.language)['Created date']}</td>
                                     <td>{this.getCreated()}</td>
                                 </tr>
                                 <tr>
-                                    <td>Last update</td>
+                                    <td>{getLocale(this.props.language)['Last update']}</td>
                                     <td>{this.getLastUpdated()}</td>
                                 </tr>
                                 <tr>
-                                    <td>Genre</td>
+                                    <td>{getLocale(this.props.language)['Genre']}</td>
                                     <td>{getLocale(this.props.language)[this.props.book.genre]}</td>
                                 </tr>
                                 <tr>
-                                    <td>Language</td>
+                                    <td>{getLocale(this.props.language)['Language']}</td>
                                     <td>{locale[this.props.book.language || 'EN'].label}</td>
                                 </tr>
                             </tbody>
@@ -140,16 +140,16 @@ class BookSerieItem extends React.Component {
                         <hr/>
                         <div className="row">
                             <div className={'col-sm-12 col-md-3 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
-                                <button onClick={() => this.onConfirm()} className="btn btn-danger btn-block">Remove</button>
+                                <button onClick={() => this.onConfirm()} className="btn btn-danger btn-block">{getLocale(this.props.language)['Remove']}</button>
                             </div>
                             <div className={'col-sm-12 col-md-3 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
-                                <button onClick={() => this.props.onEditBook(this.props.book)} className="btn btn-success btn-block">Edit</button>
+                                <button onClick={() => this.props.onEditBook(this.props.book)} className="btn btn-success btn-block">{getLocale(this.props.language)['Edit']}</button>
                             </div>
                             <div className="col-sm-12 col-md-3">
-                                <Link to={'/reader/' + this.props.book.id} className="btn btn-success btn-block">Read</Link>
+                                <Link to={'/reader/' + this.props.book.id} className="btn btn-success btn-block">{getLocale(this.props.language)['Read']}</Link>
                             </div>
                             <div className={'col-sm-12 col-md-3 ' + (this.props.registered ? '' : 'hidden')}>
-                                <button onClick={() => this.props.onAddReview(this.props.book)} className="btn btn-success btn-block">Add review</button>
+                                <button onClick={() => this.props.onAddReview(this.props.book)} className="btn btn-success btn-block">{getLocale(this.props.language)['Add review']}</button>
                             </div>
                         </div>
                     </div>
@@ -159,15 +159,15 @@ class BookSerieItem extends React.Component {
                 {/* delete confirmation dialog */}
                 <Modal show={this.state.confirmDialogShow} onHide={() => this.onCancel()}>
                     <Modal.Header>
-                        Attention!
+                        {getLocale(this.props.language)['Attention!']}
                     </Modal.Header>
                     <Modal.Body>
-                        {'Are you sure you want to delete "' + this.props.book.name + '"?'}
+                        {getLocale(this.props.language)['Are you sure you want to delete']} "{this.props.book.name}"?
                     </Modal.Body>
                     <Modal.Footer>
                         <div className="btn-group">
-                            <Button onClick={() => this.onDelete()} className="btn btn-danger">Delete</Button>
-                            <Button onClick={() => this.onCancel()} className="btn btn-default">Cancel</Button>
+                            <Button onClick={() => this.onDelete()} className="btn btn-danger">{getLocale(this.props.language)['Delete']}</Button>
+                            <Button onClick={() => this.onCancel()} className="btn btn-default">{getLocale(this.props.language)['Cancel']}</Button>
                         </div>
                     </Modal.Footer>
                 </Modal>

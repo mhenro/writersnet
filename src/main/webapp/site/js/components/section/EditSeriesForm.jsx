@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import Select from 'react-select';
+import { getLocale } from '../../locale.jsx';
 
 import {
     createNotify
@@ -167,61 +168,61 @@ class EditSeriesForm extends React.Component {
             <div>
                 <Modal bsSize="large" show={this.props.showEditSeriesForm} onHide={() => this.onClose()} onShow={() => this.onShow()}>
                     <Modal.Header>
-                        Edit your series
+                        {getLocale(this.props.language)['Edit your series']}
                     </Modal.Header>
                     <Modal.Body>
                         <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                             <div className="form-group col-sm-12">
-                                <Button onClick={() => this.onShowAddSerieDialog()} className="btn btn-success">Add new serie</Button>
+                                <Button onClick={() => this.onShowAddSerieDialog()} className="btn btn-success">{getLocale(this.props.language)['Add new serie']}</Button>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-2" htmlFor="serie">Existed series:</label>
+                                <label className="control-label col-sm-2" htmlFor="serie">{getLocale(this.props.language)['Existed series:']}</label>
                                 <div className="col-sm-6">
-                                    <Select value={this.state.selectedSerie} id="serie" options={this.getSeriesItems()} onChange={serie => this.onSeriesChange(serie)} placeholder="Choose the book serie"/>
+                                    <Select value={this.state.selectedSerie} id="serie" options={this.getSeriesItems()} onChange={serie => this.onSeriesChange(serie)} placeholder={getLocale(this.props.language)['Choose the book serie']}/>
                                 </div>
                                 <div className="col-sm-4 btn-group">
-                                    <Button onClick={() => this.onShowConfirmDialog()} className="btn btn-danger">Delete serie</Button>
-                                    <Button onClick={() => this.onShowEditSerieDialog()} className="btn btn-default">Rename serie</Button>
+                                    <Button onClick={() => this.onShowConfirmDialog()} className="btn btn-danger">{getLocale(this.props.language)['Delete serie']}</Button>
+                                    <Button onClick={() => this.onShowEditSerieDialog()} className="btn btn-default">{getLocale(this.props.language)['Rename serie']}</Button>
                                 </div>
                             </div>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={() => this.onClose()} className="btn btn-default">Close</Button>
+                        <Button onClick={() => this.onClose()} className="btn btn-default">{getLocale(this.props.language)['Close']}</Button>
                     </Modal.Footer>
                 </Modal>
 
                 {/* confirmation dialog */}
                 <Modal show={this.state.showConfirmDialog}>
                     <Modal.Header>
-                        Attention
+                        {getLocale(this.props.language)['Attention']}
                     </Modal.Header>
                     <Modal.Body>
-                        {'Are you sure you want to delete "' + this.state.selectedSerie.label + '" serie?'}
+                        {getLocale(this.props.language)['Are you sure you want to delete']} "{this.state.selectedSerie.label}" {getLocale(this.props.language)['serie']}?
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={() => this.onDeleteSerie()} className="btn btn-danger">Yes</Button>
-                        <Button onClick={() => this.onCloseConfirmDialog()} className="btn btn-default">No</Button>
+                        <Button onClick={() => this.onDeleteSerie()} className="btn btn-danger">{getLocale(this.props.language)['Yes']}</Button>
+                        <Button onClick={() => this.onCloseConfirmDialog()} className="btn btn-default">{getLocale(this.props.language)['No']}</Button>
                     </Modal.Footer>
                 </Modal>
 
                 {/* add new serie dialog */}
                 <Modal show={this.state.showAddSerieDialog || this.state.showEditSerieDialog}>
                     <Modal.Header>
-                        {this.state.showAddSerieDialog ? 'Type the name of the new serie' : 'Edit the name of the serie'}
+                        {this.state.showAddSerieDialog ? getLocale(this.props.language)['Type the name of the new serie'] : getLocale(this.props.language)['Edit the name of the serie']}
                     </Modal.Header>
                     <Modal.Body>
                         <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                             <div className="form-group">
                                 <div className="col-sm-12">
-                                    <input type="text" onChange={event => this.onSerieNameChange(event)} value={this.state.newSerieName} className="form-control" placeholder="Enter the serie's name"/>
+                                    <input type="text" onChange={event => this.onSerieNameChange(event)} value={this.state.newSerieName} className="form-control" placeholder={getLocale(this.props.language)['Enter the serie\'s name']}/>
                                 </div>
                             </div>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.state.showAddSerieDialog ? () => this.onAddSerie() : () => this.onRenameSerie()} className="btn btn-success">Save</Button>
-                        <Button onClick={() => this.onCloseAddSerieDialog()} className="btn btn-default">Close</Button>
+                        <Button onClick={this.state.showAddSerieDialog ? () => this.onAddSerie() : () => this.onRenameSerie()} className="btn btn-success">{getLocale(this.props.language)['Save']}</Button>
+                        <Button onClick={() => this.onCloseAddSerieDialog()} className="btn btn-default">{getLocale(this.props.language)['Close']}</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -233,7 +234,8 @@ const mapStateToProps = (state) => {
     return {
         showEditSeriesForm: state.BookReducer.showEditSeriesForm,
         userId: state.AuthorReducer.author.username,
-        token: state.GlobalReducer.token
+        token: state.GlobalReducer.token,
+        language: state.GlobalReducer.language
     }
 };
 

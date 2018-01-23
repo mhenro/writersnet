@@ -47,6 +47,9 @@ class SectionPage extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         this.props.onGetAuthorDetails(this.props.match.params.authorName);
+        setTimeout(() => {
+            this.props.onGetUserDetails(this.props.login);
+        }, 500);
         this.setState({
             friendship: null,
             series: [],
@@ -175,10 +178,11 @@ class SectionPage extends React.Component {
                                     registered={this.props.registered}
                                     login={this.props.login}
                                     onAddToFriends={friend => this.onAddToFriends(friend)}
-                                    friendship={this.state.friendship}/>
+                                    friendship={this.state.friendship}
+                                    language={this.props.language}/>
                     </div>
                     <div className="col-sm-12 col-lg-9">
-                        <AuthorShortInfo author={this.props.author} books={this.state.books}/>
+                        <AuthorShortInfo author={this.props.author} books={this.state.books} language={this.props.language}/>
                     </div>
                 </div>
                 <div className="col-sm-12 panel panel-success">
@@ -229,6 +233,18 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetUserDetails: (userId) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
                     dispatch(setUserDetails(json));
                 }
                 else {

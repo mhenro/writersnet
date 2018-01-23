@@ -27,9 +27,10 @@ Features:
 
 
 Bugs:
+101. Don't send an empty comment for the book.
+100. Fix bug with ads disappearing.
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
-23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
 
 
 Closed:
@@ -152,3 +153,4 @@ DONE - 75. Set jwt signing key in application.properties. Inject Environment in 
 DONE - 96. Implement text diff functional like on github to allow reader find new changes in the author book.
 DONE - 66. Mark as unread whole chat to determine where unread messages are placed.
 DONE - 99. Create layouts for ads.
+DONE - 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.

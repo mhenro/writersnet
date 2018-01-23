@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -10,6 +11,7 @@ import PropTypes from 'prop-types';
     - login - registered user id
     - onAddToFriends - callback function
     - friendship - array of booleans which represents relationships between authors
+    - language
  */
 class AuthorFile extends React.Component {
     static contextTypes = {
@@ -30,12 +32,12 @@ class AuthorFile extends React.Component {
 
     getFriendsButtonCaption() {
         if (this.props.friendship.friend) {
-            return 'Already in friends';
+            return getLocale(this.props.language)['Already in friends'];
         }
         if (this.props.friendship.subscription) {
-            return 'You are already subscribed';
+            return getLocale(this.props.language)['You are already subscribed'];
         }
-        return 'Add to friends';
+        return getLocale(this.props.language)['Add to friends'];
     }
 
     getFriendsButtonClass() {
@@ -65,11 +67,11 @@ class AuthorFile extends React.Component {
                 <div className="row">
                     <div className="col-sm-12" style={{textAlign: 'center'}}>
                         <div className="btn-group-vertical">
-                            <button className={'btn btn-success ' + (this.props.registered && !this.props.me ? '' : 'hidden')}>Send message</button>
+                            <button className={'btn btn-success ' + (this.props.registered && !this.props.me ? '' : 'hidden')}>{getLocale(this.props.language)['Send message']}</button>
                             <br/>
                             <button onClick={() => this.onAddToFriends()} className={this.getFriendsButtonClass()}>{this.getFriendsButtonCaption()}</button>
                             <br/>
-                            <Link to="/options" className={'btn btn-success ' + (this.props.me ? '' : 'hidden')}>Options</Link>
+                            <Link to="/options" className={'btn btn-success ' + (this.props.me ? '' : 'hidden')}>{getLocale(this.props.language)['Options']}</Link>
                         </div>
                     </div>
                 </div>

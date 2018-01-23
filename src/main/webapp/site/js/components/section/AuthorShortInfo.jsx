@@ -6,6 +6,7 @@ import { getLocale } from '../../locale.jsx';
     props:
     - author
     - books - array
+    - language
  */
 class AuthorShortInfo extends React.Component {
     getBirthday() {
@@ -37,7 +38,7 @@ class AuthorShortInfo extends React.Component {
         let totalSize = this.props.books.length > 0 ? this.props.books.map(book => book.size).reduce((a, b) => a + b) : 0,
             formatSize = formatBytes(totalSize),
             bookCount = this.props.books.length;
-        return formatSize + ' / ' + bookCount + ' books';
+        return formatSize + ' / ' + bookCount + ' ' + getLocale(this.props.language)['books'];
     }
 
     getAverageRating() {
@@ -55,34 +56,34 @@ class AuthorShortInfo extends React.Component {
                     <table className="table">
                         <tbody>
                             <tr>
-                                <td>Birthday</td>
+                                <td>{getLocale(this.props.language)['Birthday']}</td>
                                 <td>{this.getBirthday()}</td>
                             </tr>
                             <tr>
-                                <td>City</td>
+                                <td>{getLocale(this.props.language)['City']}</td>
                                 <td>{this.getCity()}</td>
                             </tr>
                             <tr>
-                                <td>Last update</td>
+                                <td>{getLocale(this.props.language)['Last update']}</td>
                                 <td>{this.getLastUpdated()}</td>
                             </tr>
                             <tr>
-                                <td>Preferred languages</td>
+                                <td>{getLocale(this.props.language)['Preferred languages']}</td>
                                 <td>{this.getPreferredLanguages()}</td>
                             </tr>
                             <tr>
-                                <td>Value</td>
+                                <td>{getLocale(this.props.language)['Value']}</td>
                                 <td>{this.getTotalSize()}</td>
                             </tr>
                             <tr>
-                                <td>Rating</td>
+                                <td>{getLocale(this.props.language)['Rating']}</td>
                                 <td>
                                     <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.getAverageRating()} className="stars"/>
                                     <span className="stars-end"><b>{this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}</b></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Visitors</td>
+                                <td>{getLocale(this.props.language)['Visitors']}</td>
                                 <td>{this.getTotalViews()}</td>
                             </tr>
                         </tbody>

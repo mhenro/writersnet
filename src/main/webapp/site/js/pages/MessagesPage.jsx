@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
+import { getLocale } from '../locale.jsx';
 
 import ChatGroupList from '../components/messages/ChatGroupList.jsx';
 import WriteMessageForm from '../components/messages/WriteMessageForm.jsx';
@@ -90,12 +91,12 @@ class MessagesPage extends React.Component {
         return (
             <div>
                 <div className="col-sm-12">
-                    <button onClick={() => this.onWriteMessage()} className="btn btn-danger">Write message</button>
+                    <button onClick={() => this.onWriteMessage()} className="btn btn-danger">{getLocale(this.props.language)['Write message']}</button>
                 </div>
                 <div className="col-sm-12"></div>
                 <div className="col-sm-12">
                     <div className="input-group">
-                        <input type="text" value={this.state.searchPattern} onChange={this.onSearchChange} className="form-control" placeholder="Input chat name" />
+                        <input type="text" value={this.state.searchPattern} onChange={this.onSearchChange} className="form-control" placeholder={getLocale(this.props.language)['Input chat name']} />
                         <div className="input-group-btn">
                             <button className="btn btn-default" type="submit">
                                 <i className="glyphicon glyphicon-search"></i>
@@ -131,7 +132,8 @@ const mapStateToProps = (state) => {
     return {
         login: state.GlobalReducer.user.login,
         token: state.GlobalReducer.token,
-        author: state.AuthorReducer.author
+        author: state.AuthorReducer.author,
+        language: state.GlobalReducer.language
     }
 };
 

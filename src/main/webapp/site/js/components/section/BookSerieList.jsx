@@ -1,5 +1,6 @@
 import React from 'react';
 import BookSerieItem from './BookSerieItem.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -71,7 +72,7 @@ class BookSerieList extends React.Component {
                         <div className="col-sm-12">
                             <div className="panel panel-default">
                                 <div className="panel-heading">
-                                    Books without series
+                                    {getLocale(this.props.language)['Books without series']}
                                 </div>
                                 <div className="panel-body">
                                     {this.getBooksForSerie(null).map((book, key) => {

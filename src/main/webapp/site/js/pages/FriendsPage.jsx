@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
+import { getLocale } from '../locale.jsx';
 
 import FriendList from '../components/friends/FriendList.jsx';
 
@@ -185,7 +186,7 @@ class FriendsPage extends React.Component {
                 </div>
                 <div className="col-sm-12">
                     <div className="input-group">
-                        <input value={this.state.searchPattern} onChange={event => this.onSearchChange(event)} type="text" className="form-control" placeholder="Input friend name" />
+                        <input value={this.state.searchPattern} onChange={event => this.onSearchChange(event)} type="text" className="form-control" placeholder={getLocale(this.props.language)['Input friend name']} />
                             <div className="input-group-btn">
                                 <button className="btn btn-default" type="submit">
                                     <i className="glyphicon glyphicon-search"></i>
@@ -230,7 +231,8 @@ class FriendsPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token
+        token: state.GlobalReducer.token,
+        language: state.GlobalReducer.language
     }
 };
 

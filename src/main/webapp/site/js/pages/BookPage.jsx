@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import BookBriefList from '../components/books/BookBriefList.jsx';
 import { Pagination } from 'react-bootstrap';
+import { getLocale } from '../locale.jsx';
 
 import AlphabetPagination from '../components/AlphabetPagination.jsx';
 import BookFilter from '../components/books/BookFilter.jsx';
@@ -118,7 +119,7 @@ class BookPage extends React.Component {
                 </div>
                 <div className="col-sm-12">
                     <div className="input-group">
-                        <input value={this.state.searchPattern} onChange={event => this.onSearchChange(event)} onKeyDown={key => this.onKeyDown(key)} type="text" className="form-control" placeholder="Input book name" />
+                        <input value={this.state.searchPattern} onChange={event => this.onSearchChange(event)} onKeyDown={key => this.onKeyDown(key)} type="text" className="form-control" placeholder={getLocale(this.props.language)['Input book name']} />
                         <div className="input-group-btn">
                             <button className="btn btn-default" type="submit">
                                 <i className="glyphicon glyphicon-search"></i>
@@ -134,11 +135,11 @@ class BookPage extends React.Component {
                                 onLanguageChange={language => this.onLanguageChange(language)}/>
                 </div>
                 <div className="col-sm-12">
-                    Sort by:&nbsp;
+                    {getLocale(this.props.language)['Sort by:']}&nbsp;
                     <div className="btn-group">
-                        <button onClick={() => this.selectSortType('name')} className={this.getSortClass('name')}>Name</button>
-                        <button onClick={() => this.selectSortType('totalRating')} className={this.getSortClass('totalRating')}>Rating</button>
-                        <button onClick={() => this.selectSortType('lastUpdate')} className={this.getSortClass('lastUpdate')}>Last update</button>
+                        <button onClick={() => this.selectSortType('name')} className={this.getSortClass('name')}>{getLocale(this.props.language)['Name']}</button>
+                        <button onClick={() => this.selectSortType('totalRating')} className={this.getSortClass('totalRating')}>{getLocale(this.props.language)['Rating']}</button>
+                        <button onClick={() => this.selectSortType('lastUpdate')} className={this.getSortClass('lastUpdate')}>{getLocale(this.props.language)['Last update']}</button>
                     </div>
                 </div>
                 <div className="col-sm-12 text-center">

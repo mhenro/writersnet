@@ -5,6 +5,7 @@ import { Pagination } from 'react-bootstrap';
 import TopSelector from '../components/rating/TopSelector.jsx';
 import BookTopTable from '../components/rating/BookTopTable.jsx';
 import AuthorTopTable from '../components/rating/AuthorTopTable.jsx';
+import { getLocale } from '../locale.jsx';
 
 import {
     createNotify
@@ -149,7 +150,7 @@ class RatingPage extends React.Component {
     render() {
         return (
             <div>
-                <h4>Author tops</h4>
+                <h4>{getLocale(this.props.language)['Author tops']}</h4>
                 <Pagination
                     className={'shown'}
                     prev
@@ -172,7 +173,7 @@ class RatingPage extends React.Component {
                     <AuthorTopTable authors={this.state.topAuthors} top={this.state.authorTop}/>
                 </div>
 
-                <h4>Book tops</h4>
+                <h4>{getLocale(this.props.language)['Book tops']}</h4>
                 <Pagination
                     className={'shown'}
                     prev
@@ -201,6 +202,7 @@ class RatingPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        language: state.GlobalReducer.language
     }
 };
 

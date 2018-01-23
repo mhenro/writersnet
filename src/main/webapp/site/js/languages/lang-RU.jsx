@@ -54,5 +54,117 @@ export const RU = {
     'Enter your new password': 'Введите свой новый пароль',
     'Confirm new password:': 'Повторите новый пароль:',
     'Confirm your new password': 'Введите новый пароль еще раз',
-    'Change password': 'Изменить пароль'
+    'Change password': 'Изменить пароль',
+
+    /* AuthorFile */
+    'Send message': 'Отправить сообщение',
+    'Add to friends': 'Добавить в друзья',
+    'Already in friends': 'Уже в друзьях',
+    'You are already subscribed': 'Вы уже подписаны',
+    'Options': 'Настройки',
+
+    /* AuthorShortInfo */
+    'Birthday': 'Дата рождения',
+    'City': 'Город',
+    'Last update': 'Последнее обновление',
+    'Preferred languages': 'Предпочитаемые языки',
+    'Value': 'Объем',
+    'Rating': 'Рейтинг',
+    'Visitors': 'Посетители',
+    'books': 'Книги',
+
+    /* BookPropsForm */
+    'Adding a new book': 'Добавление новой книги',
+    'Name:': 'Название:',
+    'Enter the book name': 'Введите название книги',
+    'Description:': 'Описание:',
+    'Enter the book description': 'Введите описание книги',
+    'Serie\'s name:': 'Название серии:',
+    'Without serie': 'Вне серии',
+    'Choose the book serie': 'Выберите серию для книги',
+    'Genre:': 'Жанр:',
+    'Choose the book genre': 'Выберите жанр книги',
+    'Language:': 'Язык:',
+    'Choose the book language': 'Выберите язык книги',
+    'For non-premium users image size should not be larger than 100Kb': 'Для обычных пользователей размер изображения не должен превышать 100Кб',
+    'For non-premium users book text size should not be larger than 10Mb': 'Для обычных пользователей размер текста книги не должен превышать 10Мб',
+    'Editing': 'Редактирование',
+    'Cover': 'Обложка',
+    'Choose the book cover': 'Выбрать обложку книги',
+    'Restore default cover': 'Сделать обложку по умолчанию',
+    'Load file from your computer': 'Загрузить файл с компьютера',
+    'Text': 'Текст',
+    'last updated at': 'Последний раз обновлялось',
+    'Close': 'Закрыть',
+
+    /* BookSerieList */
+    'Books without series': 'Книги вне серий',
+    'views': 'просмотров',
+    'comments': 'комментариев',
+    'reviews': 'обзоров',
+    'Size': 'Размер',
+    'Created date': 'Дата создания',
+    'Genre': 'Жанр',
+    'Language': 'Язык',
+    'Remove': 'Удалить',
+    'Edit': 'Редактировать',
+    'Read': 'Читать',
+    'Add review': 'Добавить обзор',
+    'Attention!': 'Внимание!',
+    'Are you sure you want to delete': 'Вы действительно хотите удалить',
+    'Delete': 'Удалить',
+    'Cancel': 'Отмена',
+
+    /* EditSeriesForm */
+    'Edit your series': 'Редактирование серий',
+    'Add new serie': 'Добавить новую серию',
+    'Existed series:': 'Существующие серии:',
+    'Delete serie': 'Удалить серию',
+    'Rename serie': 'Переименовать серию',
+    'Yes': 'Да',
+    'No': 'Нет',
+    'Enter the serie\'s name': 'Введите название серии',
+    'Attention': 'Внимание',
+    'serie': 'серию',
+    'Type the name of the new serie' : 'Введите название новой серии',
+    'Edit the name of the serie': 'Измените название серии',
+
+    /* ReviewForm */
+    'Add new review to': 'Добавить новый обзор',
+    'Enter the review name': 'Введите название обзора',
+    'Score:': 'Оценка:',
+    'Choose your score for this book': 'Укажите оценку для этой книги',
+
+    /* ReviewPage */
+    'Book:': 'Книга:',
+    'Nothing found': 'Ничего не найдено',
+    'Searching...': 'Поиск...',
+    'Select a book': 'Выберите книгу',
+
+    /* RatingPage */
+    'Author tops': 'Топ авторов',
+    'Book tops': 'Топ книг',
+
+    /* MessagesPage */
+    'Write message': 'Написать сообщение',
+    'Input chat name': 'Введите название чата',
+
+    /* FriendsPage */
+    'Input friend name': 'Введите имя друга',
+
+    /* DiscussionPage */
+    'Novel': 'Произведение',
+    'Author': 'Автор',
+    'Comment author': 'Автор комментария',
+    'Comment': 'Комментарий',
+    'Last comment date': 'Дата последнего комментария',
+
+    /* BookPage */
+    'Input book name': 'Введите название книги',
+    'Sort by:': 'Сортировать по:',
+    'Name': 'Наименованию',
+
+    /* AuthorPage */
+    'Input author name': 'Введите имя автора',
+    'Online': 'В сети'
 };

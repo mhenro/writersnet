@@ -3,6 +3,7 @@ import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../utils.jsx';
+import { getLocale } from '../locale.jsx';
 
 import {
     createNotify
@@ -148,11 +149,11 @@ class DiscussionPage extends React.Component {
                     <table className="table table-hover">
                         <thead>
                             <tr>
-                                <td>Novel</td>
-                                <td>Author</td>
-                                <td>Comment author</td>
-                                <td>Comment</td>
-                                <td>Last comment date</td>
+                                <td>{getLocale(this.props.language)['Novel']}</td>
+                                <td>{getLocale(this.props.language)['Author']}</td>
+                                <td>{getLocale(this.props.language)['Comment author']}</td>
+                                <td>{getLocale(this.props.language)['Comment']}</td>
+                                <td>{getLocale(this.props.language)['Last comment date']}</td>
                             </tr>
                         </thead>
                         {this.renderComments()}
@@ -179,7 +180,7 @@ class DiscussionPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-
+        language: state.GlobalReducer.language
     }
 };
 

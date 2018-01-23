@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import { formatDate } from '../../utils.jsx';
+import { locale, getLocale } from '../../locale.jsx';
 
 import {
     createNotify
@@ -24,14 +25,13 @@ import { setToken } from '../../actions/AuthActions.jsx';
 
 import FileUploader from '../FileUploader.jsx';
 
-import { locale, getLocale } from '../../locale.jsx';
-
 /*
     props:
     - showBookPropsForm
     - editableBook
     - author
     - onCloseUpdate - callback
+    - language
  */
 class BookPropsForm extends React.Component {
     constructor(props) {
@@ -40,7 +40,7 @@ class BookPropsForm extends React.Component {
         this.state = {
             name: '',
             description: '',
-            serie: {value: null, label: 'Without serie'},
+            serie: {value: null, label: getLocale(this.props.language)['Without serie']},
             genre: null,
             language: null,
             cover: '',
@@ -57,7 +57,7 @@ class BookPropsForm extends React.Component {
             this.setState({
                 name: '',
                 description: '',
-                serie: {value: null, label: 'Without serie'},
+                serie: {value: null, label: getLocale(this.props.language)['Without serie']},
                 genre: null,
                 language: null,
                 cover: '',
@@ -75,7 +75,7 @@ class BookPropsForm extends React.Component {
         this.setState({
             name: book.name,
             description: book.description,
-            serie: book.bookSerie ? {value: book.bookSerie.id, label: book.bookSerie.name} : {value: null, label: 'Without serie'},
+            serie: book.bookSerie ? {value: book.bookSerie.id, label: book.bookSerie.name} : {value: null, label: getLocale(this.props.language)['Without serie']},
             genre: {value: book.genre, label: getLocale(this.props.language)[book.genre]},
             language: {value: book.language, label: locale[book.language || 'EN'].label},
             cover: book.cover,
@@ -115,7 +115,7 @@ class BookPropsForm extends React.Component {
     }
 
     getSerieItems() {
-        let options = [{value: null, label: 'Without serie'}];
+        let options = [{value: null, label: getLocale(this.props.language)['Without serie']}];
         this.props.series.forEach(serie => {
             options.push({
                 value: serie.id,
@@ -166,7 +166,7 @@ class BookPropsForm extends React.Component {
 
     onCoverChange(event) {
         if (event.target.files[0].size >= 102400 && !this.props.author.premium) {
-            this.props.onCreateNotify('warning', 'Warning', 'For non-premium users image size should not be larger than 100Kb');
+            this.props.onCreateNotify('warning', 'Warning', getLocale(this.props.language)['For non-premium users image size should not be larger than 100Kb']);
             return;
         }
         let formData = new FormData();
@@ -183,7 +183,7 @@ class BookPropsForm extends React.Component {
 
     onSaveText(event) {
         if (event.target.files[0].size >= 10485760 && !this.props.author.premium) {
-            this.props.onCreateNotify('warning', 'Warning', 'For non-premium users book text size should not be larger than 10Mb');
+            this.props.onCreateNotify('warning', 'Warning', getLocale(this.props.language)['For non-premium users book text size should not be larger than 10Mb']);
             return;
         }
         let bookTextRequest = new FormData;
@@ -219,44 +219,44 @@ class BookPropsForm extends React.Component {
         return (
             <Modal show={this.props.showBookPropsForm} onHide={() => this.close()} onShow={() => this.onShow()}>
                 <Modal.Header>
-                    {this.props.editableBook ? 'Editing "' + this.props.editableBook.name + '"' : 'Adding a new book'}
+                    {this.props.editableBook ? getLocale(this.props.language)['Editing'] + ' "' + this.props.editableBook.name + '"' : getLocale(this.props.language)['Adding a new book']}
                 </Modal.Header>
                 <Modal.Body>
                     <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="name">Name:</label>
+                            <label className="control-label col-sm-2" htmlFor="name">{getLocale(this.props.language)['Name:']}</label>
                             <div className="col-sm-10">
-                                <input value={this.state.name} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="name" placeholder="Enter the book name" name="name"/>
+                                <input value={this.state.name} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="name" placeholder={getLocale(this.props.language)['Enter the book name']} name="name"/>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="description">Description:</label>
+                            <label className="control-label col-sm-2" htmlFor="description">{getLocale(this.props.language)['Description:']}</label>
                             <div className="col-sm-10">
-                                <input value={this.state.description} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="description" placeholder="Enter the book description" name="description"/>
+                                <input value={this.state.description} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="description" placeholder={getLocale(this.props.language)['Enter the book description']} name="description"/>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="serie">Serie's name:</label>
+                            <label className="control-label col-sm-2" htmlFor="serie">{getLocale(this.props.language)['Serie\'s name:']}</label>
                             <div className="col-sm-10">
-                                <Select value={this.state.serie} id="serie" options={this.getSerieItems()} onChange={serie => this.onSerieChange(serie)} placeholder="Choose the book serie"/>
+                                <Select value={this.state.serie} id="serie" options={this.getSerieItems()} onChange={serie => this.onSerieChange(serie)} placeholder={getLocale(this.props.language)['Choose the book serie']}/>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="genre">Genre:</label>
+                            <label className="control-label col-sm-2" htmlFor="genre">{getLocale(this.props.language)['Genre:']}</label>
                             <div className="col-sm-10">
-                                <Select value={this.state.genre} id="genre" options={this.getGenreItems()} onChange={genre => this.onGenreChange(genre)} placeholder="Choose the book genre"/>
+                                <Select value={this.state.genre} id="genre" options={this.getGenreItems()} onChange={genre => this.onGenreChange(genre)} placeholder={getLocale(this.props.language)['Choose the book genre']}/>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="language">Language:</label>
+                            <label className="control-label col-sm-2" htmlFor="language">{getLocale(this.props.language)['Language:']}</label>
                             <div className="col-sm-10">
-                                <Select value={this.state.language} id="language" options={this.getLanguageItems()} onChange={lang => this.onLanguageChange(lang)} placeholder="Choose the book language"/>
+                                <Select value={this.state.language} id="language" options={this.getLanguageItems()} onChange={lang => this.onLanguageChange(lang)} placeholder={getLocale(this.props.language)['Choose the book language']}/>
                             </div>
                         </div>
 
                         <div className={'panel panel-default ' + (this.props.editableBook ? '' : 'hidden')}>
                             <div className="panel-heading">
-                                Cover
+                                {getLocale(this.props.language)['Cover']}
                             </div>
                             <div className="panel-body">
                                 <div className="col-sm-4">
@@ -265,14 +265,14 @@ class BookPropsForm extends React.Component {
                                 <div className="col-sm-8" style={{textAlign: 'center'}}>
                                     <div className="btn-group-vertical">
                                         <FileUploader
-                                            btnName="Choose the book cover"
+                                            btnName={getLocale(this.props.language)['Choose the book cover']}
                                             name="cover"
                                             accept=".png,.jpg"
                                             className="btn btn-success"
                                             onChange={event => this.onCoverChange(event)}
                                         />
                                         <br/>
-                                        <button onClick={() => this.onRestoreDefaultCover()} type="button" className="btn btn-success">Restore default cover</button>
+                                        <button onClick={() => this.onRestoreDefaultCover()} type="button" className="btn btn-success">{getLocale(this.props.language)['Restore default cover']}</button>
                                     </div>
                                 </div>
                             </div>
@@ -280,13 +280,13 @@ class BookPropsForm extends React.Component {
 
                         <div className={'panel panel-default ' + (this.props.editableBook ? '' : 'hidden')}>
                             <div className="panel-heading">
-                                Text {'(last updated at ' + this.getLastUpdated() + ')'}
+                                {getLocale(this.props.language)['Text']} + ({getLocale(this.props.language)['last updated at']} {this.getLastUpdated()})
                             </div>
                             <div className="panel-body">
                                 <div className="col-sm-12" style={{textAlign: 'center'}}>
                                     <div className="btn-group-vertical">
                                         <FileUploader
-                                            btnName="Load file from your computer"
+                                            btnName={getLocale(this.props.language)['Load file from your computer']}
                                             name="text"
                                             accept=".txt,.docx,.pdf"
                                             className="btn btn-success"
@@ -301,8 +301,8 @@ class BookPropsForm extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-group">
-                        <Button onClick={() => this.save()} className="btn btn-success">Save</Button>
-                        <Button onClick={() => this.close()} className="btn btn-default">Close</Button>
+                        <Button onClick={() => this.save()} className="btn btn-success">{getLocale(this.props.language)['Save']}</Button>
+                        <Button onClick={() => this.close()} className="btn btn-default">{getLocale(this.props.language)['Close']}</Button>
                     </div>
                 </Modal.Footer>
             </Modal>

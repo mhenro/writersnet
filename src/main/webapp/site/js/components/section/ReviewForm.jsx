@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import TextEditor from '../texteditor/TextEditor.jsx';
+import { getLocale } from '../../locale.jsx';
 
 import { closeReviewForm } from '../../actions/BookActions.jsx';
 import { saveReview } from '../../actions/ReviewActions.jsx';
@@ -105,24 +106,24 @@ class ReviewForm extends React.Component {
         return (
             <Modal show={this.props.showReviewForm} onHide={() => this.onClose()} onShow={() => this.onShow()}>
                 <Modal.Header>
-                    Add new review to {this.getBookName()}
+                    {getLocale(this.props.language)['Add new review to'] + ' ' + this.getBookName()}
                 </Modal.Header>
                 <Modal.Body>
                     <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="name">Name:</label>
+                            <label className="control-label col-sm-2" htmlFor="name">{getLocale(this.props.language)['Name:']}</label>
                             <div className="col-sm-10">
-                                <input value={this.state.name} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="name" placeholder="Enter the review name" name="name"/>
+                                <input value={this.state.name} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="name" placeholder={getLocale(this.props.language)['Enter the review name']} name="name"/>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="score">Score:</label>
+                            <label className="control-label col-sm-2" htmlFor="score">{getLocale(this.props.language)['Score:']}</label>
                             <div className="col-sm-10">
                                 <Select value={this.state.score}
                                         id="score"
                                         options={this.getScoreItems()}
                                         onChange={score => this.onScoreChange(score)}
-                                        placeholder="Choose your score for this book"
+                                        placeholder={getLocale(this.props.language)['Choose your score for this book']}
                                         menuContainerStyle={{zIndex: '9999'}}/>
                             </div>
                         </div>
@@ -131,8 +132,8 @@ class ReviewForm extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-group">
-                        <Button onClick={() => this.onSave()} className="btn btn-success">Save</Button>
-                        <Button onClick={() => this.onClose()} className="btn btn-default">Close</Button>
+                        <Button onClick={() => this.onSave()} className="btn btn-success">{getLocale(this.props.language)['Save']}</Button>
+                        <Button onClick={() => this.onClose()} className="btn btn-default">{getLocale(this.props.language)['Close']}</Button>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -145,7 +146,8 @@ const mapStateToProps = (state) => {
         showReviewForm: state.BookReducer.showReviewForm,
         editableBook: state.BookReducer.editableBook,
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token
+        token: state.GlobalReducer.token,
+        language: state.GlobalReducer.language
     }
 };
 

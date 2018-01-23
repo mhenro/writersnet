@@ -5,6 +5,7 @@ import Select from 'react-select';
 
 import ReviewList from '../components/review/ReviewList.jsx';
 import ReviewReaderForm from '../components/review/ReviewReaderForm.jsx';
+import { getLocale } from '../locale.jsx';
 
 import { createNotify } from '../actions/GlobalActions.jsx';
 import { getReviews } from '../actions/ReviewActions.jsx';
@@ -83,16 +84,16 @@ class ReviewPage extends React.Component {
                 <div className="col-sm-12">
                     <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="book">Book:</label>
+                            <label className="control-label col-sm-2" htmlFor="book">{getLocale(this.props.language)['Book:']}</label>
                             <div className="col-sm-10">
                                 <Select.Async value={this.state.book}
                                               id="book"
                                               loadOptions={value => this.loadBooks(value)}
                                               onChange={book => this.onBookChange(book)}
                                               filterOption={(option, filter) => this.filterOption(option, filter)}
-                                              noResultsText="Nothing found"
-                                              loadingPlaceholder="Searching..."
-                                              placeholder="Select a book"/>
+                                              noResultsText={getLocale(this.props.language)['Nothing found']}
+                                              loadingPlaceholder={getLocale(this.props.language)['Searching...']}
+                                              placeholder={getLocale(this.props.language)['Select a book']}/>
                             </div>
                         </div>
                     </form>
@@ -128,7 +129,8 @@ class ReviewPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        authors: state.AuthorReducer.authors
+        authors: state.AuthorReducer.authors,
+        language: state.GlobalReducer.language
     }
 };
 

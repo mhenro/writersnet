@@ -3,6 +3,8 @@ import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import AuthorList from '../components/authors/AuthorList.jsx';
 import AlphabetPagination from '../components/AlphabetPagination.jsx';
+import { getLocale } from '../locale.jsx';
+
 import {
     getAuthors,
     getAuthorsByFirstLetter,
@@ -93,7 +95,7 @@ class AuthorPage extends React.Component {
                 </div>
                 <div className="col-sm-12">
                     <div className="input-group">
-                        <input value={this.state.searchPattern} onChange={event => this.onSearchChange(event)} onKeyDown={key => this.onKeyDown(key)} type="text" className="form-control" placeholder="Input author name" />
+                        <input value={this.state.searchPattern} onChange={event => this.onSearchChange(event)} onKeyDown={key => this.onKeyDown(key)} type="text" className="form-control" placeholder={getLocale(this.props.language)['Input author name']} />
                         <div className="input-group-btn">
                             <button className="btn btn-default" type="submit">
                                 <i className="glyphicon glyphicon-search"></i>
@@ -103,11 +105,11 @@ class AuthorPage extends React.Component {
                     <br/>
                 </div>
                 <div className="col-sm-12">
-                    Sort by:&nbsp;
+                    {getLocale(this.props.language)['Sort by:']}&nbsp;
                     <div className="btn-group">
-                        <button onClick={() => this.selectSortType('firstName')} className={this.getSortClass('firstName')}>Name</button>
-                        <button onClick={() => this.selectSortType('totalRating')} className={this.getSortClass('totalRating')}>Rating</button>
-                        <button onClick={() => this.selectSortType('online')} className={this.getSortClass('online')}>Online</button>
+                        <button onClick={() => this.selectSortType('firstName')} className={this.getSortClass('firstName')}>{getLocale(this.props.language)['Name']}</button>
+                        <button onClick={() => this.selectSortType('totalRating')} className={this.getSortClass('totalRating')}>{getLocale(this.props.language)['Rating']}</button>
+                        <button onClick={() => this.selectSortType('online')} className={this.getSortClass('online')}>{getLocale(this.props.language)['Online']}</button>
                     </div>
                 </div>
                 <div className="col-sm-12 text-center">
@@ -150,7 +152,8 @@ class AuthorPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        authors: state.AuthorReducer.authors
+        authors: state.AuthorReducer.authors,
+        language: state.GlobalReducer.language
     }
 };
 
