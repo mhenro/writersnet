@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
+import { getLocale } from '../locale.jsx';
 
 import UserAgreement from './UserAgreement.jsx';
 import ForgotPasswordForm from './ForgotPasswordForm.jsx';
@@ -107,42 +108,42 @@ class LoginForm extends React.Component {
                 <Modal show={this.props.showLoginForm} onHide={this.close}>
                     <Modal.Body>
                         <ul className="nav nav-tabs">
-                            <li className={this.getActiveItem('sign-up')}><a href="#" onClick={() => this.onItemClick('sign-up')}>Sign up</a></li>
-                            <li className={this.getActiveItem('log-in')}><a href="#" onClick={() => this.onItemClick('log-in')}>Log in</a></li>
+                            <li className={this.getActiveItem('sign-up')}><a href="#" onClick={() => this.onItemClick('sign-up')}>{getLocale(this.props.language)['Sign up']}</a></li>
+                            <li className={this.getActiveItem('log-in')}><a href="#" onClick={() => this.onItemClick('log-in')}>{getLocale(this.props.language)['Log in']}</a></li>
                         </ul>
                         <br/>
                         <form onSubmit={this.onSubmit}>
                             {this.state.activeItem === 'sign-up' ?
                                 <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="Email"
+                                    <input type="text" className="form-control" placeholder={getLocale(this.props.language)['Email']}
                                            onChange={this.onEmailChange}/>
                                 </div> : null
                             }
                             <div className="form-group">
-                                <input type="text" className="form-control" placeholder="Login" onChange={this.onLoginChange}/>
+                                <input type="text" className="form-control" placeholder={getLocale(this.props.language)['Login']} onChange={this.onLoginChange}/>
                             </div>
                             <div className="form-group">
-                                <input type="password" className="form-control" placeholder="Password" onChange={this.onPasswordChange}/>
+                                <input type="password" className="form-control" placeholder={getLocale(this.props.language)['Password']} onChange={this.onPasswordChange}/>
                             </div>
                             {this.state.activeItem === 'sign-up' ?
                                 <div className="form-group">
-                                    <input type="password" className="form-control" placeholder="Confirm password"
+                                    <input type="password" className="form-control" placeholder={getLocale(this.props.language)['Confirm password']}
                                            onChange={this.onPasswordConfirmChange}/>
                                 </div> : null
                             }
                             {this.state.activeItem === 'sign-up' ?
                                 <div className="checkbox">
-                                    <label><input type="checkbox" onClick={this.policyClick} checked={this.state.policyAgreed}/> I agree with <a href="#" onClick={() => this.onReadUserPolicy()}>user agreement</a></label>
+                                    <label><input type="checkbox" onClick={this.policyClick} checked={this.state.policyAgreed}/> {getLocale(this.props.language)['I agree with']} <a href="#" onClick={() => this.onReadUserPolicy()}>{getLocale(this.props.language)['user agreement']}</a></label>
                                 </div>
-                                : <a onClick={() => this.props.onOpenForgotPasswordForm()} href="#">Forgot your password?</a>
+                                : <a onClick={() => this.props.onOpenForgotPasswordForm()} href="#">{getLocale(this.props.language)['Forgot your password?']}</a>
                             }
                             <div className="text-center">
-                                <button type="submit" className="btn btn-success">{this.state.activeItem === 'sign-up' ? 'Register' : 'Login'}</button>
+                                <button type="submit" className="btn btn-success">{getLocale(this.props.language)[this.state.activeItem === 'sign-up' ? 'Register' : 'Login']}</button>
                             </div>
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.close}>Close</Button>
+                        <Button onClick={this.close}>{getLocale(this.props.language)['Close']}</Button>
                     </Modal.Footer>
                 </Modal>
                 <UserAgreement/>
@@ -162,6 +163,7 @@ const mapStateToProps = (state) => {
         login: state.GlobalReducer.user.login,
         password: state.GlobalReducer.user.password,
         passwordConfirm: state.GlobalReducer.user.passwordConfirm,
+        language: state.GlobalReducer.language
     }
 };
 

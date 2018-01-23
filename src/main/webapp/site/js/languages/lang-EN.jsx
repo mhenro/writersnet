@@ -166,5 +166,16 @@ export const EN = {
 
     /* AuthorPage */
     'Input author name': 'Input author name',
-    'Online': 'Online'
+    'Online': 'Online',
+
+    /* LoginForm */
+    'Sign up': 'Sign up',
+    'Email': 'Email',
+    'Login': 'Login',
+    'Password': 'Password',
+    'Confirm password': 'Confirm password',
+    'I agree with': 'I agree with',
+    'user agreement': 'user agreement',
+    'Forgot your password?': 'Forgot your password?',
+    'Register': 'Register'
 };

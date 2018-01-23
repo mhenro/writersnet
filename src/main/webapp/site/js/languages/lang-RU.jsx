@@ -166,5 +166,16 @@ export const RU = {
 
     /* AuthorPage */
     'Input author name': 'Введите имя автора',
-    'Online': 'В сети'
+    'Online': 'В сети',
+
+    /* LoginForm */
+    'Sign up': 'Регистрация',
+    'Email': 'Почта',
+    'Login': 'Логин',
+    'Password': 'Пароль',
+    'Confirm password': 'Подтвердите пароль',
+    'I agree with': 'Я согласен с',
+    'user agreement': 'пользовательским соглашением',
+    'Forgot your password?': 'Забыли пароль?',
+    'Register': 'Зарегистрироваться'
 };
