@@ -224,5 +224,18 @@ export const RU = {
     'Your personal info': 'Ваши персональные данные',
     'Your message': 'Ваше сообщение',
     'Subject:': 'Тема:',
-    'Enter the code from the picture above': 'Введите код с картинки'
+    'Enter the code from the picture above': 'Введите код с картинки',
+
+    /* TopSelector */
+    'Novels count': 'Количество произведений',
+    'Comments count': 'Количество комментариев',
+    'Views count': 'Количество просмотров',
+    'Novelties': 'Новинки',
+    'Novel volume': 'Объем произведения',
+    'Top by:': 'Сортировать по:',
+
+    /* AuthorTopTable */
+    'Total votes': 'Количество оценок',
+    'Views': 'Просмотры',
+    'Volume': 'Объем'
 };

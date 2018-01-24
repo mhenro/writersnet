@@ -224,5 +224,18 @@ export const EN = {
     'Your personal info': 'Your personal info',
     'Your message': 'Your message',
     'Subject:': 'Subject:',
-    'Enter the code from the picture above': 'Enter the code from the picture above'
+    'Enter the code from the picture above': 'Enter the code from the picture above',
+
+    /* TopSelector */
+    'Novels count': 'Novels count',
+    'Comments count': 'Comments count',
+    'Views count': 'Views count',
+    'Novelties': 'Novelties',
+    'Novel volume': 'Novel volume',
+    'Top by:': 'Top by:',
+
+    /* AuthorTopTable */
+    'Total votes': 'Total votes',
+    'Views': 'Views',
+    'Volume': 'Volume'
 };

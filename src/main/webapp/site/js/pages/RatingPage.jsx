@@ -164,13 +164,13 @@ class RatingPage extends React.Component {
                     activePage={this.state.activeAuthorPage}
                     onSelect={this.topAuthorSelect}/>
                 <div className="col-sm-12">
-                    <TopSelector author={true} onTopClick={this.onTopAuthorClick}/>
+                    <TopSelector author={true} onTopClick={this.onTopAuthorClick} language={this.props.language}/>
                 </div>
                 <div className="col-sm-12">
                     <br/>
                 </div>
                 <div className="col-sm-12">
-                    <AuthorTopTable authors={this.state.topAuthors} top={this.state.authorTop}/>
+                    <AuthorTopTable authors={this.state.topAuthors} top={this.state.authorTop} language={this.props.language}/>
                 </div>
 
                 <h4>{getLocale(this.props.language)['Book tops']}</h4>
@@ -187,13 +187,13 @@ class RatingPage extends React.Component {
                     activePage={this.state.activeBookPage}
                     onSelect={this.topBookSelect}/>
                 <div className="col-sm-12">
-                    <TopSelector book={true} onTopClick={this.onTopBookClick}/>
+                    <TopSelector book={true} onTopClick={this.onTopBookClick} language={this.props.language}/>
                 </div>
                 <div className="col-sm-12">
                     <br/>
                 </div>
                 <div className="col-sm-12">
-                    <BookTopTable books={this.state.topBooks} top={this.state.bookTop}/>
+                    <BookTopTable books={this.state.topBooks} top={this.state.bookTop} language={this.props.language}/>
                 </div>
             </div>
         )

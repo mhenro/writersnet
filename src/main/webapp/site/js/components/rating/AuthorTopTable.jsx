@@ -3,11 +3,13 @@ import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 
 import { getHost } from '../../utils.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
     - authors
     - top - name of the top
+    - language
  */
 class AuthorTopTable extends React.Component {
     getAuthorRatingHeader() {
@@ -15,9 +17,9 @@ class AuthorTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Author</th>
-                <th>Rating</th>
-                <th>Total votes</th>
+                <th>{getLocale(this.props.language)['Author']}</th>
+                <th>{getLocale(this.props.language)['Rating']}</th>
+                <th>{getLocale(this.props.language)['Total votes']}</th>
             </tr>
             </thead>
         )
@@ -28,8 +30,8 @@ class AuthorTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Author</th>
-                <th>Novels count</th>
+                <th>{getLocale(this.props.language)['Author']}</th>
+                <th>{getLocale(this.props.language)['Novels count']}</th>
             </tr>
             </thead>
         )
@@ -40,8 +42,8 @@ class AuthorTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Author</th>
-                <th>Comments count</th>
+                <th>{getLocale(this.props.language)['Author']}</th>
+                <th>{getLocale(this.props.language)['Comments count']}</th>
             </tr>
             </thead>
         )
@@ -52,8 +54,8 @@ class AuthorTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Author</th>
-                <th>Views</th>
+                <th>{getLocale(this.props.language)['Author']}</th>
+                <th>{getLocale(this.props.language)['Views']}</th>
             </tr>
             </thead>
         )

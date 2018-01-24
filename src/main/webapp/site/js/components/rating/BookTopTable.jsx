@@ -2,11 +2,13 @@ import React from 'react';
 import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 import { formatDate, formatBytes } from '../../utils.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
     - books
     - top - name of the top
+    - language
  */
 class BookTopTable extends React.Component {
     getBookNoveltyHeader() {
@@ -14,8 +16,8 @@ class BookTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Novel</th>
-                <th>Last update</th>
+                <th>{getLocale(this.props.language)['Novel']}</th>
+                <th>{getLocale(this.props.language)['Last update']}</th>
             </tr>
             </thead>
         )
@@ -26,9 +28,9 @@ class BookTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Novel</th>
-                <th>Rating</th>
-                <th>Total votes</th>
+                <th>{getLocale(this.props.language)['Novel']}</th>
+                <th>{getLocale(this.props.language)['Rating']}</th>
+                <th>{getLocale(this.props.language)['Total votes']}</th>
             </tr>
             </thead>
         )
@@ -39,8 +41,8 @@ class BookTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Novel</th>
-                <th>Volume</th>
+                <th>{getLocale(this.props.language)['Novel']}</th>
+                <th>{getLocale(this.props.language)['Volume']}</th>
             </tr>
             </thead>
         )
@@ -51,8 +53,8 @@ class BookTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Novel</th>
-                <th>Comments count</th>
+                <th>{getLocale(this.props.language)['Novel']}</th>
+                <th>{getLocale(this.props.language)['Comments count']}</th>
             </tr>
             </thead>
         )
@@ -63,8 +65,8 @@ class BookTopTable extends React.Component {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Novel</th>
-                <th>Views</th>
+                <th>{getLocale(this.props.language)['Novel']}</th>
+                <th>{getLocale(this.props.language)['Views']}</th>
             </tr>
             </thead>
         )

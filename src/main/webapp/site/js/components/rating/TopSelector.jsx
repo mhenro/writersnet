@@ -1,10 +1,12 @@
 import React from 'react';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
     - onTopClick - callback function
     - book
     - author
+    - language
  */
 class TopSelector extends React.Component {
     constructor(props) {
@@ -48,26 +50,29 @@ class TopSelector extends React.Component {
         if (this.props.author) {
             return (
                 <div className="btn-group btn-group-justified hidden-sm hidden-xs">
-                    <a className={this.getButtonAuthorClass('authorsTopByRating')} onClick={() => this.onBtnAuthorClick('authorsTopByRating')}>Ratings</a>
-                    <a className={this.getButtonAuthorClass('authorsTopByNovelsCount')} onClick={() => this.onBtnAuthorClick('authorsTopByNovelsCount')}>Novels
-                        count</a>
+                    <a className={this.getButtonAuthorClass('authorsTopByRating')}
+                       onClick={() => this.onBtnAuthorClick('authorsTopByRating')}>{getLocale(this.props.language)['Ratings']}</a>
+                    <a className={this.getButtonAuthorClass('authorsTopByNovelsCount')}
+                       onClick={() => this.onBtnAuthorClick('authorsTopByNovelsCount')}>{getLocale(this.props.language)['Novels count']}</a>
                     <a className={this.getButtonAuthorClass('authorsTopByCommentsCount')}
-                       onClick={() => this.onBtnAuthorClick('authorsTopByCommentsCount')}>Comments count</a>
-                    <a className={this.getButtonAuthorClass('authorsTopByViewsCount')} onClick={() => this.onBtnAuthorClick('authorsTopByViewsCount')}>Views
-                        count</a>
+                       onClick={() => this.onBtnAuthorClick('authorsTopByCommentsCount')}>{getLocale(this.props.language)['Comments count']}</a>
+                    <a className={this.getButtonAuthorClass('authorsTopByViewsCount')}
+                       onClick={() => this.onBtnAuthorClick('authorsTopByViewsCount')}>{getLocale(this.props.language)['Views count']}</a>
                 </div>
             )
         } else if (this.props.book) {
             return (
                 <div className="btn-group btn-group-justified hidden-sm hidden-xs">
-                    <a className={this.getButtonBookClass('booksTopByNovelty')} onClick={() => this.onBtnBookClick('booksTopByNovelty')}>Novelties</a>
-                    <a className={this.getButtonBookClass('booksTopByRating')} onClick={() => this.onBtnBookClick('booksTopByRating')}>Ratings</a>
-                    <a className={this.getButtonBookClass('booksTopByNovelVolume')} onClick={() => this.onBtnBookClick('booksTopByNovelVolume')}>Novel
-                        volume</a>
+                    <a className={this.getButtonBookClass('booksTopByNovelty')}
+                       onClick={() => this.onBtnBookClick('booksTopByNovelty')}>{getLocale(this.props.language)['Novelties']}</a>
+                    <a className={this.getButtonBookClass('booksTopByRating')}
+                       onClick={() => this.onBtnBookClick('booksTopByRating')}>{getLocale(this.props.language)['Ratings']}</a>
+                    <a className={this.getButtonBookClass('booksTopByNovelVolume')}
+                       onClick={() => this.onBtnBookClick('booksTopByNovelVolume')}>{getLocale(this.props.language)['Novel volume']}</a>
                     <a className={this.getButtonBookClass('booksTopByCommentsCount')}
-                       onClick={() => this.onBtnBookClick('booksTopByCommentsCount')}>Comments count</a>
-                    <a className={this.getButtonBookClass('booksTopByViewsCount')} onClick={() => this.onBtnBookClick('booksTopByViewsCount')}>Views
-                        count</a>
+                       onClick={() => this.onBtnBookClick('booksTopByCommentsCount')}>{getLocale(this.props.language)['Comments count']}</a>
+                    <a className={this.getButtonBookClass('booksTopByViewsCount')}
+                       onClick={() => this.onBtnBookClick('booksTopByViewsCount')}>{getLocale(this.props.language)['Views count']}</a>
                 </div>
             )
         }
@@ -79,15 +84,15 @@ class TopSelector extends React.Component {
                 <div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
                         <a className={this.getButtonAuthorClass('authorsTopByRating')}
-                           onClick={() => this.onBtnAuthorClick('authorsTopByRating')}>Ratings</a>
+                           onClick={() => this.onBtnAuthorClick('authorsTopByRating')}>{getLocale(this.props.language)['Ratings']}</a>
                         <a className={this.getButtonAuthorClass('authorsTopByNovelsCount')}
-                           onClick={() => this.onBtnAuthorClick('authorsTopByNovelsCount')}>Novels count</a>
+                           onClick={() => this.onBtnAuthorClick('authorsTopByNovelsCount')}>{getLocale(this.props.language)['Novels count']}</a>
                     </div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
                         <a className={this.getButtonAuthorClass('authorsTopByCommentsCount')}
-                           onClick={() => this.onBtnAuthorClick('authorsTopByCommentsCount')}>Comments count</a>
-                        <a className={this.getButtonAuthorClass('authorsTopByViewsCount')} onClick={() => this.onBtnAuthorClick('authorsTopByViewsCount')}>Views
-                            count</a>
+                           onClick={() => this.onBtnAuthorClick('authorsTopByCommentsCount')}>{getLocale(this.props.language)['Comments count']}</a>
+                        <a className={this.getButtonAuthorClass('authorsTopByViewsCount')}
+                           onClick={() => this.onBtnAuthorClick('authorsTopByViewsCount')}>{getLocale(this.props.language)['Views count']}</a>
                     </div>
                 </div>
             )
@@ -95,19 +100,20 @@ class TopSelector extends React.Component {
             return (
                 <div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
-                        <a className={this.getButtonBookClass('booksTopByNovelty')} onClick={() => this.onBtnBookClick('booksTopByNovelty')}>Novelties</a>
+                        <a className={this.getButtonBookClass('booksTopByNovelty')}
+                           onClick={() => this.onBtnBookClick('booksTopByNovelty')}>{getLocale(this.props.language)['Novelties']}</a>
                         <a className={this.getButtonBookClass('booksTopByRating')}
-                           onClick={() => this.onBtnBookClick('booksTopByRating')}>Ratings</a>
+                           onClick={() => this.onBtnBookClick('booksTopByRating')}>{getLocale(this.props.language)['Ratings']}</a>
                     </div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
                         <a className={this.getButtonBookClass('booksTopByNovelVolume')}
-                           onClick={() => this.onBtnBookClick('booksTopByNovelVolume')}>Novel volume</a>
+                           onClick={() => this.onBtnBookClick('booksTopByNovelVolume')}>{getLocale(this.props.language)['Novel volume']}</a>
                     </div>
                     <div className="btn-group btn-group-justified visible-sm visible-xs">
                         <a className={this.getButtonBookClass('booksTopByCommentsCount')}
-                           onClick={() => this.onBtnBookClick('booksTopByCommentsCount')}>Comments count</a>
-                        <a className={this.getButtonBookClass('booksTopByViewsCount')} onClick={() => this.onBtnBookClick('booksTopByViewsCount')}>Views
-                            count</a>
+                           onClick={() => this.onBtnBookClick('booksTopByCommentsCount')}>{getLocale(this.props.language)['Comments count']}</a>
+                        <a className={this.getButtonBookClass('booksTopByViewsCount')}
+                           onClick={() => this.onBtnBookClick('booksTopByViewsCount')}>{getLocale(this.props.language)['Views count']}</a>
                     </div>
                 </div>
             )
@@ -117,7 +123,7 @@ class TopSelector extends React.Component {
     render() {
         return (
             <div>
-                Top by:
+                {getLocale(this.props.language)['Top by:']}
                 {this.renderForBigScreen()}
                 {this.renderForSmallScreen()}
             </div>
