@@ -57,11 +57,11 @@ class MainPage extends React.Component {
     }
 
     renderAds() {
-        if (this.props.userDetails && this.props.userDetails.premium) {
+        if (this.props.userDetails && this.props.userDetails.premium || this.props.login === 'Anonymous') {
             return null;
         }
         return (
-            <div className="well">
+            <div className="well hidden-xs">
                 <p>ADS</p>
             </div>
         )

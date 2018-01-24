@@ -37,6 +37,7 @@ public class User {
     private Long commentsCount = 0L;
     private Boolean online;
     private Boolean premium;
+    private Long balance = 0L;
 
     @Id
     public String getUsername() {
@@ -241,6 +242,14 @@ public class User {
 
     public void setPremium(Boolean premium) {
         this.premium = premium;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 
     /* -----------------------------business logic-------------------------------------------------------- */
