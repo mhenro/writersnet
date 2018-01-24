@@ -143,13 +143,13 @@ class FriendsPage extends React.Component {
     getTabCaption(tabName) {
         if (tabName === 'friends') {
             let count = this.state.totalFriends;
-            return <span>My friends <span className="counter">{count}</span></span>;
+            return <span>{getLocale(this.props.language)['My friends']} <span className="counter">{count}</span></span>;
         } else if (tabName === 'subscribers') {
             let count = this.state.totalSubscribers;
-            return <span>Subscribers <span className="counter">{count}</span></span>;
+            return <span>{getLocale(this.props.language)['Subscribers']} <span className="counter">{count}</span></span>;
         } else if (tabName === 'subscriptions') {
             let count = this.state.totalSubscriptions;
-            return <span>Subscriptions <span className="counter">{count}</span></span>;
+            return <span>{getLocale(this.props.language)['Subscriptions']} <span className="counter">{count}</span></span>;
         }
     }
 
@@ -220,7 +220,8 @@ class FriendsPage extends React.Component {
                                 onRemoveSubscription={friend => this.onRemoveFriend(friend)}
                                 login={this.props.login}
                                 token={this.props.token}
-                                onGetGroupId={this.props.onGetGroupIdByRecipient}/>
+                                onGetGroupId={this.props.onGetGroupIdByRecipient}
+                                language={this.props.language}/>
                     <br/>
                 </div>
             </div>

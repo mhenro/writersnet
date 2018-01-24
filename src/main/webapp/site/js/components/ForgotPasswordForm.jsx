@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { createNotify, closeForgotPasswordForm, confirmPasswordChanging } from '../actions/GlobalActions.jsx';
+import { getLocale } from '../locale.jsx';
 
 class ForgotPasswordForm extends React.Component {
     constructor(props) {
@@ -37,22 +38,22 @@ class ForgotPasswordForm extends React.Component {
             <Modal show={this.props.showForgotPasswordForm} onHide={() => this.onClose()}>
                 <Modal.Body>
                     <div className="col-sm-12">
-                        If you forgot your password you can write your email into the field below. We will send your further instructions to that email. Thank you!
+                        {getLocale(this.props.language)['If you forgot your password you can write your email into the field below. We will send your further instructions to that email. Thank you!']}
                         <br/><br/>
                     </div>
                     <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="email">Email:</label>
+                            <label className="control-label col-sm-2" htmlFor="email">{getLocale(this.props.language)['Email:']}</label>
                             <div className="col-sm-10">
-                                <input value={this.state.email} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="email" placeholder="Enter your email" name="email"/>
+                                <input value={this.state.email} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="email" placeholder={getLocale(this.props.language)['Enter your email']} name="email"/>
                             </div>
                         </div>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-group">
-                        <Button onClick={() => this.onConfirmPasswordChanging()} className="btn btn-success">Confirm password changing</Button>
-                        <Button onClick={() => this.onClose()}>Close</Button>
+                        <Button onClick={() => this.onConfirmPasswordChanging()} className="btn btn-success">{getLocale(this.props.language)['Confirm password changing']}</Button>
+                        <Button onClick={() => this.onClose()}>{getLocale(this.props.language)['Close']}</Button>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -63,7 +64,8 @@ class ForgotPasswordForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         showForgotPasswordForm: state.GlobalReducer.showForgotPasswordForm,
-        login: state.GlobalReducer.user.login
+        login: state.GlobalReducer.user.login,
+        language: state.GlobalReducer.language
     }
 };
 

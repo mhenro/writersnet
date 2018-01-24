@@ -13,6 +13,7 @@ import FriendListItem from './FriendListItem.jsx';
     - login
     - token
     - onGetGroupId - callback
+    - language
  */
 class FriendList extends React.Component {
     render() {
@@ -29,7 +30,8 @@ class FriendList extends React.Component {
                                         onRemoveSubscription={this.props.onRemoveSubscription}
                                         login={this.props.login}
                                         token={this.props.token}
-                                        onGetGroupId={this.props.onGetGroupId}/>
+                                        onGetGroupId={this.props.onGetGroupId}
+                                        language={this.props.language}/>
                     )
                 })}
             </div>

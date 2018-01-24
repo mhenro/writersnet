@@ -1,5 +1,4 @@
 ﻿Current sprint:
-IN PROGRESS - 29. Support full localization mechanism.
 IN PROGRESS - 30. Add concept of the premium account. It should allow:
                    DONE - to use more large photos and book texts;
                    DONE - gold highlight of the author panel and all of the author books in all rating lists;
@@ -18,6 +17,8 @@ Features:
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 98. Add competitions page. On this page users can add new competition then select its name and prizw fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
 47. Add defence from overclick visitors by user (by IP or something).
+102. Add limit for premium user. After a year premium account should be prolongated.
+103. Add billing sql schema for user balance.
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
 82. Optimize Hibernate queries.
@@ -154,3 +155,4 @@ DONE - 96. Implement text diff functional like on github to allow reader find ne
 DONE - 66. Mark as unread whole chat to determine where unread messages are placed.
 DONE - 99. Create layouts for ads.
 DONE - 23. Fix bug with subcomment if quoted comment is placed on another page (probably it will be hidden in this case). You should create new action for receiving subcomment by id I guess.
+DONE - 29. Support full localization mechanism.

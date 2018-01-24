@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -13,6 +14,7 @@ import PropTypes from 'prop-types';
     - login
     - token
     - onGetGroupId - callback
+    - language
  */
 class FriendListItem extends React.Component {
     static contextTypes = {
@@ -48,7 +50,7 @@ class FriendListItem extends React.Component {
 
     renderAddFriendButton() {
         if (this.props.addFriendButton) {
-            return <button onClick={() => this.props.onAddToFriends(this.props.friend.id)} className="btn btn-xs btn-success">Add to friends</button>;
+            return <button onClick={() => this.props.onAddToFriends(this.props.friend.id)} className="btn btn-xs btn-success">{getLocale(this.props.language)['Add to friends']}</button>;
         }
     }
 
@@ -58,7 +60,7 @@ class FriendListItem extends React.Component {
 
     renderSendMsgButton() {
         if (this.props.sendMsgButton && this.state.groupId) {
-            return <button onClick={() => this.onSendMessage()} className="btn btn-xs btn-success">Send message</button>;
+            return <button onClick={() => this.onSendMessage()} className="btn btn-xs btn-success">{getLocale(this.props.language)['Send message']}</button>;
         }
     }
 
@@ -71,7 +73,7 @@ class FriendListItem extends React.Component {
 
     renderRemoveFriendButton() {
         if (this.props.removeFriendButton) {
-            return <button onClick={() => this.props.onRemoveSubscription(this.props.friend.id)} className="btn btn-xs btn-success">Remove</button>;
+            return <button onClick={() => this.props.onRemoveSubscription(this.props.friend.id)} className="btn btn-xs btn-success">{getLocale(this.props.language)['Remove']}</button>;
         }
     }
 

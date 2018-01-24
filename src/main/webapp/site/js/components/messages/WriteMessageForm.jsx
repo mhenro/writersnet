@@ -11,6 +11,7 @@ import {
 import { getFriends } from '../../actions/AuthorActions.jsx';
 import { addMessageToGroup } from '../../actions/MessageActions.jsx';
 import { setToken } from '../../actions/AuthActions.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -87,12 +88,12 @@ class WriteMessageForm extends React.Component {
         return (
             <Modal show={this.props.showWriteMessageForm} onHide={() => this.onClose()} onShow={() => this.onShow()}>
                 <Modal.Header>
-                    Send message
+                    {getLocale(this.props.language)['Send message']}
                 </Modal.Header>
                 <Modal.Body>
                     <form className="form-horizontal" onSubmit={this.onSubmit}>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="friend">Friend:</label>
+                            <label className="control-label col-sm-2" htmlFor="friend">{getLocale(this.props.language)['Friend:']}</label>
                             <div className="col-sm-10">
                                 <Select.Async value={this.state.friend}
                                               id="friend"
@@ -100,21 +101,21 @@ class WriteMessageForm extends React.Component {
                                               onChange={this.onFriendChange}
                                               noResultsText="Nothing found"
                                               loadingPlaceholder="Searching..."
-                                              placeholder="Select a friend"/>
+                                              placeholder={getLocale(this.props.language)['Select a friend']}/>
                             </div>
                         </div>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="message">Message:</label>
+                            <label className="control-label col-sm-2" htmlFor="message">{getLocale(this.props.language)['Message:']}</label>
                             <div className="col-sm-10">
-                                <input value={this.state.message} onChange={this.onFieldChange} type="text" className="form-control" id="message" placeholder="Write a message" name="message"/>
+                                <input value={this.state.message} onChange={this.onFieldChange} type="text" className="form-control" id="message" placeholder={getLocale(this.props.language)['Write a message']} name="message"/>
                             </div>
                         </div>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-group">
-                        <Button onClick={() => this.onSend()} className="btn btn-default">Send</Button>
-                        <Button onClick={() => this.onClose()} className="btn btn-default">Close</Button>
+                        <Button onClick={() => this.onSend()} className="btn btn-default">{getLocale(this.props.language)['Send']}</Button>
+                        <Button onClick={() => this.onClose()} className="btn btn-default">{getLocale(this.props.language)['Close']}</Button>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -126,7 +127,8 @@ const mapStateToProps = (state) => {
     return {
         showWriteMessageForm: state.GlobalReducer.showWriteMessageForm,
         login: state.GlobalReducer.user.login,
-        token: state.GlobalReducer.token
+        token: state.GlobalReducer.token,
+        language: state.GlobalReducer.language
     }
 };
 

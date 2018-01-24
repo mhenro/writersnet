@@ -4,6 +4,7 @@ import { Pagination } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 import Diff from 'react-diff';
+import { getLocale } from '../locale.jsx';
 
 import {
     getBookDetails,
@@ -19,7 +20,7 @@ import {
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
 
-import UserComments from '../components/UserComments.jsx';
+import UserComments from '../components/reader/UserComments.jsx';
 
 /*
     props:
@@ -136,7 +137,7 @@ class BookReader extends React.Component {
                 <div className="col-sm-12">
                     <hr/>
                     <div className="checkbox">
-                        <label><input onClick={() => this.showDiff()} type="checkbox" value={this.state.showDiff}/>Show changes</label>
+                        <label><input onClick={() => this.showDiff()} type="checkbox" value={this.state.showDiff}/>{getLocale(this.props.language)['Show changes']}</label>
                     </div>
                     <hr/>
                 </div>
@@ -250,7 +251,8 @@ class BookReader extends React.Component {
                               login={this.props.login}
                               updateComments={() => this.updateComments()}
                               totalPagesCallback={totalPages => this.setTotalPages(totalPages)}
-                              token={this.props.token}/>
+                              token={this.props.token}
+                              language={this.props.language}/>
             </div>
         )
     }
@@ -262,7 +264,8 @@ const mapStateToProps = (state) => {
         login: state.GlobalReducer.user.login,
         token: state.GlobalReducer.token,
         goToComments: state.GlobalReducer.goToComments,
-        userDetails: state.GlobalReducer.user.details
+        userDetails: state.GlobalReducer.user.details,
+        language: state.GlobalReducer.language
     }
 };
 

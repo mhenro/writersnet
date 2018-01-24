@@ -151,6 +151,9 @@ export const EN = {
 
     /* FriendsPage */
     'Input friend name': 'Input friend name',
+    'My friends': 'My friends',
+    'Subscribers': 'Subscribers',
+    'Subscriptions': 'Subscriptions',
 
     /* DiscussionPage */
     'Novel': 'Novel',
@@ -177,5 +180,49 @@ export const EN = {
     'I agree with': 'I agree with',
     'user agreement': 'user agreement',
     'Forgot your password?': 'Forgot your password?',
-    'Register': 'Register'
+    'Register': 'Register',
+
+    /* BookReader */
+    'Show changes': 'Show changes',
+
+    /* UserComments */
+    'Quoted comment:': 'Quoted comment:',
+    'Leave a comment:': 'Leave a comment:',
+    'Submit': 'Submit',
+    'Comments:': 'Comments:',
+
+    /* CommentItem */
+    'Quote this comment': 'Quote this comment',
+    'Delete this comment': 'Delete this commen',
+    'Are you sure you want to delete this comment?': 'Are you sure you want to delete this comment?',
+
+    /* ForgotPasswordForm */
+    'If you forgot your password you can write your email into the field below. We will send your further instructions to that email. Thank you!': 'If you forgot your password you can write your email into the field below. We will send your further instructions to that email. Thank you!',
+    'Email:': 'Email:',
+    'Enter your email': 'Enter your email',
+    'Confirm password changing': 'Confirm password changing',
+
+    /* WriteMessageForm */
+    'Friend:': 'Friend:',
+    'Select a friend': 'Select a friend',
+    'Message:': 'Message:',
+    'Write a message': 'Write a message',
+    'Send': 'Send',
+
+    /* NewsListItem */
+    'updated the': 'updated the',
+    'left a comment in the': 'left a comment in the',
+    'updated his personal info': 'updated his personal info',
+    'added': 'added',
+    'to the subscriptions': 'to the subscriptions',
+
+    /* HelpPage */
+    'Contact form': 'Contact form',
+    'You can use the following contact form to ask any question about our project. We will try to answer on it asap.': 'You can use the following contact form to ask any question about our project. We will try to answer on it asap.',
+    'Note': 'Note',
+    'Before ask a question via contact form please be sure that there is no such question in the': 'Before ask a question via contact form please be sure that there is no such question in the',
+    'Your personal info': 'Your personal info',
+    'Your message': 'Your message',
+    'Subject:': 'Subject:',
+    'Enter the code from the picture above': 'Enter the code from the picture above'
 };

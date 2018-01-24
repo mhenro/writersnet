@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
-    news - array
-    dt - date for cached images
+    - news - array
+    - dt - date for cached images
+    - language
  */
 class NewsListItem extends React.Component {
     getAuthorAvatar() {
@@ -32,7 +34,7 @@ class NewsListItem extends React.Component {
     getBookUpdatedNews(news) {
         return (
             <div>
-                {this.getSubscriptionName()} updated the {this.getBookName()}
+                {this.getSubscriptionName()} {getLocale(this.props.language)['updated the']} {this.getBookName()}
             </div>
         )
     }
@@ -40,7 +42,7 @@ class NewsListItem extends React.Component {
     getNewCommentNews(news) {
         return (
             <div>
-                {this.getSubscriptionName()} left a comment in the {this.getBookName()}
+                {this.getSubscriptionName()} {getLocale(this.props.language)['left a comment in the']} {this.getBookName()}
             </div>
         )
     }
@@ -48,7 +50,7 @@ class NewsListItem extends React.Component {
     getUpdatePersonalInfoNews(news) {
         return (
             <div>
-                {this.getSubscriptionName()} updated his personal info.
+                {this.getSubscriptionName()} {getLocale(this.props.language)['updated his personal info']}
             </div>
         )
     }
@@ -56,7 +58,7 @@ class NewsListItem extends React.Component {
     getAddFriendNews(news) {
         return (
             <div>
-                {this.getSubscriptionName()} added {this.getFriendName()} to the subscriptions.
+                {this.getSubscriptionName()} {getLocale(this.props.language)['added']} {this.getFriendName()} {getLocale(this.props.language)['to the subscriptions']}
             </div>
         )
     }

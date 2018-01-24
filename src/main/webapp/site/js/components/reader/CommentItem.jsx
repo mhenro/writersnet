@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { formatDate } from '../utils.jsx';
+import { formatDate } from '../../utils.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -12,6 +13,7 @@ import { formatDate } from '../utils.jsx';
     - token
     - bookId
     - updateComments - callback
+    - language
  */
 class CommentItem extends React.Component {
     constructor(props) {
@@ -47,7 +49,7 @@ class CommentItem extends React.Component {
 
     renderQuoteButton() {
         let tooltip = (
-            <Tooltip id="tooltip">Quote this comment</Tooltip>
+            <Tooltip id="tooltip">{getLocale(this.props.language)['Quote this comment']}</Tooltip>
         );
         return (
             <OverlayTrigger placement="top" overlay={tooltip}>
@@ -58,7 +60,7 @@ class CommentItem extends React.Component {
 
     renderCloseButton() {
         let tooltip = (
-            <Tooltip id="tooltip">Delete this comment</Tooltip>
+            <Tooltip id="tooltip">{getLocale(this.props.language)['Delete this comment']}</Tooltip>
         );
         if (this.props.owner) {
             return (
@@ -106,15 +108,15 @@ class CommentItem extends React.Component {
                 {/* delete confirmation dialog */}
                 <Modal show={this.state.confirmDialogShow} onHide={() => this.onCancel()}>
                     <Modal.Header>
-                        Attention!
+                        {getLocale(this.props.language)['Attention!']}
                     </Modal.Header>
                     <Modal.Body>
-                        Are you sure you want to delete this comment?
+                        {getLocale(this.props.language)['Are you sure you want to delete this comment?']}
                     </Modal.Body>
                     <Modal.Footer>
                         <div className="btn-group">
-                            <Button onClick={() => this.onDelete()} className="btn btn-danger">Delete</Button>
-                            <Button onClick={() => this.onCancel()} className="btn btn-default">Cancel</Button>
+                            <Button onClick={() => this.onDelete()} className="btn btn-danger">{getLocale(this.props.language)['Delete']}</Button>
+                            <Button onClick={() => this.onCancel()} className="btn btn-default">{getLocale(this.props.language)['Cancel']}</Button>
                         </div>
                     </Modal.Footer>
                 </Modal>

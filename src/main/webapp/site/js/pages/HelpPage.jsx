@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getLocale } from '../locale.jsx';
 
 import { sendFeedback } from '../actions/FeedbackActions.jsx';
 import {
@@ -68,47 +69,47 @@ class HelpPage extends React.Component {
                 <div className="col-sm-12">
                     <div className="panel panel-default">
                         <div className="panel-heading">
-                            Contact form
+                            {getLocale(this.props.language)['Contact form']}
                         </div>
                         <div className="panel-body">
                             <div className="text-justify">
-                                You can use the following contact form to ask any question about our project. We will try to answer on it asap.<br/>
-                                <b>Note</b>: Before ask a question via contact form please be sure that there is no such question in the <b>FAQ</b>.
+                                {getLocale(this.props.language)['You can use the following contact form to ask any question about our project. We will try to answer on it asap.']}<br/>
+                                <b>{getLocale(this.props.language)['Note']}</b>: {getLocale(this.props.language)['Before ask a question via contact form please be sure that there is no such question in the']} <b>FAQ</b>.
                                 <br/><br/>
                             </div>
                             <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                                 <div className="form-group text-center">
-                                    Your personal info
+                                    {getLocale(this.props.language)['Your personal info']}
                                 </div>
                                 <div className="form-group">
-                                    <label className="control-label col-sm-2" htmlFor="name">Name:</label>
+                                    <label className="control-label col-sm-2" htmlFor="name">{getLocale(this.props.language)['Name:']}</label>
                                     <div className="col-sm-10">
                                         <input required value={this.state.name} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="name" placeholder="Enter your name" name="name"/>
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <label className="control-label col-sm-2" htmlFor="email">Email:</label>
+                                    <label className="control-label col-sm-2" htmlFor="email">{getLocale(this.props.language)['Email:']}</label>
                                     <div className="col-sm-10">
                                         <input required value={this.state.email} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="email" placeholder="Enter your email" name="email"/>
                                     </div>
                                 </div>
                                 <div className="form-group text-center">
-                                    Your message
+                                    {getLocale(this.props.language)['Your message']}
                                 </div>
                                 <div className="form-group">
-                                    <label className="control-label col-sm-2" htmlFor="subject">Subject:</label>
+                                    <label className="control-label col-sm-2" htmlFor="subject">{getLocale(this.props.language)['Subject:']}</label>
                                     <div className="col-sm-10">
                                         <input required value={this.state.subject} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="subject" placeholder="Enter the subject" name="subject"/>
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <label className="control-label col-sm-2" htmlFor="message">Message:</label>
+                                    <label className="control-label col-sm-2" htmlFor="message">{getLocale(this.props.language)['Message:']}</label>
                                     <div className="col-sm-10">
                                         <textarea required value={this.state.message} onChange={proxy => this.onFieldChange(proxy)} rows="5" className="form-control" id="message" placeholder="Enter your message" name="message"/>
                                     </div>
                                 </div>
                                 <div className="form-group text-center">
-                                    Security
+                                    {getLocale(this.props.language)['Security']}
                                 </div>
                                 <div className="form-group">
                                     <div className="col-sm-2"></div>
@@ -120,12 +121,12 @@ class HelpPage extends React.Component {
                                 <div className="form-group">
                                     <label className="control-label col-sm-2" htmlFor="captcha">Captcha:</label>
                                     <div className="col-sm-10">
-                                        <input required value={this.state.captcha} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="captcha" placeholder="Enter the code from the picture above" name="captcha"/>
+                                        <input required value={this.state.captcha} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="captcha" placeholder={getLocale(this.props.language)['Enter the code from the picture above']} name="captcha"/>
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-sm-12 text-center">
-                                        <button type="submit" className="btn btn-success">Send message</button>
+                                        <button type="submit" className="btn btn-success">{getLocale(this.props.language)['Send message']}</button>
                                     </div>
                                 </div>
                             </form>
@@ -322,7 +323,7 @@ class HelpPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-
+        language: state.GlobalReducer.language
     }
 };
 

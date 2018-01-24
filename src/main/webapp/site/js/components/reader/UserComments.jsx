@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import CommentItem from './CommentItem.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -17,6 +18,7 @@ import CommentItem from './CommentItem.jsx';
     - bookId
     - updateComments - callback
     - totalPagesCallback
+    - language
  */
 class UserComments extends React.Component {
     constructor(props) {
@@ -50,7 +52,7 @@ class UserComments extends React.Component {
         if (this.state.relatedComment) {
             return (
                 <div>
-                    <small>Quoted comment:</small>
+                    <small>{getLocale(this.props.language)['Quoted comment:']}</small>
                     <div className="well well-sm">
                         <small>
                             <h4>{this.state.relatedComment.userFullName}</h4>
@@ -85,7 +87,7 @@ class UserComments extends React.Component {
     render() {
         return (
             <div>
-                <h4>Leave a comment:</h4>
+                <h4>{getLocale(this.props.language)['Leave a comment:']}</h4>
                 <form role="form" onSubmit={event => this.onSubmit(event)}>
                     <div className="form-group">
                         {this.renderRelatedComment()}
@@ -93,11 +95,11 @@ class UserComments extends React.Component {
                     <div className="form-group">
                         <textarea onChange={event => this.onCommentChange(event)} value={this.state.comment} className="form-control" rows="3" required></textarea>
                     </div>
-                    <button onClick={() => this.saveComment()} type="submit" className="btn btn-success">Submit</button>
+                    <button onClick={() => this.saveComment()} type="submit" className="btn btn-success">{getLocale(this.props.language)['Submit']}</button>
                 </form>
                 <br/>
                 <br/>
-                <p>Comments:</p>
+                <p>{getLocale(this.props.language)['Comments:']}</p>
                 <div className="col-sm-12 text-center">
                     <Pagination
                         className={'shown'}
@@ -121,6 +123,7 @@ class UserComments extends React.Component {
                                  token={this.props.token}
                                  bookId={this.props.bookId}
                                  updateComments={this.props.updateComments}
+                                 language={this.props.language}
                                  key={key}/>
                 )}
                 <div className="col-sm-12 text-center">

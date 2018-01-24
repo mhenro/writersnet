@@ -151,6 +151,9 @@ export const RU = {
 
     /* FriendsPage */
     'Input friend name': 'Введите имя друга',
+    'My friends': 'Мои друзья',
+    'Subscribers': 'Подписчики',
+    'Subscriptions': 'Подписки',
 
     /* DiscussionPage */
     'Novel': 'Произведение',
@@ -177,5 +180,49 @@ export const RU = {
     'I agree with': 'Я согласен с',
     'user agreement': 'пользовательским соглашением',
     'Forgot your password?': 'Забыли пароль?',
-    'Register': 'Зарегистрироваться'
+    'Register': 'Зарегистрироваться',
+
+    /* BookReader */
+    'Show changes': 'Показать изменения',
+
+    /* UserComments */
+    'Quoted comment:': 'Цитата:',
+    'Leave a comment:': 'Оставить комментарий:',
+    'Submit': 'Отправить',
+    'Comments:': 'Комментарии:',
+
+    /* CommentItem */
+    'Quote this comment': 'Цитировать',
+    'Delete this comment': 'Удалить комментарий',
+    'Are you sure you want to delete this comment?': 'Вы действительно хотите удалить этот комментарий?',
+
+    /* ForgotPasswordForm */
+    'If you forgot your password you can write your email into the field below. We will send your further instructions to that email. Thank you!': 'Если вы забыли пароль, вы можете ввести адрес вашего почтового ящика в поле ниже. Мы вышлем вам дальнейшие инструкции на этот ящик. Спасибо!',
+    'Email:': 'Емейл:',
+    'Enter your email': 'Введите адрес вашего почтового ящика',
+    'Confirm password changing': 'Подтвердить изменение пароля',
+
+    /* WriteMessageForm */
+    'Friend:': 'Друг:',
+    'Select a friend': 'Выберите друга',
+    'Message:': 'Сообщение:',
+    'Write a message': 'Введите сообщение',
+    'Send': 'Отправить',
+
+    /* NewsListItem */
+    'updated the': 'обновил',
+    'left a comment in the': 'оставил комментарий к',
+    'updated his personal info': 'обновил свои персональные данные',
+    'added': 'добавил',
+    'to the subscriptions': 'в подписки',
+
+    /* HelpPage */
+    'Contact form': 'Форма обратной связи',
+    'You can use the following contact form to ask any question about our project. We will try to answer on it asap.': 'Вы можете использовать эту контактную форму, чтобы задать любой вопрос по нашему проекту. Мы постараемся ответить на него в ближайшее время.',
+    'Note': 'Примечание',
+    'Before ask a question via contact form please be sure that there is no such question in the': 'До того, как вы отправите нам свой вопрос, постарайтесь убедиться, что его нет в нашем списке',
+    'Your personal info': 'Ваши персональные данные',
+    'Your message': 'Ваше сообщение',
+    'Subject:': 'Тема:',
+    'Enter the code from the picture above': 'Введите код с картинки'
 };
