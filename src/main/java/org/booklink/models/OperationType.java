@@ -7,5 +7,6 @@ public enum OperationType {
     PREMIUM_ACCOUNT,
     TRANSFER,
     BOOK,
-    MEDAL
+    MEDAL,
+    PRIZE
 }

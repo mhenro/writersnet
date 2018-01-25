@@ -21,6 +21,10 @@ div {
     background-color: #e6ffff;
 }
 
+.balance {
+    color: yellow;
+}
+
 fieldset.scheduler-border {
     border: 1px solid #ddd;
     border-radius: 5px;

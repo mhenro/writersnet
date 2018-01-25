@@ -43,6 +43,26 @@ class NavBar extends React.Component {
         return this.state.activeItem === activeItem ? 'active' : '';
     }
 
+    renderSignupButton() {
+        if (this.props.registered) {
+           return (
+               <li>
+                   <a>
+                        Balance: <span className="balance">0</span> cr.
+                   </a>
+               </li>
+           )
+        } else {
+            return (
+                <li>
+                    <a onClick={() => this.props.onLoginClick(true)} style={{cursor: 'pointer'}}>
+                        <span className="glyphicon glyphicon-user"></span> {getLocale(this.props.language)['Sign Up']}
+                    </a>
+                </li>
+            )
+        }
+    }
+
     renderLoginButton() {
         if (this.props.registered) {
             return (
@@ -68,7 +88,7 @@ class NavBar extends React.Component {
                         <li className={this.getActiveItem('help')}><Link to="/help" onClick={() => this.onItemClick('help')}>{getLocale(this.props.language)['Help']}</Link></li>
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
-                        <li><a onClick={() => this.props.onLoginClick(true)} style={{cursor: 'pointer'}}><span className="glyphicon glyphicon-user"></span> {getLocale(this.props.language)['Sign Up']}</a></li>
+                        {this.renderSignupButton()}
                         {this.renderLoginButton()}
                     </ul>
                 </div>
