@@ -39,10 +39,12 @@ public class SerieServiceTest {
         private SerieRepository serieRepository;
         @MockBean
         private AuthorRepository authorRepository;
+        @MockBean
+        private AuthorizedUserService authorizedUserService;
 
         @Bean
         public SerieService serieService() {
-            return new SerieService(serieRepository, authorRepository);
+            return new SerieService(serieRepository, authorizedUserService);
         }
     }
 

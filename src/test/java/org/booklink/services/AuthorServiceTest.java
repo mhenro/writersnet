@@ -54,9 +54,12 @@ public class AuthorServiceTest {
         @MockBean
         private NewsService newsService;
 
+        @MockBean
+        private AuthorizedUserService authorizedUserService;
+
         @Bean
         public AuthorService authorService() {
-            return new AuthorService(env, authorRepository, friendshipRepository, newsService);
+            return new AuthorService(env, authorRepository, friendshipRepository, newsService, authorizedUserService);
         }
     }
 

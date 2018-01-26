@@ -41,13 +41,17 @@ public class AuthorService {
     private AuthorRepository authorRepository;
     private FriendshipRepository friendshipRepository;
     private NewsService newsService;
+    private AuthorizedUserService authorizedUserService;
 
     @Autowired
-    public AuthorService(final Environment env, final AuthorRepository authorRepository, final FriendshipRepository friendshipRepository, final NewsService newsService) {
+    public AuthorService(final Environment env, final AuthorRepository authorRepository,
+                         final FriendshipRepository friendshipRepository, final NewsService newsService,
+                         final AuthorizedUserService authorizedUserService) {
         this.env = env;
         this.authorRepository = authorRepository;
         this.friendshipRepository = friendshipRepository;
         this.newsService = newsService;
+        this.authorizedUserService = authorizedUserService;
     }
 
     public Page<AuthorShortInfoResponse> getAuthors(final Pageable pageable) {
@@ -117,19 +121,19 @@ public class AuthorService {
     }
 
     public boolean isFriendOf(final String authorId) {
-        final User authorizedUser = getAuthorizedUser();
+        final User authorizedUser = authorizedUserService.getAuthorizedUser();
         final FriendshipResponse friend = friendshipRepository.getFriendByName(authorizedUser.getUsername(), authorId);
         return Optional.ofNullable(friend).map(element -> true).orElse(false);
     }
 
     public boolean isSubscriberOf(final String authorId) {
-        final User authorizedUser = getAuthorizedUser();
+        final User authorizedUser = authorizedUserService.getAuthorizedUser();
         final FriendshipResponse subscriber = friendshipRepository.getSubscriberByName(authorizedUser.getUsername(), authorId);
         return Optional.ofNullable(subscriber).map(element -> true).orElse(false);
     }
 
     public boolean isSubscriptionOf(final String authorId) {
-        final User authorizedUser = getAuthorizedUser();
+        final User authorizedUser = authorizedUserService.getAuthorizedUser();
         final FriendshipResponse subscription = friendshipRepository.getSubscriptionByName(authorizedUser.getUsername(), authorId);
         return Optional.ofNullable(subscription).map(element -> true).orElse(false);
     }
@@ -162,7 +166,7 @@ public class AuthorService {
 
     @Transactional
     public void changePassword(final ChangePasswordRequest request) {
-        final User user = getAuthorizedUser();
+        final User user = authorizedUserService.getAuthorizedUser();
         final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
             throw new UnauthorizedUserException("Your current password is incorrect");
@@ -205,7 +209,7 @@ public class AuthorService {
 
     @Transactional
     public void restoreDefaultAvatar() {
-        final User authorizedUser = getAuthorizedUser();
+        final User authorizedUser = authorizedUserService.getAuthorizedUser();
         authorizedUser.setAvatar(null);
         newsService.createNews(NewsService.NEWS_TYPE.PERSONAL_INFO_UPDATED, authorizedUser);
     }
@@ -214,7 +218,7 @@ public class AuthorService {
     public Response<String> subscribeOnUser(final String subscriptionId) {
         Response<String> response = new Response<>();
         response.setCode(0);
-        final String authorizedUser = getAuthorizedUser().getUsername();
+        final String authorizedUser = authorizedUserService.getAuthorizedUser().getUsername();
         final User subscriptionUser = authorRepository.findOne(subscriptionId);
         if (subscriptionUser == null) {
             throw new ObjectNotFoundException("Subscription is not found");
@@ -222,7 +226,7 @@ public class AuthorService {
         final boolean isFriend = isFriendOf(subscriptionId);
         final boolean isSubscriber = isSubscriberOf(subscriptionId);
         final boolean isSubscription = isSubscriptionOf(subscriptionId);
-        newsService.createNews(NewsService.NEWS_TYPE.FRIEND_ADDED, getAuthorizedUser(), subscriptionUser);
+        newsService.createNews(NewsService.NEWS_TYPE.FRIEND_ADDED, authorizedUserService.getAuthorizedUser(), subscriptionUser);
         if (isFriend) {
             response.setMessage(subscriptionUser.getFullName() + " has already been added to your friends");
             return response;
@@ -257,7 +261,7 @@ public class AuthorService {
     public Response<String> removeSubscription(final String subscriptionId) {
         Response<String> response = new Response<>();
         response.setCode(0);
-        final String authorizedUser = getAuthorizedUser().getUsername();
+        final String authorizedUser = authorizedUserService.getAuthorizedUser().getUsername();
         final User subscriptionUser = authorRepository.findOne(subscriptionId);
         if (subscriptionUser == null) {
             throw new ObjectNotFoundException("Subscription is not found");
@@ -339,19 +343,9 @@ public class AuthorService {
     }
 
     private void checkCredentials(final String userId) {
-        if (!getAuthorizedUser().getUsername().equals(userId)) {
+        if (!authorizedUserService.getAuthorizedUser().getUsername().equals(userId)) {
             throw new UnauthorizedUserException("Bad credentials");
         }
-    }
-
-    private User getAuthorizedUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = auth.getName();
-        final User user = authorRepository.findOne(currentUser);
-        if (user == null) {
-            throw new UnauthorizedUserException("User not found");
-        }
-        return user;
     }
 
     private void setDefaultAvatar(AuthorShortInfoResponse user) {

@@ -22,6 +22,7 @@ import java.util.Date;
 @Transactional(readOnly = true)
 public class NewsService {
     private NewsRepository newsRepository;
+    private AuthorizedUserService authorizedUserService;
 
     public enum NEWS_TYPE {
         BOOK_CREATED(0),
@@ -46,8 +47,9 @@ public class NewsService {
     }
 
     @Autowired
-    public NewsService(final NewsRepository newsRepository) {
+    public NewsService(final NewsRepository newsRepository, final AuthorizedUserService authorizedUserService) {
         this.newsRepository = newsRepository;
+        this.authorizedUserService = authorizedUserService;
     }
 
     @Transactional
@@ -80,12 +82,6 @@ public class NewsService {
     }
 
     public Page<NewsResponse> getNews(final Pageable pageable) {
-        return newsRepository.findAllNews(getCurrentUser(), pageable);
-    }
-
-    private String getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = auth.getName();
-        return currentUser;
+        return newsRepository.findAllNews(authorizedUserService.getAuthorizedUser().getUsername(), pageable);
     }
 }

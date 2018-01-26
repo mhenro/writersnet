@@ -45,6 +45,7 @@ public class BookService {
     private BookTextRepository bookTextRepository;
     private SerieRepository serieRepository;
     private AuthorRepository authorRepository;
+    private AuthorizedUserService authorizedUserService;
     private NewsService newsService;
 
     @Autowired
@@ -53,12 +54,14 @@ public class BookService {
                        final BookTextRepository bookTextRepository,
                        final SerieRepository serieRepository,
                        final AuthorRepository authorRepository,
+                       final AuthorizedUserService authorizedUserService,
                        final NewsService newsService) {
         this.env = env;
         this.bookRepository = bookRepository;
         this.bookTextRepository = bookTextRepository;
         this.serieRepository = serieRepository;
         this.authorRepository = authorRepository;
+        this.authorizedUserService = authorizedUserService;
         this.newsService = newsService;
     }
 
@@ -247,7 +250,7 @@ public class BookService {
 
     @Transactional
     public void restoreDefaultCover(final Long bookId) {
-        final User author = getAuthorizedUser();
+        authorizedUserService.getAuthorizedUser();
         final Book book = bookRepository.findOne(bookId);
         if (book == null) {
             throw new ObjectNotFoundException("Book was not found");
@@ -354,19 +357,9 @@ public class BookService {
     }
 
     private void checkCredentials(final String userId) {
-        if (!getAuthorizedUser().getUsername().equals(userId)) {
+        if (!authorizedUserService.getAuthorizedUser().getUsername().equals(userId)) {
             throw new UnauthorizedUserException();
         }
-    }
-
-    private User getAuthorizedUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = auth.getName();
-        final User user = authorRepository.findOne(currentUser);
-        if (user == null) {
-            throw new UnauthorizedUserException("User not found");
-        }
-        return user;
     }
 
     /* convert user file to our internal html format */

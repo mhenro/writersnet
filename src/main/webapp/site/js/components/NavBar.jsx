@@ -47,9 +47,7 @@ class NavBar extends React.Component {
         if (this.props.registered) {
            return (
                <li>
-                   <a>
-                        Balance: <span className="balance">0</span> cr.
-                   </a>
+                   <Link to="/balance"><span className="glyphicon glyphicon-usd"></span> Balance: <span className="balance">0</span> cr.</Link>
                </li>
            )
         } else {

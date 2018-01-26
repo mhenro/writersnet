@@ -23,12 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class SerieService {
     private SerieRepository serieRepository;
-    private AuthorRepository authorRepository;
+    private AuthorizedUserService authorizedUserService;
 
     @Autowired
-    public SerieService(final SerieRepository serieRepository, final AuthorRepository authorRepository) {
+    public SerieService(final SerieRepository serieRepository, final AuthorizedUserService authorizedUserService) {
         this.serieRepository = serieRepository;
-        this.authorRepository = authorRepository;
+        this.authorizedUserService = authorizedUserService;
     }
 
     public Page<BookSerieResponse> getBookSeries(final String userId, final Pageable pageable) {
@@ -42,7 +42,7 @@ public class SerieService {
         if (serie.getId() == null) {    //adding new serie
             bookSerie = new BookSerie();
             bookSerie.setName(serie.getName());
-            bookSerie.setAuthor(getAuthorizedUser());
+            bookSerie.setAuthor(authorizedUserService.getAuthorizedUser());
         } else {    //editing existed serie
             bookSerie = serieRepository.findOne(serie.getId());
             if (bookSerie == null) {
@@ -66,16 +66,6 @@ public class SerieService {
     }
 
     private void checkCredentials() {
-        getAuthorizedUser();
-    }
-
-    private User getAuthorizedUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = auth.getName();
-        final User user = authorRepository.findOne(currentUser);
-        if (user == null) {
-            throw new ObjectNotFoundException("Bad credentials");
-        }
-        return user;
+        authorizedUserService.getAuthorizedUser();
     }
 }

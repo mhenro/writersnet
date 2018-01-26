@@ -52,11 +52,13 @@ public class BookServiceTest {
         @MockBean
         private AuthorRepository authorRepository;
         @MockBean
+        private AuthorizedUserService authorizedUserService;
+        @MockBean
         private NewsService newsService;
 
         @Bean
         public BookService bookService() {
-            return new BookService(env, bookRepository, bookTextRepository, serieRepository, authorRepository, newsService);
+            return new BookService(env, bookRepository, bookTextRepository, serieRepository, authorRepository, authorizedUserService, newsService);
         }
     }
 
