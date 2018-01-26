@@ -72,7 +72,11 @@ class MainPage extends React.Component {
         return (
             <BrowserRouter basename="/">
                 <div>
-                    <NavBar onLoginClick={this.onLoginClick} onLogoutClick={this.props.onLogoutClick} registered={this.props.registered} language={this.props.language}/>
+                    <NavBar onLoginClick={this.onLoginClick}
+                            onLogoutClick={this.props.onLogoutClick}
+                            registered={this.props.registered}
+                            language={this.props.language}
+                            balance={this.props.balance}/>
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-12 col-lg-2">
@@ -116,7 +120,8 @@ const mapStateToProps = (state) => {
         unreadMessages: state.GlobalReducer.unreadMessages,
         newFriends: state.GlobalReducer.newFriends,
         userDetails: state.GlobalReducer.user.details,
-        language: state.GlobalReducer.language
+        language: state.GlobalReducer.language,
+        balance: state.GlobalReducer.user.balance
     }
 };
 

@@ -31,6 +31,8 @@ import {
     SET_NEW_FRIENDS
 } from '../actions/AuthorActions.jsx';
 
+import { SET_USER_BALANCE } from '../actions/BalanceActions.jsx';
+
 const initialState = {
     registered: false,
     token: '',
@@ -39,6 +41,7 @@ const initialState = {
         login: 'Anonymous',
         password: '',
         passwordConfirm: '',
+        balance: 0,
         details: {
             premium: false
         }
@@ -99,7 +102,9 @@ const GlobalReducer = (state = initialState, action) => {
                     email: '',
                     login: 'Anonymous',
                     password: '',
-                    passwordConfirm: ''
+                    passwordConfirm: '',
+                    details: { premium: false },
+                    balance: 0
                 }});   //for logout
             }
 
@@ -164,9 +169,20 @@ const GlobalReducer = (state = initialState, action) => {
                 login: state.user.login,
                 password: state.user.password,
                 passwordConfirm: state.user.passwordConfirm,
+                balance: state.user.balance,
                 details: action.details
             },
                 language: action.details.language});
+
+        case SET_USER_BALANCE:
+            return Object.assign({}, state, {user: {
+                email: state.user.email,
+                login: state.user.login,
+                password: state.user.password,
+                passwordConfirm: state.user.passwordConfirm,
+                details: state.user.details,
+                balance: action.balance
+            }});
     }
     return state;
 };

@@ -16,6 +16,7 @@ import {
     setNewFriends,
     getAuthorDetails
 } from '../actions/AuthorActions.jsx';
+import { getUserBalance, setUserBalance } from '../actions/BalanceActions.jsx';
 
 class GlobalDataContainer extends React.Component {
     componentDidMount() {
@@ -45,25 +46,37 @@ class GlobalDataContainer extends React.Component {
             }
         }
 
-        this.globalTimer = setInterval(() => {
+        this.shortTimer = setInterval(() => {
             if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
                 this.props.onGetUnreadMessages(this.props.login, this.props.token, unreadCount => this.onSetUnreadMessages(unreadCount));
                 this.props.onGetNewFriendsCount(this.props.login, this.props.token);
             }
         }, 5000);
 
-        this.cacheImgTimer = setInterval(() => {
+        this.longTimer = setInterval(() => {
             this.updateMutableDate();
+            this.updateUserBalance();
         }, 20000);
+
+        /* lazy loading */
+        setTimeout(() => {
+            this.updateUserBalance();
+        }, 500);
     }
 
     componentWillUnmount() {
-        clearInterval(this.globalTimer);
-        clearInterval(this.cacheImgTimer);
+        clearInterval(this.shortTimer);
+        clearInterval(this.longTimer);
     }
 
     updateMutableDate() {
         this.props.onUpdateMutableDate();
+    }
+
+    updateUserBalance() {
+        if (this.props.token !== '') {
+            this.props.onGetUserBalance(this.props.token);
+        }
     }
 
     onSetUnreadMessages(unreadCount) {
@@ -82,7 +95,8 @@ const mapStateToProps = (state) => {
         registered: state.GlobalReducer.registered,
         token: state.GlobalReducer.token,
         login: state.GlobalReducer.user.login,
-        mutableDate: state.GlobalReducer.mutableDate
+        mutableDate: state.GlobalReducer.mutableDate,
+        balance: state.GlobalReducer.user.balance
     }
 };
 
@@ -172,6 +186,19 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
         },
+
+        onGetUserBalance: (token) => {
+            return getUserBalance(token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setUserBalance(json.message.balance));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        }
     }
 };
 

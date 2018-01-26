@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { getLocale } from '../locale.jsx';
 
 /*
-    props: onLoginClick - function
-           onLogoutClick - function
-           language
+    props:
+    - onLoginClick - function
+    - onLogoutClick - function
+    - language
+    - balance
  */
 class NavBar extends React.Component {
     static contextTypes = {
@@ -43,11 +45,16 @@ class NavBar extends React.Component {
         return this.state.activeItem === activeItem ? 'active' : '';
     }
 
+    getBalance() {
+        let balance = this.props.balance ? this.props.balance : 0;
+        return parseFloat(balance / 100).toFixed(2);
+    }
+
     renderSignupButton() {
         if (this.props.registered) {
            return (
                <li>
-                   <Link to="/balance"><span className="glyphicon glyphicon-usd"></span> Balance: <span className="balance">0</span> cr.</Link>
+                   <Link to="/balance"><span className="glyphicon glyphicon-usd"></span> Balance: <span className="balance">{this.getBalance()}</span> cr.</Link>
                </li>
            )
         } else {

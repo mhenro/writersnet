@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getLocale } from '../locale.jsx';
 import { formatDate } from '../utils.jsx';
 
+import { getUserBalance, setUserBalance, getUserPaymentHistory } from '../actions/BalanceActions.jsx';
 import {
     createNotify
 } from '../actions/GlobalActions.jsx';
@@ -13,11 +14,51 @@ class BalancePage extends React.Component {
         super(props);
         this.state = {
             activePage: 1,
-            totalPages: 1
+            totalPages: 1,
+            operations: []
         };
     }
+
+    componentDidMount() {
+        if (this.props.token !== '') {
+            this.props.onGetUserBalance(this.props.token);
+            this.props.onGetUserPaymentHistory(this.props.token, (page) => this.updatePaymentHistory(page));
+        }
+    }
+
     topUpBalance() {
 
+    }
+
+    updatePaymentHistory(page) {
+        this.setState({
+            totalPages: page.totalPages,
+            operations: page.content
+        });
+    }
+
+    renderPaymentHistory() {
+        let getDate = (timestamp) => {
+            let date = new Date(timestamp);
+            return formatDate(date);
+        };
+        let renderMoney = (money) => {
+            let amount = money ? money : 0,
+                result = parseFloat(amount / 100).toFixed(2),
+                style = {color: result >= 0 ? 'green' : 'red', fontWeight: 'bold'};
+            return <span style={style}>{result} cr.</span>
+        };
+
+        return this.state.operations.map((operation, key) => {
+            return (
+                <tr key={key}>
+                    <td>{operation.operationType}</td>
+                    <td>{getDate(operation.operationDate)}</td>
+                    <td>{renderMoney(operation.operationCost)}</td>
+                    <td>{renderMoney(operation.balance)}</td>
+                </tr>
+            )
+        });
     }
 
     pageSelect(page) {
@@ -25,7 +66,12 @@ class BalancePage extends React.Component {
             activePage: page
         });
 
-        //this.props.onGetAuthors(this.state.currentName, page, this.state.size, this.state.sortBy, totalPages => this.setTotalPages(totalPages));
+        this.props.onGetUserPaymentHistory(this.props.token, (page) => this.updatePaymentHistory(page));
+    }
+
+    getBalance() {
+        let balance = this.props.balance ? this.props.balance : 0;
+        return parseFloat(balance / 100).toFixed(2);
     }
 
     render() {
@@ -34,7 +80,7 @@ class BalancePage extends React.Component {
                 <div className="col-sm-6">
                     <div className="panel panel-default">
                         <div className="panel-body">
-                            <p>Balance...................................<span>0.00 cr.</span></p>
+                            <p>Balance...................................<span>{this.getBalance()} cr.</span></p>
                             <button onClick={() => this.topUpBalance()} className="btn btn-success">Top up the balance</button>
                         </div>
                     </div>
@@ -45,7 +91,7 @@ class BalancePage extends React.Component {
                             <div className="row">
                                 <div className="col-sm-12 text-center">
                                     Payment history
-                                    <br/>
+                                    <br/><br/>
                                 </div>
                                 <div className="col-sm-12 text-center">
                                     <Pagination
@@ -74,12 +120,7 @@ class BalancePage extends React.Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>PRIZE</td>
-                                                <td>{formatDate(new Date())}</td>
-                                                <td>-14.32 cr.</td>
-                                                <td>132.11 cr.</td>
-                                            </tr>
+                                            {this.renderPaymentHistory()}
                                         </tbody>
                                     </table>
                                 </div>
@@ -94,12 +135,40 @@ class BalancePage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        language: state.GlobalReducer.language
+        token: state.GlobalReducer.token,
+        language: state.GlobalReducer.language,
+        balance: state.GlobalReducer.user.balance
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {}
+    return {
+        onGetUserBalance: (token) => {
+            return getUserBalance(token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setUserBalance(json.message.balance));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetUserPaymentHistory: (token, callback) => {
+            return getUserPaymentHistory(token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        }
+    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BalancePage);
