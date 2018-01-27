@@ -11,6 +11,7 @@ import { getLocale } from '../../locale.jsx';
     - login - registered user id
     - onAddToFriends - callback function
     - friendship - array of booleans which represents relationships between authors
+    - onBuyPremiumAccount - callback
     - language
  */
 class AuthorFile extends React.Component {
@@ -55,6 +56,14 @@ class AuthorFile extends React.Component {
         }
     }
 
+    renderPremiumButton() {
+        if (this.props.me && !this.props.author.premium) {
+            return (
+                <button onClick={this.props.onBuyPremiumAccount} className="btn btn-warning">Buy premium account</button>
+            )
+        }
+    }
+
     render() {
         return (
             <div className="panel panel-default" style={{padding: '10px'}}>
@@ -72,6 +81,7 @@ class AuthorFile extends React.Component {
                             <button onClick={() => this.onAddToFriends()} className={this.getFriendsButtonClass()}>{this.getFriendsButtonCaption()}</button>
                             <br/>
                             <Link to="/options" className={'btn btn-success ' + (this.props.me ? '' : 'hidden')}>{getLocale(this.props.language)['Options']}</Link>
+                            {this.renderPremiumButton()}
                         </div>
                     </div>
                 </div>

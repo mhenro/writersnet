@@ -28,6 +28,7 @@ import ReviewPage from '../pages/ReviewPage.jsx';
 import DiscussionPage from '../pages/DiscussionPage.jsx';
 import HelpPage from '../pages/HelpPage.jsx';
 import BalancePage from '../pages/BalancePage.jsx';
+import ConfirmPaymentForm from '../components/balance/ConfirmPaymentForm.jsx';
 
 class MainPage extends React.Component {
     constructor(props) {
@@ -105,6 +106,7 @@ class MainPage extends React.Component {
                     </div>
                     <ScrollToTopButton scrollStepInPx="50" delayInMs="16.66"/>
                     <Footer/>
+                    <ConfirmPaymentForm/>
                     <LoginForm/>
                     <Notifier/>
                 </div>

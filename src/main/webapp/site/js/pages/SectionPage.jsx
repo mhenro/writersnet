@@ -17,11 +17,13 @@ import {
 import {
     createNotify,
     goToComments,
-    setUserDetails
+    setUserDetails,
+    setPurchaseId
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
 import { getHost } from '../utils.jsx';
 import { getLocale } from '../locale.jsx';
+import { showConfirmPaymentForm } from '../actions/BalanceActions.jsx';
 
 import AuthorFile from '../components/section/AuthorFile.jsx';
 import AuthorShortInfo from '../components/section/AuthorShortInfo.jsx';
@@ -119,6 +121,11 @@ class SectionPage extends React.Component {
         this.props.onSubcribeOn(friend, this.props.token, () => this.props.onCheckFriendshipWith(this.props.match.params.authorName, this.props.token, friendship => this.updateFriendshipRelation(friendship)));
     }
 
+    onBuyPremiumAccount() {
+        this.props.onSetPurchase(0);    //0 is always PREMIUM_ACCOUNT
+        this.props.onShowPaymentForm();
+    }
+
     renderSectionToolbar() {
         if (this.props.registered && this.props.login === this.props.author.username) {
             return (
@@ -179,6 +186,7 @@ class SectionPage extends React.Component {
                                     login={this.props.login}
                                     onAddToFriends={friend => this.onAddToFriends(friend)}
                                     friendship={this.state.friendship}
+                                    onBuyPremiumAccount={() => this.onBuyPremiumAccount()}
                                     language={this.props.language}/>
                     </div>
                     <div className="col-sm-12 col-lg-9">
@@ -354,6 +362,14 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onShowPaymentForm: () => {
+            dispatch(showConfirmPaymentForm());
+        },
+
+        onSetPurchase: (purchaseId) => {
+            dispatch(setPurchaseId(purchaseId));
         }
     }
 };

@@ -113,10 +113,10 @@ class BalancePage extends React.Component {
                                     <table className="table table-hover">
                                         <thead>
                                             <tr>
-                                                <td>Type</td>
+                                                <td>Op. type</td>
                                                 <td>Date</td>
-                                                <td>Amount</td>
-                                                <td>Total balance</td>
+                                                <td>Op. cost</td>
+                                                <td>Balance</td>
                                             </tr>
                                         </thead>
                                         <tbody>

@@ -35,6 +35,8 @@ export const UPDATE_MUTABLE_DATE = 'UPDATE_MUTABLE_DATE';
 
 export const SET_USER_DETAILS = 'SET_USER_DETAILS';
 
+export const SET_PURCHASE_ID = 'SET_PURCHASE_ID';
+
 export const openLoginForm = (loginFormRegister) => {
     return {
         type: OPEN_LOGIN_FORM,
@@ -124,5 +126,12 @@ export const setUserDetails = (details) => {
     return {
         type: SET_USER_DETAILS,
         details
+    }
+};
+
+export const setPurchaseId = (id) => {
+    return {
+        type: SET_PURCHASE_ID,
+        id
     }
 };

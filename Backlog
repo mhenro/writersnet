@@ -4,7 +4,7 @@ IN PROGRESS - 31. Create internal user balance. User can convert real money via 
                    - buy premium account;
                    - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
                    - buy additional stuff, such as some medals to show them on author section page and so on.
-		   - buy prizes and present them to authors. Each present give some rating or credits to author.
+		   - buy gifts and present them to authors. Each gift give some rating or credits to author.
 
 IN PROGRESS - 30. Add concept of the premium account. It should allow:
                    DONE - to use more large photos and book texts;
@@ -162,3 +162,4 @@ DONE - 23. Fix bug with subcomment if quoted comment is placed on another page (
 DONE - 29. Support full localization mechanism.
 DONE - 103. Add billing sql schema for user balance.
 DONE - 104. Add BalancePage component. When user click on "Balance" button in the NavBar he should move to BalancePage. On this page should be table with all operations with user balance. Also it should be textfield for writing amount and button "Top up the balance".
+DONE - 108. Add ConfirmPaymentForm. It should show the name of the item, current balance. If not enough money it should be a link to user balance page.

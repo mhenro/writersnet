@@ -12,7 +12,8 @@ import {
     REMOVE_NOTIFY,
     GO_TO_COMMENTS,
     UPDATE_MUTABLE_DATE,
-    SET_USER_DETAILS
+    SET_USER_DETAILS,
+    SET_PURCHASE_ID
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -31,7 +32,11 @@ import {
     SET_NEW_FRIENDS
 } from '../actions/AuthorActions.jsx';
 
-import { SET_USER_BALANCE } from '../actions/BalanceActions.jsx';
+import {
+    SET_USER_BALANCE,
+    SHOW_CONFIRM_PAYMENT_FORM,
+    CLOSE_CONFIRM_PAYMENT_FORM
+} from '../actions/BalanceActions.jsx';
 
 const initialState = {
     registered: false,
@@ -51,12 +56,14 @@ const initialState = {
     showForgotPasswordForm: false,
     showUserPolicy: false,
     showWriteMessageForm: false,
+    showConfirmPaymentForm: false,
     loginFormRegister: true,
     alerts: [],
     goToComments: false,
     unreadMessages: 0,
     newFriends: 0,
-    mutableDate: null
+    mutableDate: null,
+    purchaseId: null
 };
 
 const GlobalReducer = (state = initialState, action) => {
@@ -183,6 +190,15 @@ const GlobalReducer = (state = initialState, action) => {
                 details: state.user.details,
                 balance: action.balance
             }});
+
+        case SHOW_CONFIRM_PAYMENT_FORM:
+            return Object.assign({}, state, {showConfirmPaymentForm: true});
+
+        case CLOSE_CONFIRM_PAYMENT_FORM:
+            return Object.assign({}, state, {showConfirmPaymentForm: false});
+
+        case SET_PURCHASE_ID:
+            return Object.assign({}, state, {purchaseId: action.id});
     }
     return state;
 };
