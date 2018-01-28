@@ -50,7 +50,9 @@ class SectionPage extends React.Component {
         window.scrollTo(0, 0);
         this.props.onGetAuthorDetails(this.props.match.params.authorName);
         setTimeout(() => {
-            this.props.onGetUserDetails(this.props.login);
+            if (this.props.login !== 'Anonymous') {
+                this.props.onGetUserDetails(this.props.login);
+            }
         }, 500);
         this.setState({
             friendship: null,

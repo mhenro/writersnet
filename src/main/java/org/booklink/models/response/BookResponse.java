@@ -25,13 +25,16 @@ public class BookResponse {
     private Long views;
     private AuthorResponse author;
     private Long reviewCount;
+    private Boolean paid;
+    private Long cost;
 
     public BookResponse(){}
 
     public BookResponse(final Long id, final Long serieId, final String serieName, final Long commentsCount, final String cover, final Date created,
                         final String description, final Genre genre, final String language, final Date lastUpdate, final String name,
                         final Integer size, final Long totalRating, final Long totalVotes, final Long views, final String username,
-                        final String firstName, final String lastName, final String avatar, final Long reviewCount, final Boolean premium) {
+                        final String firstName, final String lastName, final String avatar, final Long reviewCount, final Boolean premium,
+                        final Boolean paid, final Long cost) {
         this.id = id;
         if (serieId == null && serieName == null) {
             this.bookSerie = null;
@@ -62,6 +65,8 @@ public class BookResponse {
         author.setPremium(premium);
 
         this.reviewCount = reviewCount;
+        this.paid = paid;
+        this.cost = cost;
     }
 
     public Long getId() {
@@ -182,5 +187,21 @@ public class BookResponse {
 
     public void setReviewCount(Long reviewCount) {
         this.reviewCount = reviewCount;
+    }
+
+    public Boolean getPaid() {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
+
+    public Long getCost() {
+        return cost;
+    }
+
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 }

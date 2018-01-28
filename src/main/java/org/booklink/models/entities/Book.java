@@ -37,6 +37,8 @@ public class Book {
     private Long totalRating = 0L;
     private Long totalVotes = 0L;
     private Long reviewCount = 0L;
+    private Boolean paid;
+    private Long cost;
 
     @GenericGenerator(
             name = "book_generator",
@@ -237,5 +239,21 @@ public class Book {
 
     public void setReviewCount(Long reviewCount) {
         this.reviewCount = reviewCount;
+    }
+
+    public Boolean getPaid() {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
+
+    public Long getCost() {
+        return cost;
+    }
+
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 }

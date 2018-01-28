@@ -37,6 +37,7 @@ public class User {
     private Long commentsCount = 0L;
     private Boolean online;
     private Boolean premium;
+    private Date premiumStarted;
     private Long balance = 0L;
 
     @Id
@@ -242,6 +243,16 @@ public class User {
 
     public void setPremium(Boolean premium) {
         this.premium = premium;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "premium_started")
+    public Date getPremiumStarted() {
+        return premiumStarted;
+    }
+
+    public void setPremiumStarted(Date premiumStarted) {
+        this.premiumStarted = premiumStarted;
     }
 
     public Long getBalance() {

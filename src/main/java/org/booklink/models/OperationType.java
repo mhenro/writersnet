@@ -5,8 +5,8 @@ package org.booklink.models;
  */
 public enum OperationType {
     PREMIUM_ACCOUNT,
-    TRANSFER,
     BOOK,
     MEDAL,
-    PRIZE
+    GIFT,
+    BALANCE_RECHARGE
 }

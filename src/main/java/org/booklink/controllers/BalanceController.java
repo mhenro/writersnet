@@ -1,7 +1,10 @@
 package org.booklink.controllers;
 
 import org.booklink.models.Response;
+import org.booklink.models.exceptions.NotEnoughMoneyException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.exceptions.WrongDataException;
+import org.booklink.models.request.BuyRequest;
 import org.booklink.models.response.BalanceResponse;
 import org.booklink.services.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,17 @@ public class BalanceController {
         return balanceService.getUserPaymentHistory(pageable);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "buy", method = RequestMethod.POST)
+    public ResponseEntity<?> buy(@RequestBody final BuyRequest buyRequest) {
+        final Response<String> response = new Response<>();
+        balanceService.processOperation(buyRequest);
+        response.setCode(0);
+        response.setMessage("Operation was processed successfully");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)
@@ -50,5 +64,21 @@ public class BalanceController {
         response.setCode(1);
         response.setMessage(e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(NotEnoughMoneyException.class)
+    public ResponseEntity<?> notEnoughMoney(NotEnoughMoneyException e) {
+        Response<String> response = new Response<>();
+        response.setCode(1);
+        response.setMessage(e.getMessage().isEmpty() ? "Not enough money for this operation" : e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(WrongDataException.class)
+    public ResponseEntity<?> wrongData(WrongDataException e) {
+        Response<String> response = new Response<>();
+        response.setCode(1);
+        response.setMessage(e.getMessage().isEmpty() ? "Wrong request data" : e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

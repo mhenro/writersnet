@@ -28,6 +28,8 @@ public class BookWithTextResponse {
     private Long views;
     private BookTextResponse bookText;
     private Boolean premium;
+    private Boolean paid;
+    private Long cost;
 
     private Integer totalPages;
 
@@ -38,7 +40,8 @@ public class BookWithTextResponse {
                                 final String cover, final Date created, final String description, final Genre genre,
                                 final String language, final Date lastUpdate, final String name, final Integer size,
                                 final Long totalRating, final Long totalVotes, final Long views, final Long textId,
-                                final String text, final String prevText, final Boolean premium) {
+                                final String text, final String prevText, final Boolean premium, final Boolean paid,
+                                final Long cost) {
         this.id = id;
         if (serieId == null && serieName == null) {
             this.bookSerie = null;
@@ -65,6 +68,8 @@ public class BookWithTextResponse {
         this.bookText = new BookTextResponse(textId, text, prevText);
         this.premium = premium;
         this.totalPages = 1;
+        this.paid = paid;
+        this.cost = cost;
     }
 
     public Long getId() {
@@ -209,5 +214,21 @@ public class BookWithTextResponse {
 
     public void setPremium(Boolean premium) {
         this.premium = premium;
+    }
+
+    public Boolean getPaid() {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
+
+    public Long getCost() {
+        return cost;
+    }
+
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 }

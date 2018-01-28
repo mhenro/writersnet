@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getLocale } from '../../locale.jsx';
 
-import { getUserBalance, setUserBalance, closeConfirmPaymentForm } from '../../actions/BalanceActions.jsx';
+import { getUserBalance, setUserBalance, closeConfirmPaymentForm, buy } from '../../actions/BalanceActions.jsx';
 import { getGiftDetails } from '../../actions/GiftActions.jsx';
 import {
     createNotify,
@@ -40,7 +40,13 @@ class ConfirmPaymentForm extends React.Component {
     }
 
     onBuy() {
-
+        let buyRequest = {  //TODO: fill it with correct values
+            operationType: 0,
+            purchaseId: this.props.purchaseId,
+            sourceUserId: '',
+            destUserId: ''
+        };
+        this.props.onBuy(buyRequest, this.props.token);
     }
 
     onClose() {
@@ -55,7 +61,7 @@ class ConfirmPaymentForm extends React.Component {
 
     getItemCost() {
         let style = {color: 'red', fontWeight: 'bold'},
-            cost = this.state.itemCost ? parseFloat(this.state.itemCost / 100) : parseFloat(0).toFixed(2);
+            cost = this.state.itemCost ? parseFloat(this.state.itemCost / 100).toFixed(2) : parseFloat(0).toFixed(2);
         return (
             <span style={style}>{cost}</span>
         )
@@ -178,6 +184,19 @@ const mapDispatchToProps = (dispatch) => {
             return getGiftDetails(giftId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onBuy: (buyRequest, token) => {
+            return buy(buyRequest, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', 'The operation was completed successfully'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

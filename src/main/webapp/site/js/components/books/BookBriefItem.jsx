@@ -38,7 +38,7 @@ class BookBriefItem extends React.Component {
         return (
             <div>
                 <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.props.book.totalRating.averageRating} className="stars"/>
-                <b>{this.props.book.totalRating.averageRating + ' * ' + this.props.book.totalRating.userCount}</b>
+                <b>{this.props.book.totalRating.averageRating.toFixed(2) + ' * ' + this.props.book.totalRating.userCount}</b>
                 <div className="stars-end"></div>
             </div>
         )
