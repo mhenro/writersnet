@@ -105,7 +105,7 @@ class MainPage extends React.Component {
                         </div>
                     </div>
                     <ScrollToTopButton scrollStepInPx="50" delayInMs="16.66"/>
-                    <Footer/>
+                    <Footer contentHeight={this.props.contentHeight}/>
                     <ConfirmPaymentForm/>
                     <LoginForm/>
                     <Notifier/>
@@ -123,7 +123,8 @@ const mapStateToProps = (state) => {
         newFriends: state.GlobalReducer.newFriends,
         userDetails: state.GlobalReducer.user.details,
         language: state.GlobalReducer.language,
-        balance: state.GlobalReducer.user.balance
+        balance: state.GlobalReducer.user.balance,
+        contentHeight: state.GlobalReducer.contentHeight
     }
 };
 

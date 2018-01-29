@@ -6,7 +6,7 @@ import {
     setToken,
     setLogin
 } from '../actions/AuthActions.jsx';
-import { createNotify, updateMutableDate, setDefaultPassword, setUserDetails } from '../actions/GlobalActions.jsx';
+import { createNotify, updateMutableDate, setDefaultPassword, setUserDetails, setContentHeight } from '../actions/GlobalActions.jsx';
 import {
     getUnreadMessagesFromUser,
     setUnreadMessages
@@ -51,6 +51,7 @@ class GlobalDataContainer extends React.Component {
                 this.props.onGetUnreadMessages(this.props.login, this.props.token, unreadCount => this.onSetUnreadMessages(unreadCount));
                 this.props.onGetNewFriendsCount(this.props.login, this.props.token);
             }
+            this.updateContentHeight();
         }, 5000);
 
         this.longTimer = setInterval(() => {
@@ -77,6 +78,9 @@ class GlobalDataContainer extends React.Component {
         if (this.props.token !== '') {
             this.props.onGetUserBalance(this.props.token);
         }
+    }
+    updateContentHeight() {
+        this.props.onUpdateContentHeight(document.body.clientHeight);
     }
 
     onSetUnreadMessages(unreadCount) {
@@ -198,6 +202,10 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onUpdateContentHeight: (height) => {
+            dispatch(setContentHeight(height));
         }
     }
 };

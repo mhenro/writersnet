@@ -37,6 +37,8 @@ export const SET_USER_DETAILS = 'SET_USER_DETAILS';
 
 export const SET_PURCHASE_ID = 'SET_PURCHASE_ID';
 
+export const SET_CONTENT_HEIGHT = 'SET_CONTENT_HEIGHT';
+
 export const openLoginForm = (loginFormRegister) => {
     return {
         type: OPEN_LOGIN_FORM,
@@ -133,5 +135,12 @@ export const setPurchaseId = (id) => {
     return {
         type: SET_PURCHASE_ID,
         id
+    }
+};
+
+export const setContentHeight = (height) => {
+    return {
+        type: SET_CONTENT_HEIGHT,
+        height
     }
 };

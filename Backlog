@@ -22,7 +22,6 @@ Features:
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 106. Add "Give a gift" button under the author avatar on ShortAuthorInfo component. When click on that button user should be moved to GiftPage.
 107. Create GiftPage. On this page user should see some gifts. Every gift gives some rating or/and credits to author which will be gifted. Some gifts are without cost, some with cost.
-108. Press the footer to the bottom even if there is not enough content on the page.
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
 82. Optimize Hibernate queries.
@@ -165,3 +164,4 @@ DONE - 104. Add BalancePage component. When user click on "Balance" button in th
 DONE - 108. Add ConfirmPaymentForm. It should show the name of the item, current balance. If not enough money it should be a link to user balance page.
 DONE - 102. Add limit for premium user. After a year premium account should be prolongated.
 DONE - 108. Change all java.util.Date to LocalDate and LocalDateTime for JPA mappings. Use convertor for that.
+DONE - 108. Press the footer to the bottom even if there is not enough content on the page.

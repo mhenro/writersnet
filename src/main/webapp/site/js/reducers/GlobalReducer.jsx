@@ -13,7 +13,8 @@ import {
     GO_TO_COMMENTS,
     UPDATE_MUTABLE_DATE,
     SET_USER_DETAILS,
-    SET_PURCHASE_ID
+    SET_PURCHASE_ID,
+    SET_CONTENT_HEIGHT
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -63,7 +64,8 @@ const initialState = {
     unreadMessages: 0,
     newFriends: 0,
     mutableDate: null,
-    purchaseId: null
+    purchaseId: null,
+    contentHeight: 0
 };
 
 const GlobalReducer = (state = initialState, action) => {
@@ -199,6 +201,9 @@ const GlobalReducer = (state = initialState, action) => {
 
         case SET_PURCHASE_ID:
             return Object.assign({}, state, {purchaseId: action.id});
+
+        case SET_CONTENT_HEIGHT:
+            return Object.assign({}, state, {contentHeight: action.height});
     }
     return state;
 };
