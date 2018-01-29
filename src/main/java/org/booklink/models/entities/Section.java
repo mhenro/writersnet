@@ -3,6 +3,7 @@ package org.booklink.models.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ public class Section {
     private Long id;
     private String name;
     private String description;
-    private Date lastUpdated;
+    private LocalDate lastUpdated;
     private User author;
 
     @GenericGenerator(
@@ -54,12 +55,11 @@ public class Section {
     }
 
     @Column(name = "last_update")
-    @Temporal(TemporalType.DATE)
-    public Date getLastUpdated() {
+    public LocalDate getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(Date lastUpdated) {
+    public void setLastUpdated(LocalDate lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 

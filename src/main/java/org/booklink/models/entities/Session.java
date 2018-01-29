@@ -3,6 +3,7 @@ package org.booklink.models.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
 public class Session {
     private Long id;
     private User author;
-    private Date expired;
+    private LocalDateTime expired;
 
     @GenericGenerator(
             name = "session_generator",
@@ -45,13 +46,12 @@ public class Session {
         this.author = author;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "expire_date")
-    public Date getExpired() {
+    public LocalDateTime getExpired() {
         return expired;
     }
 
-    public void setExpired(Date expired) {
+    public void setExpired(LocalDateTime expired) {
         this.expired = expired;
     }
 }

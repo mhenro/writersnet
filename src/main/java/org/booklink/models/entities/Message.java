@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ public class Message {
     private Long id;
     private User creator;
     private String message;
-    private Date created;
+    private LocalDateTime created;
     private ChatGroup group;
     private Boolean unread;
 
@@ -58,12 +59,11 @@ public class Message {
         this.message = message;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 

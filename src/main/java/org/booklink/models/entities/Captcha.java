@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Date;
 public class Captcha {
     private Long id;
     private String code;
-    private Date expired;
+    private LocalDateTime expired;
 
     @GenericGenerator(
             name = "captcha_generator",
@@ -45,12 +46,11 @@ public class Captcha {
         this.code = code;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date getExpired() {
+    public LocalDateTime getExpired() {
         return expired;
     }
 
-    public void setExpired(Date expired) {
+    public void setExpired(LocalDateTime expired) {
         this.expired = expired;
     }
 }

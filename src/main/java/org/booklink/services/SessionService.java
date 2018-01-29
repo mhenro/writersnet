@@ -15,6 +15,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -40,7 +42,7 @@ public class SessionService {
         final String signingKey = environment.getProperty("jwt.signing-key");
         final Claims claims = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
         final String username = (String)claims.get("sub");
-        final Date expireDate = claims.getExpiration();
+        final LocalDateTime expireDate = LocalDateTime.ofInstant(claims.getExpiration().toInstant(), ZoneId.systemDefault());
 
         final Session existedSession = sessionRepository.findByUsername(username);
         if (existedSession != null) {
@@ -78,7 +80,7 @@ public class SessionService {
     @Scheduled(fixedDelay = 900000) //15 min
     public void removeOldSessions() {
         //logger.info("try to remove old sessions ;)");
-        authorRepository.setOfflineStatus(new Date());
-        sessionRepository.deleteOldSessions(new Date());
+        authorRepository.setOfflineStatus(LocalDateTime.now());
+        sessionRepository.deleteOldSessions(LocalDateTime.now());
     }
 }

@@ -3,6 +3,7 @@ package org.booklink.models.response;
 import org.booklink.models.OperationType;
 import org.booklink.models.entities.User;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -12,14 +13,14 @@ public class BalanceResponse {
     private Long id;
     private String userId;
     private OperationType operationType;
-    private Date operationDate;
+    private LocalDateTime operationDate;
     private Long operationCost;
     private Long balance;
 
     public BalanceResponse() {}
 
     public BalanceResponse(final Long id, final String userId, final OperationType operationType,
-                           final Date operationDate, final Long operationCost, final Long balance) {
+                           final LocalDateTime operationDate, final Long operationCost, final Long balance) {
         this.id = id;
         this.userId = userId;
         this.operationType = operationType;
@@ -52,11 +53,11 @@ public class BalanceResponse {
         this.operationType = operationType;
     }
 
-    public Date getOperationDate() {
+    public LocalDateTime getOperationDate() {
         return operationDate;
     }
 
-    public void setOperationDate(Date operationDate) {
+    public void setOperationDate(LocalDateTime operationDate) {
         this.operationDate = operationDate;
     }
 

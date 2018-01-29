@@ -2,6 +2,7 @@ package org.booklink.models.response;
 
 import org.booklink.models.entities.Session;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
 public class SessionResponse {
     private long id;
     private String author;
-    private Date expired;
+    private LocalDateTime expired;
 
     public SessionResponse(final Session session) {
         if (session == null) {
@@ -37,11 +38,11 @@ public class SessionResponse {
         this.author = author;
     }
 
-    public Date getExpired() {
+    public LocalDateTime getExpired() {
         return expired;
     }
 
-    public void setExpired(Date expired) {
+    public void setExpired(LocalDateTime expired) {
         this.expired = expired;
     }
 }

@@ -3,6 +3,7 @@ package org.booklink.models.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ public class ChatGroup {
     private String name;
     private String avatar;
     private User creator;
-    private Date created;
+    private LocalDateTime created;
     private User primaryRecipient;
     private List<Message> messages = new ArrayList<>();
     private List<User> users;
@@ -70,11 +71,11 @@ public class ChatGroup {
         this.creator = creator;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 

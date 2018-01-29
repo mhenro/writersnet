@@ -1,6 +1,7 @@
 package org.booklink.models.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
 @Table(name = "subscriptions")
 public class Subscription {
     private SubscriptionPK subscriptionPK;
-    private Date added;
+    private LocalDateTime added;
 
     @EmbeddedId
     public SubscriptionPK getSubscriptionPK() {
@@ -21,12 +22,11 @@ public class Subscription {
         this.subscriptionPK = subscriptionPK;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date getAdded() {
+    public LocalDateTime getAdded() {
         return added;
     }
 
-    public void setAdded(Date added) {
+    public void setAdded(LocalDateTime added) {
         this.added = added;
     }
 }

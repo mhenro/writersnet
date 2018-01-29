@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
@@ -54,7 +55,7 @@ public class BookControllerTest {
     @Before
     public void setup() {
         try {
-            when(bookService.saveBookText(any(BookTextRequest.class))).thenReturn(Date.valueOf("2017-11-12"));
+            when(bookService.saveBookText(any(BookTextRequest.class))).thenReturn(LocalDateTime.parse("2017-11-12"));
         } catch (Exception e) {
             e.printStackTrace();
         }

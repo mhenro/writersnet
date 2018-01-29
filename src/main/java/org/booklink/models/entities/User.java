@@ -5,6 +5,8 @@ import org.booklink.models.request.TotalRating;
 import org.booklink.models.request.TotalSize;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,7 +22,7 @@ public class User {
     private String activationToken;
     private String authority;
     private String email;
-    private Date birthday;
+    private LocalDate birthday;
     private String city;
     private String firstName;
     private String lastName;
@@ -37,7 +39,7 @@ public class User {
     private Long commentsCount = 0L;
     private Boolean online;
     private Boolean premium;
-    private Date premiumStarted;
+    private LocalDateTime premiumExpired;
     private Long balance = 0L;
 
     @Id
@@ -91,12 +93,11 @@ public class User {
         this.email = email;
     }
 
-    @Temporal(TemporalType.DATE)
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -245,14 +246,13 @@ public class User {
         this.premium = premium;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "premium_started")
-    public Date getPremiumStarted() {
-        return premiumStarted;
+    @Column(name = "premium_expired")
+    public LocalDateTime getPremiumExpired() {
+        return premiumExpired;
     }
 
-    public void setPremiumStarted(Date premiumStarted) {
-        this.premiumStarted = premiumStarted;
+    public void setPremiumExpired(LocalDateTime premiumExpired) {
+        this.premiumExpired = premiumExpired;
     }
 
     public Long getBalance() {

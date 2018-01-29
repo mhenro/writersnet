@@ -4,6 +4,7 @@ import org.booklink.models.entities.*;
 import org.booklink.models.request.TotalRating;
 import org.booklink.models.request.TotalSize;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ import java.util.*;
 public class AuthorResponse {
     private String username;
     private String email;
-    private Date birthday;
+    private LocalDate birthday;
     private String city;
     private String firstName;
     private String lastName;
@@ -28,7 +29,7 @@ public class AuthorResponse {
 
     public AuthorResponse() {}
 
-    public AuthorResponse(final String username, final String email, final Date birthday, final String city, final String firstName,
+    public AuthorResponse(final String username, final String email, final LocalDate birthday, final String city, final String firstName,
                           final String lastName, final String avatar, final Section section,
                           final String language, final String preferredLanguages, final Long views, final Long totalRating,
                           final Long totalVotes, final Boolean online, final Boolean premium) {
@@ -69,11 +70,11 @@ public class AuthorResponse {
         this.email = email;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

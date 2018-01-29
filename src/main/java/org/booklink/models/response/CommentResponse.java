@@ -2,6 +2,7 @@ package org.booklink.models.response;
 
 import org.booklink.models.entities.Comment;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -15,12 +16,12 @@ public class CommentResponse {
     private String userAvatar;
     private String comment;
     private CommentResponse relatedTo;
-    private Date created;
+    private LocalDateTime created;
 
     public CommentResponse() {}
 
     public CommentResponse(final Long id, final Long bookId, final String userId, final String firstName, final String lastName,
-                           final String avatar, final String comment, final Comment relatedTo, final Date created) {
+                           final String avatar, final String comment, final Comment relatedTo, final LocalDateTime created) {
         this.id = id;
         this.bookId = bookId;
         this.userId = userId;
@@ -103,11 +104,11 @@ public class CommentResponse {
         this.relatedTo = relatedTo;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 }

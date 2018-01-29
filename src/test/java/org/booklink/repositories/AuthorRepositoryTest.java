@@ -21,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -79,7 +80,7 @@ public class AuthorRepositoryTest {
         return rating;
     }
 
-    private Message createMessage(User user, final ChatGroup group, final String message, final Date date) {
+    private Message createMessage(User user, final ChatGroup group, final String message, final LocalDateTime date) {
         final Message msg = new Message();
         msg.setCreator(user);
         msg.setCreated(date);
@@ -92,7 +93,7 @@ public class AuthorRepositoryTest {
 
     private ChatGroup createChatGroup(final User user) {
         final ChatGroup group = new ChatGroup();
-        group.setCreated(new Date());
+        group.setCreated(LocalDateTime.now());
         group.setCreator(user);
         group.setAvatar("avatar");
         group.setName("name");
@@ -158,12 +159,12 @@ public class AuthorRepositoryTest {
     private void initChatGroups() {
         final User user = createUser("mhenro", true, 0);
         final ChatGroup group1 = createChatGroup(user);
-        final LocalDate date2 = LocalDate.now();
-        final LocalDate date1 = date2.minusDays(1);
-        final LocalDate date3 = date2.plusDays(1);
-        final Message msg1 = createMessage(user, group1, "msg #1", java.sql.Date.valueOf(date1));
-        final Message msg2 = createMessage(user, group1, "msg #2", java.sql.Date.valueOf(date2));
-        final Message msg3 = createMessage(user, group1, "msg #3", java.sql.Date.valueOf(date3));
+        final LocalDateTime date2 = LocalDateTime.now();
+        final LocalDateTime date1 = date2.minusDays(1);
+        final LocalDateTime date3 = date2.plusDays(1);
+        final Message msg1 = createMessage(user, group1, "msg #1", date1);
+        final Message msg2 = createMessage(user, group1, "msg #2", date2);
+        final Message msg3 = createMessage(user, group1, "msg #3", date3);
         group1.getMessages().add(msg1);
         group1.getMessages().add(msg2);
         group1.getMessages().add(msg3);
@@ -171,12 +172,12 @@ public class AuthorRepositoryTest {
 
 
         final ChatGroup group2 = createChatGroup(user);
-        final LocalDate date12 = LocalDate.now();
-        final LocalDate date11 = date12.minusDays(1);
-        final LocalDate date13 = date12.plusDays(1);
-        final Message msg11 = createMessage(user, group2, "msg #11", java.sql.Date.valueOf(date11));
-        final Message msg12 = createMessage(user, group2, "msg #12", java.sql.Date.valueOf(date12));
-        final Message msg13 = createMessage(user, group2, "msg #13", java.sql.Date.valueOf(date13));
+        final LocalDateTime date12 = LocalDateTime.now();
+        final LocalDateTime date11 = date12.minusDays(1);
+        final LocalDateTime date13 = date12.plusDays(1);
+        final Message msg11 = createMessage(user, group2, "msg #11", date11);
+        final Message msg12 = createMessage(user, group2, "msg #12", date12);
+        final Message msg13 = createMessage(user, group2, "msg #13", date13);
         group2.getMessages().add(msg11);
         group2.getMessages().add(msg12);
         group2.getMessages().add(msg13);

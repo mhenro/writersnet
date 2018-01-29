@@ -4,6 +4,7 @@ import org.booklink.models.entities.Book;
 import org.booklink.models.entities.News;
 import org.booklink.models.entities.User;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public class NewsResponse {
     private String authorAvatar;
     private Long bookId;
     private String bookName;
-    private Date created;
+    private LocalDateTime created;
     private String subscriptionId;
     private String subscriptionFullName;
 
@@ -94,11 +95,11 @@ public class NewsResponse {
         this.bookName = bookName;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 

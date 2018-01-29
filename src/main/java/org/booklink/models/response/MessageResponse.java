@@ -4,6 +4,7 @@ import org.booklink.controllers.MessageController;
 import org.booklink.models.entities.Book;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -15,12 +16,12 @@ public class MessageResponse implements Serializable {
     private String creatorFullName;
     private String creatorAvatar;
     private String message;
-    private Date created;
+    private LocalDateTime created;
     private Long groupId;
     private Boolean unread;
 
     public MessageResponse(final Long id, final String creatorId, final String creatorFirstName, final String creatorLastName, final String creatorAvatar,
-                           final String message, final Date created, final Long groupId, final Boolean unread) {
+                           final String message, final LocalDateTime created, final Long groupId, final Boolean unread) {
         this.id = id;
         this.creatorId = creatorId;
         this.creatorFullName = creatorFirstName + " " + creatorLastName;
@@ -71,11 +72,11 @@ public class MessageResponse implements Serializable {
         this.message = message;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 

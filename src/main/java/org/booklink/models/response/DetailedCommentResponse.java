@@ -1,5 +1,6 @@
 package org.booklink.models.response;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,12 +17,12 @@ public class DetailedCommentResponse {
     private String userFullName;
     private String userAvatar;
     private String comment;
-    private Date created;
+    private LocalDateTime created;
 
     public DetailedCommentResponse(final Long id, final Long bookId, final String bookName, final String bookCover,
                                    final String authorId, final String authorFirstName, final String authorLastName,
                                    final String authorAvatar, final String userFirstName, final String userLastName,
-                                   final String userAvatar, String comment, final Date created) {
+                                   final String userAvatar, String comment, final LocalDateTime created) {
         this.id = id;
         this.bookId = bookId;
         this.bookName = bookName;
@@ -115,11 +116,11 @@ public class DetailedCommentResponse {
         this.comment = comment;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 }

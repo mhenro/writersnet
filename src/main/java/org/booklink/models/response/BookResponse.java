@@ -4,6 +4,8 @@ import org.booklink.models.Genre;
 import org.booklink.models.entities.Book;
 import org.booklink.models.request.TotalRating;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -14,11 +16,11 @@ public class BookResponse {
     private BookSerieResponse bookSerie;
     private Long commentsCount;
     private String cover;
-    private Date created;
+    private LocalDate created;
     private String description;
     private Genre genre;
     private String language;
-    private Date lastUpdate;
+    private LocalDateTime lastUpdate;
     private String name;
     private Integer size;
     private TotalRating totalRating;
@@ -30,8 +32,8 @@ public class BookResponse {
 
     public BookResponse(){}
 
-    public BookResponse(final Long id, final Long serieId, final String serieName, final Long commentsCount, final String cover, final Date created,
-                        final String description, final Genre genre, final String language, final Date lastUpdate, final String name,
+    public BookResponse(final Long id, final Long serieId, final String serieName, final Long commentsCount, final String cover, final LocalDate created,
+                        final String description, final Genre genre, final String language, final LocalDateTime lastUpdate, final String name,
                         final Integer size, final Long totalRating, final Long totalVotes, final Long views, final String username,
                         final String firstName, final String lastName, final String avatar, final Long reviewCount, final Boolean premium,
                         final Boolean paid, final Long cost) {
@@ -101,11 +103,11 @@ public class BookResponse {
         this.cover = cover;
     }
 
-    public Date getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
@@ -133,11 +135,11 @@ public class BookResponse {
         this.language = language;
     }
 
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -58,7 +59,7 @@ public class NewsService {
         news.setType(type.getType());
         news.setAuthor(author);
         news.setBook(book);
-        news.setCreated(new Date());
+        news.setCreated(LocalDateTime.now());
         newsRepository.save(news);
     }
 
@@ -68,7 +69,7 @@ public class NewsService {
         news.setType(type.getType());
         news.setAuthor(author);
         news.setSubscription(subscription);
-        news.setCreated(new Date());
+        news.setCreated(LocalDateTime.now());
         newsRepository.save(news);
     }
 
@@ -77,7 +78,7 @@ public class NewsService {
         final News news = new News();
         news.setType(type.getType());
         news.setAuthor(author);
-        news.setCreated(new Date());
+        news.setCreated(LocalDateTime.now());
         newsRepository.save(news);
     }
 

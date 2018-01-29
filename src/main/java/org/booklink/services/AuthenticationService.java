@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.booklink.utils.SecurityHelper.generateActivationToken;
@@ -134,7 +135,7 @@ public class AuthenticationService {
     private Section createDefaultSection(final User user) {
         final Section section = new Section();
         section.setAuthor(user);
-        section.setLastUpdated(new Date());
+        section.setLastUpdated(LocalDate.now());
         section.setName("Author section");
         return section;
     }

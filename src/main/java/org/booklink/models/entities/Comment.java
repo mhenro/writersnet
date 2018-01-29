@@ -5,6 +5,7 @@ import org.hibernate.annotations.*;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -18,7 +19,7 @@ public class Comment {
     private User user;
     private String comment;
     private Comment relatedTo;
-    private Date created;
+    private LocalDateTime created;
 
     @GenericGenerator(
             name = "book_comment_generator",
@@ -78,12 +79,11 @@ public class Comment {
         this.relatedTo = relatedTo;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 }

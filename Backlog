@@ -19,7 +19,6 @@ Features:
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 98. Add competitions page. On this page users can add new competition then select its name and prize fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
 47. Add defence from overclick visitors by user (by IP or something).
-102. Add limit for premium user. After a year premium account should be prolongated.
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 106. Add "Give a gift" button under the author avatar on ShortAuthorInfo component. When click on that button user should be moved to GiftPage.
 107. Create GiftPage. On this page user should see some gifts. Every gift gives some rating or/and credits to author which will be gifted. Some gifts are without cost, some with cost.
@@ -163,3 +162,5 @@ DONE - 29. Support full localization mechanism.
 DONE - 103. Add billing sql schema for user balance.
 DONE - 104. Add BalancePage component. When user click on "Balance" button in the NavBar he should move to BalancePage. On this page should be table with all operations with user balance. Also it should be textfield for writing amount and button "Top up the balance".
 DONE - 108. Add ConfirmPaymentForm. It should show the name of the item, current balance. If not enough money it should be a link to user balance page.
+DONE - 102. Add limit for premium user. After a year premium account should be prolongated.
+DONE - 108. Change all java.util.Date to LocalDate and LocalDateTime for JPA mappings. Use convertor for that.

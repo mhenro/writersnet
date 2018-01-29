@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +68,7 @@ public class MessageService {
         final Message message = new Message();
         message.setCreator(author);
         message.setMessage(text);
-        message.setCreated(new Date());
+        message.setCreated(LocalDateTime.now());
         message.setGroup(group);
         message.setUnread(true);
         messageRepository.save(message);
@@ -162,7 +163,7 @@ public class MessageService {
 
     private ChatGroup createChatGroup(final User author, final User recipient) {
         ChatGroup group = new ChatGroup();
-        group.setCreated(new Date());
+        group.setCreated(LocalDateTime.now());
         group.setCreator(author);
         group.setPrimaryRecipient(recipient);
         author.getChatGroups().add(group);

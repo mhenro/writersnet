@@ -3,6 +3,7 @@ package org.booklink.models.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -24,7 +25,7 @@ public class News {
                         */
     private User author;
     private Book book;
-    private Date created;
+    private LocalDateTime created;
     private User subscription;
 
     @GenericGenerator(
@@ -76,12 +77,11 @@ public class News {
         this.book = book;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 

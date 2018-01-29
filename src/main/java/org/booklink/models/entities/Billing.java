@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ public class Billing {
     private Long id;
     private User author;
     private OperationType operationType;
-    private Date operationDate;
+    private LocalDateTime operationDate;
     private Long operationCost;
     private Long balance;
 
@@ -59,13 +60,12 @@ public class Billing {
         this.operationType = operationType;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "operation_date")
-    public Date getOperationDate() {
+    public LocalDateTime getOperationDate() {
         return operationDate;
     }
 
-    public void setOperationDate(Date operationDate) {
+    public void setOperationDate(LocalDateTime operationDate) {
         this.operationDate = operationDate;
     }
 

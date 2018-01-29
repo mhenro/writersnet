@@ -5,6 +5,7 @@ import org.booklink.models.entities.Message;
 import org.booklink.models.entities.User;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,10 +17,10 @@ public class ChatGroupResponse implements Serializable {
     private String creatorId;
     private String creatorFullName;
     private String creatorAvatar;
-    private Date created;
+    private LocalDateTime created;
     private String lastMessageText;
     private String lastMessageAvatar;
-    private Date lastMessageDate;
+    private LocalDateTime lastMessageDate;
     private String primaryRecipientFullName;
     private String primaryRecipientAvatar;
     private String recipients;
@@ -86,11 +87,11 @@ public class ChatGroupResponse implements Serializable {
         this.creatorAvatar = creatorAvatar;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
@@ -110,11 +111,11 @@ public class ChatGroupResponse implements Serializable {
         this.lastMessageAvatar = lastMessageAvatar;
     }
 
-    public Date getLastMessageDate() {
+    public LocalDateTime getLastMessageDate() {
         return lastMessageDate;
     }
 
-    public void setLastMessageDate(Date lastMessageDate) {
+    public void setLastMessageDate(LocalDateTime lastMessageDate) {
         this.lastMessageDate = lastMessageDate;
     }
 

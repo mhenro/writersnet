@@ -1,20 +1,21 @@
 package org.booklink.models.response;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
  * Created by mhenr on 20.12.2017.
  */
 public class FriendshipResponse {
-    private Date date;
+    private LocalDateTime date;
     private Boolean active;
     private String id;
     private String name;
     private String section;
     private String avatar;
 
-    public FriendshipResponse(final Date date, final Boolean active, final String id, final String firstName, final String lastName,
+    public FriendshipResponse(final LocalDateTime date, final Boolean active, final String id, final String firstName, final String lastName,
                               final String section, final String avatar) {
         this.date = date;
         this.active = active;
@@ -24,11 +25,11 @@ public class FriendshipResponse {
         this.avatar = avatar;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

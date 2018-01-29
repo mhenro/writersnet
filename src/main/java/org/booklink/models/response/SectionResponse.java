@@ -2,6 +2,7 @@ package org.booklink.models.response;
 
 import org.booklink.models.entities.Section;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ public class SectionResponse {
     private long id;
     private String name;
     private String description;
-    private Date lastUpdated;
+    private LocalDate lastUpdated;
 
     public SectionResponse(){}
 
@@ -25,7 +26,7 @@ public class SectionResponse {
         this.lastUpdated = section.getLastUpdated();
     }
 
-    public SectionResponse(final Long id, final String name, final String description, final Date lastUpdated) {
+    public SectionResponse(final Long id, final String name, final String description, final LocalDate lastUpdated) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -56,11 +57,11 @@ public class SectionResponse {
         this.description = description;
     }
 
-    public Date getLastUpdated() {
+    public LocalDate getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(Date lastUpdated) {
+    public void setLastUpdated(LocalDate lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 }

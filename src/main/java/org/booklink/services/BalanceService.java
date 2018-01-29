@@ -99,7 +99,7 @@ public class BalanceService {
 
     private void activatePremiumAccountFor(final User user) {
         user.setPremium(true);
-        user.setPremiumStarted(new Date());
+        user.setPremiumExpired(LocalDateTime.now().plusYears(1));
     }
 
     private void transferGift(final OperationType operationType, final String sourceUserId, final String destUserId, final Long purchaseId) {
@@ -127,7 +127,7 @@ public class BalanceService {
         billing.setAuthor(user);
         billing.setOperationType(operationType);
         billing.setOperationCost(totalCost);
-        billing.setOperationDate(new Date());
+        billing.setOperationDate(LocalDateTime.now());
         billing.setBalance(userBalance + totalCost);
         balanceRepository.save(billing);
         user.setBalance(billing.getBalance());

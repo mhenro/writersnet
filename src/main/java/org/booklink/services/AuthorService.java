@@ -14,11 +14,14 @@ import org.booklink.models.top_models.*;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.FriendshipRepository;
 import org.booklink.utils.ObjectHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -37,6 +41,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class AuthorService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private Environment env;
     private AuthorRepository authorRepository;
     private FriendshipRepository friendshipRepository;
@@ -331,6 +336,13 @@ public class AuthorService {
     public Page<FriendshipResponse> getAllSubscriptions(final String userId, final Pageable pageable) {
         checkCredentials(userId);
         return friendshipRepository.getAllSubscriptions(userId, pageable);
+    }
+
+    @Transactional
+    @Scheduled(fixedDelay = 86400000) //1 day
+    public void disableExpiredPremiumAccounts() {
+       // logger.info("Premium cleared");
+        authorRepository.disableExpiredPremiumAccounts(LocalDateTime.now());
     }
 
     private void increaseAuthorViews(final String authorId) {

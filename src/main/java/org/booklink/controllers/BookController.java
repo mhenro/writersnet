@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -157,11 +158,11 @@ public class BookController {
     @CrossOrigin
     @RequestMapping(value = "text", method = RequestMethod.POST)
     public ResponseEntity<?> saveBookText(BookTextRequest bookTextRequest) {
-        final Response<Date> response = new Response<>();
+        final Response<LocalDateTime> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        final Date lastUpdated;
+        final LocalDateTime lastUpdated;
         try {
             lastUpdated = bookService.saveBookText(bookTextRequest);
         } catch(Exception e) {

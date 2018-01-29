@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -27,7 +28,6 @@ public class CaptchaService {
     private final int CAPTCHA_MAX_LENGTH = 4;
     private final int FONT_SIZE = 25;
     private final int LETTER_WIDTH = 14;
-    private final long ONE_MINUTE_IN_MILLIS = 60000;    //millisecs
     private final char data[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'w', 'x', 'y', 'z'};
 
     private CaptchaRepository captchaRepository;
@@ -71,16 +71,13 @@ public class CaptchaService {
         captchaRepository.save(captcha);
     }
 
-    private Date getExpiredDate() {
-        final Calendar date = Calendar.getInstance();
-        final long time = date.getTimeInMillis();
-        final Date result = new Date(time + (1 * ONE_MINUTE_IN_MILLIS));
-        return result;
+    private LocalDateTime getExpiredDate() {
+        return LocalDateTime.now().plusMinutes(1);
     }
 
     @Scheduled(fixedDelay = 300000) //5 min
     public void removeOldCaptchaSessions() {
-        captchaRepository.deleteOldCaptcha(new Date());
+        captchaRepository.deleteOldCaptcha(LocalDateTime.now());
     }
 
     private void renderCaptcha(final Graphics2D graphics2D, final StringBuffer buffer) {

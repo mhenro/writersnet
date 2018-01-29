@@ -5,6 +5,8 @@ import org.booklink.models.entities.Book;
 import org.booklink.models.entities.BookText;
 import org.booklink.models.request.TotalRating;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -17,11 +19,11 @@ public class BookWithTextResponse {
     private String authorFullName;
     private Long commentsCount;
     private String cover;
-    private Date created;
+    private LocalDate created;
     private String description;
     private Genre genre;
     private String language;
-    private Date lastUpdate;
+    private LocalDateTime lastUpdate;
     private String name;
     private Integer size;
     private TotalRating totalRating;
@@ -37,8 +39,8 @@ public class BookWithTextResponse {
 
     public BookWithTextResponse(final Long id, final Long serieId, final String serieName, final String authorId,
                                 final String authorFirstName, final String authorLastName, final Long commentsCount,
-                                final String cover, final Date created, final String description, final Genre genre,
-                                final String language, final Date lastUpdate, final String name, final Integer size,
+                                final String cover, final LocalDate created, final String description, final Genre genre,
+                                final String language, final LocalDateTime lastUpdate, final String name, final Integer size,
                                 final Long totalRating, final Long totalVotes, final Long views, final Long textId,
                                 final String text, final String prevText, final Boolean premium, final Boolean paid,
                                 final Long cost) {
@@ -120,11 +122,11 @@ public class BookWithTextResponse {
         this.cover = cover;
     }
 
-    public Date getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
@@ -152,11 +154,11 @@ public class BookWithTextResponse {
         this.language = language;
     }
 
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

@@ -1,6 +1,6 @@
 package org.booklink.models.top_models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by mhenr on 02.12.2017.
@@ -8,9 +8,9 @@ import java.util.Date;
 public class TopBookNovelties {
     private long id;
     private String name;
-    private Date lastUpdate;
+    private LocalDateTime lastUpdate;
 
-    public TopBookNovelties(final long id, final String name, final Date lastUpdate) {
+    public TopBookNovelties(final long id, final String name, final LocalDateTime lastUpdate) {
         this.id = id;
         this.name = name;
         this.lastUpdate = lastUpdate;
@@ -32,11 +32,11 @@ public class TopBookNovelties {
         this.name = name;
     }
 
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 }

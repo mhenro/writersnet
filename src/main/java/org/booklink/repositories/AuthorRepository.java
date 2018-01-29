@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by mhenr on 16.10.2017.
@@ -47,7 +47,7 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
 
     @Modifying
     @Query("UPDATE User u SET u.online = false WHERE u.username IN (SELECT s.author.username FROM Session s WHERE s.expired < ?1)")
-    void setOfflineStatus(final Date currentDate);
+    void setOfflineStatus(final LocalDateTime currentDate);
 
     @Query("SELECT new org.booklink.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.premium DESC")
     Page<AuthorShortInfoResponse> findAllEnabled(final Pageable pageable);
@@ -75,4 +75,8 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
 
     @Query("SELECT new org.booklink.models.response.ChatGroupResponse(g) FROM User u LEFT JOIN u.chatGroups g WHERE u.username = ?1 AND u.enabled = true")
     Page<ChatGroupResponse> getChatGroups(final String userId, final Pageable pageable);
+
+    @Modifying
+    @Query("UPDATE User SET premium = false WHERE premiumExpired < ?1")
+    void disableExpiredPremiumAccounts(final LocalDateTime currentDate);
 }

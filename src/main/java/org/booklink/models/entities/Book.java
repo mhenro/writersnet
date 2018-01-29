@@ -6,6 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +23,8 @@ public class Book {
     private String name;
     private BookText bookText;
     private String description;
-    private Date created;
-    private Date lastUpdate;
+    private LocalDate created;
+    private LocalDateTime lastUpdate;
     private Genre genre;
     private User author;
     private String authorName;
@@ -88,22 +90,20 @@ public class Book {
         this.description = description;
     }
 
-    @Temporal(TemporalType.DATE)
-    public Date getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_update")
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

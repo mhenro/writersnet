@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -183,8 +185,8 @@ public class BookService {
         Book savedBook;
         if (book.getId() == null) { //new book
             savedBook = new Book();
-            savedBook.setCreated(new Date());
-            savedBook.setLastUpdate(new Date());
+            savedBook.setCreated(LocalDate.now());
+            savedBook.setLastUpdate(LocalDateTime.now());
             final BookText bookText = new BookText();
             savedBook.setBookText(bookText);
         } else {    //saved book was edited
@@ -193,7 +195,7 @@ public class BookService {
                 throw new ObjectNotFoundException("Book was not found");
             }
             checkCredentials(savedBook.getAuthor().getUsername());   //only owner can edit his book
-            savedBook.setLastUpdate(new Date());
+            savedBook.setLastUpdate(LocalDateTime.now());
         }
         BeanUtils.copyProperties(book, savedBook, ObjectHelper.getNullPropertyNames(book));
         if (book.getSerieId() != null) {
@@ -244,7 +246,7 @@ public class BookService {
 
         String coverLink = env.getProperty("writersnet.coverwebstorage.path") + originalName;
         book.setCover(coverLink);
-        book.setLastUpdate(new Date());
+        book.setLastUpdate(LocalDateTime.now());
         bookRepository.save(book);
     }
 
@@ -260,7 +262,7 @@ public class BookService {
     }
 
     @Transactional
-    public Date saveBookText(final BookTextRequest bookTextRequest) throws Exception {
+    public LocalDateTime saveBookText(final BookTextRequest bookTextRequest) throws Exception {
         checkCredentials(bookTextRequest.getUserId()); //only the owner can change the cover of his book
 
         Book book = bookRepository.findOne(bookTextRequest.getBookId());
@@ -277,7 +279,7 @@ public class BookService {
         bookText.setText(text);
         bookTextRepository.save(bookText);
         book.setBookText(bookText);
-        book.setLastUpdate(new Date());
+        book.setLastUpdate(LocalDateTime.now());
         bookRepository.save(book);
 
         return book.getLastUpdate();
@@ -332,7 +334,7 @@ public class BookService {
     private User updateDateInUserSection(final String userId) {
         User user = authorRepository.findOne(userId);
         if (user != null) {
-            user.getSection().setLastUpdated(new Date());
+            user.getSection().setLastUpdated(LocalDate.now());
             authorRepository.save(user);
         }
         return user;

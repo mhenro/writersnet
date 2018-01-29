@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -52,7 +53,7 @@ public class BookRepositoryTest {
         return bookText;
     }
 
-    private Book createBook(final String name, final User user, final Date lastUpdate, final BookText bookText) {
+    private Book createBook(final String name, final User user, final LocalDateTime lastUpdate, final BookText bookText) {
         final Book book = new Book();
         book.setName(name);
         book.setAuthor(user);
@@ -87,12 +88,12 @@ public class BookRepositoryTest {
         final BookText prevBookText = createBookText("a");
         final BookText currentBookText = createBookText("bb");
         final BookText nextBookText = createBookText("ccc");
-        final LocalDate currentDate = LocalDate.now();
-        final LocalDate prevDate = currentDate.minusDays(1);
-        final LocalDate nextDate = currentDate.plusDays(1);
-        final Book bookPrev = createBook("prev", user, java.sql.Date.valueOf(prevDate), prevBookText);
-        final Book bookCurrent = createBook("current", user, java.sql.Date.valueOf(currentDate), currentBookText);
-        final Book bookNext = createBook("next", user, java.sql.Date.valueOf(nextDate), nextBookText);
+        final LocalDateTime currentDate = LocalDateTime.now();
+        final LocalDateTime prevDate = currentDate.minusDays(1);
+        final LocalDateTime nextDate = currentDate.plusDays(1);
+        final Book bookPrev = createBook("prev", user, prevDate, prevBookText);
+        final Book bookCurrent = createBook("current", user, currentDate, currentBookText);
+        final Book bookNext = createBook("next", user, nextDate, nextBookText);
         createRating("127.0.0.1", 3, bookPrev);
         createRating("127.0.0.1", 4, bookCurrent);
         createRating("127.0.0.2", 4, bookCurrent);
