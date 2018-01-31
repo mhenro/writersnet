@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { getLocale } from '../locale.jsx';
 import { formatDate } from '../utils.jsx';
 
+import RechargeBalanceForm from '../components/balance/RechargeBalanceForm.jsx';
+
 import { getUserBalance, setUserBalance, getUserPaymentHistory } from '../actions/BalanceActions.jsx';
 import {
     createNotify
@@ -15,7 +17,8 @@ class BalancePage extends React.Component {
         this.state = {
             activePage: 1,
             totalPages: 1,
-            operations: []
+            operations: [],
+            showRechargeBalanceForm: false
         };
     }
 
@@ -27,7 +30,17 @@ class BalancePage extends React.Component {
     }
 
     topUpBalance() {
+        this.setState({
+            showRechargeBalanceForm: true
+        });
+    }
 
+    closeBalanceForm() {
+        this.setState({
+            showRechargeBalanceForm: false
+        });
+        this.props.onGetUserBalance(this.props.token);
+        this.props.onGetUserPaymentHistory(this.props.token, (page) => this.updatePaymentHistory(page));
     }
 
     updatePaymentHistory(page) {
@@ -128,6 +141,9 @@ class BalancePage extends React.Component {
                         </div>
                     </div>
                 </div>
+
+                {/* popup for recharging the balance */}
+                <RechargeBalanceForm showRechargeBalanceForm={this.state.showRechargeBalanceForm} onClose={() => this.closeBalanceForm()}/>
             </div>
         )
     }

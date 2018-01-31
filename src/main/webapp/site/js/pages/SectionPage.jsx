@@ -18,10 +18,11 @@ import {
     createNotify,
     goToComments,
     setUserDetails,
-    setPurchaseId
+    setPurchaseId,
+    setOperationType
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
-import { getHost } from '../utils.jsx';
+import { getHost, OperationType } from '../utils.jsx';
 import { getLocale } from '../locale.jsx';
 import { showConfirmPaymentForm } from '../actions/BalanceActions.jsx';
 
@@ -125,6 +126,7 @@ class SectionPage extends React.Component {
 
     onBuyPremiumAccount() {
         this.props.onSetPurchase(0);    //0 is always PREMIUM_ACCOUNT
+        this.props.onSetOperationType(OperationType.PREMIUM_ACCOUNT);
         this.props.onShowPaymentForm();
     }
 
@@ -372,6 +374,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onSetPurchase: (purchaseId) => {
             dispatch(setPurchaseId(purchaseId));
+        },
+
+        onSetOperationType: (operationType) => {
+            dispatch(setOperationType(operationType));
         }
     }
 };

@@ -57,3 +57,11 @@ export const isSubscription = (login, author) => {
 export const isFriend = (login, author) => {
     return isSubscriber(login, author) && isSubscription(login, author);
 };
+
+export const OperationType = {
+    'PREMIUM_ACCOUNT': 0,
+    'BOOK': 1,
+    'MEDAL': 2,
+    'GIFT': 3,
+    'BALANCE_RECHARGE': 4
+};

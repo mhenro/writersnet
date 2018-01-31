@@ -237,5 +237,10 @@ export const RU = {
     /* AuthorTopTable */
     'Total votes': 'Количество оценок',
     'Views': 'Просмотры',
-    'Volume': 'Объем'
+    'Volume': 'Объем',
+
+    /* RechargeBalanceForm */
+    'Amount, cr.:': 'Сумма, cr.:',
+    'Enter the amount you want to add to your balance': 'Введите сумму, которой хотите пополнить баланс',
+    'Recharge': 'Пополнить'
 };

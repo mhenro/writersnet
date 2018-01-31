@@ -14,7 +14,8 @@ import {
     UPDATE_MUTABLE_DATE,
     SET_USER_DETAILS,
     SET_PURCHASE_ID,
-    SET_CONTENT_HEIGHT
+    SET_CONTENT_HEIGHT,
+    SET_OPERATION_TYPE
 } from '../actions/GlobalActions.jsx';
 
 import {
@@ -65,6 +66,7 @@ const initialState = {
     newFriends: 0,
     mutableDate: null,
     purchaseId: null,
+    balanceOperationType: null,
     contentHeight: 0
 };
 
@@ -201,6 +203,9 @@ const GlobalReducer = (state = initialState, action) => {
 
         case SET_PURCHASE_ID:
             return Object.assign({}, state, {purchaseId: action.id});
+
+        case SET_OPERATION_TYPE:
+            return Object.assign({}, state, {balanceOperationType: action.operationType});
 
         case SET_CONTENT_HEIGHT:
             return Object.assign({}, state, {contentHeight: action.height});

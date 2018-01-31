@@ -1,7 +1,7 @@
 ﻿Current sprint:
 IN PROGRESS - 31. Create internal user balance. User can convert real money via pay gateway into the internal credits. These credits allow to:
                    - transmit credits between users. For instance, user can transmit credits to his friend or pay credits to other user for creating review of his book;
-                   - buy premium account;
+                   DONE - buy premium account;
                    - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
                    - buy additional stuff, such as some medals to show them on author section page and so on.
 		   - buy gifts and present them to authors. Each gift give some rating or credits to author.
@@ -165,3 +165,4 @@ DONE - 108. Add ConfirmPaymentForm. It should show the name of the item, current
 DONE - 102. Add limit for premium user. After a year premium account should be prolongated.
 DONE - 108. Change all java.util.Date to LocalDate and LocalDateTime for JPA mappings. Use convertor for that.
 DONE - 108. Press the footer to the bottom even if there is not enough content on the page.
+DONE - 109. Add balance recharge mechanism to the frontend.

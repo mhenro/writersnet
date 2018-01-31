@@ -237,5 +237,10 @@ export const EN = {
     /* AuthorTopTable */
     'Total votes': 'Total votes',
     'Views': 'Views',
-    'Volume': 'Volume'
+    'Volume': 'Volume',
+
+    /* RechargeBalanceForm */
+    'Amount, cr.:': 'Amount, cr.:',
+    'Enter the amount you want to add to your balance': 'Enter the amount you want to add to your balance',
+    'Recharge': 'Recharge'
 };

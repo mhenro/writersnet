@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getLocale } from '../../locale.jsx';
 
@@ -8,14 +8,21 @@ import { getUserBalance, setUserBalance, closeConfirmPaymentForm, buy } from '..
 import { getGiftDetails } from '../../actions/GiftActions.jsx';
 import {
     createNotify,
-    setPurchaseId
+    setPurchaseId,
+    setUserDetails
 } from '../../actions/GlobalActions.jsx';
+import {
+    getAuthorDetails,
+    setAuthor
+} from '../../actions/AuthorActions.jsx';
 
 class ConfirmPaymentForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             itemCost: 0,
+            itemName: 'Item',
+            itemDesc: '',
             balanceLoaded: false,
             purchaseLoaded: false
         };
@@ -35,28 +42,45 @@ class ConfirmPaymentForm extends React.Component {
     updateItem(item) {
         this.setState({
             itemCost: item.cost,
+            itemName: item.name,
+            itemDesc: item.description,
             purchaseLoaded: true
         });
     }
 
     onBuy() {
-        let buyRequest = {  //TODO: fill it with correct values
-            operationType: 0,
+        let buyRequest = {
+            operationType: this.props.operationType,
             purchaseId: this.props.purchaseId,
-            sourceUserId: '',
+            sourceUserId: this.props.login,
             destUserId: ''
         };
-        this.props.onBuy(buyRequest, this.props.token);
+        this.props.onBuy(buyRequest, this.props.token, () => this.onClose());
     }
 
     onClose() {
         this.setState({
             itemCost: 0,
+            itemName: 'Item',
+            itemDesc: '',
             balanceLoaded: false,
             purchaseLoaded: false
         });
         this.props.forgetPurchaseId();
         this.props.onClose();
+        this.props.onGetAuthorDetails(this.props.login);
+        this.props.onGetUserDetails(this.props.login);
+    }
+
+    getItemName() {
+        let tooltip = (
+            <Tooltip id="tooltip">{this.state.itemDesc}</Tooltip>
+        );
+        return (
+            <OverlayTrigger placement="top" overlay={tooltip}>
+                <span className="purchase-name">"{this.state.itemName}"</span>
+            </OverlayTrigger>
+        )
     }
 
     getItemCost() {
@@ -117,16 +141,16 @@ class ConfirmPaymentForm extends React.Component {
         if (this.isBalanceEnough()) {
             return (
                 <Modal.Body>
-                    You're going to buy "item" which costs {this.getItemCost()} credits. <br/>
+                    You're going to buy {this.getItemName()} which costs {this.getItemCost()} credits. <br/>
                     Your current balance is {this.getBalance()} credits.<br/>
                     After the payment your balance will be reduced to {this.getReducedBalance()} credits<br/><br/>
-                    <p>Do you want to buy this "item"?</p>
+                    <p>Do you want to buy this item?</p>
                 </Modal.Body>
             )
         } else {
             return (
                 <Modal.Body>
-                    You're going to buy "item" which costs {this.getItemCost()} credits. <br/>
+                    You're going to buy {this.getItemName()} which costs {this.getItemCost()} credits. <br/>
                     Your current balance is {this.getBalance()} credits.<br/>
                     You haven't enough credits to buy this item.<br/>
                     For top up the balance go to your <Link onClick={() => this.onClose()} to="/balance">balance page</Link>
@@ -157,10 +181,12 @@ class ConfirmPaymentForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         token: state.GlobalReducer.token,
+        login: state.GlobalReducer.user.login,
         language: state.GlobalReducer.language,
         balance: state.GlobalReducer.user.balance,
         showConfirmPaymentForm: state.GlobalReducer.showConfirmPaymentForm,
-        purchaseId: state.GlobalReducer.purchaseId
+        purchaseId: state.GlobalReducer.purchaseId,
+        operationType: state.GlobalReducer.balanceOperationType
     }
 };
 
@@ -193,10 +219,37 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onBuy: (buyRequest, token) => {
+        onBuy: (buyRequest, token, callback) => {
             return buy(buyRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'The operation was completed successfully'));
+                    callback();
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetAuthorDetails: (userId) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setAuthor(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetUserDetails: (userId) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setUserDetails(json));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
