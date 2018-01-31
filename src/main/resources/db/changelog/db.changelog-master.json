@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1517433117613-1",
+      "id": "1517433663233-1",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -15,7 +15,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-2",
+      "id": "1517433663233-2",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -29,7 +29,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-3",
+      "id": "1517433663233-3",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -43,7 +43,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-4",
+      "id": "1517433663233-4",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -57,7 +57,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-5",
+      "id": "1517433663233-5",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -71,7 +71,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-6",
+      "id": "1517433663233-6",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -85,7 +85,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-7",
+      "id": "1517433663233-7",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -99,7 +99,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-8",
+      "id": "1517433663233-8",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -113,7 +113,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-9",
+      "id": "1517433663233-9",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -127,7 +127,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-10",
+      "id": "1517433663233-10",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -141,7 +141,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-11",
+      "id": "1517433663233-11",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -155,7 +155,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-12",
+      "id": "1517433663233-12",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -169,7 +169,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-13",
+      "id": "1517433663233-13",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -237,7 +237,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-14",
+      "id": "1517433663233-14",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -381,7 +381,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-15",
+      "id": "1517433663233-15",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -444,7 +444,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-16",
+      "id": "1517433663233-16",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -486,7 +486,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-17",
+      "id": "1517433663233-17",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -534,7 +534,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-18",
+      "id": "1517433663233-18",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -579,7 +579,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-19",
+      "id": "1517433663233-19",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -659,7 +659,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-20",
+      "id": "1517433663233-20",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -693,7 +693,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-21",
+      "id": "1517433663233-21",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -736,7 +736,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-22",
+      "id": "1517433663233-22",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -789,7 +789,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-23",
+      "id": "1517433663233-23",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -851,7 +851,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-24",
+      "id": "1517433663233-24",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -924,7 +924,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-25",
+      "id": "1517433663233-25",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -990,7 +990,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-26",
+      "id": "1517433663233-26",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1033,7 +1033,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-27",
+      "id": "1517433663233-27",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1123,7 +1123,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-28",
+      "id": "1517433663233-28",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1157,7 +1157,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-29",
+      "id": "1517433663233-29",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1202,7 +1202,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-30",
+      "id": "1517433663233-30",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1247,7 +1247,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-31",
+      "id": "1517433663233-31",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1290,7 +1290,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-32",
+      "id": "1517433663233-32",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1333,7 +1333,50 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-33",
+      "id": "1517433663233-33",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "id",
+                  "type": "BIGINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "user_id",
+                  "type": "VARCHAR(20)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "book_id",
+                  "type": "BIGINT"
+                }
+              }]
+          ,
+            "tableName": "user_book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1517433663233-34",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1388,7 +1431,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-34",
+      "id": "1517433663233-35",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1577,7 +1620,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-35",
+      "id": "1517433663233-36",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1593,7 +1636,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-36",
+      "id": "1517433663233-37",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1609,7 +1652,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-37",
+      "id": "1517433663233-38",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1625,7 +1668,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-38",
+      "id": "1517433663233-39",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1641,7 +1684,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-39",
+      "id": "1517433663233-40",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1657,7 +1700,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-40",
+      "id": "1517433663233-41",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1673,7 +1716,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-41",
+      "id": "1517433663233-42",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1689,7 +1732,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-42",
+      "id": "1517433663233-43",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1705,7 +1748,23 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-43",
+      "id": "1517433663233-44",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addPrimaryKey": {
+            "columnNames": "id",
+            "constraintName": "user_book_pkey",
+            "tableName": "user_book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1517433663233-45",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1721,7 +1780,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-44",
+      "id": "1517433663233-46",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1737,7 +1796,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-45",
+      "id": "1517433663233-47",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1753,7 +1812,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-46",
+      "id": "1517433663233-48",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1769,7 +1828,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-47",
+      "id": "1517433663233-49",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1785,7 +1844,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-48",
+      "id": "1517433663233-50",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1807,7 +1866,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-49",
+      "id": "1517433663233-51",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1829,7 +1888,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-50",
+      "id": "1517433663233-52",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1851,7 +1910,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-51",
+      "id": "1517433663233-53",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1873,7 +1932,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-52",
+      "id": "1517433663233-54",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1895,7 +1954,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-53",
+      "id": "1517433663233-55",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1917,7 +1976,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-54",
+      "id": "1517433663233-56",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1939,7 +1998,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-55",
+      "id": "1517433663233-57",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1961,7 +2020,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-56",
+      "id": "1517433663233-58",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1983,7 +2042,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-57",
+      "id": "1517433663233-59",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2005,7 +2064,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-58",
+      "id": "1517433663233-60",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2027,7 +2086,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-59",
+      "id": "1517433663233-61",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2049,7 +2108,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-60",
+      "id": "1517433663233-62",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2071,7 +2130,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-61",
+      "id": "1517433663233-63",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2093,7 +2152,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-62",
+      "id": "1517433663233-64",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2115,7 +2174,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-63",
+      "id": "1517433663233-65",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2137,7 +2196,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-64",
+      "id": "1517433663233-66",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2159,7 +2218,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-65",
+      "id": "1517433663233-67",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2181,7 +2240,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-66",
+      "id": "1517433663233-68",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2208,7 +2267,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-67",
+      "id": "1517433663233-69",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2230,7 +2289,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-68",
+      "id": "1517433663233-70",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2252,7 +2311,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-69",
+      "id": "1517433663233-71",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2274,7 +2333,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-70",
+      "id": "1517433663233-72",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2296,7 +2355,51 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-71",
+      "id": "1517433663233-73",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "book_id"
+                }
+              }]
+          ,
+            "indexName": "fki_user_book_book_fk",
+            "tableName": "user_book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1517433663233-74",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "user_id"
+                }
+              }]
+          ,
+            "indexName": "fki_user_book_user_fk",
+            "tableName": "user_book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1517433663233-75",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2318,7 +2421,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-72",
+      "id": "1517433663233-76",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2340,7 +2443,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-73",
+      "id": "1517433663233-77",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2362,7 +2465,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-74",
+      "id": "1517433663233-78",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2384,7 +2487,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-75",
+      "id": "1517433663233-79",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2406,7 +2509,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-76",
+      "id": "1517433663233-80",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2428,7 +2531,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-77",
+      "id": "1517433663233-81",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2450,7 +2553,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-78",
+      "id": "1517433663233-82",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2472,7 +2575,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-79",
+      "id": "1517433663233-83",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2494,7 +2597,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-80",
+      "id": "1517433663233-84",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2516,7 +2619,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-81",
+      "id": "1517433663233-85",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2538,7 +2641,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-82",
+      "id": "1517433663233-86",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2560,7 +2663,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-83",
+      "id": "1517433663233-87",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2582,7 +2685,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-84",
+      "id": "1517433663233-88",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2604,7 +2707,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-85",
+      "id": "1517433663233-89",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2626,7 +2729,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-86",
+      "id": "1517433663233-90",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2648,7 +2751,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-87",
+      "id": "1517433663233-91",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2670,7 +2773,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-88",
+      "id": "1517433663233-92",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2692,7 +2795,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-89",
+      "id": "1517433663233-93",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2714,7 +2817,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-90",
+      "id": "1517433663233-94",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2736,7 +2839,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-91",
+      "id": "1517433663233-95",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2758,7 +2861,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-92",
+      "id": "1517433663233-96",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2780,7 +2883,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-93",
+      "id": "1517433663233-97",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2802,7 +2905,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-94",
+      "id": "1517433663233-98",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2824,7 +2927,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-95",
+      "id": "1517433663233-99",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2846,7 +2949,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-96",
+      "id": "1517433663233-100",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2868,7 +2971,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-97",
+      "id": "1517433663233-101",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2890,7 +2993,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-98",
+      "id": "1517433663233-102",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2912,7 +3015,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-99",
+      "id": "1517433663233-103",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2934,7 +3037,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-100",
+      "id": "1517433663233-104",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2956,7 +3059,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-101",
+      "id": "1517433663233-105",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2978,7 +3081,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-102",
+      "id": "1517433663233-106",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3000,7 +3103,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-103",
+      "id": "1517433663233-107",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3022,7 +3125,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-104",
+      "id": "1517433663233-108",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3044,7 +3147,51 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-105",
+      "id": "1517433663233-109",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "book_id",
+            "baseTableName": "user_book",
+            "constraintName": "user_book_book_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "book"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1517433663233-110",
+      "author": "mhenr (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_id",
+            "baseTableName": "user_book",
+            "constraintName": "user_book_user_fk",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "username",
+            "referencedTableName": "users"
+          }
+        }]
+
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1517433663233-111",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3066,7 +3213,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-106",
+      "id": "1517433663233-112",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3088,7 +3235,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-107",
+      "id": "1517433663233-113",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3110,7 +3257,7 @@
 
   {
     "changeSet": {
-      "id": "1517433117613-108",
+      "id": "1517433663233-114",
       "author": "mhenr (generated)",
       "changes": [
         {
