@@ -16,6 +16,10 @@ import {
     setAuthor
 } from '../../actions/AuthorActions.jsx';
 
+/*
+    props:
+    - operationType - enum from utils.jsx
+ */
 class ConfirmPaymentForm extends React.Component {
     constructor(props) {
         super(props);

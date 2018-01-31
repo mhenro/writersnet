@@ -37,6 +37,7 @@ class RechargeBalanceForm extends React.Component {
     }
 
     onClose() {
+        this.setState({ amount: 0 });
         this.props.onClose();
     }
 

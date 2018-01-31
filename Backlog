@@ -15,13 +15,13 @@ IN PROGRESS - 30. Add concept of the premium account. It should allow:
 
 
 Features:
-21. Link webmoney merchant interface to BalancePage.
-96. Show another title page when user is registered. On this page we can show book banners and so on.
-98. Add competitions page. On this page users can add new competition then select its name and prize fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
-47. Add defence from overclick visitors by user (by IP or something).
-105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 106. Add "Give a gift" button under the author avatar on ShortAuthorInfo component. When click on that button user should be moved to GiftPage.
 107. Create GiftPage. On this page user should see some gifts. Every gift gives some rating or/and credits to author which will be gifted. Some gifts are without cost, some with cost.
+98. Add competitions page. On this page users can add new competition then select its name and prize fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
+96. Show another title page when user is registered. On this page we can show book banners and so on.
+105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
+21. Link webmoney merchant interface to BalancePage.
+47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
 82. Optimize Hibernate queries.
