@@ -23,10 +23,12 @@ class BalancePage extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.token !== '') {
-            this.props.onGetUserBalance(this.props.token);
-            this.props.onGetUserPaymentHistory(this.props.token, (page) => this.updatePaymentHistory(page));
-        }
+        setTimeout(() => {
+            if (this.props.token !== '') {
+                this.props.onGetUserBalance(this.props.token);
+                this.props.onGetUserPaymentHistory(this.props.token, (page) => this.updatePaymentHistory(page));
+            }
+        }, 500);
     }
 
     topUpBalance() {

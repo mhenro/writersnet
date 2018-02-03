@@ -172,8 +172,14 @@ public class BookService {
 
     @Transactional
     public BookWithTextResponse getBook(final Long bookId, final Integer page, final Integer size) {
-        final BookWithTextResponse book = bookRepository.getBookById(bookId);
-        final BookWithTextResponse pageOfBook = cutPageFromBook(book, page, size);
+        BookWithTextResponse pageOfBook;
+        if (page != null && size != null) {
+            final int startPosition = page * size;
+            pageOfBook = bookRepository.getPartBookById(bookId, startPosition, size);
+            preparePageOfBook(pageOfBook, page, size);
+        } else {
+            pageOfBook = bookRepository.getBookById(bookId);    //return full text
+        }
         setDefaultCoverForBook(pageOfBook);
         increaseBookViews(bookId);
         return pageOfBook;
@@ -297,29 +303,17 @@ public class BookService {
         updateDateInUserSection(book.getAuthor().getUsername());
     }
 
-    private BookWithTextResponse cutPageFromBook(final BookWithTextResponse book, final Integer page, final Integer size) {
-        if (page != null && size != null && book.getBookText().getText() != null) {
-            final String text = getPageText(book.getBookText().getText(), page, size);
-            final String prevText = getPageText(book.getBookText().getPrevText(), page, size);
-            book.setTotalPages(book.getBookText().getText().length() / size);
-            book.getBookText().setText(text);
-            book.getBookText().setPrevText(prevText);
+    private void preparePageOfBook(final BookWithTextResponse pageOfBook, final int page, final int size) {
+        pageOfBook.setTotalPages(pageOfBook.getSize() / size);
+        final int offset = page * size;
+        final String prefix = offset > 0 ? "..." : "";
+        if (offset + size > pageOfBook.getSize()) {
+            pageOfBook.getBookText().setText(prefix + pageOfBook.getBookText().getText());
+            pageOfBook.getBookText().setPrevText(prefix + pageOfBook.getBookText().getPrevText());
+        } else {
+            pageOfBook.getBookText().setText(prefix + pageOfBook.getBookText().getText() + "...");
+            pageOfBook.getBookText().setPrevText(prefix + pageOfBook.getBookText().getPrevText() + "...");
         }
-        return book;
-    }
-
-    private String getPageText(final String text, final Integer page, final Integer size) {
-        String newText = text;
-        if (page != null && size != null && newText != null && page * size < newText.length()) {
-            final int offset = page * size;
-            final String prefix = offset > 0 ? "..." : "";
-            if (offset + size > newText.length()) {
-                newText = prefix + newText.substring(offset);
-            } else {
-                newText = prefix + newText.substring(offset, offset + size) + "...";
-            }
-        }
-        return newText;
     }
 
     private void increaseBookViews(final Long bookId) {

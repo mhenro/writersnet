@@ -23,6 +23,10 @@ class RechargeBalanceForm extends React.Component {
     }
 
     onRecharge() {
+        if (this.state.amount <= 0) {
+            return;
+        }
+
         let buyRequest = {
             operationType: OperationType.BALANCE_RECHARGE,
             purchaseId: this.state.amount * 100,  //in that case purchaseId is an amount of a balance
@@ -61,8 +65,8 @@ class RechargeBalanceForm extends React.Component {
                 <Modal.Body>
                     <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
                         <div className="form-group">
-                            <label className="control-label col-sm-2" htmlFor="amount">{getLocale(this.props.language)['Amount, cr.:']}</label>
-                            <div className="col-sm-10">
+                            <label className="control-label col-sm-3" htmlFor="amount">{getLocale(this.props.language)['Amount, cr.:']}</label>
+                            <div className="col-sm-9">
                                 <input value={this.state.amount} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="amount" placeholder={getLocale(this.props.language)['Enter the amount you want to add to your balance']} name="amount"/>
                             </div>
                         </div>
