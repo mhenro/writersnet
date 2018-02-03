@@ -2,9 +2,9 @@ package org.booklink.controllers;
 
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
-import org.booklink.models.entities.*;
-import org.booklink.models.exceptions.IsNotPremiumUser;
+import org.booklink.models.exceptions.IsNotPremiumUserException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
+import org.booklink.models.exceptions.TextConvertingException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.BookRequest;
 import org.booklink.models.request.BookTextRequest;
@@ -22,8 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,24 +61,15 @@ public class BookController {
     @CrossOrigin
     @RequestMapping(value = "count/books", method = RequestMethod.GET)
     public ResponseEntity<?> getBooksCount() {
-        final Response<Long> response = new Response<>();
         final long count = bookService.getBooksCount();
-        response.setCode(0);
-        response.setMessage(count);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, count, null, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> getBook(@PathVariable Long bookId, final Integer page, final Integer size) {
         BookWithTextResponse book = bookService.getBook(bookId, page, size);
-        if (book != null) {
-            return new ResponseEntity<>(book, HttpStatus.OK);
-        }
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage("Book was not found");
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -90,114 +81,56 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "books", method = RequestMethod.POST)
-    public ResponseEntity<?> saveBook(@RequestBody BookRequest book) {
-        Response<String> response = new Response<>();
+    public ResponseEntity<?> saveBook(@RequestBody final BookRequest book) {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        Long bookId = null;
-        try {
-            bookId = bookService.saveBook(book);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage(String.valueOf(bookId));
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        Long bookId = bookService.saveBook(book);
+        return Response.createResponseEntity(0, String.valueOf(bookId), token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "cover", method = RequestMethod.POST)
-    public ResponseEntity<?> saveCover(CoverRequest coverRequest) {
-        Response<String> response = new Response<>();
+    public ResponseEntity<?> saveCover(final CoverRequest coverRequest) throws IOException {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            bookService.saveCover(coverRequest);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Cover was saved successfully");
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        bookService.saveCover(coverRequest);
+        return Response.createResponseEntity(0, "Cover was saved successfully", token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "cover/restore/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> restoreDefaultCover(@PathVariable final Long bookId) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            bookService.restoreDefaultCover(bookId);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Cover was restored successfully");
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        bookService.restoreDefaultCover(bookId);
+        return Response.createResponseEntity(0, "Cover was restored successfully", token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "text", method = RequestMethod.POST)
-    public ResponseEntity<?> saveBookText(BookTextRequest bookTextRequest) {
-        final Response<LocalDateTime> response = new Response<>();
+    public ResponseEntity<?> saveBookText(final BookTextRequest bookTextRequest) throws IOException {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        final LocalDateTime lastUpdated;
-        try {
-            lastUpdated = bookService.saveBookText(bookTextRequest);
-        } catch(Exception e) {
-            final Response<String> error = new Response<>();
-            error.setCode(1);
-            error.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage(lastUpdated);
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        final LocalDateTime lastUpdated = bookService.saveBookText(bookTextRequest);
+        return Response.createResponseEntity(0, lastUpdated, token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            bookService.deleteBook(bookId);
-        } catch (Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Book was deleted successfully");
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        bookService.deleteBook(bookId);
+        return Response.createResponseEntity(0, "Book was deleted successfully", token, HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -212,25 +145,26 @@ public class BookController {
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage("Forbidden");
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Forbidden" : e.getMessage(), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> bookNotFound(ObjectNotFoundException e) {
-        Response<String> response = new Response<>();
-        response.setCode(5);
-        response.setMessage("Book not found");
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Book is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(IsNotPremiumUser.class)
-    public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUser e) {
-        Response<String> response = new Response<>();
-        response.setCode(6);
-        response.setMessage(e.getMessage().isEmpty() ? "Only a premium user can do this" : e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(IsNotPremiumUserException.class)
+    public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUserException e) {
+        return Response.createResponseEntity(6, e.getMessage().isEmpty() ? "Only a premium user can do this" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TextConvertingException.class)
+    public ResponseEntity<?> textConvertingError(TextConvertingException e) {
+        return Response.createResponseEntity(7, "An error occurred while converting the book text. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<?> ioException(IOException e) {
+        return Response.createResponseEntity(8, "Problem with server's file system. Please try again later. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

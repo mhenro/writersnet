@@ -69,12 +69,12 @@ public class CommentsService {
         Comment entity = new Comment();
         Book book = bookRepository.findOne(bookComment.getBookId());
         if (book == null) {
-            throw new ObjectNotFoundException("Book was not found");
+            throw new ObjectNotFoundException("Book is not found");
         }
         if (bookComment.getUserId() != null) {
             User user = authorRepository.findOne(bookComment.getUserId());
             if (user == null) {
-                throw new ObjectNotFoundException("Author was not found");
+                throw new ObjectNotFoundException("Author is not found");
             }
             entity.setUser(user);
             newsService.createNews(NewsService.NEWS_TYPE.COMMENT, user, book);
@@ -85,7 +85,7 @@ public class CommentsService {
         if (bookComment.getRelatedTo() != null) {
             final Comment relatedComment = bookCommentsRepository.findOne(bookComment.getRelatedTo());
             if (relatedComment == null) {
-                throw new ObjectNotFoundException("Related comment was not found");
+                throw new ObjectNotFoundException("Related comment is not found");
             }
             entity.setRelatedTo(relatedComment);
         }
@@ -97,7 +97,7 @@ public class CommentsService {
     public void deleteComment(final Long bookId, final Long commentId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            throw new ObjectNotFoundException("Book was not found");
+            throw new ObjectNotFoundException("Book is not found");
         }
         checkCredentials(book.getAuthor().getUsername());   //only owner can delete comments from his book
         decreaseCommentsInBookAndUser(commentId);
@@ -151,7 +151,7 @@ public class CommentsService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = auth.getName();
         if (!currentUser.equals(userId)) {
-            throw new UnauthorizedUserException();
+            throw new UnauthorizedUserException("Bad credentials");
         }
     }
 }

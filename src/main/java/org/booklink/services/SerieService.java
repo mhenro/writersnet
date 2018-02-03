@@ -46,7 +46,7 @@ public class SerieService {
         } else {    //editing existed serie
             bookSerie = serieRepository.findOne(serie.getId());
             if (bookSerie == null) {
-                throw new ObjectNotFoundException("Serie was not found");
+                throw new ObjectNotFoundException("Serie is not found");
             }
             bookSerie.setName(serie.getName());
         }
@@ -60,7 +60,7 @@ public class SerieService {
         checkCredentials();   //only owner can delete his series
         BookSerie bookSerie = serieRepository.findOne(serieId);
         if (bookSerie == null) {
-            throw new ObjectNotFoundException("Serie was not found");
+            throw new ObjectNotFoundException("Serie is not found");
         }
         serieRepository.delete(bookSerie);
     }

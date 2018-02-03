@@ -41,77 +41,40 @@ public class MessageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "{userId:.+}/messages/{groupId}", method = RequestMethod.GET)
-    public Page<MessageResponse> getMessagesByGroup(@PathVariable String userId, @PathVariable Long groupId, Pageable pageable) {
+    public Page<MessageResponse> getMessagesByGroup(@PathVariable final String userId, @PathVariable final Long groupId, final Pageable pageable) {
         return messageService.getMessagesByGroup(userId, groupId, pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "messages/add", method = RequestMethod.POST)
-    public ResponseEntity<?> addMessageToGroup(@RequestBody MessageRequest message) {
+    public ResponseEntity<?> addMessageToGroup(@RequestBody final MessageRequest message) {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        final Long groupId;
-        try {
-            groupId = messageService.addMessageToGroup(message.getCreator(), message.getPrimaryRecipient(), message.getText(), message.getGroupId());
-        } catch (Exception e) {
-            Response<String> response = new Response<>();
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        Response<Long> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(groupId);
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        final Long groupId = messageService.addMessageToGroup(message.getCreator(), message.getPrimaryRecipient(), message.getText(), message.getGroupId());
+        return Response.createResponseEntity(0, groupId, token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "groups/get", method = RequestMethod.POST)
-    public ResponseEntity<?> getGroupIdFromRecipient(@RequestBody MessageRequest messageRequest) {
+    public ResponseEntity<?> getGroupIdFromRecipient(@RequestBody final MessageRequest messageRequest) {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        Long groupId;
-        try {
-            groupId = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
-        } catch(Exception e) {
-            Response<String> response = new Response<>();
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        Response<Long> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(groupId);
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        Long groupId = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
+        return Response.createResponseEntity(0, groupId, token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "groups/{groupId}/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> getGroupName(@PathVariable final Long groupId, @PathVariable final String userId) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            response.setCode(0);
-            response.setMessage(messageService.getGroupName(groupId, userId));
-            response.setToken(token);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, messageService.getGroupName(groupId, userId), token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -121,19 +84,7 @@ public class MessageController {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            Response<Long> response = new Response<>();
-            response.setCode(0);
-            response.setMessage(messageService.getUnreadMessagesFromUser(userId));
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            Response<String> response = new Response<>();
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return Response.createResponseEntity(0, messageService.getUnreadMessagesFromUser(userId), token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -143,58 +94,29 @@ public class MessageController {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            Response<Long> response = new Response<>();
-            response.setCode(0);
-            response.setMessage(messageService.getUnreadMessagesInGroup(userId, groupId));
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            Response<String> response = new Response<>();
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return Response.createResponseEntity(0, messageService.getUnreadMessagesInGroup(userId, groupId), token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "groups/messages/read", method = RequestMethod.POST)
-    public ResponseEntity<?> markAllAsReadInGroup(@RequestBody ReadMessageRequest readMessageRequest) {
-        Response<String> response = new Response<>();
+    public ResponseEntity<?> markAllAsReadInGroup(@RequestBody final ReadMessageRequest readMessageRequest) {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            messageService.markAsReadInGroup(readMessageRequest.getUserId(), readMessageRequest.getGroupId());
-            response.setCode(0);
-            response.setMessage("All messages are read");
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        messageService.markAsReadInGroup(readMessageRequest.getUserId(), readMessageRequest.getGroupId());
+        return Response.createResponseEntity(0, "All messages are read", token, HttpStatus.OK);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage("Bad credentials");
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> userNotFound(ObjectNotFoundException e) {
-        Response<String> response = new Response<>();
-        response.setCode(5);
-        response.setMessage("User not found");
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "User is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 }

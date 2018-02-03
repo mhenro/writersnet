@@ -3,7 +3,7 @@ package org.booklink.services;
 import liquibase.util.file.FilenameUtils;
 import org.booklink.models.Genre;
 import org.booklink.models.entities.*;
-import org.booklink.models.exceptions.IsNotPremiumUser;
+import org.booklink.models.exceptions.IsNotPremiumUserException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.BookRequest;
@@ -23,8 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +31,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -176,9 +173,15 @@ public class BookService {
         if (page != null && size != null) {
             final int startPosition = page * size;
             pageOfBook = bookRepository.getPartBookById(bookId, startPosition, size);
+            if (pageOfBook == null) {
+                throw new ObjectNotFoundException("Book is not found");
+            }
             preparePageOfBook(pageOfBook, page, size);
         } else {
             pageOfBook = bookRepository.getBookById(bookId);    //return full text
+            if (pageOfBook == null) {
+                throw new ObjectNotFoundException("Book is not found");
+            }
         }
         setDefaultCoverForBook(pageOfBook);
         increaseBookViews(bookId);
@@ -198,7 +201,7 @@ public class BookService {
         } else {    //saved book was edited
             savedBook = bookRepository.findOne(book.getId());
             if (savedBook == null) {
-                throw new ObjectNotFoundException("Book was not found");
+                throw new ObjectNotFoundException("Book is not found");
             }
             checkCredentials(savedBook.getAuthor().getUsername());   //only owner can edit his book
             savedBook.setLastUpdate(LocalDateTime.now());
@@ -233,10 +236,10 @@ public class BookService {
 
         Book book = bookRepository.findOne(coverRequest.getId());
         if (book == null) {
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundException("Book is not found");
         }
         if (coverRequest.getCover().getSize() >= 102400 && !book.getAuthor().getPremium()) {
-            throw new IsNotPremiumUser("Only a premium user can add the book cover larger than 100 Kb");
+            throw new IsNotPremiumUserException("Only a premium user can add the book cover larger than 100 Kb");
         }
         checkCredentials(book.getAuthor().getUsername()); //only the owner can change the cover of his book
         String uploadDir = env.getProperty("writersnet.coverstorage.path");
@@ -261,22 +264,22 @@ public class BookService {
         authorizedUserService.getAuthorizedUser();
         final Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            throw new ObjectNotFoundException("Book was not found");
+            throw new ObjectNotFoundException("Book is not found");
         }
         book.setCover(null);
         newsService.createNews(NewsService.NEWS_TYPE.BOOK_UPDATED, book.getAuthor(), book);
     }
 
     @Transactional
-    public LocalDateTime saveBookText(final BookTextRequest bookTextRequest) throws Exception {
+    public LocalDateTime saveBookText(final BookTextRequest bookTextRequest) throws IOException {
         checkCredentials(bookTextRequest.getUserId()); //only the owner can change the cover of his book
 
         Book book = bookRepository.findOne(bookTextRequest.getBookId());
         if (book == null) {
-            throw new ObjectNotFoundException("Book was not found");
+            throw new ObjectNotFoundException("Book is not found");
         }
         if (bookTextRequest.getText().getSize() >= 10485760 && !book.getAuthor().getPremium()) {
-            throw new IsNotPremiumUser("Only a premium user can add the book text larger than 10 Mb");
+            throw new IsNotPremiumUserException("Only a premium user can add the book text larger than 10 Mb");
         }
         checkCredentials(book.getAuthor().getUsername()); //only the owner can change the text of his book
         String text = convertBookTextToHtml(bookTextRequest);
@@ -295,7 +298,7 @@ public class BookService {
     public void deleteBook(final Long bookId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            throw new ObjectNotFoundException("Book was not found");
+            throw new ObjectNotFoundException("Book is not found");
         }
         checkCredentials(book.getAuthor().getUsername());   //only owner can delete his book
         newsService.createNews(NewsService.NEWS_TYPE.BOOK_DELETED, book.getAuthor(), book);
@@ -359,7 +362,7 @@ public class BookService {
     }
 
     /* convert user file to our internal html format */
-    private String convertBookTextToHtml(BookTextRequest bookTextRequest) throws Exception {
+    private String convertBookTextToHtml(BookTextRequest bookTextRequest) throws IOException {
         MultipartFile textFile = bookTextRequest.getText();
         String ext = FilenameUtils.getExtension(textFile.getOriginalFilename());
         String path = env.getProperty("writersnet.tempstorage") + bookTextRequest.getUserId() + "\\";

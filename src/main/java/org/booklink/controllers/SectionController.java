@@ -3,6 +3,8 @@ package org.booklink.controllers;
 import org.booklink.models.Response;
 import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
+import org.booklink.models.exceptions.ObjectNotFoundException;
+import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.response.SectionResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SectionRepository;
@@ -27,14 +29,15 @@ public class SectionController {
 
     @CrossOrigin
     @RequestMapping(value = "sections/{sectionId:.+}", method = RequestMethod.GET)
-    public ResponseEntity<?> getSection(@PathVariable Long sectionId) {
+    public ResponseEntity<?> getSection(@PathVariable final Long sectionId) {
         SectionResponse section = sectionService.getSection(sectionId);
-        if (section != null) {
-            return new ResponseEntity<>(section, HttpStatus.OK);
-        }
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage("Section not found");
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(section, HttpStatus.OK);
+    }
+
+    /* ---------------------------------------exception handlers-------------------------------------- */
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 }

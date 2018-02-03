@@ -4,6 +4,7 @@ import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.booklink.models.exceptions.TextConvertingException;
 
 import java.io.*;
 
@@ -12,12 +13,15 @@ import java.io.*;
  */
 public class DocToHtmlConvertor implements BookConvertor<File> {
     @Override
-    public String toHtml(File file) throws Exception {
+    public String toHtml(File file) throws TextConvertingException {
         /* load docx into XWPFDocument */
-        InputStream is = new FileInputStream(file);
-        XWPFDocument document = new XWPFDocument(is);
-
-        XWPFWordExtractor extractor = new XWPFWordExtractor(document);
-        return extractor.getText();
+        try {
+            InputStream is = new FileInputStream(file);
+            XWPFDocument document = new XWPFDocument(is);
+            XWPFWordExtractor extractor = new XWPFWordExtractor(document);
+            return extractor.getText();
+        } catch(IOException e) {
+            throw new TextConvertingException(e.getMessage());
+        }
     }
 }

@@ -2,6 +2,8 @@ package org.booklink.controllers;
 
 import org.booklink.models.Response;
 import org.booklink.models.entities.Session;
+import org.booklink.models.exceptions.ObjectNotFoundException;
+import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.CommentRequest;
 import org.booklink.models.response.CommentResponse;
 import org.booklink.models.response.DetailedCommentResponse;
@@ -49,38 +51,30 @@ public class CommentsController {
     @CrossOrigin
     @RequestMapping(value = "books/comments", method = RequestMethod.POST)
     public ResponseEntity<?> saveComment(@RequestBody CommentRequest bookComment) {
-        Response<String> response = new Response<>();
-        try {
-            commentsService.saveComment(bookComment);
-        } catch (Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Your comment was added");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        commentsService.saveComment(bookComment);
+        return Response.createResponseEntity(0, "Your comment was added", null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}/comments/{commentId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteComment(@PathVariable Long bookId, @PathVariable Long commentId) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            commentsService.deleteComment(bookId, commentId);
-        } catch (Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Your comment was deleted");
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        commentsService.deleteComment(bookId, commentId);
+        return Response.createResponseEntity(0, "Your comment was deleted", token, HttpStatus.OK);
+    }
+
+    /* ----------------------------------------exception handlers*------------------------------------------ */
+
+    @ExceptionHandler(UnauthorizedUserException.class)
+    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Forbidden" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 }

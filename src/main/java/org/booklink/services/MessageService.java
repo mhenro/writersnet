@@ -191,7 +191,7 @@ public class MessageService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = auth.getName();
         if (!currentUser.equals(userId)) {
-            throw new UnauthorizedUserException();
+            throw new UnauthorizedUserException("Bad credentials");
         }
     }
 }

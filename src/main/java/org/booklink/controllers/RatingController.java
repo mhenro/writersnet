@@ -4,6 +4,7 @@ import org.booklink.models.Response;
 import org.booklink.models.entities.Rating;
 import org.booklink.models.entities.RatingId;
 import org.booklink.models.exceptions.ObjectAlreadyExistException;
+import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.repositories.RatingRepository;
 import org.booklink.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,19 @@ public class RatingController {
     @CrossOrigin
     @RequestMapping(value = "books/{bookId}/rating/{value}", method = RequestMethod.GET)
     public ResponseEntity<?> addStar(@PathVariable Long bookId, @PathVariable Integer value, HttpServletRequest request) {
-        Response<String> response = new Response<>();
-        try {
-            ratingService.addStar(bookId, value, request);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Your vote was added");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        ratingService.addStar(bookId, value, request);
+        return Response.createResponseEntity(0, "Your vote was added", null, HttpStatus.OK);
+    }
+
+     /* ---------------------------------------exception handlers-------------------------------------- */
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ObjectAlreadyExistException.class)
+    public ResponseEntity<?> objectAlreadyExist(ObjectAlreadyExistException e) {
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object already exist" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 }

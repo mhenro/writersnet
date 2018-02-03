@@ -2,6 +2,8 @@ package org.booklink.controllers;
 
 import org.booklink.models.Response;
 import org.booklink.models.entities.BookSerie;
+import org.booklink.models.exceptions.ObjectNotFoundException;
+import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.SerieRequest;
 import org.booklink.models.response.BookSerieResponse;
 import org.booklink.services.SerieService;
@@ -43,44 +45,33 @@ public class SerieController {
     @CrossOrigin
     @RequestMapping(value = "series", method = RequestMethod.POST)
     public ResponseEntity<?> saveSerie(@RequestBody SerieRequest serie) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        Long serieId = null;
-        try {
-            serieId = serieService.saveSerie(serie);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage(String.valueOf(serieId));
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        Long serieId = serieService.saveSerie(serie);
+        return Response.createResponseEntity(0, String.valueOf(serieId), token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "series/{serieId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteSerie(@PathVariable Long serieId) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            serieService.deleteSerie(serieId);
-        }  catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Serie was deleted successfully");
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        serieService.deleteSerie(serieId);
+        return Response.createResponseEntity(0, "Serie was deleted successfully", token, HttpStatus.OK);
+    }
+
+     /* ---------------------------------------exception handlers-------------------------------------- */
+
+    @ExceptionHandler(UnauthorizedUserException.class)
+    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 }

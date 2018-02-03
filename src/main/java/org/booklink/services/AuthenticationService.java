@@ -2,7 +2,9 @@ package org.booklink.services;
 
 import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
+import org.booklink.models.exceptions.ObjectAlreadyExistException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
+import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.Credentials;
 import org.booklink.repositories.UserRepository;
 import org.booklink.utils.RandomString;
@@ -42,34 +44,32 @@ public class AuthenticationService {
     }
 
     public String auth(final Credentials credentials) {
-        String result = null;
         final User user = userRepository.findOne(credentials.getUsername());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (user != null && passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
-            final String key = environment.getProperty("jwt.signing-key");
-            result = generateActivationToken(user, key);
+        if (user == null || !passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
+            throw new UnauthorizedUserException("Bad credentials");
         }
-        return result;
+        final String key = environment.getProperty("jwt.signing-key");
+        return generateActivationToken(user, key);
     }
 
     @Transactional
-    public boolean activate(final String token) {
+    public void activate(final String token) {
         User user = userRepository.findUserByActivationToken(token);
-        if (user != null) {
-            user.setEnabled(true);
-            user.setActivationToken("");
-            userRepository.save(user);
-            return true;
+        if (user == null) {
+            throw new UnauthorizedUserException("User activation error");
         }
-        return false;
+        user.setEnabled(true);
+        user.setActivationToken("");
+        userRepository.save(user);
     }
 
     @Transactional
-    public boolean register(final Credentials credentials) throws MessagingException {
+    public void register(final Credentials credentials) throws MessagingException {
         User user = userRepository.findOne(credentials.getUsername());
         User userByEmail = userRepository.findUserByEmail(credentials.getEmail());
         if (user != null || userByEmail != null) {
-            return false;
+            throw new ObjectAlreadyExistException("User with this login and/or email already exist");
         }
         final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         final String password = passwordEncoder.encode(credentials.getPassword());
@@ -83,8 +83,6 @@ public class AuthenticationService {
         user.setOnline(false);
 
         createRegistrationLink(user);
-
-        return true;
     }
 
     @Transactional

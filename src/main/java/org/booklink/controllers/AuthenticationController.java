@@ -29,110 +29,57 @@ public class AuthenticationController {
 
     @CrossOrigin
     @RequestMapping(value = "auth", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<Response<String>> auth(@RequestBody Credentials credentials) {
+    public ResponseEntity<Response<String>> auth(@RequestBody final Credentials credentials) {
         final String token = authenticationService.auth(credentials);
-        if (token != null) {
-            Response<String> response = new Response<>();
-            response.setCode(0);
-            response.setMessage(token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            throw new UnauthorizedUserException();
-        }
+        return Response.createResponseEntity(0, token, null, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "register", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<Response<String>> register(@RequestBody Credentials credentials) {
-        try {
-            final boolean registered = authenticationService.register(credentials);
-            if (!registered) {
-                throw new ObjectAlreadyExistException();
-            }
-            Response<String> response = new Response<>();
-            response.setCode(0);
-            response.setMessage("OK");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (MessagingException e) {
-            Response<String> response = new Response<>();
-            response.setCode(4);
-            response.setMessage("Problem with sending email. Please try again later");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Response<String>> register(@RequestBody final Credentials credentials) throws MessagingException {
+        authenticationService.register(credentials);
+        return Response.createResponseEntity(0, "OK", null, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "activate", method = RequestMethod.GET)
-    public ResponseEntity<Response<String>> activate(@RequestParam("activationToken") String activationToken) {
-        Response<String> response = new Response<>();
-        final boolean activated = authenticationService.activate(activationToken);
-        if (activated) {
-            response.setCode(0);
-            response.setMessage("User activation was completed! Please log-in.");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        response.setCode(3);
-        response.setMessage("Activation user error");
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    public ResponseEntity<Response<String>> activate(@RequestParam("activationToken") final String activationToken) {
+        authenticationService.activate(activationToken);
+        return Response.createResponseEntity(0, "User activation was completed! Please log-in.", null, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "reminder/confirm", method = RequestMethod.GET)
-    public ResponseEntity<?> confirmPasswordChanging(final String email) {
-        try {
-            Response<String> response = new Response<>();
-            authenticationService.passwordChangeConfirmation(email);
-            response.setCode(0);
-            response.setMessage("We sent further instructions on your email. Please, check them");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch(MessagingException e) {
-            Response<String> response = new Response<>();
-            response.setCode(4);
-            response.setMessage("Problem with sending email. Please try again later");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> confirmPasswordChanging(final String email) throws MessagingException {
+        authenticationService.passwordChangeConfirmation(email);
+        return Response.createResponseEntity(0, "We sent further instructions on your email. Please, check them", null, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "reminder/password", method = RequestMethod.GET)
-    public ResponseEntity<?> setDefaultPassword(final String token, final String email) {
-        try {
-            Response<String> response = new Response<>();
-            authenticationService.setDefaultPassword(token, email);
-            response.setCode(0);
-            response.setMessage("Your current password was sent to the specified email");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (MessagingException e) {
-            Response<String> response = new Response<>();
-            response.setCode(5);
-            response.setMessage("Problem with sending email. Please try again later");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> setDefaultPassword(final String token, final String email) throws MessagingException{
+        return Response.createResponseEntity(0, "Your current password was sent to the specified email", null, HttpStatus.OK);
     }
 
     /* -----------------------------exception handlers------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<Response<String>> unauthorizedUser(UnauthorizedUserException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage("Bad credentials");
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ObjectAlreadyExistException.class)
     public ResponseEntity<Response<String>> objectAlreadyExist(ObjectAlreadyExistException e) {
-        Response<String> response = new Response<>();
-        response.setCode(2);
-        response.setMessage("Object already exist");
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(2, e.getMessage().isEmpty() ? "Object already exist" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<Response<String>> objectNotFound(ObjectNotFoundException e) {
-        Response<String> response = new Response<>();
-        response.setCode(3);
-        response.setMessage(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(3, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MessagingException.class)
+    public ResponseEntity<Response<String>> emailException(MessagingException e) {
+        return Response.createResponseEntity(4, "Problem with sending email. Please try again later. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

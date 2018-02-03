@@ -27,7 +27,7 @@ public class AuthorizedUserService {
         String currentUser = auth.getName();
         final User user = authorRepository.findOne(currentUser);
         if (user == null) {
-            throw new UnauthorizedUserException("User not found");
+            throw new UnauthorizedUserException("User is not found");
         }
         return user;
     }

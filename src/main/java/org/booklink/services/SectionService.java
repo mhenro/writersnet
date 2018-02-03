@@ -2,6 +2,7 @@ package org.booklink.services;
 
 import org.booklink.models.entities.Section;
 import org.booklink.models.entities.User;
+import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.response.SectionResponse;
 import org.booklink.repositories.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class SectionService {
     }
 
     public SectionResponse getSection(final Long sectionId) {
-        return sectionRepository.getSectionById(sectionId);
+        SectionResponse section = sectionRepository.getSectionById(sectionId);
+        if (section == null) {
+            throw new ObjectNotFoundException("Section is not found");
+        }
+        return section;
     }
 }

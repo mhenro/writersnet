@@ -3,7 +3,7 @@ package org.booklink.services;
 import liquibase.util.file.FilenameUtils;
 import org.booklink.models.Response;
 import org.booklink.models.entities.User;
-import org.booklink.models.exceptions.IsNotPremiumUser;
+import org.booklink.models.exceptions.IsNotPremiumUserException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.AuthorRequest;
@@ -22,8 +22,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -120,6 +118,9 @@ public class AuthorService {
     @Transactional
     public AuthorResponse getAuthor(final String authorId) {
         final AuthorResponse author = authorRepository.findAuthor(authorId);
+        if (author == null) {
+            throw new ObjectNotFoundException("Author not found");
+        }
         setDefaultAvatar(author);
         increaseAuthorViews(authorId);
         return author;
@@ -156,7 +157,7 @@ public class AuthorService {
         checkCredentials(author.getUsername());
         User user = authorRepository.findOne(author.getUsername());
         if (user == null) {
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundException("User is not found");
         }
         BeanUtils.copyProperties(author, user, ObjectHelper.getNullPropertyNames(author));
         if (author.getSectionName() != null) {
@@ -192,7 +193,7 @@ public class AuthorService {
             throw new ObjectNotFoundException("Author is not found");
         }
         if (avatarRequest.getAvatar().getSize() >= 102400 && !author.getPremium()) {    //only premium users can have avatars larger than 100Kb
-            throw new IsNotPremiumUser("Only a premium user can add the avatar larger than 100 Kb");
+            throw new IsNotPremiumUserException("Only a premium user can add the avatar larger than 100 Kb");
         }
         checkCredentials(author.getUsername()); //only the owner can change his avatar
         String uploadDir = env.getProperty("writersnet.avatarstorage.path");
@@ -370,11 +371,9 @@ public class AuthorService {
     }
 
     private void setDefaultAvatar(AuthorResponse user) {
-        if (user != null) {
-            final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
-            if (user.getAvatar() == null) {
-                user.setAvatar(defaultAvatar);
-            }
+        final String defaultAvatar = env.getProperty("writersnet.avatarwebstorage.path") + "default_avatar.png";
+        if (user.getAvatar() == null) {
+            user.setAvatar(defaultAvatar);
         }
     }
 }

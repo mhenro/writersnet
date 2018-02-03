@@ -59,10 +59,10 @@ public class AuthenticationControllerTest {
     public void register() throws Exception {
         final Credentials credentials = new Credentials();
         final String json = mapper.writeValueAsString(credentials);
-        when(authenticationService.register(any(Credentials.class))).thenReturn(true);
+        //when(authenticationService.register(any(Credentials.class))).thenReturn(true);
         mvc.perform(post("/register").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: 'OK'}"));
         mvc.perform(post("/register").content(json)).andExpect(status().isUnsupportedMediaType());
-        when(authenticationService.register(any(Credentials.class))).thenReturn(false);
+        //when(authenticationService.register(any(Credentials.class))).thenReturn(false);
         mvc.perform(post("/register").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest()).andExpect(content().json("{code: 2, message: 'Object already exist'}"));
         mvc.perform(post("/wrong").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
         mvc.perform(get("/register").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isMethodNotAllowed());
@@ -70,7 +70,7 @@ public class AuthenticationControllerTest {
 
     @Test
     public void activate() throws Exception {
-        when(authenticationService.activate("correct")).thenReturn(true);
+        //when(authenticationService.activate("correct")).thenReturn(true);
         mvc.perform(get("/activate").param("activationToken", "correct")).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: 'User activation was completed! Please log-in.'}"));
         mvc.perform(get("/activate").param("activationToken", "wrong")).andExpect(status().isForbidden()).andExpect(content().json("{code: 3, message: 'Activation user error'}"));
         mvc.perform(get("/activate").param("wrong", "correct")).andExpect(status().isBadRequest());

@@ -24,7 +24,7 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
     BookWithTextResponse getBookById(final Long id);
 
     @Query("SELECT new org.booklink.models.response.BookWithTextResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.author.username, b.author.firstName, b.author.lastName, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.bookText.id, SUBSTRING(b.bookText.text, ?2, ?3), SUBSTRING(b.bookText.prevText, ?2, ?3), b.author.premium, b.paid, b.cost) FROM Book b LEFT JOIN b.bookSerie WHERE b.id = ?1")
-    BookWithTextResponse getPartBookById(final Long id, final Integer startPosition, final Integer length);
+    BookWithTextResponse getPartBookById(final Long id, final int startPosition, final int length);
 
     @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount, b.author.premium, b.paid, b.cost) FROM Book b LEFT JOIN b.bookSerie WHERE UPPER(b.name) LIKE CONCAT(UPPER(?1), '%') ORDER BY b.name, b.author.premium DESC")
     Page<BookResponse> findBooksByName(String name, Pageable pageable);

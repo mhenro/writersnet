@@ -1,5 +1,7 @@
 package org.booklink.services.convertors;
 
+import org.booklink.models.exceptions.TextConvertingException;
+
 import java.io.IOException;
 
 /**
@@ -7,7 +9,7 @@ import java.io.IOException;
  */
 public class TextToHtmlConvertor implements BookConvertor<String> {
     @Override
-    public String toHtml(String text) {
+    public String toHtml(String text) throws TextConvertingException {
         if(text == null) {
             return null;
         }

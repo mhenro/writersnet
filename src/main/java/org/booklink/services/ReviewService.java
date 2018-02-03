@@ -58,7 +58,7 @@ public class ReviewService {
         }
         final Review review = reviewRepository.findOne(reviewId);
         if (review == null) {
-            throw new ObjectNotFoundException("Review was not found");
+            throw new ObjectNotFoundException("Review is not found");
         }
         final long likes = review.getLikes() + 1;
         review.setLikes(likes);
@@ -77,7 +77,7 @@ public class ReviewService {
         }
         final Review review = reviewRepository.findOne(reviewId);
         if (review == null) {
-            throw new ObjectNotFoundException("Review was not found");
+            throw new ObjectNotFoundException("Review is not found");
         }
         final long dislikes = review.getDislikes() + 1;
         review.setDislikes(dislikes);
@@ -91,12 +91,12 @@ public class ReviewService {
     public void saveReview(final ReviewRequest reviewRequest) {
         final User author = authorRepository.findOne(reviewRequest.getAuthorId());
         if (author == null) {
-            throw new ObjectNotFoundException("Author was not found");
+            throw new ObjectNotFoundException("Author is not found");
         }
         if (reviewRequest.getId() != null) {    //updating review
             final Review review = reviewRepository.findOne(reviewRequest.getId());
             if (review == null) {
-                throw new ObjectNotFoundException("Review was not found");
+                throw new ObjectNotFoundException("Review is not found");
             }
             review.setText(reviewRequest.getText());
             review.setAuthor(author);
@@ -109,7 +109,7 @@ public class ReviewService {
         } else {    //new review
             final Book book = bookRepository.findOne(reviewRequest.getBookId());
             if (book == null) {
-                throw new ObjectNotFoundException("Book was not found");
+                throw new ObjectNotFoundException("Book is not found");
             }
             final Review review = new Review();
             review.setText(reviewRequest.getText());

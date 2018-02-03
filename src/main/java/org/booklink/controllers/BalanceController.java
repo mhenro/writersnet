@@ -31,11 +31,8 @@ public class BalanceController {
     @CrossOrigin
     @RequestMapping(value = "balance", method = RequestMethod.GET)
     public ResponseEntity<?> getUserBalance() {
-        final Response<BalanceResponse> response = new Response<>();
         final BalanceResponse balance = balanceService.getUserBalance();
-        response.setCode(0);
-        response.setMessage(balance);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, balance, null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -49,36 +46,24 @@ public class BalanceController {
     @CrossOrigin
     @RequestMapping(value = "buy", method = RequestMethod.POST)
     public ResponseEntity<?> buy(@RequestBody final BuyRequest buyRequest) {
-        final Response<String> response = new Response<>();
         balanceService.processOperation(buyRequest);
-        response.setCode(0);
-        response.setMessage("Operation was processed successfully");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, "Operation was processed successfully", null, HttpStatus.OK);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage(e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(NotEnoughMoneyException.class)
     public ResponseEntity<?> notEnoughMoney(NotEnoughMoneyException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage(e.getMessage().isEmpty() ? "Not enough money for this operation" : e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Not enough money for this operation" : e.getMessage(), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(WrongDataException.class)
     public ResponseEntity<?> wrongData(WrongDataException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage(e.getMessage().isEmpty() ? "Wrong request data" : e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Wrong request data" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 }

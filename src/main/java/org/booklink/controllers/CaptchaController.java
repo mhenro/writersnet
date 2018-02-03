@@ -33,9 +33,6 @@ public class CaptchaController {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<?> ioException(IOException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage("Problem with captcha, try again later");
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return Response.createResponseEntity(1, "Problem with captcha, try again later. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

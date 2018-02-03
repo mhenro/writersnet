@@ -1,6 +1,7 @@
 package org.booklink.services;
 
 import org.booklink.models.entities.Captcha;
+import org.booklink.models.exceptions.WrongCaptchaException;
 import org.booklink.repositories.CaptchaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -42,14 +43,12 @@ public class CaptchaService {
         return convertImageToByteArray(captcha);
     }
 
-    public boolean isCaptchaCorrect(final String code) {
+    public void checkCaptchaCode(final String code) {
         final Captcha captcha = captchaRepository.findByCode(code);
-        if (captcha != null) {
-            captchaRepository.delete(captcha);
-            return true;
-        } else {
-            return false;
+        if (captcha == null) {
+            throw new WrongCaptchaException("Captcha code is incorrect");
         }
+        captchaRepository.delete(captcha);
     }
 
     private BufferedImage createCaptcha() {

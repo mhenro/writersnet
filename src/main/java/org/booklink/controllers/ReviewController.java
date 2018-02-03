@@ -1,6 +1,7 @@
 package org.booklink.controllers;
 
 import org.booklink.models.Response;
+import org.booklink.models.exceptions.ObjectAlreadyExistException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.ReviewRequest;
@@ -51,101 +52,58 @@ public class ReviewController {
     @CrossOrigin
     @RequestMapping(value = "review/{reviewId}", method = RequestMethod.GET)
     public ResponseEntity<?> getReviewDetails(@PathVariable final Long reviewId) {
-        Response<ReviewResponse> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-
         final ReviewResponse review = reviewService.getReviewDetails(reviewId);
-        response.setCode(0);
-        response.setMessage(review);
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, review, token, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "review/{reviewId}/like", method = RequestMethod.GET)
-    public ResponseEntity<?> likeReview(@PathVariable final Long reviewId, HttpServletRequest request) {
+    public ResponseEntity<?> likeReview(@PathVariable final Long reviewId, final HttpServletRequest request) {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        long likes;
-        try {
-            likes = reviewService.likeReview(reviewId, request);
-        } catch(Exception e) {
-            return getErrorMessage(e, token);
-        }
-        Response<Long> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(likes);
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        long likes = reviewService.likeReview(reviewId, request);
+        return Response.createResponseEntity(0, likes, token, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "review/{reviewId}/dislike", method = RequestMethod.GET)
-    public ResponseEntity<?> dislikeReview(@PathVariable final Long reviewId, HttpServletRequest request) {
+    public ResponseEntity<?> dislikeReview(@PathVariable final Long reviewId, final HttpServletRequest request) {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        long dislikes;
-        try {
-            dislikes = reviewService.dislikeReview(reviewId, request);
-        } catch(Exception e) {
-            return getErrorMessage(e, token);
-        }
-        Response<Long> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(dislikes);
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        long dislikes = reviewService.dislikeReview(reviewId, request);
+        return Response.createResponseEntity(0, dislikes, token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "review", method = RequestMethod.POST)
-    public ResponseEntity<?> saveReview(@RequestBody ReviewRequest reviewRequest) {
-        Response<String> response = new Response<>();
+    public ResponseEntity<?> saveReview(@RequestBody final ReviewRequest reviewRequest) {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            reviewService.saveReview(reviewRequest);
-        } catch(Exception e) {
-            return getErrorMessage(e, token);
-        }
-        response.setCode(0);
-        response.setMessage("Review was saved");
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        reviewService.saveReview(reviewRequest);
+        return Response.createResponseEntity(0, "Review was saved", token, HttpStatus.OK);
     }
-
-    /* ----------------------------------------business logic-------------------------------------- */
-
-    private ResponseEntity<?> getErrorMessage(final Exception e, final String token) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage(e.getMessage());
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
 
     /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage("Bad credentials");
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> userNotFound(ObjectNotFoundException e) {
-        Response<String> response = new Response<>();
-        response.setCode(5);
-        response.setMessage("User not found");
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ObjectAlreadyExistException.class)
+    public ResponseEntity<?> objectAlreadyExist(ObjectAlreadyExistException e) {
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object already exist" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 }

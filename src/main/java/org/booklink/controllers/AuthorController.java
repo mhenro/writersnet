@@ -1,8 +1,7 @@
 package org.booklink.controllers;
 
 import org.booklink.models.Response;
-import org.booklink.models.entities.User;
-import org.booklink.models.exceptions.IsNotPremiumUser;
+import org.booklink.models.exceptions.IsNotPremiumUserException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.AuthorRequest;
@@ -20,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 import static org.booklink.utils.SecurityHelper.generateActivationToken;
 
@@ -50,10 +51,7 @@ public class AuthorController {
     @RequestMapping(value = "count/authors", method = RequestMethod.GET)
     public ResponseEntity<?> getAuthorsCount() {
         final long count = authorService.getAuthorsCount();
-        Response<Long> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(count);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, count, null, HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -72,141 +70,75 @@ public class AuthorController {
     @RequestMapping(value = "authors/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getAuthor(@PathVariable String authorId) {
         AuthorResponse author = authorService.getAuthor(authorId);
-        if (author != null) {
-            return new ResponseEntity<>(author, HttpStatus.OK);
-        }
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage("Author not found");
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "authors", method = RequestMethod.POST)
     public ResponseEntity<?> saveAuthor(@RequestBody AuthorRequest author) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            authorService.updateAuthor(author);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Author was saved");
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        authorService.updateAuthor(author);
+        return Response.createResponseEntity(0, "Author was saved", token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "authors/password", method = RequestMethod.POST)
     public ResponseEntity<?> changePassword(@RequestBody final ChangePasswordRequest request) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            authorService.changePassword(request);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.setCode(0);
-        response.setMessage("Your password was changed");
-        response.setToken(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        authorService.changePassword(request);
+        return Response.createResponseEntity(0, "Your password was changed", token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "avatar", method = RequestMethod.POST)
-    public ResponseEntity<?> saveAvatar(AvatarRequest avatarRequest) {
-        Response<String> response = new Response<>();
+    public ResponseEntity<?> saveAvatar(AvatarRequest avatarRequest) throws IOException {
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            authorService.saveAvatar(avatarRequest);
-            response.setCode(0);
-            response.setMessage("Avatar was saved successfully");
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        authorService.saveAvatar(avatarRequest);
+        return Response.createResponseEntity(0, "Avatar was saved successfully", token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "avatar/restore", method = RequestMethod.GET)
     public ResponseEntity<?> restoreDefaultAvatar() {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            authorService.restoreDefaultAvatar();
-            response.setCode(0);
-            response.setMessage("Avatar was restored successfully");
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        authorService.restoreDefaultAvatar();
+        return Response.createResponseEntity(0, "Avatar was restored successfully", token, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "authors/subscribe", method = RequestMethod.POST)
     public ResponseEntity<?> subscribeOnUser(@RequestBody final String subscriptionId) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            response = authorService.subscribeOnUser(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Response<String> response = authorService.subscribeOnUser(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
+        response.setToken(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "authors/unsubscribe", method = RequestMethod.POST)
     public ResponseEntity<?> removeSubscription(@RequestBody final String subscriptionId) {
-        Response<String> response = new Response<>();
         final String key = environment.getProperty("jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
-        try {
-            response = authorService.removeSubscription(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch(Exception e) {
-            response.setCode(1);
-            response.setMessage(e.getMessage());
-            response.setToken(token);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Response<String> response = authorService.removeSubscription(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
+        response.setToken(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -221,10 +153,7 @@ public class AuthorController {
     @RequestMapping(value = "friends/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> isFriendOf(@PathVariable String authorId) {
         final boolean result = authorService.isFriendOf(authorId);
-        Response<Boolean> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(result);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, result, null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -232,10 +161,7 @@ public class AuthorController {
     @RequestMapping(value = "subscribers/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> isSubscriberOf(@PathVariable String authorId) {
         final boolean result = authorService.isSubscriberOf(authorId);
-        Response<Boolean> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(result);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, result, null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -243,10 +169,7 @@ public class AuthorController {
     @RequestMapping(value = "subscriptions/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> isSubscriptionOf(@PathVariable String authorId) {
         final boolean result = authorService.isSubscriptionOf(authorId);
-        Response<Boolean> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(result);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, result, null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -254,10 +177,7 @@ public class AuthorController {
     @RequestMapping(value = "friendship/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> checkFriendshipWith(@PathVariable String authorId) {
         final CheckFriendshipResponse result = authorService.checkFriendshipWith(authorId);
-        Response<CheckFriendshipResponse> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(result);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, result, null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -293,35 +213,28 @@ public class AuthorController {
     @RequestMapping(value = "friendship/new/friends/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getNewFriendsCount(@PathVariable String authorId) {
         final long count = authorService.getNewFriendsCount(authorId);
-        final Response<Long> response = new Response<>();
-        response.setCode(0);
-        response.setMessage(count);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, count, null, HttpStatus.OK);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        Response<String> response = new Response<>();
-        response.setCode(1);
-        response.setMessage(e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> userNotFound(ObjectNotFoundException e) {
-        Response<String> response = new Response<>();
-        response.setCode(5);
-        response.setMessage(e.getMessage().isEmpty() ? "User not found" : e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "User is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(IsNotPremiumUser.class)
-    public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUser e) {
-        Response<String> response = new Response<>();
-        response.setCode(6);
-        response.setMessage(e.getMessage().isEmpty() ? "Only a premium user can do this" : e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(IsNotPremiumUserException.class)
+    public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUserException e) {
+        return Response.createResponseEntity(6, e.getMessage().isEmpty() ? "Only a premium user can do this" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<?> ioException(IOException e) {
+        return Response.createResponseEntity(7, "Problem with server's file system. Please try again later. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

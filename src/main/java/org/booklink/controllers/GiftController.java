@@ -25,20 +25,14 @@ public class GiftController {
     @CrossOrigin
     @RequestMapping(value = "gift/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getGift(@PathVariable final Long id) {
-        final Response<GiftResponse> response = new Response<>();
         final GiftResponse gift = giftService.getGift(id);
-        response.setCode(0);
-        response.setMessage(gift);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return Response.createResponseEntity(0, gift, null, HttpStatus.OK);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
-        Response<String> response = new Response<>();
-        response.setCode(5);
-        response.setMessage(e.getMessage().isEmpty() ? "Object not found" : e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
     }
 }
