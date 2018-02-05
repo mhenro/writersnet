@@ -44,8 +44,8 @@ export const addStar = (bookId, starValue) => {
     return doFetch(getHost() + 'books/' + bookId + '/rating/' + starValue);
 };
 
-export const getBookDetails = (bookId, page = 0, size = 10000) => {
-    return doFetch(getHost() + 'books/' + bookId + '?page=' + page + '&size=' + size);
+export const getBookDetails = (bookId, token = null, page = 0, size = 10000) => {
+    return doFetch(getHost() + 'books/' + bookId + '?page=' + page + '&size=' + size, null, token);
 };
 
 export const getBookComments = (bookid, page = 0, size = 10) => {
@@ -97,6 +97,9 @@ export const CLOSE_EDITSERIES_FORM = 'CLOSE_EDITSERIES_FORM';
 
 export const OPEN_REVIEW_FORM = 'OPEN_REVIEW_FORM';
 export const CLOSE_REVIEW_FORM = 'CLOSE_REVIEW_FORM';
+
+export const OPEN_PAY_BOOK_FORM = 'OPEN_PAY_BOOK_FORM';
+export const CLOSE_PAY_BOOK_FORM = 'CLOSE_PAY_BOOK_FORM';
 
 export const setBooks = (books) => {
     return {
@@ -161,5 +164,17 @@ export const openReviewForm = (book) => {
 export const closeReviewForm = () => {
     return {
         type: CLOSE_REVIEW_FORM
+    }
+};
+
+export const openPayBookForm = () => {
+    return {
+        type: OPEN_PAY_BOOK_FORM
+    }
+};
+
+export const closePayBookForm = () => {
+    return {
+        type: CLOSE_PAY_BOOK_FORM
     }
 };

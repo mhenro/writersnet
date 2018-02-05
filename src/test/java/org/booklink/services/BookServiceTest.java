@@ -50,6 +50,8 @@ public class BookServiceTest {
         @MockBean
         private SerieRepository serieRepository;
         @MockBean
+        private UserBookRepository userBookRepository;
+        @MockBean
         private AuthorRepository authorRepository;
         @MockBean
         private AuthorizedUserService authorizedUserService;
@@ -58,7 +60,7 @@ public class BookServiceTest {
 
         @Bean
         public BookService bookService() {
-            return new BookService(env, bookRepository, bookTextRepository, serieRepository, authorRepository, authorizedUserService, newsService);
+            return new BookService(env, bookRepository, bookTextRepository, serieRepository, userBookRepository, authorRepository, authorizedUserService, newsService);
         }
     }
 

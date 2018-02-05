@@ -12,7 +12,8 @@ import {
     addStar,
     getBookComments,
     saveComment,
-    deleteComment
+    deleteComment,
+    openPayBookForm
 } from '../actions/BookActions.jsx';
 import {
     createNotify,
@@ -21,6 +22,7 @@ import {
 import { setToken } from '../actions/AuthActions.jsx';
 
 import UserComments from '../components/reader/UserComments.jsx';
+import PayBookForm from '../components/reader/PayBookForm.jsx';
 
 /*
     props:
@@ -38,9 +40,6 @@ class BookReader extends React.Component {
             bookTotalPages: 1,
             showDiff: false
         };
-
-        this.props.onGetBookDetails(this.props.match.params.bookId, this.state.bookPage, totalPages => this.setBookTotalPages(totalPages));
-        this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, comments => this.renderComments(comments), totalPages => this.setTotalPages(totalPages));
     }
 
     componentDidMount() {
@@ -56,6 +55,9 @@ class BookReader extends React.Component {
         } else {
             window.scrollTo(0, 0);
         }
+
+        this.props.onGetBookDetails(this.props.match.params.bookId, this.props.token, this.state.bookPage, totalPages => this.setBookTotalPages(totalPages));
+        this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, comments => this.renderComments(comments), totalPages => this.setTotalPages(totalPages));
     }
 
     getAuthorName() {
@@ -91,7 +93,7 @@ class BookReader extends React.Component {
     }
 
     updateBook(page = 1) {
-        this.props.onGetBookDetails(this.props.match.params.bookId, page, totalPages => this.setBookTotalPages(totalPages));
+        this.props.onGetBookDetails(this.props.match.params.bookId, this.props.token, page, totalPages => this.setBookTotalPages(totalPages));
     }
 
     pageSelect(page) {
@@ -176,7 +178,9 @@ class BookReader extends React.Component {
 
     render() {
         if (!this.isDataLoaded()) {
-            return null;
+            return (
+                <PayBookForm/>
+            )
         }
 
         return (
@@ -265,19 +269,23 @@ const mapStateToProps = (state) => {
         token: state.GlobalReducer.token,
         goToComments: state.GlobalReducer.goToComments,
         userDetails: state.GlobalReducer.user.details,
-        language: state.GlobalReducer.language
+        language: state.GlobalReducer.language,
+        showPayBookForm: state.BookReducer.showPayBookForm
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetBookDetails: (bookId, page, callbackTotalPages) => {
-            return getBookDetails(bookId, page - 1).then(([response, json]) => {
+        onGetBookDetails: (bookId, token, page, callbackTotalPages) => {
+            token = token === '' ? null : token;
+            return getBookDetails(bookId, token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBook(json));
                     callbackTotalPages(json.totalPages);
-                }
-                else {
+                } else if (response.status === 403) {
+                    dispatch(setBook(null));
+                    dispatch(openPayBookForm());
+                } else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
             }).catch(error => {
@@ -290,8 +298,7 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback(json.content);
                     totalPagesCallback(json.totalPages);
-                }
-                else {
+                } else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
             }).catch(error => {
@@ -304,8 +311,7 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Your comment was added'));
                     callback();
-                }
-                else {
+                } else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
             }).catch(error => {
@@ -319,11 +325,9 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(createNotify('success', 'Success', 'Comment was deleted'));
                     callback();
                     dispatch(setToken(json.token));
-                }
-                else if (json.message.includes('JWT expired at')) {
+                } else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));
-                }
-                else {
+                } else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
             }).catch(error => {
@@ -336,8 +340,7 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', "Your vote was added"));
                     callback();
-                }
-                else {
+                } else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }
             }).catch(error => {

@@ -242,5 +242,8 @@ export const EN = {
     /* RechargeBalanceForm */
     'Amount, cr.:': 'Amount, cr.:',
     'Enter the amount you want to add to your balance': 'Enter the amount you want to add to your balance',
-    'Recharge': 'Recharge'
+    'Recharge': 'Recharge',
+
+    /* PayBookForm */
+    'Buy': 'Buy'
 };

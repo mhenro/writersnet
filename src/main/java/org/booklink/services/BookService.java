@@ -5,6 +5,7 @@ import org.booklink.models.Genre;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.IsNotPremiumUserException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
+import org.booklink.models.exceptions.PermissionDeniedException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.BookRequest;
 import org.booklink.models.response.BookResponse;
@@ -43,6 +44,7 @@ public class BookService {
     private BookRepository bookRepository;
     private BookTextRepository bookTextRepository;
     private SerieRepository serieRepository;
+    private UserBookRepository userBookRepository;
     private AuthorRepository authorRepository;
     private AuthorizedUserService authorizedUserService;
     private NewsService newsService;
@@ -52,6 +54,7 @@ public class BookService {
                        final BookRepository bookRepository,
                        final BookTextRepository bookTextRepository,
                        final SerieRepository serieRepository,
+                       final UserBookRepository userBookRepository,
                        final AuthorRepository authorRepository,
                        final AuthorizedUserService authorizedUserService,
                        final NewsService newsService) {
@@ -59,6 +62,7 @@ public class BookService {
         this.bookRepository = bookRepository;
         this.bookTextRepository = bookTextRepository;
         this.serieRepository = serieRepository;
+        this.userBookRepository = userBookRepository;
         this.authorRepository = authorRepository;
         this.authorizedUserService = authorizedUserService;
         this.newsService = newsService;
@@ -183,6 +187,9 @@ public class BookService {
                 throw new ObjectNotFoundException("Book is not found");
             }
         }
+        if (pageOfBook.getPaid() == true && !pageOfBook.getCost().equals(0) && !isUserHasBook(bookId)) {
+            throw new PermissionDeniedException("This is a paid book, but you didn't buy it yet");
+        }
         setDefaultCoverForBook(pageOfBook);
         increaseBookViews(bookId);
         return pageOfBook;
@@ -304,6 +311,19 @@ public class BookService {
         newsService.createNews(NewsService.NEWS_TYPE.BOOK_DELETED, book.getAuthor(), book);
         bookRepository.delete(bookId);
         updateDateInUserSection(book.getAuthor().getUsername());
+    }
+
+    public boolean isUserHasBook(final Long bookId) {
+        final User user = authorizedUserService.getAuthorizedUser();
+        final Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            throw new ObjectNotFoundException("Book is not found");
+        }
+        final UserBookPK userBookPK = new UserBookPK();
+        userBookPK.setUser(user);
+        userBookPK.setBook(book);
+        final UserBook userBook = userBookRepository.findOne(userBookPK);
+        return Optional.ofNullable(userBook).map(ub -> true).orElse(false);
     }
 
     private void preparePageOfBook(final BookWithTextResponse pageOfBook, final int page, final int size) {

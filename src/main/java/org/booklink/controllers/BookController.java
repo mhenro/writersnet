@@ -2,10 +2,7 @@ package org.booklink.controllers;
 
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
-import org.booklink.models.exceptions.IsNotPremiumUserException;
-import org.booklink.models.exceptions.ObjectNotFoundException;
-import org.booklink.models.exceptions.TextConvertingException;
-import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.exceptions.*;
 import org.booklink.models.request.BookRequest;
 import org.booklink.models.request.BookTextRequest;
 import org.booklink.models.request.CoverRequest;
@@ -141,6 +138,15 @@ public class BookController {
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "books/paid/{bookId}", method = RequestMethod.GET)
+    public ResponseEntity<?> isUserHasBook(@PathVariable final Long bookId) {
+        final String key = environment.getProperty("jwt.signing-key");
+        String token = generateActivationToken(key);
+        return Response.createResponseEntity(0, bookService.isUserHasBook(bookId), token, HttpStatus.OK);
+    }
+
     /* ----------------------------------------exception handlers*------------------------------------------ */
 
     @ExceptionHandler(UnauthorizedUserException.class)
@@ -166,5 +172,10 @@ public class BookController {
     @ExceptionHandler(IOException.class)
     public ResponseEntity<?> ioException(IOException e) {
         return Response.createResponseEntity(8, "Problem with server's file system. Please try again later. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(PermissionDeniedException.class)
+    public ResponseEntity<?> permissionDenied(PermissionDeniedException e) {
+        return Response.createResponseEntity(9, e.getMessage().isEmpty() ? "Permission denied" : e.getMessage(), null, HttpStatus.FORBIDDEN);
     }
 }

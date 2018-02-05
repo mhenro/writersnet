@@ -242,5 +242,8 @@ export const RU = {
     /* RechargeBalanceForm */
     'Amount, cr.:': 'Сумма, cr.:',
     'Enter the amount you want to add to your balance': 'Введите сумму, которой хотите пополнить баланс',
-    'Recharge': 'Пополнить'
+    'Recharge': 'Пополнить',
+
+    /* PayBookForm */
+    'Buy': 'Купить'
 };

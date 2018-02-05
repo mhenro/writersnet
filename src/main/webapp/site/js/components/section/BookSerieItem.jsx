@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import { locale, getLocale } from '../../locale.jsx';
-import { formatBytes, formatDate } from '../../utils.jsx';
+import { formatBytes, formatDate, getHost } from '../../utils.jsx';
 
 import ReactStars from 'react-stars';
 
@@ -68,6 +68,15 @@ class BookSerieItem extends React.Component {
                 <Link to={'/reviews/' + this.props.book.id}>{this.props.book.reviewCount} {getLocale(this.props.language)['reviews']}</Link>
             </div>
         )
+    }
+
+    renderPaidIcon() {
+        if (this.props.book.paid) {
+            return (
+                <img src={getHost() + '../css/images/purse.png'} className="img-rounded" title="Paid book" width="24"
+                     height="auto"/>
+            )
+        }
     }
 
     onConfirm() {
@@ -136,7 +145,14 @@ class BookSerieItem extends React.Component {
                             </tbody>
                         </table>
                         <hr/>
-                        {this.renderCounters()}
+                            <div className="row">
+                                <div className="col-sm-10">
+                                    {this.renderCounters()}
+                                </div>
+                                <div className="col-sm-2">
+                                    {this.renderPaidIcon()}
+                                </div>
+                            </div>
                         <hr/>
                         <div className="row">
                             <div className={'col-sm-12 col-md-3 ' + (this.props.registered && this.props.login === this.props.author.username ? '' : 'hidden')}>
