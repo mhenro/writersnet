@@ -5,6 +5,7 @@ import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 import Diff from 'react-diff';
 import { getLocale } from '../locale.jsx';
+import PropTypes from 'prop-types';
 
 import {
     getBookDetails,
@@ -29,6 +30,16 @@ import PayBookForm from '../components/reader/PayBookForm.jsx';
     - book
  */
 class BookReader extends React.Component {
+    static contextTypes = {
+        router: PropTypes.shape({
+            history: PropTypes.shape({
+                push: PropTypes.func.isRequired,
+                replace: PropTypes.func.isRequired
+            }).isRequired,
+            staticContext: PropTypes.object
+        }).isRequired
+    };
+
     constructor(props) {
         super(props);
 

@@ -83,13 +83,28 @@ class BookBriefItem extends React.Component {
         }
     }
 
+    renderPurse() {
+        if (this.props.book.paid) {
+            return (
+                <img src={getHost() + '../css/images/purse.png'} className="img-rounded" title="Paid book" width="24"
+                     height="auto"/>
+            )
+        }
+    }
+
     render() {
         return (
             <div className={'panel panel-default ' + (this.props.book.author.premium ? 'premium' : '')}>
                 <div className="panel-body">
                     <div className="row">
                         <div className="col-sm-3">
-                            <img src={this.props.book.cover /*+ '?date=' + new Date()*/} onClick={() => this.onBookClick()} className="img-rounded clickable" width="100%" height="auto"/>
+                            <div className="col-sm-12">
+                                <img src={this.props.book.cover /*+ '?date=' + new Date()*/} onClick={() => this.onBookClick()} className="img-rounded clickable" width="100%" height="auto"/>
+                            </div>
+                            <div className="col-sm-12 text-center">
+                                <br/>
+                                {this.renderPurse()}
+                            </div>
                         </div>
                         <div className="col-sm-6">
                             <table className="table">

@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getLocale } from '../../locale.jsx';
-import { createNotify } from '../../actions/GlobalActions.jsx';
+import { OperationType } from '../../utils.jsx';
+import { setOperationType, setPurchaseId, createNotify } from '../../actions/GlobalActions.jsx';
 import { closePayBookForm } from '../../actions/BookActions.jsx';
+import { showConfirmPaymentForm } from '../../actions/BalanceActions.jsx';
 
 class PayBookForm extends React.Component {
     constructor(props) {
@@ -18,7 +20,9 @@ class PayBookForm extends React.Component {
     }
 
     onBuy() {
-
+        this.props.onSetPurchase(0);    //0 is always PREMIUM_ACCOUNT
+        this.props.onSetOperationType(OperationType.BOOK);
+        this.props.onShowPaymentForm();
     }
 
     onClose() {
@@ -74,8 +78,21 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
+        onShowPaymentForm: () => {
+            dispatch(showConfirmPaymentForm());
+        },
+
+        onSetPurchase: (purchaseId) => {
+            dispatch(setPurchaseId(purchaseId));
+        },
+
+        onSetOperationType: (operationType) => {
+            dispatch(setOperationType(operationType));
+        },
+
         onClose: () => {
             dispatch(closePayBookForm());
+            window.history.back();
         }
     }
 };
