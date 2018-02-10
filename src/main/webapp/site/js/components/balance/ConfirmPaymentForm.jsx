@@ -15,7 +15,8 @@ import {
     getAuthorDetails,
     setAuthor
 } from '../../actions/AuthorActions.jsx';
-
+import { getBookCost } from '../../actions/BookActions.jsx';
+import { OperationType } from '../../utils.jsx';
 /*
     props:
     - operationType - enum from utils.jsx
@@ -34,7 +35,11 @@ class ConfirmPaymentForm extends React.Component {
 
     onShow() {
         this.props.onGetUserBalance(this.props.token, () => this.balanceIsLoaded());
-        this.props.onGetGiftDetails(this.props.purchaseId, (item) => this.updateItem(item));
+        if (this.props.operationType === OperationType.BOOK) {
+            this.props.onGetBookCost(this.props.purchaseId, (item) => this.updateItem(item));
+        } else {
+            this.props.onGetGiftDetails(this.props.purchaseId, (item) => this.updateItem(item));
+        }
     }
 
     balanceIsLoaded() {
@@ -57,7 +62,8 @@ class ConfirmPaymentForm extends React.Component {
             operationType: this.props.operationType,
             purchaseId: this.props.purchaseId,
             sourceUserId: this.props.login,
-            destUserId: ''
+            destUserId: '',
+            sendMessage: ''
         };
         this.props.onBuy(buyRequest, this.props.token, () => this.onClose());
     }
@@ -254,6 +260,19 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setUserDetails(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetBookCost: (bookId, callback) => {
+            return getBookCost(bookId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

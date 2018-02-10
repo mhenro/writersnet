@@ -8,6 +8,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.PermissionDeniedException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.BookRequest;
+import org.booklink.models.response.BookCostResponse;
 import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.models.top_models.*;
@@ -193,6 +194,14 @@ public class BookService {
         setDefaultCoverForBook(pageOfBook);
         increaseBookViews(bookId);
         return pageOfBook;
+    }
+
+    public BookCostResponse getBookCost(final Long bookId) {
+        final BookCostResponse response = bookRepository.getBookCost(bookId);
+        if (response == null) {
+            throw new ObjectNotFoundException("Book is not found");
+        }
+        return response;
     }
 
     @Transactional

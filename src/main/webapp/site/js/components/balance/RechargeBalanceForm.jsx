@@ -31,7 +31,8 @@ class RechargeBalanceForm extends React.Component {
             operationType: OperationType.BALANCE_RECHARGE,
             purchaseId: this.state.amount * 100,  //in that case purchaseId is an amount of a balance
             sourceUserId: this.props.login,
-            destUserId: ''
+            destUserId: '',
+            sendMessage: ''
         };
         this.props.onBuy(buyRequest, this.props.token, () => this.onClose());
     }

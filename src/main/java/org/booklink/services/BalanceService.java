@@ -1,17 +1,13 @@
 package org.booklink.services;
 
 import org.booklink.models.OperationType;
-import org.booklink.models.entities.Billing;
-import org.booklink.models.entities.Gift;
-import org.booklink.models.entities.User;
+import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.NotEnoughMoneyException;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.WrongDataException;
 import org.booklink.models.request.BuyRequest;
 import org.booklink.models.response.BalanceResponse;
-import org.booklink.repositories.AuthorRepository;
-import org.booklink.repositories.BalanceRepository;
-import org.booklink.repositories.GiftRepository;
+import org.booklink.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,14 +28,22 @@ public class BalanceService {
     private AuthorizedUserService authorizedUserService;
     private AuthorRepository authorRepository;
     private GiftRepository giftRepository;
+    private BookRepository bookRepository;
+    private UserBookRepository userBookRepository;
+    private UserGiftRepository userGiftRepository;
 
     @Autowired
     public BalanceService(final BalanceRepository balanceRepository, final AuthorizedUserService authorizedUserService,
-                          final AuthorRepository authorRepository, final GiftRepository giftRepository) {
+                          final AuthorRepository authorRepository, final GiftRepository giftRepository,
+                          final BookRepository bookRepository, final UserBookRepository userBookRepository,
+                          final UserGiftRepository userGiftRepository) {
         this.balanceRepository = balanceRepository;
         this.authorizedUserService = authorizedUserService;
         this.authorRepository = authorRepository;
         this.giftRepository = giftRepository;
+        this.bookRepository = bookRepository;
+        this.userBookRepository = userBookRepository;
+        this.userGiftRepository = userGiftRepository;
     }
 
     public BalanceResponse getUserBalance() {
@@ -69,9 +73,11 @@ public class BalanceService {
                 buyPremiumAccount(buyRequest.getSourceUserId(), buyRequest.getPurchaseId());
                 break;
             case BOOK:
+                buyBook(buyRequest.getSourceUserId(), buyRequest.getPurchaseId());
+                break;
             case MEDAL:
             case GIFT:
-                transferGift(buyRequest.getOperationType(), buyRequest.getSourceUserId(), buyRequest.getDestUserId(), buyRequest.getPurchaseId());
+                transferGift(buyRequest);
                 break;
         }
     }
@@ -102,19 +108,54 @@ public class BalanceService {
         user.setPremiumExpired(LocalDateTime.now().plusYears(1));
     }
 
-    private void transferGift(final OperationType operationType, final String sourceUserId, final String destUserId, final Long purchaseId) {
-        final User sourceUser = authorRepository.findOne(sourceUserId);
-        final User destUser = authorRepository.findOne(destUserId);
+    private void buyBook(final String userId, final Long bookId) {
+        final User buyer = authorRepository.findOne(userId);
+        if (buyer == null) {
+            throw new ObjectNotFoundException("User is not found");
+        }
+        final Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            throw new ObjectNotFoundException("Book is not found");
+        }
+        if (book.getCost() == null) {
+            book.setCost(0L);
+        }
+        addToPaymentHistory(buyer, OperationType.BOOK, book.getCost(), false);
+        addToPaymentHistory(book.getAuthor(), OperationType.BOOK, book.getCost(), true);
+        addBookToUserPermission(buyer, book);
+    }
+
+    private void addBookToUserPermission(final User user, final Book book) {
+        final UserBook userBook = new UserBook();
+        final UserBookPK userBookPK = new UserBookPK();
+        userBookPK.setUser(user);
+        userBookPK.setBook(book);
+        userBook.setUserBookPK(userBookPK);
+        userBookRepository.save(userBook);
+    }
+
+    private void transferGift(final BuyRequest buyRequest) {
+        final User sourceUser = authorRepository.findOne(buyRequest.getSourceUserId());
+        final User destUser = authorRepository.findOne(buyRequest.getDestUserId());
         if (sourceUser == null || destUser == null) {
             throw new ObjectNotFoundException("User is not found");
         }
-        final Gift gift = giftRepository.findOne(purchaseId);
+        final Gift gift = giftRepository.findOne(buyRequest.getPurchaseId());
         if (gift == null) {
             throw new ObjectNotFoundException("Gift is not found in the database");
         }
-        addToPaymentHistory(sourceUser, operationType, gift.getCost(), false);
-        addToPaymentHistory(destUser, operationType, gift.getCost(), true);
-        //TODO: add gift to dest user
+        addToPaymentHistory(sourceUser, buyRequest.getOperationType(), gift.getCost(), false);
+        addToPaymentHistory(destUser, buyRequest.getOperationType(), gift.getCost(), true);
+        addGiftToUser(destUser, sourceUser, gift, buyRequest.getSendMessage());
+    }
+
+    private void addGiftToUser(final User user, final User sender, final Gift gift, final String message) {
+        final UserGift userGift = new UserGift();
+        userGift.setUser(user);
+        userGift.setSender(sender);
+        userGift.setGift(gift);
+        userGift.setSendMessage(message);
+        userGiftRepository.save(userGift);
     }
 
     private void addToPaymentHistory(final User user, final OperationType operationType, final Long operationCost, final boolean increase) {

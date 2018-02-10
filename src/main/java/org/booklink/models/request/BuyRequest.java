@@ -10,6 +10,7 @@ public class BuyRequest {
     private Long purchaseId;
     private String sourceUserId;
     private String destUserId;
+    private String sendMessage;
 
     public OperationType getOperationType() {
         return operationType;
@@ -41,5 +42,13 @@ public class BuyRequest {
 
     public void setDestUserId(String destUserId) {
         this.destUserId = destUserId;
+    }
+
+    public String getSendMessage() {
+        return sendMessage;
+    }
+
+    public void setSendMessage(String sendMessage) {
+        this.sendMessage = sendMessage;
     }
 }

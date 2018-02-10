@@ -5,7 +5,6 @@ import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 import Diff from 'react-diff';
 import { getLocale } from '../locale.jsx';
-import PropTypes from 'prop-types';
 
 import {
     getBookDetails,
@@ -18,7 +17,8 @@ import {
 } from '../actions/BookActions.jsx';
 import {
     createNotify,
-    goToComments
+    goToComments,
+    setPurchaseId
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
 
@@ -30,16 +30,6 @@ import PayBookForm from '../components/reader/PayBookForm.jsx';
     - book
  */
 class BookReader extends React.Component {
-    static contextTypes = {
-        router: PropTypes.shape({
-            history: PropTypes.shape({
-                push: PropTypes.func.isRequired,
-                replace: PropTypes.func.isRequired
-            }).isRequired,
-            staticContext: PropTypes.object
-        }).isRequired
-    };
-
     constructor(props) {
         super(props);
 
@@ -296,6 +286,7 @@ const mapDispatchToProps = (dispatch) => {
                 } else if (response.status === 403) {
                     dispatch(setBook(null));
                     dispatch(openPayBookForm());
+                    dispatch(setPurchaseId(bookId));
                 } else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }

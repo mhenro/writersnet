@@ -20,7 +20,6 @@ class PayBookForm extends React.Component {
     }
 
     onBuy() {
-        this.props.onSetPurchase(0);    //0 is always PREMIUM_ACCOUNT
         this.props.onSetOperationType(OperationType.BOOK);
         this.props.onShowPaymentForm();
     }
@@ -58,6 +57,7 @@ const mapStateToProps = (state) => {
         token: state.GlobalReducer.token,
         login: state.GlobalReducer.user.login,
         language: state.GlobalReducer.language,
+        book: state.BookReducer.book,
         showPayBookForm: state.BookReducer.showPayBookForm
     }
 };

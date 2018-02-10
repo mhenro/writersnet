@@ -2,6 +2,7 @@ package org.booklink.repositories;
 
 import org.booklink.models.Genre;
 import org.booklink.models.entities.Book;
+import org.booklink.models.response.BookCostResponse;
 import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.models.top_models.*;
@@ -97,6 +98,9 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
 
     @Query("SELECT new org.booklink.models.response.BookResponse(b.id, b.bookSerie.id, b.bookSerie.name, b.commentsCount, b.cover, b.created, b.description, b.genre, b.language, b.lastUpdate, b.name, LENGTH(b.bookText.text), b.totalRating, b.totalVotes, b.views, b.author.username, b.author.firstName, b.author.lastName, b.author.avatar, b.reviewCount, b.author.premium, b.paid, b.cost) FROM Book b LEFT JOIN b.bookSerie ORDER BY b.totalRating / COALESCE(NULLIF(b.totalVotes, 0), 1) DESC, b.author.premium DESC")
     Page<BookResponse> getAllBooksSortedByRating(Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.BookCostResponse(b.cost, b.name, b.description) FROM Book b WHERE b.id = ?1")
+    BookCostResponse getBookCost(final Long bookId);
 
     /* tops */
     @Query("SELECT new org.booklink.models.top_models.TopBookNovelties(b.id, b.name, b.lastUpdate) FROM Book b ORDER BY b.lastUpdate DESC")

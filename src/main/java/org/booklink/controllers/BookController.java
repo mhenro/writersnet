@@ -6,6 +6,7 @@ import org.booklink.models.exceptions.*;
 import org.booklink.models.request.BookRequest;
 import org.booklink.models.request.BookTextRequest;
 import org.booklink.models.request.CoverRequest;
+import org.booklink.models.response.BookCostResponse;
 import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.services.BookService;
@@ -73,6 +74,13 @@ public class BookController {
     @RequestMapping(value = "books/author/{authorId}", method = RequestMethod.GET)
     public Page<BookResponse> getBooksByAuthor(@PathVariable final String authorId, final Pageable pageable) {
         return bookService.getBooksByAuthor(authorId, pageable);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "books/cost/{bookId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getBookCost(@PathVariable final Long bookId) {
+        final BookCostResponse response = bookService.getBookCost(bookId);
+        return Response.createResponseEntity(0, response, null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

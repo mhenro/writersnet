@@ -84,6 +84,10 @@ export const deleteBook = (bookTextRequest, token) => {
     return doFetch(getHost() + 'books/' + bookTextRequest, 'DELETE', token);
 };
 
+export const getBookCost = (bookId) => {
+    return doFetch(getHost() + 'books/cost/' + bookId);
+};
+
 export const SET_BOOKS = 'SET_BOOKS';
 export const SET_BOOK = 'SET_BOOK';
 export const SET_SERIES = 'SET_SERIES';
