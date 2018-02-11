@@ -42,7 +42,7 @@ class AuthorFile extends React.Component {
     }
 
     getFriendsButtonClass() {
-        let baseCls = 'btn btn-success ' + (this.props.me ? 'hidden' : '');
+        let baseCls = 'btn btn-success ' + (this.props.me || !this.props.registered ? 'hidden' : '');
         if (this.props.friendship.friend || this.props.friendship.subscription) {
             baseCls += ' disabled';
         }
@@ -60,6 +60,14 @@ class AuthorFile extends React.Component {
         if (this.props.me && !this.props.author.premium) {
             return (
                 <button onClick={this.props.onBuyPremiumAccount} className="btn btn-warning">Buy premium account</button>
+            )
+        }
+    }
+
+    renderGiftButton() {
+        if (!this.props.me && this.props.registered) {
+            return (
+                <Link to="/gifts" className="btn btn-success">Give a gift</Link>
             )
         }
     }
@@ -82,6 +90,7 @@ class AuthorFile extends React.Component {
                             <br/>
                             <Link to="/options" className={'btn btn-success ' + (this.props.me ? '' : 'hidden')}>{getLocale(this.props.language)['Options']}</Link>
                             {this.renderPremiumButton()}
+                            {this.renderGiftButton()}
                         </div>
                     </div>
                 </div>

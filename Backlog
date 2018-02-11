@@ -1,8 +1,10 @@
 ﻿Current sprint:
+IN PROGRESS - 107. Create GiftPage. On this page user should see some gifts. Every gift gives some rating or/and credits to author which will be gifted. Some gifts are without cost, some with cost.
+
 IN PROGRESS - 31. Create internal user balance. User can convert real money via pay gateway into the internal credits. These credits allow to:
                    - transmit credits between users. For instance, user can transmit credits to his friend or pay credits to other user for creating review of his book;
                    DONE - buy premium account;
-                   - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
+                   DONE - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
                    - buy additional stuff, such as some medals to show them on author section page and so on.
 		   - buy gifts and present them to authors. Each gift give some rating or credits to author.
 
@@ -15,8 +17,6 @@ IN PROGRESS - 30. Add concept of the premium account. It should allow:
 
 
 Features:
-106. Add "Give a gift" button under the author avatar on ShortAuthorInfo component. When click on that button user should be moved to GiftPage.
-107. Create GiftPage. On this page user should see some gifts. Every gift gives some rating or/and credits to author which will be gifted. Some gifts are without cost, some with cost.
 98. Add competitions page. On this page users can add new competition then select its name and prize fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
@@ -28,6 +28,8 @@ Features:
 65. Add test for ChatGroupResponse class constructor.
 81. Move series action from BookActions to AuthorActions in client.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
+106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
+107. Add logic to the "Send message" button in the AuthorFile component.
 
 
 Bugs:
@@ -166,3 +168,4 @@ DONE - 102. Add limit for premium user. After a year premium account should be p
 DONE - 108. Change all java.util.Date to LocalDate and LocalDateTime for JPA mappings. Use convertor for that.
 DONE - 108. Press the footer to the bottom even if there is not enough content on the page.
 DONE - 109. Add balance recharge mechanism to the frontend.
+DONE - 106. Add "Give a gift" button under the author avatar on ShortAuthorInfo component. When click on that button user should be moved to GiftPage.

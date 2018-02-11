@@ -28,6 +28,7 @@ import ReviewPage from '../pages/ReviewPage.jsx';
 import DiscussionPage from '../pages/DiscussionPage.jsx';
 import HelpPage from '../pages/HelpPage.jsx';
 import BalancePage from '../pages/BalancePage.jsx';
+import GiftPage from '../pages/GiftPage.jsx';
 import ConfirmPaymentForm from '../components/balance/ConfirmPaymentForm.jsx';
 
 class MainPage extends React.Component {
@@ -95,6 +96,7 @@ class MainPage extends React.Component {
                                 <Route exact path="/discussions" component={DiscussionPage}/>
                                 <Route exact path="/help" component={HelpPage}/>
                                 <Route exact path="/balance" component={BalancePage}/>
+                                <Route exact path="/gifts" component={GiftPage}/>
                                 <Route exact path="/reader/:bookId" component={BookReader}/>
                                 <Route exact path="/options" component={this.props.registered ? OptionsPage : BookPage}/>
                                 <Route exact path="/news" component={NewsPage}/>
