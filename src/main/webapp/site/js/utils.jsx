@@ -65,3 +65,17 @@ export const OperationType = {
     'GIFT': 3,
     'BALANCE_RECHARGE': 4
 };
+
+export const GiftCategory = {
+    'EVERYDAY': 0,
+    'BIRTHDAY': 1,
+    'RESPECT': 2,
+
+    valueOf: (value) => {
+        switch(value) {
+            case '0': return 'EVERYDAY';
+            case '1': return 'BIRTHDAY';
+            case '2': return 'RESPECT';
+        }
+    }
+};

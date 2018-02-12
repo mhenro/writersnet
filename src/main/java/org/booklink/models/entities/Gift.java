@@ -15,6 +15,7 @@ public class Gift {
     private String name;
     private String description;
     private String image;
+    private String category;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,5 +67,13 @@ public class Gift {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

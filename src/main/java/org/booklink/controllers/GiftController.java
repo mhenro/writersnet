@@ -1,6 +1,7 @@
 package org.booklink.controllers;
 
 import org.booklink.models.Response;
+import org.booklink.models.entities.Gift;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.response.GiftResponse;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by mhenr on 27.01.2018.
@@ -27,6 +30,13 @@ public class GiftController {
     public ResponseEntity<?> getGift(@PathVariable final Long id) {
         final GiftResponse gift = giftService.getGift(id);
         return Response.createResponseEntity(0, gift, null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "gifts", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllGifts() {
+        final List<Gift> gifts = giftService.getAllGifts();
+        return Response.createResponseEntity(0, gifts, null, HttpStatus.OK);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

@@ -7,6 +7,9 @@ import org.booklink.repositories.GiftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Created by mhenr on 27.01.2018.
  */
@@ -26,5 +29,12 @@ public class GiftService {
         }
         final GiftResponse response = new GiftResponse(gift);
         return response;
+    }
+
+    public List<Gift> getAllGifts() {
+        final List<Gift> gifts = giftRepository.findAll();
+        return gifts.stream()
+                .filter(gift -> gift.getCategory() != null && gift.getId() > 0)
+                .collect(Collectors.toList());
     }
 }
