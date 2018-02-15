@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mhenr on 27.01.2018.
@@ -35,7 +36,7 @@ public class GiftController {
     @CrossOrigin
     @RequestMapping(value = "gifts", method = RequestMethod.GET)
     public ResponseEntity<?> getAllGifts() {
-        final List<Gift> gifts = giftService.getAllGifts();
+        final Map<String, List<Gift>> gifts = giftService.getAllGifts();
         return Response.createResponseEntity(0, gifts, null, HttpStatus.OK);
     }
 

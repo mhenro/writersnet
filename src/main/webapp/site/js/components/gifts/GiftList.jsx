@@ -8,41 +8,47 @@ import GiftListItem from './GiftListItem.jsx';
     - gifts - array
 */
 class GiftList extends React.Component {
-    getGiftsFromCategory(category) {
-        return this.props.gifts.filter(gift => gift.category === category);
-    }
-
-    getGiftCategoriesFromGifts() {
-        let existed = [];
-        return this.props.gifts.filter(gift => {
-            if (existed.some(category => category === GiftCategory.valueOf(gift.category))) {
-                return false;
-            }
-            existed.push(GiftCategory.valueOf(gift.category));
-            return true;
-        }).map(gift => {
-            let category = {
-                name: GiftCategory.valueOf(gift.category),
-                gifts: this.getGiftsFromCategory(gift.category)
-            };
-            return category;
-        });
-    }
-
     renderGifts(gifts) {
-        return gifts.map((gift, key) => {
-            return <GiftListItem gift={gift} key={key}/>
-        });
+        let result = [],
+            tempArr = [],
+            count = Math.ceil(gifts.length / 4),
+            i;
+        for (i = 0; i < gifts.length; i++) {
+            if (i % 4 === 0) {
+                ++count;
+                result.push(
+                    <div className="row" key={i}>
+                        {tempArr}
+                    </div>
+                );
+                tempArr = [];
+            }
+
+            tempArr.push(
+                <GiftListItem gift={gifts[i]} key={i}/>
+            );
+        }
+        result.push(
+            <div className="row" key={i}>
+                {tempArr}
+            </div>
+        );
+        return result;
     }
 
     renderCategories() {
-        return this.getGiftCategoriesFromGifts().map((category, key) => {
-            return (
-                <Panel header={category.name} eventKey={key} key={key}>
-                    {this.renderGifts(category.gifts)}
+        let result = [],
+            key = 0;
+        for (let giftCategory in this.props.gifts) {
+            let categoryName = GiftCategory.valueOf(giftCategory);
+            result.push(
+                <Panel header={categoryName} eventKey={key} key={key}>
+                    {this.renderGifts(this.props.gifts[giftCategory])}
                 </Panel>
-            )
-        });
+            );
+            ++key;
+        }
+        return result;
     }
 
     render() {

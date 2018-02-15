@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
 import { getLocale } from '../locale.jsx';
 import { getAllGifts } from '../actions/GiftActions.jsx';
+import { createNotify } from '../actions/GlobalActions.jsx';
 
 import GiftList from '../components/gifts/GiftList.jsx';
 
@@ -27,7 +28,6 @@ class GiftPage extends React.Component {
     render() {
         return (
             <div>
-                Gift page
                 <GiftList gifts={this.state.gifts}/>
             </div>
         )

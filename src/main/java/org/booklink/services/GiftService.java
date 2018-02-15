@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -31,10 +32,10 @@ public class GiftService {
         return response;
     }
 
-    public List<Gift> getAllGifts() {
+    public Map<String, List<Gift>> getAllGifts() {
         final List<Gift> gifts = giftRepository.findAll();
         return gifts.stream()
                 .filter(gift -> gift.getCategory() != null && gift.getId() > 0)
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(Gift::getCategory));
     }
 }
