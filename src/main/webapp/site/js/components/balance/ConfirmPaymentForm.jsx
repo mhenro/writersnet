@@ -30,12 +30,14 @@ class ConfirmPaymentForm extends React.Component {
             itemName: 'Item',
             itemDesc: '',
             balanceLoaded: false,
-            purchaseLoaded: false
+            purchaseLoaded: false,
+            giftedUserName: null
         };
     }
 
     onShow() {
         this.props.onGetUserBalance(this.props.token, () => this.balanceIsLoaded());
+        this.props.onGetGiftedUserDetails(this.props.giftedUser, item => this.updateGiftedUserName(item));
         if (this.props.operationType === OperationType.BOOK) {
             this.props.onGetBookCost(this.props.purchaseId, (item) => this.updateItem(item));
         } else {
@@ -55,6 +57,12 @@ class ConfirmPaymentForm extends React.Component {
             itemName: item.name,
             itemDesc: item.description,
             purchaseLoaded: true
+        });
+    }
+
+    updateGiftedUserName(user) {
+        this.setState({
+            giftedUserName: user.fullName
         });
     }
 
@@ -151,13 +159,13 @@ class ConfirmPaymentForm extends React.Component {
             return null;
         }
         if (this.isBalanceEnough()) {
-            let sourceUser = this.props.giftedUser ? <div>This gift will be sent to {this.props.giftedUser}</div> : null;
+            let destUser = this.state.giftedUserName ? <div>This gift will be sent to <span className="purchase-name">{this.state.giftedUserName}</span>.</div> : null;
             return (
                 <Modal.Body>
                     You're going to buy {this.getItemName()} which costs {this.getItemCost()} credits. <br/>
                     Your current balance is {this.getBalance()} credits.<br/>
-                    After the payment your balance will be reduced to {this.getReducedBalance()} credits<br/><br/>
-                    {sourceUser}
+                    After the payment your balance will be reduced to {this.getReducedBalance()} credits<br/>
+                    {destUser}<br/>
                     <p>Do you want to buy this item?</p>
                 </Modal.Body>
             )
@@ -253,6 +261,22 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetGiftedUserDetails: (userId, callback) => {
+            if (!userId) {
+                return;
+            }
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

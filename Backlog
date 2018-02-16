@@ -1,13 +1,4 @@
 ﻿Current sprint:
-IN PROGRESS - 107. Create GiftPage. On this page user should see some gifts. Every gift gives some rating or/and credits to author which will be gifted. Some gifts are without cost, some with cost.
-
-IN PROGRESS - 31. Create internal user balance. User can convert real money via pay gateway into the internal credits. These credits allow to:
-                   - transmit credits between users. For instance, user can transmit credits to his friend or pay credits to other user for creating review of his book;
-                   DONE - buy premium account;
-                   DONE - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
-                   - buy additional stuff, such as some medals to show them on author section page and so on.
-		   - buy gifts and present them to authors. Each gift give some rating or credits to author.
-
 IN PROGRESS - 30. Add concept of the premium account. It should allow:
                    DONE - to use more large photos and book texts;
                    DONE - gold highlight of the author panel and all of the author books in all rating lists;
@@ -30,6 +21,9 @@ Features:
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
 106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
 107. Add logic to the "Send message" button in the AuthorFile component.
+110. Add author's gift page. Add "Show author's gifts" button in the SectionPage.
+111. Add send message from user when he buying a gift. It could be a popup form with one input field.
+
 
 
 Bugs:
@@ -169,3 +163,8 @@ DONE - 108. Change all java.util.Date to LocalDate and LocalDateTime for JPA map
 DONE - 108. Press the footer to the bottom even if there is not enough content on the page.
 DONE - 109. Add balance recharge mechanism to the frontend.
 DONE - 106. Add "Give a gift" button under the author avatar on ShortAuthorInfo component. When click on that button user should be moved to GiftPage.
+DONE - 31. Create internal user balance. User can convert real money via pay gateway into the internal credits. These credits allow to:
+                   DONE - buy premium account;
+                   DONE - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
+		   DONE - buy gifts and present them to authors. Each gift give some rating or credits to author.
+DONE - 107. Create GiftPage. On this page user should see some gifts. Every gift gives some rating or/and credits to author which will be gifted. Some gifts are without cost, some with cost.
