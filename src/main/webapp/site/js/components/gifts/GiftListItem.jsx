@@ -4,6 +4,7 @@ import { getHost } from '../../utils.jsx';
 /*
     props:
     - gift
+    - onBuyGift - callback (giftId, msg)
  */
 class GiftListItem extends React.Component {
     getName() {
@@ -22,16 +23,20 @@ class GiftListItem extends React.Component {
         return this.props.gift.image;
     }
 
+    onBuyGift() {
+        this.props.onBuyGift(this.props.gift.id, 'test message');
+    }
+
     render() {
         return (
             <div className="col-sm-3">
-                <div className="panel panel-default">
+                <div className="panel panel-default clickable" onClick={() => this.onBuyGift()}>
                     <div className="panel-body">
-                        <div className="col-sm-12 text-right">
+                        <div className="col-sm-12 text-right gift-price">
                             {this.getCost()}
                         </div>
                         <div className="col-sm-12">
-                            <img src={this.getImage()} title={this.getDescription()} width="100%" height="auto"/>
+                            <img src={this.getImage()} title={this.getDescription()} width="128px" height="128px"/>
                         </div>
                     </div>
                     <div className="panel-footer text-center">

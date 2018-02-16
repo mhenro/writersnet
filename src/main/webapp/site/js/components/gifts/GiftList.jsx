@@ -5,7 +5,8 @@ import GiftListItem from './GiftListItem.jsx';
 
 /*
     props:
-    - gifts - array
+    - gifts - array of gifts
+    - onBuyGift - callback (giftId, msg)
 */
 class GiftList extends React.Component {
     renderGifts(gifts) {
@@ -19,18 +20,24 @@ class GiftList extends React.Component {
                 result.push(
                     <div className="row" key={i}>
                         {tempArr}
+                        <div className="col-sm-12">
+                            <br/>
+                        </div>
                     </div>
                 );
                 tempArr = [];
             }
 
             tempArr.push(
-                <GiftListItem gift={gifts[i]} key={i}/>
+                <GiftListItem gift={gifts[i]} onBuyGift={this.props.onBuyGift} key={i}/>
             );
         }
         result.push(
             <div className="row" key={i}>
                 {tempArr}
+                <div className="col-sm-12">
+                    <br/>
+                </div>
             </div>
         );
         return result;

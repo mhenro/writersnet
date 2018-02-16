@@ -26,7 +26,7 @@ class BalancePage extends React.Component {
         setTimeout(() => {
             if (this.props.token !== '') {
                 this.props.onGetUserBalance(this.props.token);
-                this.props.onGetUserPaymentHistory(this.props.token, (page) => this.updatePaymentHistory(page));
+                this.props.onGetUserPaymentHistory(this.props.token, this.state.activePage, (page) => this.updatePaymentHistory(page));
             }
         }, 500);
     }
@@ -42,7 +42,7 @@ class BalancePage extends React.Component {
             showRechargeBalanceForm: false
         });
         this.props.onGetUserBalance(this.props.token);
-        this.props.onGetUserPaymentHistory(this.props.token, (page) => this.updatePaymentHistory(page));
+        this.props.onGetUserPaymentHistory(this.props.token, this.state.activePage, (page) => this.updatePaymentHistory(page));
     }
 
     updatePaymentHistory(page) {
@@ -81,7 +81,7 @@ class BalancePage extends React.Component {
             activePage: page
         });
 
-        this.props.onGetUserPaymentHistory(this.props.token, (page) => this.updatePaymentHistory(page));
+        this.props.onGetUserPaymentHistory(this.props.token, page, (page) => this.updatePaymentHistory(page));
     }
 
     getBalance() {
@@ -174,8 +174,8 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onGetUserPaymentHistory: (token, callback) => {
-            return getUserPaymentHistory(token).then(([response, json]) => {
+        onGetUserPaymentHistory: (token, page, callback) => {
+            return getUserPaymentHistory(token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

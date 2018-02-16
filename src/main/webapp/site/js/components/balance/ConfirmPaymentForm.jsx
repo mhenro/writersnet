@@ -9,7 +9,8 @@ import { getGiftDetails } from '../../actions/GiftActions.jsx';
 import {
     createNotify,
     setPurchaseId,
-    setUserDetails
+    setUserDetails,
+    setGiftedUser
 } from '../../actions/GlobalActions.jsx';
 import {
     getAuthorDetails,
@@ -62,8 +63,8 @@ class ConfirmPaymentForm extends React.Component {
             operationType: this.props.operationType,
             purchaseId: this.props.purchaseId,
             sourceUserId: this.props.login,
-            destUserId: '',
-            sendMessage: ''
+            destUserId: this.props.giftedUser,
+            sendMessage: this.props.giftMessage
         };
         this.props.onBuy(buyRequest, this.props.token, () => this.onClose());
     }
@@ -77,6 +78,7 @@ class ConfirmPaymentForm extends React.Component {
             purchaseLoaded: false
         });
         this.props.forgetPurchaseId();
+        this.props.forgetGiftedUser();
         this.props.onClose();
         this.props.onGetAuthorDetails(this.props.login);
         this.props.onGetUserDetails(this.props.login);
@@ -149,11 +151,13 @@ class ConfirmPaymentForm extends React.Component {
             return null;
         }
         if (this.isBalanceEnough()) {
+            let sourceUser = this.props.giftedUser ? <div>This gift will be sent to {this.props.giftedUser}</div> : null;
             return (
                 <Modal.Body>
                     You're going to buy {this.getItemName()} which costs {this.getItemCost()} credits. <br/>
                     Your current balance is {this.getBalance()} credits.<br/>
                     After the payment your balance will be reduced to {this.getReducedBalance()} credits<br/><br/>
+                    {sourceUser}
                     <p>Do you want to buy this item?</p>
                 </Modal.Body>
             )
@@ -196,7 +200,9 @@ const mapStateToProps = (state) => {
         balance: state.GlobalReducer.user.balance,
         showConfirmPaymentForm: state.GlobalReducer.showConfirmPaymentForm,
         purchaseId: state.GlobalReducer.purchaseId,
-        operationType: state.GlobalReducer.balanceOperationType
+        operationType: state.GlobalReducer.balanceOperationType,
+        giftedUser: state.GlobalReducer.giftedUser,
+        giftMessage: state.GlobalReducer.giftMessage
     }
 };
 
@@ -284,6 +290,10 @@ const mapDispatchToProps = (dispatch) => {
 
         forgetPurchaseId: () => {
             dispatch(setPurchaseId(null));
+        },
+
+        forgetGiftedUser: () => {
+            dispatch(setGiftedUser(null));
         },
 
         onClose: () => {

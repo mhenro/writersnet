@@ -13,6 +13,7 @@ import { getLocale } from '../../locale.jsx';
     - friendship - array of booleans which represents relationships between authors
     - onBuyPremiumAccount - callback
     - language
+    - onSetGiftedUser - callback
  */
 class AuthorFile extends React.Component {
     static contextTypes = {
@@ -67,7 +68,7 @@ class AuthorFile extends React.Component {
     renderGiftButton() {
         if (!this.props.me && this.props.registered) {
             return (
-                <Link to="/gifts" className="btn btn-success">Give a gift</Link>
+                <Link to="/gifts" onClick={() => this.props.onSetGiftedUser(this.props.author.username)} className="btn btn-success">Give a gift</Link>
             )
         }
     }

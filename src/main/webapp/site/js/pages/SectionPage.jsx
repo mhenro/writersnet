@@ -19,7 +19,8 @@ import {
     goToComments,
     setUserDetails,
     setPurchaseId,
-    setOperationType
+    setOperationType,
+    setGiftedUser
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
 import { getHost, OperationType } from '../utils.jsx';
@@ -130,6 +131,10 @@ class SectionPage extends React.Component {
         this.props.onShowPaymentForm();
     }
 
+    onSetGiftedUser(userId) {
+        this.props.onSetGiftedUser(userId);
+    }
+
     renderSectionToolbar() {
         if (this.props.registered && this.props.login === this.props.author.username) {
             return (
@@ -191,7 +196,8 @@ class SectionPage extends React.Component {
                                     onAddToFriends={friend => this.onAddToFriends(friend)}
                                     friendship={this.state.friendship}
                                     onBuyPremiumAccount={() => this.onBuyPremiumAccount()}
-                                    language={this.props.language}/>
+                                    language={this.props.language}
+                                    onSetGiftedUser={userId => this.onSetGiftedUser(userId)}/>
                     </div>
                     <div className="col-sm-12 col-lg-9">
                         <AuthorShortInfo author={this.props.author} books={this.state.books} language={this.props.language}/>
@@ -378,6 +384,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onSetOperationType: (operationType) => {
             dispatch(setOperationType(operationType));
+        },
+
+        onSetGiftedUser: (userId) => {
+            dispatch(setGiftedUser(userId));
         }
     }
 };

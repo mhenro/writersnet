@@ -37,6 +37,8 @@ export const SET_USER_DETAILS = 'SET_USER_DETAILS';
 
 export const SET_PURCHASE_ID = 'SET_PURCHASE_ID';
 export const SET_OPERATION_TYPE = 'SET_OPERATION_TYPE';
+export const SET_GIFTED_USER = 'SET_GIFTED_USER';
+export const SET_GIFT_MESSAGE = 'SET_GIFT_MESSAGE';
 
 export const SET_CONTENT_HEIGHT = 'SET_CONTENT_HEIGHT';
 
@@ -143,6 +145,20 @@ export const setOperationType = (operationType) => {
     return {
         type: SET_OPERATION_TYPE,
         operationType
+    }
+};
+
+export const setGiftedUser = (userId) => {
+    return {
+        type: SET_GIFTED_USER,
+        userId
+    }
+};
+
+export const setGiftMessage = (message) => {
+    return {
+        type: SET_GIFT_MESSAGE,
+        message
     }
 };
 
