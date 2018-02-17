@@ -5,6 +5,7 @@ import org.booklink.models.entities.Comment;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.exceptions.WrongDataException;
 import org.booklink.models.request.CommentRequest;
 import org.booklink.models.response.CommentResponse;
 import org.booklink.models.response.DetailedCommentResponse;
@@ -66,6 +67,9 @@ public class CommentsService {
 
     @Transactional
     public void saveComment(final CommentRequest bookComment) {
+        if (bookComment.getComment() == null || bookComment.getComment().isEmpty()) {
+            throw new WrongDataException("Comment must not be empty");
+        }
         Comment entity = new Comment();
         Book book = bookRepository.findOne(bookComment.getBookId());
         if (book == null) {

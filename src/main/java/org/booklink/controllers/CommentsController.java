@@ -4,6 +4,7 @@ import org.booklink.models.Response;
 import org.booklink.models.entities.Session;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.exceptions.WrongDataException;
 import org.booklink.models.request.CommentRequest;
 import org.booklink.models.response.CommentResponse;
 import org.booklink.models.response.DetailedCommentResponse;
@@ -76,5 +77,10 @@ public class CommentsController {
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
         return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(WrongDataException.class)
+    public ResponseEntity<?> wrongData(WrongDataException e) {
+        return Response.createResponseEntity(6, e.getMessage().isEmpty() ? "Wrong data" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 }

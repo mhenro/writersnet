@@ -5,8 +5,11 @@ import org.booklink.models.entities.Gift;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.response.GiftResponse;
+import org.booklink.models.response.UserGiftResponse;
 import org.booklink.services.GiftService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +41,12 @@ public class GiftController {
     public ResponseEntity<?> getAllGifts() {
         final Map<String, List<Gift>> gifts = giftService.getAllGifts();
         return Response.createResponseEntity(0, gifts, null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "gifts/authors/{userId}", method = RequestMethod.GET)
+    public Page<UserGiftResponse> getAuthorGifts(@PathVariable final String userId, final Pageable pageable) {
+        return giftService.getAuthorGifts(userId, pageable);
     }
 
     /* ---------------------------------------exception handlers-------------------------------------- */

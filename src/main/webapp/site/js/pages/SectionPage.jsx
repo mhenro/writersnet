@@ -4,7 +4,8 @@ import {
     getAuthorDetails,
     setAuthor,
     checkFriendshipWith,
-    subscribeOn
+    subscribeOn,
+    showAuthorGiftsForm
 } from '../actions/AuthorActions.jsx';
 import {
     getSeries,
@@ -33,6 +34,7 @@ import BookSerieList from '../components/section/BookSerieList.jsx';
 import BookPropsForm from '../components/section/BookPropsForm.jsx';
 import EditSeriesForm from '../components/section/EditSeriesForm.jsx';
 import ReviewForm from '../components/section/ReviewForm.jsx';
+import AuthorGiftForm from '../components/section/AuthorGiftForm.jsx';
 
 /*
     props:
@@ -157,6 +159,12 @@ class SectionPage extends React.Component {
         }
     }
 
+    renderGiftButton() {
+        return (
+            <img src={getHost() + 'css/images/gifts/default_gift.png'} onClick={() => this.props.onShowAuthorGifts()} className="clickable" title="Show the author's gifts" width="32" height="32"/>
+        )
+    }
+
     isDataLoaded() {
         if (!this.props.author) {
             return false;
@@ -174,8 +182,11 @@ class SectionPage extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-sm-11 text-center section-name">
+                    <div className="col-sm-10 text-center section-name">
                         {this.props.author.fullName}
+                    </div>
+                    <div className="col-sm-1 text-right">
+                        {this.renderGiftButton()}
                     </div>
                     <div className="col-sm-1 text-right">
                         {this.renderCrown()}
@@ -230,6 +241,9 @@ class SectionPage extends React.Component {
 
                 {/* Form for adding reviews */}
                 <ReviewForm onCloseUpdate={() => this.props.onGetBooks(this.props.match.params.authorName, books => this.updateBooks(books))}/>
+
+                {/* Form for showing author gifts */}
+                <AuthorGiftForm author={this.props.author}/>
             </div>
         )
     }
@@ -388,6 +402,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onSetGiftedUser: (userId) => {
             dispatch(setGiftedUser(userId));
+        },
+
+        onShowAuthorGifts: () => {
+            dispatch(showAuthorGiftsForm());
         }
     }
 };

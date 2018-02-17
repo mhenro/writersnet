@@ -8,6 +8,7 @@ IN PROGRESS - 30. Add concept of the premium account. It should allow:
 
 
 Features:
+113. Hide "Give a gift" button on AuthorGiftPage if author === me.
 98. Add competitions page. On this page users can add new competition then select its name and prize fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
@@ -22,12 +23,11 @@ Features:
 106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
 107. Add logic to the "Send message" button in the AuthorFile component.
 110. Add author's gift page. Add "Show author's gifts" button in the SectionPage.
+112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
 111. Add send message from user when he buying a gift. It could be a popup form with one input field.
 
 
-
 Bugs:
-101. Don't send an empty comment for the book.
 100. Fix bug with ads disappearing.
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
@@ -168,3 +168,4 @@ DONE - 31. Create internal user balance. User can convert real money via pay gat
                    DONE - buy hidden books of other users. After user buy hidden book it becomes visible for him and needed amount of credits will transmit to other user;
 		   DONE - buy gifts and present them to authors. Each gift give some rating or credits to author.
 DONE - 107. Create GiftPage. On this page user should see some gifts. Every gift gives some rating or/and credits to author which will be gifted. Some gifts are without cost, some with cost.
+DONE - 101. Don't send an empty comment for the book.

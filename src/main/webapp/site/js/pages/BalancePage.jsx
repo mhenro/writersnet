@@ -92,15 +92,15 @@ class BalancePage extends React.Component {
     render() {
         return (
             <div>
-                <div className="col-sm-6">
+                <div className="col-sm-4">
                     <div className="panel panel-default">
                         <div className="panel-body">
-                            <p>Balance...................................<span>{this.getBalance()} cr.</span></p>
+                            <p>Balance................................<span>{this.getBalance()} cr.</span></p>
                             <button onClick={() => this.topUpBalance()} className="btn btn-success">Top up the balance</button>
                         </div>
                     </div>
                 </div>
-                <div className="col-sm-6">
+                <div className="col-sm-8">
                     <div className="panel panel-default">
                         <div className="panel-body">
                             <div className="row">

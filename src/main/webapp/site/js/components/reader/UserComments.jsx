@@ -70,6 +70,9 @@ class UserComments extends React.Component {
     }
 
     saveComment() {
+        if (this.state.comment.trim().length === 0) {
+            return;
+        }
         let comment = {
             bookId: this.props.bookId,
             userId: this.props.login === 'Anonymous' ? undefined : this.props.login,

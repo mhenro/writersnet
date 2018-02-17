@@ -85,12 +85,19 @@ export const removeSubscription = (authorName, token) => {
     return doFetch(getHost() + 'authors/unsubscribe', authorName, token);
 };
 
+export const getAuthorGifts = (userId, page = 0, size = 8) => {
+    return doFetch(getHost() + 'gifts/authors/' + userId + '?page=' + page + '&size=' + size);
+};
+
 
 
 export const SET_AUTHORS = 'SET_AUTHORS';
 export const SET_AUTHOR = 'SET_AUTHOR';
 
 export const SET_NEW_FRIENDS = 'SET_NEW_FRIENDS';
+
+export const SHOW_AUTHOR_GIFTS_FORM = 'SHOW_AUTHOR_GIFTS_FORM';
+export const CLOSE_AUTHOR_GIFTS_FORM = 'CLOSE_AUTHOR_GIFTS_FORM';
 
 export const setAuthors = (authors) => {
     return {
@@ -110,5 +117,17 @@ export const setNewFriends = (newFriends) => {
     return {
         type: SET_NEW_FRIENDS,
         newFriends
+    }
+};
+
+export const showAuthorGiftsForm = () => {
+    return {
+        type: SHOW_AUTHOR_GIFTS_FORM
+    }
+};
+
+export const closeAuthorGiftsForm = () => {
+    return {
+        type: CLOSE_AUTHOR_GIFTS_FORM
     }
 };
