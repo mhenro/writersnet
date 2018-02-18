@@ -1,5 +1,6 @@
 package org.booklink.controllers;
 
+import com.lowagie.text.DocumentException;
 import org.booklink.models.Genre;
 import org.booklink.models.Response;
 import org.booklink.models.exceptions.*;
@@ -15,8 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,6 +81,17 @@ public class BookController {
     public ResponseEntity<?> getBookCost(@PathVariable final Long bookId) {
         final BookCostResponse response = bookService.getBookCost(bookId);
         return Response.createResponseEntity(0, response, null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "books/pdf/{bookId}", method = RequestMethod.GET)
+    public HttpEntity<byte[]> getBookAsPdf(@PathVariable final Long bookId) throws IOException, DocumentException {
+        final byte[] pdf = bookService.getBookAsPdf(bookId);
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_PDF);
+        header.setContentLength(pdf.length);
+        return new HttpEntity<>(pdf, header);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

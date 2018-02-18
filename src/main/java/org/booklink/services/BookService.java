@@ -1,6 +1,11 @@
 package org.booklink.services;
 
+import com.lowagie.text.DocumentException;
 import liquibase.util.file.FilenameUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.booklink.models.Genre;
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.IsNotPremiumUserException;
@@ -28,9 +33,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.Document;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+import org.xhtmlrenderer.resource.XMLResource;
+import org.xml.sax.InputSource;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -337,6 +345,48 @@ public class BookService {
         userBookPK.setBook(book);
         final UserBook userBook = userBookRepository.findOne(userBookPK);
         return Optional.ofNullable(userBook).map(ub -> true).orElse(false);
+    }
+
+    private Document getDocument(final String content) {
+        String content2 = "Hello world!";
+        InputSource is = new InputSource(new BufferedReader(new StringReader(content2)));
+        return XMLResource.load(is).getDocument();
+    }
+
+    public byte[] getBookAsPdf(final Long bookId) throws IOException, DocumentException {
+        final Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            throw new ObjectNotFoundException("Book is not found");
+        }
+        final BookText bookText = book.getBookText();
+/*
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.setDocument(this.getDocument(bookText.getText()), null);
+        renderer.layout();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        renderer.createPDF(baos);
+        byte[] bytes = baos.toByteArray();
+        baos.close();
+        return bytes;*/
+
+
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
+
+        PDPageContentStream stream = new PDPageContentStream(document, page);
+        stream.setFont(PDType1Font.HELVETICA, 12);
+        stream.beginText();
+        stream.showText(new String(bookText.getText().getBytes("UTF-8"), "windows-1251"));
+        stream.endText();
+        stream.close();
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        document.save(byteArrayOutputStream);
+        document.close();
+
+        return byteArrayOutputStream.toByteArray();
+
     }
 
     private void preparePageOfBook(final BookWithTextResponse pageOfBook, final int page, final int size) {

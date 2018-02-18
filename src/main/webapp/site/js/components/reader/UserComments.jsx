@@ -87,6 +87,28 @@ class UserComments extends React.Component {
         this.clearComment();
     }
 
+    renderPagination() {
+        if (this.props.comments && this.props.comments.length > 0) {
+            return (
+                <div className="col-sm-12 text-center">
+                    <Pagination
+                        className={'shown'}
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        items={this.props.totalPages}
+                        maxButtons={3}
+                        activePage={this.props.currentPage}
+                        onSelect={event => this.handleSelect(event)}/>
+                    <br/>
+                </div>
+            )
+        }
+    }
+
     render() {
         return (
             <div>
@@ -103,21 +125,7 @@ class UserComments extends React.Component {
                 <br/>
                 <br/>
                 <p>{getLocale(this.props.language)['Comments:']}</p>
-                <div className="col-sm-12 text-center">
-                    <Pagination
-                        className={'shown'}
-                        prev
-                        next
-                        first
-                        last
-                        ellipsis
-                        boundaryLinks
-                        items={this.props.totalPages}
-                        maxButtons={3}
-                        activePage={this.props.currentPage}
-                        onSelect={event => this.handleSelect(event)}/>
-                    <br/>
-                </div>
+                {this.renderPagination()}
                 {this.props.comments.map((comment, key) =>
                     <CommentItem comment={comment}
                                  owner={this.props.owner}
@@ -129,20 +137,7 @@ class UserComments extends React.Component {
                                  language={this.props.language}
                                  key={key}/>
                 )}
-                <div className="col-sm-12 text-center">
-                    <Pagination
-                        className={'shown'}
-                        prev
-                        next
-                        first
-                        last
-                        ellipsis
-                        boundaryLinks
-                        items={this.props.totalPages}
-                        maxButtons={3}
-                        activePage={this.props.currentPage}
-                        onSelect={event => this.handleSelect(event)}/>
-                </div>
+                {this.renderPagination()}
             </div>
         )
     }

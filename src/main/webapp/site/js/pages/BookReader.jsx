@@ -5,6 +5,7 @@ import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 import Diff from 'react-diff';
 import { getLocale } from '../locale.jsx';
+import { saveAs } from 'file-saver'
 
 import {
     getBookDetails,
@@ -13,7 +14,8 @@ import {
     getBookComments,
     saveComment,
     deleteComment,
-    openPayBookForm
+    openPayBookForm,
+    getBookAsPdf
 } from '../actions/BookActions.jsx';
 import {
     createNotify,
@@ -156,8 +158,16 @@ class BookReader extends React.Component {
             return (
                 <div className="col-sm-12">
                     <hr/>
-                    <div className="checkbox">
-                        <label><input onClick={() => this.showDiff()} type="checkbox" value={this.state.showDiff}/>{getLocale(this.props.language)['Show changes']}</label>
+                    <div className="row">
+                        <div className="col-sm-2">
+                            <div className="checkbox">
+                                <label><input onClick={() => this.showDiff()} type="checkbox" value={this.state.showDiff}/>{getLocale(this.props.language)['Show changes']}</label>
+                            </div>
+                        </div>
+                        <div className="col-sm-1">
+                            <button onClick={() => this.props.onGetBookAsPdf(this.props.book.id, this.props.token)} className="glyphicon glyphicon-download btn btn-default" title="Download book as pdf"></button>
+                        </div>
+                        <div className="col-sm-9"></div>
                     </div>
                     <hr/>
                 </div>
@@ -294,6 +304,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        onGetBookAsPdf: (bookId, token) => {
+            return getBookAsPdf(bookId, token).then(([response, blob]) => {
+                if (response.status === 200) {
+                    saveAs(blob, bookId + '.pdf');
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
         onGetAuthorDetails: (userId, callback) => {
             return getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {

@@ -88,6 +88,10 @@ export const getBookCost = (bookId) => {
     return doFetch(getHost() + 'books/cost/' + bookId);
 };
 
+export const getBookAsPdf = (bookId, token = null) => {
+    return doFetch(getHost() + 'books/pdf/' + bookId, null, token, 'application/pdf', 'blob');
+};
+
 export const SET_BOOKS = 'SET_BOOKS';
 export const SET_BOOK = 'SET_BOOK';
 export const SET_SERIES = 'SET_SERIES';
