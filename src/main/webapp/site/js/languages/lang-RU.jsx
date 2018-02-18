@@ -96,6 +96,10 @@ export const RU = {
     'Text': 'Текст',
     'last updated at': 'Последний раз обновлялось',
     'Close': 'Закрыть',
+    'Access:': 'Доступ:',
+    'Choose access to the book': 'Выберите тип доступа к книге',
+    'Cost:': 'Стоимость:',
+    'Enter the book cost': 'Введите цену книги',
 
     /* BookSerieList */
     'Books without series': 'Книги вне серий',

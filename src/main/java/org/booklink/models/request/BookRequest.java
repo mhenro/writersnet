@@ -15,6 +15,8 @@ public class BookRequest {
     private String authorName;
     private Long serieId;
     private String language;
+    private Boolean paid;
+    private Long cost;
 
     public Long getId() {
         return id;
@@ -70,5 +72,21 @@ public class BookRequest {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Boolean getPaid() {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
+
+    public Long getCost() {
+        return cost;
+    }
+
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 }

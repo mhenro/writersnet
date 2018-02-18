@@ -222,6 +222,7 @@ public class BookService {
             checkCredentials(savedBook.getAuthor().getUsername());   //only owner can edit his book
             savedBook.setLastUpdate(LocalDateTime.now());
         }
+        processCostRequest(book);
         BeanUtils.copyProperties(book, savedBook, ObjectHelper.getNullPropertyNames(book));
         if (book.getSerieId() != null) {
             BookSerie bookSerie = serieRepository.findOne(book.getSerieId());
@@ -328,6 +329,9 @@ public class BookService {
         if (book == null) {
             throw new ObjectNotFoundException("Book is not found");
         }
+        if (book.getAuthor().getUsername().equals(user.getUsername())) {
+            return true;
+        }
         final UserBookPK userBookPK = new UserBookPK();
         userBookPK.setUser(user);
         userBookPK.setBook(book);
@@ -354,6 +358,15 @@ public class BookService {
             final long views = book.getViews() + 1;
             book.setViews(views);
             bookRepository.save(book);
+        }
+    }
+
+    private void processCostRequest(final BookRequest book) {
+        if (!book.getPaid()) {
+            book.setCost(0L);
+        }
+        if (book.getCost() == null || book.getCost().equals(0L)) {
+            book.setPaid(false);
         }
     }
 

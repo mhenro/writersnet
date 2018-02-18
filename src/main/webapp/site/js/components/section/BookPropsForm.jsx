@@ -44,7 +44,9 @@ class BookPropsForm extends React.Component {
             genre: null,
             language: null,
             cover: '',
-            lastUpdated: ''
+            lastUpdated: '',
+            paid: {value: false, label: 'FREE'},
+            cost: parseFloat(0).toFixed(2)
         };
     }
 
@@ -61,13 +63,15 @@ class BookPropsForm extends React.Component {
                 genre: null,
                 language: null,
                 cover: '',
-                lastUpdated: ''
+                lastUpdated: '',
+                paid: {value: false, label: 'FREE'},
+                cost: parseFloat(0).toFixed(2)
             });
         }
     }
 
     updateForm(id) {
-        this.props.onGetBookDetails(id, () => this.updateState());
+        this.props.onGetBookDetails(id, this.props.token, () => this.updateState());
     }
 
     updateState() {
@@ -79,7 +83,9 @@ class BookPropsForm extends React.Component {
             genre: {value: book.genre, label: getLocale(this.props.language)[book.genre]},
             language: {value: book.language, label: locale[book.language || 'EN'].label},
             cover: book.cover,
-            lastUpdated: book.lastUpdate
+            lastUpdated: book.lastUpdate,
+            paid: {value: book.paid, label: book.paid ? 'PAID' : 'FREE'},
+            cost: parseFloat(book.cost / 100).toFixed(2) || 0
         });
     }
 
@@ -91,7 +97,9 @@ class BookPropsForm extends React.Component {
             description: this.state.description,
             serieId: this.state.serie ? this.state.serie.value : null,
             genre: this.state.genre ? this.state.genre.value : null,
-            language: this.state.language.value
+            language: this.state.language.value,
+            paid: this.state.paid.value,
+            cost: Math.ceil(this.state.cost * 100)
         };
         this.props.onSaveBook(book, this.props.token, () => this.close());
     }
@@ -105,6 +113,7 @@ class BookPropsForm extends React.Component {
         switch (proxy.target.id) {
             case 'name': this.setState({name: proxy.target.value}); break;
             case 'description': this.setState({description: proxy.target.value}); break;
+            case 'cost': this.setState({cost: proxy.target.value}); break;
         }
     }
 
@@ -156,6 +165,25 @@ class BookPropsForm extends React.Component {
                 label: locale[lang].label
             });
         }
+        return options;
+    }
+
+    onAccessChange(mode) {
+        this.setState({
+            paid: mode
+        });
+    }
+
+    getAccessItems() {
+        let options = [];
+        options.push({
+            value: true,
+            label: 'PAID'
+        });
+        options.push({
+            value: false,
+            label: 'FREE'
+        });
         return options;
     }
 
@@ -253,6 +281,18 @@ class BookPropsForm extends React.Component {
                                 <Select value={this.state.language} id="language" options={this.getLanguageItems()} onChange={lang => this.onLanguageChange(lang)} placeholder={getLocale(this.props.language)['Choose the book language']}/>
                             </div>
                         </div>
+                        <div className="form-group">
+                            <label className="control-label col-sm-2" htmlFor="access">{getLocale(this.props.language)['Access:']}</label>
+                            <div className="col-sm-10">
+                                <Select value={this.state.paid} id="access" options={this.getAccessItems()} onChange={mode => this.onAccessChange(mode)} placeholder={getLocale(this.props.language)['Choose access to the book']}/>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label col-sm-2" htmlFor="cost">{getLocale(this.props.language)['Cost:']}</label>
+                            <div className="col-sm-10">
+                                <input value={this.state.cost} onChange={proxy => this.onFieldChange(proxy)} type="number" className="form-control" disabled={!this.state.paid.value} id="cost" placeholder={getLocale(this.props.language)['Enter the book cost']} name="cost"/>
+                            </div>
+                        </div>
 
                         <div className={'panel panel-default ' + (this.props.editableBook ? '' : 'hidden')}>
                             <div className="panel-heading">
@@ -332,8 +372,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(closeBookPropsForm());
         },
 
-        onGetBookDetails: (bookId, callback) => {
-            return getBookDetails(bookId).then(([response, json]) => {
+        onGetBookDetails: (bookId, token, callback) => {
+            return getBookDetails(bookId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBook(json));
                     callback();

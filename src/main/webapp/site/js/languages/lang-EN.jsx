@@ -96,6 +96,10 @@ export const EN = {
     'Text': 'Text',
     'last updated at': 'last updated at',
     'Close': 'Close',
+    'Access:': 'Access:',
+    'Choose access to the book': 'Choose access to the book',
+    'Cost:': 'Cost:',
+    'Enter the book cost': 'Enter the book cost',
 
     /* BookSerieList */
     'Books without series': 'Books without series',

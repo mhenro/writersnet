@@ -12,6 +12,7 @@ import AuthorGiftList from './AuthorGiftList.jsx';
 /*
     props:
     - author
+    - me - boolean
  */
 class AuthorGiftForm extends React.Component {
     static contextTypes = {
@@ -110,7 +111,7 @@ class AuthorGiftForm extends React.Component {
     renderFooterButtons() {
         return (
             <div className="btn-group">
-                <Button onClick={() => this.onBuy()} className="btn btn-success">Give a gift</Button>
+                {this.props.me ? null : <Button onClick={() => this.onBuy()} className="btn btn-success">Give a gift</Button>}
                 <Button onClick={() => this.onClose()} className="btn btn-default">Close</Button>
             </div>
         )

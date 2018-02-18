@@ -21,6 +21,7 @@ import {
     setPurchaseId
 } from '../actions/GlobalActions.jsx';
 import { setToken } from '../actions/AuthActions.jsx';
+import { getAuthorDetails } from '../actions/AuthorActions.jsx';
 
 import UserComments from '../components/reader/UserComments.jsx';
 import PayBookForm from '../components/reader/PayBookForm.jsx';
@@ -39,7 +40,8 @@ class BookReader extends React.Component {
             totalPages: 1,
             bookPage: 1,
             bookTotalPages: 1,
-            showDiff: false
+            showDiff: false,
+            premiumUser: false
         };
     }
 
@@ -59,6 +61,21 @@ class BookReader extends React.Component {
 
         this.props.onGetBookDetails(this.props.match.params.bookId, this.props.token, this.state.bookPage, totalPages => this.setBookTotalPages(totalPages));
         this.props.onGetBookComments(this.props.match.params.bookId, this.state.currentPage, comments => this.renderComments(comments), totalPages => this.setTotalPages(totalPages));
+
+        /* updating reader information */
+        let readerTimer = setInterval(() => {
+            if (this.props.login && this.props.login !== 'Anonymous') {
+                this.props.onGetAuthorDetails(this.props.login, details => this.updateUserDetails(details));
+                clearInterval(readerTimer);
+            }
+        }, 1000);
+
+    }
+
+    updateUserDetails(details) {
+        this.setState({
+            premiumUser: details.premium
+        });
     }
 
     getAuthorName() {
@@ -135,7 +152,7 @@ class BookReader extends React.Component {
     }
 
     renderPremiumTools() {
-        if (this.props.book.premium) {
+        if (this.state.premiumUser) {
             return (
                 <div className="col-sm-12">
                     <hr/>
@@ -277,6 +294,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        onGetAuthorDetails: (userId, callback) => {
+            return getAuthorDetails(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
         onGetBookDetails: (bookId, token, page, callbackTotalPages) => {
             token = token === '' ? null : token;
             return getBookDetails(bookId, token, page - 1).then(([response, json]) => {
