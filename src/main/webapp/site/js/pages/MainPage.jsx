@@ -20,6 +20,7 @@ import SectionPage from '../pages/SectionPage.jsx';
 import LoginForm from '../components/LoginForm.jsx';
 import OptionsPage from '../pages/OptionsPage.jsx';
 import RatingPage from '../pages/RatingPage.jsx';
+import ContestPage from '../pages/ContestPage.jsx';
 import FriendsPage from '../pages/FriendsPage.jsx';
 import MessagesPage from '../pages/MessagesPage.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
@@ -29,6 +30,7 @@ import DiscussionPage from '../pages/DiscussionPage.jsx';
 import HelpPage from '../pages/HelpPage.jsx';
 import BalancePage from '../pages/BalancePage.jsx';
 import GiftPage from '../pages/GiftPage.jsx';
+import MyContestsPage from '../pages/MyContestsPage.jsx';
 import ConfirmPaymentForm from '../components/balance/ConfirmPaymentForm.jsx';
 
 class MainPage extends React.Component {
@@ -91,6 +93,8 @@ class MainPage extends React.Component {
                                 <Route exact path="/authors/:authorName" component={SectionPage}/>
                                 <Route exact path="/books" component={BookPage}/>
                                 <Route exact path="/ratings" component={RatingPage}/>
+                                <Route exact path="/contests" component={ContestPage}/>
+                                <Route exact path="/mycontests" component={MyContestsPage}/>
                                 <Route exact path="/reviews/:bookId" component={ReviewPage}/>
                                 <Route exact path="/reviews" component={ReviewPage}/>
                                 <Route exact path="/discussions" component={DiscussionPage}/>

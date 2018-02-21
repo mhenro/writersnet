@@ -9,6 +9,7 @@ export const RU = {
     'Books': 'Книги',
     'Authors': 'Авторы',
     'Ratings': 'Рейтинги',
+    'Contests': 'Конкурсы',
     'Discussions': 'Обсуждения',
     'Reviews': 'Обзоры',
     'Help': 'Помощь',
@@ -21,6 +22,7 @@ export const RU = {
     'News': 'Новости',
     'Messages': 'Сообщения',
     'Friends': 'Друзья',
+    'My contests': 'Мои конкурсы',
 
     /* Section page */
     'Add new book': 'Добавить новую книгу',

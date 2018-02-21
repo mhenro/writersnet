@@ -9,6 +9,7 @@ export const EN = {
     'Books': 'Books',
     'Authors': 'Authors',
     'Ratings': 'Ratings',
+    'Contests': 'Contests',
     'Discussions': 'Discussions',
     'Reviews': 'Reviews',
     'Help': 'Help',
@@ -21,6 +22,7 @@ export const EN = {
     'News': 'News',
     'Messages': 'Messages',
     'Friends': 'Friends',
+    'My contests': 'My contests',
 
     /* Section page */
     'Add new book': 'Add new book',

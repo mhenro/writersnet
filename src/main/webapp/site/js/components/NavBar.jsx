@@ -88,6 +88,7 @@ class NavBar extends React.Component {
                         <li className={this.getActiveItem('books')}><Link to="/books" onClick={() => this.onItemClick('books')}>{getLocale(this.props.language)['Books']}</Link></li>
                         <li className={this.getActiveItem('authors')}><Link to="/authors" onClick={() => this.onItemClick('authors')}>{getLocale(this.props.language)['Authors']}</Link></li>
                         <li className={this.getActiveItem('ratings')}><Link to="/ratings" onClick={() => this.onItemClick('ratings')}>{getLocale(this.props.language)['Ratings']}</Link></li>
+                        <li className={this.getActiveItem('contests')}><Link to="/contests" onClick={() => this.onItemClick('contests')}>{getLocale(this.props.language)['Contests']}</Link></li>
                         <li className={this.getActiveItem('discussions')}><Link to="/discussions" onClick={() => this.onItemClick('discussions')}>{getLocale(this.props.language)['Discussions']}</Link></li>
                         <li className={this.getActiveItem('reviews')}><Link to="/reviews" onClick={() => this.onItemClick('reviews')}>{getLocale(this.props.language)['Reviews']}</Link></li>
                         <li className={this.getActiveItem('help')}><Link to="/help" onClick={() => this.onItemClick('help')}>{getLocale(this.props.language)['Help']}</Link></li>

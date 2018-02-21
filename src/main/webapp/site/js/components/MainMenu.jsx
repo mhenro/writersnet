@@ -45,6 +45,14 @@ class MainMenu extends React.Component {
         return <span>{getLocale(this.props.language)['Friends']}</span>
     }
 
+    getMyContestsCaption() {
+        //TODO: add counter here...
+        //if (this.props.newFriends > 0) {
+        //    return <span>{getLocale(this.props.language)['Friends']} <span className="badge">{this.props.newFriends}</span></span>
+        //}
+        return <span>{getLocale(this.props.language)['My contests']}</span>
+    }
+
     render() {
         return(
             <ul className="nav nav-pills nav-stacked">
@@ -52,6 +60,7 @@ class MainMenu extends React.Component {
                 <li className={this.getActiveItem('News')}><Link to="/news" onClick={() => this.onItemClick('News')}>{getLocale(this.props.language)['News']}</Link></li>
                 <li className={this.getActiveItem('Messages')}><Link to="/messages" onClick={() => this.onItemClick('Messages')}>{this.getMessagesCaption()}</Link></li>
                 <li className={this.getActiveItem('Friends')}><Link to="/friends" onClick={() => this.onItemClick('Friends')}>{this.getFriendsCaption()}</Link></li>
+                <li className={this.getActiveItem('My contests')}><Link to="/mycontests" onClick={() => this.onItemClick('My contests')}>{this.getMyContestsCaption()}</Link></li>
                 {/*<li className={this.getActiveItem('Groups')}><Link to="/groups" onClick={() => this.onItemClick('Groups')}>Groups</Link></li>*/}
             </ul>
         )
