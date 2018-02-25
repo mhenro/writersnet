@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
 
-import { getAllContests } from '../actions/ContestActions.jsx';
+import { getAllContests, showContestEditForm } from '../actions/ContestActions.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
 
 import ContestEditForm from '../components/contests/ContestEditForm.jsx';
@@ -16,6 +16,7 @@ class ContestPage extends React.Component {
         this.state = {
             activePage: 1,
             totalPages: 1,
+            contestId: null,
             contests: []
         };
     }
@@ -39,11 +40,25 @@ class ContestPage extends React.Component {
         this.props.onGetAllContests(page, data => this.updateContests(data));
     }
 
+    onShowEditForm(id) {
+        this.setState({
+            contestId: id
+        });
+        this.props.onShowContestEditForm();
+    }
+
+    onCreateNewContest() {
+        this.setState({
+            contestId: null
+        });
+        this.props.onShowContestEditForm();
+    }
+
     render() {
         return (
             <div>
                 <div className="col-sm-12 text-center">
-                    <button className="btn btn-success">Create new contest</button>
+                    <button onClick={() => this.onCreateNewContest()} className="btn btn-success">Create new contest</button>
                     <br/>
                     <br/>
                 </div>
@@ -62,7 +77,7 @@ class ContestPage extends React.Component {
                         onSelect={page => this.pageSelect(page)}/>
                 </div>
                 <div className="col-sm-12 text-center">
-                    <ContestList contests={this.state.contests}/>
+                    <ContestList contests={this.state.contests} onShowContestEditForm={id => this.onShowEditForm(id)}/>
                     <br/>
                 </div>
                 <div className="col-sm-12 text-center">
@@ -81,7 +96,7 @@ class ContestPage extends React.Component {
                 </div>
 
                 {/* Contest popup form */}
-                <ContestEditForm/>
+                <ContestEditForm contestId={this.state.contestId}/>
 
                 {/* Contest management popup form */}
                 <ContestManagementForm/>
@@ -92,11 +107,6 @@ class ContestPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        author: state.AuthorReducer.author,
-        registered: state.GlobalReducer.registered,
-        token: state.GlobalReducer.token,
-        login: state.GlobalReducer.user.login,
-        language: state.GlobalReducer.language
     }
 };
 
@@ -114,7 +124,11 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
         },
+
+        onShowContestEditForm: () => {
+            dispatch(showContestEditForm());
+        }
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContestPage);

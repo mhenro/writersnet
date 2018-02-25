@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 /*
     props:
     - contests - array
+    - onShowContestEditForm - callback
  */
 class ContestList extends React.Component {
     getCreatorName(contest) {
@@ -14,10 +15,14 @@ class ContestList extends React.Component {
         return parseFloat(contest.prizeFund / 100).toFixed(2);
     }
 
+    onRowClick(id) {
+        this.props.onShowContestEditForm(id);
+    }
+
     renderTableBody() {
         return this.props.contests.map((contest, key) => {
             return (
-                <tr key={key}>
+                <tr key={key} onClick={() => this.onRowClick(contest.id)}>
                     <td>{contest.name}</td>
                     <td>{this.getCreatorName(contest)}</td>
                     <td>{this.getCost(contest)}</td>

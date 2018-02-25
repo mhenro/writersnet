@@ -13,4 +13,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface ContestRepository extends PagingAndSortingRepository<Contest, Long> {
     @Query("SELECT new org.booklink.models.response.ContestResponse(c.id, c.name, c.creator.username, c.creator.firstName, c.creator.lastName, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created) FROM Contest c ORDER BY c.created DESC")
     Page<ContestResponse> getAllContests(final Pageable pageable);
+
+    @Query("SELECT new org.booklink.models.response.ContestResponse(c.id, c.name, c.creator.username, c.creator.firstName, c.creator.lastName, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created) FROM Contest c WHERE c.id = ?1")
+    ContestResponse getContest(final Long id);
 }
