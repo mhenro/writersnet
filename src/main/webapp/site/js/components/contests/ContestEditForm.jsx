@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { closeContestEditForm, getContest } from '../../actions/ContestActions.jsx';
 import { createNotify } from '../../actions/GlobalActions.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -12,14 +13,35 @@ class ContestEditForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            contest: null
+            contest: null,
+            name: '',
+            prizeFund: 0,
+            revenue1: 0,
+            revenue2: 0,
+            revenue3: 0
         };
     }
 
     updateData(data) {
-        this.setState({
-            contest: data
-        });
+        if (data) {
+            this.setState({
+                contest: data,
+                name: data.name,
+                prizeFund: parseFloat(data.prizeFund / 100).toFixed(2),
+                revenue1: data.firstPlaceRevenue,
+                revenue2: data.secondPlaceRevenue,
+                revenue3: data.thirdPlaceRevenue
+            });
+        } else {
+            this.setState({
+                contest: null,
+                name: '',
+                prizeFund: 0,
+                revenue1: 0,
+                revenue2: 0,
+                revenue3: 0
+            });
+        }
     }
 
     getCaption() {
@@ -29,10 +51,59 @@ class ContestEditForm extends React.Component {
         return 'Create new contest';
     }
 
+    onFieldChange(proxy) {
+        switch (proxy.target.id) {
+            case 'name': this.setState({name: proxy.target.value}); break;
+            case 'prizeFund': this.setState({prizeFund: proxy.target.value}); break;
+            case 'revenue1': this.setState({revenue1: proxy.target.value}); break;
+            case 'revenue2': this.setState({revenue2: proxy.target.value}); break;
+            case 'revenue3': this.setState({revenue3: proxy.target.value}); break;
+        }
+    }
+
+    onSubmit(event) {
+        event.preventDefault();
+        //TODO
+    }
+
     renderBody() {
         return (
             <Modal.Body>
-
+                <form className="form-horizontal" onSubmit={event => this.onSubmit(event)}>
+                    <div className="form-group">
+                        <label className="control-label col-sm-5" htmlFor="name">{getLocale(this.props.language)['Name:']}</label>
+                        <div className="col-sm-7">
+                            <input value={this.state.name} onChange={proxy => this.onFieldChange(proxy)} type="text" className="form-control" id="name" placeholder="Enter the contest name" name="name"/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="control-label col-sm-5" htmlFor="prizeFund">Prize fund, $:</label>
+                        <div className="col-sm-5">
+                            <input value={this.state.prizeFund} readOnly="true" type="text" className="form-control" id="prizeFund" placeholder="Enter the prize fund amount" name="prizeFund"/>
+                        </div>
+                        <div className="col-sm-2">
+                            <button className="btn btn-success">Donate</button>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="control-label col-sm-5" htmlFor="revenue1">Revenue for 1st place, %:</label>
+                        <div className="col-sm-7">
+                            <input value={this.state.revenue1} onChange={proxy => this.onFieldChange(proxy)} type="number" min="0" max="100" className="form-control" id="revenue1" placeholder="0-100%" name="revenue1"/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="control-label col-sm-5" htmlFor="revenue2">Revenue for 2nd place, %:</label>
+                        <div className="col-sm-7">
+                            <input value={this.state.revenue2} onChange={proxy => this.onFieldChange(proxy)} type="number" min="0" max="100" className="form-control" id="revenue2" placeholder="0-100%" name="revenue2"/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="control-label col-sm-5" htmlFor="revenue3">Revenue for 3rd place, %:</label>
+                        <div className="col-sm-7">
+                            <input value={this.state.revenue3} onChange={proxy => this.onFieldChange(proxy)} type="number" min="0" max="100" className="form-control" id="revenue3" placeholder="0-100%" name="revenue3"/>
+                        </div>
+                    </div>
+                </form>
             </Modal.Body>
         )
     }
@@ -81,7 +152,8 @@ class ContestEditForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        showContestEditForm: state.ContestReducer.showContestEditForm
+        showContestEditForm: state.ContestReducer.showContestEditForm,
+        language: state.GlobalReducer.language
     }
 };
 
