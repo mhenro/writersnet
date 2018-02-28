@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { closeContestEditForm, getContest } from '../../actions/ContestActions.jsx';
+import { closeContestEditForm, getContest, saveContest } from '../../actions/ContestActions.jsx';
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { getLocale } from '../../locale.jsx';
+
+import UserList from './UserList.jsx';
 
 /*
     props:
@@ -103,6 +105,12 @@ class ContestEditForm extends React.Component {
                             <input value={this.state.revenue3} onChange={proxy => this.onFieldChange(proxy)} type="number" min="0" max="100" className="form-control" id="revenue3" placeholder="0-100%" name="revenue3"/>
                         </div>
                     </div>
+                    <div className="form-group">
+                        <UserList listName="Participants"/>
+                    </div>
+                    <div className="form-group">
+                        <UserList listName="Judges"/>
+                    </div>
                 </form>
             </Modal.Body>
         )
@@ -121,6 +129,19 @@ class ContestEditForm extends React.Component {
     }
 
     onCreate() {
+        let contestRequest = {
+            name: this.state.name,
+            creatorId: this.props.login,
+            prizeFund: Math.ceil(this.state.prizeFund * 100),
+            firstPlaceRevenue: this.state.revenue1,
+            secondPlaceRevenue: this.state.revenue2,
+            thirdPlaceRevenue: this.state.revenue3
+        };
+        if (this.state.contest) {
+            contestRequest.id = this.state.contest.id;
+        }
+
+        this.props.onSaveContest(contestRequest, this.props.token, () => this.onShow());
         this.onClose();
     }
 
@@ -152,6 +173,8 @@ class ContestEditForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        login: state.GlobalReducer.user.login,
+        token: state.GlobalReducer.token,
         showContestEditForm: state.ContestReducer.showContestEditForm,
         language: state.GlobalReducer.language
     }
@@ -163,6 +186,19 @@ const mapDispatchToProps = (dispatch) => {
             return getContest(id).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onSaveContest: (contestRequest, token, callback) => {
+            return saveContest(contestRequest, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback();
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
