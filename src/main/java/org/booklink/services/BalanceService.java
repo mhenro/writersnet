@@ -31,12 +31,13 @@ public class BalanceService {
     private BookRepository bookRepository;
     private UserBookRepository userBookRepository;
     private UserGiftRepository userGiftRepository;
+    private ContestRepository contestRepository;
 
     @Autowired
     public BalanceService(final BalanceRepository balanceRepository, final AuthorizedUserService authorizedUserService,
                           final AuthorRepository authorRepository, final GiftRepository giftRepository,
                           final BookRepository bookRepository, final UserBookRepository userBookRepository,
-                          final UserGiftRepository userGiftRepository) {
+                          final UserGiftRepository userGiftRepository, final ContestRepository contestRepository) {
         this.balanceRepository = balanceRepository;
         this.authorizedUserService = authorizedUserService;
         this.authorRepository = authorRepository;
@@ -44,6 +45,7 @@ public class BalanceService {
         this.bookRepository = bookRepository;
         this.userBookRepository = userBookRepository;
         this.userGiftRepository = userGiftRepository;
+        this.contestRepository = contestRepository;
     }
 
     public BalanceResponse getUserBalance() {
@@ -67,13 +69,16 @@ public class BalanceService {
         }
         switch(buyRequest.getOperationType()) {
             case BALANCE_RECHARGE:
-                balanceRecharge(buyRequest.getSourceUserId(), buyRequest.getPurchaseId());
+                balanceRecharge(buyRequest.getSourceUserId(), buyRequest.getAmount());
                 break;
             case PREMIUM_ACCOUNT:
                 buyPremiumAccount(buyRequest.getSourceUserId(), buyRequest.getPurchaseId());
                 break;
             case BOOK:
                 buyBook(buyRequest.getSourceUserId(), buyRequest.getPurchaseId());
+                break;
+            case CONTEST_DONATE:
+                donateToContest(buyRequest.getSourceUserId(), buyRequest.getPurchaseId(), buyRequest.getAmount());
                 break;
             case MEDAL:
             case GIFT:
@@ -132,6 +137,24 @@ public class BalanceService {
         userBookPK.setBook(book);
         userBook.setUserBookPK(userBookPK);
         userBookRepository.save(userBook);
+    }
+
+    private void donateToContest(final String userId, final Long contestId, final Long amount) {
+        final User donator = authorRepository.findOne(userId);
+        if (donator == null) {
+            throw new ObjectNotFoundException("User is not found");
+        }
+        final Contest contest = contestRepository.findOne(contestId);
+        if (contest == null) {
+            throw new ObjectNotFoundException("Contest is not found");
+        }
+        addToPaymentHistory(donator, OperationType.CONTEST_DONATE, amount, false);
+        addAmountToContest(contest, amount);
+    }
+
+    private void addAmountToContest(final Contest contest, final Long amount) {
+        contest.setPrizeFund(contest.getPrizeFund() + amount);
+        contestRepository.save(contest);
     }
 
     private void transferGift(final BuyRequest buyRequest) {

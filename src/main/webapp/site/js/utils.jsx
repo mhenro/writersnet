@@ -63,7 +63,8 @@ export const OperationType = {
     'BOOK': 1,
     'MEDAL': 2,
     'GIFT': 3,
-    'BALANCE_RECHARGE': 4
+    'BALANCE_RECHARGE': 4,
+    'CONTEST_DONATE': 5
 };
 
 export const GiftCategory = {

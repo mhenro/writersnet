@@ -251,5 +251,8 @@ export const RU = {
     'Recharge': 'Пополнить',
 
     /* PayBookForm */
-    'Buy': 'Купить'
+    'Buy': 'Купить',
+
+    /* ContestDonateForm */
+    'Donate': 'Пожертвовать'
 };

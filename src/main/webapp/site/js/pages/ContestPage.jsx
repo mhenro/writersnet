@@ -96,7 +96,7 @@ class ContestPage extends React.Component {
                 </div>
 
                 {/* Contest popup form */}
-                <ContestEditForm contestId={this.state.contestId}/>
+                <ContestEditForm contestId={this.state.contestId} onSave={() => this.componentDidMount()}/>
 
                 {/* Contest management popup form */}
                 <ContestManagementForm/>

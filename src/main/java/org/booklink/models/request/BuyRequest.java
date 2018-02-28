@@ -11,6 +11,7 @@ public class BuyRequest {
     private String sourceUserId;
     private String destUserId;
     private String sendMessage;
+    private Long amount;
 
     public OperationType getOperationType() {
         return operationType;
@@ -50,5 +51,13 @@ public class BuyRequest {
 
     public void setSendMessage(String sendMessage) {
         this.sendMessage = sendMessage;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 }

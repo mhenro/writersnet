@@ -29,7 +29,7 @@ class RechargeBalanceForm extends React.Component {
 
         let buyRequest = {
             operationType: OperationType.BALANCE_RECHARGE,
-            purchaseId: this.state.amount * 100,  //in that case purchaseId is an amount of a balance
+            amount: Math.ceil(this.state.amount * 100),
             sourceUserId: this.props.login,
             destUserId: '',
             sendMessage: ''

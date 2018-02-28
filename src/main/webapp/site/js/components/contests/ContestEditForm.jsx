@@ -5,11 +5,15 @@ import { closeContestEditForm, getContest, saveContest } from '../../actions/Con
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { getLocale } from '../../locale.jsx';
 
+import { showContestDonateForm, setContestIdForDonate } from '../../actions/ContestActions.jsx';
+
 import UserList from './UserList.jsx';
+import ContestDonateForm from './ContestDonateForm.jsx';
 
 /*
     props:
     - contestId
+    - onSave - callback
  */
 class ContestEditForm extends React.Component {
     constructor(props) {
@@ -63,6 +67,14 @@ class ContestEditForm extends React.Component {
         }
     }
 
+    onDonate() {
+        if (!this.state.contest || !this.state.contest.id) {
+            return;
+        }
+        this.props.onSetContestIdForDonate(this.state.contest.id);
+        this.props.onShowDonateForm();
+    }
+
     onSubmit(event) {
         event.preventDefault();
         //TODO
@@ -84,7 +96,7 @@ class ContestEditForm extends React.Component {
                             <input value={this.state.prizeFund} readOnly="true" type="text" className="form-control" id="prizeFund" placeholder="Enter the prize fund amount" name="prizeFund"/>
                         </div>
                         <div className="col-sm-2">
-                            <button className="btn btn-success">Donate</button>
+                            <button onClick={() => this.onDonate()} className="btn btn-success">Donate</button>
                         </div>
                     </div>
                     <div className="form-group">
@@ -112,6 +124,9 @@ class ContestEditForm extends React.Component {
                         <UserList listName="Judges"/>
                     </div>
                 </form>
+
+                {/* popup form for set amount of donate */}
+                <ContestDonateForm onUpdateAfterClosing={() => this.onShow()}/>
             </Modal.Body>
         )
     }
@@ -141,7 +156,7 @@ class ContestEditForm extends React.Component {
             contestRequest.id = this.state.contest.id;
         }
 
-        this.props.onSaveContest(contestRequest, this.props.token, () => this.onShow());
+        this.props.onSaveContest(contestRequest, this.props.token, () => this.props.onSave());
         this.onClose();
     }
 
@@ -206,6 +221,14 @@ const mapDispatchToProps = (dispatch) => {
             }).catch(error => {
                 dispatch(createNotify('danger', 'Error', error.message));
             });
+        },
+
+        onShowDonateForm: () => {
+            dispatch(showContestDonateForm());
+        },
+
+        onSetContestIdForDonate: (contestId) => {
+            dispatch(setContestIdForDonate(contestId));
         },
 
         onCloseForm: () => {

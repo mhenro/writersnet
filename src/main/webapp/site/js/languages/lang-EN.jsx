@@ -251,5 +251,8 @@ export const EN = {
     'Recharge': 'Recharge',
 
     /* PayBookForm */
-    'Buy': 'Buy'
+    'Buy': 'Buy',
+
+    /* ContestDonateForm */
+    'Donate': 'Donate'
 };
