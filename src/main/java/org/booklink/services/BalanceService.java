@@ -63,8 +63,7 @@ public class BalanceService {
 
     @Transactional
     public void processOperation(final BuyRequest buyRequest) {
-        if (buyRequest == null || buyRequest.getOperationType() == null || buyRequest.getSourceUserId() == null
-                || buyRequest.getPurchaseId() == null) {
+        if (buyRequest == null || buyRequest.getOperationType() == null || buyRequest.getSourceUserId() == null) {
             throw new WrongDataException("BuyRequest should not be null");
         }
         switch(buyRequest.getOperationType()) {
