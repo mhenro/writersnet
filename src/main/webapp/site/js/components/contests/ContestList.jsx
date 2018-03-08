@@ -35,7 +35,7 @@ class ContestList extends React.Component {
 
     renderContests() {
         return (
-            <table className="table table-hover">
+            <table className="table table-hover clickable">
                 <thead>
                     <tr>
                         <td>Name</td>

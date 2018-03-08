@@ -73,23 +73,18 @@ public class AuthorService {
         return authorRepository.getAuthorsCount();
     }
 
+    public Page<AuthorShortInfoResponse> findAuthorByName(final String fullName, final Pageable pageable) {
+        Page<AuthorShortInfoResponse> authors = authorRepository.findAuthorsByName(fullName, pageable);
+        authors.forEach(this::setDefaultAvatar);
+        return authors;
+    }
+
     public Page<AuthorShortInfoResponse> getAuthorsByName(final String name, final Pageable pageable) {
         Page<AuthorShortInfoResponse> authors;
         switch(pageable.getSort().toString().split(":")[0]) {
             case "totalRating": authors = authorRepository.findAuthorsByNameSortByRating(name, pageable); break;
             case "online": authors = authorRepository.findAuthorsByNameSortByOnline(name, pageable); break;
             default: authors = authorRepository.findAuthorsByNameSortByName(name, pageable);
-        }
-        authors.forEach(this::setDefaultAvatar);
-        return authors;
-    }
-
-    public Page<AuthorShortInfoResponse> getAuthorsByFirstLetter(final String firstLetter, final Pageable pageable) {
-        Page<AuthorShortInfoResponse> authors;
-        switch(pageable.getSort().toString().split(":")[0]) {
-            case "totalRating": authors = authorRepository.findAuthorsByFirstLetterSortByRating(firstLetter, pageable); break;
-            case "online": authors = authorRepository.findAuthorsByFirstLetterSortByOnline(firstLetter, pageable); break;
-            default: authors = authorRepository.findAuthorsByFirstLetterSortByName(firstLetter, pageable);
         }
         authors.forEach(this::setDefaultAvatar);
         return authors;

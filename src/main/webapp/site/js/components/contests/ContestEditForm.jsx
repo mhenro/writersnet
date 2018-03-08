@@ -5,10 +5,11 @@ import { closeContestEditForm, getContest, saveContest } from '../../actions/Con
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { getLocale } from '../../locale.jsx';
 
-import { showContestDonateForm, setContestIdForDonate } from '../../actions/ContestActions.jsx';
+import { showContestDonateForm, setContestIdForDonate, showSearchAuthorForm } from '../../actions/ContestActions.jsx';
 
 import UserList from './UserList.jsx';
 import ContestDonateForm from './ContestDonateForm.jsx';
+import SearchAuthorForm from './SearchAuthorForm.jsx';
 
 /*
     props:
@@ -75,6 +76,10 @@ class ContestEditForm extends React.Component {
         this.props.onShowDonateForm();
     }
 
+    onSelectAuthors() {
+        this.props.onShowSearchAuthorForm();
+    }
+
     onSubmit(event) {
         event.preventDefault();
         //TODO
@@ -118,15 +123,18 @@ class ContestEditForm extends React.Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <UserList listName="Participants"/>
+                        <UserList listName="Participants" onAddNewMember={() => this.onSelectAuthors()}/>
                     </div>
                     <div className="form-group">
-                        <UserList listName="Judges"/>
+                        <UserList listName="Judges" onAddNewMember={() => this.onSelectAuthors()}/>
                     </div>
                 </form>
 
                 {/* popup form for set amount of donate */}
                 <ContestDonateForm onUpdateAfterClosing={() => this.onShow()}/>
+
+                {/* popup form for selecting authors */}
+                <SearchAuthorForm/>
             </Modal.Body>
         )
     }
@@ -156,8 +164,7 @@ class ContestEditForm extends React.Component {
             contestRequest.id = this.state.contest.id;
         }
 
-        this.props.onSaveContest(contestRequest, this.props.token, () => this.props.onSave());
-        this.onClose();
+        this.props.onSaveContest(contestRequest, this.props.token, () => this.props.onSave(), () => this.onClose());
     }
 
     onShow() {
@@ -210,10 +217,12 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onSaveContest: (contestRequest, token, callback) => {
+        onSaveContest: (contestRequest, token, onSave, onClose) => {
             return saveContest(contestRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
-                    callback();
+                    onSave();
+                    onClose();
+                    dispatch(createNotify('success', 'Success', 'Contest was successfully updated'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
@@ -225,6 +234,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onShowDonateForm: () => {
             dispatch(showContestDonateForm());
+        },
+
+        onShowSearchAuthorForm: () => {
+            dispatch(showSearchAuthorForm());
         },
 
         onSetContestIdForDonate: (contestId) => {

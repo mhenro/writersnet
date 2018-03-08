@@ -61,12 +61,6 @@ public class AuthorController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "authors/letter/{authorName:.+}", method = RequestMethod.GET)
-    public Page<AuthorShortInfoResponse> getAuthorsByFirstLetter(@PathVariable final String authorName, final Pageable pageable) {
-        return authorService.getAuthorsByFirstLetter(authorName, pageable);
-    }
-
-    @CrossOrigin
     @RequestMapping(value = "authors/{authorId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getAuthor(@PathVariable String authorId) {
         AuthorResponse author = authorService.getAuthor(authorId);

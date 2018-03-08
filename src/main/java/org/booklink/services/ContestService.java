@@ -3,6 +3,7 @@ package org.booklink.services;
 import org.booklink.models.entities.Contest;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
+import org.booklink.models.exceptions.WrongDataException;
 import org.booklink.models.request.ContestRequest;
 import org.booklink.models.response.ContestResponse;
 import org.booklink.repositories.AuthorRepository;
@@ -46,6 +47,7 @@ public class ContestService {
 
     @Transactional
     public Long saveContest(final ContestRequest request) {
+        checkRequest(request);
         final Long id;
         if (request.getId() != null) {
             id = editContest(request);
@@ -73,6 +75,12 @@ public class ContestService {
         contest.setCreated(LocalDateTime.now());
         contestRepository.save(contest);
         return contest.getId();
+    }
+
+    private void checkRequest(final ContestRequest request) {
+        if (request.getFirstPlaceRevenue() + request.getSecondPlaceRevenue() + request.getThirdPlaceRevenue() > 100) {
+            throw new WrongDataException("Total sum of the revenue for 3 places should not be greater than 100 percents");
+        }
     }
 
     private User getCreator(final String id) {

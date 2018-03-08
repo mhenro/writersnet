@@ -3,6 +3,7 @@ package org.booklink.controllers;
 import org.booklink.models.Response;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
+import org.booklink.models.exceptions.WrongDataException;
 import org.booklink.models.request.ContestRequest;
 import org.booklink.models.response.ContestResponse;
 import org.booklink.services.ContestService;
@@ -45,7 +46,7 @@ public class ContestController {
         return Response.createResponseEntity(0, contestService.saveContest(request), null, HttpStatus.OK);
     }
 
-    /* ----------------------------------------exception handlers*------------------------------------------ */
+    /* ----------------------------------------exception handlers------------------------------------------ */
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
@@ -55,5 +56,10 @@ public class ContestController {
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> notFound(ObjectNotFoundException e) {
         return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(WrongDataException.class)
+    public ResponseEntity<?> wrongData(WrongDataException e) {
+        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Wrong data" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
     }
 }

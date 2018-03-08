@@ -4,6 +4,7 @@ import { Pagination } from 'react-bootstrap';
 /*
     props:
     - listName - string
+    - onAddNewMember - callback
  */
 class UserList extends React.Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class UserList extends React.Component {
                     <legend className="scheduler-border">{this.props.listName}</legend>
                     <div>
                         <div className="col-sm-12 text-center">
-                            <button className="btn btn-primary">Add new member</button>
+                            <button onClick={() => this.props.onAddNewMember()} className="btn btn-primary">Add new member</button>
                             <br/>
                             <br/>
                         </div>
