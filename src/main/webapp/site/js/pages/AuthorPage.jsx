@@ -7,7 +7,6 @@ import { getLocale } from '../locale.jsx';
 
 import {
     getAuthors,
-    getAuthorsByFirstLetter,
     setAuthors
 } from '../actions/AuthorActions.jsx';
 import {
@@ -56,7 +55,7 @@ class AuthorPage extends React.Component {
             currentName: letter,
             activePage: 1
         });
-        this.props.onGetAuthorsByFirstLetter(letter, 1, this.state.size, this.state.sortBy, totalPages => this.setTotalPages(totalPages));
+        this.props.onGetAuthors(letter, 1, this.state.size, this.state.sortBy, totalPages => this.setTotalPages(totalPages));
     }
 
     onSearchChange(event) {
@@ -161,21 +160,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onGetAuthors: (name, page, size, sortType, totalPagesCallback) => {
             return getAuthors(name, page - 1, size, sortType).then(([response, json]) => {
-                if (response.status === 200) {
-                    let authors = json.content;
-                    dispatch(setAuthors(authors));
-                    totalPagesCallback(json.totalPages);
-                }
-                else {
-                    dispatch(createNotify('danger', 'Error', json.message));
-                }
-            }).catch(error => {
-                dispatch(createNotify('danger', 'Error', error.message));
-            });
-        },
-
-        onGetAuthorsByFirstLetter: (letter, page, size, sortType, totalPagesCallback) => {
-            return getAuthorsByFirstLetter(letter, page - 1, size, sortType).then(([response, json]) => {
                 if (response.status === 200) {
                     let authors = json.content;
                     dispatch(setAuthors(authors));

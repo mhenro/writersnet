@@ -1,12 +1,16 @@
 package org.booklink.services;
 
 import org.booklink.models.entities.Contest;
+import org.booklink.models.entities.ContestJudge;
+import org.booklink.models.entities.ContestJudgePK;
 import org.booklink.models.entities.User;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.WrongDataException;
+import org.booklink.models.request.AddJudgeRequest;
 import org.booklink.models.request.ContestRequest;
 import org.booklink.models.response.ContestResponse;
 import org.booklink.repositories.AuthorRepository;
+import org.booklink.repositories.ContestJudgeRepository;
 import org.booklink.repositories.ContestRepository;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by mhenr on 25.02.2018.
@@ -25,11 +31,14 @@ import java.time.LocalDateTime;
 @Transactional(readOnly = true)
 public class ContestService {
     private ContestRepository contestRepository;
+    private ContestJudgeRepository contestJudgeRepository;
     private AuthorRepository authorRepository;
 
     @Autowired
-    public ContestService(final ContestRepository contestRepository, final AuthorRepository authorRepository) {
+    public ContestService(final ContestRepository contestRepository, final ContestJudgeRepository contestJudgeRepository,
+                          final AuthorRepository authorRepository) {
         this.contestRepository = contestRepository;
+        this.contestJudgeRepository = contestJudgeRepository;
         this.authorRepository = authorRepository;
     }
 
@@ -55,6 +64,30 @@ public class ContestService {
             id = createContest(request);
         }
         return id;
+    }
+
+    @Transactional
+    public void addJudgesToContest(final AddJudgeRequest request) {
+        final Contest contest = contestRepository.findOne(request.getContestId());
+        if (contest == null) {
+            throw new ObjectNotFoundException("Contest is not found");
+        }
+        final List<String> ids = Arrays.asList(request.getJudges().split(","));
+        ids.stream().forEach(id -> addJudgeToContest(id, contest));
+    }
+
+    private void addJudgeToContest(final String judgeId, final Contest contest) {
+        final User author = authorRepository.findOne(judgeId);
+        if (author == null) {
+            throw new ObjectNotFoundException("Judge is not found");
+        }
+        final ContestJudge judge = new ContestJudge();
+        final ContestJudgePK pk = new ContestJudgePK();
+        pk.setContest(contest);
+        pk.setJudge(author);
+        judge.setPk(pk);
+        judge.setAccepted(false);
+        contestJudgeRepository.save(judge);
     }
 
     private Long editContest(final ContestRequest request) {

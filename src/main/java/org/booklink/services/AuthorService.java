@@ -59,12 +59,20 @@ public class AuthorService {
 
     public Page<AuthorShortInfoResponse> getAuthors(final Pageable pageable) {
         Page<AuthorShortInfoResponse> authors;
-        switch(pageable.getSort().toString().split(":")[0]) {
-            case "totalRating": authors = authorRepository.findAllEnabledSortByRating(pageable); break;
-            case "online": authors = authorRepository.findAllEnabledSortByOnline(pageable); break;
-            default: authors = authorRepository.findAllEnabledSortByName(pageable);
+        if (pageable.getSort() != null) {
+            switch (pageable.getSort().toString().split(":")[0]) {
+                case "totalRating":
+                    authors = authorRepository.findAllEnabledSortByRating(pageable);
+                    break;
+                case "online":
+                    authors = authorRepository.findAllEnabledSortByOnline(pageable);
+                    break;
+                default:
+                    authors = authorRepository.findAllEnabledSortByName(pageable);
+            }
+        } else {
+            authors = authorRepository.findAllEnabledSortByName(pageable);
         }
-
         authors.forEach(this::setDefaultAvatar);
         return authors;
     }
@@ -73,18 +81,21 @@ public class AuthorService {
         return authorRepository.getAuthorsCount();
     }
 
-    public Page<AuthorShortInfoResponse> findAuthorByName(final String fullName, final Pageable pageable) {
-        Page<AuthorShortInfoResponse> authors = authorRepository.findAuthorsByName(fullName, pageable);
-        authors.forEach(this::setDefaultAvatar);
-        return authors;
-    }
-
     public Page<AuthorShortInfoResponse> getAuthorsByName(final String name, final Pageable pageable) {
         Page<AuthorShortInfoResponse> authors;
-        switch(pageable.getSort().toString().split(":")[0]) {
-            case "totalRating": authors = authorRepository.findAuthorsByNameSortByRating(name, pageable); break;
-            case "online": authors = authorRepository.findAuthorsByNameSortByOnline(name, pageable); break;
-            default: authors = authorRepository.findAuthorsByNameSortByName(name, pageable);
+        if (pageable.getSort() != null) {
+            switch (pageable.getSort().toString().split(":")[0]) {
+                case "totalRating":
+                    authors = authorRepository.findAuthorsByNameSortByRating(name, pageable);
+                    break;
+                case "online":
+                    authors = authorRepository.findAuthorsByNameSortByOnline(name, pageable);
+                    break;
+                default:
+                    authors = authorRepository.findAuthorsByNameSortByName(name, pageable);
+            }
+        } else {
+            authors = authorRepository.findAuthorsByNameSortByName(name, pageable);
         }
         authors.forEach(this::setDefaultAvatar);
         return authors;

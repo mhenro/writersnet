@@ -5,7 +5,11 @@ import { closeContestEditForm, getContest, saveContest } from '../../actions/Con
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { getLocale } from '../../locale.jsx';
 
-import { showContestDonateForm, setContestIdForDonate, showSearchAuthorForm } from '../../actions/ContestActions.jsx';
+import { showContestDonateForm,
+    setContestIdForDonate,
+    showSearchAuthorForm,
+    addJudgesToContest
+} from '../../actions/ContestActions.jsx';
 
 import UserList from './UserList.jsx';
 import ContestDonateForm from './ContestDonateForm.jsx';
@@ -85,6 +89,10 @@ class ContestEditForm extends React.Component {
         //TODO
     }
 
+    onAddUsers(addJudgeRequest, token, callback) {
+        this.props.onAddJudges(addJudgeRequest, token, callback);
+    }
+
     renderBody() {
         return (
             <Modal.Body>
@@ -134,7 +142,9 @@ class ContestEditForm extends React.Component {
                 <ContestDonateForm onUpdateAfterClosing={() => this.onShow()}/>
 
                 {/* popup form for selecting authors */}
-                <SearchAuthorForm/>
+                <SearchAuthorForm onAddUsers={(addJudgeRequest, token, callback) => this.onAddUsers(addJudgeRequest, token, callback)}
+                                  token={this.props.token}
+                                  contestId={this.props.contestId}/>
             </Modal.Body>
         )
     }
@@ -223,6 +233,19 @@ const mapDispatchToProps = (dispatch) => {
                     onSave();
                     onClose();
                     dispatch(createNotify('success', 'Success', 'Contest was successfully updated'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onAddJudges: (addJudgeRequest, token, callback) => {
+            return addJudgesToContest(addJudgeRequest, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback();
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

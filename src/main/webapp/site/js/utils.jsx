@@ -46,6 +46,10 @@ export const getHost = () => {
     return 'https://' + window.location.hostname + '/api/';
 };
 
+export const clone = (source) => {
+    return JSON.parse(JSON.stringify(source));
+};
+
 export const isSubscriber = (login, author) => {
     return author.subscribers.some(subscriber => subscriber.subscriptionId === login);
 };

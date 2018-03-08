@@ -9,10 +9,6 @@ export const getAuthors = (name, page = 0, size = 5, sort = 'firstName') => {
     }
 };
 
-export const getAuthorsByFirstLetter = (letter, page = 0, size = 5, sort = 'firstName') => {
-    return doFetch(getHost() + 'authors/name/' + letter + '?page=' + page + '&size=' + size + '&sort=' + sort);
-};
-
 export const getAuthorsCount = () => {
     return doFetch(getHost() + 'count/authors');
 };

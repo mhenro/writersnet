@@ -4,6 +4,7 @@ import org.booklink.models.Response;
 import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.exceptions.WrongDataException;
+import org.booklink.models.request.AddJudgeRequest;
 import org.booklink.models.request.ContestRequest;
 import org.booklink.models.response.ContestResponse;
 import org.booklink.services.ContestService;
@@ -44,6 +45,14 @@ public class ContestController {
     @RequestMapping(value = "contests", method = RequestMethod.POST)
     public ResponseEntity<?> saveContest(@RequestBody final ContestRequest request) {
         return Response.createResponseEntity(0, contestService.saveContest(request), null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "contests/judges", method = RequestMethod.POST)
+    public ResponseEntity<?> addJudgesToContest(@RequestBody final AddJudgeRequest request) {
+        contestService.addJudgesToContest(request);
+        return Response.createResponseEntity(0, "Judges were added successfully", null, HttpStatus.OK);
     }
 
     /* ----------------------------------------exception handlers------------------------------------------ */
