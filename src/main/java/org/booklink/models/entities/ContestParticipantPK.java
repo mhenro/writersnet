@@ -13,7 +13,6 @@ import java.io.Serializable;
 public class ContestParticipantPK implements Serializable {
     private Contest contest;
     private User participant;
-    private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contest_id")
@@ -33,15 +32,5 @@ public class ContestParticipantPK implements Serializable {
 
     public void setParticipant(User participant) {
         this.participant = participant;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
     }
 }

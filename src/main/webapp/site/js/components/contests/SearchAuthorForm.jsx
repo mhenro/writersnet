@@ -4,7 +4,7 @@ import { Modal, Button, Tooltip, OverlayTrigger, Checkbox } from 'react-bootstra
 import { Pagination } from 'react-bootstrap';
 
 import { getAuthors } from '../../actions/AuthorActions.jsx';
-import { closeSearchAuthorForm, getJudgesFromContest } from '../../actions/ContestActions.jsx';
+import { closeSearchAuthorForm } from '../../actions/ContestActions.jsx';
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { clone } from '../../utils.jsx';
 import { getLocale } from '../../locale.jsx';
@@ -13,6 +13,7 @@ import { getLocale } from '../../locale.jsx';
     props:
     - contestId
     - onAddUsers - callback
+    - onGetSelectedAuthors - callback
  */
 class SearchAuthorForm extends React.Component {
     constructor(props) {
@@ -76,7 +77,7 @@ class SearchAuthorForm extends React.Component {
             searchPattern: ''
         });
         this.props.onGetAuthors(null, 1, this.state.size, this.state.sortType, data => this.updateAuthors(data));
-        this.props.onGetJudges(this.props.contestId, data => this.updateSelectedAuthors(data));
+        this.props.onGetSelectedAuthors(this.props.contestId, data => this.updateSelectedAuthors(data));
     }
 
     onClose() {
@@ -117,24 +118,86 @@ class SearchAuthorForm extends React.Component {
         }
     }
 
+    render() {
+        return (
+            <Modal show={this.props.showSearchAuthorForm} onHide={() => this.onClose()} onShow={() => this.onShow()}>
+                <Modal.Header>
+                    Select authors
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="row">
+                        <div className="col-sm-12 text-center">
+                            {this.renderSearchButton()}
+                            <br/>
+                        </div>
+                        <div className="col-sm-12 text-center">
+                            {this.renderPagination()}
+                        </div>
+                        <div className="col-sm-12 text-center">
+                            {this.renderTable()}
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    {this.renderFooterButtons()}
+                </Modal.Footer>
+            </Modal>
+        )
+    }
+
+    renderSearchButton() {
+        return (
+            <div className="input-group">
+                <input value={this.state.searchPattern}
+                       onChange={event => this.onSearchChange(event)}
+                       onKeyDown={key => this.onKeyDown(key)}
+                       type="text"
+                       className="form-control"
+                       placeholder={getLocale(this.props.language)['Input author name']} />
+                <div className="input-group-btn">
+                    <button className="btn btn-default" type="submit">
+                        <i className="glyphicon glyphicon-search"></i>
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
+    renderPagination() {
+        return (
+            <Pagination
+                className={'shown'}
+                prev
+                next
+                first
+                last
+                ellipsis
+                boundaryLinks
+                items={this.state.totalPages}
+                maxButtons={3}
+                activePage={this.state.activePage}
+                onSelect={page => this.pageSelect(page)}/>
+        )
+    }
+
     renderTable() {
         return (
             <table className="table table-hover">
                 <thead>
-                    <tr>
-                        <td><b>Author name</b></td>
-                        <td><b>Selected</b></td>
-                    </tr>
+                <tr>
+                    <td><b>Author name</b></td>
+                    <td><b>Selected</b></td>
+                </tr>
                 </thead>
                 <tbody>
-                    {this.state.authors.map((author, key) => {
-                        return (
-                            <tr key={key}>
-                                <td>{author.fullName}</td>
-                                <td><Checkbox onChange={e => this.onChecked(e, author.username)} checked={this.isChecked(author.username)}></Checkbox></td>
-                            </tr>
-                        )
-                    })}
+                {this.state.authors.map((author, key) => {
+                    return (
+                        <tr key={key}>
+                            <td>{author.fullName}</td>
+                            <td><Checkbox onChange={e => this.onChecked(e, author.username)} checked={this.isChecked(author.username)}></Checkbox></td>
+                        </tr>
+                    )
+                })}
                 </tbody>
             </table>
         )
@@ -148,56 +211,6 @@ class SearchAuthorForm extends React.Component {
                 <Button onClick={() => this.onClose()}
                         className="btn btn-default">Cancel</Button>
             </div>
-        )
-    }
-
-    render() {
-        return (
-            <Modal show={this.props.showSearchAuthorForm} onHide={() => this.onClose()} onShow={() => this.onShow()}>
-                <Modal.Header>
-                    Select authors
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="row">
-                        <div className="col-sm-12 text-center">
-                            <div className="input-group">
-                                <input value={this.state.searchPattern}
-                                       onChange={event => this.onSearchChange(event)}
-                                       onKeyDown={key => this.onKeyDown(key)}
-                                       type="text"
-                                       className="form-control"
-                                       placeholder={getLocale(this.props.language)['Input author name']} />
-                                <div className="input-group-btn">
-                                    <button className="btn btn-default" type="submit">
-                                        <i className="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <br/>
-                        </div>
-                        <div className="col-sm-12 text-center">
-                            <Pagination
-                                className={'shown'}
-                                prev
-                                next
-                                first
-                                last
-                                ellipsis
-                                boundaryLinks
-                                items={this.state.totalPages}
-                                maxButtons={3}
-                                activePage={this.state.activePage}
-                                onSelect={page => this.pageSelect(page)}/>
-                        </div>
-                        <div className="col-sm-12 text-center">
-                            {this.renderTable()}
-                        </div>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    {this.renderFooterButtons()}
-                </Modal.Footer>
-            </Modal>
         )
     }
 }
@@ -215,19 +228,6 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthors(name, page - 1, size, sortType).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
-                }
-                else {
-                    dispatch(createNotify('danger', 'Error', json.message));
-                }
-            }).catch(error => {
-                dispatch(createNotify('danger', 'Error', error.message));
-            });
-        },
-
-        onGetJudges: (contestId, callback) => {
-            return getJudgesFromContest(contestId).then(([response, json]) => {
-                if (response.status === 200) {
-                    callback(json.message);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

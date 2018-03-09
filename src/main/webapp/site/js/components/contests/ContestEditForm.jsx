@@ -5,10 +5,14 @@ import { closeContestEditForm, getContest, saveContest } from '../../actions/Con
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { getLocale } from '../../locale.jsx';
 
-import { showContestDonateForm,
+import {
+    showContestDonateForm,
     setContestIdForDonate,
     showSearchAuthorForm,
-    addJudgesToContest
+    addJudgesToContest,
+    getJudgesFromContest,
+    addParticipantsToContest,
+    getParticipantsFromContest
 } from '../../actions/ContestActions.jsx';
 
 import UserList from './UserList.jsx';
@@ -29,7 +33,9 @@ class ContestEditForm extends React.Component {
             prizeFund: 0,
             revenue1: 0,
             revenue2: 0,
-            revenue3: 0
+            revenue3: 0,
+            addUserCallback: null,
+            getSelectedAuthors: null
         };
     }
 
@@ -81,16 +87,28 @@ class ContestEditForm extends React.Component {
     }
 
     onSelectAuthors() {
-        this.props.onShowSearchAuthorForm();
+        this.setState({
+            addUserCallback: (addJudgeRequest, token, callback) => this.props.onAddParticipants(addJudgeRequest, token, callback),
+            getSelectedAuthors: (contestId, callback) => this.props.onGetParticipants(contestId, callback)
+        });
+        setTimeout(() => {
+            this.props.onShowSearchAuthorForm();
+        }, 500);
+    }
+
+    onSelectJudges() {
+        this.setState({
+            addUserCallback: (addJudgeRequest, token, callback) => this.props.onAddJudges(addJudgeRequest, token, callback),
+            getSelectedAuthors: (contestId, callback) => this.props.onGetJudges(contestId, callback)
+        });
+        setTimeout(() => {
+            this.props.onShowSearchAuthorForm();
+        }, 500);
     }
 
     onSubmit(event) {
         event.preventDefault();
         //TODO
-    }
-
-    onAddUsers(addJudgeRequest, token, callback) {
-        this.props.onAddJudges(addJudgeRequest, token, callback);
     }
 
     renderBody() {
@@ -134,7 +152,7 @@ class ContestEditForm extends React.Component {
                         <UserList listName="Participants" onAddNewMember={() => this.onSelectAuthors()}/>
                     </div>
                     <div className="form-group">
-                        <UserList listName="Judges" onAddNewMember={() => this.onSelectAuthors()}/>
+                        <UserList listName="Judges" onAddNewMember={() => this.onSelectJudges()}/>
                     </div>
                 </form>
 
@@ -142,7 +160,8 @@ class ContestEditForm extends React.Component {
                 <ContestDonateForm onUpdateAfterClosing={() => this.onShow()}/>
 
                 {/* popup form for selecting authors */}
-                <SearchAuthorForm onAddUsers={(addJudgeRequest, token, callback) => this.onAddUsers(addJudgeRequest, token, callback)}
+                <SearchAuthorForm onAddUsers={this.state.addUserCallback}
+                                  onGetSelectedAuthors={this.state.getSelectedAuthors}
                                   token={this.props.token}
                                   contestId={this.props.contestId}/>
             </Modal.Body>
@@ -247,6 +266,46 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'Mailings for judges were successfully sent out'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetJudges: (contestId, callback) => {
+            return getJudgesFromContest(contestId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onAddParticipants: (addJudgeRequest, token, callback) => {
+            return addParticipantsToContest(addJudgeRequest, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback();
+                    dispatch(createNotify('success', 'Success', 'Mailings for participants were successfully sent out'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetParticipants: (contestId, callback) => {
+            return getParticipantsFromContest(contestId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

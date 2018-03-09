@@ -62,6 +62,20 @@ public class ContestController {
         return Response.createResponseEntity(0, contestService.getJudgesFromContest(id), null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "contests/participants", method = RequestMethod.POST)
+    public ResponseEntity<?> addParticipantsToContest(@RequestBody final AddJudgeRequest request) {
+        contestService.addParticipantsToContest(request);
+        return Response.createResponseEntity(0, "Participants were added successfully", null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "contests/{id}/participants", method = RequestMethod.GET)
+    public ResponseEntity<?> getParticipantsFromContest(@PathVariable final Long id) {
+        return Response.createResponseEntity(0, contestService.getParticipantsFromContest(id), null, HttpStatus.OK);
+    }
+
     /* ----------------------------------------exception handlers------------------------------------------ */
 
     @ExceptionHandler(UnauthorizedUserException.class)
