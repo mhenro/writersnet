@@ -246,6 +246,7 @@ const mapDispatchToProps = (dispatch) => {
             return addJudgesToContest(addJudgeRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback();
+                    dispatch(createNotify('success', 'Success', 'Mailings for judges were successfully sent out'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

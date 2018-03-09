@@ -4,9 +4,10 @@ import { Modal, Button, Tooltip, OverlayTrigger, Checkbox } from 'react-bootstra
 import { Pagination } from 'react-bootstrap';
 
 import { getAuthors } from '../../actions/AuthorActions.jsx';
-import { closeSearchAuthorForm } from '../../actions/ContestActions.jsx';
+import { closeSearchAuthorForm, getJudgesFromContest } from '../../actions/ContestActions.jsx';
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { clone } from '../../utils.jsx';
+import { getLocale } from '../../locale.jsx';
 
 /*
     props:
@@ -23,7 +24,8 @@ class SearchAuthorForm extends React.Component {
             totalPages: 1,
             currentName: null,
             authors: [],
-            selectedAuthors: []
+            selectedAuthors: [],
+            searchPattern: ''
         };
     }
 
@@ -70,9 +72,11 @@ class SearchAuthorForm extends React.Component {
             totalPages: 1,
             currentName: null,
             authors: [],
-            selectedAuthors: []
+            selectedAuthors: [],
+            searchPattern: ''
         });
         this.props.onGetAuthors(null, 1, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+        this.props.onGetJudges(this.props.contestId, data => this.updateSelectedAuthors(data));
     }
 
     onClose() {
@@ -94,6 +98,25 @@ class SearchAuthorForm extends React.Component {
         });
     }
 
+    updateSelectedAuthors(data) {
+        this.setState({
+            selectedAuthors: data
+        });
+    }
+
+    onSearchChange(event) {
+        this.setState({
+            searchPattern: event.target.value,
+            activePage: 1
+        });
+    }
+
+    onKeyDown(key) {
+        if (key.key === 'Enter') {
+            this.props.onGetAuthors(this.state.searchPattern, 1, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+        }
+    }
+
     renderTable() {
         return (
             <table className="table table-hover">
@@ -108,7 +131,7 @@ class SearchAuthorForm extends React.Component {
                         return (
                             <tr key={key}>
                                 <td>{author.fullName}</td>
-                                <td><Checkbox onChange={e => this.onChecked(e, author.username)}></Checkbox></td>
+                                <td><Checkbox onChange={e => this.onChecked(e, author.username)} checked={this.isChecked(author.username)}></Checkbox></td>
                             </tr>
                         )
                     })}
@@ -136,6 +159,22 @@ class SearchAuthorForm extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row">
+                        <div className="col-sm-12 text-center">
+                            <div className="input-group">
+                                <input value={this.state.searchPattern}
+                                       onChange={event => this.onSearchChange(event)}
+                                       onKeyDown={key => this.onKeyDown(key)}
+                                       type="text"
+                                       className="form-control"
+                                       placeholder={getLocale(this.props.language)['Input author name']} />
+                                <div className="input-group-btn">
+                                    <button className="btn btn-default" type="submit">
+                                        <i className="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
                         <div className="col-sm-12 text-center">
                             <Pagination
                                 className={'shown'}
@@ -176,6 +215,19 @@ const mapDispatchToProps = (dispatch) => {
             return getAuthors(name, page - 1, size, sortType).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetJudges: (contestId, callback) => {
+            return getJudgesFromContest(contestId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

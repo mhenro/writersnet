@@ -8,6 +8,7 @@ import org.booklink.models.request.AddJudgeRequest;
 import org.booklink.models.request.ContestRequest;
 import org.booklink.models.response.ContestResponse;
 import org.booklink.services.ContestService;
+import org.bouncycastle.ocsp.Req;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,6 +54,12 @@ public class ContestController {
     public ResponseEntity<?> addJudgesToContest(@RequestBody final AddJudgeRequest request) {
         contestService.addJudgesToContest(request);
         return Response.createResponseEntity(0, "Judges were added successfully", null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "contests/{id}/judges", method = RequestMethod.GET)
+    public ResponseEntity<?> getJudgesFromContest(@PathVariable final Long id) {
+        return Response.createResponseEntity(0, contestService.getJudgesFromContest(id), null, HttpStatus.OK);
     }
 
     /* ----------------------------------------exception handlers------------------------------------------ */

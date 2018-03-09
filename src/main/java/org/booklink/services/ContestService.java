@@ -72,8 +72,13 @@ public class ContestService {
         if (contest == null) {
             throw new ObjectNotFoundException("Contest is not found");
         }
+        contestJudgeRepository.clearJudgesInContest(request.getContestId());
         final List<String> ids = Arrays.asList(request.getJudges().split(","));
         ids.stream().forEach(id -> addJudgeToContest(id, contest));
+    }
+
+    public List<String> getJudgesFromContest(final Long contestId) {
+        return contestJudgeRepository.getJudgesFromContest(contestId);
     }
 
     private void addJudgeToContest(final String judgeId, final Contest contest) {

@@ -17,6 +17,10 @@ export const addJudgesToContest = (addJudgeRequest, token) => {
     return doFetch(getHost() + 'contests/judges', addJudgeRequest, token);
 };
 
+export const getJudgesFromContest = (contestId) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/judges');
+};
+
 export const SHOW_CONTEST_EDIT_FORM = 'SHOW_CONTEST_EDIT_FORM';
 export const CLOSE_CONTEST_EDIT_FORM = 'CLOSE_CONTEST_EDIT_FORM';
 export const SHOW_CONTEST_DONATE_FORM = 'SHOW_CONTEST_DONATE_FORM';
