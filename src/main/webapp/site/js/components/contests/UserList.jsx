@@ -5,6 +5,8 @@ import { Pagination } from 'react-bootstrap';
     props:
     - listName - string
     - onAddNewMember - callback
+    - onGetUsers(page, callback) - callback
+    - onRemoveUser(judgeId, callback) - callback
  */
 class UserList extends React.Component {
     constructor(props) {
@@ -12,8 +14,13 @@ class UserList extends React.Component {
 
         this.state = {
             activePage: 1,
-            totalPages: 1
+            totalPages: 1,
+            users: []
         };
+    }
+
+    componentDidMount() {
+        this.props.onGetUsers(this.state.activePage, data => this.updateUsers(data));
     }
 
     pageSelect(page) {
@@ -21,7 +28,29 @@ class UserList extends React.Component {
             activePage: page
         });
 
-        //this.props.onGetAllContests(page, data => this.updateContests(data));
+        this.props.onGetUsers(page, data => this.updateUsers(data));
+    }
+
+    updateUsers(data) {
+        this.setState({
+            users: data.content,
+            totalPages: data.totalPages
+        });
+    }
+
+    renderUsers() {
+        return this.state.users.map((user, key) => {
+            let accepted = user.accepted ? <span style={{color: 'green'}}>Accepted</span> : <span style={{color: 'red'}}>Not accepted yet</span>
+            return (
+                <tr key={key}>
+                    <td>{user.userName}</td>
+                    <td>{accepted}</td>
+                    <td>
+                        <button onClick={() => this.props.onRemoveUser(user.userId, () => this.componentDidMount())} className="btn btn-default btn-xs glyphicon glyphicon-remove" title="Remove this member from the list"></button>
+                    </td>
+                </tr>
+            )
+        });
     }
 
     render() {
@@ -54,18 +83,7 @@ class UserList extends React.Component {
                         <div className="col-sm-12 text-center">
                             <table className="table table-hover">
                                 <tbody>
-                                    <tr>
-                                        <td>Body1</td>
-                                        <td>
-                                            <button className="btn btn-default btn-xs glyphicon glyphicon-remove" title="Remove this member from the list"></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Body2</td>
-                                        <td>
-                                            <button className="btn btn-default btn-xs glyphicon glyphicon-remove" title="Remove this member from the list"></button>
-                                        </td>
-                                    </tr>
+                                    {this.renderUsers()}
                                 </tbody>
                             </table>
                         </div>

@@ -8,7 +8,6 @@ import org.booklink.models.request.AddJudgeRequest;
 import org.booklink.models.request.ContestRequest;
 import org.booklink.models.response.ContestResponse;
 import org.booklink.services.ContestService;
-import org.bouncycastle.ocsp.Req;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,15 +50,29 @@ public class ContestController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
     @RequestMapping(value = "contests/judges", method = RequestMethod.POST)
-    public ResponseEntity<?> addJudgesToContest(@RequestBody final AddJudgeRequest request) {
+    public ResponseEntity<?> addJudgesIdToContest(@RequestBody final AddJudgeRequest request) {
         contestService.addJudgesToContest(request);
         return Response.createResponseEntity(0, "Judges were added successfully", null, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "contests/{id}/judges", method = RequestMethod.GET)
-    public ResponseEntity<?> getJudgesFromContest(@PathVariable final Long id) {
-        return Response.createResponseEntity(0, contestService.getJudgesFromContest(id), null, HttpStatus.OK);
+    public ResponseEntity<?> getJudgesIdFromContest(@PathVariable final Long id) {
+        return Response.createResponseEntity(0, contestService.getJudgesIdFromContest(id), null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "contests/{contestId}/judges/{judgeId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removeJudgeFromContest(@PathVariable final Long contestId, @PathVariable final String judgeId) {
+        contestService.removeJudgeFromContest(contestId, judgeId);
+        return Response.createResponseEntity(0, "Judge was removed successfully from contest", null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "contests/{id}/judges-full", method = RequestMethod.GET)
+    public ResponseEntity<?> getJudgesFromContest(@PathVariable final Long id, final Pageable pageable) {
+        return Response.createResponseEntity(0, contestService.getJudgesFromContest(id, pageable), null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -72,8 +85,22 @@ public class ContestController {
 
     @CrossOrigin
     @RequestMapping(value = "contests/{id}/participants", method = RequestMethod.GET)
-    public ResponseEntity<?> getParticipantsFromContest(@PathVariable final Long id) {
-        return Response.createResponseEntity(0, contestService.getParticipantsFromContest(id), null, HttpStatus.OK);
+    public ResponseEntity<?> getParticipantsIdFromContest(@PathVariable final Long id) {
+        return Response.createResponseEntity(0, contestService.getParticipantsIdFromContest(id), null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @CrossOrigin
+    @RequestMapping(value = "contests/{contestId}/participants/{participantId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removeParticipantFromContest(@PathVariable final Long contestId, @PathVariable final String participantId) {
+        contestService.removeParticipantFromContest(contestId, participantId);
+        return Response.createResponseEntity(0, "Participant was removed successfully from contest", null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "contests/{id}/participants-full", method = RequestMethod.GET)
+    public ResponseEntity<?> getParticipantsFromContest(@PathVariable final Long id, final Pageable pageable) {
+        return Response.createResponseEntity(0, contestService.getParticipantsFromContest(id, pageable), null, HttpStatus.OK);
     }
 
     /* ----------------------------------------exception handlers------------------------------------------ */

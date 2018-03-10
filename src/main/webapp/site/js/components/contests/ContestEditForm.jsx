@@ -10,8 +10,12 @@ import {
     setContestIdForDonate,
     showSearchAuthorForm,
     addJudgesToContest,
+    getJudgesIdFromContest,
+    removeJudgeFromContest,
     getJudgesFromContest,
     addParticipantsToContest,
+    getParticipantsIdFromContest,
+    removeParticipantFromContest,
     getParticipantsFromContest
 } from '../../actions/ContestActions.jsx';
 
@@ -35,7 +39,9 @@ class ContestEditForm extends React.Component {
             revenue2: 0,
             revenue3: 0,
             addUserCallback: null,
-            getSelectedAuthors: null
+            getSelectedAuthors: null,
+            judges: [],
+            participants: []
         };
     }
 
@@ -89,7 +95,7 @@ class ContestEditForm extends React.Component {
     onSelectAuthors() {
         this.setState({
             addUserCallback: (addJudgeRequest, token, callback) => this.props.onAddParticipants(addJudgeRequest, token, callback),
-            getSelectedAuthors: (contestId, callback) => this.props.onGetParticipants(contestId, callback)
+            getSelectedAuthors: (contestId, callback) => this.props.onGetParticipantsId(contestId, callback)
         });
         setTimeout(() => {
             this.props.onShowSearchAuthorForm();
@@ -99,7 +105,7 @@ class ContestEditForm extends React.Component {
     onSelectJudges() {
         this.setState({
             addUserCallback: (addJudgeRequest, token, callback) => this.props.onAddJudges(addJudgeRequest, token, callback),
-            getSelectedAuthors: (contestId, callback) => this.props.onGetJudges(contestId, callback)
+            getSelectedAuthors: (contestId, callback) => this.props.onGetJudgesId(contestId, callback)
         });
         setTimeout(() => {
             this.props.onShowSearchAuthorForm();
@@ -149,10 +155,16 @@ class ContestEditForm extends React.Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <UserList listName="Participants" onAddNewMember={() => this.onSelectAuthors()}/>
+                        <UserList listName="Participants"
+                                  onAddNewMember={() => this.onSelectAuthors()}
+                                  onGetUsers={(page, callback) => this.props.onGetParticipants(this.props.contestId, page, callback)}
+                                  onRemoveUser={(participantId, callback) => this.props.onRemoveParticipantFromContest(this.props.contestId, participantId, this.props.token, callback)}/>
                     </div>
                     <div className="form-group">
-                        <UserList listName="Judges" onAddNewMember={() => this.onSelectJudges()}/>
+                        <UserList listName="Judges"
+                                  onAddNewMember={() => this.onSelectJudges()}
+                                  onGetUsers={(page, callback) => this.props.onGetJudges(this.props.contestId, page, callback)}
+                                  onRemoveUser={(judgeId, callback) => this.props.onRemoveJudgeFromContest(this.props.contestId, judgeId, this.props.token, callback)}/>
                     </div>
                 </form>
 
@@ -275,8 +287,35 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onGetJudges: (contestId, callback) => {
-            return getJudgesFromContest(contestId).then(([response, json]) => {
+        onGetJudgesId: (contestId, callback) => {
+            return getJudgesIdFromContest(contestId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRemoveJudgeFromContest: (contestId, judgeId, token, callback) => {
+            return removeJudgeFromContest(contestId, judgeId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                    dispatch(createNotify('success', 'Success', 'Judge was removed successfully from contest'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetJudges: (contestId, page, callback) => {
+            return getJudgesFromContest(contestId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -302,8 +341,35 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onGetParticipants: (contestId, callback) => {
-            return getParticipantsFromContest(contestId).then(([response, json]) => {
+        onGetParticipantsId: (contestId, callback) => {
+            return getParticipantsIdFromContest(contestId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRemoveParticipantFromContest: (contestId, participantId, token, callback) => {
+            return removeParticipantFromContest(contestId, participantId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                    dispatch(createNotify('success', 'Success', 'Participant was removed successfully from contest'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetParticipants: (contestId, page, callback) => {
+            return getParticipantsFromContest(contestId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }

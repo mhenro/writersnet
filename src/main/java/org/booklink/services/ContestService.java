@@ -5,6 +5,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.WrongDataException;
 import org.booklink.models.request.AddJudgeRequest;
 import org.booklink.models.request.ContestRequest;
+import org.booklink.models.response.ContestUserResponse;
 import org.booklink.models.response.ContestResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.ContestJudgeRepository;
@@ -73,12 +74,34 @@ public class ContestService {
             throw new ObjectNotFoundException("Contest is not found");
         }
         contestJudgeRepository.clearJudgesInContest(request.getContestId());
-        final List<String> ids = Arrays.asList(request.getJudges().split(","));
-        ids.stream().forEach(id -> addJudgeToContest(id, contest));
+        if (!request.getJudges().isEmpty()) {
+            final List<String> ids = Arrays.asList(request.getJudges().split(","));
+            ids.stream().forEach(id -> addJudgeToContest(id, contest));
+        }
     }
 
-    public List<String> getJudgesFromContest(final Long contestId) {
-        return contestJudgeRepository.getJudgesFromContest(contestId);
+    @Transactional
+    public void removeJudgeFromContest(final Long contestId, final String judgeId) {
+        final Contest contest = contestRepository.findOne(contestId);
+        if (contest == null) {
+            throw new ObjectNotFoundException("Contest is not found");
+        }
+        final User judge = authorRepository.findOne(judgeId);
+        if (judge == null) {
+            throw new ObjectNotFoundException("Judge is not found");
+        }
+        final ContestJudgePK pk = new ContestJudgePK();
+        pk.setContest(contest);
+        pk.setJudge(judge);
+        contestJudgeRepository.delete(pk);
+    }
+
+    public List<String> getJudgesIdFromContest(final Long contestId) {
+        return contestJudgeRepository.getJudgesIdFromContest(contestId);
+    }
+
+    public Page<ContestUserResponse> getJudgesFromContest(final Long contestId, final Pageable pageable) {
+        return contestJudgeRepository.getJudgesFromContest(contestId, pageable);
     }
 
     @Transactional
@@ -88,12 +111,34 @@ public class ContestService {
             throw new ObjectNotFoundException("Contest is not found");
         }
         contestParticipantRepository.clearParticipantsInContest(request.getContestId());
-        final List<String> ids = Arrays.asList(request.getJudges().split(","));
-        ids.stream().forEach(id -> addParticipantToContest(id, contest));
+        if (!request.getJudges().isEmpty()) {
+            final List<String> ids = Arrays.asList(request.getJudges().split(","));
+            ids.stream().forEach(id -> addParticipantToContest(id, contest));
+        }
     }
 
-    public List<String> getParticipantsFromContest(final Long contestId) {
-        return contestParticipantRepository.getParticipantsFromContest(contestId);
+    @Transactional
+    public void removeParticipantFromContest(final Long contestId, final String participantId) {
+        final Contest contest = contestRepository.findOne(contestId);
+        if (contest == null) {
+            throw new ObjectNotFoundException("Contest is not found");
+        }
+        final User participant = authorRepository.findOne(participantId);
+        if (participant == null) {
+            throw new ObjectNotFoundException("Participant is not found");
+        }
+        final ContestParticipantPK pk = new ContestParticipantPK();
+        pk.setContest(contest);
+        pk.setParticipant(participant);
+        contestParticipantRepository.delete(pk);
+    }
+
+    public List<String> getParticipantsIdFromContest(final Long contestId) {
+        return contestParticipantRepository.getParticipantsIdFromContest(contestId);
+    }
+
+    public Page<ContestUserResponse> getParticipantsFromContest(final Long contestId, final Pageable pageable) {
+        return contestParticipantRepository.getParticipantsFromContest(contestId, pageable);
     }
 
     private void addJudgeToContest(final String judgeId, final Contest contest) {

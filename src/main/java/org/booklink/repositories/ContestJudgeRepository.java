@@ -2,6 +2,9 @@ package org.booklink.repositories;
 
 import org.booklink.models.entities.ContestJudge;
 import org.booklink.models.entities.ContestJudgePK;
+import org.booklink.models.response.ContestUserResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -13,7 +16,10 @@ import java.util.List;
  */
 public interface ContestJudgeRepository extends PagingAndSortingRepository<ContestJudge, ContestJudgePK> {
     @Query("SELECT c.pk.judge.username FROM ContestJudge c WHERE c.pk.contest.id = ?1")
-    List<String> getJudgesFromContest(final Long id);
+    List<String> getJudgesIdFromContest(final Long id);
+
+    @Query("SELECT new org.booklink.models.response.ContestUserResponse(c.pk.judge.username, c.pk.judge.firstName, c.pk.judge.lastName, c.pk.contest.id, c.pk.contest.name, c.accepted) FROM ContestJudge c WHERE c.pk.contest.id = ?1")
+    Page<ContestUserResponse> getJudgesFromContest(final Long id, final Pageable pageable);
 
     @Modifying
     @Query("DELETE FROM ContestJudge c WHERE c.pk.contest.id = ?1")

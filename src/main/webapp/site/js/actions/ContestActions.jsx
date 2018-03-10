@@ -17,16 +17,32 @@ export const addJudgesToContest = (addJudgeRequest, token) => {
     return doFetch(getHost() + 'contests/judges', addJudgeRequest, token);
 };
 
-export const getJudgesFromContest = (contestId) => {
+export const getJudgesIdFromContest = (contestId) => {
     return doFetch(getHost() + 'contests/' + contestId + '/judges');
+};
+
+export const removeJudgeFromContest = (contestId, judgeId, token) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/judges/' + judgeId, 'DELETE', token);
+};
+
+export const getJudgesFromContest = (contestId, page = 0, size = 5) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/judges-full?page=' + page + '&size=' + size);
 };
 
 export const addParticipantsToContest = (addJudgeRequest, token) => {
     return doFetch(getHost() + 'contests/participants', addJudgeRequest, token);
 };
 
-export const getParticipantsFromContest = (contestId) => {
+export const getParticipantsIdFromContest = (contestId) => {
     return doFetch(getHost() + 'contests/' + contestId + '/participants');
+};
+
+export const removeParticipantFromContest = (contestId, participantId, token) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/participants/' + participantId, 'DELETE', token);
+};
+
+export const getParticipantsFromContest = (contestId, page = 0, size = 5) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/participants-full?page=' + page + '&size=' + size);
 };
 
 export const SHOW_CONTEST_EDIT_FORM = 'SHOW_CONTEST_EDIT_FORM';
