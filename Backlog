@@ -19,6 +19,7 @@ Features:
 106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
 107. Add logic to the "Send message" button in the AuthorFile component.
 112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
+113. Add defense for readers which already bought books. If author try to delete book which is bought for at least one user we should reject deleting request.
 111. Add send message from user when he buying a gift. It could be a popup form with one input field.
 
 
