@@ -45,6 +45,16 @@ class ContestEditForm extends React.Component {
         };
     }
 
+    isMe() {
+        if (!this.props.contestId) {
+            return true;
+        }
+        if (!this.state.contest) {
+            return false;
+        }
+        return this.state.contest.creatorId === this.props.login;
+    }
+
     updateData(data) {
         if (data) {
             this.setState({
@@ -156,12 +166,14 @@ class ContestEditForm extends React.Component {
                     </div>
                     <div className="form-group">
                         <UserList listName="Participants"
+                                  contestId={this.props.contestId}
                                   onAddNewMember={() => this.onSelectAuthors()}
                                   onGetUsers={(page, callback) => this.props.onGetParticipants(this.props.contestId, page, callback)}
                                   onRemoveUser={(participantId, callback) => this.props.onRemoveParticipantFromContest(this.props.contestId, participantId, this.props.token, callback)}/>
                     </div>
                     <div className="form-group">
                         <UserList listName="Judges"
+                                  contestId={this.props.contestId}
                                   onAddNewMember={() => this.onSelectJudges()}
                                   onGetUsers={(page, callback) => this.props.onGetJudges(this.props.contestId, page, callback)}
                                   onRemoveUser={(judgeId, callback) => this.props.onRemoveJudgeFromContest(this.props.contestId, judgeId, this.props.token, callback)}/>
@@ -184,8 +196,9 @@ class ContestEditForm extends React.Component {
         let btnCreateCaption = this.state.contest ? 'Edit' : 'Create';
         return (
             <div className="btn-group">
+                <Button className={'btn btn-success ' + (this.isMe() ? '' : 'hidden')}>Start</Button>
                 <Button onClick={() => this.onCreate()}
-                        className="btn btn-success">{btnCreateCaption}</Button>
+                        className={'btn btn-success ' + (this.isMe() ? '' : 'hidden')}>{btnCreateCaption}</Button>
                 <Button onClick={() => this.onClose()}
                         className="btn btn-default">Cancel</Button>
             </div>

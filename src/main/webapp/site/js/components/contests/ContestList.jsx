@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { formatDate } from '../../utils.jsx';
+
 /*
     props:
     - contests - array
@@ -15,6 +17,11 @@ class ContestList extends React.Component {
         return parseFloat(contest.prizeFund / 100).toFixed(2);
     }
 
+    getDate(contest) {
+        let date = new Date(contest.created);
+        return formatDate(date);
+    }
+
     onRowClick(id) {
         this.props.onShowContestEditForm(id);
     }
@@ -27,6 +34,7 @@ class ContestList extends React.Component {
                     <td>{this.getCreatorName(contest)}</td>
                     <td>{this.getCost(contest)}</td>
                     <td>???</td>
+                    <td>{this.getDate(contest)}</td>
                     <td>???</td>
                 </tr>
             )
@@ -42,6 +50,7 @@ class ContestList extends React.Component {
                         <td>Creator</td>
                         <td>Prize fund</td>
                         <td>Number of participants</td>
+                        <td>Created</td>
                         <td>Edit</td>
                     </tr>
                 </thead>

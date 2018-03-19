@@ -192,6 +192,7 @@ public class ContestService {
         BeanUtils.copyProperties(request, contest, ObjectHelper.getNullPropertyNames(request));
         contest.setCreator(creator);
         contest.setCreated(LocalDateTime.now());
+        contest.setStarted(false);
         contestRepository.save(contest);
         return contest.getId();
     }

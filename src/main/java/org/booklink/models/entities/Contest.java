@@ -20,6 +20,7 @@ public class Contest {
     private Integer secondPlaceRevenue;
     private Integer thirdPlaceRevenue;
     private LocalDateTime created;
+    private Boolean started;
 
     @GenericGenerator(
             name = "contest_generator",
@@ -101,5 +102,13 @@ public class Contest {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public Boolean getStarted() {
+        return started;
+    }
+
+    public void setStarted(Boolean started) {
+        this.started = started;
     }
 }

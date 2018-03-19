@@ -4,6 +4,7 @@ import { Pagination } from 'react-bootstrap';
 /*
     props:
     - listName - string
+    - contestId
     - onAddNewMember - callback
     - onGetUsers(page, callback) - callback
     - onRemoveUser(judgeId, callback) - callback
@@ -20,10 +21,23 @@ class UserList extends React.Component {
     }
 
     componentDidMount() {
+        if (!this.props.contestId) {
+            return;
+        }
+
         this.props.onGetUsers(this.state.activePage, data => this.updateUsers(data));
+        this.updateTimer = setInterval(() => this.props.onGetUsers(this.state.activePage, data => this.updateUsers(data)), 5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.updateTimer);
     }
 
     pageSelect(page) {
+        if (!this.props.contestId) {
+            return;
+        }
+
         this.setState({
             activePage: page
         });

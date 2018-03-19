@@ -60,6 +60,10 @@ class SearchAuthorForm extends React.Component {
     }
 
     onSelect() {
+        if (!this.props.contestId) {
+            return;
+        }
+
         let addJudgeRequest = {
             judges: this.state.selectedAuthors.join(','),
             contestId: this.props.contestId
@@ -77,6 +81,11 @@ class SearchAuthorForm extends React.Component {
             searchPattern: ''
         });
         this.props.onGetAuthors(null, 1, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+
+        if (!this.props.contestId) {
+            return;
+        }
+
         this.props.onGetSelectedAuthors(this.props.contestId, data => this.updateSelectedAuthors(data));
     }
 
