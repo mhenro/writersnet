@@ -10,6 +10,7 @@ import org.booklink.models.response.CommentResponse;
 import org.booklink.models.response.DetailedCommentResponse;
 import org.booklink.services.CommentsService;
 import org.booklink.services.SessionService;
+import org.booklink.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -71,16 +72,16 @@ public class CommentsController {
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Forbidden" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Forbidden"), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Object is not found"), null, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(WrongDataException.class)
     public ResponseEntity<?> wrongData(WrongDataException e) {
-        return Response.createResponseEntity(6, e.getMessage().isEmpty() ? "Wrong data" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(6, ControllerHelper.getErrorOrDefaultMessage(e, "Wrong data"), null, HttpStatus.BAD_REQUEST);
     }
 }

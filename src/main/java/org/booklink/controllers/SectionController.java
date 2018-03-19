@@ -9,6 +9,7 @@ import org.booklink.models.response.SectionResponse;
 import org.booklink.repositories.AuthorRepository;
 import org.booklink.repositories.SectionRepository;
 import org.booklink.services.SectionService;
+import org.booklink.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,6 @@ public class SectionController {
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Object is not found"), null, HttpStatus.NOT_FOUND);
     }
 }

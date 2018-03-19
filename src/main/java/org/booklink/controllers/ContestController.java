@@ -8,6 +8,8 @@ import org.booklink.models.request.AddJudgeRequest;
 import org.booklink.models.request.ContestRequest;
 import org.booklink.models.response.ContestResponse;
 import org.booklink.services.ContestService;
+import org.booklink.utils.ControllerHelper;
+import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * Created by mhenr on 25.02.2018.
@@ -107,16 +111,16 @@ public class ContestController {
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Forbidden" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Forbidden"), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> notFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Not found"), null, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(WrongDataException.class)
     public ResponseEntity<?> wrongData(WrongDataException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Wrong data" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Wrong data"), null, HttpStatus.BAD_REQUEST);
     }
 }

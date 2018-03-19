@@ -12,6 +12,7 @@ import org.booklink.models.response.BookResponse;
 import org.booklink.models.response.BookWithTextResponse;
 import org.booklink.services.BookService;
 import org.booklink.services.SessionService;
+import org.booklink.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -170,17 +171,17 @@ public class BookController {
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Forbidden" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Forbidden"), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> bookNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "Book is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Book is not found"), null, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(IsNotPremiumUserException.class)
     public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUserException e) {
-        return Response.createResponseEntity(6, e.getMessage().isEmpty() ? "Only a premium user can do this" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(6, ControllerHelper.getErrorOrDefaultMessage(e, "Only a premium user can do this"), null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(TextConvertingException.class)
@@ -195,6 +196,6 @@ public class BookController {
 
     @ExceptionHandler(PermissionDeniedException.class)
     public ResponseEntity<?> permissionDenied(PermissionDeniedException e) {
-        return Response.createResponseEntity(9, e.getMessage().isEmpty() ? "Permission denied" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(9, ControllerHelper.getErrorOrDefaultMessage(e, "Permission denied"), null, HttpStatus.FORBIDDEN);
     }
 }

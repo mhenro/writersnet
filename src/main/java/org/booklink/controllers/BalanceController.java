@@ -7,6 +7,7 @@ import org.booklink.models.exceptions.WrongDataException;
 import org.booklink.models.request.BuyRequest;
 import org.booklink.models.response.BalanceResponse;
 import org.booklink.services.BalanceService;
+import org.booklink.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,16 +55,16 @@ public class BalanceController {
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Bad credentials"), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(NotEnoughMoneyException.class)
     public ResponseEntity<?> notEnoughMoney(NotEnoughMoneyException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Not enough money for this operation" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Not enough money for this operation"), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(WrongDataException.class)
     public ResponseEntity<?> wrongData(WrongDataException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Wrong request data" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Wrong request data"), null, HttpStatus.BAD_REQUEST);
     }
 }

@@ -10,6 +10,7 @@ import org.booklink.models.request.ChangePasswordRequest;
 import org.booklink.models.response.*;
 import org.booklink.services.AuthorService;
 import org.booklink.services.SessionService;
+import org.booklink.utils.ControllerHelper;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -214,17 +215,17 @@ public class AuthorController {
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.FORBIDDEN);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Bad credentials"), null, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<?> userNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, e.getMessage().isEmpty() ? "User is not found" : e.getMessage(), null, HttpStatus.NOT_FOUND);
+        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "User is not found"), null, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(IsNotPremiumUserException.class)
     public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUserException e) {
-        return Response.createResponseEntity(6, e.getMessage().isEmpty() ? "Only a premium user can do this" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(6,ControllerHelper.getErrorOrDefaultMessage(e, "Only a premium user can do this"), null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IOException.class)

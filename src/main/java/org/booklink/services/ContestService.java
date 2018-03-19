@@ -2,6 +2,7 @@ package org.booklink.services;
 
 import org.booklink.models.entities.*;
 import org.booklink.models.exceptions.ObjectNotFoundException;
+import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.exceptions.WrongDataException;
 import org.booklink.models.request.AddJudgeRequest;
 import org.booklink.models.request.ContestRequest;
@@ -33,14 +34,17 @@ public class ContestService {
     private ContestJudgeRepository contestJudgeRepository;
     private ContestParticipantRepository contestParticipantRepository;
     private AuthorRepository authorRepository;
+    private AuthorizedUserService authorizedUserService;
 
     @Autowired
     public ContestService(final ContestRepository contestRepository, final ContestJudgeRepository contestJudgeRepository,
-                          final ContestParticipantRepository contestParticipantRepository, final AuthorRepository authorRepository) {
+                          final ContestParticipantRepository contestParticipantRepository, final AuthorRepository authorRepository,
+                          final AuthorizedUserService authorizedUserService) {
         this.contestRepository = contestRepository;
         this.contestJudgeRepository = contestJudgeRepository;
         this.contestParticipantRepository = contestParticipantRepository;
         this.authorRepository = authorRepository;
+        this.authorizedUserService = authorizedUserService;
     }
 
     public Page<ContestResponse> getAllContests(final Pageable pageable) {
@@ -170,8 +174,11 @@ public class ContestService {
     }
 
     private Long editContest(final ContestRequest request) {
+        final User creator = authorizedUserService.getAuthorizedUser();
         final Contest contest = getContest(request.getId());
-        final User creator = getCreator(request.getCreatorId());
+        if (!contest.getCreator().getUsername().equals(creator.getUsername())) {
+            throw new UnauthorizedUserException();
+        }
         BeanUtils.copyProperties(request, contest, ObjectHelper.getNullPropertyNames(request));
         contest.setCreator(creator);
         contest.setCreated(LocalDateTime.now());
@@ -180,7 +187,7 @@ public class ContestService {
     }
 
     private Long createContest(final ContestRequest request) {
-        final User creator = getCreator(request.getCreatorId());
+        final User creator = authorizedUserService.getAuthorizedUser();
         final Contest contest = new Contest();
         BeanUtils.copyProperties(request, contest, ObjectHelper.getNullPropertyNames(request));
         contest.setCreator(creator);

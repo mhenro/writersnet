@@ -5,6 +5,7 @@ import org.booklink.models.exceptions.WrongCaptchaException;
 import org.booklink.models.request.FeedbackRequest;
 import org.booklink.services.CaptchaService;
 import org.booklink.services.FeedbackService;
+import org.booklink.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class FeedbackController {
 
     @ExceptionHandler(WrongCaptchaException.class)
     public ResponseEntity<?> wrongCaptcha(WrongCaptchaException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Wrong captcha code" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Wrong captcha code"), null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MessagingException.class)

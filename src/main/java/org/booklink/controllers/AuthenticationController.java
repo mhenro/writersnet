@@ -6,6 +6,7 @@ import org.booklink.models.exceptions.ObjectNotFoundException;
 import org.booklink.models.exceptions.UnauthorizedUserException;
 import org.booklink.models.request.Credentials;
 import org.booklink.services.AuthenticationService;
+import org.booklink.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,17 +66,17 @@ public class AuthenticationController {
 
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<Response<String>> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, e.getMessage().isEmpty() ? "Bad credentials" : e.getMessage(), null, HttpStatus.UNAUTHORIZED);
+        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Bad credentials"), null, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ObjectAlreadyExistException.class)
     public ResponseEntity<Response<String>> objectAlreadyExist(ObjectAlreadyExistException e) {
-        return Response.createResponseEntity(2, e.getMessage().isEmpty() ? "Object already exist" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(2, ControllerHelper.getErrorOrDefaultMessage(e, "Object already exist"), null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<Response<String>> objectNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(3, e.getMessage().isEmpty() ? "Object is not found" : e.getMessage(), null, HttpStatus.BAD_REQUEST);
+        return Response.createResponseEntity(3, ControllerHelper.getErrorOrDefaultMessage(e, "Object is not found"), null, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MessagingException.class)
