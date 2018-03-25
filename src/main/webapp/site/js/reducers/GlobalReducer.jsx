@@ -33,7 +33,8 @@ import {
 } from '../actions/MessageActions.jsx';
 
 import {
-    SET_NEW_FRIENDS
+    SET_NEW_FRIENDS,
+    SET_NOT_ACCEPTED_CONTESTS
 } from '../actions/AuthorActions.jsx';
 
 import {
@@ -66,6 +67,7 @@ const initialState = {
     goToComments: false,
     unreadMessages: 0,
     newFriends: 0,
+    notAcceptedContests: 0,
     mutableDate: null,
     purchaseId: null,
     balanceOperationType: null,
@@ -174,6 +176,9 @@ const GlobalReducer = (state = initialState, action) => {
 
         case SET_NEW_FRIENDS:
             return Object.assign({}, state, {newFriends: action.newFriends});
+
+        case SET_NOT_ACCEPTED_CONTESTS:
+            return Object.assign({}, state, {notAcceptedContests: action.notAcceptedContests});
 
         case UPDATE_MUTABLE_DATE:
             return Object.assign({}, state, {mutableDate: action.mutableDate});

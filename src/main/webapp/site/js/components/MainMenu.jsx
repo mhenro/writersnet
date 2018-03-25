@@ -7,6 +7,7 @@ import { getLocale } from '../locale.jsx';
     - login - user id
     - unreadMessages - count of unread messages
     - newFriends - count of subscribers
+    - notAcceptedContests - count of not accepted contests
     - language
  */
 class MainMenu extends React.Component {
@@ -46,10 +47,9 @@ class MainMenu extends React.Component {
     }
 
     getMyContestsCaption() {
-        //TODO: add counter here...
-        //if (this.props.newFriends > 0) {
-        //    return <span>{getLocale(this.props.language)['Friends']} <span className="badge">{this.props.newFriends}</span></span>
-        //}
+        if (this.props.notAcceptedContests > 0) {
+            return <span>{getLocale(this.props.language)['My contests']} <span className="badge">{this.props.notAcceptedContests}</span></span>
+        }
         return <span>{getLocale(this.props.language)['My contests']}</span>
     }
 

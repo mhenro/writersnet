@@ -145,6 +145,14 @@ public class ContestService {
         return contestParticipantRepository.getParticipantsFromContest(contestId, pageable);
     }
 
+    public long getNotAcceptedContestCount(final String userId) {
+        long asParticipant = contestParticipantRepository.getNotAcceptedContestsByUser(userId);
+        long asJudge = contestJudgeRepository.getNotAcceptedContestsByUser(userId);
+        long result = asParticipant + asJudge;
+
+        return result;
+    }
+
     private void addJudgeToContest(final String judgeId, final Contest contest) {
         final User author = authorRepository.findOne(judgeId);
         if (author == null) {

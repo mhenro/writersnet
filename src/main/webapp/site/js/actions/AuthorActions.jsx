@@ -29,6 +29,10 @@ export const getNewFriendsCount = (userId, token) => {
     return doFetch(getHost() + 'friendship/new/friends/' + userId, null, token);
 };
 
+export const getNotAcceptedCountestCount = (userId) => {
+    return doFetch(getHost() + 'contests/not-accepted/' + userId);
+};
+
 export const getAllFriends = (userId, token, page = 0, size = 20) => {
     return doFetch(getHost() + 'friendship/friends/' + userId + '?page=' + page + '&size=' + size, null, token);
 };
@@ -95,6 +99,8 @@ export const SET_NEW_FRIENDS = 'SET_NEW_FRIENDS';
 export const SHOW_AUTHOR_GIFTS_FORM = 'SHOW_AUTHOR_GIFTS_FORM';
 export const CLOSE_AUTHOR_GIFTS_FORM = 'CLOSE_AUTHOR_GIFTS_FORM';
 
+export const SET_NOT_ACCEPTED_CONTESTS = 'SET_NOT_ACCEPTED_CONTESTS';
+
 export const setAuthors = (authors) => {
     return {
         type: SET_AUTHORS,
@@ -125,5 +131,12 @@ export const showAuthorGiftsForm = () => {
 export const closeAuthorGiftsForm = () => {
     return {
         type: CLOSE_AUTHOR_GIFTS_FORM
+    }
+};
+
+export const setNotAcceptedContests = (notAcceptedContests) => {
+    return {
+        type: SET_NOT_ACCEPTED_CONTESTS,
+        notAcceptedContests
     }
 };

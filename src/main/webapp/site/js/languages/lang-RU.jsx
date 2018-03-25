@@ -254,5 +254,10 @@ export const RU = {
     'Buy': 'Купить',
 
     /* ContestDonateForm */
-    'Donate': 'Пожертвовать'
+    'Donate': 'Пожертвовать',
+
+    /* MyContestPage */
+    'As participant': 'Как участник',
+    'As judge': 'Как судья',
+    'As creator': 'Как создатель'
 };

@@ -16,10 +16,12 @@ public class ContestResponse {
     private Integer thirdPlaceRevenue;
     private LocalDateTime created;
     private Boolean started;
+    private Boolean closed;
 
     public ContestResponse(final Long id, final String name, final String creatorId, final String creatorFirstName, final String creatorLastName,
                            final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
-                           final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started) {
+                           final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started,
+                           final Boolean closed) {
         this.id = id;
         this.name = name;
         this.creatorId = creatorId;
@@ -30,6 +32,7 @@ public class ContestResponse {
         this.thirdPlaceRevenue = thirdPlaceRevenue;
         this.created = created;
         this.started = started;
+        this.closed = closed;
     }
 
     public Long getId() {
@@ -110,5 +113,13 @@ public class ContestResponse {
 
     public void setStarted(Boolean started) {
         this.started = started;
+    }
+
+    public Boolean getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Boolean closed) {
+        this.closed = closed;
     }
 }

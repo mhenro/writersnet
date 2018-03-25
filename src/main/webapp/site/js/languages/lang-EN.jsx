@@ -254,5 +254,10 @@ export const EN = {
     'Buy': 'Buy',
 
     /* ContestDonateForm */
-    'Donate': 'Donate'
+    'Donate': 'Donate',
+
+    /* MyContestPage */
+    'As participant': 'As participant',
+    'As judge': 'As judge',
+    'As creator': 'As creator'
 };

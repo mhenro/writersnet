@@ -10,6 +10,7 @@ import org.booklink.models.response.ContestResponse;
 import org.booklink.services.ContestService;
 import org.booklink.utils.ControllerHelper;
 import org.booklink.utils.ObjectHelper;
+import org.bouncycastle.ocsp.Req;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -105,6 +106,12 @@ public class ContestController {
     @RequestMapping(value = "contests/{id}/participants-full", method = RequestMethod.GET)
     public ResponseEntity<?> getParticipantsFromContest(@PathVariable final Long id, final Pageable pageable) {
         return Response.createResponseEntity(0, contestService.getParticipantsFromContest(id, pageable), null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "contests/not-accepted/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getNotAcceptedContestCount(@PathVariable final String userId) {
+        return Response.createResponseEntity(0, contestService.getNotAcceptedContestCount(userId), null, HttpStatus.OK);
     }
 
     /* ----------------------------------------exception handlers------------------------------------------ */

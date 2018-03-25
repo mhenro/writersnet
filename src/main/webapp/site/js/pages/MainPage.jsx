@@ -55,7 +55,11 @@ class MainPage extends React.Component {
     renderMainMenu() {
         if (this.props.registered) {
             return (
-                <MainMenu login={this.props.login} unreadMessages={this.props.unreadMessages} newFriends={this.props.newFriends} language={this.props.language}/>
+                <MainMenu login={this.props.login}
+                          unreadMessages={this.props.unreadMessages}
+                          newFriends={this.props.newFriends}
+                          notAcceptedContests={this.props.notAcceptedContests}
+                          language={this.props.language}/>
             )
         }
         return null;
@@ -127,6 +131,7 @@ const mapStateToProps = (state) => {
         login: state.GlobalReducer.user.login,
         unreadMessages: state.GlobalReducer.unreadMessages,
         newFriends: state.GlobalReducer.newFriends,
+        notAcceptedContests: state.GlobalReducer.notAcceptedContests,
         userDetails: state.GlobalReducer.user.details,
         language: state.GlobalReducer.language,
         balance: state.GlobalReducer.user.balance,

@@ -14,7 +14,9 @@ import {
 import {
     getNewFriendsCount,
     setNewFriends,
-    getAuthorDetails
+    getAuthorDetails,
+    setNotAcceptedContests,
+    getNotAcceptedCountestCount
 } from '../actions/AuthorActions.jsx';
 import { getUserBalance, setUserBalance } from '../actions/BalanceActions.jsx';
 
@@ -50,6 +52,7 @@ class GlobalDataContainer extends React.Component {
             if ((this.props.login !== 'Anonymous') && (this.props.token !== '')) {
                 this.props.onGetUnreadMessages(this.props.login, this.props.token, unreadCount => this.onSetUnreadMessages(unreadCount));
                 this.props.onGetNewFriendsCount(this.props.login, this.props.token);
+                this.props.onGetNotAcceptedContestCount(this.props.login);
             }
             this.updateContentHeight();
         }, 5000);
@@ -165,6 +168,19 @@ const mapDispatchToProps = (dispatch) => {
             return getNewFriendsCount(userId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setNewFriends(json.message));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetNotAcceptedContestCount: (userId) => {
+            return getNotAcceptedCountestCount(userId).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(setNotAcceptedContests(json.message));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
