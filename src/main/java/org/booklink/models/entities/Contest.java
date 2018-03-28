@@ -22,6 +22,8 @@ public class Contest {
     private LocalDateTime created;
     private Boolean started;
     private Boolean closed;
+    private Integer judgeCount;
+    private Integer participantCount;
 
     @GenericGenerator(
             name = "contest_generator",
@@ -119,5 +121,23 @@ public class Contest {
 
     public void setClosed(Boolean closed) {
         this.closed = closed;
+    }
+
+    @Column(name = "judge_count")
+    public Integer getJudgeCount() {
+        return judgeCount;
+    }
+
+    public void setJudgeCount(Integer judgeCount) {
+        this.judgeCount = judgeCount;
+    }
+
+    @Column(name = "participant_count")
+    public Integer getParticipantCount() {
+        return participantCount;
+    }
+
+    public void setParticipantCount(Integer participantCount) {
+        this.participantCount = participantCount;
     }
 }

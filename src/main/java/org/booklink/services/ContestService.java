@@ -82,6 +82,8 @@ public class ContestService {
             final List<String> ids = Arrays.asList(request.getJudges().split(","));
             ids.stream().forEach(id -> addJudgeToContest(id, contest));
         }
+
+        updateJudgeCountInContest(request.getContestId());
     }
 
     @Transactional
@@ -98,6 +100,7 @@ public class ContestService {
         pk.setContest(contest);
         pk.setJudge(judge);
         contestJudgeRepository.delete(pk);
+        updateJudgeCountInContest(contestId);
     }
 
     public List<String> getJudgesIdFromContest(final Long contestId) {
@@ -119,6 +122,7 @@ public class ContestService {
             final List<String> ids = Arrays.asList(request.getJudges().split(","));
             ids.stream().forEach(id -> addParticipantToContest(id, contest));
         }
+        updateParticipantCountInContest(request.getContestId());
     }
 
     @Transactional
@@ -135,6 +139,7 @@ public class ContestService {
         pk.setContest(contest);
         pk.setParticipant(participant);
         contestParticipantRepository.delete(pk);
+        updateParticipantCountInContest(contestId);
     }
 
     public List<String> getParticipantsIdFromContest(final Long contestId) {
@@ -212,6 +217,26 @@ public class ContestService {
         participant.setPk(pk);
         participant.setAccepted(false);
         contestParticipantRepository.save(participant);
+    }
+
+    private void updateParticipantCountInContest(final Long id) {
+        final Contest contest = contestRepository.findOne(id);
+        if (contest == null) {
+            throw new ObjectNotFoundException("Contest is not found");
+        }
+        final long participants = contestParticipantRepository.getParticipantCountFromContest(id);
+        contest.setParticipantCount((int)participants);
+        contestRepository.save(contest);
+    }
+
+    private void updateJudgeCountInContest(final Long id) {
+        final Contest contest = contestRepository.findOne(id);
+        if (contest == null) {
+            throw new ObjectNotFoundException("Contest is not found");
+        }
+        final long judges = contestJudgeRepository.getJudgeCountFromContest(id);
+        contest.setJudgeCount((int)judges);
+        contestRepository.save(contest);
     }
 
     private Long editContest(final ContestRequest request) {

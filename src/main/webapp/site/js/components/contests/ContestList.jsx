@@ -22,6 +22,10 @@ class ContestList extends React.Component {
         return formatDate(date);
     }
 
+    getTotalUsers(contest) {
+        return contest.participantCount + contest.judgeCount;
+    }
+
     onRowClick(id) {
         this.props.onShowContestEditForm(id);
     }
@@ -33,9 +37,8 @@ class ContestList extends React.Component {
                     <td>{contest.name}</td>
                     <td>{this.getCreatorName(contest)}</td>
                     <td>{this.getCost(contest)}</td>
-                    <td>???</td>
+                    <td>{this.getTotalUsers(contest)}</td>
                     <td>{this.getDate(contest)}</td>
-                    <td>???</td>
                 </tr>
             )
         });
@@ -51,7 +54,6 @@ class ContestList extends React.Component {
                         <td>Prize fund</td>
                         <td>Number of participants</td>
                         <td>Created</td>
-                        <td>Edit</td>
                     </tr>
                 </thead>
                 <tbody>
