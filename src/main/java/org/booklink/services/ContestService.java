@@ -153,6 +153,39 @@ public class ContestService {
         return result;
     }
 
+    public long getParticipantCountFromContest(final Long id) {
+        return contestParticipantRepository.getParticipantCountFromContest(id);
+    }
+
+    public long getJudgeCountFromContest(final Long id) {
+        return contestJudgeRepository.getJudgeCountFromContest(id);
+    }
+
+    public boolean isContestReadyToStart(final Long id) {
+        final long participants = contestParticipantRepository.getParticipantCountFromContest(id);
+        final long judges = contestJudgeRepository.getJudgeCountFromContest(id);
+        final long notAcceptedParticipants = contestParticipantRepository.getNotAcceptedParticipantsFromContest(id);
+        final long notAcceptedJudges = contestJudgeRepository.getNotAcceptedJudgesFromContest(id);
+
+        return participants > 0 && judges > 0 && notAcceptedJudges == 0 && notAcceptedParticipants == 0;
+    }
+
+    @Transactional
+    public void startContest(final Long id) {
+        final Contest contest = contestRepository.findOne(id);
+        if (contest == null) {
+            throw new ObjectNotFoundException("Contest is not found");
+        }
+        if (!isContestReadyToStart(id)) {
+            throw new WrongDataException("Contest is not ready for starting");
+        }
+        if (contest.getClosed()) {
+            throw new WrongDataException("Contest is already closed");
+        }
+        contest.setStarted(true);
+        contestRepository.save(contest);
+    }
+
     private void addJudgeToContest(final String judgeId, final Contest contest) {
         final User author = authorRepository.findOne(judgeId);
         if (author == null) {

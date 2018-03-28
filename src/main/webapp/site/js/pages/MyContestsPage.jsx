@@ -3,12 +3,20 @@ import { connect } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
 import { getLocale } from '../locale.jsx';
 
+import { getAllContests, showContestEditForm } from '../actions/ContestActions.jsx';
+import { createNotify } from '../actions/GlobalActions.jsx';
+
+import ContestList from '../components/contests/ContestList.jsx';
+import ContestEditForm from '../components/contests/ContestEditForm.jsx';
+
 class MyContestsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             activeTab: 'participants',
             searchPattern: '',
+            contestId: null,
+            contests: [],
             contestsAsParticipant: [],
             contestAsJudge: [],
             contestAsCreator: [],
@@ -20,11 +28,29 @@ class MyContestsPage extends React.Component {
         };
     }
 
-    pageSelect(page) {
+    componentDidMount() {
+        this.props.onGetAllContests(this.state.currentPage, data => this.updateContests(data));
+    }
+
+    onShowEditForm(id) {
         this.setState({
-            currentPage: page
+            contestId: id
         });
-        this.getFriendships(this.state.activeTab, page);
+        this.props.onShowContestEditForm();
+    }
+
+    updateContests(data) {
+        this.setState({
+            totalPages: data.totalPages,
+            contests: data.content
+        });
+    }
+
+    pageSelect(page) {
+        //this.setState({
+        //    currentPage: page
+        //});
+        //this.getFriendships(this.state.activeTab, page);
     }
 
     getActiveClass(tabName) {
@@ -58,6 +84,13 @@ class MyContestsPage extends React.Component {
             let count = this.state.asCreator;
             return <span>{getLocale(this.props.language)['As creator']} <span className="counter">{count}</span></span>;
         }
+    }
+
+    onShowEditForm(id) {
+        this.setState({
+            contestId: id
+        });
+        this.props.onShowContestEditForm();
     }
 
     render() {
@@ -98,6 +131,7 @@ class MyContestsPage extends React.Component {
                     <br/>
                 </div>
                 <div className="col-sm-12">
+                    <ContestList contests={this.state.contests} onShowContestEditForm={id => this.onShowEditForm(id)}/>
                     {/*<FriendList friends={this.getItems()}
                                 sendMsgButton={this.getSendMsgButtonVisibility()}
                                 addFriendButton={this.getAddFriendButtonVisibility()}
@@ -111,6 +145,9 @@ class MyContestsPage extends React.Component {
                                 language={this.props.language}/>
                     <br/>*/}
                 </div>
+
+                {/* Contest popup form */}
+                <ContestEditForm contestId={this.state.contestId} onSave={() => this.componentDidMount()}/>
             </div>
         )
     }
@@ -125,7 +162,24 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {}
+    return {
+        onGetAllContests: (page, callback) => {
+            return getAllContests(page - 1).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onShowContestEditForm: () => {
+            dispatch(showContestEditForm());
+        }
+    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyContestsPage);

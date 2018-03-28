@@ -114,6 +114,31 @@ public class ContestController {
         return Response.createResponseEntity(0, contestService.getNotAcceptedContestCount(userId), null, HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "contests/{id}/participants-count", method = RequestMethod.GET)
+    public ResponseEntity<?> getParticipantCountFromContest(@PathVariable final Long id) {
+        return Response.createResponseEntity(0, contestService.getParticipantCountFromContest(id), null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "contests/{id}/judges-count", method = RequestMethod.GET)
+    public ResponseEntity<?> getJudgeCountFromContest(@PathVariable final Long id) {
+        return Response.createResponseEntity(0, contestService.getJudgeCountFromContest(id), null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "contests/{id}/readiness", method = RequestMethod.GET)
+    public ResponseEntity<?> isContestReadyToStart(@PathVariable final Long id) {
+        return Response.createResponseEntity(0, contestService.isContestReadyToStart(id), null, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "contests/{id}/start", method = RequestMethod.GET)
+    public ResponseEntity<?> startContest(@PathVariable final Long id) {
+        contestService.startContest(id);
+        return Response.createResponseEntity(0, "Contest was started successfully", null, HttpStatus.OK);
+    }
+
     /* ----------------------------------------exception handlers------------------------------------------ */
 
     @ExceptionHandler(UnauthorizedUserException.class)

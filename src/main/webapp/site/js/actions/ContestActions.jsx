@@ -45,6 +45,14 @@ export const getParticipantsFromContest = (contestId, page = 0, size = 5) => {
     return doFetch(getHost() + 'contests/' + contestId + '/participants-full?page=' + page + '&size=' + size);
 };
 
+export const isContestReadyForStart = (contestId) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/readiness');
+};
+
+export const startContest = (contestId) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/start');
+};
+
 export const SHOW_CONTEST_EDIT_FORM = 'SHOW_CONTEST_EDIT_FORM';
 export const CLOSE_CONTEST_EDIT_FORM = 'CLOSE_CONTEST_EDIT_FORM';
 export const SHOW_CONTEST_DONATE_FORM = 'SHOW_CONTEST_DONATE_FORM';

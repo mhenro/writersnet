@@ -16,7 +16,9 @@ import {
     addParticipantsToContest,
     getParticipantsIdFromContest,
     removeParticipantFromContest,
-    getParticipantsFromContest
+    getParticipantsFromContest,
+    isContestReadyForStart,
+    startContest
 } from '../../actions/ContestActions.jsx';
 
 import UserList from './UserList.jsx';
@@ -41,7 +43,8 @@ class ContestEditForm extends React.Component {
             addUserCallback: null,
             getSelectedAuthors: null,
             judges: [],
-            participants: []
+            participants: [],
+            readyToStart: false
         };
     }
 
@@ -143,7 +146,7 @@ class ContestEditForm extends React.Component {
                             <input value={this.state.prizeFund} readOnly="true" type="text" className="form-control" id="prizeFund" placeholder="Enter the prize fund amount" name="prizeFund"/>
                         </div>
                         <div className="col-sm-2">
-                            <button onClick={() => this.onDonate()} className="btn btn-success">Donate</button>
+                            <button onClick={() => this.onDonate()} className={'btn btn-success ' + (this.props.registered ? '' : 'hidden')}>Donate</button>
                         </div>
                     </div>
                     <div className="form-group">
@@ -196,7 +199,8 @@ class ContestEditForm extends React.Component {
         let btnCreateCaption = this.state.contest ? 'Edit' : 'Create';
         return (
             <div className="btn-group">
-                <Button className={'btn btn-success ' + (this.isMe() ? '' : 'hidden')}>Start</Button>
+                <Button onClick={() => this.props.startContest(this.props.contestId)}
+                        className={'btn btn-success ' + (this.isMe() && this.state.readyToStart ? '' : 'hidden')}>Start</Button>
                 <Button onClick={() => this.onCreate()}
                         className={'btn btn-success ' + (this.isMe() ? '' : 'hidden')}>{btnCreateCaption}</Button>
                 <Button onClick={() => this.onClose()}
@@ -224,6 +228,7 @@ class ContestEditForm extends React.Component {
     onShow() {
         if (this.props.contestId !== null) {
             this.props.onGetContestDetails(this.props.contestId, data => this.updateData(data));
+            this.props.isContestReadyToStart(this.props.contestId, (ready) => this.setState({readyToStart: ready}));
         }
     }
 
@@ -249,6 +254,7 @@ class ContestEditForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        registered: state.GlobalReducer.registered,
         login: state.GlobalReducer.user.login,
         token: state.GlobalReducer.token,
         showContestEditForm: state.ContestReducer.showContestEditForm,
@@ -385,6 +391,33 @@ const mapDispatchToProps = (dispatch) => {
             return getParticipantsFromContest(contestId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        isContestReadyToStart: (contestId, callback) => {
+            return isContestReadyForStart(contestId).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        startContest: (contestId, callback) => {
+            return startContest(contestId).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', json.message));
+                    callback();
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

@@ -21,6 +21,12 @@ public interface ContestJudgeRepository extends PagingAndSortingRepository<Conte
     @Query("SELECT new org.booklink.models.response.ContestUserResponse(c.pk.judge.username, c.pk.judge.firstName, c.pk.judge.lastName, c.pk.contest.id, c.pk.contest.name, c.accepted) FROM ContestJudge c WHERE c.pk.contest.id = ?1")
     Page<ContestUserResponse> getJudgesFromContest(final Long id, final Pageable pageable);
 
+    @Query("SELECT COUNT(*) FROM ContestJudge c WHERE c.pk.contest.id = ?1")
+    Long getJudgeCountFromContest(final Long id);
+
+    @Query("SELECT COUNT(*) FROM ContestJudge c WHERE c.pk.contest.id = ?1 AND c.accepted = false")
+    Long getNotAcceptedJudgesFromContest(final Long id);
+
     @Query("SELECT COUNT(*) FROM ContestJudge c WHERE c.pk.judge.username = ?1 AND c.accepted = false AND c.pk.contest.closed = false AND c.pk.contest.started = false")
     Long getNotAcceptedContestsByUser(final String userId);
 
