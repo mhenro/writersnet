@@ -96,9 +96,9 @@ public class ContestController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @CrossOrigin
-    @RequestMapping(value = "contests/{contestId}/participants/{participantId}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> removeParticipantFromContest(@PathVariable final Long contestId, @PathVariable final String participantId) {
-        contestService.removeParticipantFromContest(contestId, participantId);
+    @RequestMapping(value = "contests/{contestId}/participants/{bookId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removeParticipantFromContest(@PathVariable final Long contestId, @PathVariable final Long bookId) {
+        contestService.removeParticipantFromContest(contestId, bookId);
         return Response.createResponseEntity(0, "Participant was removed successfully from contest", null, HttpStatus.OK);
     }
 

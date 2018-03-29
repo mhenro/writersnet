@@ -10,6 +10,8 @@ public class ContestUserResponse {
     private String userName;
     private Long contestId;
     private String contestName;
+    private Long bookId;
+    private String bookName;
     private Boolean accepted;
 
     public ContestUserResponse(final String userId, final String firstName, final String lastName,
@@ -18,6 +20,18 @@ public class ContestUserResponse {
         this.userName = firstName + " " + lastName;
         this.contestId = contestId;
         this.contestName = contestName;
+        this.accepted = accepted;
+    }
+
+    public ContestUserResponse(final String userId, final String firstName, final String lastName,
+                               final Long contestId, final String contestName, final Long bookId,
+                               final String bookName, final Boolean accepted) {
+        this.userId = userId;
+        this.userName = firstName + " " + lastName;
+        this.contestId = contestId;
+        this.contestName = contestName;
+        this.bookId = bookId;
+        this.bookName = bookName;
         this.accepted = accepted;
     }
 
@@ -51,6 +65,22 @@ public class ContestUserResponse {
 
     public void setContestName(String contestName) {
         this.contestName = contestName;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
     public Boolean getAccepted() {

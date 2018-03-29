@@ -4,6 +4,7 @@ import { Modal, Button, Tooltip, OverlayTrigger, Checkbox } from 'react-bootstra
 import { Pagination } from 'react-bootstrap';
 
 import { getAuthors } from '../../actions/AuthorActions.jsx';
+import { getBooks } from '../../actions/BookActions.jsx';
 import { closeSearchAuthorForm } from '../../actions/ContestActions.jsx';
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { clone } from '../../utils.jsx';
@@ -14,6 +15,7 @@ import { getLocale } from '../../locale.jsx';
     - contestId
     - onAddUsers - callback
     - onGetSelectedAuthors - callback
+    - withBooks - boolean
  */
 class SearchAuthorForm extends React.Component {
     constructor(props) {
@@ -23,7 +25,6 @@ class SearchAuthorForm extends React.Component {
             size: 5,
             activePage: 1,
             totalPages: 1,
-            currentName: null,
             authors: [],
             selectedAuthors: [],
             searchPattern: ''
@@ -72,15 +73,20 @@ class SearchAuthorForm extends React.Component {
     }
 
     onShow() {
+        let sortType = this.props.withBooks ? 'name' : 'firstName';
         this.setState({
+            sortType: sortType,
             activePage: 1,
             totalPages: 1,
-            currentName: null,
             authors: [],
             selectedAuthors: [],
             searchPattern: ''
         });
-        this.props.onGetAuthors(null, 1, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+        if (this.props.withBooks) {
+            this.props.onGetBooks(null, 1, this.state.size, sortType, data => this.updateAuthors(data));
+        } else {
+            this.props.onGetAuthors(null, 1, this.state.size, sortType, data => this.updateAuthors(data));
+        }
 
         if (!this.props.contestId) {
             return;
@@ -90,6 +96,15 @@ class SearchAuthorForm extends React.Component {
     }
 
     onClose() {
+        this.setState({
+            sortType: 'firstName',
+            size: 5,
+            activePage: 1,
+            totalPages: 1,
+            authors: [],
+            selectedAuthors: [],
+            searchPattern: ''
+        });
         this.props.onClose();
     }
 
@@ -98,7 +113,11 @@ class SearchAuthorForm extends React.Component {
             activePage: page
         });
 
-        this.props.onGetAuthors(this.state.currentName, page, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+        if (this.props.withBooks) {
+            this.props.onGetBooks(null, page, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+        } else {
+            this.props.onGetAuthors(null, page, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+        }
     }
 
     updateAuthors(data) {
@@ -123,7 +142,11 @@ class SearchAuthorForm extends React.Component {
 
     onKeyDown(key) {
         if (key.key === 'Enter') {
-            this.props.onGetAuthors(this.state.searchPattern, 1, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+            if (this.props.withBooks) {
+                this.props.onGetBooks(this.state.searchPattern, 1, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+            } else {
+                this.props.onGetAuthors(this.state.searchPattern, 1, this.state.size, this.state.sortType, data => this.updateAuthors(data));
+            }
         }
     }
 
@@ -194,16 +217,19 @@ class SearchAuthorForm extends React.Component {
             <table className="table table-hover">
                 <thead>
                 <tr>
-                    <td><b>Author name</b></td>
+                    <td><b>{this.props.withBooks ? 'Book name (Author name)' : 'Author name'}</b></td>
                     <td><b>Selected</b></td>
                 </tr>
                 </thead>
                 <tbody>
                 {this.state.authors.map((author, key) => {
+                    let name = this.props.withBooks ? (author.name + ' (' + author.author.firstName + ' ' + author.author.lastName + ')') : author.fullName;
+                    let onChecked = this.props.withBooks ? e => this.onChecked(e, author.id) : e => this.onChecked(e, author.username);
+                    let isChecked = this.props.withBooks ? this.isChecked(author.id) : this.isChecked(author.username);
                     return (
                         <tr key={key}>
-                            <td>{author.fullName}</td>
-                            <td><Checkbox onChange={e => this.onChecked(e, author.username)} checked={this.isChecked(author.username)}></Checkbox></td>
+                            <td>{name}</td>
+                            <td><Checkbox onChange={onChecked} checked={isChecked}></Checkbox></td>
                         </tr>
                     )
                 })}
@@ -235,6 +261,19 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onGetAuthors: (name, page, size, sortType, callback) => {
             return getAuthors(name, page - 1, size, sortType).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetBooks: (name, page, size, sort, callback) => {
+            return getBooks(name, null, null, page - 1, size, sort).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

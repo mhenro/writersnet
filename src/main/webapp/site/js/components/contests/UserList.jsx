@@ -55,12 +55,13 @@ class UserList extends React.Component {
     renderUsers() {
         return this.state.users.map((user, key) => {
             let accepted = user.accepted ? <span style={{color: 'green'}}>Accepted</span> : <span style={{color: 'red'}}>Not accepted yet</span>
+            let name = user.bookName ? user.bookName + ' (' + user.userName + ')' : user.userName;
             return (
                 <tr key={key}>
-                    <td>{user.userName}</td>
+                    <td>{name}</td>
                     <td>{accepted}</td>
                     <td>
-                        <button onClick={() => this.props.onRemoveUser(user.userId, () => this.componentDidMount())} className="btn btn-default btn-xs glyphicon glyphicon-remove" title="Remove this member from the list"></button>
+                        <button onClick={() => this.props.onRemoveUser(user.bookId, () => this.componentDidMount())} className="btn btn-default btn-xs glyphicon glyphicon-remove" title="Remove this member from the list"></button>
                     </td>
                 </tr>
             )

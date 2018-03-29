@@ -42,6 +42,7 @@ class ContestEditForm extends React.Component {
             revenue3: 0,
             addUserCallback: null,
             getSelectedAuthors: null,
+            withBooks: false,
             judges: [],
             participants: [],
             readyToStart: false
@@ -105,10 +106,11 @@ class ContestEditForm extends React.Component {
         this.props.onShowDonateForm();
     }
 
-    onSelectAuthors() {
+    onSelectBooks() {
         this.setState({
             addUserCallback: (addJudgeRequest, token, callback) => this.props.onAddParticipants(addJudgeRequest, token, callback),
-            getSelectedAuthors: (contestId, callback) => this.props.onGetParticipantsId(contestId, callback)
+            getSelectedAuthors: (contestId, callback) => this.props.onGetParticipantsId(contestId, callback),
+            withBooks: true
         });
         setTimeout(() => {
             this.props.onShowSearchAuthorForm();
@@ -118,7 +120,8 @@ class ContestEditForm extends React.Component {
     onSelectJudges() {
         this.setState({
             addUserCallback: (addJudgeRequest, token, callback) => this.props.onAddJudges(addJudgeRequest, token, callback),
-            getSelectedAuthors: (contestId, callback) => this.props.onGetJudgesId(contestId, callback)
+            getSelectedAuthors: (contestId, callback) => this.props.onGetJudgesId(contestId, callback),
+            withBooks: false
         });
         setTimeout(() => {
             this.props.onShowSearchAuthorForm();
@@ -170,7 +173,7 @@ class ContestEditForm extends React.Component {
                     <div className="form-group">
                         <UserList listName="Participants"
                                   contestId={this.props.contestId}
-                                  onAddNewMember={() => this.onSelectAuthors()}
+                                  onAddNewMember={() => this.onSelectBooks()}
                                   onGetUsers={(page, callback) => this.props.onGetParticipants(this.props.contestId, page, callback)}
                                   onRemoveUser={(participantId, callback) => this.props.onRemoveParticipantFromContest(this.props.contestId, participantId, this.props.token, callback)}/>
                     </div>
@@ -189,6 +192,7 @@ class ContestEditForm extends React.Component {
                 {/* popup form for selecting authors */}
                 <SearchAuthorForm onAddUsers={this.state.addUserCallback}
                                   onGetSelectedAuthors={this.state.getSelectedAuthors}
+                                  withBooks={this.state.withBooks}
                                   token={this.props.token}
                                   contestId={this.props.contestId}/>
             </Modal.Body>

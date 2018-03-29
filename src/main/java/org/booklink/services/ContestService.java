@@ -8,10 +8,7 @@ import org.booklink.models.request.AddJudgeRequest;
 import org.booklink.models.request.ContestRequest;
 import org.booklink.models.response.ContestUserResponse;
 import org.booklink.models.response.ContestResponse;
-import org.booklink.repositories.AuthorRepository;
-import org.booklink.repositories.ContestJudgeRepository;
-import org.booklink.repositories.ContestParticipantRepository;
-import org.booklink.repositories.ContestRepository;
+import org.booklink.repositories.*;
 import org.booklink.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by mhenr on 25.02.2018.
@@ -35,16 +33,18 @@ public class ContestService {
     private ContestParticipantRepository contestParticipantRepository;
     private AuthorRepository authorRepository;
     private AuthorizedUserService authorizedUserService;
+    private BookRepository bookRepository;
 
     @Autowired
     public ContestService(final ContestRepository contestRepository, final ContestJudgeRepository contestJudgeRepository,
                           final ContestParticipantRepository contestParticipantRepository, final AuthorRepository authorRepository,
-                          final AuthorizedUserService authorizedUserService) {
+                          final AuthorizedUserService authorizedUserService, final BookRepository bookRepository) {
         this.contestRepository = contestRepository;
         this.contestJudgeRepository = contestJudgeRepository;
         this.contestParticipantRepository = contestParticipantRepository;
         this.authorRepository = authorRepository;
         this.authorizedUserService = authorizedUserService;
+        this.bookRepository = bookRepository;
     }
 
     public Page<ContestResponse> getAllContests(final Pageable pageable) {
@@ -119,31 +119,34 @@ public class ContestService {
         }
         contestParticipantRepository.clearParticipantsInContest(request.getContestId());
         if (!request.getJudges().isEmpty()) {
-            final List<String> ids = Arrays.asList(request.getJudges().split(","));
+            final List<Long> ids = Arrays.stream(request.getJudges().split(","))
+                    .map(Long::valueOf)
+                    .collect(Collectors.toList());
             ids.stream().forEach(id -> addParticipantToContest(id, contest));
         }
         updateParticipantCountInContest(request.getContestId());
     }
 
     @Transactional
-    public void removeParticipantFromContest(final Long contestId, final String participantId) {
+    public void removeParticipantFromContest(final Long contestId, final Long bookId) {
         final Contest contest = contestRepository.findOne(contestId);
         if (contest == null) {
             throw new ObjectNotFoundException("Contest is not found");
         }
-        final User participant = authorRepository.findOne(participantId);
-        if (participant == null) {
-            throw new ObjectNotFoundException("Participant is not found");
+        final Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            throw new ObjectNotFoundException("Book is not found");
         }
         final ContestParticipantPK pk = new ContestParticipantPK();
         pk.setContest(contest);
-        pk.setParticipant(participant);
+        pk.setParticipant(book.getAuthor());
+        pk.setBook(book);
         contestParticipantRepository.delete(pk);
         updateParticipantCountInContest(contestId);
     }
 
     public List<String> getParticipantsIdFromContest(final Long contestId) {
-        return contestParticipantRepository.getParticipantsIdFromContest(contestId);
+        return contestParticipantRepository.getParticipantBookIdFromContest(contestId);
     }
 
     public Page<ContestUserResponse> getParticipantsFromContest(final Long contestId, final Pageable pageable) {
@@ -205,15 +208,16 @@ public class ContestService {
         contestJudgeRepository.save(judge);
     }
 
-    private void addParticipantToContest(final String participantId, final Contest contest) {
-        final User author = authorRepository.findOne(participantId);
-        if (author == null) {
-            throw new ObjectNotFoundException("Participant is not found");
+    private void addParticipantToContest(final Long bookId, final Contest contest) {
+        final Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            throw new ObjectNotFoundException("Book is not found");
         }
         final ContestParticipant participant = new ContestParticipant();
         final ContestParticipantPK pk = new ContestParticipantPK();
         pk.setContest(contest);
-        pk.setParticipant(author);
+        pk.setParticipant(book.getAuthor());
+        pk.setBook(book);
         participant.setPk(pk);
         participant.setAccepted(false);
         contestParticipantRepository.save(participant);

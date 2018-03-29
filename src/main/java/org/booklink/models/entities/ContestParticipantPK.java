@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class ContestParticipantPK implements Serializable {
     private Contest contest;
     private User participant;
+    private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contest_id")
@@ -34,6 +35,16 @@ public class ContestParticipantPK implements Serializable {
         this.participant = participant;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,7 +53,9 @@ public class ContestParticipantPK implements Serializable {
         ContestParticipantPK that = (ContestParticipantPK) o;
 
         if (getContest() != null ? !getContest().equals(that.getContest()) : that.getContest() != null) return false;
-        return getParticipant() != null ? getParticipant().equals(that.getParticipant()) : that.getParticipant() == null;
+        if (getParticipant() != null ? !getParticipant().equals(that.getParticipant()) : that.getParticipant() != null)
+            return false;
+        return getBook() != null ? getBook().equals(that.getBook()) : that.getBook() == null;
 
     }
 
@@ -50,6 +63,7 @@ public class ContestParticipantPK implements Serializable {
     public int hashCode() {
         int result = getContest() != null ? getContest().hashCode() : 0;
         result = 31 * result + (getParticipant() != null ? getParticipant().hashCode() : 0);
+        result = 31 * result + (getBook() != null ? getBook().hashCode() : 0);
         return result;
     }
 }
