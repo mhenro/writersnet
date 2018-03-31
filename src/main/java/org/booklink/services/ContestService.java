@@ -105,6 +105,9 @@ public class ContestService {
         if (judge == null) {
             throw new ObjectNotFoundException("Judge is not found");
         }
+        if (contest.getClosed()) {
+            throw new WrongDataException("You cannot remove an author from the closed contest");
+        }
         final ContestJudgePK pk = new ContestJudgePK();
         pk.setContest(contest);
         pk.setJudge(judge);
@@ -139,6 +142,9 @@ public class ContestService {
         final Book book = bookRepository.findOne(bookId);
         if (book == null) {
             throw new ObjectNotFoundException("Book is not found");
+        }
+        if (contest.getClosed()) {
+            throw new WrongDataException("You cannot remove an author from the closed contest");
         }
         final ContestParticipantPK pk = new ContestParticipantPK();
         pk.setContest(contest);
@@ -226,6 +232,9 @@ public class ContestService {
         if (participant != null) {
             throw new WrongDataException("Author cannot be a judge and a participant at the same time in the contest");
         }
+        if (contest.getClosed()) {
+            throw new WrongDataException("You cannot add an author to the closed contest");
+        }
         final ContestJudge judge = new ContestJudge();
         final ContestJudgePK pk = new ContestJudgePK();
         pk.setContest(contest);
@@ -243,6 +252,9 @@ public class ContestService {
         final User judge = contestJudgeRepository.getJudgeById(book.getAuthor().getUsername(), contest.getId());
         if (judge != null) {
             throw new WrongDataException("Author cannot be a judge and a participant at the same time in the contest");
+        }
+        if (contest.getClosed()) {
+            throw new WrongDataException("You cannot add an author to the closed contest");
         }
         final ContestParticipant participant = new ContestParticipant();
         final ContestParticipantPK pk = new ContestParticipantPK();
@@ -273,6 +285,9 @@ public class ContestService {
         final Contest contest = getContest(request.getId());
         if (!contest.getCreator().getUsername().equals(creator.getUsername())) {
             throw new UnauthorizedUserException();
+        }
+        if (contest.getClosed()) {
+            throw new WrongDataException("Contest is already closed");
         }
         BeanUtils.copyProperties(request, contest, ObjectHelper.getNullPropertyNames(request));
         contest.setCreator(creator);

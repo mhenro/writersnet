@@ -58,13 +58,13 @@ class MyContestsPage extends React.Component {
         this.props.onShowContestEditForm();
     }
 
-    updateContests(contests, array, friendshipGroup) {
+    updateContests(contests, array, contestGroup) {
         let state = {
             currentPage: contests.number + 1,
             totalPages: contests.totalPages,
         };
         state[array] = contests.content;
-        state[friendshipGroup] = contests.totalElements;
+        state[contestGroup] = contests.totalElements;
         this.setState(state);
     }
 

@@ -147,6 +147,9 @@ public class BalanceService {
         if (contest == null) {
             throw new ObjectNotFoundException("Contest is not found");
         }
+        if (contest.getClosed()) {
+            throw new WrongDataException("You cannot donate to the closed contest");
+        }
         addToPaymentHistory(donator, OperationType.CONTEST_DONATE, amount, false);
         addAmountToContest(contest, amount);
     }

@@ -59,6 +59,13 @@ class ContestEditForm extends React.Component {
         return this.state.contest.creatorId === this.props.login;
     }
 
+    isContestClosed() {
+        if (!this.state.contest) {
+            return false;
+        }
+        return this.state.contest.closed;
+    }
+
     updateData(data) {
         if (data) {
             this.setState({
@@ -149,7 +156,7 @@ class ContestEditForm extends React.Component {
                             <input value={this.state.prizeFund} readOnly="true" type="text" className="form-control" id="prizeFund" placeholder="Enter the prize fund amount" name="prizeFund"/>
                         </div>
                         <div className="col-sm-2">
-                            <button onClick={() => this.onDonate()} className={'btn btn-success ' + (this.props.registered ? '' : 'hidden')}>Donate</button>
+                            <button onClick={() => this.onDonate()} className={'btn btn-success ' + (this.props.registered && !this.isContestClosed() ? '' : 'hidden')}>Donate</button>
                         </div>
                     </div>
                     <div className="form-group">
@@ -174,6 +181,7 @@ class ContestEditForm extends React.Component {
                         <UserList listName="Participants"
                                   contestId={this.props.contestId}
                                   me={this.isMe()}
+                                  closed={this.isContestClosed()}
                                   onAddNewMember={() => this.onSelectBooks()}
                                   onGetUsers={(page, callback) => this.props.onGetParticipants(this.props.contestId, page, callback)}
                                   onRemoveUser={(participantId, callback) => this.props.onRemoveParticipantFromContest(this.props.contestId, participantId, this.props.token, callback)}/>
@@ -182,6 +190,7 @@ class ContestEditForm extends React.Component {
                         <UserList listName="Judges"
                                   contestId={this.props.contestId}
                                   me={this.isMe()}
+                                  closed={this.isContestClosed()}
                                   onAddNewMember={() => this.onSelectJudges()}
                                   onGetUsers={(page, callback) => this.props.onGetJudges(this.props.contestId, page, callback)}
                                   onRemoveUser={(judgeId, callback) => this.props.onRemoveJudgeFromContest(this.props.contestId, judgeId, this.props.token, callback)}/>
@@ -208,7 +217,7 @@ class ContestEditForm extends React.Component {
                 <Button onClick={() => this.props.startContest(this.props.contestId)}
                         className={'btn btn-success ' + (this.isMe() && this.state.readyToStart ? '' : 'hidden')}>Start</Button>
                 <Button onClick={() => this.onCreate()}
-                        className={'btn btn-success ' + (this.isMe() ? '' : 'hidden')}>{btnCreateCaption}</Button>
+                        className={'btn btn-success ' + (this.isMe() && !this.isContestClosed() ? '' : 'hidden')}>{btnCreateCaption}</Button>
                 <Button onClick={() => this.onClose()}
                         className="btn btn-default">Cancel</Button>
             </div>
@@ -284,7 +293,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveContest: (contestRequest, token, onSave, onClose) => {
-            if (contestRequest.firstPlaceRevenue + contestRequest.secondPlaceRevenue + contestRequest.thirdPlaceRevenue !== 100) {
+            if (parseInt(contestRequest.firstPlaceRevenue) + parseInt(contestRequest.secondPlaceRevenue) + parseInt(contestRequest.thirdPlaceRevenue) !== 100) {
                 dispatch(createNotify('warning', 'Warning', 'Total sum of the revenue for 3 places should be equal to 100 percents'));
                 return;
             }

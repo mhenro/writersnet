@@ -6,6 +6,7 @@ import { Pagination } from 'react-bootstrap';
     - listName - string
     - contestId
     - me - boolean
+    - closed - boolean
     - onAddNewMember - callback
     - onGetUsers(page, callback) - callback
     - onRemoveUser(judgeId, callback) - callback
@@ -57,13 +58,14 @@ class UserList extends React.Component {
         return this.state.users.map((user, key) => {
             let accepted = user.accepted ? <span style={{color: 'green'}}>Accepted</span> : <span style={{color: 'red'}}>Not accepted yet</span>
             let name = user.bookName ? user.bookName + ' (' + user.userName + ')' : user.userName;
+            let id = user.bookId || user.userId;
             return (
                 <tr key={key}>
                     <td>{name}</td>
                     <td>{accepted}</td>
                     <td>
-                        <button onClick={() => this.props.onRemoveUser(user.bookId, () => this.componentDidMount())}
-                                className={'btn btn-default btn-xs glyphicon glyphicon-remove ' + (this.props.me ? '' : 'hidden')}
+                        <button onClick={() => this.props.onRemoveUser(id, () => this.componentDidMount())}
+                                className={'btn btn-default btn-xs glyphicon glyphicon-remove ' + (this.props.me && !this.props.closed ? '' : 'hidden')}
                                 title="Remove this member from the list"></button>
                     </td>
                 </tr>
@@ -77,7 +79,7 @@ class UserList extends React.Component {
                 <fieldset className="scheduler-border">
                     <legend className="scheduler-border">{this.props.listName}</legend>
                     <div>
-                        <div className={'col-sm-12 text-center ' + (this.props.me ? '' : 'hidden')}>
+                        <div className={'col-sm-12 text-center ' + (this.props.me && !this.props.closed ? '' : 'hidden')}>
                             <button onClick={() => this.props.onAddNewMember()}
                                     className="btn btn-primary">Add new member</button>
                             <br/>
