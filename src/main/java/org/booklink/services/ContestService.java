@@ -303,6 +303,9 @@ public class ContestService {
         contest.setCreator(creator);
         contest.setCreated(LocalDateTime.now());
         contest.setStarted(false);
+        contest.setClosed(false);
+        contest.setJudgeCount(0);
+        contest.setParticipantCount(0);
         contestRepository.save(contest);
 
         newsService.createNews(NewsService.NEWS_TYPE.CONTEST_CREATED, creator, contest);
