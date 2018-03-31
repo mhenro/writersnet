@@ -5,6 +5,7 @@ import { Pagination } from 'react-bootstrap';
     props:
     - listName - string
     - contestId
+    - me - boolean
     - onAddNewMember - callback
     - onGetUsers(page, callback) - callback
     - onRemoveUser(judgeId, callback) - callback
@@ -61,7 +62,9 @@ class UserList extends React.Component {
                     <td>{name}</td>
                     <td>{accepted}</td>
                     <td>
-                        <button onClick={() => this.props.onRemoveUser(user.bookId, () => this.componentDidMount())} className="btn btn-default btn-xs glyphicon glyphicon-remove" title="Remove this member from the list"></button>
+                        <button onClick={() => this.props.onRemoveUser(user.bookId, () => this.componentDidMount())}
+                                className={'btn btn-default btn-xs glyphicon glyphicon-remove ' + (this.props.me ? '' : 'hidden')}
+                                title="Remove this member from the list"></button>
                     </td>
                 </tr>
             )
@@ -74,8 +77,9 @@ class UserList extends React.Component {
                 <fieldset className="scheduler-border">
                     <legend className="scheduler-border">{this.props.listName}</legend>
                     <div>
-                        <div className="col-sm-12 text-center">
-                            <button onClick={() => this.props.onAddNewMember()} className="btn btn-primary">Add new member</button>
+                        <div className={'col-sm-12 text-center ' + (this.props.me ? '' : 'hidden')}>
+                            <button onClick={() => this.props.onAddNewMember()}
+                                    className="btn btn-primary">Add new member</button>
                             <br/>
                             <br/>
                         </div>

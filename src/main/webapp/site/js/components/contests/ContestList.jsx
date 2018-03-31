@@ -26,6 +26,26 @@ class ContestList extends React.Component {
         return contest.participantCount + contest.judgeCount;
     }
 
+    getTrClass(contest) {
+        if (contest.closed) {
+            return 'active';
+        }
+        if (contest.started) {
+            return 'success';
+        }
+        return '';
+    }
+
+    getStatus(contest) {
+        if (contest.closed) {
+            return 'Already closed';
+        }
+        if (contest.started) {
+            return 'Already started';
+        }
+        return 'Not started yet';
+    }
+
     onRowClick(id) {
         this.props.onShowContestEditForm(id);
     }
@@ -33,12 +53,13 @@ class ContestList extends React.Component {
     renderTableBody() {
         return this.props.contests.map((contest, key) => {
             return (
-                <tr key={key} onClick={() => this.onRowClick(contest.id)}>
+                <tr key={key} onClick={() => this.onRowClick(contest.id)} className={this.getTrClass(contest)}>
                     <td>{contest.name}</td>
                     <td>{this.getCreatorName(contest)}</td>
                     <td>{this.getCost(contest)}</td>
                     <td>{this.getTotalUsers(contest)}</td>
                     <td>{this.getDate(contest)}</td>
+                    <td>{this.getStatus(contest)}</td>
                 </tr>
             )
         });
@@ -54,6 +75,7 @@ class ContestList extends React.Component {
                         <td>Prize fund</td>
                         <td>Number of participants</td>
                         <td>Created</td>
+                        <td>Status</td>
                     </tr>
                 </thead>
                 <tbody>

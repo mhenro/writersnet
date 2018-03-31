@@ -1,6 +1,5 @@
 package org.booklink.controllers;
 
-import org.booklink.models.entities.Book;
 import org.booklink.models.top_models.*;
 import org.booklink.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by mhenr on 30.11.2017.
  */
 @RestController
+@CrossOrigin
 public class BookTopController {
     private BookService bookService;
 
@@ -23,31 +23,26 @@ public class BookTopController {
         this.bookService = bookService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/books/novelties", method = RequestMethod.GET)
     public Page<TopBookNovelties> getTopNovelties(Pageable pageable) {
         return bookService.getBooksByLastUpdate(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/books/rating", method = RequestMethod.GET)
     public Page<TopBookRating> getTopRating(Pageable pageable) {
         return bookService.getBooksByRating(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/books/volume", method = RequestMethod.GET)
     public Page<TopBookVolume> getTopVolume(Pageable pageable) {
         return bookService.getBooksByVolume(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/books/comments", method = RequestMethod.GET)
     public Page<TopBookComments> getTopComments(Pageable pageable) {
         return bookService.getBooksByComments(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/books/views", method = RequestMethod.GET)
     public Page<TopBookViews> getTopViews(Pageable pageable) {
         return bookService.getBooksByViews(pageable);

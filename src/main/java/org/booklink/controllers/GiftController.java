@@ -22,6 +22,7 @@ import java.util.Map;
  * Created by mhenr on 27.01.2018.
  */
 @RestController
+@CrossOrigin
 public class GiftController {
     private GiftService giftService;
 
@@ -30,21 +31,18 @@ public class GiftController {
         this.giftService = giftService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "gift/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getGift(@PathVariable final Long id) {
         final GiftResponse gift = giftService.getGift(id);
         return Response.createResponseEntity(0, gift, null, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "gifts", method = RequestMethod.GET)
     public ResponseEntity<?> getAllGifts() {
         final Map<String, List<Gift>> gifts = giftService.getAllGifts();
         return Response.createResponseEntity(0, gifts, null, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "gifts/authors/{userId}", method = RequestMethod.GET)
     public Page<UserGiftResponse> getAuthorGifts(@PathVariable final String userId, final Pageable pageable) {
         return giftService.getAuthorGifts(userId, pageable);

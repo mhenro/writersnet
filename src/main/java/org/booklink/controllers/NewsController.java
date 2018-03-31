@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by mhenr on 13.12.2017.
  */
 @RestController
+@CrossOrigin
 public class NewsController {
     private NewsService newsService;
 
@@ -24,7 +25,6 @@ public class NewsController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "news", method = RequestMethod.GET)
     public Page<NewsResponse> getNews(final Pageable pageable) {
         return newsService.getNews(pageable);

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by mhenr on 15.11.2017.
  */
 @RestController
+@CrossOrigin
 public class RatingController {
     private RatingService ratingService;
 
@@ -27,7 +28,6 @@ public class RatingController {
         this.ratingService = ratingService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books/{bookId}/rating/{value}", method = RequestMethod.GET)
     public ResponseEntity<?> addStar(@PathVariable Long bookId, @PathVariable Integer value, HttpServletRequest request) {
         ratingService.addStar(bookId, value, request);

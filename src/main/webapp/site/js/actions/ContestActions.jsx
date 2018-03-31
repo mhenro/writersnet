@@ -5,6 +5,18 @@ export const getAllContests = (page = 0, size = 20) => {
     return doFetch(getHost() + 'contests?page=' + page + '&size=' + size);
 };
 
+export const getParticipantContests = (userId, page = 0, size = 20) => {
+    return doFetch(getHost() + 'contests/participants/' + userId + '?page=' + page + '&size=' + size);
+};
+
+export const getJudgeContests = (userId, page = 0, size = 20) => {
+    return doFetch(getHost() + 'contests/judges/' + userId + '?page=' + page + '&size=' + size);
+};
+
+export const getCreatorContests = (userId, page = 0, size = 20) => {
+    return doFetch(getHost() + 'contests/creators/' + userId + '?page=' + page + '&size=' + size);
+};
+
 export const getContest = (id) => {
     return doFetch(getHost() + 'contests/' + id);
 };
@@ -47,6 +59,10 @@ export const getParticipantsFromContest = (contestId, page = 0, size = 5) => {
 
 export const isContestReadyForStart = (contestId) => {
     return doFetch(getHost() + 'contests/' + contestId + '/readiness');
+};
+
+export const joinInContest = (contestId) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/join');
 };
 
 export const startContest = (contestId) => {

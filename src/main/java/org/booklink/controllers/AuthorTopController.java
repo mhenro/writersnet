@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by mhenr on 02.12.2017.
  */
 @RestController
+@CrossOrigin
 public class AuthorTopController {
     private AuthorService authorService;
 
@@ -25,25 +26,21 @@ public class AuthorTopController {
         this.authorService = authorService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/authors/rating", method = RequestMethod.GET)
     public Page<TopAuthorRating> getTopRating(Pageable pageable) {
         return authorService.getAuthorsByRating(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/authors/bookcount", method = RequestMethod.GET)
     public Page<TopAuthorBookCount> getTopBookCount(Pageable pageable) {
         return authorService.getAuthorsByBookCount(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/authors/comments", method = RequestMethod.GET)
     public Page<TopAuthorComments> getTopComments(Pageable pageable) {
         return authorService.getAuthorsByComments(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "top/authors/views", method = RequestMethod.GET)
     public Page<TopAuthorViews> getTopViews(Pageable pageable) {
         return authorService.getAuthorsByViews(pageable);

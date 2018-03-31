@@ -18,6 +18,7 @@ import javax.mail.MessagingException;
  * Created by mhenr on 10.01.2018.
  */
 @RestController
+@CrossOrigin
 public class FeedbackController {
     private CaptchaService captchaService;
     private FeedbackService feedbackService;
@@ -28,7 +29,6 @@ public class FeedbackController {
         this.feedbackService = feedbackService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "feedback", method = RequestMethod.POST)
     public ResponseEntity<?> sendMessage(@RequestBody final FeedbackRequest feedback) throws MessagingException {
         captchaService.checkCaptchaCode(feedback.getCaptcha());

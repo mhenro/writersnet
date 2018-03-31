@@ -26,6 +26,7 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
  * Created by mhenr on 15.11.2017.
  */
 @RestController
+@CrossOrigin
 public class CommentsController {
     private CommentsService commentsService;
     private SessionService sessionService;
@@ -38,19 +39,16 @@ public class CommentsController {
         this.environment = environment;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books/{bookId}/comments", method = RequestMethod.GET)
     public Page<CommentResponse> getComments(@PathVariable Long bookId, Pageable pageable) {
         return commentsService.getComments(bookId, pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books/comments", method = RequestMethod.GET)
     public Page<DetailedCommentResponse> getCommentsGroupByBookOrderByDate(final Pageable pageable) {
         return commentsService.getCommentsGroupByBookOrderByDate(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books/comments", method = RequestMethod.POST)
     public ResponseEntity<?> saveComment(@RequestBody CommentRequest bookComment) {
         commentsService.saveComment(bookComment);
@@ -58,7 +56,6 @@ public class CommentsController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "books/{bookId}/comments/{commentId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteComment(@PathVariable Long bookId, @PathVariable Long commentId) {
         final String key = environment.getProperty("jwt.signing-key");

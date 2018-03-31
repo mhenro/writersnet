@@ -26,6 +26,7 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
  * Created by mhenr on 04.01.2018.
  */
 @RestController
+@CrossOrigin
 public class ReviewController {
     private ReviewService reviewService;
     private SessionService sessionService;
@@ -38,19 +39,16 @@ public class ReviewController {
         this.environment = environment;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "reviews", method = RequestMethod.GET)
     public Page<ReviewResponse> getReviews(final Pageable pageable) {
         return reviewService.getReviews(pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "reviews/{bookId}", method = RequestMethod.GET)
     public Page<ReviewResponse> getReviews(@PathVariable final Long bookId, final Pageable pageable) {
         return reviewService.getReviewsByBookId(bookId, pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "review/{reviewId}", method = RequestMethod.GET)
     public ResponseEntity<?> getReviewDetails(@PathVariable final Long reviewId) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -60,7 +58,6 @@ public class ReviewController {
         return Response.createResponseEntity(0, review, token, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "review/{reviewId}/like", method = RequestMethod.GET)
     public ResponseEntity<?> likeReview(@PathVariable final Long reviewId, final HttpServletRequest request) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -70,7 +67,6 @@ public class ReviewController {
         return Response.createResponseEntity(0, likes, token, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "review/{reviewId}/dislike", method = RequestMethod.GET)
     public ResponseEntity<?> dislikeReview(@PathVariable final Long reviewId, final HttpServletRequest request) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -81,7 +77,6 @@ public class ReviewController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "review", method = RequestMethod.POST)
     public ResponseEntity<?> saveReview(@RequestBody final ReviewRequest reviewRequest) {
         final String key = environment.getProperty("jwt.signing-key");

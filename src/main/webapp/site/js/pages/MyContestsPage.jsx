@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import { Pagination } from 'react-bootstrap';
 import { getLocale } from '../locale.jsx';
 
-import { getAllContests, showContestEditForm } from '../actions/ContestActions.jsx';
+import {
+    getParticipantContests,
+    getJudgeContests,
+    getCreatorContests,
+    showContestEditForm
+} from '../actions/ContestActions.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
 
 import ContestList from '../components/contests/ContestList.jsx';
@@ -16,20 +21,34 @@ class MyContestsPage extends React.Component {
             activeTab: 'participants',
             searchPattern: '',
             contestId: null,
-            contests: [],
             contestsAsParticipant: [],
-            contestAsJudge: [],
-            contestAsCreator: [],
-            currentPage: 1,
-            totalPages: 1,
+            contestsAsJudge: [],
+            contestsAsCreator: [],
             asParticipant: 0,
             asJudge: 0,
-            asCreator: 0
+            asCreator: 0,
+            currentPage: 1,
+            totalPages: 1
         };
     }
 
     componentDidMount() {
-        this.props.onGetAllContests(this.state.currentPage, data => this.updateContests(data));
+        let timer = setInterval(() => {
+            if (this.props.login) {
+                this.getContests('participants');   //not a good solution. It is for counting friend groups
+                this.getContests('judges');         //not a good solution. It is for counting friend groups
+                this.getContests('creators');       //not a good solution. It is for counting friend groups
+                clearInterval(timer);
+            }
+        }, 1000);
+    }
+
+    getContests(activeTab = this.state.activeTab, page = this.state.currentPage) {
+        switch(activeTab) {
+            case 'participants': this.props.onGetParticipantContests(this.props.login, page - 1, contests => this.updateContests(contests, 'contestsAsParticipant', 'asParticipant')); break;
+            case 'judges': this.props.onGetJudgeContests(this.props.login, page - 1, contests => this.updateContests(contests, 'contestsAsJudge', 'asJudge')); break;
+            case 'creators': this.props.onGetCreatorContests(this.props.login, page - 1, contests => this.updateContests(contests, 'contestsAsCreator', 'asCreator')); break;
+        }
     }
 
     onShowEditForm(id) {
@@ -39,18 +58,21 @@ class MyContestsPage extends React.Component {
         this.props.onShowContestEditForm();
     }
 
-    updateContests(data) {
-        this.setState({
-            totalPages: data.totalPages,
-            contests: data.content
-        });
+    updateContests(contests, array, friendshipGroup) {
+        let state = {
+            currentPage: contests.number + 1,
+            totalPages: contests.totalPages,
+        };
+        state[array] = contests.content;
+        state[friendshipGroup] = contests.totalElements;
+        this.setState(state);
     }
 
     pageSelect(page) {
-        //this.setState({
-        //    currentPage: page
-        //});
-        //this.getFriendships(this.state.activeTab, page);
+        this.setState({
+            currentPage: page
+        });
+        this.getContests(this.state.activeTab, page);
     }
 
     getActiveClass(tabName) {
@@ -64,7 +86,7 @@ class MyContestsPage extends React.Component {
         this.setState({
             activeTab: tabName
         });
-        this.getFriendships(tabName);
+        this.getContests(tabName);
     }
 
     onSearchChange(event) {
@@ -86,11 +108,12 @@ class MyContestsPage extends React.Component {
         }
     }
 
-    onShowEditForm(id) {
-        this.setState({
-            contestId: id
-        });
-        this.props.onShowContestEditForm();
+    getItems() {
+        switch (this.state.activeTab) {
+            case 'participants': return this.state.contestsAsParticipant; break;
+            case 'judges': return this.state.contestsAsJudge; break;
+            case 'creators': return this.state.contestsAsCreator; break;
+        }
     }
 
     render() {
@@ -131,7 +154,7 @@ class MyContestsPage extends React.Component {
                     <br/>
                 </div>
                 <div className="col-sm-12">
-                    <ContestList contests={this.state.contests} onShowContestEditForm={id => this.onShowEditForm(id)}/>
+                    <ContestList contests={this.getItems()} onShowContestEditForm={id => this.onShowEditForm(id)}/>
                     {/*<FriendList friends={this.getItems()}
                                 sendMsgButton={this.getSendMsgButtonVisibility()}
                                 addFriendButton={this.getAddFriendButtonVisibility()}
@@ -163,8 +186,34 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetAllContests: (page, callback) => {
-            return getAllContests(page - 1).then(([response, json]) => {
+        onGetParticipantContests: (userId, page, callback) => {
+            return getParticipantContests(userId, page - 1).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetJudgeContests: (userId, page, callback) => {
+            return getJudgeContests(userId, page - 1).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetCreatorContests: (userId, page, callback) => {
+            return getCreatorContests(userId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

@@ -2,6 +2,7 @@ package org.booklink.repositories;
 
 import org.booklink.models.entities.ContestParticipant;
 import org.booklink.models.entities.ContestParticipantPK;
+import org.booklink.models.entities.User;
 import org.booklink.models.response.ContestUserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,13 @@ public interface ContestParticipantRepository extends PagingAndSortingRepository
 
     @Query("SELECT COUNT(*) FROM ContestParticipant c WHERE c.pk.participant.username = ?1 AND c.accepted = false AND c.pk.contest.closed = false AND c.pk.contest.started = false")
     Long getNotAcceptedContestsByUser(final String userId);
+
+    @Query("SELECT c.pk.participant FROM ContestParticipant c WHERE c.pk.contest.id = ?2 AND c.pk.participant.username = ?1")
+    User getParticipantById(final String userId, final Long contestId);
+
+    @Modifying
+    @Query("UPDATE ContestParticipant p SET p.accepted = true WHERE p.pk.participant.username = ?1 AND p.pk.contest.id = ?2")
+    void joinInContest(final String userId, final Long contestId);
 
     @Modifying
     @Query("DELETE FROM ContestParticipant c WHERE c.pk.contest.id = ?1")

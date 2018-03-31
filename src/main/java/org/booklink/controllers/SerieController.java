@@ -24,6 +24,7 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
  * Created by mhenr on 15.11.2017.
  */
 @RestController
+@CrossOrigin
 public class SerieController {
     private SerieService serieService;
     private SessionService sessionService;
@@ -36,14 +37,12 @@ public class SerieController {
         this.environment = environment;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "series/{userId:.+}", method = RequestMethod.GET)
     public Page<BookSerieResponse> getBookSeries(@PathVariable String userId, Pageable pageable) {
         return serieService.getBookSeries(userId, pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "series", method = RequestMethod.POST)
     public ResponseEntity<?> saveSerie(@RequestBody SerieRequest serie) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -54,7 +53,6 @@ public class SerieController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "series/{serieId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteSerie(@PathVariable Long serieId) {
         final String key = environment.getProperty("jwt.signing-key");

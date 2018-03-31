@@ -19,6 +19,7 @@ import javax.mail.MessagingException;
  * Created by mhenr on 02.10.2017.
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/")
 public class AuthenticationController {
     private AuthenticationService authenticationService;
@@ -28,35 +29,30 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "auth", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Response<String>> auth(@RequestBody final Credentials credentials) {
         final String token = authenticationService.auth(credentials);
         return Response.createResponseEntity(0, token, null, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "register", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Response<String>> register(@RequestBody final Credentials credentials) throws MessagingException {
         authenticationService.register(credentials);
         return Response.createResponseEntity(0, "OK", null, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "activate", method = RequestMethod.GET)
     public ResponseEntity<Response<String>> activate(@RequestParam("activationToken") final String activationToken) {
         authenticationService.activate(activationToken);
         return Response.createResponseEntity(0, "User activation was completed! Please log-in.", null, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "reminder/confirm", method = RequestMethod.GET)
     public ResponseEntity<?> confirmPasswordChanging(final String email) throws MessagingException {
         authenticationService.passwordChangeConfirmation(email);
         return Response.createResponseEntity(0, "We sent further instructions on your email. Please, check them", null, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "reminder/password", method = RequestMethod.GET)
     public ResponseEntity<?> setDefaultPassword(final String token, final String email) throws MessagingException{
         return Response.createResponseEntity(0, "Your current password was sent to the specified email", null, HttpStatus.OK);

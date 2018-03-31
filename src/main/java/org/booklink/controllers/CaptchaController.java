@@ -12,6 +12,7 @@ import java.io.IOException;
  * Created by mhenr on 09.01.2018.
  */
 @RestController
+@CrossOrigin
 public class CaptchaController {
     private CaptchaService captchaService;
 
@@ -20,7 +21,6 @@ public class CaptchaController {
         this.captchaService = captchaService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "captcha", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<?> getCaptcha() throws IOException {
         final HttpHeaders headers = new HttpHeaders();

@@ -33,6 +33,7 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
  * Created by mhenr on 02.10.2017.
  */
 @RestController
+@CrossOrigin
 public class BookController {
     private BookService bookService;
     private SessionService sessionService;
@@ -45,39 +46,33 @@ public class BookController {
         this.environment = environment;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books", method = RequestMethod.GET)
     public Page<BookResponse> getBooks(final String genre, final String language, final Pageable pageable) {
         return bookService.getBooks(genre, language, pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books/name/{bookName}", method = RequestMethod.GET)
     public Page<BookResponse> getBooksByName(@PathVariable final String bookName, final String genre, final String language, final Pageable pageable) {
         return bookService.getBooksByName(bookName, genre, language, pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "count/books", method = RequestMethod.GET)
     public ResponseEntity<?> getBooksCount() {
         final long count = bookService.getBooksCount();
         return Response.createResponseEntity(0, count, null, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> getBook(@PathVariable Long bookId, final Integer page, final Integer size) {
         BookWithTextResponse book = bookService.getBook(bookId, page, size);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books/author/{authorId}", method = RequestMethod.GET)
     public Page<BookResponse> getBooksByAuthor(@PathVariable final String authorId, final Pageable pageable) {
         return bookService.getBooksByAuthor(authorId, pageable);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "books/cost/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> getBookCost(@PathVariable final Long bookId) {
         final BookCostResponse response = bookService.getBookCost(bookId);
@@ -85,7 +80,6 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "books/pdf/{bookId}", method = RequestMethod.GET)
     public HttpEntity<byte[]> getBookAsPdf(@PathVariable final Long bookId) throws IOException, DocumentException {
         final byte[] pdf = bookService.getBookAsPdf(bookId);
@@ -96,7 +90,6 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "books", method = RequestMethod.POST)
     public ResponseEntity<?> saveBook(@RequestBody final BookRequest book) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -107,7 +100,6 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "cover", method = RequestMethod.POST)
     public ResponseEntity<?> saveCover(final CoverRequest coverRequest) throws IOException {
         final String key = environment.getProperty("jwt.signing-key");
@@ -118,7 +110,6 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "cover/restore/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> restoreDefaultCover(@PathVariable final Long bookId) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -129,7 +120,6 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "text", method = RequestMethod.POST)
     public ResponseEntity<?> saveBookText(final BookTextRequest bookTextRequest) throws IOException {
         final String key = environment.getProperty("jwt.signing-key");
@@ -140,7 +130,6 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -150,7 +139,6 @@ public class BookController {
         return Response.createResponseEntity(0, "Book was deleted successfully", token, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "genres", method = RequestMethod.GET)
     public List<String> getGenres() {
         return Stream.of(Genre.values())
@@ -159,7 +147,6 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "books/paid/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> isUserHasBook(@PathVariable final Long bookId) {
         final String key = environment.getProperty("jwt.signing-key");

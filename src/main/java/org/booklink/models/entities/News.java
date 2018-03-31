@@ -22,11 +22,14 @@ public class News {
                             6 - serie was updated
                             7 - serie was deleted
                             8 - friend was added
+                            9 - friend was removed
+                            10 - contest was created
                         */
     private User author;
     private Book book;
     private LocalDateTime created;
     private User subscription;
+    private Contest contest;
 
     @GenericGenerator(
             name = "news_generator",
@@ -93,5 +96,15 @@ public class News {
 
     public void setSubscription(User subscription) {
         this.subscription = subscription;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contest_id")
+    public Contest getContest() {
+        return contest;
+    }
+
+    public void setContest(Contest contest) {
+        this.contest = contest;
     }
 }

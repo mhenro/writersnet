@@ -173,6 +173,7 @@ class ContestEditForm extends React.Component {
                     <div className="form-group">
                         <UserList listName="Participants"
                                   contestId={this.props.contestId}
+                                  me={this.isMe()}
                                   onAddNewMember={() => this.onSelectBooks()}
                                   onGetUsers={(page, callback) => this.props.onGetParticipants(this.props.contestId, page, callback)}
                                   onRemoveUser={(participantId, callback) => this.props.onRemoveParticipantFromContest(this.props.contestId, participantId, this.props.token, callback)}/>
@@ -180,6 +181,7 @@ class ContestEditForm extends React.Component {
                     <div className="form-group">
                         <UserList listName="Judges"
                                   contestId={this.props.contestId}
+                                  me={this.isMe()}
                                   onAddNewMember={() => this.onSelectJudges()}
                                   onGetUsers={(page, callback) => this.props.onGetJudges(this.props.contestId, page, callback)}
                                   onRemoveUser={(judgeId, callback) => this.props.onRemoveJudgeFromContest(this.props.contestId, judgeId, this.props.token, callback)}/>
@@ -282,6 +284,10 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveContest: (contestRequest, token, onSave, onClose) => {
+            if (contestRequest.firstPlaceRevenue + contestRequest.secondPlaceRevenue + contestRequest.thirdPlaceRevenue !== 100) {
+                dispatch(createNotify('warning', 'Warning', 'Total sum of the revenue for 3 places should be equal to 100 percents'));
+                return;
+            }
             return saveContest(contestRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     onSave();

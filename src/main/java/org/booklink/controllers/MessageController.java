@@ -27,6 +27,7 @@ import static org.booklink.utils.SecurityHelper.generateActivationToken;
  * Created by mhenr on 07.12.2017.
  */
 @RestController
+@CrossOrigin
 public class MessageController {
     private MessageService messageService;
     private SessionService sessionService;
@@ -40,14 +41,12 @@ public class MessageController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "{userId:.+}/messages/{groupId}", method = RequestMethod.GET)
     public Page<MessageResponse> getMessagesByGroup(@PathVariable final String userId, @PathVariable final Long groupId, final Pageable pageable) {
         return messageService.getMessagesByGroup(userId, groupId, pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "messages/add", method = RequestMethod.POST)
     public ResponseEntity<?> addMessageToGroup(@RequestBody final MessageRequest message) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -58,7 +57,6 @@ public class MessageController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "groups/get", method = RequestMethod.POST)
     public ResponseEntity<?> getGroupIdFromRecipient(@RequestBody final MessageRequest messageRequest) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -69,7 +67,6 @@ public class MessageController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "groups/{groupId}/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> getGroupName(@PathVariable final Long groupId, @PathVariable final String userId) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -79,7 +76,6 @@ public class MessageController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesFromUser(@PathVariable final String userId) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -89,7 +85,6 @@ public class MessageController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "groups/{groupId}/{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesInGroup(@PathVariable final Long groupId, @PathVariable final String userId) {
         final String key = environment.getProperty("jwt.signing-key");
@@ -99,7 +94,6 @@ public class MessageController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "groups/messages/read", method = RequestMethod.POST)
     public ResponseEntity<?> markAllAsReadInGroup(@RequestBody final ReadMessageRequest readMessageRequest) {
         final String key = environment.getProperty("jwt.signing-key");

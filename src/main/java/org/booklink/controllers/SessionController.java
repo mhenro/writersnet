@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by mhenr on 20.12.2017.
  */
 @RestController
+@CrossOrigin
 public class SessionController {
     private SessionService sessionService;
 
@@ -19,13 +20,11 @@ public class SessionController {
         this.sessionService = sessionService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "count/sessions", method = RequestMethod.GET)
     public ResponseEntity<?> getSessionCount() {
         return Response.createResponseEntity(0, sessionService.getOnlineUsers(), null, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(value = "sessions/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> isUserOnline(@PathVariable final String userId) {
         return Response.createResponseEntity(0, sessionService.isUserOnline(userId), null, HttpStatus.OK);

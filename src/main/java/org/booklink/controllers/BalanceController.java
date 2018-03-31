@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by mhenr on 26.01.2018.
  */
 @RestController
+@CrossOrigin
 public class BalanceController {
     private BalanceService balanceService;
 
@@ -29,7 +30,6 @@ public class BalanceController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "balance", method = RequestMethod.GET)
     public ResponseEntity<?> getUserBalance() {
         final BalanceResponse balance = balanceService.getUserBalance();
@@ -37,14 +37,12 @@ public class BalanceController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "balance/history", method = RequestMethod.GET)
     public Page<BalanceResponse> getUserPaymentHistory(final Pageable pageable) {
         return balanceService.getUserPaymentHistory(pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @CrossOrigin
     @RequestMapping(value = "buy", method = RequestMethod.POST)
     public ResponseEntity<?> buy(@RequestBody final BuyRequest buyRequest) {
         balanceService.processOperation(buyRequest);

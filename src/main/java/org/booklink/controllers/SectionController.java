@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by mhenr on 20.10.2017.
  */
 @RestController
+@CrossOrigin
 public class SectionController {
     private SectionService sectionService;
 
@@ -28,7 +29,6 @@ public class SectionController {
         this.sectionService = sectionService;
     }
 
-    @CrossOrigin
     @RequestMapping(value = "sections/{sectionId:.+}", method = RequestMethod.GET)
     public ResponseEntity<?> getSection(@PathVariable final Long sectionId) {
         SectionResponse section = sectionService.getSection(sectionId);

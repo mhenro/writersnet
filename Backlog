@@ -3,9 +3,12 @@ IN PROGRESS - 98. Add competitions page. On this page users can add new competit
 IN PROGRESS - 117. Add "Create/Edit contest" popup form. It should appear when user click on "Create new contest" button on Contests page.
 118. Add "My contests" button in the user left menu. After clicking on this button the tabpanel should appear. It should contain 2 tabs: "As participant" and "As judge".
 119. Add "Contest" page where creator can send invitations to participants (by adding their books) and to judges. Each participant and judge will see notification against his "My contests" button.
+120. Add new events when work with contests (join in contest, remove from contest, win in contest and so forth).
 
 
 Features:
+121. Add links for names in chat page.
+122. Scroll screen to input comment field when clicking on Quote message button.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 21. Link webmoney merchant interface to BalancePage.

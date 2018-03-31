@@ -1,6 +1,7 @@
 package org.booklink.services;
 
 import org.booklink.models.entities.Book;
+import org.booklink.models.entities.Contest;
 import org.booklink.models.entities.News;
 import org.booklink.models.entities.User;
 import org.booklink.models.response.NewsResponse;
@@ -35,7 +36,12 @@ public class NewsService {
         SERIE_UPDATED(6),
         SERIE_DELETED(7),
         FRIEND_ADDED(8),
-        FRIEND_REMOVED(9);
+        FRIEND_REMOVED(9),
+        CONTEST_CREATED(10),
+        JOIN_IN_CONTEST_AS_JUDGE(11),
+        JOIN_IN_CONTEST_AS_PARTICIPANT(12),
+        WON_IN_CONTEST(13);
+
         private final long type;
 
         NEWS_TYPE(final long type) {
@@ -69,6 +75,16 @@ public class NewsService {
         news.setType(type.getType());
         news.setAuthor(author);
         news.setSubscription(subscription);
+        news.setCreated(LocalDateTime.now());
+        newsRepository.save(news);
+    }
+
+    @Transactional
+    public void createNews(final NEWS_TYPE type, final User author, final Contest contest) {
+        final News news = new News();
+        news.setType(type.getType());
+        news.setAuthor(author);
+        news.setContest(contest);
         news.setCreated(LocalDateTime.now());
         newsRepository.save(news);
     }
