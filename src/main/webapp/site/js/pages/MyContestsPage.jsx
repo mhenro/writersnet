@@ -7,7 +7,8 @@ import {
     getParticipantContests,
     getJudgeContests,
     getCreatorContests,
-    showContestEditForm
+    showContestEditForm,
+    joinInContest
 } from '../actions/ContestActions.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
 
@@ -45,9 +46,9 @@ class MyContestsPage extends React.Component {
 
     getContests(activeTab = this.state.activeTab, page = this.state.currentPage) {
         switch(activeTab) {
-            case 'participants': this.props.onGetParticipantContests(this.props.login, page - 1, contests => this.updateContests(contests, 'contestsAsParticipant', 'asParticipant')); break;
-            case 'judges': this.props.onGetJudgeContests(this.props.login, page - 1, contests => this.updateContests(contests, 'contestsAsJudge', 'asJudge')); break;
-            case 'creators': this.props.onGetCreatorContests(this.props.login, page - 1, contests => this.updateContests(contests, 'contestsAsCreator', 'asCreator')); break;
+            case 'participants': this.props.onGetParticipantContests(this.props.login, page, contests => this.updateContests(contests, 'contestsAsParticipant', 'asParticipant')); break;
+            case 'judges': this.props.onGetJudgeContests(this.props.login, page, contests => this.updateContests(contests, 'contestsAsJudge', 'asJudge')); break;
+            case 'creators': this.props.onGetCreatorContests(this.props.login, page, contests => this.updateContests(contests, 'contestsAsCreator', 'asCreator')); break;
         }
     }
 
@@ -93,6 +94,10 @@ class MyContestsPage extends React.Component {
         this.setState({
             searchPattern: event.target.value
         });
+    }
+
+    onJoin(contestId) {
+        this.props.onJoinInContest(contestId, this.props.token, () => this.componentDidMount());
     }
 
     getTabCaption(tabName) {
@@ -154,19 +159,10 @@ class MyContestsPage extends React.Component {
                     <br/>
                 </div>
                 <div className="col-sm-12">
-                    <ContestList contests={this.getItems()} onShowContestEditForm={id => this.onShowEditForm(id)}/>
-                    {/*<FriendList friends={this.getItems()}
-                                sendMsgButton={this.getSendMsgButtonVisibility()}
-                                addFriendButton={this.getAddFriendButtonVisibility()}
-                                readNewsButton={this.getReadNewsButtonVisibility()}
-                                removeFriendButton={this.getRemoveFriendButtonVisibility()}
-                                onAddToFriends={friend => this.onAddToFriends(friend)}
-                                onRemoveSubscription={friend => this.onRemoveFriend(friend)}
-                                login={this.props.login}
-                                token={this.props.token}
-                                onGetGroupId={this.props.onGetGroupIdByRecipient}
-                                language={this.props.language}/>
-                    <br/>*/}
+                    {/*onShowContestEditForm={id => this.onShowEditForm(id)}*/}
+                    <ContestList contests={this.getItems()}
+                                 onJoin={contestId => this.onJoin(contestId)}
+                    />
                 </div>
 
                 {/* Contest popup form */}
@@ -216,6 +212,20 @@ const mapDispatchToProps = (dispatch) => {
             return getCreatorContests(userId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onJoinInContest: (contestId, token, callback) => {
+            return joinInContest(contestId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback();
+                    dispatch(createNotify('success', 'Success', 'You joined this contest'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

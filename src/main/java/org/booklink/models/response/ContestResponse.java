@@ -17,13 +17,14 @@ public class ContestResponse {
     private LocalDateTime created;
     private Boolean started;
     private Boolean closed;
+    private Boolean accepted;
     private Integer participantCount;
     private Integer judgeCount;
 
     public ContestResponse(final Long id, final String name, final String creatorId, final String creatorFirstName, final String creatorLastName,
                            final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
                            final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started,
-                           final Boolean closed, final Integer participantCount, final Integer judgeCount) {
+                           final Boolean closed, final Boolean accepted, final Integer participantCount, final Integer judgeCount) {
         this.id = id;
         this.name = name;
         this.creatorId = creatorId;
@@ -35,6 +36,7 @@ public class ContestResponse {
         this.created = created;
         this.started = started;
         this.closed = closed;
+        this.accepted = accepted;
         this.judgeCount = judgeCount;
         this.participantCount = participantCount;
     }
@@ -125,6 +127,14 @@ public class ContestResponse {
 
     public void setClosed(Boolean closed) {
         this.closed = closed;
+    }
+
+    public Boolean getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
     }
 
     public Integer getParticipantCount() {

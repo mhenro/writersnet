@@ -7,6 +7,7 @@ import { formatDate } from '../../utils.jsx';
     props:
     - contests - array
     - onShowContestEditForm - callback
+    - onJoin - callback
  */
 class ContestList extends React.Component {
     getCreatorName(contest) {
@@ -47,7 +48,18 @@ class ContestList extends React.Component {
     }
 
     onRowClick(id) {
-        this.props.onShowContestEditForm(id);
+        if (typeof this.props.onShowContestEditForm === 'function') {
+            this.props.onShowContestEditForm(id);
+        }
+    }
+
+    renderJoinButton(contest) {
+        if (this.props.onJoin && !contest.accepted && !contest.closed) {
+            return (
+                <button className="btn btn-success" onClick={() => this.props.onJoin(contest.id)}>Join</button>
+            );
+        }
+        return null;
     }
 
     renderTableBody() {
@@ -60,6 +72,7 @@ class ContestList extends React.Component {
                     <td>{this.getTotalUsers(contest)}</td>
                     <td>{this.getDate(contest)}</td>
                     <td>{this.getStatus(contest)}</td>
+                    <td>{this.renderJoinButton(contest)}</td>
                 </tr>
             )
         });
@@ -76,6 +89,7 @@ class ContestList extends React.Component {
                         <td>Number of participants</td>
                         <td>Created</td>
                         <td>Status</td>
+                        {this.props.onJoin ? <td>Action</td> : null}
                     </tr>
                 </thead>
                 <tbody>

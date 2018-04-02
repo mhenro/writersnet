@@ -9,6 +9,7 @@ IN PROGRESS - 117. Add "Create/Edit contest" popup form. It should appear when u
 Features:
 121. Add links for names in chat page.
 122. Scroll screen to input comment field when clicking on Quote message button.
+123. Replace chat internal realization with RabbitMQ realization.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 21. Link webmoney merchant interface to BalancePage.
