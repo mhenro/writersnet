@@ -217,7 +217,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetUserBalance: (token, callback) => {
-            return getUserBalance(token).then(([response, json]) => {
+            getUserBalance(token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setUserBalance(json.message.balance));
                     callback();
@@ -231,7 +231,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetGiftDetails: (giftId, callback) => {
-            return getGiftDetails(giftId).then(([response, json]) => {
+            getGiftDetails(giftId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -244,7 +244,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onBuy: (buyRequest, token, callback) => {
-            return buy(buyRequest, token).then(([response, json]) => {
+            buy(buyRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'The operation was completed successfully'));
                     callback();
@@ -258,7 +258,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
                 }
@@ -274,7 +274,7 @@ const mapDispatchToProps = (dispatch) => {
             if (!userId) {
                 return;
             }
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -287,7 +287,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetUserDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setUserDetails(json));
                 }
@@ -300,7 +300,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetBookCost: (bookId, callback) => {
-            return getBookCost(bookId).then(([response, json]) => {
+            getBookCost(bookId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }

@@ -110,7 +110,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSendActivationToken: (activationToken) => {
-            return sendActivationToken(activationToken).then(([response, json]) => {
+            sendActivationToken(activationToken).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('info', 'Info', 'User activation was completed! Please log-in.'));
                 } else if (response.status === 403) {
@@ -124,7 +124,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSetDefaultPassword: (token, email) => {
-            return setDefaultPassword(token, email).then(([response, json]) => {
+            setDefaultPassword(token, email).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('info', 'Info', 'Temporary password was generated and was sent to your email. Please, check it.'));
                 } else {
@@ -144,7 +144,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetUnreadMessages: (userId, token, callback) => {
-            return getUnreadMessagesFromUser(userId, token).then(([response, json]) => {
+            getUnreadMessagesFromUser(userId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setToken(json.token));
                     callback(json.message);
@@ -165,7 +165,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetNewFriendsCount: (userId, token) => {
-            return getNewFriendsCount(userId, token).then(([response, json]) => {
+            getNewFriendsCount(userId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setNewFriends(json.message));
                 }
@@ -178,7 +178,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetNotAcceptedContestCount: (userId) => {
-            return getNotAcceptedCountestCount(userId).then(([response, json]) => {
+            getNotAcceptedCountestCount(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setNotAcceptedContests(json.message));
                 }
@@ -195,7 +195,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setUserDetails(json));
                 }
@@ -208,7 +208,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetUserBalance: (token) => {
-            return getUserBalance(token).then(([response, json]) => {
+            getUserBalance(token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setUserBalance(json.message.balance));
                 }

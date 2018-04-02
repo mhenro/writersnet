@@ -280,7 +280,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetContestDetails: (id, callback) => {
-            return getContest(id).then(([response, json]) => {
+            getContest(id).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -297,7 +297,7 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(createNotify('warning', 'Warning', 'Total sum of the revenue for 3 places should be equal to 100 percents'));
                 return;
             }
-            return saveContest(contestRequest, token).then(([response, json]) => {
+            saveContest(contestRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     onSave();
                     onClose();
@@ -312,7 +312,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onAddJudges: (addJudgeRequest, token, callback) => {
-            return addJudgesToContest(addJudgeRequest, token).then(([response, json]) => {
+            addJudgesToContest(addJudgeRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'Mailings for judges were successfully sent out'));
@@ -326,7 +326,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetJudgesId: (contestId, callback) => {
-            return getJudgesIdFromContest(contestId).then(([response, json]) => {
+            getJudgesIdFromContest(contestId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -339,7 +339,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onRemoveJudgeFromContest: (contestId, judgeId, token, callback) => {
-            return removeJudgeFromContest(contestId, judgeId, token).then(([response, json]) => {
+            removeJudgeFromContest(contestId, judgeId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                     dispatch(createNotify('success', 'Success', 'Judge was removed successfully from contest'));
@@ -353,7 +353,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetJudges: (contestId, page, callback) => {
-            return getJudgesFromContest(contestId, page - 1).then(([response, json]) => {
+            getJudgesFromContest(contestId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -366,7 +366,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onAddParticipants: (addJudgeRequest, token, callback) => {
-            return addParticipantsToContest(addJudgeRequest, token).then(([response, json]) => {
+            addParticipantsToContest(addJudgeRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'Mailings for participants were successfully sent out'));
@@ -380,7 +380,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetParticipantsId: (contestId, callback) => {
-            return getParticipantsIdFromContest(contestId).then(([response, json]) => {
+            getParticipantsIdFromContest(contestId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -393,7 +393,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onRemoveParticipantFromContest: (contestId, participantId, token, callback) => {
-            return removeParticipantFromContest(contestId, participantId, token).then(([response, json]) => {
+            removeParticipantFromContest(contestId, participantId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                     dispatch(createNotify('success', 'Success', 'Participant was removed successfully from contest'));
@@ -407,7 +407,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetParticipants: (contestId, page, callback) => {
-            return getParticipantsFromContest(contestId, page - 1).then(([response, json]) => {
+            getParticipantsFromContest(contestId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -420,7 +420,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         isContestReadyToStart: (contestId, callback) => {
-            return isContestReadyForStart(contestId).then(([response, json]) => {
+            isContestReadyForStart(contestId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -433,7 +433,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         startContest: (contestId, callback) => {
-            return startContest(contestId).then(([response, json]) => {
+            startContest(contestId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();

@@ -187,7 +187,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAllComments: (page, callback) => {
-            return getAllComments(page - 1).then(([response, json]) => {
+            getAllComments(page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

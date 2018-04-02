@@ -141,7 +141,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAuthorGifts: (userId, page, callback) => {
-            return getAuthorGifts(userId, page - 1).then(([response, json]) => {
+            getAuthorGifts(userId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

@@ -222,56 +222,56 @@ const mapDispatchToProps = (dispatch) => {
     return {
         /* author tops */
         onGetTopAuthorsByRating: (page, callback) => {
-            return getTopAuthorsByRating(page - 1).then(([response, json]) => {
+            getTopAuthorsByRating(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         },
 
         onGetTopAuthorsByBookCount: (page, callback) => {
-            return getTopAuthorsByBookCount(page - 1).then(([response, json]) => {
+            getTopAuthorsByBookCount(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         },
 
         onGetTopAuthorsByComments: (page, callback) => {
-            return getTopAuthorsByComments(page - 1).then(([response, json]) => {
+            getTopAuthorsByComments(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         },
 
         onGetTopAuthorsByViews: (page, callback) => {
-            return getTopAuthorsByViews(page - 1).then(([response, json]) => {
+            getTopAuthorsByViews(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         },
 
         /* book tops */
         onGetTopBooksByNovelty: (page, callback) => {
-            return getTopBooksByNovelty(page - 1).then(([response, json]) => {
+            getTopBooksByNovelty(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         },
 
         onGetTopBooksByRating: (page, callback) => {
-            return getTopBooksByRating(page - 1).then(([response, json]) => {
+            getTopBooksByRating(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         },
 
         onGetTopBooksByVolume: (page, callback) => {
-            return getTopBooksByVolume(page - 1).then(([response, json]) => {
+            getTopBooksByVolume(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         },
 
         onGetTopBooksByComments: (page, callback) => {
-            return getTopBooksByComments(page - 1).then(([response, json]) => {
+            getTopBooksByComments(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         },
 
         onGetTopBooksByViews: (page, callback) => {
-            return getTopBooksByViews(page - 1).then(([response, json]) => {
+            getTopBooksByViews(page - 1).then(([response, json]) => {
                 processHelper(response, json, callback);
             }).catch(errorHelper);
         }

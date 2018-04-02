@@ -77,7 +77,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetNews: (token, page, callback) => {
-            return getNews(token, page - 1).then(([response, json]) => {
+            getNews(token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

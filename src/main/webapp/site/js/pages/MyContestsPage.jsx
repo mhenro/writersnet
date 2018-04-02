@@ -189,7 +189,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetParticipantContests: (userId, page, callback) => {
-            return getParticipantContests(userId, page - 1).then(([response, json]) => {
+            getParticipantContests(userId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -202,7 +202,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetJudgeContests: (userId, page, callback) => {
-            return getJudgeContests(userId, page - 1).then(([response, json]) => {
+            getJudgeContests(userId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -215,7 +215,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetCreatorContests: (userId, page, callback) => {
-            return getCreatorContests(userId, page - 1).then(([response, json]) => {
+            getCreatorContests(userId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -228,7 +228,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onJoinInContest: (contestId, token, callback) => {
-            return joinInContest(contestId, token).then(([response, json]) => {
+            joinInContest(contestId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'You joined this contest'));
@@ -242,7 +242,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onRefuseContest: (contestId, token, callback) => {
-            return refuseContest(contestId, token).then(([response, json]) => {
+            refuseContest(contestId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'You refused this contest'));

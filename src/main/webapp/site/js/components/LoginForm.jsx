@@ -182,7 +182,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSendLogin: (username, password, self, callback) => {
-            return sendLogin(username, password).then(([response, json]) => {
+            sendLogin(username, password).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setToken(json.message));
                     sessionStorage.setItem('username', username);
@@ -203,7 +203,7 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(createNotify('warning', 'Warning', 'Password and its confirmation are not equal. Please check your password.'));
                 return;
             }
-            return sendRegister(email, username, password).then(([response, json]) => {
+            sendRegister(email, username, password).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('info', 'Info', 'Registration was almost completed! Check your email for further instructions.'));
                     dispatch(setPassword(''));
@@ -221,7 +221,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setUserDetails(json));
                 }

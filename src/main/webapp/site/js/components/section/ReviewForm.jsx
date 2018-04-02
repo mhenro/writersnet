@@ -158,7 +158,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveReview: (review, token, exitCallback) => {
-            return saveReview(review, token).then(([response, json]) => {
+            saveReview(review, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Review was saved successfully'));
                     exitCallback();

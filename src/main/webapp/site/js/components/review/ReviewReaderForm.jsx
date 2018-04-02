@@ -141,7 +141,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetReviewDetails: (reviewId, callback) => {
-            return getReviewDetails(reviewId).then(([response, json]) => {
+            getReviewDetails(reviewId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -154,7 +154,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onLikeReview: (reviewId, callback) => {
-            return likeReview(reviewId).then(([response, json]) => {
+            likeReview(reviewId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -167,7 +167,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onDislikeReview: (reviewId, callback) => {
-            return dislikeReview(reviewId).then(([response, json]) => {
+            dislikeReview(reviewId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }

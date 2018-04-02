@@ -330,7 +330,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSendFeedback: (feedbackRequest, callback) => {
-            return sendFeedback(feedbackRequest).then(([response, json]) => {
+            sendFeedback(feedbackRequest).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Your message was sent successfully'));
                     callback();

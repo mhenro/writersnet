@@ -262,7 +262,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
                 }
@@ -275,7 +275,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetUserDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setUserDetails(json));
                 }
@@ -300,7 +300,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onDeleteBook: (bookId, token, callback) => {
-            return deleteBook(bookId, token).then(([response, json]) => {
+            deleteBook(bookId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Book was deleted successfully'));
                     callback();
@@ -322,7 +322,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onCheckFriendshipWith: (userId, token, callback) => {
-            return checkFriendshipWith(userId, token).then(([response, json]) => {
+            checkFriendshipWith(userId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -345,7 +345,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSubcribeOn: (authorName, token, callback) => {
-            return subscribeOn(authorName, token).then(([response, json]) => {
+            subscribeOn(authorName, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
@@ -363,7 +363,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetSeries: (userId, callback) => {
-            return getSeries(userId).then(([response, json]) => {
+            getSeries(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.content);
                 }
@@ -376,7 +376,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetBooks: (authorId, callback) => {
-            return getBooksByAuthor(authorId).then(([response, json]) => {
+            getBooksByAuthor(authorId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.content);
                 }

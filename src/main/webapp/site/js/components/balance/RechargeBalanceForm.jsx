@@ -95,7 +95,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onBuy: (buyRequest, token, callback) => {
-            return buy(buyRequest, token).then(([response, json]) => {
+            buy(buyRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'The operation was completed successfully'));
                     callback();

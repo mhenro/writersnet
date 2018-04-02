@@ -159,7 +159,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAuthors: (name, page, size, sortType, totalPagesCallback) => {
-            return getAuthors(name, page - 1, size, sortType).then(([response, json]) => {
+            getAuthors(name, page - 1, size, sortType).then(([response, json]) => {
                 if (response.status === 200) {
                     let authors = json.content;
                     dispatch(setAuthors(authors));

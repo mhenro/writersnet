@@ -154,7 +154,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAuthorsCount: (callback) => {
-            return getAuthorsCount().then(([response, json]) => {
+            getAuthorsCount().then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -167,7 +167,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetBooksCount: (callback) => {
-            return getBooksCount().then(([response, json]) => {
+            getBooksCount().then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }
@@ -180,7 +180,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetSessionsCount: (callback) => {
-            return getSessionsCount().then(([response, json]) => {
+            getSessionsCount().then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }

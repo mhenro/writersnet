@@ -140,7 +140,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAuthorDetails: (userId) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
                 }
@@ -153,7 +153,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetAuthorChatGroups: (userId, token, page, callback) => {
-            return getAuthorChatGroups(userId, token, page - 1).then(([response, json]) => {
+            getAuthorChatGroups(userId, token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

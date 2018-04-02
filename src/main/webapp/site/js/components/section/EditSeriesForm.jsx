@@ -242,7 +242,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetSeries: (userId, callback) => {
-            return getSeries(userId).then(([response, json]) => {
+            getSeries(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.content);
                 }
@@ -255,7 +255,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveSerie: (bookSerie, token, callback) => {
-            return saveSerie(bookSerie, token).then(([response, json]) => {
+            saveSerie(bookSerie, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Serie was added successfully'));
                     callback();
@@ -272,7 +272,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onDeleteSerie: (id, token, callback) => {
-            return deleteSerie(id, token).then(([response, json]) => {
+            deleteSerie(id, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Serie was deleted successfully'));
                     callback();

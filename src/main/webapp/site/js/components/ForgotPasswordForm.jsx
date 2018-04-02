@@ -72,7 +72,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onConfirmPasswordChanging: (email, callback) => {
-            return confirmPasswordChanging(email).then(([response, json]) => {
+            confirmPasswordChanging(email).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();

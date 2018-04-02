@@ -190,7 +190,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetBooks: (name, genre, language, page, size, sort, callback) => {
-            return getBooks(name, genre, language, page, size, sort).then(([response, json]) => {
+            getBooks(name, genre, language, page, size, sort).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBooks(json.content));
                     callback(json);
@@ -204,7 +204,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetGenres: (callback) => {
-            return getGenres().then(([response, json]) => {
+            getGenres().then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

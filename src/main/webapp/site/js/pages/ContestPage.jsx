@@ -113,7 +113,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAllContests: (page, callback) => {
-            return getAllContests(page - 1).then(([response, json]) => {
+            getAllContests(page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

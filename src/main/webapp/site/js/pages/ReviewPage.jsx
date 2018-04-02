@@ -137,7 +137,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetBooks: (name, page) => {
-            return getBooks(name, page - 1).then(([response, json]) => {
+            getBooks(name, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     let options = [{value: -1, label: 'ALL'}],
                         books = json.content;
@@ -158,7 +158,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetReviews: (bookId, page, callback) => {
-            return getReviews(bookId, page - 1).then(([response, json]) => {
+            getReviews(bookId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

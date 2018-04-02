@@ -66,7 +66,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAllGifts: (callback) => {
-            return getAllGifts().then(([response, json]) => {
+            getAllGifts().then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                 }

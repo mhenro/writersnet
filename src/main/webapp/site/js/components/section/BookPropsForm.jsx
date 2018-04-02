@@ -373,7 +373,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetBookDetails: (bookId, token, callback) => {
-            return getBookDetails(bookId, token).then(([response, json]) => {
+            getBookDetails(bookId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBook(json));
                     callback();
@@ -387,7 +387,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetSeries: (userId) => {
-            return getSeries(userId).then(([response, json]) => {
+            getSeries(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setSeries(json.content));
                 }
@@ -400,7 +400,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetGenres: () => {
-            return getGenres().then(([response, json]) => {
+            getGenres().then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setGenres(json));
                 }
@@ -413,7 +413,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveCover: (cover, token, callback, bookId) => {
-            return saveCover(cover, token).then(([response, json]) => {
+            saveCover(cover, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Cover was saved successfully'));
                     callback(bookId);
@@ -430,7 +430,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onRestoreDefaultCover: (bookId, token, callback) => {
-            return restoreDefaultCover(bookId, token).then(([response, json]) => {
+            restoreDefaultCover(bookId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Cover was restored successfully'));
                     callback(bookId);
@@ -447,7 +447,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveBook: (book, token, callback) => {
-            return saveBook(book, token).then(([response, json]) => {
+            saveBook(book, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'Book was added successfully'));
@@ -464,7 +464,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveBookText: (bookTextRequest, token, callback) => {
-            return saveBookText(bookTextRequest, token).then(([response, json]) => {
+            saveBookText(bookTextRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                     dispatch(createNotify('success', 'Success', 'Book text was saved successfully'));

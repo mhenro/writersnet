@@ -161,7 +161,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetMessagesByGroup: (userId, groupId, token, page, callback) => {
-            return getMessagesByGroup(userId, groupId, token, page - 1).then(([response, json]) => {
+            getMessagesByGroup(userId, groupId, token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -177,7 +177,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onAddMessageToGroup: (userId, groupId, recipientId, text, token, callback) => {
-            return addMessageToGroup(userId, groupId, recipientId, text, token).then(([response, json]) => {
+            addMessageToGroup(userId, groupId, recipientId, text, token).then(([response, json]) => {
                 if (response.status === 200) {
                     //dispatch(createNotify('success', 'Success', 'Your message was added successfully'));
                     callback();
@@ -195,7 +195,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetGroupName: (groupId, userId, token, callback) => {
-            return getGroupName(groupId, userId, token).then(([response, json]) => {
+            getGroupName(groupId, userId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                     dispatch(setToken(json.token));
@@ -212,7 +212,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onMarkAllAsReadInGroup: (groupId, userId, token) => {
-            return markAllAsReadInGroup(groupId, userId, token).then(([response, json]) => {
+            markAllAsReadInGroup(groupId, userId, token).then(([response, json]) => {
                 if (response.status !== 200) {
                     dispatch(createNotify('danger', 'Error', json.message));
                     dispatch(setToken(json.token));

@@ -305,7 +305,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetBookAsPdf: (bookId, token) => {
-            return getBookAsPdf(bookId, token).then(([response, blob]) => {
+            getBookAsPdf(bookId, token).then(([response, blob]) => {
                 if (response.status === 200) {
                     saveAs(blob, bookId + '.pdf');
                 }
@@ -318,7 +318,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetAuthorDetails: (userId, callback) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -332,7 +332,7 @@ const mapDispatchToProps = (dispatch) => {
 
         onGetBookDetails: (bookId, token, page, callbackTotalPages) => {
             token = token === '' ? null : token;
-            return getBookDetails(bookId, token, page - 1).then(([response, json]) => {
+            getBookDetails(bookId, token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setBook(json));
                     callbackTotalPages(json.totalPages);
@@ -349,7 +349,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetBookComments: (bookId, page, callback, totalPagesCallback) => {
-            return getBookComments(bookId, page - 1).then(([response, json]) => {
+            getBookComments(bookId, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.content);
                     totalPagesCallback(json.totalPages);
@@ -362,7 +362,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveComment: (comment, callback) => {
-            return saveComment(comment).then(([response, json]) => {
+            saveComment(comment).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Your comment was added'));
                     callback();
@@ -375,7 +375,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onDeleteComment: (bookId, commentId, token, callback) => {
-            return deleteComment(bookId, commentId, token).then(([response, json]) => {
+            deleteComment(bookId, commentId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Comment was deleted'));
                     callback();
@@ -391,7 +391,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onAddStar: (bookId, starValue, callback) => {
-            return addStar(bookId, starValue).then(([response, json]) => {
+            addStar(bookId, starValue).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', "Your vote was added"));
                     callback();

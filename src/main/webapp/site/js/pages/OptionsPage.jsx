@@ -310,7 +310,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAuthorDetails: (userId, callback) => {
-            return getAuthorDetails(userId).then(([response, json]) => {
+            getAuthorDetails(userId).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setAuthor(json));
                     dispatch(setUserDetails(json));
@@ -325,7 +325,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveAuthor: (author, token, callback) => {
-            return saveAuthor(author, token).then(([response, json]) => {
+            saveAuthor(author, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Data was saved successfully'));
                     dispatch(setToken(json.token));
@@ -343,7 +343,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSaveAvatar: (avatar, token, callback) => {
-            return saveAvatar(avatar, token).then(([response, json]) => {
+            saveAvatar(avatar, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Avatar was saved successfully'));
                     callback();
@@ -370,7 +370,7 @@ const mapDispatchToProps = (dispatch) => {
                 return;
             }
 
-            return changePassword(changePasswordRequest, token).then(([response, json]) => {
+            changePassword(changePasswordRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Your password was changed successfully'));
                     dispatch(setToken(json.token));
@@ -387,7 +387,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onRestoreDefaultAvatar: (token, callback) => {
-            return restoreDefaultAvatar(token).then(([response, json]) => {
+            restoreDefaultAvatar(token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Avatar was restored successfully'));
                     callback();

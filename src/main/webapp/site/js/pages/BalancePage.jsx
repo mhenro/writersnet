@@ -162,7 +162,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetUserBalance: (token) => {
-            return getUserBalance(token).then(([response, json]) => {
+            getUserBalance(token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(setUserBalance(json.message.balance));
                 }
@@ -175,7 +175,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetUserPaymentHistory: (token, page, callback) => {
-            return getUserPaymentHistory(token, page - 1).then(([response, json]) => {
+            getUserPaymentHistory(token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

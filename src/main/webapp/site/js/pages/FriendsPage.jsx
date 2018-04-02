@@ -240,7 +240,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAllFriends: (userId, token, page, callback) => {
-            return getAllFriends(userId, token, page).then(([response, json]) => {
+            getAllFriends(userId, token, page).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -256,7 +256,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetAllSubscribers: (userId, token, page, callback) => {
-            return getAllSubscribers(userId, token, page).then(([response, json]) => {
+            getAllSubscribers(userId, token, page).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -272,7 +272,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetAllSubscriptions: (userId, token, page, callback) => {
-            return getAllSubscriptions(userId, token, page).then(([response, json]) => {
+            getAllSubscriptions(userId, token, page).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }
@@ -288,7 +288,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onSubcribeOn: (authorName, token, callback) => {
-            return subscribeOn(authorName, token).then(([response, json]) => {
+            subscribeOn(authorName, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
@@ -306,7 +306,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onRemoveSubscription: (authorName, token, callback) => {
-            return removeSubscription(authorName, token).then(([response, json]) => {
+            removeSubscription(authorName, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
@@ -324,7 +324,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onGetGroupIdByRecipient: (recipientId, userId, token, callback) => {
-            return getGroupIdByRecipient(recipientId, userId, token).then(([response, json]) => {
+            getGroupIdByRecipient(recipientId, userId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
                     dispatch(setToken(json.token));

@@ -135,7 +135,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetFriends: (userId, matcher, token, page/*, callback*/) => {
-            return getFriends(userId, matcher, token, page - 1).then(([response, json]) => {
+            getFriends(userId, matcher, token, page - 1).then(([response, json]) => {
                 if (response.status === 200) {
                     let options = [],
                         friends = json.content;
@@ -159,7 +159,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         onAddMessageToGroup: (userId, groupId, recipientId, text, token, callback) => {
-            return addMessageToGroup(userId, groupId, recipientId, text, token).then(([response, json]) => {
+            addMessageToGroup(userId, groupId, recipientId, text, token).then(([response, json]) => {
                 if (response.status === 200) {
                     if (json.code === 0) {
                         callback(json.message);
