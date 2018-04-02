@@ -24,6 +24,14 @@ public class ContestResponse {
     public ContestResponse(final Long id, final String name, final String creatorId, final String creatorFirstName, final String creatorLastName,
                            final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
                            final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started,
+                           final Boolean closed, final Integer participantCount, final Integer judgeCount) {
+        this(id, name, creatorId, creatorFirstName, creatorLastName, prizeFund, firstPlaceRevenue, secondPlaceRevenue, thirdPlaceRevenue,
+                created, started, closed, null, participantCount, judgeCount);
+    }
+
+    public ContestResponse(final Long id, final String name, final String creatorId, final String creatorFirstName, final String creatorLastName,
+                           final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
+                           final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started,
                            final Boolean closed, final Boolean accepted, final Integer participantCount, final Integer judgeCount) {
         this.id = id;
         this.name = name;

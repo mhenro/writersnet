@@ -211,6 +211,26 @@ public class ContestService {
     }
 
     @Transactional
+    public void refuseContest(final Long contestId) {
+        final Contest contest = getContest(contestId);
+        if (contest.getClosed()) {
+            throw new WrongDataException("Contest is already closed");
+        }
+        final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
+        final User participant = contestParticipantRepository.getParticipantById(authorId, contestId);
+        if (participant != null) {
+            contestParticipantRepository.refuseContest(authorId, contestId);
+            return;
+        }
+        final User judge = contestJudgeRepository.getJudgeById(authorId, contestId);
+        if (judge != null) {
+            contestJudgeRepository.refuseContest(authorId, contestId);
+            return;
+        }
+        throw new ObjectNotFoundException("User is not found");
+    }
+
+    @Transactional
     public void startContest(final Long id) {
         final Contest contest = getContest(id);
         if (!isContestReadyToStart(contest.getId())) {

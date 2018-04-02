@@ -8,6 +8,7 @@ import { formatDate } from '../../utils.jsx';
     - contests - array
     - onShowContestEditForm - callback
     - onJoin - callback
+    - onRefuse - callback
  */
 class ContestList extends React.Component {
     getCreatorName(contest) {
@@ -53,13 +54,19 @@ class ContestList extends React.Component {
         }
     }
 
-    renderJoinButton(contest) {
-        if (this.props.onJoin && !contest.accepted && !contest.closed) {
+    renderActionButton(contest) {
+        if (!this.props.onJoin || contest.closed || contest.accepted === null) {
+            return null;
+        }
+        if (!contest.accepted) {
             return (
-                <button className="btn btn-success" onClick={() => this.props.onJoin(contest.id)}>Join</button>
+                <button className="btn btn-success btn-sm" onClick={() => this.props.onJoin(contest.id)}>Join</button>
+            );
+        } else {
+            return (
+                <button className="btn btn-danger btn-sm" onClick={() => this.props.onRefuse(contest.id)}>Refuse</button>
             );
         }
-        return null;
     }
 
     renderTableBody() {
@@ -72,7 +79,7 @@ class ContestList extends React.Component {
                     <td>{this.getTotalUsers(contest)}</td>
                     <td>{this.getDate(contest)}</td>
                     <td>{this.getStatus(contest)}</td>
-                    <td>{this.renderJoinButton(contest)}</td>
+                    <td>{this.renderActionButton(contest)}</td>
                 </tr>
             )
         });

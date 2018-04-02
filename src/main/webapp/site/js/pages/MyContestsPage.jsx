@@ -8,7 +8,8 @@ import {
     getJudgeContests,
     getCreatorContests,
     showContestEditForm,
-    joinInContest
+    joinInContest,
+    refuseContest
 } from '../actions/ContestActions.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
 
@@ -100,6 +101,10 @@ class MyContestsPage extends React.Component {
         this.props.onJoinInContest(contestId, this.props.token, () => this.componentDidMount());
     }
 
+    onRefuse(contestId) {
+        this.props.onRefuseContest(contestId, this.props.token, () => this.componentDidMount());
+    }
+
     getTabCaption(tabName) {
         if (tabName === 'participants') {
             let count = this.state.asParticipant;
@@ -162,6 +167,7 @@ class MyContestsPage extends React.Component {
                     {/*onShowContestEditForm={id => this.onShowEditForm(id)}*/}
                     <ContestList contests={this.getItems()}
                                  onJoin={contestId => this.onJoin(contestId)}
+                                 onRefuse={contestId => this.onRefuse(contestId)}
                     />
                 </div>
 
@@ -226,6 +232,20 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'You joined this contest'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRefuseContest: (contestId, token, callback) => {
+            return refuseContest(contestId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback();
+                    dispatch(createNotify('success', 'Success', 'You refused this contest'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

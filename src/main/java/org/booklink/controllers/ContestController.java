@@ -141,9 +141,16 @@ public class ContestController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(value = "contests/{id}/start", method = RequestMethod.GET)
-    public ResponseEntity<?> startContest(@PathVariable final Long id) {
-        contestService.startContest(id);
+    @RequestMapping(value = "contests/{contestId}/refuse", method = RequestMethod.GET)
+    public ResponseEntity<?> refuseContest(@PathVariable final Long contestId) {
+        contestService.refuseContest(contestId);
+        return Response.createResponseEntity(0, "You successfully refused the contest", null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "contests/{contestId}/start", method = RequestMethod.GET)
+    public ResponseEntity<?> startContest(@PathVariable final Long contestId) {
+        contestService.startContest(contestId);
         return Response.createResponseEntity(0, "Contest was started successfully", null, HttpStatus.OK);
     }
 

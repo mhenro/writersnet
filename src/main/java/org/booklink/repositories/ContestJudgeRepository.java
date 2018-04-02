@@ -39,6 +39,10 @@ public interface ContestJudgeRepository extends PagingAndSortingRepository<Conte
     void joinInContest(final String userId, final Long contestId);
 
     @Modifying
+    @Query("UPDATE ContestJudge j SET j.accepted = false WHERE j.pk.judge.username = ?1 AND j.pk.contest.id = ?2")
+    void refuseContest(final String userId, final Long contestId);
+
+    @Modifying
     @Query("DELETE FROM ContestJudge c WHERE c.pk.contest.id = ?1")
     void clearJudgesInContest(final Long id);
 }

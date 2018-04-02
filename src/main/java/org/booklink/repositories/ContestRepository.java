@@ -14,7 +14,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface ContestRepository extends PagingAndSortingRepository<Contest, Long> {
     @Query("SELECT new org.booklink.models.response.ContestResponse(c.id, c.name, c.creator.username, c.creator.firstName, " +
             "c.creator.lastName, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created, " +
-            "c.started, c.closed, true, c.participantCount, c.judgeCount) FROM Contest c ORDER BY c.closed, c.created DESC")
+            "c.started, c.closed, c.participantCount, c.judgeCount) FROM Contest c ORDER BY c.closed, c.created DESC")
     Page<ContestResponse> getAllContests(final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.response.ContestResponse(c.id, c.name, c.creator.username, c.creator.firstName, " +
@@ -29,11 +29,11 @@ public interface ContestRepository extends PagingAndSortingRepository<Contest, L
 
     @Query("SELECT new org.booklink.models.response.ContestResponse(c.id, c.name, c.creator.username, c.creator.firstName, " +
             "c.creator.lastName, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created, " +
-            "c.started, c.closed, true, c.participantCount, c.judgeCount) FROM Contest c WHERE c.creator.username = ?1 ORDER BY c.closed, c.started, c.created DESC")
+            "c.started, c.closed, c.participantCount, c.judgeCount) FROM Contest c WHERE c.creator.username = ?1 ORDER BY c.closed, c.started, c.created DESC")
     Page<ContestResponse> getCreatorContests(final String creatorId, final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.response.ContestResponse(c.id, c.name, c.creator.username, c.creator.firstName, " +
             "c.creator.lastName, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created, " +
-            "c.started, c.closed, true, c.participantCount, c.judgeCount) FROM Contest c WHERE c.id = ?1")
+            "c.started, c.closed, c.participantCount, c.judgeCount) FROM Contest c WHERE c.id = ?1")
     ContestResponse getContest(final Long id);
 }

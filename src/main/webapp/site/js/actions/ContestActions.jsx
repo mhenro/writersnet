@@ -65,6 +65,10 @@ export const joinInContest = (contestId, token) => {
     return doFetch(getHost() + 'contests/' + contestId + '/join', null, token);
 };
 
+export const refuseContest = (contestId, token) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/refuse', null, token);
+};
+
 export const startContest = (contestId) => {
     return doFetch(getHost() + 'contests/' + contestId + '/start');
 };
