@@ -85,8 +85,9 @@ class BookBriefItem extends React.Component {
 
     renderPurse() {
         if (this.props.book.paid) {
+            let cost = parseFloat(this.props.book.cost / 100).toFixed(2);
             return (
-                <img src={getHost() + '../css/images/purse.png'} className="img-rounded" title="Paid book" width="24"
+                <img src={getHost() + '../css/images/purse.png'} className="img-rounded" title={'Paid book (' + cost + '$)'} width="24"
                      height="auto"/>
             )
         }
