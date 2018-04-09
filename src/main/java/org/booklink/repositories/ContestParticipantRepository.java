@@ -38,12 +38,12 @@ public interface ContestParticipantRepository extends PagingAndSortingRepository
     User getParticipantById(final String userId, final Long contestId);
 
     @Modifying
-    @Query("UPDATE ContestParticipant p SET p.accepted = true WHERE p.pk.participant.username = ?1 AND p.pk.contest.id = ?2")
-    void joinInContest(final String userId, final Long contestId);
+    @Query("UPDATE ContestParticipant p SET p.accepted = true WHERE p.pk.participant.username = ?1 AND p.pk.contest.id = ?2 AND p.pk.book.id = ?3")
+    void joinInContest(final String userId, final Long contestId, final Long bookId);
 
     @Modifying
-    @Query("UPDATE ContestParticipant p SET p.accepted = false WHERE p.pk.participant.username = ?1 AND p.pk.contest.id = ?2")
-    void refuseContest(final String userId, final Long contestId);
+    @Query("UPDATE ContestParticipant p SET p.accepted = false WHERE p.pk.participant.username = ?1 AND p.pk.contest.id = ?2 AND p.pk.book.id = ?3")
+    void refuseContest(final String userId, final Long contestId, final Long bookId);
 
     @Modifying
     @Query("DELETE FROM ContestParticipant c WHERE c.pk.contest.id = ?1")

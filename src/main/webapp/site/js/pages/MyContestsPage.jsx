@@ -8,8 +8,12 @@ import {
     getJudgeContests,
     getCreatorContests,
     showContestEditForm,
-    joinInContest,
-    refuseContest
+    joinInContestAsJudge,
+    joinInContestAsParticipant,
+    refuseContestAsJudge,
+    refuseContestAsParticipant,
+    removeParticipantFromContest,
+    removeJudgeFromContest
 } from '../actions/ContestActions.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
 
@@ -97,12 +101,28 @@ class MyContestsPage extends React.Component {
         });
     }
 
-    onJoin(contestId) {
-        this.props.onJoinInContest(contestId, this.props.token, () => this.componentDidMount());
+    onJoin(contestId, bookId) {
+        if (this.state.activeTab === 'participants') {
+            this.props.onJoinInContestAsParticipant(contestId, bookId, this.props.token, () => this.componentDidMount());
+        } else {
+            this.props.onJoinInContestAsJudge(contestId, this.props.token, () => this.componentDidMount());
+        }
     }
 
-    onRefuse(contestId) {
-        this.props.onRefuseContest(contestId, this.props.token, () => this.componentDidMount());
+    onRefuse(contestId, bookId) {
+        if (this.state.activeTab === 'participants') {
+            this.props.onRefuseContestAsParticipant(contestId, bookId, this.props.token, () => this.componentDidMount());
+        } else {
+            this.props.onRefuseContestAsJudge(contestId, this.props.token, () => this.componentDidMount());
+        }
+    }
+
+    onExit(contestId, bookId) {
+        if (this.state.activeTab === 'participants') {
+            this.props.onRemoveParticipantFromContest(contestId, bookId, this.props.token, () => this.componentDidMount());
+        } else {
+            this.props.onRemoveJudgeFromContest(contestId, this.props.login, this.props.token, () => this.componentDidMount());
+        }
     }
 
     getTabCaption(tabName) {
@@ -166,8 +186,10 @@ class MyContestsPage extends React.Component {
                 <div className="col-sm-12">
                     {/*onShowContestEditForm={id => this.onShowEditForm(id)}*/}
                     <ContestList contests={this.getItems()}
-                                 onJoin={contestId => this.onJoin(contestId)}
-                                 onRefuse={contestId => this.onRefuse(contestId)}
+                                 login={this.props.login}
+                                 onJoin={(contestId, bookId) => this.onJoin(contestId, bookId)}
+                                 onRefuse={(contestId, bookId) => this.onRefuse(contestId, bookId)}
+                                 onExit={(contestId, bookId) => this.onExit(contestId, bookId)}
                     />
                 </div>
 
@@ -227,8 +249,8 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onJoinInContest: (contestId, token, callback) => {
-            joinInContest(contestId, token).then(([response, json]) => {
+        onJoinInContestAsJudge: (contestId, token, callback) => {
+            joinInContestAsJudge(contestId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'You joined this contest'));
@@ -241,11 +263,67 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onRefuseContest: (contestId, token, callback) => {
-            refuseContest(contestId, token).then(([response, json]) => {
+        onJoinInContestAsParticipant: (contestId, bookId, token, callback) => {
+            joinInContestAsParticipant(contestId, bookId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback();
+                    dispatch(createNotify('success', 'Success', 'You joined this contest'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRefuseContestAsJudge: (contestId, token, callback) => {
+            refuseContestAsJudge(contestId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback();
                     dispatch(createNotify('success', 'Success', 'You refused this contest'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRefuseContestAsParticipant: (contestId, bookId, token, callback) => {
+            refuseContestAsParticipant(contestId, bookId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback();
+                    dispatch(createNotify('success', 'Success', 'You refused this contest'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRemoveParticipantFromContest: (contestId, participantId, token, callback) => {
+            removeParticipantFromContest(contestId, participantId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                    dispatch(createNotify('success', 'Success', 'You has successfully removed yourself from contest'));
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onRemoveJudgeFromContest: (contestId, judgeId, token, callback) => {
+            removeJudgeFromContest(contestId, judgeId, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json.message);
+                    dispatch(createNotify('success', 'Success', 'Judge was removed successfully from contest'));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

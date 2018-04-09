@@ -9,10 +9,15 @@ import { formatDate } from '../../utils.jsx';
     - onShowContestEditForm - callback
     - onJoin - callback
     - onRefuse - callback
+    - onExit - callback
  */
 class ContestList extends React.Component {
     getCreatorName(contest) {
         return <Link to={'/authors/' + contest.creatorId}>{contest.creatorFullName}</Link>
+    }
+
+    getBookName(contest) {
+        return <Link to={'/reader/' + contest.bookId}>{contest.bookName}</Link>
     }
 
     getCost(contest) {
@@ -54,17 +59,27 @@ class ContestList extends React.Component {
         }
     }
 
+    isRenderBook() {
+        return this.props.contests.find(c => c.bookId !== -1 && c.bookName && c.bookName.length > 0);
+    }
+
     renderActionButton(contest) {
         if (!this.props.onJoin || contest.closed || contest.accepted === null) {
             return null;
         }
         if (!contest.accepted) {
             return (
-                <button className="btn btn-success btn-sm" onClick={() => this.props.onJoin(contest.id)}>Join</button>
+                <div className="btn-group">
+                    <button className="btn btn-success btn-sm" onClick={() => this.props.onJoin(contest.id, contest.bookId)}>Join</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => this.props.onExit(contest.id, contest.bookId)}>Exit</button>
+                </div>
             );
         } else {
             return (
-                <button className="btn btn-danger btn-sm" onClick={() => this.props.onRefuse(contest.id)}>Refuse</button>
+                <div className="btn-group">
+                    <button className="btn btn-warning btn-sm" onClick={() => this.props.onRefuse(contest.id, contest.bookId)}>Refuse</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => this.props.onExit(contest.id, contest.bookId)}>Exit</button>
+                </div>
             );
         }
     }
@@ -74,6 +89,7 @@ class ContestList extends React.Component {
             return (
                 <tr key={key} onClick={() => this.onRowClick(contest.id)} className={this.getTrClass(contest)}>
                     <td>{contest.name}</td>
+                    {this.isRenderBook() ? <td>{this.getBookName(contest)}</td> : null}
                     <td>{this.getCreatorName(contest)}</td>
                     <td>{this.getCost(contest)}</td>
                     <td>{this.getTotalUsers(contest)}</td>
@@ -91,6 +107,7 @@ class ContestList extends React.Component {
                 <thead>
                     <tr>
                         <td>Name</td>
+                        {this.isRenderBook() ? <td>Book</td> : null}
                         <td>Creator</td>
                         <td>Prize fund</td>
                         <td>Number of participants</td>

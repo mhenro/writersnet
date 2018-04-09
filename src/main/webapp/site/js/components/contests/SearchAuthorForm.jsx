@@ -61,7 +61,7 @@ class SearchAuthorForm extends React.Component {
     }
 
     onSelect() {
-        if (!this.props.contestId) {
+        if (this.props.contestId === null || typeof this.props.contestId === 'undefined') {
             return;
         }
 
@@ -88,7 +88,7 @@ class SearchAuthorForm extends React.Component {
             this.props.onGetAuthors(null, 1, this.state.size, sortType, data => this.updateAuthors(data));
         }
 
-        if (!this.props.contestId) {
+        if (this.props.contestId === null || typeof this.props.contestId === 'undefined') {
             return;
         }
 

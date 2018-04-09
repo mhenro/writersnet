@@ -18,12 +18,12 @@ public interface ContestRepository extends PagingAndSortingRepository<Contest, L
     Page<ContestResponse> getAllContests(final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.response.ContestResponse(c.id, c.name, c.creator.username, c.creator.firstName, " +
-            "c.creator.lastName, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created, " +
+            "c.creator.lastName, p.pk.book.id, p.pk.book.name, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created, " +
             "c.started, c.closed, p.accepted, c.participantCount, c.judgeCount) FROM ContestParticipant p JOIN p.pk.contest c WHERE p.pk.participant.username = ?1 ORDER BY c.closed, c.started, c.created DESC")
     Page<ContestResponse> getParticipantContests(final String userId, final Pageable pageable);
 
     @Query("SELECT new org.booklink.models.response.ContestResponse(c.id, c.name, c.creator.username, c.creator.firstName, " +
-            "c.creator.lastName, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created, " +
+            "c.creator.lastName, -1L, '', c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created, " +
             "c.started, c.closed, j.accepted, c.participantCount, c.judgeCount) FROM ContestJudge j JOIN j.pk.contest c WHERE j.pk.judge.username = ?1 ORDER BY c.closed, c.started, c.created DESC")
     Page<ContestResponse> getJudgeContests(final String userId, final Pageable pageable);
 

@@ -61,12 +61,20 @@ export const isContestReadyForStart = (contestId) => {
     return doFetch(getHost() + 'contests/' + contestId + '/readiness');
 };
 
-export const joinInContest = (contestId, token) => {
+export const joinInContestAsJudge = (contestId, token) => {
     return doFetch(getHost() + 'contests/' + contestId + '/join', null, token);
 };
 
-export const refuseContest = (contestId, token) => {
+export const joinInContestAsParticipant = (contestId, bookId, token) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/join/' + bookId, null, token);
+};
+
+export const refuseContestAsJudge = (contestId, token) => {
     return doFetch(getHost() + 'contests/' + contestId + '/refuse', null, token);
+};
+
+export const refuseContestAsParticipant = (contestId, bookId, token) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/refuse/' + bookId, null, token);
 };
 
 export const startContest = (contestId) => {

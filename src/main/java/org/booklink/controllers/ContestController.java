@@ -135,15 +135,29 @@ public class ContestController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "contests/{contestId}/join", method = RequestMethod.GET)
-    public ResponseEntity<?> joinInContest(@PathVariable final Long contestId) {
-        contestService.joinInContest(contestId);
+    public ResponseEntity<?> joinInContestAsJudge(@PathVariable final Long contestId) {
+        contestService.joinInContestAsJudge(contestId);
+        return Response.createResponseEntity(0, "You are successfully joined to the contest", null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "contests/{contestId}/join/{bookId}", method = RequestMethod.GET)
+    public ResponseEntity<?> joinInContestAsParticipant(@PathVariable final Long contestId, @PathVariable final Long bookId) {
+        contestService.joinInContestAsParticipant(contestId, bookId);
         return Response.createResponseEntity(0, "You are successfully joined to the contest", null, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "contests/{contestId}/refuse", method = RequestMethod.GET)
-    public ResponseEntity<?> refuseContest(@PathVariable final Long contestId) {
-        contestService.refuseContest(contestId);
+    public ResponseEntity<?> refuseContestAsJudge(@PathVariable final Long contestId) {
+        contestService.refuseContestAsJudge(contestId);
+        return Response.createResponseEntity(0, "You successfully refused the contest", null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "contests/{contestId}/refuse/{bookId}", method = RequestMethod.GET)
+    public ResponseEntity<?> refuseContestAsParticipant(@PathVariable final Long contestId, @PathVariable final Long bookId) {
+        contestService.refuseContestAsParticipant(contestId, bookId);
         return Response.createResponseEntity(0, "You successfully refused the contest", null, HttpStatus.OK);
     }
 

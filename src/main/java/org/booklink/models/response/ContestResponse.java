@@ -20,23 +20,27 @@ public class ContestResponse {
     private Boolean accepted;
     private Integer participantCount;
     private Integer judgeCount;
+    private Long bookId;
+    private String bookName;
 
     public ContestResponse(final Long id, final String name, final String creatorId, final String creatorFirstName, final String creatorLastName,
                            final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
                            final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started,
                            final Boolean closed, final Integer participantCount, final Integer judgeCount) {
-        this(id, name, creatorId, creatorFirstName, creatorLastName, prizeFund, firstPlaceRevenue, secondPlaceRevenue, thirdPlaceRevenue,
+        this(id, name, creatorId, creatorFirstName, creatorLastName, null, null, prizeFund, firstPlaceRevenue, secondPlaceRevenue, thirdPlaceRevenue,
                 created, started, closed, null, participantCount, judgeCount);
     }
 
     public ContestResponse(final Long id, final String name, final String creatorId, final String creatorFirstName, final String creatorLastName,
-                           final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
+                           final Long bookId, final String bookName, final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
                            final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started,
                            final Boolean closed, final Boolean accepted, final Integer participantCount, final Integer judgeCount) {
         this.id = id;
         this.name = name;
         this.creatorId = creatorId;
         this.creatorFullName = creatorFirstName + " " + creatorLastName;
+        this.bookId = bookId;
+        this.bookName = bookName;
         this.prizeFund = prizeFund;
         this.firstPlaceRevenue = firstPlaceRevenue;
         this.secondPlaceRevenue = secondPlaceRevenue;
@@ -79,6 +83,22 @@ public class ContestResponse {
 
     public void setCreatorFullName(String creatorFullName) {
         this.creatorFullName = creatorFullName;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
     public Long getPrizeFund() {

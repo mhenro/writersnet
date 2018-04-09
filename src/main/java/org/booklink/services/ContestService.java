@@ -188,7 +188,7 @@ public class ContestService {
     }
 
     @Transactional
-    public void joinInContest(final Long contestId) {
+    public void joinInContestAsJudge(final Long contestId) {
         final Contest contest = getContest(contestId);
         if (contest.getStarted()) {
             throw new WrongDataException("Contest is already started");
@@ -197,37 +197,48 @@ public class ContestService {
             throw new WrongDataException("Contest is already closed");
         }
         final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
-        final User participant = contestParticipantRepository.getParticipantById(authorId, contestId);
-        if (participant != null) {
-            contestParticipantRepository.joinInContest(authorId, contestId);
-            return;
-        }
-        final User judge = contestJudgeRepository.getJudgeById(authorId, contestId);
-        if (judge != null) {
-            contestJudgeRepository.joinInContest(authorId, contestId);
-            return;
-        }
-        throw new ObjectNotFoundException("User is not found");
+        contestJudgeRepository.joinInContest(authorId, contestId);
     }
 
     @Transactional
-    public void refuseContest(final Long contestId) {
+    public void joinInContestAsParticipant(final Long contestId, final Long bookId) {
+        final Contest contest = getContest(contestId);
+        if (contest.getStarted()) {
+            throw new WrongDataException("Contest is already started");
+        }
+        if (contest.getClosed()) {
+            throw new WrongDataException("Contest is already closed");
+        }
+        final Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            throw new WrongDataException("Book is not found");
+        }
+        final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
+        contestParticipantRepository.joinInContest(authorId, contestId, bookId);
+    }
+
+    @Transactional
+    public void refuseContestAsJudge(final Long contestId) {
         final Contest contest = getContest(contestId);
         if (contest.getClosed()) {
             throw new WrongDataException("Contest is already closed");
         }
         final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
-        final User participant = contestParticipantRepository.getParticipantById(authorId, contestId);
-        if (participant != null) {
-            contestParticipantRepository.refuseContest(authorId, contestId);
-            return;
+        contestJudgeRepository.refuseContest(authorId, contestId);
+    }
+
+    @Transactional
+    public void refuseContestAsParticipant(final Long contestId, final Long bookId) {
+        final Contest contest = getContest(contestId);
+        if (contest.getClosed()) {
+            throw new WrongDataException("Contest is already closed");
         }
-        final User judge = contestJudgeRepository.getJudgeById(authorId, contestId);
-        if (judge != null) {
-            contestJudgeRepository.refuseContest(authorId, contestId);
-            return;
+        final Book book = bookRepository.findOne(bookId);
+        if (book == null) {
+            throw new WrongDataException("Book is not found");
         }
-        throw new ObjectNotFoundException("User is not found");
+        final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
+        contestParticipantRepository.refuseContest(authorId, contestId, bookId);
     }
 
     @Transactional
@@ -236,8 +247,8 @@ public class ContestService {
         if (!isContestReadyToStart(contest.getId())) {
             throw new WrongDataException("Contest is not ready for starting");
         }
-        if (contest.getClosed()) {
-            throw new WrongDataException("Contest is already closed");
+        if (contest.getClosed() || contest.getStarted()) {
+            throw new WrongDataException("Contest is already closed/started");
         }
         contest.setStarted(true);
         contestRepository.save(contest);
@@ -252,8 +263,8 @@ public class ContestService {
         if (participant != null) {
             throw new WrongDataException("Author cannot be a judge and a participant at the same time in the contest");
         }
-        if (contest.getClosed()) {
-            throw new WrongDataException("You cannot add an author to the closed contest");
+        if (contest.getClosed() || contest.getStarted()) {
+            throw new WrongDataException("You cannot add an author to the closed/started contest");
         }
         final ContestJudge judge = new ContestJudge();
         final ContestJudgePK pk = new ContestJudgePK();
@@ -273,8 +284,8 @@ public class ContestService {
         if (judge != null) {
             throw new WrongDataException("Author cannot be a judge and a participant at the same time in the contest");
         }
-        if (contest.getClosed()) {
-            throw new WrongDataException("You cannot add an author to the closed contest");
+        if (contest.getClosed() || contest.getStarted()) {
+            throw new WrongDataException("You cannot add an author to the closed/started contest");
         }
         final ContestParticipant participant = new ContestParticipant();
         final ContestParticipantPK pk = new ContestParticipantPK();
@@ -306,8 +317,8 @@ public class ContestService {
         if (!contest.getCreator().getUsername().equals(creator.getUsername())) {
             throw new UnauthorizedUserException();
         }
-        if (contest.getClosed()) {
-            throw new WrongDataException("Contest is already closed");
+        if (contest.getClosed() || contest.getStarted()) {
+            throw new WrongDataException("Contest is already closed/started");
         }
         BeanUtils.copyProperties(request, contest, ObjectHelper.getNullPropertyNames(request));
         contest.setCreator(creator);

@@ -50,7 +50,7 @@ class ContestEditForm extends React.Component {
     }
 
     isMe() {
-        if (!this.props.contestId) {
+        if (this.props.contestId === null || typeof this.props.contestId === 'undefined') {
             return true;
         }
         if (!this.state.contest) {
@@ -64,6 +64,13 @@ class ContestEditForm extends React.Component {
             return false;
         }
         return this.state.contest.closed;
+    }
+
+    isContestStarted() {
+        if (!this.state.contest) {
+            return false;
+        }
+        return this.state.contest.started;
     }
 
     updateData(data) {
@@ -182,6 +189,7 @@ class ContestEditForm extends React.Component {
                                   contestId={this.props.contestId}
                                   me={this.isMe()}
                                   closed={this.isContestClosed()}
+                                  started={this.isContestStarted()}
                                   onAddNewMember={() => this.onSelectBooks()}
                                   onGetUsers={(page, callback) => this.props.onGetParticipants(this.props.contestId, page, callback)}
                                   onRemoveUser={(participantId, callback) => this.props.onRemoveParticipantFromContest(this.props.contestId, participantId, this.props.token, callback)}/>
@@ -191,6 +199,7 @@ class ContestEditForm extends React.Component {
                                   contestId={this.props.contestId}
                                   me={this.isMe()}
                                   closed={this.isContestClosed()}
+                                  started={this.isContestStarted()}
                                   onAddNewMember={() => this.onSelectJudges()}
                                   onGetUsers={(page, callback) => this.props.onGetJudges(this.props.contestId, page, callback)}
                                   onRemoveUser={(judgeId, callback) => this.props.onRemoveJudgeFromContest(this.props.contestId, judgeId, this.props.token, callback)}/>
@@ -215,9 +224,9 @@ class ContestEditForm extends React.Component {
         return (
             <div className="btn-group">
                 <Button onClick={() => this.props.startContest(this.props.contestId)}
-                        className={'btn btn-success ' + (this.isMe() && this.state.readyToStart ? '' : 'hidden')}>Start</Button>
+                        className={'btn btn-success ' + (this.isMe() && this.state.readyToStart && !this.isContestStarted() ? '' : 'hidden')}>Start</Button>
                 <Button onClick={() => this.onCreate()}
-                        className={'btn btn-success ' + (this.isMe() && !this.isContestClosed() ? '' : 'hidden')}>{btnCreateCaption}</Button>
+                        className={'btn btn-success ' + (this.isMe() && !this.isContestClosed() && !this.isContestStarted() ? '' : 'hidden')}>{btnCreateCaption}</Button>
                 <Button onClick={() => this.onClose()}
                         className="btn btn-default">Cancel</Button>
             </div>

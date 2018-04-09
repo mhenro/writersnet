@@ -7,6 +7,7 @@ import { Pagination } from 'react-bootstrap';
     - contestId
     - me - boolean
     - closed - boolean
+    - started - boolean
     - onAddNewMember - callback
     - onGetUsers(page, callback) - callback
     - onRemoveUser(judgeId, callback) - callback
@@ -23,7 +24,7 @@ class UserList extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.props.contestId) {
+        if (this.props.contestId === null || typeof this.props.contestId === 'undefined') {
             return;
         }
 
@@ -36,7 +37,7 @@ class UserList extends React.Component {
     }
 
     pageSelect(page) {
-        if (!this.props.contestId) {
+        if (this.props.contestId === null || typeof this.props.contestId === 'undefined') {
             return;
         }
 
@@ -65,7 +66,7 @@ class UserList extends React.Component {
                     <td>{accepted}</td>
                     <td>
                         <button onClick={() => this.props.onRemoveUser(id, () => this.componentDidMount())}
-                                className={'btn btn-default btn-xs glyphicon glyphicon-remove ' + (this.props.me && !this.props.closed ? '' : 'hidden')}
+                                className={'btn btn-default btn-xs glyphicon glyphicon-remove ' + (this.props.me && !this.props.closed && !this.props.started ? '' : 'hidden')}
                                 title="Remove this member from the list"></button>
                     </td>
                 </tr>
@@ -79,7 +80,7 @@ class UserList extends React.Component {
                 <fieldset className="scheduler-border">
                     <legend className="scheduler-border">{this.props.listName}</legend>
                     <div>
-                        <div className={'col-sm-12 text-center ' + (this.props.me && !this.props.closed ? '' : 'hidden')}>
+                        <div className={'col-sm-12 text-center ' + (this.props.me && !this.props.closed && !this.props.started ? '' : 'hidden')}>
                             <button onClick={() => this.props.onAddNewMember()}
                                     className="btn btn-primary">Add new member</button>
                             <br/>
