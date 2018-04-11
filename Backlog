@@ -1,8 +1,5 @@
 ﻿Current sprint:
-IN PROGRESS - 98. Add competitions page. On this page users can add new competition then select its name and prize fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
-IN PROGRESS - 117. Add "Create/Edit contest" popup form. It should appear when user click on "Create new contest" button on Contests page.
-118. Add "My contests" button in the user left menu. After clicking on this button the tabpanel should appear. It should contain 2 tabs: "As participant" and "As judge".
-119. Add "Contest" page where creator can send invitations to participants (by adding their books) and to judges. Each participant and judge will see notification against his "My contests" button.
+IN PROGRESS - 124. Create new contest window for judges and participants where they can see their rating.
 120. Add new events when work with contests (join in contest, remove from contest, win in contest and so forth).
 
 
@@ -180,3 +177,7 @@ DONE - 30. Add concept of the premium account. It should allow:
                    DONE - higher prioritet in rating and in search. This means that if default account and premium account has the same values/rating then the premium account will be sorted higher;
                    DONE - additional tools in account: text analyzer, create private books, pdf convertation of the book and so on;
 		   DONE - disable the ads.
+DONE - 98. Add competitions page. On this page users can add new competition then select its name and prize fund. User can add books to this competition which should take part in it. Also judges should be added. Author who wants to add book for competition should mark this book as "For competition" on the BookPropsForm.
+DONE - 117. Add "Create/Edit contest" popup form. It should appear when user click on "Create new contest" button on Contests page.
+DONE - 118. Add "My contests" button in the user left menu. After clicking on this button the tabpanel should appear. It should contain 2 tabs: "As participant" and "As judge".
+DONE - 119. Add "Contest" page where creator can send invitations to participants (by adding their books) and to judges. Each participant and judge will see notification against his "My contests" button.
