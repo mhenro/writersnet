@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -321,6 +322,9 @@ public class ContestService {
             throw new WrongDataException("Contest is already closed/started");
         }
         BeanUtils.copyProperties(request, contest, ObjectHelper.getNullPropertyNames(request));
+        //if (request.getExpirationDate() != null) {
+        //    contest.setExpirationDate(request.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        //}
         contest.setCreator(creator);
         contest.setCreated(LocalDateTime.now());
         contestRepository.save(contest);

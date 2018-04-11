@@ -7,18 +7,18 @@ import {
     getParticipantContests,
     getJudgeContests,
     getCreatorContests,
-    showContestEditForm,
     joinInContestAsJudge,
     joinInContestAsParticipant,
     refuseContestAsJudge,
     refuseContestAsParticipant,
     removeParticipantFromContest,
-    removeJudgeFromContest
+    removeJudgeFromContest,
+    showContestEstimationForm
 } from '../actions/ContestActions.jsx';
 import { createNotify } from '../actions/GlobalActions.jsx';
 
 import ContestList from '../components/contests/ContestList.jsx';
-import ContestEditForm from '../components/contests/ContestEditForm.jsx';
+import ContestEstimationForm from '../components/contests/ContestEstimationForm.jsx';
 
 class MyContestsPage extends React.Component {
     constructor(props) {
@@ -57,11 +57,11 @@ class MyContestsPage extends React.Component {
         }
     }
 
-    onShowEditForm(id) {
+    onShowContestEstimationForm(id) {
         this.setState({
             contestId: id
         });
-        this.props.onShowContestEditForm();
+        this.props.onShowContestEstimationForm();
     }
 
     updateContests(contests, array, contestGroup) {
@@ -184,17 +184,17 @@ class MyContestsPage extends React.Component {
                     <br/>
                 </div>
                 <div className="col-sm-12">
-                    {/*onShowContestEditForm={id => this.onShowEditForm(id)}*/}
                     <ContestList contests={this.getItems()}
                                  login={this.props.login}
                                  onJoin={(contestId, bookId) => this.onJoin(contestId, bookId)}
                                  onRefuse={(contestId, bookId) => this.onRefuse(contestId, bookId)}
                                  onExit={(contestId, bookId) => this.onExit(contestId, bookId)}
+                                 onShowContestEditForm={id => this.onShowContestEstimationForm(id)}
                     />
                 </div>
 
                 {/* Contest popup form */}
-                <ContestEditForm contestId={this.state.contestId} onSave={() => this.componentDidMount()}/>
+                <ContestEstimationForm contestId={this.state.contestId}/>
             </div>
         )
     }
@@ -333,8 +333,8 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onShowContestEditForm: () => {
-            dispatch(showContestEditForm());
+        onShowContestEstimationForm: () => {
+            dispatch(showContestEstimationForm());
         }
     }
 };

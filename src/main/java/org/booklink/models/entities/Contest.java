@@ -24,6 +24,7 @@ public class Contest {
     private Boolean closed;
     private Integer judgeCount;
     private Integer participantCount;
+    private LocalDateTime expirationDate;
 
     @GenericGenerator(
             name = "contest_generator",
@@ -139,5 +140,14 @@ public class Contest {
 
     public void setParticipantCount(Integer participantCount) {
         this.participantCount = participantCount;
+    }
+
+    @Column(name = "expiration_date")
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

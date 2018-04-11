@@ -15,6 +15,7 @@ public class ContestResponse {
     private Integer secondPlaceRevenue;
     private Integer thirdPlaceRevenue;
     private LocalDateTime created;
+    private LocalDateTime expirationDate;
     private Boolean started;
     private Boolean closed;
     private Boolean accepted;
@@ -25,15 +26,15 @@ public class ContestResponse {
 
     public ContestResponse(final Long id, final String name, final String creatorId, final String creatorFirstName, final String creatorLastName,
                            final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
-                           final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started,
+                           final Integer thirdPlaceRevenue, final LocalDateTime created, final LocalDateTime expirationDate, final Boolean started,
                            final Boolean closed, final Integer participantCount, final Integer judgeCount) {
         this(id, name, creatorId, creatorFirstName, creatorLastName, null, null, prizeFund, firstPlaceRevenue, secondPlaceRevenue, thirdPlaceRevenue,
-                created, started, closed, null, participantCount, judgeCount);
+                created, expirationDate, started, closed, null, participantCount, judgeCount);
     }
 
     public ContestResponse(final Long id, final String name, final String creatorId, final String creatorFirstName, final String creatorLastName,
                            final Long bookId, final String bookName, final Long prizeFund, final Integer firstPlaceRevenue, final Integer secondPlaceRevenue,
-                           final Integer thirdPlaceRevenue, final LocalDateTime created, final Boolean started,
+                           final Integer thirdPlaceRevenue, final LocalDateTime created, final LocalDateTime expirationDate, final Boolean started,
                            final Boolean closed, final Boolean accepted, final Integer participantCount, final Integer judgeCount) {
         this.id = id;
         this.name = name;
@@ -46,6 +47,7 @@ public class ContestResponse {
         this.secondPlaceRevenue = secondPlaceRevenue;
         this.thirdPlaceRevenue = thirdPlaceRevenue;
         this.created = created;
+        this.expirationDate = expirationDate;
         this.started = started;
         this.closed = closed;
         this.accepted = accepted;
@@ -139,6 +141,14 @@ public class ContestResponse {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     public Boolean getStarted() {

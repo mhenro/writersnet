@@ -1,6 +1,7 @@
 package org.booklink.models.request;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by mhenr on 25.02.2018.
@@ -13,6 +14,7 @@ public class ContestRequest {
     private Integer firstPlaceRevenue;
     private Integer secondPlaceRevenue;
     private Integer thirdPlaceRevenue;
+    private LocalDateTime expirationDate;
 
     public Long getId() {
         return id;
@@ -68,5 +70,13 @@ public class ContestRequest {
 
     public void setThirdPlaceRevenue(Integer thirdPlaceRevenue) {
         this.thirdPlaceRevenue = thirdPlaceRevenue;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

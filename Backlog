@@ -181,3 +181,4 @@ DONE - 98. Add competitions page. On this page users can add new competition the
 DONE - 117. Add "Create/Edit contest" popup form. It should appear when user click on "Create new contest" button on Contests page.
 DONE - 118. Add "My contests" button in the user left menu. After clicking on this button the tabpanel should appear. It should contain 2 tabs: "As participant" and "As judge".
 DONE - 119. Add "Contest" page where creator can send invitations to participants (by adding their books) and to judges. Each participant and judge will see notification against his "My contests" button.
+DONE - 125. Add "expirationDate" field to the contest. When date will be expired the contest should be finished any way even if not all the judges did their estimations.

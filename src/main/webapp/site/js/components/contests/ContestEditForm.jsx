@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import DateTimeField from 'react-bootstrap-datetimepicker';
+
 import { closeContestEditForm, getContest, saveContest } from '../../actions/ContestActions.jsx';
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { getLocale } from '../../locale.jsx';
@@ -40,6 +42,7 @@ class ContestEditForm extends React.Component {
             revenue1: 0,
             revenue2: 0,
             revenue3: 0,
+            expirationDate: new Date().toISOString().split('T')[0],
             addUserCallback: null,
             getSelectedAuthors: null,
             withBooks: false,
@@ -81,7 +84,8 @@ class ContestEditForm extends React.Component {
                 prizeFund: parseFloat(data.prizeFund / 100).toFixed(2),
                 revenue1: data.firstPlaceRevenue,
                 revenue2: data.secondPlaceRevenue,
-                revenue3: data.thirdPlaceRevenue
+                revenue3: data.thirdPlaceRevenue,
+                expirationDate: data.expirationDate || new Date().toISOString().split('T')[0],
             });
         } else {
             this.setState({
@@ -90,8 +94,16 @@ class ContestEditForm extends React.Component {
                 prizeFund: 0,
                 revenue1: 0,
                 revenue2: 0,
-                revenue3: 0
+                revenue3: 0,
+                expirationDate: new Date().toISOString().split('T')[0],
             });
+        }
+    }
+
+    getDatePickerProps() {
+        return {
+            placeholder: 'Enter the date when contest should be finished',
+            readOnly: true
         }
     }
 
@@ -110,6 +122,12 @@ class ContestEditForm extends React.Component {
             case 'revenue2': this.setState({revenue2: proxy.target.value}); break;
             case 'revenue3': this.setState({revenue3: proxy.target.value}); break;
         }
+    }
+
+    onDateChange(value) {
+        this.setState({
+            expirationDate: value
+        });
     }
 
     onDonate() {
@@ -185,6 +203,12 @@ class ContestEditForm extends React.Component {
                         </div>
                     </div>
                     <div className="form-group">
+                        <label className="control-label col-sm-5" htmlFor="expirationDate">Expiration date</label>
+                        <div className="col-sm-7">
+                            <DateTimeField dateTime={this.state.expirationDate} onChange={value => this.onDateChange(value)} inputProps={this.getDatePickerProps()} id="expirationDate" defaultText="" format="YYYY-MM-DDThh:mm:ss" inputFormat="DD-MM-YYYY hh:mm:ss"/>
+                        </div>
+                    </div>
+                    <div className="form-group">
                         <UserList listName="Participants"
                                   contestId={this.props.contestId}
                                   me={this.isMe()}
@@ -240,7 +264,8 @@ class ContestEditForm extends React.Component {
             prizeFund: Math.ceil(this.state.prizeFund * 100),
             firstPlaceRevenue: this.state.revenue1,
             secondPlaceRevenue: this.state.revenue2,
-            thirdPlaceRevenue: this.state.revenue3
+            thirdPlaceRevenue: this.state.revenue3,
+            expirationDate: this.state.expirationDate
         };
         if (this.state.contest) {
             contestRequest.id = this.state.contest.id;
