@@ -9,6 +9,9 @@ Features:
 123. Replace chat internal realization with RabbitMQ realization.
 124. Replace hibernate getter annotations to hibernate field annotations for the best practice.
 125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
+126. Migrate to Spring Boot 2.0.1.
+127. Migrate to Java 10.
+128. Migrate to Gradle.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 21. Link webmoney merchant interface to BalancePage.
