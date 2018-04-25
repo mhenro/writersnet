@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by mhenr on 19.12.2017.
  */
-public abstract class SecurityHelper {
+public final class SecurityHelper {
     private static final long EXPIRATION_DATE = 900000; //15 min
 
     public static String generateActivationToken(final User user, final String key) {
