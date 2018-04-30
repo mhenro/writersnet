@@ -289,7 +289,7 @@ public class AuthorRepositoryTest {
     @Test
     public void findOne() throws Exception {
         init();
-        User user = authorRepository.findOne("mhenro");
+        User user = authorRepository.findById("mhenro").orElse(null);
         Assert.assertEquals("mhenro", user.getUsername());
     }
 
@@ -307,7 +307,7 @@ public class AuthorRepositoryTest {
     @Test
     public void subscribeOnUser_subscriber() throws Exception {
         initSubscriber();
-        final User user = authorRepository.findOne("mhenro");
+        final User user = authorRepository.findById("mhenro").orElse(null);
         /*Assert.assertEquals(true, user.isSubscriberOf("zazaka"));
         Assert.assertEquals(false, user.isSubscriberOf("mhenro"));
         Assert.assertEquals(false, user.isSubscriptionOf("zazaka"));
@@ -319,7 +319,7 @@ public class AuthorRepositoryTest {
     @Test
     public void subscribeOnUser_subscription() throws Exception {
         initSubscription();
-        final User user = authorRepository.findOne("mhenro");
+        final User user = authorRepository.findById("mhenro").orElse(null);
         /*Assert.assertEquals(true, user.isSubscriptionOf("zazaka"));
         Assert.assertEquals(false, user.isSubscriptionOf("mhenro"));
         Assert.assertEquals(false, user.isSubscriberOf("zazaka"));
@@ -331,7 +331,7 @@ public class AuthorRepositoryTest {
     @Test
     public void subscribeOnUser_friend() throws Exception {
         initFriend();
-        final User user = authorRepository.findOne("mhenro");
+        final User user = authorRepository.findById("mhenro").orElse(null);
         /*Assert.assertEquals(true, user.isFriendOf("zazaka"));
         Assert.assertEquals(false, user.isFriendOf("mhenro"));
         Assert.assertEquals(true, user.isSubscriptionOf("zazaka"));

@@ -16,6 +16,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 /**
  * Created by mhenr on 17.11.2017.
  */
@@ -51,7 +53,7 @@ public class AuthenticationServiceTest {
         user.setPassword("$2a$10$9deKO8TOxquIiUstzBuJLO8lMkSaZX/yxG2Ix/OK5Tl5TMVbkxeP6");
         user.setActivationToken("token111");
         user.setEnabled(false);
-        Mockito.when(userRepository.findOne(user.getUsername())).thenReturn(user);
+        Mockito.when(userRepository.findById(user.getUsername())).thenReturn(Optional.ofNullable(user));
         Mockito.when(userRepository.findUserByActivationToken("token111")).thenReturn(user);
         Mockito.when(userRepository.findUserByEmail("user@mail.ru")).thenReturn(user);
     }

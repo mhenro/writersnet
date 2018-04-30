@@ -161,10 +161,7 @@ public class AuthorService {
     @Transactional
     public void updateAuthor(final AuthorRequest author) {
         checkCredentials(author.getUsername());
-        User user = authorRepository.findOne(author.getUsername());
-        if (user == null) {
-            throw new ObjectNotFoundException("User is not found");
-        }
+        User user = authorRepository.findById(author.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User is not found"));
         BeanUtils.copyProperties(author, user, ObjectHelper.getNullPropertyNames(author));
         if (author.getSectionName() != null) {
             user.getSection().setName(author.getSectionName());
@@ -194,10 +191,7 @@ public class AuthorService {
     public void saveAvatar(final AvatarRequest avatarRequest) throws IOException {
         checkCredentials(avatarRequest.getUserId()); //only the owner can change his avatar
 
-        User author = authorRepository.findOne(avatarRequest.getUserId());
-        if (author == null) {
-            throw new ObjectNotFoundException("Author is not found");
-        }
+        User author = authorRepository.findById(avatarRequest.getUserId()).orElseThrow(() -> new ObjectNotFoundException("Author is not found"));
         if (avatarRequest.getAvatar().getSize() >= 102400 && !author.getPremium()) {    //only premium users can have avatars larger than 100Kb
             throw new IsNotPremiumUserException("Only a premium user can add the avatar larger than 100 Kb");
         }
@@ -231,10 +225,7 @@ public class AuthorService {
         Response<String> response = new Response<>();
         response.setCode(0);
         final String authorizedUser = authorizedUserService.getAuthorizedUser().getUsername();
-        final User subscriptionUser = authorRepository.findOne(subscriptionId);
-        if (subscriptionUser == null) {
-            throw new ObjectNotFoundException("Subscription is not found");
-        }
+        final User subscriptionUser = authorRepository.findById(subscriptionId).orElseThrow(() -> new ObjectNotFoundException("Subscription is not found"));
         final boolean isFriend = isFriendOf(subscriptionId);
         final boolean isSubscriber = isSubscriberOf(subscriptionId);
         final boolean isSubscription = isSubscriptionOf(subscriptionId);
@@ -274,10 +265,7 @@ public class AuthorService {
         Response<String> response = new Response<>();
         response.setCode(0);
         final String authorizedUser = authorizedUserService.getAuthorizedUser().getUsername();
-        final User subscriptionUser = authorRepository.findOne(subscriptionId);
-        if (subscriptionUser == null) {
-            throw new ObjectNotFoundException("Subscription is not found");
-        }
+        final User subscriptionUser = authorRepository.findById(subscriptionId).orElseThrow(() -> new ObjectNotFoundException("Subscription is not found"));
         final boolean isFriend = isFriendOf(subscriptionId);
         final boolean isSubscriber = isSubscriberOf(subscriptionId);
         final boolean isSubscription = isSubscriptionOf(subscriptionId);
@@ -353,12 +341,11 @@ public class AuthorService {
     }
 
     private void increaseAuthorViews(final String authorId) {
-        final User author = authorRepository.findOne(authorId);
-        if (author != null) {
+        authorRepository.findById(authorId).ifPresent(author -> {
             final long views = author.getViews() + 1;
             author.setViews(views);
             authorRepository.save(author);
-        }
+        });
     }
 
     private void checkCredentials(final String userId) {

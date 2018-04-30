@@ -44,10 +44,7 @@ public class SerieService {
             bookSerie.setName(serie.getName());
             bookSerie.setAuthor(authorizedUserService.getAuthorizedUser());
         } else {    //editing existed serie
-            bookSerie = serieRepository.findOne(serie.getId());
-            if (bookSerie == null) {
-                throw new ObjectNotFoundException("Serie is not found");
-            }
+            bookSerie = serieRepository.findById(serie.getId()).orElseThrow(() -> new ObjectNotFoundException("Serie is not found"));
             bookSerie.setName(serie.getName());
         }
         serieRepository.save(bookSerie);
@@ -58,10 +55,7 @@ public class SerieService {
     @Transactional
     public void deleteSerie(final Long serieId) {
         checkCredentials();   //only owner can delete his series
-        BookSerie bookSerie = serieRepository.findOne(serieId);
-        if (bookSerie == null) {
-            throw new ObjectNotFoundException("Serie is not found");
-        }
+        BookSerie bookSerie = serieRepository.findById(serieId).orElseThrow(() -> new ObjectNotFoundException("Serie is not found"));
         serieRepository.delete(bookSerie);
     }
 

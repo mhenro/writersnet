@@ -87,22 +87,13 @@ public class BalanceService {
     }
 
     private void balanceRecharge(final String userId, final Long rechargeAmount) {
-        final User user = authorRepository.findOne(userId);
-        if (user == null) {
-            throw new ObjectNotFoundException("User is not found");
-        }
+        final User user = authorRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("User is not found"));
         addToPaymentHistory(user, OperationType.BALANCE_RECHARGE, rechargeAmount, true);
     }
 
     private void buyPremiumAccount(final String userId, final Long purchaseId) {
-        final User buyer = authorRepository.findOne(userId);
-        if (buyer == null) {
-            throw new ObjectNotFoundException("User is not found");
-        }
-        final Gift gift = giftRepository.findOne(purchaseId);
-        if (gift == null) {
-            throw new ObjectNotFoundException("Purchase is not found in database");
-        }
+        final User buyer = authorRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("User is not found"));
+        final Gift gift = giftRepository.findById(purchaseId).orElseThrow(() -> new ObjectNotFoundException("Purchase is not found in database"));
         addToPaymentHistory(buyer, OperationType.PREMIUM_ACCOUNT, gift.getCost(), false);
         activatePremiumAccountFor(buyer);
     }
@@ -113,14 +104,8 @@ public class BalanceService {
     }
 
     private void buyBook(final String userId, final Long bookId) {
-        final User buyer = authorRepository.findOne(userId);
-        if (buyer == null) {
-            throw new ObjectNotFoundException("User is not found");
-        }
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        final User buyer = authorRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("User is not found"));
+        final Book book = bookRepository.findById(bookId).orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         if (book.getCost() == null) {
             book.setCost(0L);
         }
@@ -139,14 +124,8 @@ public class BalanceService {
     }
 
     private void donateToContest(final String userId, final Long contestId, final Long amount) {
-        final User donator = authorRepository.findOne(userId);
-        if (donator == null) {
-            throw new ObjectNotFoundException("User is not found");
-        }
-        final Contest contest = contestRepository.findOne(contestId);
-        if (contest == null) {
-            throw new ObjectNotFoundException("Contest is not found");
-        }
+        final User donator = authorRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("User is not found"));
+        final Contest contest = contestRepository.findById(contestId).orElseThrow(() -> new ObjectNotFoundException("Contest is not found"));
         if (contest.getClosed()) {
             throw new WrongDataException("You cannot donate to the closed contest");
         }
@@ -160,15 +139,9 @@ public class BalanceService {
     }
 
     private void transferGift(final BuyRequest buyRequest) {
-        final User sourceUser = authorRepository.findOne(buyRequest.getSourceUserId());
-        final User destUser = authorRepository.findOne(buyRequest.getDestUserId());
-        if (sourceUser == null || destUser == null) {
-            throw new ObjectNotFoundException("User is not found");
-        }
-        final Gift gift = giftRepository.findOne(buyRequest.getPurchaseId());
-        if (gift == null) {
-            throw new ObjectNotFoundException("Gift is not found in the database");
-        }
+        final User sourceUser = authorRepository.findById(buyRequest.getSourceUserId()).orElseThrow(() -> new ObjectNotFoundException("User is not found"));
+        final User destUser = authorRepository.findById(buyRequest.getDestUserId()).orElseThrow(() -> new ObjectNotFoundException("User is not found"));
+        final Gift gift = giftRepository.findById(buyRequest.getPurchaseId()).orElseThrow(() -> new ObjectNotFoundException("Gift is not found in the database"));
         addToPaymentHistory(sourceUser, buyRequest.getOperationType(), gift.getCost(), false);
         addToPaymentHistory(destUser, buyRequest.getOperationType(), gift.getCost(), true);
         addGiftToUser(destUser, sourceUser, gift, buyRequest.getSendMessage());

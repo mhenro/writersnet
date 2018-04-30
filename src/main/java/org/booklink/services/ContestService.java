@@ -14,11 +14,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.LockModeType;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -102,17 +103,14 @@ public class ContestService {
     @Transactional
     public void removeJudgeFromContest(final Long contestId, final String judgeId) {
         final Contest contest = getContest(contestId);
-        final User judge = authorRepository.findOne(judgeId);
-        if (judge == null) {
-            throw new ObjectNotFoundException("Judge is not found");
-        }
         if (contest.getClosed()) {
             throw new WrongDataException("You cannot remove an author from the closed contest");
         }
+        final User judge = authorRepository.findById(judgeId).orElseThrow(() -> new ObjectNotFoundException("Judge is not found"));
         final ContestJudgePK pk = new ContestJudgePK();
         pk.setContest(contest);
         pk.setJudge(judge);
-        contestJudgeRepository.delete(pk);
+        contestJudgeRepository.deleteById(pk);
         updateJudgeCountInContest(contestId);
     }
 
@@ -140,18 +138,15 @@ public class ContestService {
     @Transactional
     public void removeParticipantFromContest(final Long contestId, final Long bookId) {
         final Contest contest = getContest(contestId);
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
         if (contest.getClosed()) {
             throw new WrongDataException("You cannot remove an author from the closed contest");
         }
+        final Book book = bookRepository.findById(bookId).orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         final ContestParticipantPK pk = new ContestParticipantPK();
         pk.setContest(contest);
         pk.setParticipant(book.getAuthor());
         pk.setBook(book);
-        contestParticipantRepository.delete(pk);
+        contestParticipantRepository.deleteById(pk);
         updateParticipantCountInContest(contestId);
     }
 
@@ -210,10 +205,7 @@ public class ContestService {
         if (contest.getClosed()) {
             throw new WrongDataException("Contest is already closed");
         }
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new WrongDataException("Book is not found");
-        }
+        bookRepository.findById(bookId).orElseThrow(() -> new WrongDataException("Book is not found"));
         final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
         contestParticipantRepository.joinInContest(authorId, contestId, bookId);
     }
@@ -234,10 +226,7 @@ public class ContestService {
         if (contest.getClosed()) {
             throw new WrongDataException("Contest is already closed");
         }
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new WrongDataException("Book is not found");
-        }
+        bookRepository.findById(bookId).orElseThrow(() -> new WrongDataException("Book is not found"));
         final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
         contestParticipantRepository.refuseContest(authorId, contestId, bookId);
     }
@@ -256,10 +245,7 @@ public class ContestService {
     }
 
     private void addJudgeToContest(final String judgeId, final Contest contest) {
-        final User author = authorRepository.findOne(judgeId);
-        if (author == null) {
-            throw new ObjectNotFoundException("Judge is not found");
-        }
+        final User author = authorRepository.findById(judgeId).orElseThrow(() -> new ObjectNotFoundException("Judge is not found"));
         final User participant = contestParticipantRepository.getParticipantById(judgeId, contest.getId());
         if (participant != null) {
             throw new WrongDataException("Author cannot be a judge and a participant at the same time in the contest");
@@ -277,10 +263,7 @@ public class ContestService {
     }
 
     private void addParticipantToContest(final Long bookId, final Contest contest) {
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        final Book book = bookRepository.findById(bookId).orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         final User judge = contestJudgeRepository.getJudgeById(book.getAuthor().getUsername(), contest.getId());
         if (judge != null) {
             throw new WrongDataException("Author cannot be a judge and a participant at the same time in the contest");
@@ -322,9 +305,6 @@ public class ContestService {
             throw new WrongDataException("Contest is already closed/started");
         }
         BeanUtils.copyProperties(request, contest, ObjectHelper.getNullPropertyNames(request));
-        //if (request.getExpirationDate() != null) {
-        //    contest.setExpirationDate(request.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-        //}
         contest.setCreator(creator);
         contest.setCreated(LocalDateTime.now());
         contestRepository.save(contest);
@@ -355,18 +335,12 @@ public class ContestService {
     }
 
     private User getCreator(final String id) {
-        final User creator = authorRepository.findOne(id);
-        if (creator == null) {
-            throw new ObjectNotFoundException("Creator is not found");
-        }
-        return creator;
+        return authorRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Creator is not found"));
     }
 
     private Contest getContest(final Long id) {
-        final Contest contest = contestRepository.findOne(id);
-        if (contest == null) {
-            throw new ObjectNotFoundException("Contest is not found");
-        }
-        return contest;
+        return contestRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Contest is not found"));
     }
 }

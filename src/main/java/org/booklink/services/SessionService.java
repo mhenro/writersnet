@@ -48,19 +48,15 @@ public class SessionService {
         if (existedSession != null) {
             existedSession.setExpired(expireDate);
             sessionRepository.save(existedSession);
-            final User author = authorRepository.findOne(username);
-            if (author != null) {
-                author.setOnline(true);
-            }
+            authorRepository.findById(username).ifPresent(author -> author.setOnline(true));
         } else {
-            final Session session = new Session();
-            final User author = authorRepository.findOne(username);
-            if (author != null) {
+            authorRepository.findById(username).ifPresent(author -> {
+                final Session session = new Session();
                 session.setAuthor(author);
                 session.setExpired(expireDate);
                 sessionRepository.save(session);
                 author.setOnline(true);
-            }
+            });
         }
     }
 

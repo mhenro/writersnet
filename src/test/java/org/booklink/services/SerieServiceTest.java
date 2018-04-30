@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -62,7 +63,7 @@ public class SerieServiceTest {
         final User author = createUser("user0");
         final BookSerie bookSerie = new BookSerie();
         bookSerie.setAuthor(author);
-        Mockito.when(serieRepository.findOne(55L)).thenReturn(bookSerie);
+        Mockito.when(serieRepository.findById(55L)).thenReturn(Optional.ofNullable(bookSerie));
 
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getName()).thenReturn("user0");
@@ -109,7 +110,7 @@ public class SerieServiceTest {
         final User author = createUser("user1");
         final BookSerie bookSerie = new BookSerie();
         bookSerie.setAuthor(author);
-        Mockito.when(serieRepository.findOne(55L)).thenReturn(bookSerie);
+        Mockito.when(serieRepository.findById(55L)).thenReturn(Optional.ofNullable(bookSerie));
 
         final SerieRequest serie = new SerieRequest();
         serie.setId(55L);
@@ -131,7 +132,7 @@ public class SerieServiceTest {
         final User author = createUser("user10");
         final BookSerie bookSerie = new BookSerie();
         bookSerie.setAuthor(author);
-        Mockito.when(serieRepository.findOne(55L)).thenReturn(bookSerie);
+        Mockito.when(serieRepository.findById(55L)).thenReturn(Optional.ofNullable(bookSerie));
 
         serieService.deleteSerie(55L);
     }

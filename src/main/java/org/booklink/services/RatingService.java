@@ -35,10 +35,7 @@ public class RatingService {
         if (rating != null) {
             throw new ObjectAlreadyExistException("You have already added your vote for this book");
         }
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book was not found");
-        }
+        final Book book = bookRepository.findById(bookId).orElseThrow(() -> new ObjectNotFoundException("Book was not found"));
         rating = new Rating();
         RatingId ratingId = new RatingId();
         ratingId.setBook(book);

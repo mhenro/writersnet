@@ -44,7 +44,7 @@ public class AuthenticationService {
     }
 
     public String auth(final Credentials credentials) {
-        final User user = userRepository.findOne(credentials.getUsername());
+        final User user = userRepository.findById(credentials.getUsername()).orElse(null);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (user == null || !passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
             throw new UnauthorizedUserException("Bad credentials");
@@ -66,7 +66,7 @@ public class AuthenticationService {
 
     @Transactional
     public void register(final Credentials credentials) throws MessagingException {
-        User user = userRepository.findOne(credentials.getUsername());
+        User user = userRepository.findById(credentials.getUsername()).orElse(null);
         User userByEmail = userRepository.findUserByEmail(credentials.getEmail());
         if (user != null || userByEmail != null) {
             throw new ObjectAlreadyExistException("User with this login and/or email already exist");

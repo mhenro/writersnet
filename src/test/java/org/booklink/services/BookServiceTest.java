@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -94,7 +95,7 @@ public class BookServiceTest {
         final User user = new User();
         user.setUsername("user0");
         book.setAuthor(user);
-        Mockito.when(bookRepository.findOne(111L)).thenReturn(book);
+        Mockito.when(bookRepository.findById(111L)).thenReturn(Optional.ofNullable(book));
         //final Friendship friendship = new Friendship();
         //final FriendshipPK friendshipPK = new FriendshipPK();
         //friendship.setFriendshipPK(friendshipPK);
@@ -171,7 +172,7 @@ public class BookServiceTest {
         final User user = new User();
         user.setUsername("user5");
         bookEntity.setAuthor(user);
-        Mockito.when(bookRepository.findOne(111L)).thenReturn(bookEntity);
+        Mockito.when(bookRepository.findById(111L)).thenReturn(Optional.ofNullable(bookEntity));
 
         final BookRequest book = new BookRequest();
         book.setId(111L);
@@ -214,7 +215,7 @@ public class BookServiceTest {
         final User user = new User();
         user.setUsername("user10");
         book.setAuthor(user);
-        Mockito.when(bookRepository.findOne(111L)).thenReturn(book);
+        Mockito.when(bookRepository.findById(111L)).thenReturn(Optional.ofNullable(book));
 
         final CoverRequest coverRequest = new CoverRequest();
         final MultipartFile cover = Mockito.mock(MultipartFile.class);
@@ -251,7 +252,7 @@ public class BookServiceTest {
         final User user = new User();
         user.setUsername("user10");
         book.setAuthor(user);
-        Mockito.when(bookRepository.findOne(111L)).thenReturn(book);
+        Mockito.when(bookRepository.findById(111L)).thenReturn(Optional.ofNullable(book));
 
         bookService.deleteBook(111L);
     }

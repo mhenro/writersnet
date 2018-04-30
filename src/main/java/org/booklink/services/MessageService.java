@@ -51,14 +51,8 @@ public class MessageService {
     @Transactional
     public Long addMessageToGroup(final String creator, final String primaryRecipient, final String text, final Long groupId) {
         checkCredentials(creator);
-        final User author = authorRepository.findOne(creator);
-        if (author == null) {
-            throw new ObjectNotFoundException("Author of the message is not found");
-        }
-        final User recipient = primaryRecipient != null ? authorRepository.findOne(primaryRecipient) : null;
-        if (primaryRecipient != null && recipient == null) {
-            throw new ObjectNotFoundException("Recipient is not found");
-        }
+        final User author = authorRepository.findById(creator).orElseThrow(() -> new ObjectNotFoundException("Author of the message is not found"));
+        final User recipient = primaryRecipient != null ? authorRepository.findById(primaryRecipient).orElseThrow(() -> new ObjectNotFoundException("Recipient is not found")) : null;
         final ChatGroup group = getChatGroup(author, groupId, recipient);
         if (creator.equals(group.getCreator().getUsername())) {
             group.setUnreadByRecipient(true);
@@ -78,20 +72,14 @@ public class MessageService {
     @Transactional
     public Long getGroupByRecipient(final String recipientId, final String authorId) {
         checkCredentials(authorId);
-        final User author = authorRepository.findOne(authorId);
-        if (author == null) {
-            throw new ObjectNotFoundException("Author of the message is not found");
-        }
-        final User recipient = authorRepository.findOne(recipientId);
-        if (recipient == null) {
-            throw new ObjectNotFoundException("Recipient is not found");
-        }
+        final User author = authorRepository.findById(authorId).orElseThrow(() -> new ObjectNotFoundException("Author of the message is not found"));
+        final User recipient = authorRepository.findById(recipientId).orElseThrow(() -> new ObjectNotFoundException("Recipient is not found"));
         final ChatGroup group = getGroupByRecipient(recipient, author);
         return Optional.ofNullable(group).map(chatGroup -> chatGroup.getId()).orElse(null);
     }
 
     public String getGroupName(final Long groupId, final String author) {
-        final ChatGroup group = chatGroupRepository.findOne(groupId);
+        final ChatGroup group = chatGroupRepository.findById(groupId).orElse(null);
         if (group != null) {
             String groupName = group.getName();
             if (groupName != null) {
@@ -108,10 +96,7 @@ public class MessageService {
     }
 
     public long getUnreadMessagesInGroup(final String userId, final Long groupId) {
-        final ChatGroup group = chatGroupRepository.findOne(groupId);
-        if (group == null) {
-            throw new ObjectNotFoundException("Chat group is not found");
-        }
+        final ChatGroup group = chatGroupRepository.findById(groupId).orElseThrow(() -> new ObjectNotFoundException("Chat group is not found"));
         return group.getMessages().parallelStream()
                 .filter(message -> !message.getCreator().getUsername().equals(userId))
                 .filter(message -> message.getUnread())
@@ -127,12 +112,13 @@ public class MessageService {
     public void markAsReadInGroup(final String userId, final Long groupId) {
         messageRepository.markAsReadInGroup(userId, groupId);
 
-        final ChatGroup group = chatGroupRepository.findOne(groupId);
-        if (userId.equals(group.getCreator().getUsername())) {
-            group.setUnreadByCreator(false);
-        } else {
-            group.setUnreadByRecipient(false);
-        }
+        chatGroupRepository.findById(groupId).ifPresent(group -> {
+            if (userId.equals(group.getCreator().getUsername())) {
+                group.setUnreadByCreator(false);
+            } else {
+                group.setUnreadByRecipient(false);
+            }
+        });
     }
 
     private ChatGroup getGroupByRecipient(final User recipient, final User author) {

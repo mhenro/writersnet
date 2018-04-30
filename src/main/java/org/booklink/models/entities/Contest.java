@@ -1,6 +1,5 @@
 package org.booklink.models.entities;
 
-import org.booklink.services.convertors.LocalDateTimeAttributeConverter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 

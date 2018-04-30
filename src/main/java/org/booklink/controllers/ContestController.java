@@ -11,11 +11,13 @@ import org.booklink.services.ContestService;
 import org.booklink.utils.ControllerHelper;
 import org.booklink.utils.ObjectHelper;
 import org.bouncycastle.ocsp.Req;
+import org.hibernate.StaleStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -183,5 +185,10 @@ public class ContestController {
     @ExceptionHandler(WrongDataException.class)
     public ResponseEntity<?> wrongData(WrongDataException e) {
         return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Wrong data"), null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(StaleStateException.class)
+    public ResponseEntity<?> optimisticLockCollision(StaleStateException e) {
+        return Response.createResponseEntity(1, "Server is overloaded. Please repeat the operation.", null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

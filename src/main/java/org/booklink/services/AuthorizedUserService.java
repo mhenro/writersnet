@@ -25,10 +25,7 @@ public class AuthorizedUserService {
     public User getAuthorizedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = auth.getName();
-        final User user = authorRepository.findOne(currentUser);
-        if (user == null) {
-            throw new UnauthorizedUserException("User is not found");
-        }
+        final User user = authorRepository.findById(currentUser).orElseThrow(() -> new UnauthorizedUserException("User is not found"));
         return user;
     }
 }

@@ -71,15 +71,9 @@ public class CommentsService {
             throw new WrongDataException("Comment must not be empty");
         }
         Comment entity = new Comment();
-        Book book = bookRepository.findOne(bookComment.getBookId());
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        Book book = bookRepository.findById(bookComment.getBookId()).orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         if (bookComment.getUserId() != null) {
-            User user = authorRepository.findOne(bookComment.getUserId());
-            if (user == null) {
-                throw new ObjectNotFoundException("Author is not found");
-            }
+            User user = authorRepository.findById(bookComment.getUserId()).orElseThrow(() -> new ObjectNotFoundException("Author is not found"));
             entity.setUser(user);
             newsService.createNews(NewsService.NEWS_TYPE.COMMENT, user, book);
         }
@@ -87,10 +81,7 @@ public class CommentsService {
         entity.setComment(bookComment.getComment());
         entity.setCreated(LocalDateTime.now());
         if (bookComment.getRelatedTo() != null) {
-            final Comment relatedComment = bookCommentsRepository.findOne(bookComment.getRelatedTo());
-            if (relatedComment == null) {
-                throw new ObjectNotFoundException("Related comment is not found");
-            }
+            final Comment relatedComment = bookCommentsRepository.findById(bookComment.getRelatedTo()).orElseThrow(() -> new ObjectNotFoundException("Related comment is not found"));
             entity.setRelatedTo(relatedComment);
         }
         increaseCommentsInBookAndUser(entity);
@@ -99,13 +90,10 @@ public class CommentsService {
 
     @Transactional
     public void deleteComment(final Long bookId, final Long commentId) {
-        Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         checkCredentials(book.getAuthor().getUsername());   //only owner can delete comments from his book
         decreaseCommentsInBookAndUser(commentId);
-        bookCommentsRepository.delete(commentId);
+        bookCommentsRepository.deleteById(commentId);
     }
 
     private void setDefaultAvatars(final Page<CommentResponse> comments) {
@@ -137,8 +125,8 @@ public class CommentsService {
     }
 
     private void decreaseCommentsInBookAndUser(final Long commentId) {
-        final Comment comment = bookCommentsRepository.findOne(commentId);
-        decreaseCommentsInBookAndUser(comment);
+        bookCommentsRepository.findById(commentId)
+                .ifPresent(comment -> decreaseCommentsInBookAndUser(comment));
     }
 
     private void decreaseCommentsInBookAndUser(final Comment comment) {

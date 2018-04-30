@@ -223,20 +223,16 @@ public class BookService {
             final BookText bookText = new BookText();
             savedBook.setBookText(bookText);
         } else {    //saved book was edited
-            savedBook = bookRepository.findOne(book.getId());
-            if (savedBook == null) {
-                throw new ObjectNotFoundException("Book is not found");
-            }
+            savedBook = bookRepository.findById(book.getId())
+                    .orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
             checkCredentials(savedBook.getAuthor().getUsername());   //only owner can edit his book
             savedBook.setLastUpdate(LocalDateTime.now());
         }
         processCostRequest(book);
         BeanUtils.copyProperties(book, savedBook, ObjectHelper.getNullPropertyNames(book));
         if (book.getSerieId() != null) {
-            BookSerie bookSerie = serieRepository.findOne(book.getSerieId());
-            if (bookSerie != null) {
-                savedBook.setBookSerie(bookSerie);
-            }
+            serieRepository.findById(book.getSerieId())
+                    .ifPresent(s -> savedBook.setBookSerie(s));
         } else {
             savedBook.setBookSerie(null);
         }
@@ -259,10 +255,8 @@ public class BookService {
     public void saveCover(final CoverRequest coverRequest) throws IOException {
         checkCredentials(coverRequest.getUserId()); //only the owner can change the cover of his book
 
-        Book book = bookRepository.findOne(coverRequest.getId());
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        Book book = bookRepository.findById(coverRequest.getId())
+                .orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         if (coverRequest.getCover().getSize() >= 102400 && !book.getAuthor().getPremium()) {
             throw new IsNotPremiumUserException("Only a premium user can add the book cover larger than 100 Kb");
         }
@@ -287,10 +281,8 @@ public class BookService {
     @Transactional
     public void restoreDefaultCover(final Long bookId) {
         authorizedUserService.getAuthorizedUser();
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        final Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         book.setCover(null);
         newsService.createNews(NewsService.NEWS_TYPE.BOOK_UPDATED, book.getAuthor(), book);
     }
@@ -299,16 +291,14 @@ public class BookService {
     public LocalDateTime saveBookText(final BookTextRequest bookTextRequest) throws IOException {
         checkCredentials(bookTextRequest.getUserId()); //only the owner can change the cover of his book
 
-        Book book = bookRepository.findOne(bookTextRequest.getBookId());
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        Book book = bookRepository.findById(bookTextRequest.getBookId())
+                .orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         if (bookTextRequest.getText().getSize() >= 10485760 && !book.getAuthor().getPremium()) {
             throw new IsNotPremiumUserException("Only a premium user can add the book text larger than 10 Mb");
         }
         checkCredentials(book.getAuthor().getUsername()); //only the owner can change the text of his book
         String text = convertBookTextToHtml(bookTextRequest);
-        BookText bookText = Optional.ofNullable(book.getBookText()).map(txt -> bookTextRepository.findOne(txt.getId())).orElseGet(BookText::new);
+        BookText bookText = Optional.ofNullable(book.getBookText()).map(txt -> bookTextRepository.findById(txt.getId()).orElseGet(BookText::new)).orElseGet(BookText::new);
         bookText.setPrevText(bookText.getText());
         bookText.setText(text);
         bookTextRepository.save(bookText);
@@ -321,30 +311,27 @@ public class BookService {
 
     @Transactional
     public void deleteBook(final Long bookId) {
-        Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         checkCredentials(book.getAuthor().getUsername());   //only owner can delete his book
         newsService.createNews(NewsService.NEWS_TYPE.BOOK_DELETED, book.getAuthor(), book);
-        bookRepository.delete(bookId);
+        bookRepository.deleteById(bookId);
         updateDateInUserSection(book.getAuthor().getUsername());
     }
 
     public boolean isUserHasBook(final Long bookId) {
         final User user = authorizedUserService.getAuthorizedUser();
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        final Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         if (book.getAuthor().getUsername().equals(user.getUsername())) {
             return true;
         }
         final UserBookPK userBookPK = new UserBookPK();
         userBookPK.setUser(user);
         userBookPK.setBook(book);
-        final UserBook userBook = userBookRepository.findOne(userBookPK);
-        return Optional.ofNullable(userBook).map(ub -> true).orElse(false);
+        return userBookRepository.findById(userBookPK)
+                .map(b -> true)
+                .orElse(false);
     }
 
     private Document getDocument(final String content) {
@@ -354,10 +341,8 @@ public class BookService {
     }
 
     public byte[] getBookAsPdf(final Long bookId) throws IOException, DocumentException {
-        final Book book = bookRepository.findOne(bookId);
-        if (book == null) {
-            throw new ObjectNotFoundException("Book is not found");
-        }
+        final Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         final BookText bookText = book.getBookText();
 /*
         ITextRenderer renderer = new ITextRenderer();
@@ -403,12 +388,11 @@ public class BookService {
     }
 
     private void increaseBookViews(final Long bookId) {
-        final Book book = bookRepository.findOne(bookId);
-        if (book != null) {
+        bookRepository.findById(bookId).ifPresent(book -> {
             final long views = book.getViews() + 1;
             book.setViews(views);
             bookRepository.save(book);
-        }
+        });
     }
 
     private void processCostRequest(final BookRequest book) {
@@ -421,12 +405,12 @@ public class BookService {
     }
 
     private User updateDateInUserSection(final String userId) {
-        User user = authorRepository.findOne(userId);
-        if (user != null) {
-            user.getSection().setLastUpdated(LocalDate.now());
-            authorRepository.save(user);
-        }
-        return user;
+        Optional<User> user = authorRepository.findById(userId);
+        user.ifPresent(u -> {
+            u.getSection().setLastUpdated(LocalDate.now());
+            authorRepository.save(u);
+        });
+        return user.orElseGet(null);
     }
 
     private void setDefaultCoverForBookAndUser(final BookResponse book) {

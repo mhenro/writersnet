@@ -27,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -79,8 +80,8 @@ public class CommentsServiceTest {
         final Book book = new Book();
         book.setId(4L);
         book.setAuthor(user);
-        Mockito.when(bookRepository.findOne(book.getId())).thenReturn(book);
-        Mockito.when(authorRepository.findOne(user.getUsername())).thenReturn(user);
+        Mockito.when(bookRepository.findById(book.getId())).thenReturn(Optional.ofNullable(book));
+        Mockito.when(authorRepository.findById(user.getUsername())).thenReturn(Optional.ofNullable(user));
 
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getName()).thenReturn("user");

@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by mhenr on 23.11.2017.
@@ -56,7 +57,7 @@ public class SectionServiceTest {
         user.setActivationToken("activation_token");
         user.setAuthority("role");
         section.setAuthor(user);
-        Mockito.when(sectionRepository.findOne(5L)).thenReturn(section);
+        Mockito.when(sectionRepository.findById(5L)).thenReturn(Optional.ofNullable(section));
     }
 
     @Test

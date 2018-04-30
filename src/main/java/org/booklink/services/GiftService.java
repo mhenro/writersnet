@@ -33,10 +33,7 @@ public class GiftService {
     }
 
     public GiftResponse getGift(final long id) {
-        final Gift gift = giftRepository.findOne(id);
-        if (gift == null) {
-            throw new ObjectNotFoundException("Gift was not found");
-        }
+        final Gift gift = giftRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Gift was not found"));
         setImage(gift);
         final GiftResponse response = new GiftResponse(gift);
         return response;

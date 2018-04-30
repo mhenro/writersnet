@@ -1,7 +1,6 @@
 package org.booklink.models.request;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 25.02.2018.
