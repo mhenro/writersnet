@@ -199,7 +199,7 @@ public class AuthorService {
         String uploadDir = env.getProperty("writersnet.avatarstorage.path");
         File file = new File(uploadDir);
         if (!file.exists()) {
-            file.mkdir();
+            file.mkdirs();
         }
         String originalName = avatarRequest.getUserId().toString() + "." + FilenameUtils.getExtension(avatarRequest.getAvatar().getOriginalFilename());
 

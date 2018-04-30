@@ -262,7 +262,7 @@ public class BookService {
         String uploadDir = env.getProperty("writersnet.coverstorage.path");
         File file = new File(uploadDir);
         if (!file.exists()) {
-            file.mkdir();
+            file.mkdirs();
         }
         String originalName = coverRequest.getId().toString() + "." + FilenameUtils.getExtension(coverRequest.getCover().getOriginalFilename());
 
@@ -442,7 +442,7 @@ public class BookService {
         String path = env.getProperty("writersnet.tempstorage") + bookTextRequest.getUserId() + "\\";
         File dir = new File(path);
         if (!dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
         }
         String result = "";
         BookConvertor<String> textBookConvertor = new TextToHtmlConvertor();
