@@ -1,25 +1,16 @@
 package com.writersnets.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 06.12.2017.
  */
 @Entity
 @Table(name = "messages")
-public class Message {
-    private Long id;
-    private User creator;
-    private String message;
-    private LocalDateTime created;
-    private ChatGroup group;
-    private Boolean unread;
-
+public class Message extends AbstractEntity {
     @GenericGenerator(
             name = "message_generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
@@ -32,81 +23,62 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "message_generator")
     @Column(updatable = false, nullable = false)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
+    private User creator;
 
     @Column(name = "message_text")
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
+    private String message;
+    private LocalDateTime created;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
+    private ChatGroup group;
+    private Boolean unread;
+
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public User getCreator() {
+        return creator;
+    }
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+    public String getMessage() {
+        return message;
+    }
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    public LocalDateTime getCreated() {
+        return created;
+    }
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
     public ChatGroup getGroup() {
         return group;
     }
-
     public void setGroup(ChatGroup group) {
         this.group = group;
     }
-
     public Boolean getUnread() {
         return unread;
     }
-
     public void setUnread(Boolean unread) {
         this.unread = unread;
     }
 
     /* --------------------------------------------business logic-------------------------------------------- */
 
-    @Transient
-    @Deprecated
-    public String getCreatorId() {
-        return creator.getUsername();
-    }
-
-    @Transient
     public String getCreatorFullName() {
         return creator.getFullName();
-    }
-
-    @Transient
-    @Deprecated
-    public Long getChatGroupId() {
-        return group.getId();
-    }
-
-    @Transient
-    @Deprecated
-    public String getCreatorAvatar() {
-        return creator.getAvatar();
     }
 }

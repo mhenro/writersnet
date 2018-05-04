@@ -8,33 +8,30 @@ import java.io.Serializable;
  */
 @Embeddable
 public class RatingId implements Serializable {
-    private Book book;
-    private Integer estimation;
-    private String clientIp;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
+    private Book book;
+    private Integer estimation;
+
+    @Column(name = "client_ip")
+    private String clientIp;
+
+
     public Book getBook() {
         return book;
     }
-
     public void setBook(Book book) {
         this.book = book;
     }
-
     public Integer getEstimation() {
         return estimation;
     }
-
     public void setEstimation(Integer estimation) {
         this.estimation = estimation;
     }
-
-    @Column(name = "client_ip")
     public String getClientIp() {
         return clientIp;
     }
-
     public void setClientIp(String clientIp) {
         this.clientIp = clientIp;
     }

@@ -4,17 +4,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * Created by mhenr on 22.10.2017.
  */
 @Entity
-public class BookSerie implements Serializable {
-    private Long id;
-    private String name;
-    private User author;
-
+public class BookSerie extends AbstractEntity implements Serializable {
     @GenericGenerator(
             name = "serie_generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
@@ -27,28 +22,29 @@ public class BookSerie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "serie_generator")
     @Column(updatable = false, nullable = false)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Long id;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    private User author;
+
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
     public User getAuthor() {
         return author;
     }
-
     public void setAuthor(User author) {
         this.author = author;
     }

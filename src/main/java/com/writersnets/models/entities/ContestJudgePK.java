@@ -11,11 +11,15 @@ import java.io.Serializable;
  */
 @Embeddable
 public class ContestJudgePK implements Serializable {
-    private Contest contest;
-    private User judge;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contest_id")
+    private Contest contest;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "judge_id")
+    private User judge;
+
+
     public Contest getContest() {
         return contest;
     }
@@ -24,8 +28,7 @@ public class ContestJudgePK implements Serializable {
         this.contest = contest;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "judge_id")
+
     public User getJudge() {
         return judge;
     }

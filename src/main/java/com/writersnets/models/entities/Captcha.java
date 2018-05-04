@@ -5,18 +5,13 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 10.01.2018.
  */
 @Entity
 @Table(name = "captcha")
-public class Captcha {
-    private Long id;
-    private String code;
-    private LocalDateTime expired;
-
+public class Captcha extends AbstractEntity {
     @GenericGenerator(
             name = "captcha_generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
@@ -29,27 +24,28 @@ public class Captcha {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "captcha_generator")
     @Column(updatable = false, nullable = false)
+    private Long id;
+
+    @Column(unique = true)
+    private String code;
+    private LocalDateTime expired;
+
+
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    @Column(unique = true)
     public String getCode() {
         return code;
     }
-
     public void setCode(String code) {
         this.code = code;
     }
-
     public LocalDateTime getExpired() {
         return expired;
     }
-
     public void setExpired(LocalDateTime expired) {
         this.expired = expired;
     }

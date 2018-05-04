@@ -9,23 +9,20 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "contest_participants")
-public class ContestParticipant {
+public class ContestParticipant extends AbstractEntity {
+    @EmbeddedId
     private ContestParticipantPK pk;
     private Boolean accepted;
 
-    @EmbeddedId
     public ContestParticipantPK getPk() {
         return pk;
     }
-
     public void setPk(ContestParticipantPK pk) {
         this.pk = pk;
     }
-
     public Boolean getAccepted() {
         return accepted;
     }
-
     public void setAccepted(Boolean accepted) {
         this.accepted = accepted;
     }

@@ -9,14 +9,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user_book")
-public class UserBook {
+public class UserBook extends AbstractEntity {
+    @EmbeddedId
     private UserBookPK userBookPK;
 
-    @EmbeddedId
+
     public UserBookPK getUserBookPK() {
         return userBookPK;
     }
-
     public void setUserBookPK(UserBookPK userBookPK) {
         this.userBookPK = userBookPK;
     }

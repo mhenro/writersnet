@@ -6,21 +6,13 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 06.11.2017.
  */
 @Entity
 @Table(name = "book_comments")
-public class Comment {
-    private Long id;
-    private Book book;
-    private User user;
-    private String comment;
-    private Comment relatedTo;
-    private LocalDateTime created;
-
+public class Comment extends AbstractEntity {
     @GenericGenerator(
             name = "book_comment_generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
@@ -33,56 +25,56 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_comment_generator")
     @Column(updatable = false, nullable = false)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
+    private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+    private User user;
+    private String comment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "related_to")
+    private Comment relatedTo;
+    private LocalDateTime created;
+
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Book getBook() {
+        return book;
+    }
+    public void setBook(Book book) {
+        this.book = book;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+    public String getComment() {
+        return comment;
+    }
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
     public Comment getRelatedTo() {
         return relatedTo;
     }
-
     public void setRelatedTo(Comment relatedTo) {
         this.relatedTo = relatedTo;
     }
-
     public LocalDateTime getCreated() {
         return created;
     }
-
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }

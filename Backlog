@@ -7,9 +7,9 @@ Features:
 121. Add links for names in chat page.
 122. Scroll screen to input comment field when clicking on Quote message button.
 123. Replace chat internal realization with RabbitMQ realization.
-124. Replace hibernate getter annotations to hibernate field annotations for the best practice.
 125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
 127. Migrate to Java 10.
+130. Add liquibase gradle plugin to build script.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 21. Link webmoney merchant interface to BalancePage.
@@ -187,3 +187,5 @@ DONE - 119. Add "Contest" page where creator can send invitations to participant
 DONE - 125. Add "expirationDate" field to the contest. When date will be expired the contest should be finished any way even if not all the judges did their estimations.
 DONE - 126. Migrate to Spring Boot 2.0.1.
 DONE - 128. Migrate to Gradle.
+DONE - 124. Replace hibernate getter annotations to hibernate field annotations for the best practice.
+DONE - 129. Add optimistic locking for all entities.

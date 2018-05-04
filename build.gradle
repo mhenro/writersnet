@@ -9,6 +9,11 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
+/*
+plugins {
+	id "org.liquibase.gradle" version "1.2.4"
+}
+*/
 
 apply plugin: 'java'
 apply plugin: 'eclipse'

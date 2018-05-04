@@ -6,20 +6,12 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 24.01.2018.
  */
 @Entity
-public class Billing {
-    private Long id;
-    private User author;
-    private OperationType operationType;
-    private LocalDateTime operationDate;
-    private Long operationCost;
-    private Long balance;
-
+public class Billing extends AbstractEntity {
     @GenericGenerator(
             name = "billing_generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
@@ -32,57 +24,59 @@ public class Billing {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "billing_generator")
     @Column(updatable = false, nullable = false)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
+    private User author;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "operation_type")
+    private OperationType operationType;
+
+    @Column(name = "operation_date")
+    private LocalDateTime operationDate;
+
+    @Column(name = "operation_cost", nullable = false)
+    private Long operationCost;
+
+    @Column(nullable = false)
+    private Long balance;
+
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public User getAuthor() {
+        return author;
+    }
+    public void setAuthor(User author) {
+        this.author = author;
+    }
     public OperationType getOperationType() {
         return operationType;
     }
-
     public void setOperationType(OperationType operationType) {
         this.operationType = operationType;
     }
-
-    @Column(name = "operation_date")
     public LocalDateTime getOperationDate() {
         return operationDate;
     }
-
     public void setOperationDate(LocalDateTime operationDate) {
         this.operationDate = operationDate;
     }
-
-    @Column(name = "operation_cost", nullable = false)
     public Long getOperationCost() {
         return operationCost;
     }
-
     public void setOperationCost(Long operationCost) {
         this.operationCost = operationCost;
     }
-
-    @Column(nullable = false)
     public Long getBalance() {
         return balance;
     }
-
     public void setBalance(Long balance) {
         this.balance = balance;
     }

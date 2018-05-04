@@ -9,13 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "user_gift")
-public class UserGift {
-    private Long id;
-    private Gift gift;
-    private User user;
-    private User sender;
-    private String sendMessage;
-
+public class UserGift extends AbstractEntity {
     @GenericGenerator(
             name = "user_gift_generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
@@ -28,49 +22,51 @@ public class UserGift {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_gift_generator")
     @Column(updatable = false, nullable = false)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gift_id", nullable = false)
-    public Gift getGift() {
-        return gift;
-    }
-
-    public void setGift(Gift gift) {
-        this.gift = gift;
-    }
+    private Gift gift;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_user")
+    private User sender;
+
+    @Column(name = "message")
+    private String sendMessage;
+
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Gift getGift() {
+        return gift;
+    }
+    public void setGift(Gift gift) {
+        this.gift = gift;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
     public User getSender() {
         return sender;
     }
-
     public void setSender(User sender) {
         this.sender = sender;
     }
-
-    @Column(name = "message")
     public String getSendMessage() {
         return sendMessage;
     }
-
     public void setSendMessage(String sendMessage) {
         this.sendMessage = sendMessage;
     }

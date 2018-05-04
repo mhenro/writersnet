@@ -11,23 +11,21 @@ import java.io.Serializable;
  */
 @Embeddable
 public class ReviewIP_PK implements Serializable{
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
     private Review review;
     private String ip;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id")
+
     public Review getReview() {
         return review;
     }
-
     public void setReview(Review review) {
         this.review = review;
     }
-
     public String getIp() {
         return ip;
     }
-
     public void setIp(String ip) {
         this.ip = ip;
     }

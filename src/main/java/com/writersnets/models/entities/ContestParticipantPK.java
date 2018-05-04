@@ -11,36 +11,34 @@ import java.io.Serializable;
  */
 @Embeddable
 public class ContestParticipantPK implements Serializable {
-    private Contest contest;
-    private User participant;
-    private Book book;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contest_id")
-    public Contest getContest() {
-        return contest;
-    }
-
-    public void setContest(Contest contest) {
-        this.contest = contest;
-    }
+    private Contest contest;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "participant_id")
-    public User getParticipant() {
-        return participant;
-    }
-
-    public void setParticipant(User participant) {
-        this.participant = participant;
-    }
+    private User participant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
+    private Book book;
+
+
+    public Contest getContest() {
+        return contest;
+    }
+    public void setContest(Contest contest) {
+        this.contest = contest;
+    }
+    public User getParticipant() {
+        return participant;
+    }
+    public void setParticipant(User participant) {
+        this.participant = participant;
+    }
     public Book getBook() {
         return book;
     }
-
     public void setBook(Book book) {
         this.book = book;
     }

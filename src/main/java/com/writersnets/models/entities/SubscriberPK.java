@@ -11,25 +11,24 @@ import java.io.Serializable;
  */
 @Embeddable
 public class SubscriberPK implements Serializable {
-    private User subscriber;
-    private User owner;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subscriber_id")
-    public User getSubscriber() {
-        return subscriber;
-    }
-
-    public void setSubscriber(User subscriber) {
-        this.subscriber = subscriber;
-    }
+    private User subscriber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
+    private User owner;
+
+
+    public User getSubscriber() {
+        return subscriber;
+    }
+    public void setSubscriber(User subscriber) {
+        this.subscriber = subscriber;
+    }
     public User getOwner() {
         return owner;
     }
-
     public void setOwner(User owner) {
         this.owner = owner;
     }

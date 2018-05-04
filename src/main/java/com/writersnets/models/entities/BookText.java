@@ -11,12 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "book_text")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class BookText {
-    private Long id;
-    private String text;
-    private String prevText;
-    private Book book;
-
+public class BookText extends AbstractEntity {
     @GenericGenerator(
             name = "book_text_generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
@@ -29,37 +24,38 @@ public class BookText {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_text_generator")
     @Column(updatable = false, nullable = false)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
+    private Long id;
+    private String text;
 
     @Column(name = "prev_text")
-    public String getPrevText() {
-        return prevText;
-    }
-
-    public void setPrevText(String prevText) {
-        this.prevText = prevText;
-    }
+    private String prevText;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
+    private Book book;
+
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getText() {
+        return text;
+    }
+    public void setText(String text) {
+        this.text = text;
+    }
+    public String getPrevText() {
+        return prevText;
+    }
+    public void setPrevText(String prevText) {
+        this.prevText = prevText;
+    }
     public Book getBook() {
         return book;
     }
-
     public void setBook(Book book) {
         this.book = book;
     }

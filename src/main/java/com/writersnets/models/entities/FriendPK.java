@@ -11,25 +11,24 @@ import java.io.Serializable;
  */
 @Embeddable
 public class FriendPK implements Serializable{
-    private User friend;
-    private User owner;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_id")
-    public User getFriend() {
-        return friend;
-    }
-
-    public void setFriend(User friend) {
-        this.friend = friend;
-    }
+    private User friend;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
+    private User owner;
+
+
+    public User getFriend() {
+        return friend;
+    }
+    public void setFriend(User friend) {
+        this.friend = friend;
+    }
     public User getOwner() {
         return owner;
     }
-
     public void setOwner(User owner) {
         this.owner = owner;
     }
