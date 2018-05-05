@@ -38,18 +38,10 @@ export const formatDate = (date, formatter = 'D/M/Y h:m:s') => {
 export const formatTimeInterval = (timeInterval, formatter = 'h:m:s') => {  //'y:d:h:m:s'
     let years = Math.trunc(timeInterval / 1000 / 60 / 60 / 24 / 365),
         days = Math.trunc((timeInterval / 1000 / 60 / 60 / 24 / 365 - years) * 365),
-        hours = Math.trunc((timeInterval / 1000 / 60 / 60 / 24 - years * 365 * 24 - days) * 24),
-        minutes = Math.trunc((timeInterval / 1000 / 60 / 60  - years * 365 * 24 * 60 - days * 24 - hours) * 60),
-        seconds = Math.trunc((timeInterval / 1000 / 60 - years * 365 * 24 * 60 * 60 - days * 24 * 60 - hours * 60 - minutes) * 60),
-        result;
-    /*
-    result = years > 0 ? formatter.replace('y', years) : formatter.replace('y', '0');
-    result = days > 0 ? result.replace('d', days) : result.replace('d', '0');
-    result = hours > 0 ? result.replace('h', hours) : result.replace('h', '');
-    result = minutes > 0 ? result.replace('m', minutes) : result.replace('m', '');
-    result = seconds > 0 ? result.replace('s', seconds) : result.replace('s', '');
-    return result;
-    */
+        hours = Math.trunc((timeInterval / 1000 / 60 / 60 / 24 - years * 365 - days) * 24),
+        minutes = Math.trunc((timeInterval / 1000 / 60 / 60  - years * 365 * 24 - days * 24 - hours) * 60),
+        seconds = Math.trunc((timeInterval / 1000 / 60 - years * 365 * 24 * 60 - days * 24 * 60 - hours * 60 - minutes) * 60);
+
     return formatter.replace('Y', years).replace('D', days).replace('H', hours).replace('M', minutes).replace('S', seconds);
 };
 
