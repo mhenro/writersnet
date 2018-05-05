@@ -9,6 +9,7 @@ Features:
 21. Link webmoney merchant interface to BalancePage.
 123. Replace chat internal realization with RabbitMQ realization.
 125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
+131. Fix all tests.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.

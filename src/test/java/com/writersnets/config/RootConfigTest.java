@@ -21,14 +21,13 @@ import javax.sql.DataSource;
  * Created by mhenr on 27.09.2017.
  */
 @Profile("test")
-
 @Configuration
 @ComponentScan(basePackageClasses = {SecurityConfigTest.class})
 @EntityScan(basePackages = "com.writersnets.models.entities")
 @EnableJpaRepositories(basePackages = "com.writersnets.repositories")
 public class RootConfigTest {
-    @Autowired
-    private JwtFilter jwtFilter;
+    //@Autowired
+    //private JwtFilter jwtFilter;
 
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
@@ -39,13 +38,13 @@ public class RootConfigTest {
         return liquibase;
     }
 
-    @Bean
-    public FilterRegistrationBean jwtFilter() {
-        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(jwtFilter);
-        registrationBean.addUrlPatterns("/*");
-        return registrationBean;
-    }
+    //@Bean
+    //public FilterRegistrationBean jwtFilter() {
+     //   final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
+     //   registrationBean.setFilter(jwtFilter);
+     //   registrationBean.addUrlPatterns("/*");
+     //   return registrationBean;
+    //}
 
     @Bean
     @ConfigurationProperties(prefix = "spring.mail")

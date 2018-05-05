@@ -12,6 +12,11 @@ import { formatDate } from '../../utils.jsx';
     - onExit - callback
  */
 class ContestList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.popupAllowed = true;
+    }
+
     getCreatorName(contest) {
         return <Link to={'/authors/' + contest.creatorId}>{contest.creatorFullName}</Link>
     }
@@ -54,7 +59,7 @@ class ContestList extends React.Component {
     }
 
     onRowClick(id) {
-        if (typeof this.props.onShowContestEditForm === 'function') {
+        if (typeof this.props.onShowContestEditForm === 'function' && this.popupAllowed) {
             this.props.onShowContestEditForm(id);
         }
     }
@@ -70,18 +75,24 @@ class ContestList extends React.Component {
         if (!contest.accepted) {
             return (
                 <div className="btn-group">
-                    <button className="btn btn-success btn-sm" onClick={() => this.props.onJoin(contest.id, contest.bookId)}>Join</button>
-                    <button className="btn btn-danger btn-sm" onClick={() => this.props.onExit(contest.id, contest.bookId)}>Exit</button>
+                    <button className="btn btn-success btn-sm" onClick={() => this.onActionClick(this.props.onJoin, contest)}>Join</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => this.onActionClick(this.props.onExit, contest)}>Exit</button>
                 </div>
             );
         } else {
             return (
                 <div className="btn-group">
-                    <button className="btn btn-warning btn-sm" onClick={() => this.props.onRefuse(contest.id, contest.bookId)}>Refuse</button>
-                    <button className="btn btn-danger btn-sm" onClick={() => this.props.onExit(contest.id, contest.bookId)}>Exit</button>
+                    <button className="btn btn-warning btn-sm" onClick={() => this.onActionClick(this.props.onRefuse, contest)}>Refuse</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => this.onActionClick(this.props.onExit, contest)}>Exit</button>
                 </div>
             );
         }
+    }
+
+    onActionClick(action, contest) {
+        this.popupAllowed = false;
+        action(contest.id, contest.bookId);
+        setTimeout(() => this.popupAllowed = true, 200);
     }
 
     renderTableBody() {

@@ -33,7 +33,7 @@ public class RootConfig {
 
     @Bean
     public FilterRegistrationBean jwtFilter() {
-        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new JwtFilter());
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
