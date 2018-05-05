@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 26.01.2018.
@@ -49,7 +48,7 @@ public class BalanceService {
     }
 
     public BalanceResponse getUserBalance() {
-        Page<BalanceResponse> paymentHistory = getUserPaymentHistory(new PageRequest(0, 1));
+        Page<BalanceResponse> paymentHistory = getUserPaymentHistory(PageRequest.of(0, 1));
         if (!paymentHistory.getContent().isEmpty()) {
             return paymentHistory.getContent().get(0);
         }

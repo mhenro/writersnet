@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1523476449946-1",
+      "id": "1525504317140-1",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -9,13 +9,13 @@
             "sequenceName": "billing_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-2",
+      "id": "1525504317140-2",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -23,13 +23,13 @@
             "sequenceName": "book_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-3",
+      "id": "1525504317140-3",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -37,13 +37,13 @@
             "sequenceName": "book_text_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-4",
+      "id": "1525504317140-4",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -51,13 +51,13 @@
             "sequenceName": "captcha_seq_id"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-5",
+      "id": "1525504317140-5",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -65,13 +65,13 @@
             "sequenceName": "chat_group_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-6",
+      "id": "1525504317140-6",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -79,13 +79,13 @@
             "sequenceName": "comment_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-7",
+      "id": "1525504317140-7",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -93,13 +93,13 @@
             "sequenceName": "contest_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-8",
+      "id": "1525504317140-8",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -107,13 +107,13 @@
             "sequenceName": "messages_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-9",
+      "id": "1525504317140-9",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -121,13 +121,13 @@
             "sequenceName": "news_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-10",
+      "id": "1525504317140-10",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -135,13 +135,13 @@
             "sequenceName": "review_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-11",
+      "id": "1525504317140-11",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -149,13 +149,13 @@
             "sequenceName": "section_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-12",
+      "id": "1525504317140-12",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -163,13 +163,13 @@
             "sequenceName": "serie_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-13",
+      "id": "1525504317140-13",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -177,13 +177,13 @@
             "sequenceName": "session_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-14",
+      "id": "1525504317140-14",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -191,13 +191,13 @@
             "sequenceName": "user_gift_id_seq"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-15",
+      "id": "1525504317140-15",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -206,7 +206,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "user_id",
                   "type": "VARCHAR(20)"
@@ -221,7 +223,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "operation_cost",
@@ -231,7 +235,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "balance",
@@ -242,8 +248,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "billing_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "billing_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -254,18 +262,30 @@
                   "name": "operation_date",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "billing"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-16",
+      "id": "1525504317140-16",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -275,8 +295,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "book_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "book_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -291,7 +313,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "author",
                   "type": "VARCHAR(100)"
@@ -342,7 +366,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "views",
@@ -352,7 +378,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "comments_count",
@@ -376,7 +404,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "review_count",
@@ -386,11 +416,13 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "paid",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
                 }
               },
               {
@@ -398,18 +430,30 @@
                   "name": "cost",
                   "type": "BIGINT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-17",
+      "id": "1525504317140-17",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -419,8 +463,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "comment_pk"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "comment_pk"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -429,7 +475,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "book_id",
                   "type": "BIGINT"
@@ -444,7 +492,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "comment",
                   "type": "VARCHAR(500)"
@@ -461,18 +511,30 @@
                   "name": "related_to",
                   "type": "BIGINT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "book_comments"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-18",
+      "id": "1525504317140-18",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -488,8 +550,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "serie_pk"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "serie_pk"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -498,23 +562,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "user_id",
                   "type": "VARCHAR(20)"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "book_serie"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-19",
+      "id": "1525504317140-19",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -524,8 +602,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "book_text_pk"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "book_text_pk"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -540,7 +620,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "book_id",
                   "type": "BIGINT"
@@ -551,18 +633,30 @@
                   "name": "prev_text",
                   "type": "VARCHAR(10485760)"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "book_text"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-20",
+      "id": "1525504317140-20",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -572,8 +666,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "captcha_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "captcha_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -582,7 +678,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "code",
                   "type": "VARCHAR(4)"
@@ -591,23 +689,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "expired",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "captcha"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-21",
+      "id": "1525504317140-21",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -617,8 +729,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "chat_groups_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "chat_groups_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -633,7 +747,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "created",
                   "type": "TIMESTAMP WITH TIME ZONE"
@@ -660,34 +776,50 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "unread_by_creator",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
                 }
               },
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "unread_by_recipient",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
                 }
               }]
-          ,
+            ,
             "tableName": "chat_groups"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-22",
+      "id": "1525504317140-22",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -696,7 +828,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "group_id",
                   "type": "BIGINT"
@@ -705,23 +839,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "user_id",
                   "type": "VARCHAR(20)"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "chat_groups_users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-23",
+      "id": "1525504317140-23",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -731,8 +879,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "contest_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "contest_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -741,7 +891,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "creator",
                   "type": "VARCHAR(20)"
@@ -750,7 +902,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "prize_fund",
@@ -760,7 +914,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 100,
                   "name": "first_place_revenue",
@@ -770,7 +926,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "second_place_revenue",
@@ -780,7 +938,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "third_place_revenue",
@@ -790,7 +950,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "created",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
@@ -799,7 +961,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "name",
                   "type": "VARCHAR(50)"
@@ -808,27 +972,33 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "started",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
                 }
               },
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "closed",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
                 }
               },
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "judge_count",
@@ -838,7 +1008,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "participant_count",
@@ -850,18 +1022,30 @@
                   "name": "expiration_date",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "contest"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-24",
+      "id": "1525504317140-24",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -870,7 +1054,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "contest_id",
                   "type": "BIGINT"
@@ -879,7 +1065,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "judge_id",
                   "type": "VARCHAR(20)"
@@ -888,24 +1076,38 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "accepted",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
                 }
               }]
-          ,
+            ,
             "tableName": "contest_judges"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-25",
+      "id": "1525504317140-25",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -914,7 +1116,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "contest_id",
                   "type": "BIGINT"
@@ -923,7 +1127,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "participant_id",
                   "type": "VARCHAR(20)"
@@ -932,33 +1138,49 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "accepted",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
                 }
               },
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "book_id",
                   "type": "BIGINT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "contest_participants"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-26",
+      "id": "1525504317140-26",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -967,7 +1189,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "friend_id",
                   "type": "VARCHAR(20)"
@@ -976,7 +1200,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "owner_id",
                   "type": "VARCHAR(20)"
@@ -985,23 +1211,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "added",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "friends"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-27",
+      "id": "1525504317140-27",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1010,7 +1250,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "subscriber_id",
                   "type": "VARCHAR(20)"
@@ -1019,7 +1261,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "subscription_id",
                   "type": "VARCHAR(20)"
@@ -1028,7 +1272,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "date",
                   "type": "TIMESTAMP WITH TIME ZONE"
@@ -1037,24 +1283,38 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": true,
                   "name": "active",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
                 }
               }]
-          ,
+            ,
             "tableName": "friendships"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-28",
+      "id": "1525504317140-28",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1063,7 +1323,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "id",
                   "type": "BIGINT"
@@ -1072,7 +1334,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "gift_type",
                   "type": "SMALLINT"
@@ -1087,7 +1351,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValue": "Item",
                   "name": "name",
@@ -1111,18 +1377,30 @@
                   "name": "category",
                   "type": "VARCHAR(50)"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "gift"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-29",
+      "id": "1525504317140-29",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1132,8 +1410,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "messages_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "messages_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -1142,7 +1422,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "creator_id",
                   "type": "VARCHAR(20)"
@@ -1151,7 +1433,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "message_text",
                   "type": "VARCHAR(255)"
@@ -1160,7 +1444,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "group_id",
                   "type": "BIGINT"
@@ -1169,7 +1455,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "created",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
@@ -1178,24 +1466,38 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": true,
                   "name": "unread",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
                 }
               }]
-          ,
+            ,
             "tableName": "messages"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-30",
+      "id": "1525504317140-30",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1205,8 +1507,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "news_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "news_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -1215,7 +1519,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "news_type",
                   "type": "BIGINT"
@@ -1224,7 +1530,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "author_id",
                   "type": "VARCHAR(20)"
@@ -1239,7 +1547,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "created",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
@@ -1256,18 +1566,30 @@
                   "name": "contest_id",
                   "type": "BIGINT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "news"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-31",
+      "id": "1525504317140-31",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1276,7 +1598,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "book_id",
                   "type": "BIGINT"
@@ -1285,7 +1609,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "estimation",
                   "type": "SMALLINT"
@@ -1294,23 +1620,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "client_ip",
                   "type": "VARCHAR(16)"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "rating"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-32",
+      "id": "1525504317140-32",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1320,8 +1660,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "reviews_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "reviews_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -1330,7 +1672,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "book_id",
                   "type": "BIGINT"
@@ -1345,7 +1689,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "author_id",
                   "type": "VARCHAR(20)"
@@ -1354,7 +1700,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "name",
                   "type": "VARCHAR(50)"
@@ -1363,7 +1711,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "score",
@@ -1373,7 +1723,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "likes",
@@ -1383,24 +1735,38 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "dislikes",
                   "type": "BIGINT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "reviews"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-33",
+      "id": "1525504317140-33",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1409,7 +1775,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "review_id",
                   "type": "BIGINT"
@@ -1418,23 +1786,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "ip",
                   "type": "VARCHAR(16)"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "reviews_ip"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-34",
+      "id": "1525504317140-34",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1456,8 +1838,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "section_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "section_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -1468,18 +1852,30 @@
                   "name": "description",
                   "type": "VARCHAR(1000)"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "sections"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-35",
+      "id": "1525504317140-35",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1489,8 +1885,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "sessions_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "sessions_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -1499,7 +1897,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "username",
                   "type": "VARCHAR(20)"
@@ -1508,23 +1908,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "expire_date",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "sessions"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-36",
+      "id": "1525504317140-36",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1533,7 +1947,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "subscriber_id",
                   "type": "VARCHAR(20)"
@@ -1542,7 +1958,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "owner_id",
                   "type": "VARCHAR(20)"
@@ -1551,23 +1969,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "added",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "subscribers"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-37",
+      "id": "1525504317140-37",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1576,7 +2008,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "subscription_id",
                   "type": "VARCHAR(20)"
@@ -1585,7 +2019,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "owner_id",
                   "type": "VARCHAR(20)"
@@ -1594,23 +2030,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "added",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "subscriptions"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-38",
+      "id": "1525504317140-38",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1619,7 +2069,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "user_id",
                   "type": "VARCHAR(20)"
@@ -1628,23 +2080,37 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "book_id",
                   "type": "BIGINT"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "user_book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-39",
+      "id": "1525504317140-39",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1653,7 +2119,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "gift_id",
                   "type": "BIGINT"
@@ -1662,7 +2130,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "user_id",
                   "type": "VARCHAR(20)"
@@ -1672,8 +2142,10 @@
                 "column": {
                   "autoIncrement": true,
                   "constraints": {
-                    "primaryKey": true,
-                    "primaryKeyName": "user_gift_pkey"
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "user_gift_pkey"
+                    }
                   },
                   "name": "id",
                   "type": "BIGSERIAL"
@@ -1690,18 +2162,30 @@
                   "name": "message",
                   "type": "VARCHAR(100)"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "user_gift"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-40",
+      "id": "1525504317140-40",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1710,7 +2194,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "username",
                   "type": "VARCHAR(20)"
@@ -1719,7 +2205,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "password",
                   "type": "VARCHAR(100)"
@@ -1728,11 +2216,13 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": true,
                   "name": "enabled",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
                 }
               },
               {
@@ -1768,7 +2258,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "email",
                   "type": "VARCHAR(50)"
@@ -1795,7 +2287,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "views",
@@ -1805,7 +2299,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "authority",
                   "type": "VARCHAR(50)"
@@ -1828,7 +2324,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "name": "section_id",
                   "type": "BIGINT"
@@ -1837,7 +2335,9 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "comments_count",
@@ -1847,27 +2347,33 @@
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "online",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
                 }
               },
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueBoolean": false,
                   "name": "premium",
-                  "type": "BOOLEAN"
+                  "type": "BOOL"
                 }
               },
               {
                 "column": {
                   "constraints": {
-                    "nullable": false
+                    "constraints": {
+                      "nullable": false
+                    }
                   },
                   "defaultValueNumeric": 0,
                   "name": "balance",
@@ -1879,18 +2385,30 @@
                   "name": "premium_expired",
                   "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
                 }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "constraints": {
+                      "nullable": false
+                    }
+                  },
+                  "defaultValueNumeric": 0,
+                  "name": "opt_lock",
+                  "type": "BIGINT"
+                }
               }]
-          ,
+            ,
             "tableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-41",
+      "id": "1525504317140-41",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1900,13 +2418,13 @@
             "tableName": "chat_groups_users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-42",
+      "id": "1525504317140-42",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1916,13 +2434,13 @@
             "tableName": "contest_judges"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-43",
+      "id": "1525504317140-43",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1932,13 +2450,13 @@
             "tableName": "contest_participants"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-44",
+      "id": "1525504317140-44",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1948,13 +2466,13 @@
             "tableName": "friends"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-45",
+      "id": "1525504317140-45",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1964,13 +2482,13 @@
             "tableName": "friendships"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-46",
+      "id": "1525504317140-46",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1980,13 +2498,13 @@
             "tableName": "gift"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-47",
+      "id": "1525504317140-47",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -1996,13 +2514,13 @@
             "tableName": "rating"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-48",
+      "id": "1525504317140-48",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2012,13 +2530,13 @@
             "tableName": "reviews_ip"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-49",
+      "id": "1525504317140-49",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2028,13 +2546,13 @@
             "tableName": "subscribers"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-50",
+      "id": "1525504317140-50",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2044,13 +2562,13 @@
             "tableName": "subscriptions"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-51",
+      "id": "1525504317140-51",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2060,13 +2578,13 @@
             "tableName": "user_book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-52",
+      "id": "1525504317140-52",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2076,13 +2594,13 @@
             "tableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-53",
+      "id": "1525504317140-53",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2092,13 +2610,13 @@
             "tableName": "captcha"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-54",
+      "id": "1525504317140-54",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2108,13 +2626,13 @@
             "tableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-55",
+      "id": "1525504317140-55",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2124,13 +2642,13 @@
             "tableName": "sessions"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-56",
+      "id": "1525504317140-56",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2141,18 +2659,18 @@
                   "name": "user_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_billing_user_fk",
             "tableName": "billing"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-57",
+      "id": "1525504317140-57",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2163,18 +2681,18 @@
                   "name": "book_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_book_fk",
             "tableName": "book_comments"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-58",
+      "id": "1525504317140-58",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2185,18 +2703,18 @@
                   "name": "serie_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_book_serie_fk",
             "tableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-59",
+      "id": "1525504317140-59",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2207,18 +2725,18 @@
                   "name": "author"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_book_users_fk",
             "tableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-60",
+      "id": "1525504317140-60",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2229,18 +2747,18 @@
                   "name": "primary_recipient"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_chat_groups_recipient_fk",
             "tableName": "chat_groups"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-61",
+      "id": "1525504317140-61",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2251,18 +2769,18 @@
                   "name": "user_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_chat_groups_user_fk",
             "tableName": "chat_groups_users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-62",
+      "id": "1525504317140-62",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2273,18 +2791,18 @@
                   "name": "creator_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_chat_groups_users_fk",
             "tableName": "chat_groups"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-63",
+      "id": "1525504317140-63",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2295,18 +2813,18 @@
                   "name": "related_to"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_comments_comments_fk",
             "tableName": "book_comments"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-64",
+      "id": "1525504317140-64",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2317,18 +2835,18 @@
                   "name": "user_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_comments_users_fk",
             "tableName": "book_comments"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-65",
+      "id": "1525504317140-65",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2339,18 +2857,18 @@
                   "name": "creator"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_contest_creator_fk",
             "tableName": "contest"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-66",
+      "id": "1525504317140-66",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2361,18 +2879,18 @@
                   "name": "judge_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_contest_judges_fk",
             "tableName": "contest_judges"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-67",
+      "id": "1525504317140-67",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2383,18 +2901,18 @@
                   "name": "participant_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_contest_participant_fk",
             "tableName": "contest_participants"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-68",
+      "id": "1525504317140-68",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2405,18 +2923,18 @@
                   "name": "book_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_contest_participants_book_fk",
             "tableName": "contest_participants"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-69",
+      "id": "1525504317140-69",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2427,18 +2945,18 @@
                   "name": "subscription_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_friendships_users_fk2",
             "tableName": "friendships"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-70",
+      "id": "1525504317140-70",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2449,18 +2967,18 @@
                   "name": "group_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_messages_group_fk",
             "tableName": "messages"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-71",
+      "id": "1525504317140-71",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2471,18 +2989,18 @@
                   "name": "creator_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_messages_users_fk",
             "tableName": "messages"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-72",
+      "id": "1525504317140-72",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2493,18 +3011,18 @@
                   "name": "author_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_news_author_fk",
             "tableName": "news"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-73",
+      "id": "1525504317140-73",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2515,18 +3033,18 @@
                   "name": "book_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_news_book_fk",
             "tableName": "news"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-74",
+      "id": "1525504317140-74",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2537,18 +3055,18 @@
                   "name": "contest_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_news_contest_fk",
             "tableName": "news"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-75",
+      "id": "1525504317140-75",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2559,18 +3077,18 @@
                   "name": "subscription_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_news_subscription_fk",
             "tableName": "news"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-76",
+      "id": "1525504317140-76",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2581,18 +3099,18 @@
                   "name": "owner_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_owner_fk",
             "tableName": "friends"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-77",
+      "id": "1525504317140-77",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2603,18 +3121,18 @@
                   "name": "book_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_review_book_fk",
             "tableName": "reviews"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-78",
+      "id": "1525504317140-78",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2625,18 +3143,18 @@
                   "name": "author_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_review_user_fk",
             "tableName": "reviews"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-79",
+      "id": "1525504317140-79",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2652,18 +3170,18 @@
                   "name": "serie_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_serie_fk",
             "tableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-80",
+      "id": "1525504317140-80",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2674,18 +3192,18 @@
                   "name": "user_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_serie_user_fk",
             "tableName": "book_serie"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-81",
+      "id": "1525504317140-81",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2696,18 +3214,18 @@
                   "name": "owner_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_subscribers_owner_fk",
             "tableName": "subscribers"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-82",
+      "id": "1525504317140-82",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2718,18 +3236,18 @@
                   "name": "owner_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_subscription_owner_fk",
             "tableName": "subscriptions"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-83",
+      "id": "1525504317140-83",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2740,18 +3258,18 @@
                   "name": "book_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_text_book_fk",
             "tableName": "book_text"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-84",
+      "id": "1525504317140-84",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2762,18 +3280,18 @@
                   "name": "book_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_user_book_book_fk",
             "tableName": "user_book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-85",
+      "id": "1525504317140-85",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2784,18 +3302,18 @@
                   "name": "user_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_user_book_user_fk",
             "tableName": "user_book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-86",
+      "id": "1525504317140-86",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2806,18 +3324,18 @@
                   "name": "from_user"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_user_gift_from_fk",
             "tableName": "user_gift"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-87",
+      "id": "1525504317140-87",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2828,18 +3346,18 @@
                   "name": "gift_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_user_gift_gift_fk",
             "tableName": "user_gift"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-88",
+      "id": "1525504317140-88",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2850,18 +3368,18 @@
                   "name": "user_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_user_gift_user_fk",
             "tableName": "user_gift"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-89",
+      "id": "1525504317140-89",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2872,18 +3390,18 @@
                   "name": "section_id"
                 }
               }]
-          ,
+            ,
             "indexName": "fki_users_section_fk",
             "tableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-90",
+      "id": "1525504317140-90",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2899,13 +3417,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-91",
+      "id": "1525504317140-91",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2921,13 +3439,13 @@
             "referencedTableName": "book_serie"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-92",
+      "id": "1525504317140-92",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2943,13 +3461,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-93",
+      "id": "1525504317140-93",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2965,13 +3483,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-94",
+      "id": "1525504317140-94",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -2987,13 +3505,13 @@
             "referencedTableName": "chat_groups"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-95",
+      "id": "1525504317140-95",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3009,13 +3527,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-96",
+      "id": "1525504317140-96",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3031,13 +3549,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-97",
+      "id": "1525504317140-97",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3053,13 +3571,13 @@
             "referencedTableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-98",
+      "id": "1525504317140-98",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3075,13 +3593,13 @@
             "referencedTableName": "book_comments"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-99",
+      "id": "1525504317140-99",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3097,13 +3615,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-100",
+      "id": "1525504317140-100",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3119,13 +3637,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-101",
+      "id": "1525504317140-101",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3141,13 +3659,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-102",
+      "id": "1525504317140-102",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3163,13 +3681,13 @@
             "referencedTableName": "contest"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-103",
+      "id": "1525504317140-103",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3185,13 +3703,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-104",
+      "id": "1525504317140-104",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3207,13 +3725,13 @@
             "referencedTableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-105",
+      "id": "1525504317140-105",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3229,13 +3747,13 @@
             "referencedTableName": "contest"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-106",
+      "id": "1525504317140-106",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3251,13 +3769,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-107",
+      "id": "1525504317140-107",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3273,13 +3791,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-108",
+      "id": "1525504317140-108",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3295,13 +3813,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-109",
+      "id": "1525504317140-109",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3317,13 +3835,13 @@
             "referencedTableName": "chat_groups"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-110",
+      "id": "1525504317140-110",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3339,13 +3857,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-111",
+      "id": "1525504317140-111",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3361,13 +3879,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-112",
+      "id": "1525504317140-112",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3383,13 +3901,13 @@
             "referencedTableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-113",
+      "id": "1525504317140-113",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3405,13 +3923,13 @@
             "referencedTableName": "contest"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-114",
+      "id": "1525504317140-114",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3427,13 +3945,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-115",
+      "id": "1525504317140-115",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3449,13 +3967,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-116",
+      "id": "1525504317140-116",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3471,13 +3989,13 @@
             "referencedTableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-117",
+      "id": "1525504317140-117",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3493,13 +4011,13 @@
             "referencedTableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-118",
+      "id": "1525504317140-118",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3515,13 +4033,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-119",
+      "id": "1525504317140-119",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3537,13 +4055,13 @@
             "referencedTableName": "reviews"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-120",
+      "id": "1525504317140-120",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3559,13 +4077,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-121",
+      "id": "1525504317140-121",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3581,13 +4099,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-122",
+      "id": "1525504317140-122",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3603,13 +4121,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-123",
+      "id": "1525504317140-123",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3625,13 +4143,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-124",
+      "id": "1525504317140-124",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3647,13 +4165,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-125",
+      "id": "1525504317140-125",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3669,13 +4187,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-126",
+      "id": "1525504317140-126",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3691,13 +4209,13 @@
             "referencedTableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-127",
+      "id": "1525504317140-127",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3713,13 +4231,13 @@
             "referencedTableName": "book"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-128",
+      "id": "1525504317140-128",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3735,13 +4253,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-129",
+      "id": "1525504317140-129",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3757,13 +4275,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-130",
+      "id": "1525504317140-130",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3779,13 +4297,13 @@
             "referencedTableName": "gift"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-131",
+      "id": "1525504317140-131",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3801,13 +4319,13 @@
             "referencedTableName": "users"
           }
         }]
-
+      
     }
   },
-
+  
   {
     "changeSet": {
-      "id": "1523476449946-132",
+      "id": "1525504317140-132",
       "author": "mhenr (generated)",
       "changes": [
         {
@@ -3823,8 +4341,8 @@
             "referencedTableName": "sections"
           }
         }]
-
+      
     }
   }
-
+  
 ]}
