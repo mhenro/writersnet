@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {formatDate} from '../../utils.jsx';
+import { Link } from 'react-router-dom';
+import { formatDate } from '../../utils.jsx';
 
 /*
     props:
@@ -18,7 +19,7 @@ class ChatGroupListItem extends React.Component {
     };
 
     getAuthorName() {
-        return this.props.message.creatorFullName;
+        return <Link to={'/authors/' + this.props.message.creatorId}>{this.props.message.creatorFullName}</Link>;
     }
 
     getAuthorAvatar() {

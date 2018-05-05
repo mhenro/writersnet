@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils.jsx';
 import { getLocale } from '../../locale.jsx';
 
@@ -24,7 +25,11 @@ class CommentItem extends React.Component {
     }
 
     getAuthorName() {
-        return this.props.comment.userFullName;
+        if (this.props.comment.userId) {
+            return <Link to={'/authors/' + this.props.comment.userId}>{this.props.comment.userFullName}</Link>
+        } else {
+            return this.props.comment.userFullName;
+        }
     }
 
     getCommentDate(created = this.props.comment.created) {

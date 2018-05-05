@@ -46,6 +46,8 @@ class UserComments extends React.Component {
         this.setState({
             relatedComment: comment
         });
+        let commentField = document.getElementById('commentField');
+        commentField.scrollIntoView();
     }
 
     renderRelatedComment() {
@@ -113,7 +115,7 @@ class UserComments extends React.Component {
         return (
             <div>
                 <h4>{getLocale(this.props.language)['Leave a comment:']}</h4>
-                <form role="form" onSubmit={event => this.onSubmit(event)}>
+                <form role="form" onSubmit={event => this.onSubmit(event)} id="commentField">
                     <div className="form-group">
                         {this.renderRelatedComment()}
                     </div>

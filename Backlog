@@ -4,15 +4,11 @@ IN PROGRESS - 124. Create new contest window for judges and participants where t
 
 
 Features:
-121. Add links for names in chat page.
-122. Scroll screen to input comment field when clicking on Quote message button.
-123. Replace chat internal realization with RabbitMQ realization.
-125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
-127. Migrate to Java 10.
-130. Add liquibase gradle plugin to build script.
 96. Show another title page when user is registered. On this page we can show book banners and so on.
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 21. Link webmoney merchant interface to BalancePage.
+123. Replace chat internal realization with RabbitMQ realization.
+125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
@@ -25,6 +21,7 @@ Features:
 112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
 113. Add defense for readers which already bought books. If author try to delete book which is bought for at least one user we should reject deleting request.
 111. Add send message from user when he buying a gift. It could be a popup form with one input field.
+127. Migrate to Java 10.
 
 
 Bugs:
@@ -189,3 +186,6 @@ DONE - 126. Migrate to Spring Boot 2.0.1.
 DONE - 128. Migrate to Gradle.
 DONE - 124. Replace hibernate getter annotations to hibernate field annotations for the best practice.
 DONE - 129. Add optimistic locking for all entities.
+DONE - 130. Add liquibase gradle plugin to build script.
+DONE - 121. Add links for names in chat page.
+DONE - 122. Scroll screen to input comment field when clicking on Quote message button.
