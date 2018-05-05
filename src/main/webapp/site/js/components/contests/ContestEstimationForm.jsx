@@ -5,6 +5,8 @@ import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { getContest, closeContestEstimationForm } from '../../actions/ContestActions.jsx';
 
+import { formatTimeInterval } from '../../utils.jsx';
+
 /*
     props:
     - contestId
@@ -60,7 +62,13 @@ class ContestEstimationForm extends React.Component {
                     <div className="form-group">
                         <label className="control-label col-sm-5" htmlFor="prizeFund">Prize fund, $:</label>
                         <div className="col-sm-7">
-                            <input value={this.getPrizeFund()} readOnly="true" type="text" className="form-control" id="prizeFund" placeholder="Enter the prize fund amount" name="prizeFund"/>
+                            <input value={this.getPrizeFund()} readOnly="true" type="text" className="form-control" id="prizeFund" name="prizeFund"/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="control-label col-sm-5" htmlFor="timeLimit">Time limit:</label>
+                        <div className="col-sm-7">
+                            <input value={this.getTimeLimit()} readOnly="true" type="text" className="form-control" id="timeLimit" name="timeLimit"/>
                         </div>
                     </div>
                 </form>
@@ -81,6 +89,20 @@ class ContestEstimationForm extends React.Component {
             return parseFloat(this.state.contest.prizeFund / 100).toFixed(2);
         } else {
             return parseFloat(0).toFixed(2);
+        }
+    }
+
+    getTimeLimit() {
+        if (this.isDataLoaded() && this.state.contest.expirationDate) {
+            let date1 = new Date(),
+                date2 = new Date(this.state.contest.expirationDate),
+                timeDiff = date2.getTime() - date1.getTime();
+
+            if (timeDiff > 0) {
+                return formatTimeInterval(timeDiff, 'Y years D days H hours and M minutes');
+            } else {
+                return '';
+            }
         }
     }
 

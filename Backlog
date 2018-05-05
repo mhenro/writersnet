@@ -10,6 +10,11 @@ Features:
 123. Replace chat internal realization with RabbitMQ realization.
 125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
 131. Fix all tests.
+106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
+107. Add logic to the "Send message" button in the AuthorFile component.
+112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
+113. Add defense for readers which already bought books. If author try to delete book which is bought for at least one user we should reject deleting request.
+111. Add send message from user when he buying a gift. It could be a popup form with one input field.
 47. Add defence from overclick visitors by user (by IP or something).
 48. Prepare project for stress testing. Separate beans by profiles (production and test) and so on.
 49. Add stress testing for backend (use jMeter or something similar). Add scenarios for search books/authors by many users and so on.
@@ -17,11 +22,6 @@ Features:
 65. Add test for ChatGroupResponse class constructor.
 81. Move series action from BookActions to AuthorActions in client.
 15. Add login/signup via social nets (facebook and so on). Use u-login for this.
-106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
-107. Add logic to the "Send message" button in the AuthorFile component.
-112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
-113. Add defense for readers which already bought books. If author try to delete book which is bought for at least one user we should reject deleting request.
-111. Add send message from user when he buying a gift. It could be a popup form with one input field.
 127. Migrate to Java 10.
 
 
