@@ -46,6 +46,7 @@ dependencies {
 	compile('fr.opensagres.xdocreport:org.apache.poi.xwpf.converter.xhtml:1.0.6')
 	compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
 	compile('org.xhtmlrenderer:core-renderer:R8')
+	compile 'javax.xml:jaxb-api:2.1'
 	testRuntime('com.h2database:h2')
 	runtime('org.postgresql:postgresql')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
