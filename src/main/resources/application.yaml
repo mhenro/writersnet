@@ -1,0 +1,67 @@
+
+#---------------------------ssl support----------------------------#
+server:
+  port: 8080
+#  ssl:
+#    key-store: classpath:writersnet.com.p12
+#    key-store-password: booklink
+#    key-password: booklink
+
+spring:
+  datasource:
+      url: jdbc:postgresql://localhost:5432/booklink2
+      username: postgres
+      password: masterkey
+      driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    # Disable feature detection by this undocumented parameter. Check the org.hibernate.engine.jdbc.internal.JdbcServiceImpl.configure method for more details.
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+    # Because detection is disabled you have to set correct dialect by hand.
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+  profiles:
+    active: production
+  mail:
+    host: localhost
+    port: 5025
+    username: bot
+    password: masterkey
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+
+writersnet:
+  addr: https://localhost/
+  mail: bot@writersnets.com
+  avatarstorage:
+    path: c:\\Java\\nginx\\html\\css\\images\\avatars\\
+  avatarwebstorage:
+    path: https://localhost/css/images/avatars/
+  coverstorage:
+    path: c:\\Java\\nginx\\html\\css\\images\\covers\\
+  coverwebstorage:
+    path: https://localhost/css/images/covers/
+  giftwebstorage:
+    path: https://localhost/css/images/gifts/
+  tempstorage: c:\\Java\\nginx\\html\\temp\\
+
+jwt:
+  signing-key: booklink
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
