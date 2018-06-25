@@ -11,7 +11,7 @@ Features:
 125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
 131. Fix all tests.
 132. Change token verification logic to @EnableResourceServer and @EnableAuthorizationServer (oauth2 protocol).
-133. Add JpaSpecificationExecutor to the spring data repositories for supporting entity filters.
+133. Add JpaSpecificationExecutor to the spring data repositories for supporting entity filters (http://www.baeldung.com/rest-api-search-language-spring-data-specifications).
 106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
 107. Add logic to the "Send message" button in the AuthorFile component.
 112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
