@@ -15,7 +15,7 @@ spring:
       driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     # Disable feature detection by this undocumented parameter. Check the org.hibernate.engine.jdbc.internal.JdbcServiceImpl.configure method for more details.
     properties:
       hibernate:
@@ -35,6 +35,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   jackson:
+    #date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     serialization:
       write_dates_as_timestamps: false
 

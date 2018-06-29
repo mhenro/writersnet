@@ -39,6 +39,12 @@ public class JwtFilter extends GenericFilterBean {
         processAuthHeader(authHeader);
 
         filterChain.doFilter(servletRequest, servletResponse);
+
+        resetAuthentication();
+    }
+
+    private void resetAuthentication() {
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     private void processAuthHeader(final String authHeader) {
