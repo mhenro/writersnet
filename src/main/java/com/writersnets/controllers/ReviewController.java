@@ -51,7 +51,7 @@ public class ReviewController {
 
     @RequestMapping(value = "review/{reviewId}", method = RequestMethod.GET)
     public ResponseEntity<?> getReviewDetails(@PathVariable final Long reviewId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         final ReviewResponse review = reviewService.getReviewDetails(reviewId);
@@ -60,7 +60,7 @@ public class ReviewController {
 
     @RequestMapping(value = "review/{reviewId}/like", method = RequestMethod.GET)
     public ResponseEntity<?> likeReview(@PathVariable final Long reviewId, final HttpServletRequest request) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         long likes = reviewService.likeReview(reviewId, request);
@@ -69,7 +69,7 @@ public class ReviewController {
 
     @RequestMapping(value = "review/{reviewId}/dislike", method = RequestMethod.GET)
     public ResponseEntity<?> dislikeReview(@PathVariable final Long reviewId, final HttpServletRequest request) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         long dislikes = reviewService.dislikeReview(reviewId, request);
@@ -79,7 +79,7 @@ public class ReviewController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "review", method = RequestMethod.POST)
     public ResponseEntity<?> saveReview(@RequestBody final ReviewRequest reviewRequest) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         reviewService.saveReview(reviewRequest);

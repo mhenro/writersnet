@@ -57,7 +57,7 @@ public class CommentsController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "books/{bookId}/comments/{commentId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteComment(@PathVariable Long bookId, @PathVariable Long commentId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         commentsService.deleteComment(bookId, commentId);

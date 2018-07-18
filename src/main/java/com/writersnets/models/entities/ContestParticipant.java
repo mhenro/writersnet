@@ -1,5 +1,10 @@
 package com.writersnets.models.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,21 +14,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "contest_participants")
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class ContestParticipant extends AbstractEntity {
     @EmbeddedId
     private ContestParticipantPK pk;
     private Boolean accepted;
-
-    public ContestParticipantPK getPk() {
-        return pk;
-    }
-    public void setPk(ContestParticipantPK pk) {
-        this.pk = pk;
-    }
-    public Boolean getAccepted() {
-        return accepted;
-    }
-    public void setAccepted(Boolean accepted) {
-        this.accepted = accepted;
-    }
 }

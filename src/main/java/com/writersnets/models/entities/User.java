@@ -1,5 +1,10 @@
 package com.writersnets.models.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,10 +16,14 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "users")
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class User extends AbstractEntity {
     @Id
     private String username;
+
     private String password;
+
     private Boolean enabled;
 
     @Column(name = "activation_token")
@@ -22,8 +31,11 @@ public class User extends AbstractEntity {
 
     @Column(name = "authority")
     private String authority;
+
     private String email;
+
     private LocalDate birthday;
+
     private String city;
 
     @Column(name = "first_name")
@@ -31,6 +43,7 @@ public class User extends AbstractEntity {
 
     @Column(name = "last_name")
     private String lastName;
+
     private String avatar;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,6 +52,7 @@ public class User extends AbstractEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "section_id")
     private Section section;
+
     private String language;
 
     @Column(name = "preferred_languages")
@@ -66,164 +80,16 @@ public class User extends AbstractEntity {
 
     @Column(name = "comments_count")
     private Long commentsCount = 0L;
+
     private Boolean online;
+
     private Boolean premium;
 
     @Column(name = "premium_expired")
     private LocalDateTime premiumExpired;
+
     private Long balance = 0L;
 
-
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public Boolean getEnabled() {
-        return enabled;
-    }
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-    public String getActivationToken() {
-        return activationToken;
-    }
-    public void setActivationToken(String activationToken) {
-        this.activationToken = activationToken;
-    }
-    public String getAuthority() {
-        return authority;
-    }
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-    public String getCity() {
-        return city;
-    }
-    public void setCity(String city) {
-        this.city = city;
-    }
-    public String getFirstName() {
-        return firstName;
-    }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    public String getLastName() {
-        return lastName;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    public String getAvatar() {
-        return avatar;
-    }
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-    public Set<Book> getBooks() {
-        return books;
-    }
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
-    public Section getSection() {
-        return section;
-    }
-    public void setSection(Section section) {
-        this.section = section;
-    }
-    public String getLanguage() {
-        return language;
-    }
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-    public String getPreferredLanguages() {
-        return preferredLanguages;
-    }
-    public void setPreferredLanguages(String preferredLanguages) {
-        this.preferredLanguages = preferredLanguages;
-    }
-    public Long getViews() {
-        return views;
-    }
-    public void setViews(Long views) {
-        this.views = views;
-    }
-    public List<ChatGroup> getChatGroups() {
-        return chatGroups;
-    }
-    public void setChatGroups(List<ChatGroup> chatGroups) {
-        this.chatGroups = chatGroups;
-    }
-    public Session getSession() {
-        return session;
-    }
-    public void setSession(Session session) {
-        this.session = session;
-    }
-    public Long getTotalRating() {
-        return totalRating;
-    }
-    public void setTotalRating(Long totalRating) {
-        this.totalRating = totalRating;
-    }
-    public Long getTotalVotes() {
-        return totalVotes;
-    }
-    public void setTotalVotes(Long totalVotes) {
-        this.totalVotes = totalVotes;
-    }
-    public Long getCommentsCount() {
-        return commentsCount;
-    }
-    public void setCommentsCount(Long commentsCount) {
-        this.commentsCount = commentsCount;
-    }
-    public Boolean getOnline() {
-        return online;
-    }
-    public void setOnline(Boolean online) {
-        this.online = online;
-    }
-    public Boolean getPremium() {
-        return premium;
-    }
-    public void setPremium(Boolean premium) {
-        this.premium = premium;
-    }
-    public LocalDateTime getPremiumExpired() {
-        return premiumExpired;
-    }
-    public void setPremiumExpired(LocalDateTime premiumExpired) {
-        this.premiumExpired = premiumExpired;
-    }
-    public Long getBalance() {
-        return balance;
-    }
-    public void setBalance(Long balance) {
-        this.balance = balance;
-    }
 
     /* -----------------------------business logic-------------------------------------------------------- */
 

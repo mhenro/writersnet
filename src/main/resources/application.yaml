@@ -9,7 +9,7 @@ server:
 
 spring:
   datasource:
-      url: jdbc:postgresql://localhost:5432/booklink2
+      url: jdbc:postgresql://localhost:5432/writersnets
       username: postgres
       password: masterkey
       driver-class-name: org.postgresql.Driver
@@ -19,8 +19,19 @@ spring:
     # Disable feature detection by this undocumented parameter. Check the org.hibernate.engine.jdbc.internal.JdbcServiceImpl.configure method for more details.
     properties:
       hibernate:
+        type: trace
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
         temp:
           use_jdbc_metadata_defaults: false
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _AUD
+            revision_field_name: REVISION_ID
+            revision_type_field_name: REVISION_TYPE
+            store_data_at_delete: true
     # Because detection is disabled you have to set correct dialect by hand.
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
   profiles:
@@ -54,8 +65,15 @@ writersnet:
     path: https://localhost/css/images/gifts/
   tempstorage: c:\\Java\\nginx\\html\\temp\\
 
-jwt:
-  signing-key: booklink
+security:
+  jwt:
+    signing-key: booklink
+  oauth2:
+    client:
+      issuer: writersnets.com
+      client-id: writersnets.com
+      client-secret: secret
+      scope: read,write
 
 #logging:
 #  level:

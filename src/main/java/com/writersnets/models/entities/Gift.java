@@ -1,6 +1,10 @@
 package com.writersnets.models.entities;
 
 import com.writersnets.models.GiftType;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -8,11 +12,10 @@ import javax.persistence.*;
  * Created by mhenr on 27.01.2018.
  */
 @Entity
-public class Gift extends AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@Table(name = "gifts")
+@Audited
+@Getter @Setter @NoArgsConstructor
+public class Gift extends AbstractIdEntity {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "gift_type", nullable = false)
     private GiftType giftType;
@@ -21,48 +24,4 @@ public class Gift extends AbstractEntity {
     private String description;
     private String image;
     private String category;
-
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public GiftType getGiftType() {
-        return giftType;
-    }
-    public void setGiftType(GiftType giftType) {
-        this.giftType = giftType;
-    }
-    public Long getCost() {
-        return cost;
-    }
-    public void setCost(Long cost) {
-        this.cost = cost;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public String getImage() {
-        return image;
-    }
-    public void setImage(String image) {
-        this.image = image;
-    }
-    public String getCategory() {
-        return category;
-    }
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }

@@ -68,7 +68,7 @@ public class AuthorController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "authors", method = RequestMethod.POST)
     public ResponseEntity<?> saveAuthor(@RequestBody AuthorRequest author) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         authorService.updateAuthor(author);
@@ -78,7 +78,7 @@ public class AuthorController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "authors/password", method = RequestMethod.POST)
     public ResponseEntity<?> changePassword(@RequestBody final ChangePasswordRequest request) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         authorService.changePassword(request);
@@ -88,7 +88,7 @@ public class AuthorController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "avatar", method = RequestMethod.POST)
     public ResponseEntity<?> saveAvatar(AvatarRequest avatarRequest) throws IOException {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         authorService.saveAvatar(avatarRequest);
@@ -98,7 +98,7 @@ public class AuthorController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "avatar/restore", method = RequestMethod.GET)
     public ResponseEntity<?> restoreDefaultAvatar() {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         authorService.restoreDefaultAvatar();
@@ -108,7 +108,7 @@ public class AuthorController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "authors/subscribe", method = RequestMethod.POST)
     public ResponseEntity<?> subscribeOnUser(@RequestBody final String subscriptionId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         Response<String> response = authorService.subscribeOnUser(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
@@ -119,7 +119,7 @@ public class AuthorController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "authors/unsubscribe", method = RequestMethod.POST)
     public ResponseEntity<?> removeSubscription(@RequestBody final String subscriptionId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         Response<String> response = authorService.removeSubscription(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters

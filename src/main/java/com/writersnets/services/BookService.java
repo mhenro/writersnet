@@ -1,6 +1,7 @@
 package com.writersnets.services;
 
-import liquibase.util.file.FilenameUtils;
+//import liquibase.util.file.FilenameUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -19,10 +20,10 @@ import com.writersnets.models.top_models.*;
 import com.writersnets.models.request.BookTextRequest;
 import com.writersnets.models.request.CoverRequest;
 import com.writersnets.repositories.*;
-import com.writersnets.services.convertors.BookConvertor;
-import com.writersnets.services.convertors.DocToHtmlConvertor;
-import com.writersnets.services.convertors.PdfToHtmlConvertor;
-import com.writersnets.services.convertors.TextToHtmlConvertor;
+import com.writersnets.services.converters.BookConvertor;
+import com.writersnets.services.converters.DocToHtmlConvertor;
+import com.writersnets.services.converters.PdfToHtmlConvertor;
+import com.writersnets.services.converters.TextToHtmlConvertor;
 import com.writersnets.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

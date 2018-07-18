@@ -46,7 +46,7 @@ public class MessageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "messages/add", method = RequestMethod.POST)
     public ResponseEntity<?> addMessageToGroup(@RequestBody final MessageRequest message) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         final Long groupId = messageService.addMessageToGroup(message.getCreator(), message.getPrimaryRecipient(), message.getText(), message.getGroupId());
@@ -56,7 +56,7 @@ public class MessageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "groups/get", method = RequestMethod.POST)
     public ResponseEntity<?> getGroupIdFromRecipient(@RequestBody final MessageRequest messageRequest) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         Long groupId = messageService.getGroupByRecipient(messageRequest.getPrimaryRecipient(), messageRequest.getCreator());
@@ -66,7 +66,7 @@ public class MessageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "groups/{groupId}/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> getGroupName(@PathVariable final Long groupId, @PathVariable final String userId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         return Response.createResponseEntity(0, messageService.getGroupName(groupId, userId), token, HttpStatus.OK);
@@ -75,7 +75,7 @@ public class MessageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesFromUser(@PathVariable final String userId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         return Response.createResponseEntity(0, messageService.getUnreadMessagesFromUser(userId), token, HttpStatus.OK);
@@ -84,7 +84,7 @@ public class MessageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "groups/{groupId}/{userId}/messages/unread", method = RequestMethod.GET)
     public ResponseEntity<?> getUnreadMessagesInGroup(@PathVariable final Long groupId, @PathVariable final String userId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         return Response.createResponseEntity(0, messageService.getUnreadMessagesInGroup(userId, groupId), token, HttpStatus.OK);
@@ -93,7 +93,7 @@ public class MessageController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "groups/messages/read", method = RequestMethod.POST)
     public ResponseEntity<?> markAllAsReadInGroup(@RequestBody final ReadMessageRequest readMessageRequest) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         messageService.markAsReadInGroup(readMessageRequest.getUserId(), readMessageRequest.getGroupId());

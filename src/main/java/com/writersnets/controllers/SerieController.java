@@ -44,7 +44,7 @@ public class SerieController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "series", method = RequestMethod.POST)
     public ResponseEntity<?> saveSerie(@RequestBody SerieRequest serie) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         Long serieId = serieService.saveSerie(serie);
@@ -54,7 +54,7 @@ public class SerieController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "series/{serieId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteSerie(@PathVariable Long serieId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         serieService.deleteSerie(serieId);

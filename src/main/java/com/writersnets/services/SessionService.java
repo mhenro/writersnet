@@ -39,7 +39,7 @@ public class SessionService {
 
     @Transactional
     public void updateSession(final String token) {
-        final String signingKey = environment.getProperty("jwt.signing-key");
+        final String signingKey = environment.getProperty("security.jwt.signing-key");
         final Claims claims = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
         final String username = (String)claims.get("sub");
         final LocalDateTime expireDate = LocalDateTime.ofInstant(claims.getExpiration().toInstant(), ZoneId.systemDefault());

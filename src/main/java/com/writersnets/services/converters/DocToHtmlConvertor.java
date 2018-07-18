@@ -1,7 +1,5 @@
-package com.writersnets.services.convertors;
+package com.writersnets.services.converters;
 
-import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
-import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import com.writersnets.models.exceptions.TextConvertingException;

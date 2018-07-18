@@ -1,5 +1,10 @@
 package com.writersnets.models.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,15 +14,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "reviews_ip")
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class ReviewIP extends AbstractEntity {
     @EmbeddedId
     private ReviewIP_PK reviewPK;
-
-
-    public ReviewIP_PK getReviewPK() {
-        return reviewPK;
-    }
-    public void setReviewPK(ReviewIP_PK reviewPK) {
-        this.reviewPK = reviewPK;
-    }
 }

@@ -1,5 +1,10 @@
 package com.writersnets.models.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -10,25 +15,13 @@ import java.io.Serializable;
  * Created by mhenr on 07.01.2018.
  */
 @Embeddable
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class ReviewIP_PK implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
     private String ip;
-
-
-    public Review getReview() {
-        return review;
-    }
-    public void setReview(Review review) {
-        this.review = review;
-    }
-    public String getIp() {
-        return ip;
-    }
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
 
     @Override
     public boolean equals(Object o) {

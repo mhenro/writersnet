@@ -91,7 +91,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "books", method = RequestMethod.POST)
     public ResponseEntity<?> saveBook(@RequestBody final BookRequest book) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         Long bookId = bookService.saveBook(book);
@@ -101,7 +101,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "cover", method = RequestMethod.POST)
     public ResponseEntity<?> saveCover(final CoverRequest coverRequest) throws IOException {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         bookService.saveCover(coverRequest);
@@ -111,7 +111,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "cover/restore/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> restoreDefaultCover(@PathVariable final Long bookId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         bookService.restoreDefaultCover(bookId);
@@ -121,7 +121,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "text", method = RequestMethod.POST)
     public ResponseEntity<?> saveBookText(final BookTextRequest bookTextRequest) throws IOException {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         final LocalDateTime lastUpdated = bookService.saveBookText(bookTextRequest);
@@ -131,7 +131,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "books/{bookId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         sessionService.updateSession(token);
         bookService.deleteBook(bookId);
@@ -148,7 +148,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "books/paid/{bookId}", method = RequestMethod.GET)
     public ResponseEntity<?> isUserHasBook(@PathVariable final Long bookId) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         return Response.createResponseEntity(0, bookService.isUserHasBook(bookId), token, HttpStatus.OK);
     }

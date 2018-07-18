@@ -1,23 +1,24 @@
 package com.writersnets.models.entities;
 
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 
 /**
  * Created by mhenr on 18.10.2017.
  */
 @Entity
+@Table(name = "ratings")
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class Rating extends AbstractEntity {
     @EmbeddedId
     private RatingId ratingId;
 
-
-    public RatingId getRatingId() {
-        return ratingId;
-    }
-    public void setRatingId(RatingId ratingId) {
-        this.ratingId = ratingId;
-    }
     public Integer getEstimation() {
         return ratingId.getEstimation();
     }

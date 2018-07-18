@@ -1,5 +1,10 @@
 package com.writersnets.models.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -10,6 +15,8 @@ import java.io.Serializable;
  * Created by mhenr on 03.02.2018.
  */
 @Embeddable
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class UserBookPK implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -18,20 +25,6 @@ public class UserBookPK implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
-
-
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
-    public Book getBook() {
-        return book;
-    }
-    public void setBook(Book book) {
-        this.book = book;
-    }
 
     @Override
     public boolean equals(Object o) {

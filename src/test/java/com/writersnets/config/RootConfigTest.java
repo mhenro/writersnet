@@ -1,12 +1,9 @@
 package com.writersnets.config;
 
-import liquibase.integration.spring.SpringLiquibase;
-import com.writersnets.security.JwtFilter;
+//import liquibase.integration.spring.SpringLiquibase;
 import com.writersnets.security.SecurityConfigTest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +11,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import javax.sql.DataSource;
 
 /**
  * Created by mhenr on 27.09.2017.
@@ -29,6 +24,7 @@ public class RootConfigTest {
     //@Autowired
     //private JwtFilter jwtFilter;
 
+    /*
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
@@ -37,6 +33,7 @@ public class RootConfigTest {
         liquibase.setShouldRun(false);
         return liquibase;
     }
+    */
 
     //@Bean
     //public FilterRegistrationBean jwtFilter() {

@@ -48,7 +48,7 @@ public class AuthenticationService {
         if (user == null || !passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
             throw new UnauthorizedUserException("Bad credentials");
         }
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         return generateActivationToken(user, key);
     }
 
@@ -98,7 +98,7 @@ public class AuthenticationService {
     }
 
     private String setActivationTokenForUser(final User user) {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         final String token = generateActivationToken(user, key);
         user.setActivationToken(token);
         userRepository.save(user);
@@ -119,7 +119,7 @@ public class AuthenticationService {
     }
 
     private void createRegistrationLink(final User user) throws MessagingException {
-        final String key = environment.getProperty("jwt.signing-key");
+        final String key = environment.getProperty("security.jwt.signing-key");
         final String token = generateActivationToken(user, key);
         final Section defaultSection = createDefaultSection(user);
         user.setActivationToken(token);

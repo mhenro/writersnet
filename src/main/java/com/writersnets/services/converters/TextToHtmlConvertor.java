@@ -1,8 +1,6 @@
-package com.writersnets.services.convertors;
+package com.writersnets.services.converters;
 
 import com.writersnets.models.exceptions.TextConvertingException;
-
-import java.io.IOException;
 
 /**
  * Created by mhenr on 01.11.2017.

@@ -1,5 +1,10 @@
 package com.writersnets.models.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -8,22 +13,10 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "friends")
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class Friend extends AbstractEntity {
     @EmbeddedId
     private FriendPK friendPK;
     private LocalDateTime added;
-
-
-    public FriendPK getFriendPK() {
-        return friendPK;
-    }
-    public void setFriendPK(FriendPK friendPK) {
-        this.friendPK = friendPK;
-    }
-    public LocalDateTime getAdded() {
-        return added;
-    }
-    public void setAdded(LocalDateTime added) {
-        this.added = added;
-    }
 }

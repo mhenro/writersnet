@@ -1,6 +1,6 @@
 package com.writersnets.services;
 
-import liquibase.util.file.FilenameUtils;
+//import liquibase.util.file.FilenameUtils;
 import com.writersnets.models.Response;
 import com.writersnets.models.entities.User;
 import com.writersnets.models.exceptions.IsNotPremiumUserException;
@@ -14,6 +14,7 @@ import com.writersnets.models.top_models.*;
 import com.writersnets.repositories.AuthorRepository;
 import com.writersnets.repositories.FriendshipRepository;
 import com.writersnets.utils.ObjectHelper;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

@@ -1,5 +1,10 @@
 package com.writersnets.models.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -8,22 +13,10 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "subscribers")
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class Subscriber extends AbstractEntity {
     @EmbeddedId
     private SubscriberPK subscriberPK;
     private LocalDateTime added;
-
-
-    public SubscriberPK getSubscriberPK() {
-        return subscriberPK;
-    }
-    public void setSubscriberPK(SubscriberPK subscriberPK) {
-        this.subscriberPK = subscriberPK;
-    }
-    public LocalDateTime getAdded() {
-        return added;
-    }
-    public void setAdded(LocalDateTime added) {
-        this.added = added;
-    }
 }

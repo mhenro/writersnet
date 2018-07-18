@@ -1,5 +1,0 @@
-generate changelog from db:
-    mvn liquibase:generateChangeLog -Dliquibase.outputChangeLogFile=./file.json
-
-gradle:
-    gradlew generateChangelog

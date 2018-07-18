@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import com.writersnets.models.entities.User;
 import com.writersnets.models.response.ChatGroupResponse;
-import com.writersnets.security.JwtFilter;
 import com.writersnets.services.AuthorService;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,8 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 public class AuthenticationAuthorControllerTest {
 
-    private JwtFilter filter = new JwtFilter();
-
     @Mock
     private AuthorService authorService;
 
@@ -60,7 +57,7 @@ public class AuthenticationAuthorControllerTest {
     public void setup() {
         mvc = MockMvcBuilders
                 .standaloneSetup(authorController)
-                .addFilter(filter)
+                //.addFilter(filter)
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                 .setViewResolvers((viewName, locale) -> new MappingJackson2JsonView())
                 .build();

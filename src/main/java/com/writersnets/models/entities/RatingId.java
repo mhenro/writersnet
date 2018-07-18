@@ -1,5 +1,10 @@
 package com.writersnets.models.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -7,6 +12,8 @@ import java.io.Serializable;
  * Created by mhenr on 18.10.2017.
  */
 @Embeddable
+@Audited
+@Getter @Setter @NoArgsConstructor
 public class RatingId implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
@@ -15,26 +22,6 @@ public class RatingId implements Serializable {
 
     @Column(name = "client_ip")
     private String clientIp;
-
-
-    public Book getBook() {
-        return book;
-    }
-    public void setBook(Book book) {
-        this.book = book;
-    }
-    public Integer getEstimation() {
-        return estimation;
-    }
-    public void setEstimation(Integer estimation) {
-        this.estimation = estimation;
-    }
-    public String getClientIp() {
-        return clientIp;
-    }
-    public void setClientIp(String clientIp) {
-        this.clientIp = clientIp;
-    }
 
     @Override
     public boolean equals(Object o) {
