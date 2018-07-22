@@ -146,7 +146,6 @@ const mapDispatchToProps = (dispatch) => {
         onGetUnreadMessages: (userId, token, callback) => {
             getUnreadMessagesFromUser(userId, token).then(([response, json]) => {
                 if (response.status === 200) {
-                    dispatch(setToken(json.token));
                     callback(json.message);
                 }
                 else if (json.message.includes('JWT expired at')) {

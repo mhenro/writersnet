@@ -1,4 +1,4 @@
-import doFetch from './fetch';
+import doFetch from './fetch.jsx';
 import {getHost} from '../utils.jsx';
 
 export const getBooks = (name, genre = null, language = null, page = 0, size = 5, sort = 'name') => {

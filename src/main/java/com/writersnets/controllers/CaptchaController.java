@@ -1,6 +1,5 @@
 package com.writersnets.controllers;
 
-import com.writersnets.models.Response;
 import com.writersnets.services.CaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -27,12 +26,5 @@ public class CaptchaController {
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         final byte[] captcha = captchaService.getCaptcha();
         return new ResponseEntity<>(captcha, headers, HttpStatus.OK);
-    }
-
-    /* ---------------------------------------exception handlers-------------------------------------- */
-
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<?> ioException(IOException e) {
-        return Response.createResponseEntity(1, "Problem with captcha, try again later. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

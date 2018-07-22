@@ -328,7 +328,6 @@ const mapDispatchToProps = (dispatch) => {
             saveAuthor(author, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Data was saved successfully'));
-                    dispatch(setToken(json.token));
                     callback();
                 }
                 else if (json.message.includes('JWT expired at')) {
@@ -347,7 +346,6 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Avatar was saved successfully'));
                     callback();
-                    dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));
@@ -373,7 +371,6 @@ const mapDispatchToProps = (dispatch) => {
             changePassword(changePasswordRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Your password was changed successfully'));
-                    dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));
@@ -391,7 +388,6 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Avatar was restored successfully'));
                     callback();
-                    dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));

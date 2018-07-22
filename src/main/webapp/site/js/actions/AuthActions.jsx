@@ -1,11 +1,13 @@
-import doFetch from './fetch';
+import doFetch from './fetch.jsx';
 import {getHost} from '../utils.jsx';
 
 export const sendLogin = (username, password) => {
-    return doFetch(getHost() + 'auth', {
+    return doFetch(getHost() + 'oauth/token', {
         username: username,
-        password: password
-    });
+        password: password,
+        clientId: 'writersnets.com',
+        clientSecret: 'secret'
+    }, null, 'application/x-www-form-urlencoded', 'json', true);
 };
 
 export const sendRegister = (email, username, password) => {

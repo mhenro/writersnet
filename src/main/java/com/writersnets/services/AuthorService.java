@@ -178,13 +178,13 @@ public class AuthorService {
     public void changePassword(final ChangePasswordRequest request) {
         final User user = authorizedUserService.getAuthorizedUser();
         final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword().substring(8))) {
             throw new UnauthorizedUserException("Your current password is incorrect");
         }
         if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
             throw new UnauthorizedUserException("Your new password doesn't equals to your password confirmation");
         }
-        final String password = passwordEncoder.encode(request.getNewPassword());
+        final String password = "{bcrypt}" + passwordEncoder.encode(request.getNewPassword());
         user.setPassword(password);
     }
 

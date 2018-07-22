@@ -304,7 +304,6 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', 'Book was deleted successfully'));
                     callback();
-                    dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));
@@ -349,7 +348,6 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
-                    dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));

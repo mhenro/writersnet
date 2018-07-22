@@ -292,7 +292,6 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
-                    dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));
@@ -310,7 +309,6 @@ const mapDispatchToProps = (dispatch) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();
-                    dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));
@@ -327,7 +325,6 @@ const mapDispatchToProps = (dispatch) => {
             getGroupIdByRecipient(recipientId, userId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json.message);
-                    dispatch(setToken(json.token));
                 }
                 else if (json.message.includes('JWT expired at')) {
                     dispatch(setToken(''));

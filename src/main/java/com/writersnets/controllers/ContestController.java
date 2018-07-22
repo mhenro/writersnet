@@ -1,15 +1,10 @@
 package com.writersnets.controllers;
 
 import com.writersnets.models.Response;
-import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
-import com.writersnets.models.exceptions.WrongDataException;
 import com.writersnets.models.request.AddJudgeRequest;
 import com.writersnets.models.request.ContestRequest;
 import com.writersnets.models.response.ContestResponse;
 import com.writersnets.services.ContestService;
-import com.writersnets.utils.ControllerHelper;
-import org.hibernate.StaleStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -163,27 +158,5 @@ public class ContestController {
     public ResponseEntity<?> startContest(@PathVariable final Long contestId) {
         contestService.startContest(contestId);
         return Response.createResponseEntity(0, "Contest was started successfully", null, HttpStatus.OK);
-    }
-
-    /* ----------------------------------------exception handlers------------------------------------------ */
-
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Forbidden"), null, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> notFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Not found"), null, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(WrongDataException.class)
-    public ResponseEntity<?> wrongData(WrongDataException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Wrong data"), null, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(StaleStateException.class)
-    public ResponseEntity<?> optimisticLockCollision(StaleStateException e) {
-        return Response.createResponseEntity(1, "Server is overloaded. Please repeat the operation.", null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

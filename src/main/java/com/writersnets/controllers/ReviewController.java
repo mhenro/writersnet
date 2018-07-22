@@ -1,14 +1,10 @@
 package com.writersnets.controllers;
 
 import com.writersnets.models.Response;
-import com.writersnets.models.exceptions.ObjectAlreadyExistException;
-import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.ReviewRequest;
 import com.writersnets.models.response.ReviewResponse;
 import com.writersnets.services.ReviewService;
 import com.writersnets.services.SessionService;
-import com.writersnets.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -84,22 +80,5 @@ public class ReviewController {
         sessionService.updateSession(token);
         reviewService.saveReview(reviewRequest);
         return Response.createResponseEntity(0, "Review was saved", token, HttpStatus.OK);
-    }
-
-    /* ---------------------------------------exception handlers-------------------------------------- */
-
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Bad credentials"), null, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Object is not found"), null, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(ObjectAlreadyExistException.class)
-    public ResponseEntity<?> objectAlreadyExist(ObjectAlreadyExistException e) {
-        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Object already exist"), null, HttpStatus.BAD_REQUEST);
     }
 }

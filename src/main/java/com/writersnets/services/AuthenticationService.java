@@ -30,6 +30,7 @@ import static com.writersnets.utils.SecurityHelper.generateActivationToken;
 @Transactional(readOnly = true)
 public class AuthenticationService {
     private final int DEFAULT_PASSWORD_LENGTH = 12;
+    private final String PASSWORD_PREFIX = "{bcrypt}";
 
     private UserRepository userRepository;
     private JavaMailSender mailSender;
@@ -42,16 +43,6 @@ public class AuthenticationService {
         this.environment = environment;
     }
 
-    public String auth(final Credentials credentials) {
-        final User user = userRepository.findById(credentials.getUsername()).orElse(null);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (user == null || !passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {
-            throw new UnauthorizedUserException("Bad credentials");
-        }
-        final String key = environment.getProperty("security.jwt.signing-key");
-        return generateActivationToken(user, key);
-    }
-
     @Transactional
     public void activate(final String token) {
         User user = userRepository.findUserByActivationToken(token);
@@ -60,7 +51,6 @@ public class AuthenticationService {
         }
         user.setEnabled(true);
         user.setActivationToken("");
-        userRepository.save(user);
     }
 
     @Transactional
@@ -71,7 +61,7 @@ public class AuthenticationService {
             throw new ObjectAlreadyExistException("User with this login and/or email already exist");
         }
         final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        final String password = passwordEncoder.encode(credentials.getPassword());
+        final String password = PASSWORD_PREFIX + passwordEncoder.encode(credentials.getPassword());
         user = new User();
         user.setEmail(credentials.getEmail());
         user.setUsername(credentials.getUsername());
@@ -79,6 +69,7 @@ public class AuthenticationService {
         user.setEnabled(false);
         user.setLanguage("EN");
         user.setAuthority("ROLE_USER");
+        user.setPremium(false);
         user.setOnline(false);
 
         createRegistrationLink(user);
@@ -101,7 +92,6 @@ public class AuthenticationService {
         final String key = environment.getProperty("security.jwt.signing-key");
         final String token = generateActivationToken(user, key);
         user.setActivationToken(token);
-        userRepository.save(user);
         return token;
     }
 
@@ -141,10 +131,9 @@ public class AuthenticationService {
         final RandomString randomString = new RandomString(DEFAULT_PASSWORD_LENGTH);
         final String newPassword = randomString.nextString();
         final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        final String password = passwordEncoder.encode(newPassword);
+        final String password = PASSWORD_PREFIX + passwordEncoder.encode(newPassword);
         user.setPassword(password);
         user.setActivationToken("");
-        userRepository.save(user);
         return newPassword;
     }
 

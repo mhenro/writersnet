@@ -1,16 +1,12 @@
 package com.writersnets.controllers;
 
 import com.writersnets.models.Response;
-import com.writersnets.models.exceptions.IsNotPremiumUserException;
-import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.AuthorRequest;
 import com.writersnets.models.request.AvatarRequest;
 import com.writersnets.models.request.ChangePasswordRequest;
 import com.writersnets.models.response.*;
 import com.writersnets.services.AuthorService;
 import com.writersnets.services.SessionService;
-import com.writersnets.utils.ControllerHelper;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -108,22 +104,14 @@ public class AuthorController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "authors/subscribe", method = RequestMethod.POST)
     public ResponseEntity<?> subscribeOnUser(@RequestBody final String subscriptionId) {
-        final String key = environment.getProperty("security.jwt.signing-key");
-        String token = generateActivationToken(key);
-        sessionService.updateSession(token);
         Response<String> response = authorService.subscribeOnUser(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
-        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "authors/unsubscribe", method = RequestMethod.POST)
     public ResponseEntity<?> removeSubscription(@RequestBody final String subscriptionId) {
-        final String key = environment.getProperty("security.jwt.signing-key");
-        String token = generateActivationToken(key);
-        sessionService.updateSession(token);
         Response<String> response = authorService.removeSubscription(StringUtils.strip(subscriptionId, "\""));  //remove first and last \" characters
-        response.setToken(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -190,27 +178,5 @@ public class AuthorController {
     public ResponseEntity<?> getNewFriendsCount(@PathVariable String authorId) {
         final long count = authorService.getNewFriendsCount(authorId);
         return Response.createResponseEntity(0, count, null, HttpStatus.OK);
-    }
-
-    /* ---------------------------------------exception handlers-------------------------------------- */
-
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Bad credentials"), null, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> userNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "User is not found"), null, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(IsNotPremiumUserException.class)
-    public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUserException e) {
-        return Response.createResponseEntity(6,ControllerHelper.getErrorOrDefaultMessage(e, "Only a premium user can do this"), null, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<?> ioException(IOException e) {
-        return Response.createResponseEntity(7, "Problem with server's file system. Please try again later. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

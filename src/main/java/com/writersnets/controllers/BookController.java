@@ -2,7 +2,6 @@ package com.writersnets.controllers;
 
 import com.writersnets.models.Genre;
 import com.writersnets.models.Response;
-import com.writersnets.models.exceptions.*;
 import com.writersnets.models.request.BookRequest;
 import com.writersnets.models.request.BookTextRequest;
 import com.writersnets.models.request.CoverRequest;
@@ -11,7 +10,6 @@ import com.writersnets.models.response.BookResponse;
 import com.writersnets.models.response.BookWithTextResponse;
 import com.writersnets.services.BookService;
 import com.writersnets.services.SessionService;
-import com.writersnets.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -151,37 +149,5 @@ public class BookController {
         final String key = environment.getProperty("security.jwt.signing-key");
         String token = generateActivationToken(key);
         return Response.createResponseEntity(0, bookService.isUserHasBook(bookId), token, HttpStatus.OK);
-    }
-
-    /* ----------------------------------------exception handlers*------------------------------------------ */
-
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Forbidden"), null, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> bookNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Book is not found"), null, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(IsNotPremiumUserException.class)
-    public ResponseEntity<?> isNotPremiumUser(IsNotPremiumUserException e) {
-        return Response.createResponseEntity(6, ControllerHelper.getErrorOrDefaultMessage(e, "Only a premium user can do this"), null, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(TextConvertingException.class)
-    public ResponseEntity<?> textConvertingError(TextConvertingException e) {
-        return Response.createResponseEntity(7, "An error occurred while converting the book text. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<?> ioException(IOException e) {
-        return Response.createResponseEntity(8, "Problem with server's file system. Please try again later. Reason: " + e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(PermissionDeniedException.class)
-    public ResponseEntity<?> permissionDenied(PermissionDeniedException e) {
-        return Response.createResponseEntity(9, ControllerHelper.getErrorOrDefaultMessage(e, "Permission denied"), null, HttpStatus.FORBIDDEN);
     }
 }

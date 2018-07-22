@@ -1,15 +1,11 @@
 package com.writersnets.controllers;
 
 import com.writersnets.models.Response;
-import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
-import com.writersnets.models.exceptions.WrongDataException;
 import com.writersnets.models.request.CommentRequest;
 import com.writersnets.models.response.CommentResponse;
 import com.writersnets.models.response.DetailedCommentResponse;
 import com.writersnets.services.CommentsService;
 import com.writersnets.services.SessionService;
-import com.writersnets.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -62,22 +58,5 @@ public class CommentsController {
         sessionService.updateSession(token);
         commentsService.deleteComment(bookId, commentId);
         return Response.createResponseEntity(0, "Your comment was deleted", token, HttpStatus.OK);
-    }
-
-    /* ----------------------------------------exception handlers*------------------------------------------ */
-
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Forbidden"), null, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Object is not found"), null, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(WrongDataException.class)
-    public ResponseEntity<?> wrongData(WrongDataException e) {
-        return Response.createResponseEntity(6, ControllerHelper.getErrorOrDefaultMessage(e, "Wrong data"), null, HttpStatus.BAD_REQUEST);
     }
 }

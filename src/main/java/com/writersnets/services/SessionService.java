@@ -47,7 +47,6 @@ public class SessionService {
         final Session existedSession = sessionRepository.findByUsername(username);
         if (existedSession != null) {
             existedSession.setExpired(expireDate);
-            sessionRepository.save(existedSession);
             authorRepository.findById(username).ifPresent(author -> author.setOnline(true));
         } else {
             authorRepository.findById(username).ifPresent(author -> {

@@ -184,7 +184,7 @@ const mapDispatchToProps = (dispatch) => {
         onSendLogin: (username, password, self, callback) => {
             sendLogin(username, password).then(([response, json]) => {
                 if (response.status === 200) {
-                    dispatch(setToken(json.message));
+                    dispatch(setToken(json.access_token));
                     sessionStorage.setItem('username', username);
                     dispatch(setPassword(''));
                     self.close();

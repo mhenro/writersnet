@@ -35,7 +35,6 @@ public class CustomAuditEntity {
     @RevisionTimestamp
     private Long timestamp;
 
-    @NotNull
     @Column(name = "user_id", nullable = false)
     private String userId;
 

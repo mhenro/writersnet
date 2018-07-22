@@ -1,13 +1,10 @@
 package com.writersnets.controllers;
 
 import com.writersnets.models.Response;
-import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.SerieRequest;
 import com.writersnets.models.response.BookSerieResponse;
 import com.writersnets.services.SerieService;
 import com.writersnets.services.SessionService;
-import com.writersnets.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -59,17 +56,5 @@ public class SerieController {
         sessionService.updateSession(token);
         serieService.deleteSerie(serieId);
         return Response.createResponseEntity(0, "Serie was deleted successfully", token, HttpStatus.OK);
-    }
-
-     /* ---------------------------------------exception handlers-------------------------------------- */
-
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Bad credentials"), null, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Object is not found"), null, HttpStatus.NOT_FOUND);
     }
 }

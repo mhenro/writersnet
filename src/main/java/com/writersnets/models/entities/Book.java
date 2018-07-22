@@ -60,7 +60,9 @@ public class Book extends AbstractIdEntity {
 
     @Column(name = "review_count")
     private Long reviewCount = 0L;
+
     private Boolean paid;
+
     private Long cost;
 
     @OneToOne(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

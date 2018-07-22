@@ -2,12 +2,9 @@ package com.writersnets.controllers;
 
 import com.writersnets.models.Response;
 import com.writersnets.models.entities.Gift;
-import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.response.GiftResponse;
 import com.writersnets.models.response.UserGiftResponse;
 import com.writersnets.services.GiftService;
-import com.writersnets.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,12 +43,5 @@ public class GiftController {
     @RequestMapping(value = "gifts/authors/{userId}", method = RequestMethod.GET)
     public Page<UserGiftResponse> getAuthorGifts(@PathVariable final String userId, final Pageable pageable) {
         return giftService.getAuthorGifts(userId, pageable);
-    }
-
-    /* ---------------------------------------exception handlers-------------------------------------- */
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> objectNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "Object is not found"), null, HttpStatus.NOT_FOUND);
     }
 }

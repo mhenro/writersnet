@@ -59,36 +59,6 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void auth_ok() throws Exception {
-        final Credentials credentials = new Credentials();
-        credentials.setUsername("user");
-        credentials.setPassword("secret");
-        credentials.setEmail("user@mail.ru");
-        String result = authenticationService.auth(credentials);
-        Assert.assertEquals(151, result.length());
-    }
-
-    @Test
-    public void auth_userNotFound() throws Exception {
-        final Credentials credentials = new Credentials();
-        credentials.setUsername("mhenro");
-        credentials.setPassword("secret");
-        credentials.setEmail("user@mail.ru");
-        String result = authenticationService.auth(credentials);
-        Assert.assertEquals(null, result);
-    }
-
-    @Test
-    public void auth_wrongPassword() throws Exception {
-        final Credentials credentials = new Credentials();
-        credentials.setUsername("user");
-        credentials.setPassword("111");
-        credentials.setEmail("user@mail.ru");
-        String result = authenticationService.auth(credentials);
-        Assert.assertEquals(null, result);
-    }
-
-    @Test
     public void activate_ok() throws Exception {
         //final boolean result = authenticationService.activate("token111");
         //Assert.assertEquals(true, result);

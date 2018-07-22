@@ -1,14 +1,11 @@
 package com.writersnets.controllers;
 
 import com.writersnets.models.Response;
-import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.MessageRequest;
 import com.writersnets.models.request.ReadMessageRequest;
 import com.writersnets.models.response.MessageResponse;
 import com.writersnets.services.MessageService;
 import com.writersnets.services.SessionService;
-import com.writersnets.utils.ControllerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -98,17 +95,5 @@ public class MessageController {
         sessionService.updateSession(token);
         messageService.markAsReadInGroup(readMessageRequest.getUserId(), readMessageRequest.getGroupId());
         return Response.createResponseEntity(0, "All messages are read", token, HttpStatus.OK);
-    }
-
-    /* ---------------------------------------exception handlers-------------------------------------- */
-
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<?> unauthorizedUser(UnauthorizedUserException e) {
-        return Response.createResponseEntity(1, ControllerHelper.getErrorOrDefaultMessage(e, "Bad credentials"), null, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> userNotFound(ObjectNotFoundException e) {
-        return Response.createResponseEntity(5, ControllerHelper.getErrorOrDefaultMessage(e, "User is not found"), null, HttpStatus.NOT_FOUND);
     }
 }

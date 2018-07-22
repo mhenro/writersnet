@@ -7885,7 +7885,7 @@
 							"referenceTo": {
 								"$ref": "AAAAAAFkTTXfsDCZtRs="
 							},
-							"nullable": false,
+							"nullable": true,
 							"unique": false
 						},
 						{

@@ -1,4 +1,4 @@
-import doFetch from './fetch';
+import doFetch from './fetch.jsx';
 import { getHost } from '../utils.jsx';
 
 export const getNews = (token, page = 0, size = 20) => {

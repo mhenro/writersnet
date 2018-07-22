@@ -3,7 +3,7 @@
 CREATE TABLE custom_audit_entity (
   id INTEGER NOT NULL,
   timestamp BIGINT NOT NULL,
-  user_id varchar(20) NOT NULL,
+  user_id varchar(20),
   PRIMARY KEY (id)
 );
 
@@ -122,7 +122,7 @@ CREATE TABLE public.comments_aud (
   user_id varchar,
   comment varchar NOT NULL,
   created timestamp,
-  related_to bigint NOT NULL,
+  related_to bigint,
   PRIMARY KEY (id, revision_id)
 );
 

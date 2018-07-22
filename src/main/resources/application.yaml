@@ -74,6 +74,7 @@ security:
       client-id: writersnets.com
       client-secret: secret
       scope: read,write
+      authorized-grant-types: password
 
 #logging:
 #  level:

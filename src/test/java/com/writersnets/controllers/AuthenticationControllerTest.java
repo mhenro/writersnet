@@ -43,19 +43,6 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void auth() throws Exception {
-        final Credentials credentials = new Credentials();
-        final String json = mapper.writeValueAsString(credentials);
-        when(authenticationService.auth(any(Credentials.class))).thenReturn("token111");
-        mvc.perform(post("/auth").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().json("{code: 0, message: 'token111'}"));
-        mvc.perform(post("/auth").content(json)).andExpect(status().isUnsupportedMediaType());
-        when(authenticationService.auth(any(Credentials.class))).thenReturn(null);
-        mvc.perform(post("/auth").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isUnauthorized()).andExpect(content().json("{code: 1, message: 'Bad credentials'}"));
-        mvc.perform(post("/wrong").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
-        mvc.perform(get("/auth").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isMethodNotAllowed());
-    }
-
-    @Test
     public void register() throws Exception {
         final Credentials credentials = new Credentials();
         final String json = mapper.writeValueAsString(credentials);
