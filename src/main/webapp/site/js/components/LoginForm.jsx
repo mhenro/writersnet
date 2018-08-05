@@ -190,6 +190,9 @@ const mapDispatchToProps = (dispatch) => {
                     self.close();
                     callback();
                 }
+                else if (json.error === 'invalid_grant') {
+                    dispatch(createNotify('danger', 'Error', 'Bad credentials'));
+                }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));
                 }

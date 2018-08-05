@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -20,28 +21,28 @@ import java.util.stream.Collectors;
 @Getter @Setter @NoArgsConstructor
 public class User extends AbstractEntity {
     @Id
+    @NotNull
     private String username;
 
+    @NotNull
     private String password;
 
+    @NotNull
     private Boolean enabled;
 
-    @Column(name = "activation_token")
     private String activationToken;
 
-    @Column(name = "authority")
     private String authority;
 
+    @NotNull
     private String email;
 
     private LocalDate birthday;
 
     private String city;
 
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
     private String avatar;
@@ -50,15 +51,14 @@ public class User extends AbstractEntity {
     private Set<Book> books;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "section_id")
+    @JoinColumn
     private Section section;
 
     private String language;
 
-    @Column(name = "preferred_languages")
     private String preferredLanguages;
 
-    @Column(nullable = false)
+    @NotNull
     private Long views = 0L;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -72,24 +72,23 @@ public class User extends AbstractEntity {
     @OneToOne(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Session session;
 
-    @Column(name = "total_rating")
     private Long totalRating = 0L;
 
-    @Column(name = "total_votes")
     private Long totalVotes = 0L;
 
-    @Column(name = "comments_count")
+    @NotNull
     private Long commentsCount = 0L;
 
+    @NotNull
     private Boolean online;
 
+    @NotNull
     private Boolean premium;
 
-    @Column(name = "premium_expired")
     private LocalDateTime premiumExpired;
 
+    @NotNull
     private Long balance = 0L;
-
 
     /* -----------------------------business logic-------------------------------------------------------- */
 

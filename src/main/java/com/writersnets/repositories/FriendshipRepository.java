@@ -54,14 +54,14 @@ public interface FriendshipRepository extends PagingAndSortingRepository<Friend,
     void removeSubscription(final String owner, final String subscription);
 
     @Modifying
-    @Query(value = "INSERT INTO friends(friend_id, owner_id, added) VALUES(?2, ?1, ?3)", nativeQuery = true)
+    @Query(value = "INSERT INTO friends(friend_id, owner_id, added, opt_lock) VALUES(?2, ?1, ?3, 0)", nativeQuery = true)
     void addToFriends(final String owner, final String friend, final Date added);
 
     @Modifying
-    @Query(value = "INSERT INTO subscribers(subscriber_id, owner_id, added) VALUES(?2, ?1, ?3)", nativeQuery = true)
+    @Query(value = "INSERT INTO subscribers(subscriber_id, owner_id, added, opt_lock) VALUES(?2, ?1, ?3, 0)", nativeQuery = true)
     void addToSubscribers(final String owner, final String subscriber, final Date added);
 
     @Modifying
-    @Query(value = "INSERT INTO subscriptions(subscription_id, owner_id, added) VALUES(?2, ?1, ?3)", nativeQuery = true)
+    @Query(value = "INSERT INTO subscriptions(subscription_id, owner_id, added, opt_lock) VALUES(?2, ?1, ?3, 0)", nativeQuery = true)
     void addToSubscriptions(final String owner, final String subscription, final Date added);
 }

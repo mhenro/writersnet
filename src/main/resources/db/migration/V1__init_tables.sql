@@ -105,7 +105,7 @@ CREATE TABLE public.comments (
     user_id varchar,
     comment varchar NOT NULL,
     created timestamp,
-    related_to bigint NOT NULL,
+    related_to bigint,
     opt_lock bigint NOT NULL,
     PRIMARY KEY (id)
 );

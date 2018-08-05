@@ -170,7 +170,6 @@ public class AuthorService {
         if (author.getSectionDescription() != null) {
             user.getSection().setDescription(author.getSectionDescription());
         }
-        authorRepository.save(user);
         newsService.createNews(NewsService.NEWS_TYPE.PERSONAL_INFO_UPDATED, user);
     }
 

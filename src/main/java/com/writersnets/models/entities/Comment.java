@@ -25,10 +25,12 @@ public class Comment extends AbstractIdEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
     private String comment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "related_to")
     private Comment relatedTo;
+
     private LocalDateTime created;
 }

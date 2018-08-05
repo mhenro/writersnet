@@ -374,10 +374,11 @@ public class BookService {
     }
 
     private void preparePageOfBook(final BookWithTextResponse pageOfBook, final int page, final int size) {
-        pageOfBook.setTotalPages(pageOfBook.getSize() / size);
+        final int pageOfBookSize = pageOfBook.getSize() == null ? 0 : pageOfBook.getSize();
+        pageOfBook.setTotalPages(pageOfBookSize / size);
         final int offset = page * size;
         final String prefix = offset > 0 ? "..." : "";
-        if (offset + size > pageOfBook.getSize()) {
+        if (offset + size > pageOfBookSize) {
             pageOfBook.getBookText().setText(prefix + pageOfBook.getBookText().getText());
             pageOfBook.getBookText().setPrevText(prefix + pageOfBook.getBookText().getPrevText());
         } else {
