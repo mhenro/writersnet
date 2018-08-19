@@ -42,7 +42,7 @@ class ContestEditForm extends React.Component {
             revenue1: 0,
             revenue2: 0,
             revenue3: 0,
-            expirationDate: new Date().toISOString().split('T')[0],
+            expirationDate: new Date(),
             addUserCallback: null,
             getSelectedAuthors: null,
             withBooks: false,
@@ -85,7 +85,7 @@ class ContestEditForm extends React.Component {
                 revenue1: data.firstPlaceRevenue,
                 revenue2: data.secondPlaceRevenue,
                 revenue3: data.thirdPlaceRevenue,
-                expirationDate: data.expirationDate || new Date().toISOString().split('T')[0],
+                expirationDate: data.expirationDate || new Date()
             });
         } else {
             this.setState({
@@ -95,7 +95,7 @@ class ContestEditForm extends React.Component {
                 revenue1: 0,
                 revenue2: 0,
                 revenue3: 0,
-                expirationDate: new Date().toISOString().split('T')[0],
+                expirationDate: new Date()
             });
         }
     }
@@ -247,7 +247,7 @@ class ContestEditForm extends React.Component {
         let btnCreateCaption = this.state.contest ? 'Edit' : 'Create';
         return (
             <div className="btn-group">
-                <Button onClick={() => this.props.startContest(this.props.contestId)}
+                <Button onClick={() => this.props.startContest(this.props.contestId, this.props.token, () => this.onClose())}
                         className={'btn btn-success ' + (this.isMe() && this.state.readyToStart && !this.isContestStarted() ? '' : 'hidden')}>Start</Button>
                 <Button onClick={() => this.onCreate()}
                         className={'btn btn-success ' + (this.isMe() && !this.isContestClosed() && !this.isContestStarted() ? '' : 'hidden')}>{btnCreateCaption}</Button>
@@ -466,8 +466,8 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        startContest: (contestId, callback) => {
-            startContest(contestId).then(([response, json]) => {
+        startContest: (contestId, token, callback) => {
+            startContest(contestId, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
                     callback();

@@ -77,8 +77,8 @@ export const refuseContestAsParticipant = (contestId, bookId, token) => {
     return doFetch(getHost() + 'contests/' + contestId + '/refuse/' + bookId, null, token);
 };
 
-export const startContest = (contestId) => {
-    return doFetch(getHost() + 'contests/' + contestId + '/start');
+export const startContest = (contestId, token) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/start', null, token);
 };
 
 export const SHOW_CONTEST_EDIT_FORM = 'SHOW_CONTEST_EDIT_FORM';
