@@ -1,7 +1,5 @@
 package com.writersnets.models.response;
 
-import com.writersnets.models.entities.BookSerie;
-
 /**
  * Created by mhenr on 20.12.2017.
  */

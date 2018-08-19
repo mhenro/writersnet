@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.User;
 import org.springframework.data.repository.CrudRepository;
 
 /**

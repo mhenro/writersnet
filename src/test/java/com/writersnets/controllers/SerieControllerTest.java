@@ -1,7 +1,6 @@
 package com.writersnets.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.writersnets.models.entities.BookSerie;
 import com.writersnets.models.request.SerieRequest;
 import com.writersnets.models.response.BookSerieResponse;
 import com.writersnets.services.SerieService;

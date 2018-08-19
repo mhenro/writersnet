@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Section;
+import com.writersnets.models.entities.users.Section;
 import com.writersnets.models.response.SectionResponse;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

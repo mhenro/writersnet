@@ -1,6 +1,5 @@
 package com.writersnets.controllers;
 
-import com.writersnets.models.entities.Section;
 import com.writersnets.models.response.SectionResponse;
 import com.writersnets.services.SectionService;
 import org.junit.Before;

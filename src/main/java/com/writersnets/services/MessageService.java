@@ -1,6 +1,8 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.groups.ChatGroup;
+import com.writersnets.models.entities.groups.Message;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.response.MessageResponse;
@@ -17,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 /**

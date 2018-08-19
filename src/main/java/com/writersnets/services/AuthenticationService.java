@@ -1,7 +1,7 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.Section;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.Section;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectAlreadyExistException;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.UnauthorizedUserException;

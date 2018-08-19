@@ -1,11 +1,9 @@
 package com.writersnets.models.response;
 
-import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.users.Section;
 import com.writersnets.models.request.TotalRating;
-import com.writersnets.models.request.TotalSize;
 
 import java.time.LocalDate;
-import java.util.*;
 
 /**
  * Created by mhenr on 20.12.2017.

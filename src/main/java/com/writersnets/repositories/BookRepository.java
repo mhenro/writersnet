@@ -1,7 +1,7 @@
 package com.writersnets.repositories;
 
 import com.writersnets.models.Genre;
-import com.writersnets.models.entities.Book;
+import com.writersnets.models.entities.books.Book;
 import com.writersnets.models.response.BookCostResponse;
 import com.writersnets.models.response.BookResponse;
 import com.writersnets.models.response.BookWithTextResponse;

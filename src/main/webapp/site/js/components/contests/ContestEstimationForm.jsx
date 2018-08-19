@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Modal, Button, Tooltip, OverlayTrigger, Pagination } from 'react-bootstrap';
+
+import ParticipantList from './ParticipantList.jsx';
 
 import { createNotify } from '../../actions/GlobalActions.jsx';
 import { getContest, closeContestEstimationForm } from '../../actions/ContestActions.jsx';
@@ -15,7 +17,10 @@ class ContestEstimationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            contest: null
+            contest: null,
+            activePage: 0,
+            totalPages: 0,
+            participants: []
         };
     }
 
@@ -70,6 +75,25 @@ class ContestEstimationForm extends React.Component {
                         <div className="col-sm-7">
                             <input value={this.getTimeLimit()} readOnly="true" type="text" className="form-control" id="timeLimit" name="timeLimit"/>
                         </div>
+                    </div>
+                    <hr/>
+                    <div className="col-sm-12 text-center">
+                        <Pagination
+                            className={'shown'}
+                            prev
+                            next
+                            first
+                            last
+                            ellipsis
+                            boundaryLinks
+                            items={this.state.totalPages}
+                            maxButtons={3}
+                            activePage={this.state.activePage}
+                            onSelect={page => this.pageSelect(page)}/>
+                    </div>
+                    <div className="col-sm-12 text-center">
+                        <ParticipantList participants={this.state.participants}/>
+                        <br/>
                     </div>
                 </form>
             </Modal.Body>

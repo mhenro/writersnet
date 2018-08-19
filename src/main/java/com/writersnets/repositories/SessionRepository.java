@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Session;
+import com.writersnets.models.entities.users.Session;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

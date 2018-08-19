@@ -1,7 +1,6 @@
 package com.writersnets.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.writersnets.models.entities.Book;
 import com.writersnets.models.request.BookRequest;
 import com.writersnets.models.request.BookTextRequest;
 import com.writersnets.models.request.CoverRequest;
@@ -23,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import static org.hamcrest.core.Is.is;

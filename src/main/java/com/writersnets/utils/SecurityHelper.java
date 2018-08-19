@@ -2,7 +2,7 @@ package com.writersnets.utils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

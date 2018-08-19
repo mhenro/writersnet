@@ -1,6 +1,10 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.books.Review;
+import com.writersnets.models.entities.books.ReviewIP;
+import com.writersnets.models.entities.books.ReviewIP_PK;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectAlreadyExistException;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.request.ReviewRequest;

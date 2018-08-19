@@ -1,7 +1,7 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.Book;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.CommentRequest;

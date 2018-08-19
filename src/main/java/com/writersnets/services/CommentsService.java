@@ -1,8 +1,8 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.Book;
-import com.writersnets.models.entities.Comment;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.books.Comment;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.exceptions.WrongDataException;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 15.11.2017.

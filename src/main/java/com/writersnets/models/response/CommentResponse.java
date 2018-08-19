@@ -1,9 +1,8 @@
 package com.writersnets.models.response;
 
-import com.writersnets.models.entities.Comment;
+import com.writersnets.models.entities.books.Comment;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 24.12.2017.

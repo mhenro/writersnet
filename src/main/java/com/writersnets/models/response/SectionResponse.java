@@ -1,9 +1,8 @@
 package com.writersnets.models.response;
 
-import com.writersnets.models.entities.Section;
+import com.writersnets.models.entities.users.Section;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by mhenr on 20.12.2017.

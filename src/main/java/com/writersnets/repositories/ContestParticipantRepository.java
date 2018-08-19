@@ -1,8 +1,8 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.ContestParticipant;
-import com.writersnets.models.entities.ContestParticipantPK;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.contests.ContestParticipant;
+import com.writersnets.models.entities.contests.ContestParticipantPK;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.response.ContestUserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

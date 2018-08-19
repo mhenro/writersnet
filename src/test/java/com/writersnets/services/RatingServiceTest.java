@@ -1,8 +1,7 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.Rating;
+import com.writersnets.models.entities.books.Rating;
 import com.writersnets.models.exceptions.ObjectAlreadyExistException;
-import com.writersnets.repositories.AuthorRepository;
 import com.writersnets.repositories.BookRepository;
 import com.writersnets.repositories.RatingRepository;
 import org.junit.Before;

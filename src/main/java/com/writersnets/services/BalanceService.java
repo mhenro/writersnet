@@ -2,6 +2,9 @@ package com.writersnets.services;
 
 import com.writersnets.models.OperationType;
 import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.contests.Contest;
+import com.writersnets.models.entities.users.*;
 import com.writersnets.models.exceptions.NotEnoughMoneyException;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.WrongDataException;

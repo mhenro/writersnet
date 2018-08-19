@@ -1,8 +1,8 @@
 package com.writersnets.models.response;
 
-import com.writersnets.models.entities.ChatGroup;
-import com.writersnets.models.entities.Message;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.groups.ChatGroup;
+import com.writersnets.models.entities.groups.Message;
+import com.writersnets.models.entities.users.User;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

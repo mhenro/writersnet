@@ -1,10 +1,8 @@
 package com.writersnets.models.response;
 
 import com.writersnets.models.OperationType;
-import com.writersnets.models.entities.User;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 26.01.2018.

@@ -3,7 +3,7 @@ package com.writersnets.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.response.ChatGroupResponse;
 import com.writersnets.services.AuthorService;
 import org.junit.Before;

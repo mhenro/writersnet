@@ -1,10 +1,9 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Contest;
+import com.writersnets.models.entities.contests.Contest;
 import com.writersnets.models.response.ContestResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

@@ -1,12 +1,10 @@
 package com.writersnets.models.response;
 
 import com.writersnets.models.Genre;
-import com.writersnets.models.entities.Book;
 import com.writersnets.models.request.TotalRating;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 20.12.2017.

@@ -1,11 +1,7 @@
 package com.writersnets.models.response;
 
-import com.writersnets.controllers.MessageController;
-import com.writersnets.models.entities.Book;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 07.12.2017.

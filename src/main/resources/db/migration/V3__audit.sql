@@ -415,3 +415,18 @@ ALTER TABLE user_gift_aud
   ADD CONSTRAINT FK_user_gift_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
+
+CREATE TABLE public.contest_rating_aud (
+  revision_id INTEGER NOT NULL,
+  revision_type INT2,
+  contest_id bigint NOT NULL,
+  judge_id varchar NOT NULL,
+  book_id bigint NOT NULL,
+  estimation smallint NOT NULL,
+  PRIMARY KEY (contest_id, judge_id, book_id, revision_id)
+);
+
+ALTER TABLE contest_rating_aud
+  ADD CONSTRAINT FK_contest_rating_aud_audit
+  FOREIGN KEY (revision_id)
+  REFERENCES custom_audit_entity;

@@ -1,7 +1,7 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.UserBook;
-import com.writersnets.models.entities.UserBookPK;
+import com.writersnets.models.entities.users.UserBook;
+import com.writersnets.models.entities.users.UserBookPK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**

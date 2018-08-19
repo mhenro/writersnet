@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Review;
+import com.writersnets.models.entities.books.Review;
 import com.writersnets.models.response.ReviewResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

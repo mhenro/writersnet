@@ -1,6 +1,6 @@
 package com.writersnets.models.security;
 
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

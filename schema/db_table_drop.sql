@@ -24,3 +24,4 @@ DROP TABLE public.subscribers CASCADE;
 DROP TABLE public.subscriptions CASCADE;
 DROP TABLE public.user_book CASCADE;
 DROP TABLE public.user_gift CASCADE;
+DROP TABLE public.contest_rating CASCADE;

@@ -1,7 +1,13 @@
 package com.writersnets.repositories;
 
 import com.writersnets.config.RootConfigTest;
-import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.books.Comment;
+import com.writersnets.models.entities.books.Rating;
+import com.writersnets.models.entities.books.RatingId;
+import com.writersnets.models.entities.groups.ChatGroup;
+import com.writersnets.models.entities.groups.Message;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.response.AuthorShortInfoResponse;
 import com.writersnets.models.response.ChatGroupResponse;
 import com.writersnets.models.top_models.TopAuthorBookCount;
@@ -20,9 +26,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 17.11.2017.

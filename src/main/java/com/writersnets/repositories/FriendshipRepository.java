@@ -1,14 +1,13 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Friend;
-import com.writersnets.models.entities.FriendPK;
+import com.writersnets.models.entities.groups.Friend;
+import com.writersnets.models.entities.groups.FriendPK;
 import com.writersnets.models.response.FriendResponse;
 import com.writersnets.models.response.FriendshipResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Date;

@@ -1,14 +1,12 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Comment;
+import com.writersnets.models.entities.books.Comment;
 import com.writersnets.models.response.CommentResponse;
 import com.writersnets.models.response.DetailedCommentResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-
-import java.util.Date;
 
 /**
  * Created by mhenr on 06.11.2017.

@@ -1,9 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.ChatGroup;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import com.writersnets.models.entities.groups.ChatGroup;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**

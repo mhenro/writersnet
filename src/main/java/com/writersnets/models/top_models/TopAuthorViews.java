@@ -1,7 +1,5 @@
 package com.writersnets.models.top_models;
 
-import com.writersnets.models.entities.Book;
-
 /**
  * Created by mhenr on 03.12.2017.
  */

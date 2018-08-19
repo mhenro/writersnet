@@ -1,6 +1,6 @@
 package com.writersnets.services.security;
 
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.security.AuthUser;
 import com.writersnets.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

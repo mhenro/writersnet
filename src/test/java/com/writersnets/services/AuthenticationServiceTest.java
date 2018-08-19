@@ -1,9 +1,8 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.request.Credentials;
 import com.writersnets.repositories.UserRepository;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.BookText;
+import com.writersnets.models.entities.books.BookText;
 import org.springframework.data.repository.CrudRepository;
 
 /**

@@ -1,15 +1,16 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.books.BookText;
+import com.writersnets.models.entities.users.Section;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.BookRequest;
 import com.writersnets.models.request.BookTextRequest;
 import com.writersnets.models.request.CoverRequest;
 import com.writersnets.models.response.BookResponse;
-import com.writersnets.models.response.BookWithTextResponse;
 import com.writersnets.repositories.*;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -2,14 +2,12 @@ package com.writersnets.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import com.writersnets.models.entities.Session;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.Session;
 import com.writersnets.repositories.AuthorRepository;
 import com.writersnets.repositories.SessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 
 /**
  * Created by mhenr on 20.12.2017.

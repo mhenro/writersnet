@@ -103,7 +103,7 @@ CREATE TABLE public.comments (
     user_id varchar,
     comment varchar NOT NULL,
     created timestamp,
-    related_to bigint NOT NULL,
+    related_to bigint,
     opt_lock bigint NOT NULL,
     PRIMARY KEY (id)
 );
@@ -372,6 +372,16 @@ CREATE INDEX ON public.user_gift
     (from_user);
 
 
+CREATE TABLE public.contest_rating (
+    contest_id bigint NOT NULL,
+    judge_id varchar NOT NULL,
+    book_id bigint NOT NULL,
+    estimation smallint NOT NULL,
+    opt_lock bigint NOT NULL,
+    PRIMARY KEY (contest_id, judge_id, book_id)
+);
+
+
 ALTER TABLE public.billing ADD CONSTRAINT FK_billing__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
 ALTER TABLE public.users ADD CONSTRAINT FK_users__section_id FOREIGN KEY (section_id) REFERENCES public.sections(id);
 ALTER TABLE public.books ADD CONSTRAINT FK_books__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
@@ -414,3 +424,6 @@ ALTER TABLE public.user_book ADD CONSTRAINT FK_user_book__book_id FOREIGN KEY (b
 ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__gift_id FOREIGN KEY (gift_id) REFERENCES public.gifts(id);
 ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
 ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__from_user FOREIGN KEY (from_user) REFERENCES public.users(username);
+ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id);
+ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__judge_id FOREIGN KEY (judge_id) REFERENCES public.users(username);
+ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);

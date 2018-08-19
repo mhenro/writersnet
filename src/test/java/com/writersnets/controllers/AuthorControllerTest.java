@@ -2,7 +2,7 @@ package com.writersnets.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.writersnets.models.Response;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.request.AuthorRequest;
 import com.writersnets.models.request.AvatarRequest;
 import com.writersnets.models.response.AuthorResponse;

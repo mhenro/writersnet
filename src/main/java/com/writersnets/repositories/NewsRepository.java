@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.News;
+import com.writersnets.models.entities.users.News;
 import com.writersnets.models.response.NewsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.UserGift;
+import com.writersnets.models.entities.users.UserGift;
 import com.writersnets.models.response.UserGiftResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

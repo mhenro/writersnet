@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.response.*;
 import com.writersnets.models.top_models.*;
 import org.springframework.data.domain.Page;

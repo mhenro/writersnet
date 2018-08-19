@@ -1,21 +1,18 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.Book;
-import com.writersnets.models.entities.Contest;
-import com.writersnets.models.entities.News;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.contests.Contest;
+import com.writersnets.models.entities.users.News;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.response.NewsResponse;
 import com.writersnets.repositories.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 13.12.2017.

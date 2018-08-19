@@ -1,7 +1,11 @@
 package com.writersnets.repositories;
 
 import com.writersnets.config.RootConfigTest;
-import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.books.BookText;
+import com.writersnets.models.entities.books.Rating;
+import com.writersnets.models.entities.books.RatingId;
+import com.writersnets.models.entities.users.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

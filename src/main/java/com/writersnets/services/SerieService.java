@@ -1,18 +1,13 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.BookSerie;
-import com.writersnets.models.entities.User;
+import com.writersnets.models.entities.books.BookSerie;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.SerieRequest;
 import com.writersnets.models.response.BookSerieResponse;
-import com.writersnets.repositories.AuthorRepository;
 import com.writersnets.repositories.SerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

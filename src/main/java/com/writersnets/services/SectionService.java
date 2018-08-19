@@ -1,7 +1,5 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.Section;
-import com.writersnets.models.entities.User;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.response.SectionResponse;
 import com.writersnets.repositories.SectionRepository;

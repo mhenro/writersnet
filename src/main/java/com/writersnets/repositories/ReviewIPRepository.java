@@ -1,8 +1,8 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Review;
-import com.writersnets.models.entities.ReviewIP;
-import com.writersnets.models.entities.ReviewIP_PK;
+import com.writersnets.models.entities.books.Review;
+import com.writersnets.models.entities.books.ReviewIP;
+import com.writersnets.models.entities.books.ReviewIP_PK;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

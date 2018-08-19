@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Billing;
+import com.writersnets.models.entities.users.Billing;
 import com.writersnets.models.response.BalanceResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

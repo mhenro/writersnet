@@ -1,7 +1,10 @@
 package com.writersnets.repositories;
 
 import com.writersnets.config.RootConfigTest;
-import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.books.BookText;
+import com.writersnets.models.entities.books.Comment;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.response.CommentResponse;
 import org.junit.Assert;
 import org.junit.Before;

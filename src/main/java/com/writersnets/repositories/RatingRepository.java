@@ -1,7 +1,7 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Rating;
-import com.writersnets.models.entities.RatingId;
+import com.writersnets.models.entities.books.Rating;
+import com.writersnets.models.entities.books.RatingId;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

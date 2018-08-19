@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Message;
+import com.writersnets.models.entities.groups.Message;
 import com.writersnets.models.response.MessageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

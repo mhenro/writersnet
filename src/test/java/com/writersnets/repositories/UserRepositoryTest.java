@@ -1,8 +1,7 @@
 package com.writersnets.repositories;
 
 import com.writersnets.config.RootConfigTest;
-import com.writersnets.models.entities.User;
-import org.junit.After;
+import com.writersnets.models.entities.users.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

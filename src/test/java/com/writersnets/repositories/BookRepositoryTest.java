@@ -1,7 +1,8 @@
 package com.writersnets.repositories;
 
 import com.writersnets.config.RootConfigTest;
-import com.writersnets.models.entities.*;
+import com.writersnets.models.entities.books.*;
+import com.writersnets.models.entities.users.User;
 import com.writersnets.models.top_models.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,9 +19,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by mhenr on 02.12.2017.

@@ -1,11 +1,10 @@
 package com.writersnets.services;
 
-import com.writersnets.models.entities.Book;
-import com.writersnets.models.entities.Rating;
-import com.writersnets.models.entities.RatingId;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.books.Rating;
+import com.writersnets.models.entities.books.RatingId;
 import com.writersnets.models.exceptions.ObjectAlreadyExistException;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.repositories.AuthorRepository;
 import com.writersnets.repositories.BookRepository;
 import com.writersnets.repositories.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
