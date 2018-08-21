@@ -5,7 +5,7 @@ import { Modal, Button, Tooltip, OverlayTrigger, Pagination } from 'react-bootst
 import ParticipantList from './ParticipantList.jsx';
 
 import { createNotify } from '../../actions/GlobalActions.jsx';
-import { getContest, closeContestEstimationForm } from '../../actions/ContestActions.jsx';
+import { getContest, closeContestEstimationForm, getParticipantsRating } from '../../actions/ContestActions.jsx';
 
 import { formatTimeInterval } from '../../utils.jsx';
 
@@ -18,7 +18,8 @@ class ContestEstimationForm extends React.Component {
         super(props);
         this.state = {
             contest: null,
-            activePage: 0,
+            activePage: 1,
+            pageSize: 10,
             totalPages: 0,
             participants: []
         };
@@ -45,6 +46,7 @@ class ContestEstimationForm extends React.Component {
     onShow() {
         if (this.props.contestId !== null) {
             this.props.onGetContestDetails(this.props.contestId, contest => this.updateContest(contest));
+            this.props.onGetParticipantsRating(this.props.contestId, this.state.activePage, this.state.pageSize, rating => this.updateRatings(rating))
             //this.props.isContestReadyToStart(this.props.contestId, ready => this.setState({readyToStart: ready}));
         }
     }
@@ -58,6 +60,21 @@ class ContestEstimationForm extends React.Component {
         this.setState({
             contest: contest
         });
+    }
+
+    updateRatings(rating) {
+        this.setState({
+            participants: rating.content,
+            totalPages: rating.totalPages
+        })
+    }
+
+    pageSelect(page) {
+        this.setState({
+            activePage: page
+        });
+
+        this.props.onGetParticipantsRating(this.props.contestId, page, this.state.pageSize, rating => this.updateRatings(rating));
     }
 
     renderBody() {
@@ -92,7 +109,7 @@ class ContestEstimationForm extends React.Component {
                             onSelect={page => this.pageSelect(page)}/>
                     </div>
                     <div className="col-sm-12 text-center">
-                        <ParticipantList participants={this.state.participants}/>
+                        <ParticipantList participants={this.state.participants} participantsOffset={(this.state.activePage - 1) * this.state.pageSize}/>
                         <br/>
                     </div>
                 </form>
@@ -125,7 +142,7 @@ class ContestEstimationForm extends React.Component {
             if (timeDiff > 0) {
                 return formatTimeInterval(timeDiff, 'Y years D days H hours and M minutes');
             } else {
-                return '';
+                return 'Contest has been finished';
             }
         }
     }
@@ -167,6 +184,19 @@ const mapDispatchToProps = (dispatch) => {
 
         onCloseForm: () => {
             dispatch(closeContestEstimationForm());
+        },
+
+        onGetParticipantsRating: (contestId, page, size, callback) => {
+            getParticipantsRating(contestId, page - 1, size).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
         }
     }
 };

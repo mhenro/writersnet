@@ -81,6 +81,10 @@ export const startContest = (contestId, token) => {
     return doFetch(getHost() + 'contests/' + contestId + '/start', null, token);
 };
 
+export const getParticipantsRating = (contestId, page = 0, size = 20) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/ratings?page=' + page + '&size=' + size);
+};
+
 export const SHOW_CONTEST_EDIT_FORM = 'SHOW_CONTEST_EDIT_FORM';
 export const CLOSE_CONTEST_EDIT_FORM = 'CLOSE_CONTEST_EDIT_FORM';
 
