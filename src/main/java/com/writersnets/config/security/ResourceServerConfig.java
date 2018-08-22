@@ -70,6 +70,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/contests/{id}/judges-count").permitAll()
                 .antMatchers(HttpMethod.GET, "/contests/{id}/readiness").permitAll()
                 .antMatchers(HttpMethod.GET, "/contests/{id}/ratings").permitAll()
+                .antMatchers(HttpMethod.GET, "/contests/{id}/ratings/{bookId}").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/feedback").permitAll()
 

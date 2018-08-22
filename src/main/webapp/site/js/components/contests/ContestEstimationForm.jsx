@@ -1,13 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Modal, Button, Tooltip, OverlayTrigger, Pagination } from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {Modal, Button, Tooltip, OverlayTrigger, Pagination} from 'react-bootstrap';
 
 import ParticipantList from './ParticipantList.jsx';
 
-import { createNotify } from '../../actions/GlobalActions.jsx';
-import { getContest, closeContestEstimationForm, getParticipantsRating } from '../../actions/ContestActions.jsx';
+import {createNotify} from '../../actions/GlobalActions.jsx';
+import {
+    getContest,
+    closeContestEstimationForm,
+    getParticipantsRating,
+    getParticipantsRatingDetails
+} from '../../actions/ContestActions.jsx';
 
-import { formatTimeInterval } from '../../utils.jsx';
+import {formatTimeInterval} from '../../utils.jsx';
 
 /*
     props:
@@ -31,7 +36,8 @@ class ContestEstimationForm extends React.Component {
 
     render() {
         return (
-            <Modal show={this.props.showContestEstimationForm} onHide={() => this.onClose()} onShow={() => this.onShow()}>
+            <Modal show={this.props.showContestEstimationForm} onHide={() => this.onClose()}
+                   onShow={() => this.onShow()}>
                 <Modal.Header>
                     {this.getCaption()}
                 </Modal.Header>
@@ -84,13 +90,15 @@ class ContestEstimationForm extends React.Component {
                     <div className="form-group">
                         <label className="control-label col-sm-5" htmlFor="prizeFund">Prize fund, $:</label>
                         <div className="col-sm-7">
-                            <input value={this.getPrizeFund()} readOnly="true" type="text" className="form-control" id="prizeFund" name="prizeFund"/>
+                            <input value={this.getPrizeFund()} readOnly="true" type="text" className="form-control"
+                                   id="prizeFund" name="prizeFund"/>
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="control-label col-sm-5" htmlFor="timeLimit">Time limit:</label>
                         <div className="col-sm-7">
-                            <input value={this.getTimeLimit()} readOnly="true" type="text" className="form-control" id="timeLimit" name="timeLimit"/>
+                            <input value={this.getTimeLimit()} readOnly="true" type="text" className="form-control"
+                                   id="timeLimit" name="timeLimit"/>
                         </div>
                     </div>
                     <hr/>
@@ -109,7 +117,10 @@ class ContestEstimationForm extends React.Component {
                             onSelect={page => this.pageSelect(page)}/>
                     </div>
                     <div className="col-sm-12 text-center">
-                        <ParticipantList participants={this.state.participants} participantsOffset={(this.state.activePage - 1) * this.state.pageSize}/>
+                        <ParticipantList participants={this.state.participants}
+                                         participantsOffset={(this.state.activePage - 1) * this.state.pageSize}
+                                         getRatingDetails={(bookId, callback) => this.props.onGetParticipantsRatingDetails(this.props.contestId, bookId, 0, 0, callback)}
+                        />
                         <br/>
                     </div>
                 </form>
@@ -188,6 +199,19 @@ const mapDispatchToProps = (dispatch) => {
 
         onGetParticipantsRating: (contestId, page, size, callback) => {
             getParticipantsRating(contestId, page - 1, size).then(([response, json]) => {
+                if (response.status === 200) {
+                    callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onGetParticipantsRatingDetails: (contestId, bookId, page, size, callback) => {
+            getParticipantsRatingDetails(contestId, bookId, page - 1, size).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
                 }

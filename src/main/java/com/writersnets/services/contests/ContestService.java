@@ -6,6 +6,7 @@ import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.exceptions.WrongDataException;
 import com.writersnets.models.request.ContestRequest;
+import com.writersnets.models.response.ContestRatingDetailsResponse;
 import com.writersnets.models.response.ContestRatingResponse;
 import com.writersnets.models.response.ContestResponse;
 import com.writersnets.repositories.*;
@@ -107,6 +108,10 @@ public class ContestService {
 
     public Page<ContestRatingResponse> getParticipantsRating(final long contestId, final Pageable pageable) {
         return contestRatingRepository.getParticipantsRating(contestId, pageable);
+    }
+
+    public Page<ContestRatingDetailsResponse> getParticipantsRatingDetails(final long contestId, final long bookId, final Pageable pageable) {
+        return contestRatingRepository.getParticipantsRatingDetails(contestId, bookId, pageable);
     }
 
     private Long editContest(final ContestRequest request) {

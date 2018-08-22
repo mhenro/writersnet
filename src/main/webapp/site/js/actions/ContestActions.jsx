@@ -85,6 +85,11 @@ export const getParticipantsRating = (contestId, page = 0, size = 20) => {
     return doFetch(getHost() + 'contests/' + contestId + '/ratings?page=' + page + '&size=' + size);
 };
 
+export const getParticipantsRatingDetails = (contestId, bookId, page = 0, size = 20) => {
+    //return doFetch(getHost() + 'contests/' + contestId + '/ratings/' + bookId + '?page=' + page + '&size=' + size);
+    return doFetch(getHost() + 'contests/' + contestId + '/ratings/' + bookId);
+};
+
 export const SHOW_CONTEST_EDIT_FORM = 'SHOW_CONTEST_EDIT_FORM';
 export const CLOSE_CONTEST_EDIT_FORM = 'CLOSE_CONTEST_EDIT_FORM';
 

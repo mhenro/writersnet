@@ -2,6 +2,7 @@ package com.writersnets.controllers.contests;
 
 import com.writersnets.models.Response;
 import com.writersnets.models.request.ContestRequest;
+import com.writersnets.models.response.ContestRatingDetailsResponse;
 import com.writersnets.models.response.ContestRatingResponse;
 import com.writersnets.models.response.ContestResponse;
 import com.writersnets.services.contests.ContestService;
@@ -68,5 +69,10 @@ public class ContestController {
     @RequestMapping(value = "/{contestId}/ratings", method = RequestMethod.GET)
     public Page<ContestRatingResponse> getParticipantsRating(@PathVariable final long contestId, final Pageable pageable) {
         return contestService.getParticipantsRating(contestId, pageable);
+    }
+
+    @RequestMapping(value = "/{contestId}/ratings/{bookId}", method = RequestMethod.GET)
+    public Page<ContestRatingDetailsResponse> getParticipantsRatingDetails(@PathVariable final long contestId, @PathVariable final long bookId, final Pageable pageable) {
+        return contestService.getParticipantsRatingDetails(contestId, bookId, pageable);
     }
 }
