@@ -1,6 +1,7 @@
 package com.writersnets.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.writersnets.controllers.authors.AuthorController;
 import com.writersnets.models.Response;
 import com.writersnets.models.entities.users.User;
 import com.writersnets.models.request.AuthorRequest;
@@ -8,7 +9,7 @@ import com.writersnets.models.request.AvatarRequest;
 import com.writersnets.models.response.AuthorResponse;
 import com.writersnets.models.response.AuthorShortInfoResponse;
 import com.writersnets.models.response.ChatGroupResponse;
-import com.writersnets.services.AuthorService;
+import com.writersnets.services.authors.AuthorService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

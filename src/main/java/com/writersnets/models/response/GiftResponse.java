@@ -1,7 +1,7 @@
 package com.writersnets.models.response;
 
 import com.writersnets.models.GiftType;
-import com.writersnets.models.entities.Gift;
+import com.writersnets.models.entities.users.Gift;
 
 /**
  * Created by mhenr on 27.01.2018.

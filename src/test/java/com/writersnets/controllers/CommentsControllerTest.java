@@ -1,9 +1,10 @@
 package com.writersnets.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.writersnets.controllers.books.CommentsController;
 import com.writersnets.models.request.CommentRequest;
 import com.writersnets.models.response.CommentResponse;
-import com.writersnets.services.CommentsService;
+import com.writersnets.services.books.CommentsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

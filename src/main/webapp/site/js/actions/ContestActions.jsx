@@ -90,6 +90,10 @@ export const getParticipantsRatingDetails = (contestId, bookId, page = 0, size =
     return doFetch(getHost() + 'contests/' + contestId + '/ratings/' + bookId);
 };
 
+export const setContestEstimation = (contestId, estimateRequest, token) => {
+    return doFetch(getHost() + 'contests/' + contestId + '/estimate', estimateRequest, token);
+};
+
 export const SHOW_CONTEST_EDIT_FORM = 'SHOW_CONTEST_EDIT_FORM';
 export const CLOSE_CONTEST_EDIT_FORM = 'CLOSE_CONTEST_EDIT_FORM';
 

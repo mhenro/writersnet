@@ -1,24 +1,27 @@
 package com.writersnets.services.contests;
 
-import com.writersnets.models.entities.contests.Contest;
-import com.writersnets.models.entities.contests.ContestJudge;
-import com.writersnets.models.entities.contests.ContestJudgePK;
+import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.contests.*;
 import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.WrongDataException;
 import com.writersnets.models.request.AddJudgeRequest;
+import com.writersnets.models.request.EstimateRequest;
 import com.writersnets.models.response.ContestResponse;
 import com.writersnets.models.response.ContestUserResponse;
+import com.writersnets.models.security.AuthUser;
 import com.writersnets.repositories.*;
-import com.writersnets.services.AuthorizedUserService;
+import com.writersnets.services.security.AuthorizedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,17 +29,22 @@ public class JudgeContestService {
     private ContestRepository contestRepository;
     private ContestJudgeRepository contestJudgeRepository;
     private ContestParticipantRepository contestParticipantRepository;
+    private ContestRatingRepository contestRatingRepository;
     private AuthorRepository authorRepository;
+    private BookRepository bookRepository;
     private AuthorizedUserService authorizedUserService;
 
     @Autowired
     public JudgeContestService(final ContestRepository contestRepository, final ContestJudgeRepository contestJudgeRepository,
                                final ContestParticipantRepository contestParticipantRepository, final AuthorRepository authorRepository,
+                               final ContestRatingRepository contestRatingRepository, final BookRepository bookRepository,
                                final AuthorizedUserService authorizedUserService) {
         this.contestRepository = contestRepository;
         this.contestJudgeRepository = contestJudgeRepository;
         this.contestParticipantRepository = contestParticipantRepository;
         this.authorRepository = authorRepository;
+        this.contestRatingRepository = contestRatingRepository;
+        this.bookRepository = bookRepository;
         this.authorizedUserService = authorizedUserService;
     }
 
@@ -103,6 +111,28 @@ public class JudgeContestService {
 
     public long getJudgeCountFromContest(final Long id) {
         return contestJudgeRepository.getJudgeCountFromContest(id);
+    }
+
+    @Transactional
+    public void setEstimation(final long contestId, final EstimateRequest request, final Authentication auth) {
+        final String judgeName = ((AuthUser) auth.getPrincipal()).getUserDetails().getUsername();
+        final User judge = contestJudgeRepository.getJudgeById(judgeName, contestId).orElseThrow(() -> new WrongDataException("This user is not a judge for this contest"));
+        final Contest contest = contestRepository.findById(contestId).orElseThrow(() -> new ObjectNotFoundException("Contest is not found"));
+        final Book book = bookRepository.findById(request.getBookId()).orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
+        final ContestRating rating = new ContestRating();
+        final ContestRatingPK pk = new ContestRatingPK();
+        pk.setBook(book);
+        pk.setContest(contest);
+        pk.setJudge(judge);
+
+        final Optional<ContestRating> prevRating = contestRatingRepository.findById(pk);
+        if (prevRating.isPresent()) {
+            throw new WrongDataException("You cannot change your estimation");
+        }
+
+        rating.setPk(pk);
+        rating.setEstimation(request.getEstimation());
+        contestRatingRepository.save(rating);
     }
 
     private void addJudgeToContest(final String judgeId, final Contest contest) {

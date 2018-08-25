@@ -4,6 +4,7 @@ import com.writersnets.models.entities.users.Section;
 import com.writersnets.models.entities.users.User;
 import com.writersnets.models.response.SectionResponse;
 import com.writersnets.repositories.SectionRepository;
+import com.writersnets.services.authors.SectionService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

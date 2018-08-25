@@ -1,6 +1,6 @@
 package com.writersnets.utils;
 
-import com.writersnets.models.entities.CustomAuditEntity;
+import com.writersnets.models.entities.security.CustomAuditEntity;
 import com.writersnets.models.security.AuthUser;
 import org.hibernate.envers.RevisionListener;
 import org.springframework.security.core.Authentication;

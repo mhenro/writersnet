@@ -9,7 +9,8 @@ import {
     getContest,
     closeContestEstimationForm,
     getParticipantsRating,
-    getParticipantsRatingDetails
+    getParticipantsRatingDetails,
+    setContestEstimation
 } from '../../actions/ContestActions.jsx';
 
 import {formatTimeInterval} from '../../utils.jsx';
@@ -120,6 +121,7 @@ class ContestEstimationForm extends React.Component {
                         <ParticipantList participants={this.state.participants}
                                          participantsOffset={(this.state.activePage - 1) * this.state.pageSize}
                                          getRatingDetails={(bookId, callback) => this.props.onGetParticipantsRatingDetails(this.props.contestId, bookId, 0, 0, callback)}
+                                         onSetEstimation={(estimationRequest) => this.props.onSetContestEstimation(this.props.contestId, estimationRequest, this.props.token)}
                         />
                         <br/>
                     </div>
@@ -214,6 +216,19 @@ const mapDispatchToProps = (dispatch) => {
             getParticipantsRatingDetails(contestId, bookId, page - 1, size).then(([response, json]) => {
                 if (response.status === 200) {
                     callback(json);
+                }
+                else {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
+        onSetContestEstimation: (contestId, estimationRequest, token) => {
+            setContestEstimation(contestId, estimationRequest, token).then(([response, json]) => {
+                if (response.status === 200) {
+                    dispatch(createNotify('success', 'Success', json.message));
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

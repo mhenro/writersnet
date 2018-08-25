@@ -1,7 +1,6 @@
 package com.writersnets.services;
 
 import com.writersnets.models.Response;
-import com.writersnets.models.entities.*;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.AuthorRequest;
@@ -12,6 +11,9 @@ import com.writersnets.models.response.BookResponse;
 import com.writersnets.models.response.SectionResponse;
 import com.writersnets.repositories.AuthorRepository;
 import com.writersnets.repositories.FriendshipRepository;
+import com.writersnets.services.authors.AuthorService;
+import com.writersnets.services.authors.NewsService;
+import com.writersnets.services.security.AuthorizedUserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

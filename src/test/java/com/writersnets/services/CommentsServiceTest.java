@@ -9,6 +9,8 @@ import com.writersnets.models.response.CommentResponse;
 import com.writersnets.repositories.AuthorRepository;
 import com.writersnets.repositories.BookCommentsRepository;
 import com.writersnets.repositories.BookRepository;
+import com.writersnets.services.books.CommentsService;
+import com.writersnets.services.authors.NewsService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,11 +1,12 @@
 package com.writersnets.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.writersnets.controllers.authors.AuthorController;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import com.writersnets.models.entities.users.User;
 import com.writersnets.models.response.ChatGroupResponse;
-import com.writersnets.services.AuthorService;
+import com.writersnets.services.authors.AuthorService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

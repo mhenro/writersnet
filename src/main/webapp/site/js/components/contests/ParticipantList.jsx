@@ -7,6 +7,7 @@ import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
         - participants - array of participants and their books
         - participantsOffset - page offset for numeration
         - getRatingDetails - callback(bookId, callback)
+        - onSetEstimation - callback(estimationRequest)
 */
 class ParticipantList extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class ParticipantList extends React.Component {
                         <td>{participant.name}</td>
                         <td width="150px">
                             <ReactStars count={5} size={18} color2={'orange'} edit={false}
-                                        value={parseFloat(participant.rating).toFixed(2)} className="stars"/>
+                                        value={parseFloat(participant.rating)} className="stars"/>
                             <span className="stars-end">{parseFloat(participant.rating).toFixed(2)}</span>
                         </td>
                         <td>action</td>

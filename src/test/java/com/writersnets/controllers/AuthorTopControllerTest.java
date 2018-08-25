@@ -1,7 +1,8 @@
 package com.writersnets.controllers;
 
+import com.writersnets.controllers.authors.AuthorTopController;
 import com.writersnets.models.top_models.*;
-import com.writersnets.services.AuthorService;
+import com.writersnets.services.authors.AuthorService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

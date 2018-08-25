@@ -1,8 +1,6 @@
 package com.writersnets.models.entities.users;
 
 import com.writersnets.models.entities.AbstractIdEntity;
-import com.writersnets.models.entities.Gift;
-import com.writersnets.models.entities.users.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

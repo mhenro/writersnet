@@ -1,7 +1,8 @@
 package com.writersnets.controllers;
 
+import com.writersnets.controllers.authors.SectionController;
 import com.writersnets.models.response.SectionResponse;
-import com.writersnets.services.SectionService;
+import com.writersnets.services.authors.SectionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

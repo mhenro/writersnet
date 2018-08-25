@@ -2,6 +2,7 @@ package com.writersnets.controllers.contests;
 
 import com.writersnets.models.Response;
 import com.writersnets.models.request.AddJudgeRequest;
+import com.writersnets.models.request.EstimateRequest;
 import com.writersnets.models.response.ContestResponse;
 import com.writersnets.services.contests.JudgeContestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -69,5 +72,12 @@ public class JudgeContestController {
     public ResponseEntity<?> refuseContestAsJudge(@PathVariable final Long contestId) {
         contestService.refuseContestAsJudge(contestId);
         return Response.createResponseEntity(0, "You successfully refused the contest", null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/{contestId}/estimate", method = RequestMethod.POST)
+    public ResponseEntity<?> setEstimation(@PathVariable final long contestId, @Validated @RequestBody final EstimateRequest request, final Authentication auth) {
+        contestService.setEstimation(contestId, request, auth);
+        return Response.createResponseEntity(0, "Your estimation was added to the book", null, HttpStatus.OK);
     }
 }

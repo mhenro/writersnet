@@ -3,6 +3,7 @@ package com.writersnets.services;
 import com.writersnets.models.entities.users.User;
 import com.writersnets.models.request.Credentials;
 import com.writersnets.repositories.UserRepository;
+import com.writersnets.services.security.AuthenticationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

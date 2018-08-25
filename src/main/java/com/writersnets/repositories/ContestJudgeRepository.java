@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by mhenr on 09.03.2018.
@@ -32,7 +33,7 @@ public interface ContestJudgeRepository extends PagingAndSortingRepository<Conte
     Long getNotAcceptedContestsByUser(final String userId);
 
     @Query("SELECT c.pk.judge FROM ContestJudge c WHERE c.pk.contest.id = ?2 AND c.pk.judge.username = ?1")
-    User getJudgeById(final String userId, final Long contestId);
+    Optional<User> getJudgeById(final String userId, final Long contestId);
 
     @Modifying
     @Query("UPDATE ContestJudge j SET j.accepted = true WHERE j.pk.judge.username = ?1 AND j.pk.contest.id = ?2")

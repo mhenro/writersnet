@@ -1,9 +1,10 @@
 package com.writersnets.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.writersnets.controllers.books.SerieController;
 import com.writersnets.models.request.SerieRequest;
 import com.writersnets.models.response.BookSerieResponse;
-import com.writersnets.services.SerieService;
+import com.writersnets.services.books.SerieService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

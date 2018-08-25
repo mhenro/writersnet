@@ -1,6 +1,6 @@
 package com.writersnets.repositories;
 
-import com.writersnets.models.entities.Captcha;
+import com.writersnets.models.entities.security.Captcha;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

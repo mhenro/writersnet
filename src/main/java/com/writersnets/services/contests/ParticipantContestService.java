@@ -11,7 +11,7 @@ import com.writersnets.models.request.AddJudgeRequest;
 import com.writersnets.models.response.ContestResponse;
 import com.writersnets.models.response.ContestUserResponse;
 import com.writersnets.repositories.*;
-import com.writersnets.services.AuthorizedUserService;
+import com.writersnets.services.security.AuthorizedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,8 +114,8 @@ public class ParticipantContestService {
 
     private void addParticipantToContest(final Long bookId, final Contest contest) {
         final Book book = bookRepository.findById(bookId).orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
-        final User judge = contestJudgeRepository.getJudgeById(book.getAuthor().getUsername(), contest.getId());
-        if (judge != null) {
+        final Optional<User> judge = contestJudgeRepository.getJudgeById(book.getAuthor().getUsername(), contest.getId());
+        if (judge.isPresent()) {
             throw new WrongDataException("Author cannot be a judge and a participant at the same time in the contest");
         }
         if (contest.getClosed() || contest.getStarted()) {

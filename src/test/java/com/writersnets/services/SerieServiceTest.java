@@ -8,6 +8,8 @@ import com.writersnets.models.request.SerieRequest;
 import com.writersnets.models.response.BookSerieResponse;
 import com.writersnets.repositories.AuthorRepository;
 import com.writersnets.repositories.SerieRepository;
+import com.writersnets.services.books.SerieService;
+import com.writersnets.services.security.AuthorizedUserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

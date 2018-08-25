@@ -1,7 +1,8 @@
 package com.writersnets.controllers;
 
+import com.writersnets.controllers.authors.RatingController;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import com.writersnets.services.RatingService;
+import com.writersnets.services.authors.RatingService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,12 +1,13 @@
 package com.writersnets.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.writersnets.controllers.books.BookController;
 import com.writersnets.models.request.BookRequest;
 import com.writersnets.models.request.BookTextRequest;
 import com.writersnets.models.request.CoverRequest;
 import com.writersnets.models.response.BookResponse;
 import com.writersnets.models.response.BookWithTextResponse;
-import com.writersnets.services.BookService;
+import com.writersnets.services.books.BookService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

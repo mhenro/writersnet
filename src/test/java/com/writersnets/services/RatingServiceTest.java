@@ -4,6 +4,7 @@ import com.writersnets.models.entities.books.Rating;
 import com.writersnets.models.exceptions.ObjectAlreadyExistException;
 import com.writersnets.repositories.BookRepository;
 import com.writersnets.repositories.RatingRepository;
+import com.writersnets.services.authors.RatingService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

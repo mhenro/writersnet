@@ -11,7 +11,7 @@ spring:
   datasource:
       url: jdbc:postgresql://localhost:5432/writersnets
       username: postgres
-      password: masterkey
+      password: postgres
       driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
