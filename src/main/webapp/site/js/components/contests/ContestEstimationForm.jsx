@@ -121,7 +121,7 @@ class ContestEstimationForm extends React.Component {
                         <ParticipantList participants={this.state.participants}
                                          participantsOffset={(this.state.activePage - 1) * this.state.pageSize}
                                          getRatingDetails={(bookId, callback) => this.props.onGetParticipantsRatingDetails(this.props.contestId, bookId, 0, 0, callback)}
-                                         onSetEstimation={(estimationRequest) => this.props.onSetContestEstimation(this.props.contestId, estimationRequest, this.props.token)}
+                                         onSetEstimation={(estimationRequest, callback) => this.props.onSetContestEstimation(this.props.contestId, estimationRequest, this.props.token, callback)}
                         />
                         <br/>
                     </div>
@@ -176,7 +176,8 @@ class ContestEstimationForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        showContestEstimationForm: state.ContestReducer.showContestEstimationForm
+        showContestEstimationForm: state.ContestReducer.showContestEstimationForm,
+        token: state.GlobalReducer.token
     }
 };
 
@@ -225,10 +226,11 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
-        onSetContestEstimation: (contestId, estimationRequest, token) => {
+        onSetContestEstimation: (contestId, estimationRequest, token, callback) => {
             setContestEstimation(contestId, estimationRequest, token).then(([response, json]) => {
                 if (response.status === 200) {
                     dispatch(createNotify('success', 'Success', json.message));
+                    callback()
                 }
                 else {
                     dispatch(createNotify('danger', 'Error', json.message));

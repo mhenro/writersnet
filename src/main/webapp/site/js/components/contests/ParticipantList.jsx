@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactStars from 'react-stars';
+import Select from 'react-select';
 import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 
 /*
@@ -7,13 +8,14 @@ import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
         - participants - array of participants and their books
         - participantsOffset - page offset for numeration
         - getRatingDetails - callback(bookId, callback)
-        - onSetEstimation - callback(estimationRequest)
+        - onSetEstimation - callback(estimationRequest, callback)
 */
 class ParticipantList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            bookRating: []
+            bookRating: [],
+            estimation: {value: 1, label: 1}
         }
     }
 
@@ -21,6 +23,31 @@ class ParticipantList extends React.Component {
         this.setState({
             bookRating: rating.content
         })
+    }
+
+    getComboboxItems() {
+        let options = [];
+        for (var i = 5; i > 0; i--) {
+            options.push({
+                value: i,
+                label: i
+            });
+        }
+        return options;
+    }
+
+    onEstimationChange(estimation) {
+        this.setState({
+            estimation: estimation
+        });
+    }
+
+    sendEstimation(bookId) {
+        let request = {
+            bookId: bookId,
+            estimation: this.state.estimation.value
+        }
+        this.props.onSetEstimation(request, () => this.props.getRatingDetails(bookId, rating => this.updateBookRating(rating)))
     }
 
     renderTableBody() {
@@ -58,7 +85,11 @@ class ParticipantList extends React.Component {
                                         value={parseFloat(participant.rating)} className="stars"/>
                             <span className="stars-end">{parseFloat(participant.rating).toFixed(2)}</span>
                         </td>
-                        <td>action</td>
+                        <td>
+                            <Select value={this.state.estimation} id="estimation" options={this.getComboboxItems()} onChange={estimation => this.onEstimationChange(estimation)} placeholder="Choose your estimation"/>
+                            &nbsp;
+                            <button onClick={() => this.sendEstimation(participant.bookId)} className="btn btn-success">Estimate</button>
+                        </td>
                     </tr>
                 </OverlayTrigger>
             )
