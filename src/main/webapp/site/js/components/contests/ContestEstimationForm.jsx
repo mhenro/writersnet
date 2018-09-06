@@ -122,6 +122,7 @@ class ContestEstimationForm extends React.Component {
                                          participantsOffset={(this.state.activePage - 1) * this.state.pageSize}
                                          getRatingDetails={(bookId, callback) => this.props.onGetParticipantsRatingDetails(this.props.contestId, bookId, 0, 0, callback)}
                                          onSetEstimation={(estimationRequest, callback) => this.props.onSetContestEstimation(this.props.contestId, estimationRequest, this.props.token, callback)}
+                                         login={this.props.login}
                         />
                         <br/>
                     </div>
@@ -177,7 +178,8 @@ class ContestEstimationForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         showContestEstimationForm: state.ContestReducer.showContestEstimationForm,
-        token: state.GlobalReducer.token
+        token: state.GlobalReducer.token,
+        login: state.GlobalReducer.user.login
     }
 };
 

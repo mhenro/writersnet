@@ -1,5 +1,4 @@
 ﻿﻿Current sprint:
-IN PROGRESS - 124. Create new contest window for judges and participants where they can see their rating.
 120. Add new events when work with contests (join in contest, remove from contest, win in contest and so forth).
 
 
@@ -35,6 +34,8 @@ Bugs:
 2. Fix bug with editing in login/signup form.
 4. Fix bug with character encoding (ANSI) when converting a book.
 134. Decrease height of the react-select component on the Contest properties form.
+136. Fix bug when entering to the Friends page.
+137. Can't send message to a friend on Messages page.
 
 
 Closed:
@@ -193,3 +194,5 @@ DONE - 129. Add optimistic locking for all entities.
 DONE - 130. Add liquibase gradle plugin to build script.
 DONE - 121. Add links for names in chat page.
 DONE - 122. Scroll screen to input comment field when clicking on Quote message button.
+DONE - 124. Create new contest window for judges and participants where they can see their rating.
+DONE - 135. Separate this.state.estimation variables, cos atm if we have several books for estimation we cannot estimate it with different values.

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactStars from 'react-stars';
 import Select from 'react-select';
 import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import { clone } from '../../utils.jsx';
 
 /*
     props:
@@ -9,13 +10,17 @@ import {Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
         - participantsOffset - page offset for numeration
         - getRatingDetails - callback(bookId, callback)
         - onSetEstimation - callback(estimationRequest, callback)
+        - login - login of the current user
 */
 class ParticipantList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             bookRating: [],
-            estimation: {value: 1, label: 1}
+            estimation: []
+        }
+        for (let i = 0; i < 100; i++) {
+            this.state.estimation.push({value: 1, label: 1})
         }
     }
 
@@ -36,18 +41,24 @@ class ParticipantList extends React.Component {
         return options;
     }
 
-    onEstimationChange(estimation) {
+    onEstimationChange(key, estimation) {
+        let newEstim = clone(this.state.estimation)
+        newEstim[key] = estimation
         this.setState({
-            estimation: estimation
+            estimation: newEstim
         });
     }
 
-    sendEstimation(bookId) {
+    sendEstimation(key, bookId) {
         let request = {
             bookId: bookId,
-            estimation: this.state.estimation.value
+            estimation: this.state.estimation[key].value
         }
         this.props.onSetEstimation(request, () => this.props.getRatingDetails(bookId, rating => this.updateBookRating(rating)))
+    }
+
+    isParticipant(participantId) {
+        return this.props.login === participantId
     }
 
     renderTableBody() {
@@ -75,20 +86,30 @@ class ParticipantList extends React.Component {
                 </Tooltip>
             );
 
+            let estimateButtonStyle = this.isParticipant(participant.participantId) ? {clear: 'both', display: 'none'} : {clear: 'both'}
+
             return (
-                <OverlayTrigger placement="bottom" overlay={tooltip} key={key}>
+                <OverlayTrigger placement="left" overlay={tooltip} key={key}>
                     <tr onMouseEnter={() => this.props.getRatingDetails(participant.bookId, rating => this.updateBookRating(rating))}>
-                        <td>{this.props.participantsOffset + key + 1}</td>
+                        <td width="10px">{this.props.participantsOffset + key + 1}</td>
                         <td>{participant.name}</td>
                         <td width="150px">
                             <ReactStars count={5} size={18} color2={'orange'} edit={false}
                                         value={parseFloat(participant.rating)} className="stars"/>
                             <span className="stars-end">{parseFloat(participant.rating).toFixed(2)}</span>
                         </td>
-                        <td>
-                            <Select value={this.state.estimation} id="estimation" options={this.getComboboxItems()} onChange={estimation => this.onEstimationChange(estimation)} placeholder="Choose your estimation"/>
-                            &nbsp;
-                            <button onClick={() => this.sendEstimation(participant.bookId)} className="btn btn-success">Estimate</button>
+                        <td width="200px">
+                            <div width="150px">
+                                <Select value={this.state.estimation[key]}
+                                        id="estimation"
+                                        options={this.getComboboxItems()}
+                                        onChange={estimation => this.onEstimationChange(key, estimation)}
+                                        placeholder="Choose your estimation"
+                                        wrapperStyle={{width: '30px', float: 'left'}}
+                                />
+                                &nbsp;
+                                <button style={estimateButtonStyle} onClick={() => this.sendEstimation(key, participant.bookId)} className="btn btn-success">Estimate</button>
+                            </div>
                         </td>
                     </tr>
                 </OverlayTrigger>
