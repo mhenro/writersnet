@@ -1,22 +1,29 @@
 package com.writersnets.services.contests;
 
+import com.writersnets.models.OperationType;
 import com.writersnets.models.entities.contests.Contest;
 import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
 import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.exceptions.WrongDataException;
+import com.writersnets.models.request.BuyRequest;
 import com.writersnets.models.request.ContestRequest;
 import com.writersnets.models.response.ContestRatingDetailsResponse;
 import com.writersnets.models.response.ContestRatingResponse;
 import com.writersnets.models.response.ContestResponse;
+import com.writersnets.models.security.AuthUser;
 import com.writersnets.repositories.*;
+import com.writersnets.services.authors.BalanceService;
 import com.writersnets.services.security.AuthorizedUserService;
 import com.writersnets.services.authors.NewsService;
 import com.writersnets.utils.ObjectHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,18 +41,20 @@ public class ContestService {
     private ContestRatingRepository contestRatingRepository;
     private AuthorizedUserService authorizedUserService;
     private NewsService newsService;
+    private BalanceService balanceService;
 
     @Autowired
     public ContestService(final ContestRepository contestRepository, final ContestJudgeRepository contestJudgeRepository,
                           final ContestParticipantRepository contestParticipantRepository, final ContestRatingRepository contestRatingRepository,
-                          final AuthorizedUserService authorizedUserService,
-                          final NewsService newsService) {
+                          final AuthorizedUserService authorizedUserService, final NewsService newsService,
+                          final BalanceService balanceService) {
         this.contestRepository = contestRepository;
         this.contestJudgeRepository = contestJudgeRepository;
         this.contestParticipantRepository = contestParticipantRepository;
         this.contestRatingRepository = contestRatingRepository;
         this.authorizedUserService = authorizedUserService;
         this.newsService = newsService;
+        this.balanceService = balanceService;
     }
 
     public Page<ContestResponse> getAllContests(final Pageable pageable) {
@@ -106,12 +115,64 @@ public class ContestService {
         contestRepository.save(contest);
     }
 
+    @Transactional
+    public void finishContest(final long contestId, final Authentication auth) {
+        final String userName = ((AuthUser) auth.getPrincipal()).getUserDetails().getUsername();
+        final Contest contest = getContest(contestId);
+        if (!contest.getStarted()) {
+            throw new WrongDataException("Contest is not started yet");
+        }
+        if (contest.getClosed()) {
+            throw new WrongDataException("Contest is already finished");
+        }
+        if (!contest.getCreator().getUsername().equals(userName)) {
+            throw new WrongDataException("Only creator can finish the contest");
+        }
+        PageRequest pageable = PageRequest.of(0, 3);
+        Page<ContestRatingResponse> results = contestRatingRepository.getParticipantsRating(contestId, pageable);
+        BuyRequest request = new BuyRequest();
+        request.setOperationType(OperationType.CONTEST_AWARD);
+        request.setPurchaseId(contestId);
+        long firstRevenueAmount = contest.getFirstRevenueAmount();
+        long secondRevenueAmount = contest.getSecondRevenueAmount();
+        long thirdRevenueAmount = contest.getThirdRevenueAmount();
+        if (results.getTotalElements() > 0 && contest.getFirstPlaceRevenue() > 0) {  //return revenue for first place to the participant
+            request.setSourceUserId(results.getContent().get(0).getParticipantId());
+            request.setAmount(firstRevenueAmount);
+            balanceService.processOperation(request);
+        }
+        if (results.getTotalElements() > 1 && contest.getSecondPlaceRevenue() > 0) { //return revenue for second place to the participant
+            request.setSourceUserId(results.getContent().get(1).getParticipantId());
+            request.setAmount(secondRevenueAmount);
+            balanceService.processOperation(request);
+        }
+        if (results.getTotalElements() > 2 && contest.getThirdPlaceRevenue() > 0) {  //return revenue for third place to the participant
+            request.setSourceUserId(results.getContent().get(2).getParticipantId());
+            request.setAmount(thirdRevenueAmount);
+            balanceService.processOperation(request);
+        }
+        /* if the prize fund is not exhausted return all to the contest creator */
+        if (results.getTotalElements() == 0 || contest.getPrizeFund() > 0) {
+            request.setSourceUserId(userName);
+            request.setAmount(contest.getPrizeFund());
+            balanceService.processOperation(request);
+        }
+        contest.setStarted(false);
+        contest.setClosed(true);
+    }
+
     public Page<ContestRatingResponse> getParticipantsRating(final long contestId, final Pageable pageable) {
         return contestRatingRepository.getParticipantsRating(contestId, pageable);
     }
 
     public Page<ContestRatingDetailsResponse> getParticipantsRatingDetails(final long contestId, final long bookId, final Pageable pageable) {
         return contestRatingRepository.getParticipantsRatingDetails(contestId, bookId, pageable);
+    }
+
+    @Transactional
+    @Scheduled(fixedDelay = 86400000) //1 day
+    public void finishContestForcibly() {
+        //TODO: search contests which limit is expired and finish them forcibly if it possible
     }
 
     private Long editContest(final ContestRequest request) {

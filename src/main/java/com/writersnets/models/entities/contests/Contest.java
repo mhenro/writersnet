@@ -47,4 +47,25 @@ public class Contest extends AbstractIdEntity {
 
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
+
+    public long getFirstRevenueAmount() {
+        if (prizeFund == 0 || firstPlaceRevenue == 0) {
+            return 0;
+        }
+        return (prizeFund * firstPlaceRevenue) / 100;
+    }
+
+    public long getSecondRevenueAmount() {
+        if (prizeFund == 0 || secondPlaceRevenue == 0) {
+            return 0;
+        }
+        return (prizeFund * secondPlaceRevenue) / 100;
+    }
+
+    public long getThirdRevenueAmount() {
+        if (prizeFund == 0 || thirdPlaceRevenue == 0) {
+            return 0;
+        }
+        return (prizeFund * thirdPlaceRevenue) / 100;
+    }
 }

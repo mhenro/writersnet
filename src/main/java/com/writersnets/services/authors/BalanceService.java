@@ -81,6 +81,9 @@ public class BalanceService {
             case CONTEST_DONATE:
                 donateToContest(buyRequest.getSourceUserId(), buyRequest.getPurchaseId(), buyRequest.getAmount());
                 break;
+            case CONTEST_AWARD:
+                contestAward(buyRequest.getSourceUserId(), buyRequest.getPurchaseId(), buyRequest.getAmount());
+                break;
             case MEDAL:
             case GIFT:
                 transferGift(buyRequest);
@@ -136,8 +139,13 @@ public class BalanceService {
     }
 
     private void addAmountToContest(final Contest contest, final Long amount) {
-        contest.setPrizeFund(contest.getPrizeFund() + amount);
-        contestRepository.save(contest);
+        long newPrizeFund = contest.getPrizeFund() + amount;
+        contest.setPrizeFund(newPrizeFund);
+    }
+
+    private void descreaseAmountFromContest(final Contest contest, final long amount) {
+        long newPrizeFund = contest.getPrizeFund() - amount;
+        contest.setPrizeFund(newPrizeFund);
     }
 
     private void transferGift(final BuyRequest buyRequest) {
@@ -156,6 +164,13 @@ public class BalanceService {
         userGift.setGift(gift);
         userGift.setSendMessage(message);
         userGiftRepository.save(userGift);
+    }
+
+    private void contestAward(final String userId, final long contestId, final long amount) {
+        final User rewardedUser = authorRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("User is not found"));
+        final Contest contest = contestRepository.findById(contestId).orElseThrow(() -> new ObjectNotFoundException("Contest is not found"));
+        addToPaymentHistory(rewardedUser, OperationType.CONTEST_AWARD, amount, true);
+        descreaseAmountFromContest(contest, amount);
     }
 
     private void addToPaymentHistory(final User user, final OperationType operationType, final Long operationCost, final boolean increase) {

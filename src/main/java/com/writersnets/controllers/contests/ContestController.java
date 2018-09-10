@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -64,6 +65,13 @@ public class ContestController {
     public ResponseEntity<?> startContest(@PathVariable final Long contestId) {
         contestService.startContest(contestId);
         return Response.createResponseEntity(0, "Contest was started successfully", null, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/{contestId}/finish", method = RequestMethod.GET)
+    public ResponseEntity<?> finishContest(@PathVariable final Long contestId, final Authentication auth) {
+        contestService.finishContest(contestId, auth);
+        return Response.createResponseEntity(0, "Contest was finished successfully", null, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{contestId}/ratings", method = RequestMethod.GET)

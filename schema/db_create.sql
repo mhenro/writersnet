@@ -3,5 +3,7 @@
 CREATE DATABASE writersnets
     WITH OWNER = postgres
         ENCODING = 'UTF8'
-        TABLESPACE = KassaForte
+        TABLESPACE = pg_default
+        LC_COLLATE = 'undefined'
+        LC_CTYPE = 'undefined'
         CONNECTION LIMIT = -1;

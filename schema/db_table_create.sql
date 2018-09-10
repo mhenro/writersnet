@@ -150,7 +150,7 @@ CREATE TABLE public.chat_groups (
     avatar varchar,
     unread_by_creator boolean NOT NULL,
     unread_by_recipient boolean NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 

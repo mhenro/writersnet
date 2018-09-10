@@ -9,5 +9,6 @@ public enum OperationType {
     MEDAL,
     GIFT,
     BALANCE_RECHARGE,
-    CONTEST_DONATE
+    CONTEST_DONATE,
+    CONTEST_AWARD
 }
