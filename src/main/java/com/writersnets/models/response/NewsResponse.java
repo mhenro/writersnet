@@ -1,8 +1,12 @@
 package com.writersnets.models.response;
 
 import com.writersnets.models.entities.books.Book;
+import com.writersnets.models.entities.contests.Contest;
 import com.writersnets.models.entities.users.News;
 import com.writersnets.models.entities.users.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -10,6 +14,9 @@ import java.util.Optional;
 /**
  * Created by mhenr on 13.12.2017.
  */
+@NoArgsConstructor
+@Getter
+@Setter
 public class NewsResponse {
     private Long id;
     private Long type;
@@ -21,6 +28,8 @@ public class NewsResponse {
     private LocalDateTime created;
     private String subscriptionId;
     private String subscriptionFullName;
+    private Long contestId;
+    private String contestName;
 
     public NewsResponse(final News news) {
         if (news == null) {
@@ -36,85 +45,7 @@ public class NewsResponse {
         this.created = news.getCreated();
         this.subscriptionId = Optional.ofNullable(news.getSubscription()).map(User::getUsername).orElse(null);
         this.subscriptionFullName = Optional.ofNullable(news.getSubscription()).map(User::getFullName).orElse(null);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getType() {
-        return type;
-    }
-
-    public void setType(Long type) {
-        this.type = type;
-    }
-
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
-    }
-
-    public String getAuthorFullName() {
-        return authorFullName;
-    }
-
-    public void setAuthorFullName(String authorFullName) {
-        this.authorFullName = authorFullName;
-    }
-
-    public String getAuthorAvatar() {
-        return authorAvatar;
-    }
-
-    public void setAuthorAvatar(String authorAvatar) {
-        this.authorAvatar = authorAvatar;
-    }
-
-    public Long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public String getSubscriptionId() {
-        return subscriptionId;
-    }
-
-    public void setSubscriptionId(String subscriptionId) {
-        this.subscriptionId = subscriptionId;
-    }
-
-    public String getSubscriptionFullName() {
-        return subscriptionFullName;
-    }
-
-    public void setSubscriptionFullName(String subscriptionFullName) {
-        this.subscriptionFullName = subscriptionFullName;
+        this.contestId = Optional.ofNullable(news.getContest()).map(Contest::getId).orElse(null);
+        this.contestName = Optional.ofNullable(news.getContest()).map(Contest::getName).orElse(null);
     }
 }

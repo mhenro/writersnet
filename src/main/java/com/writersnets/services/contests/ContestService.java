@@ -1,6 +1,7 @@
 package com.writersnets.services.contests;
 
 import com.writersnets.models.OperationType;
+import com.writersnets.models.entities.books.Book;
 import com.writersnets.models.entities.contests.Contest;
 import com.writersnets.models.entities.users.User;
 import com.writersnets.models.exceptions.ObjectNotFoundException;
@@ -42,12 +43,15 @@ public class ContestService {
     private AuthorizedUserService authorizedUserService;
     private NewsService newsService;
     private BalanceService balanceService;
+    private AuthorRepository authorRepository;
+    private BookRepository bookRepository;
 
     @Autowired
     public ContestService(final ContestRepository contestRepository, final ContestJudgeRepository contestJudgeRepository,
                           final ContestParticipantRepository contestParticipantRepository, final ContestRatingRepository contestRatingRepository,
                           final AuthorizedUserService authorizedUserService, final NewsService newsService,
-                          final BalanceService balanceService) {
+                          final BalanceService balanceService, final AuthorRepository authorRepository,
+                          final BookRepository bookRepository) {
         this.contestRepository = contestRepository;
         this.contestJudgeRepository = contestJudgeRepository;
         this.contestParticipantRepository = contestParticipantRepository;
@@ -55,6 +59,8 @@ public class ContestService {
         this.authorizedUserService = authorizedUserService;
         this.newsService = newsService;
         this.balanceService = balanceService;
+        this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
     }
 
     public Page<ContestResponse> getAllContests(final Pageable pageable) {
@@ -119,46 +125,10 @@ public class ContestService {
     public void finishContest(final long contestId, final Authentication auth) {
         final String userName = ((AuthUser) auth.getPrincipal()).getUserDetails().getUsername();
         final Contest contest = getContest(contestId);
-        if (!contest.getStarted()) {
-            throw new WrongDataException("Contest is not started yet");
-        }
-        if (contest.getClosed()) {
-            throw new WrongDataException("Contest is already finished");
-        }
         if (!contest.getCreator().getUsername().equals(userName)) {
             throw new WrongDataException("Only creator can finish the contest");
         }
-        PageRequest pageable = PageRequest.of(0, 3);
-        Page<ContestRatingResponse> results = contestRatingRepository.getParticipantsRating(contestId, pageable);
-        BuyRequest request = new BuyRequest();
-        request.setOperationType(OperationType.CONTEST_AWARD);
-        request.setPurchaseId(contestId);
-        long firstRevenueAmount = contest.getFirstRevenueAmount();
-        long secondRevenueAmount = contest.getSecondRevenueAmount();
-        long thirdRevenueAmount = contest.getThirdRevenueAmount();
-        if (results.getTotalElements() > 0 && contest.getFirstPlaceRevenue() > 0) {  //return revenue for first place to the participant
-            request.setSourceUserId(results.getContent().get(0).getParticipantId());
-            request.setAmount(firstRevenueAmount);
-            balanceService.processOperation(request);
-        }
-        if (results.getTotalElements() > 1 && contest.getSecondPlaceRevenue() > 0) { //return revenue for second place to the participant
-            request.setSourceUserId(results.getContent().get(1).getParticipantId());
-            request.setAmount(secondRevenueAmount);
-            balanceService.processOperation(request);
-        }
-        if (results.getTotalElements() > 2 && contest.getThirdPlaceRevenue() > 0) {  //return revenue for third place to the participant
-            request.setSourceUserId(results.getContent().get(2).getParticipantId());
-            request.setAmount(thirdRevenueAmount);
-            balanceService.processOperation(request);
-        }
-        /* if the prize fund is not exhausted return all to the contest creator */
-        if (results.getTotalElements() == 0 || contest.getPrizeFund() > 0) {
-            request.setSourceUserId(userName);
-            request.setAmount(contest.getPrizeFund());
-            balanceService.processOperation(request);
-        }
-        contest.setStarted(false);
-        contest.setClosed(true);
+        finishContest(contest);
     }
 
     public Page<ContestRatingResponse> getParticipantsRating(final long contestId, final Pageable pageable) {
@@ -169,10 +139,13 @@ public class ContestService {
         return contestRatingRepository.getParticipantsRatingDetails(contestId, bookId, pageable);
     }
 
+    /* search contests which limit is expired and finish them forcibly if it possible */
     @Transactional
-    @Scheduled(fixedDelay = 86400000) //1 day
+    @Scheduled(fixedDelay = 18000000) //5 hours
     public void finishContestForcibly() {
-        //TODO: search contests which limit is expired and finish them forcibly if it possible
+        PageRequest request = PageRequest.of(0, 50);
+        Page<Contest> contests = contestRepository.getExpiredContests(LocalDateTime.now(), request);
+        contests.getContent().forEach(contest -> finishContest(contest));
     }
 
     private Long editContest(final ContestRequest request) {
@@ -203,7 +176,7 @@ public class ContestService {
         contest.setParticipantCount(0);
         contestRepository.save(contest);
 
-        newsService.createNews(NewsService.NEWS_TYPE.CONTEST_CREATED, creator, contest);
+        newsService.createNews(NewsService.NEWS_TYPE.CONTEST_CREATED, creator, contest, null);
 
         return contest.getId();
     }
@@ -217,5 +190,49 @@ public class ContestService {
     private Contest getContest(final Long id) {
         return contestRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Contest is not found"));
+    }
+
+    public void finishContest(final Contest contest) {
+        if (!contest.getStarted()) {
+            throw new WrongDataException("Contest is not started yet");
+        }
+        if (contest.getClosed()) {
+            throw new WrongDataException("Contest is already finished");
+        }
+        PageRequest pageable = PageRequest.of(0, 3);
+        Page<ContestRatingResponse> results = contestRatingRepository.getParticipantsRating(contest.getId(), pageable);
+        BuyRequest request = new BuyRequest();
+        request.setOperationType(OperationType.CONTEST_AWARD);
+        request.setPurchaseId(contest.getId());
+        long firstRevenueAmount = contest.getFirstRevenueAmount();
+        long secondRevenueAmount = contest.getSecondRevenueAmount();
+        long thirdRevenueAmount = contest.getThirdRevenueAmount();
+        if (results.getTotalElements() > 0 && contest.getFirstPlaceRevenue() > 0) {  //return revenue for first place to the participant
+            request.setSourceUserId(results.getContent().get(0).getParticipantId());
+            request.setAmount(firstRevenueAmount);
+            balanceService.processOperation(request);
+
+            Book winnerBook = bookRepository.findById(results.getContent().get(0).getBookId()).orElseGet(() -> null);
+            authorRepository.findById(results.getContent().get(0).getParticipantId())
+                    .ifPresent(winner -> newsService.createNews(NewsService.NEWS_TYPE.WON_IN_CONTEST, winner, contest, winnerBook));
+        }
+        if (results.getTotalElements() > 1 && contest.getSecondPlaceRevenue() > 0) { //return revenue for second place to the participant
+            request.setSourceUserId(results.getContent().get(1).getParticipantId());
+            request.setAmount(secondRevenueAmount);
+            balanceService.processOperation(request);
+        }
+        if (results.getTotalElements() > 2 && contest.getThirdPlaceRevenue() > 0) {  //return revenue for third place to the participant
+            request.setSourceUserId(results.getContent().get(2).getParticipantId());
+            request.setAmount(thirdRevenueAmount);
+            balanceService.processOperation(request);
+        }
+        /* if the prize fund is not exhausted return all to the contest creator */
+        if (results.getTotalElements() == 0 || contest.getPrizeFund() > 0) {
+            request.setSourceUserId(contest.getCreator().getUsername());
+            request.setAmount(contest.getPrizeFund());
+            balanceService.processOperation(request);
+        }
+        contest.setStarted(false);
+        contest.setClosed(true);
     }
 }

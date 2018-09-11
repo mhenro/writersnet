@@ -152,6 +152,8 @@ public class MessageService {
         group.setCreated(LocalDateTime.now());
         group.setCreator(author);
         group.setPrimaryRecipient(recipient);
+        group.setUnreadByCreator(true);
+        group.setUnreadByRecipient(true);
         author.getChatGroups().add(group);
         recipient.getChatGroups().add(group);
         chatGroupRepository.save(group);

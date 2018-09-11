@@ -11,6 +11,7 @@ import com.writersnets.models.response.ContestResponse;
 import com.writersnets.models.response.ContestUserResponse;
 import com.writersnets.models.security.AuthUser;
 import com.writersnets.repositories.*;
+import com.writersnets.services.authors.NewsService;
 import com.writersnets.services.security.AuthorizedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,12 +34,15 @@ public class JudgeContestService {
     private AuthorRepository authorRepository;
     private BookRepository bookRepository;
     private AuthorizedUserService authorizedUserService;
+    private NewsService newsService;
+    private ContestService contestService;
 
     @Autowired
     public JudgeContestService(final ContestRepository contestRepository, final ContestJudgeRepository contestJudgeRepository,
                                final ContestParticipantRepository contestParticipantRepository, final AuthorRepository authorRepository,
                                final ContestRatingRepository contestRatingRepository, final BookRepository bookRepository,
-                               final AuthorizedUserService authorizedUserService) {
+                               final AuthorizedUserService authorizedUserService, final NewsService newsService,
+                               final ContestService contestService) {
         this.contestRepository = contestRepository;
         this.contestJudgeRepository = contestJudgeRepository;
         this.contestParticipantRepository = contestParticipantRepository;
@@ -46,6 +50,8 @@ public class JudgeContestService {
         this.contestRatingRepository = contestRatingRepository;
         this.bookRepository = bookRepository;
         this.authorizedUserService = authorizedUserService;
+        this.newsService = newsService;
+        this.contestService = contestService;
     }
 
     public Page<ContestResponse> getJudgeContests(final String userId, final Pageable pageable) {
@@ -97,6 +103,8 @@ public class JudgeContestService {
         }
         final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
         contestJudgeRepository.joinInContest(authorId, contestId);
+
+        newsService.createNews(NewsService.NEWS_TYPE.JOIN_IN_CONTEST_AS_JUDGE, authorizedUserService.getAuthorizedUser(), contest, null);
     }
 
     @Transactional
@@ -133,6 +141,13 @@ public class JudgeContestService {
         rating.setPk(pk);
         rating.setEstimation(request.getEstimation());
         contestRatingRepository.save(rating);
+
+        /* if estimations count == judges count then finish the contest */
+        long estimationCount = contestRatingRepository.getEstimationCount(contestId);
+        long judgeCount = contestJudgeRepository.getJudgeCountFromContest(contestId);
+        if (estimationCount == judgeCount) {
+            contestService.finishContest(contest);
+        }
     }
 
     private void addJudgeToContest(final String judgeId, final Contest contest) {

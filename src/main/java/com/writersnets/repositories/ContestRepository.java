@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by mhenr on 25.02.2018.
  */
@@ -35,4 +37,7 @@ public interface ContestRepository extends PagingAndSortingRepository<Contest, L
             "c.creator.lastName, c.prizeFund, c.firstPlaceRevenue, c.secondPlaceRevenue, c.thirdPlaceRevenue, c.created, " +
             "c.expirationDate, c.started, c.closed, c.participantCount, c.judgeCount) FROM Contest c WHERE c.id = ?1")
     ContestResponse getContest(final Long id);
+
+    @Query("SELECT c FROM Contest c WHERE c.expirationDate < ?1 AND c.closed = false AND c.started = true")
+    Page<Contest> getExpiredContests(final LocalDateTime currentDate, final Pageable pageable);
 }

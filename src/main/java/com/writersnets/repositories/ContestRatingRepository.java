@@ -23,4 +23,7 @@ public interface ContestRatingRepository extends CrudRepository<ContestRating, C
             "WHERE r.pk.contest.id = ?1 AND r.pk.book.id = ?2 " +
             "ORDER BY r.estimation DESC")
     Page<ContestRatingDetailsResponse> getParticipantsRatingDetails(final long contestId, final long bookId, final Pageable pageable);
+
+    @Query("SELECT COUNT(*) FROM ContestRating r WHERE r.pk.contest.id = ?1")
+    Integer getEstimationCount(final long contestId);
 }

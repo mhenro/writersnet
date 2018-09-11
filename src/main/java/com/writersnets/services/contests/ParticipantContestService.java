@@ -11,6 +11,7 @@ import com.writersnets.models.request.AddJudgeRequest;
 import com.writersnets.models.response.ContestResponse;
 import com.writersnets.models.response.ContestUserResponse;
 import com.writersnets.repositories.*;
+import com.writersnets.services.authors.NewsService;
 import com.writersnets.services.security.AuthorizedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,16 +32,18 @@ public class ParticipantContestService {
     private ContestParticipantRepository contestParticipantRepository;
     private AuthorizedUserService authorizedUserService;
     private BookRepository bookRepository;
+    private NewsService newsService;
 
     @Autowired
     public ParticipantContestService(final ContestRepository contestRepository, final ContestJudgeRepository contestJudgeRepository,
                                      final ContestParticipantRepository contestParticipantRepository, final AuthorizedUserService authorizedUserService,
-                                     final BookRepository bookRepository) {
+                                     final BookRepository bookRepository, final NewsService newsService) {
         this.contestRepository = contestRepository;
         this.contestJudgeRepository = contestJudgeRepository;
         this.contestParticipantRepository = contestParticipantRepository;
         this.authorizedUserService = authorizedUserService;
         this.bookRepository = bookRepository;
+        this.newsService = newsService;
     }
 
     public Page<ContestResponse> getParticipantContests(final String userId, final Pageable pageable) {
@@ -96,9 +99,11 @@ public class ParticipantContestService {
         if (contest.getClosed()) {
             throw new WrongDataException("Contest is already closed");
         }
-        bookRepository.findById(bookId).orElseThrow(() -> new WrongDataException("Book is not found"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new WrongDataException("Book is not found"));
         final String authorId = authorizedUserService.getAuthorizedUser().getUsername();
         contestParticipantRepository.joinInContest(authorId, contestId, bookId);
+
+        newsService.createNews(NewsService.NEWS_TYPE.JOIN_IN_CONTEST_AS_PARTICIPANT, authorizedUserService.getAuthorizedUser(), contest, book);
     }
 
     @Transactional

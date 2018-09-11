@@ -78,11 +78,12 @@ public class NewsService {
     }
 
     @Transactional
-    public void createNews(final NEWS_TYPE type, final User author, final Contest contest) {
+    public void createNews(final NEWS_TYPE type, final User author, final Contest contest, final Book book) {
         final News news = new News();
         news.setType(type.getType());
         news.setAuthor(author);
         news.setContest(contest);
+        news.setBook(book);
         news.setCreated(LocalDateTime.now());
         newsRepository.save(news);
     }

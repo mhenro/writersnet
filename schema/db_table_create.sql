@@ -2,10 +2,10 @@ CREATE TABLE public.billing (
     id bigint NOT NULL,
     user_id varchar NOT NULL,
     operation_type integer,
-    operation_cost bigint NOT NULL,
-    balance bigint NOT NULL,
+    operation_cost bigint NOT NULL DEFAULT 0,
+    balance bigint NOT NULL DEFAULT 0,
     operation_date timestamp,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -16,7 +16,7 @@ CREATE INDEX ON public.billing
 CREATE TABLE public.users (
     username varchar NOT NULL,
     password varchar NOT NULL,
-    enabled boolean NOT NULL,
+    enabled boolean NOT NULL DEFAULT true,
     activation_token varchar,
     city varchar,
     first_name varchar,
@@ -26,17 +26,17 @@ CREATE TABLE public.users (
     language varchar,
     preferred_languages varchar,
     avatar varchar,
-    views bigint NOT NULL,
+    views bigint NOT NULL DEFAULT 0,
     authority varchar NOT NULL,
-    total_rating bigint,
-    total_votes bigint,
+    total_rating bigint DEFAULT 0,
+    total_votes bigint DEFAULT 0,
     section_id bigint NOT NULL,
-    comments_count bigint NOT NULL,
-    online boolean NOT NULL,
-    premium boolean NOT NULL,
-    balance bigint NOT NULL,
+    comments_count bigint NOT NULL DEFAULT 0,
+    online boolean NOT NULL DEFAULT false,
+    premium boolean NOT NULL DEFAULT false,
+    balance bigint NOT NULL DEFAULT 0,
     premium_expired timestamp,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (username)
 );
 
@@ -52,7 +52,7 @@ CREATE TABLE public.sections (
     name varchar,
     last_update date,
     description varchar,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -68,14 +68,14 @@ CREATE TABLE public.books (
     last_update timestamp,
     language varchar,
     cover varchar,
-    views bigint NOT NULL,
-    comments_count bigint NOT NULL,
-    total_rating bigint,
-    total_votes bigint,
-    review_count bigint,
+    views bigint NOT NULL DEFAULT 0,
+    comments_count bigint NOT NULL DEFAULT 0,
+    total_rating bigint DEFAULT 0,
+    total_votes bigint DEFAULT 0,
+    review_count bigint DEFAULT 0,
     paid boolean NOT NULL,
     cost bigint,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -89,7 +89,7 @@ CREATE TABLE public.series (
     id bigint NOT NULL,
     name varchar,
     user_id varchar NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -104,7 +104,7 @@ CREATE TABLE public.comments (
     comment varchar NOT NULL,
     created timestamp,
     related_to bigint,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -121,7 +121,7 @@ CREATE TABLE public.texts (
     text varchar,
     book_id bigint NOT NULL,
     prev_text varchar,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -133,7 +133,7 @@ CREATE TABLE public.captcha (
     id bigint NOT NULL,
     code varchar NOT NULL,
     expired timestamp NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -148,8 +148,8 @@ CREATE TABLE public.chat_groups (
     primary_recipient varchar,
     name varchar,
     avatar varchar,
-    unread_by_creator boolean NOT NULL,
-    unread_by_recipient boolean NOT NULL,
+    unread_by_creator boolean NOT NULL DEFAULT false,
+    unread_by_recipient boolean NOT NULL DEFAULT false,
     opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
@@ -163,7 +163,7 @@ CREATE INDEX ON public.chat_groups
 CREATE TABLE public.chat_groups_users (
     group_id bigint NOT NULL,
     user_id varchar NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (group_id, user_id)
 );
 
@@ -171,18 +171,18 @@ CREATE TABLE public.chat_groups_users (
 CREATE TABLE public.contests (
     id bigint NOT NULL,
     creator varchar NOT NULL,
-    prize_fund bigint NOT NULL,
-    first_place_revenue integer NOT NULL,
-    second_place_revenue integer NOT NULL,
-    third_place_revenue integer NOT NULL,
+    prize_fund bigint NOT NULL DEFAULT 0,
+    first_place_revenue integer NOT NULL DEFAULT 100,
+    second_place_revenue integer NOT NULL DEFAULT 0,
+    third_place_revenue integer NOT NULL DEFAULT 0,
     created timestamp NOT NULL,
     name varchar NOT NULL,
-    started boolean NOT NULL,
-    closed boolean NOT NULL,
-    judge_count integer NOT NULL,
-    participant_count integer NOT NULL,
+    started boolean NOT NULL DEFAULT false,
+    closed boolean NOT NULL DEFAULT false,
+    judge_count integer NOT NULL DEFAULT 0,
+    participant_count integer NOT NULL DEFAULT 0,
     expiration_date timestamp,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -193,8 +193,8 @@ CREATE INDEX ON public.contests
 CREATE TABLE public.contest_judges (
     contest_id bigint NOT NULL,
     judge_id varchar NOT NULL,
-    accepted boolean NOT NULL,
-    opt_lock bigint NOT NULL,
+    accepted boolean NOT NULL DEFAULT false,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (contest_id, judge_id)
 );
 
@@ -202,9 +202,9 @@ CREATE TABLE public.contest_judges (
 CREATE TABLE public.contest_participants (
     contest_id bigint NOT NULL,
     participant_id varchar NOT NULL,
-    accepted boolean NOT NULL,
+    accepted boolean NOT NULL DEFAULT false,
     book_id bigint NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (contest_id, participant_id, book_id)
 );
 
@@ -213,7 +213,7 @@ CREATE TABLE public.friends (
     friend_id varchar NOT NULL,
     owner_id varchar NOT NULL,
     added timestamp NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (friend_id, owner_id)
 );
 
@@ -222,8 +222,8 @@ CREATE TABLE public.friendships (
     subscriber_id varchar NOT NULL,
     subscription_id varchar NOT NULL,
     date timestamp NOT NULL,
-    active boolean NOT NULL,
-    opt_lock bigint NOT NULL,
+    active boolean NOT NULL DEFAULT false,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (subscriber_id, subscription_id)
 );
 
@@ -236,7 +236,7 @@ CREATE TABLE public.gifts (
     description varchar,
     image varchar,
     category varchar,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -247,8 +247,8 @@ CREATE TABLE public.messages (
     message_text varchar NOT NULL,
     group_id bigint NOT NULL,
     created timestamp NOT NULL,
-    unread boolean NOT NULL,
-    opt_lock bigint NOT NULL,
+    unread boolean NOT NULL DEFAULT false,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -266,7 +266,7 @@ CREATE TABLE public.news (
     created timestamp NOT NULL,
     subscription_id varchar,
     contest_id bigint,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -284,7 +284,7 @@ CREATE TABLE public.ratings (
     book_id bigint NOT NULL,
     estimation integer NOT NULL,
     client_ip varchar NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (book_id, estimation, client_ip)
 );
 
@@ -295,10 +295,10 @@ CREATE TABLE public.reviews (
     text varchar,
     author_id varchar NOT NULL,
     name varchar NOT NULL,
-    score integer NOT NULL,
-    likes bigint NOT NULL,
-    dislikes bigint NOT NULL,
-    opt_lock bigint NOT NULL,
+    score integer NOT NULL DEFAULT 0,
+    likes bigint NOT NULL DEFAULT 0,
+    dislikes bigint NOT NULL DEFAULT 0,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -311,7 +311,7 @@ CREATE INDEX ON public.reviews
 CREATE TABLE public.reviews_ip (
     review_id bigint NOT NULL,
     ip varchar NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (review_id, ip)
 );
 
@@ -320,7 +320,7 @@ CREATE TABLE public.sessions (
     id bigint NOT NULL,
     username varchar NOT NULL,
     expire_date timestamp NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -332,7 +332,7 @@ CREATE TABLE public.subscribers (
     subscriber_id varchar NOT NULL,
     owner_id varchar NOT NULL,
     added timestamp NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (subscriber_id, owner_id)
 );
 
@@ -341,7 +341,7 @@ CREATE TABLE public.subscriptions (
     subscription_id varchar NOT NULL,
     owner_id varchar NOT NULL,
     added timestamp NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (subscription_id, owner_id)
 );
 
@@ -349,7 +349,7 @@ CREATE TABLE public.subscriptions (
 CREATE TABLE public.user_book (
     user_id varchar NOT NULL,
     book_id bigint NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (user_id, book_id)
 );
 
@@ -360,7 +360,7 @@ CREATE TABLE public.user_gift (
     user_id varchar NOT NULL,
     from_user varchar NOT NULL,
     message varchar,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 
@@ -377,7 +377,7 @@ CREATE TABLE public.contest_rating (
     judge_id varchar NOT NULL,
     book_id bigint NOT NULL,
     estimation smallint NOT NULL,
-    opt_lock bigint NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (contest_id, judge_id, book_id)
 );
 

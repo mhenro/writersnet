@@ -3,7 +3,7 @@
 CREATE TABLE custom_audit_entity (
   id INTEGER NOT NULL,
   timestamp BIGINT NOT NULL,
-  user_id varchar(20),
+  user_id varchar,
   PRIMARY KEY (id)
 );
 
@@ -13,8 +13,8 @@ CREATE TABLE public.billing_aud (
   id bigint NOT NULL,
   user_id varchar NOT NULL,
   operation_type integer,
-  operation_cost bigint NOT NULL,
-  balance bigint NOT NULL,
+  operation_cost bigint NOT NULL DEFAULT 0,
+  balance bigint NOT NULL DEFAULT 0,
   operation_date timestamp,
   PRIMARY KEY (id, revision_id)
 );
@@ -29,7 +29,7 @@ CREATE TABLE public.users_aud (
   revision_type INT2,
   username varchar NOT NULL,
   password varchar NOT NULL,
-  enabled boolean NOT NULL,
+  enabled boolean NOT NULL DEFAULT true,
   activation_token varchar,
   city varchar,
   first_name varchar,
@@ -39,15 +39,15 @@ CREATE TABLE public.users_aud (
   language varchar,
   preferred_languages varchar,
   avatar varchar,
-  views bigint NOT NULL,
+  views bigint NOT NULL DEFAULT 0,
   authority varchar NOT NULL,
-  total_rating bigint,
-  total_votes bigint,
+  total_rating bigint DEFAULT 0,
+  total_votes bigint DEFAULT 0,
   section_id bigint NOT NULL,
-  comments_count bigint NOT NULL,
-  online boolean NOT NULL,
-  premium boolean NOT NULL,
-  balance bigint NOT NULL,
+  comments_count bigint NOT NULL DEFAULT 0,
+  online boolean NOT NULL DEFAULT false,
+  premium boolean NOT NULL DEFAULT false,
+  balance bigint NOT NULL DEFAULT 0,
   premium_expired timestamp,
   PRIMARY KEY (username, revision_id)
 );
@@ -85,11 +85,11 @@ CREATE TABLE public.books_aud (
   last_update timestamp,
   language varchar,
   cover varchar,
-  views bigint NOT NULL,
-  comments_count bigint NOT NULL,
-  total_rating bigint,
-  total_votes bigint,
-  review_count bigint,
+  views bigint NOT NULL DEFAULT 0,
+  comments_count bigint NOT NULL DEFAULT 0,
+  total_rating bigint DEFAULT 0,
+  total_votes bigint DEFAULT 0,
+  review_count bigint DEFAULT 0,
   paid boolean NOT NULL,
   cost bigint,
   PRIMARY KEY (id, revision_id)
@@ -146,6 +146,20 @@ ALTER TABLE texts_aud
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
+CREATE TABLE public.captcha_aud (
+  revision_id INTEGER NOT NULL,
+  revision_type INT2,
+  id bigint NOT NULL,
+  code varchar NOT NULL,
+  expired timestamp NOT NULL,
+  PRIMARY KEY (id, revision_id)
+);
+
+ALTER TABLE captcha_aud
+  ADD CONSTRAINT FK_captcha_aud_audit
+  FOREIGN KEY (revision_id)
+  REFERENCES custom_audit_entity;
+
 CREATE TABLE public.chat_groups_aud (
   revision_id INTEGER NOT NULL,
   revision_type INT2,
@@ -155,13 +169,13 @@ CREATE TABLE public.chat_groups_aud (
   primary_recipient varchar,
   name varchar,
   avatar varchar,
-  unread_by_creator boolean NOT NULL,
-  unread_by_recipient boolean NOT NULL,
+  unread_by_creator boolean NOT NULL DEFAULT false,
+  unread_by_recipient boolean NOT NULL DEFAULT false,
   PRIMARY KEY (id, revision_id)
 );
 
 ALTER TABLE chat_groups_aud
-  ADD CONSTRAINT FK_chat_groups_aud_audit
+  ADD CONSTRAINT chat_groups_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
@@ -174,7 +188,7 @@ CREATE TABLE public.chat_groups_users_aud (
 );
 
 ALTER TABLE chat_groups_users_aud
-  ADD CONSTRAINT FK_chat_groups_users_aud_audit
+  ADD CONSTRAINT chat_groups_users_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
@@ -183,16 +197,16 @@ CREATE TABLE public.contests_aud (
   revision_type INT2,
   id bigint NOT NULL,
   creator varchar NOT NULL,
-  prize_fund bigint NOT NULL,
-  first_place_revenue integer NOT NULL,
-  second_place_revenue integer NOT NULL,
-  third_place_revenue integer NOT NULL,
+  prize_fund bigint NOT NULL DEFAULT 0,
+  first_place_revenue integer NOT NULL DEFAULT 100,
+  second_place_revenue integer NOT NULL DEFAULT 0,
+  third_place_revenue integer NOT NULL DEFAULT 0,
   created timestamp NOT NULL,
   name varchar NOT NULL,
-  started boolean NOT NULL,
-  closed boolean NOT NULL,
-  judge_count integer NOT NULL,
-  participant_count integer NOT NULL,
+  started boolean NOT NULL DEFAULT false,
+  closed boolean NOT NULL DEFAULT false,
+  judge_count integer NOT NULL DEFAULT 0,
+  participant_count integer NOT NULL DEFAULT 0,
   expiration_date timestamp,
   PRIMARY KEY (id, revision_id)
 );
@@ -207,12 +221,12 @@ CREATE TABLE public.contest_judges_aud (
   revision_type INT2,
   contest_id bigint NOT NULL,
   judge_id varchar NOT NULL,
-  accepted boolean NOT NULL,
+  accepted boolean NOT NULL DEFAULT false,
   PRIMARY KEY (contest_id, judge_id, revision_id)
 );
 
 ALTER TABLE contest_judges_aud
-  ADD CONSTRAINT FK_contest_judges_aud_audit
+  ADD CONSTRAINT contest_judges_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
@@ -221,13 +235,13 @@ CREATE TABLE public.contest_participants_aud (
   revision_type INT2,
   contest_id bigint NOT NULL,
   participant_id varchar NOT NULL,
-  accepted boolean NOT NULL,
+  accepted boolean NOT NULL DEFAULT false,
   book_id bigint NOT NULL,
   PRIMARY KEY (contest_id, participant_id, book_id, revision_id)
 );
 
 ALTER TABLE contest_participants_aud
-  ADD CONSTRAINT FK_contest_participants_aud_audit
+  ADD CONSTRAINT contest_participants_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
@@ -251,7 +265,7 @@ CREATE TABLE public.friendships_aud (
   subscriber_id varchar NOT NULL,
   subscription_id varchar NOT NULL,
   date timestamp NOT NULL,
-  active boolean NOT NULL,
+  active boolean NOT NULL DEFAULT false,
   PRIMARY KEY (subscriber_id, subscription_id, revision_id)
 );
 
@@ -286,7 +300,7 @@ CREATE TABLE public.messages_aud (
   message_text varchar NOT NULL,
   group_id bigint NOT NULL,
   created timestamp NOT NULL,
-  unread boolean NOT NULL,
+  unread boolean NOT NULL DEFAULT false,
   PRIMARY KEY (id, revision_id)
 );
 
@@ -335,9 +349,9 @@ CREATE TABLE public.reviews_aud (
   text varchar,
   author_id varchar NOT NULL,
   name varchar NOT NULL,
-  score integer NOT NULL,
-  likes bigint NOT NULL,
-  dislikes bigint NOT NULL,
+  score integer NOT NULL DEFAULT 0,
+  likes bigint NOT NULL DEFAULT 0,
+  dislikes bigint NOT NULL DEFAULT 0,
   PRIMARY KEY (id, revision_id)
 );
 
@@ -355,7 +369,21 @@ CREATE TABLE public.reviews_ip_aud (
 );
 
 ALTER TABLE reviews_ip_aud
-  ADD CONSTRAINT FK_reviews_ip_aud_audit
+  ADD CONSTRAINT reviews_ip_aud_audit
+  FOREIGN KEY (revision_id)
+  REFERENCES custom_audit_entity;
+
+CREATE TABLE public.sessions_aud (
+  revision_id INTEGER NOT NULL,
+  revision_type INT2,
+  id bigint NOT NULL,
+  username varchar NOT NULL,
+  expire_date timestamp NOT NULL,
+  PRIMARY KEY (id, revision_id)
+);
+
+ALTER TABLE sessions_aud
+  ADD CONSTRAINT FK_sessions_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
@@ -396,7 +424,7 @@ CREATE TABLE public.user_book_aud (
 );
 
 ALTER TABLE user_book_aud
-  ADD CONSTRAINT FK_user_book_aud_audit
+  ADD CONSTRAINT user_book_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
@@ -412,7 +440,7 @@ CREATE TABLE public.user_gift_aud (
 );
 
 ALTER TABLE user_gift_aud
-  ADD CONSTRAINT FK_user_gift_aud_audit
+  ADD CONSTRAINT user_gift_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
@@ -427,6 +455,7 @@ CREATE TABLE public.contest_rating_aud (
 );
 
 ALTER TABLE contest_rating_aud
-  ADD CONSTRAINT FK_contest_rating_aud_audit
+  ADD CONSTRAINT contest_rating_aud_audit
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
+
