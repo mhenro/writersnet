@@ -91,6 +91,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/count/sessions").permitAll()
                 .antMatchers(HttpMethod.GET, "/sessions/{userId}").permitAll()
 
+                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/v2/**", "/webjars/**").permitAll()
+
                 .antMatchers("/**").authenticated();
     }
 }
