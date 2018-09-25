@@ -1,13 +1,13 @@
 ﻿﻿Current sprint:
+106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
+112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
 
 
 Features:
 96. Show another title page when user is registered. On this page we can show book banners and so on (for example, like in Steam - Popular, Special offers, Popular at your friends, Your recommendations, From your familiar authors).
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
 21. Link merchant interface to BalancePage.
-106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
 107. Add logic to the "Send message" button in the AuthorFile component.
-112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
 113. Add defense for readers which already bought books. If author try to delete book which is bought for at least one user we should reject deleting request.
 111. Add send message from user when he buying a gift. It could be a popup form with one input field.
 47. Add defence from overclick visitors by user (by IP or something).

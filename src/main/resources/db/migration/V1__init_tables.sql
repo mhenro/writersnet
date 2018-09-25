@@ -58,6 +58,20 @@ CREATE TABLE public.sections (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE public.complaints (
+    id bigint NOT NULL,
+    culprit_id varchar NOT NULL,
+    author_id varchar,
+    text varchar NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX ON public.complaints
+    (culprit_id);
+CREATE INDEX ON public.complaints
+    (author_id);
+
 
 CREATE TABLE public.books (
     id bigint NOT NULL,
@@ -384,48 +398,50 @@ CREATE TABLE public.contest_rating (
 );
 
 
-ALTER TABLE public.billing ADD CONSTRAINT FK_billing__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
-ALTER TABLE public.users ADD CONSTRAINT FK_users__section_id FOREIGN KEY (section_id) REFERENCES public.sections(id);
-ALTER TABLE public.books ADD CONSTRAINT FK_books__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
-ALTER TABLE public.books ADD CONSTRAINT FK_books__serie_id FOREIGN KEY (serie_id) REFERENCES public.series(id);
-ALTER TABLE public.series ADD CONSTRAINT FK_series__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
-ALTER TABLE public.comments ADD CONSTRAINT FK_comments__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);
-ALTER TABLE public.comments ADD CONSTRAINT FK_comments__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
-ALTER TABLE public.comments ADD CONSTRAINT FK_comments__related_to FOREIGN KEY (related_to) REFERENCES public.comments(id);
-ALTER TABLE public.texts ADD CONSTRAINT FK_texts__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);
-ALTER TABLE public.chat_groups ADD CONSTRAINT FK_chat_groups__creator_id FOREIGN KEY (creator_id) REFERENCES public.users(username);
-ALTER TABLE public.chat_groups ADD CONSTRAINT FK_chat_groups__primary_recipient FOREIGN KEY (primary_recipient) REFERENCES public.users(username);
-ALTER TABLE public.chat_groups_users ADD CONSTRAINT FK_chat_groups_users__group_id FOREIGN KEY (group_id) REFERENCES public.chat_groups(id);
-ALTER TABLE public.chat_groups_users ADD CONSTRAINT FK_chat_groups_users__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
-ALTER TABLE public.contests ADD CONSTRAINT FK_contests__creator FOREIGN KEY (creator) REFERENCES public.users(username);
-ALTER TABLE public.contest_judges ADD CONSTRAINT FK_contest_judges__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id);
-ALTER TABLE public.contest_judges ADD CONSTRAINT FK_contest_judges__judge_id FOREIGN KEY (judge_id) REFERENCES public.users(username);
-ALTER TABLE public.contest_participants ADD CONSTRAINT FK_contest_participants__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id);
-ALTER TABLE public.contest_participants ADD CONSTRAINT FK_contest_participants__participant_id FOREIGN KEY (participant_id) REFERENCES public.users(username);
-ALTER TABLE public.contest_participants ADD CONSTRAINT FK_contest_participants__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);
-ALTER TABLE public.friends ADD CONSTRAINT FK_friends__friend_id FOREIGN KEY (friend_id) REFERENCES public.users(username);
-ALTER TABLE public.friends ADD CONSTRAINT FK_friends__owner_id FOREIGN KEY (owner_id) REFERENCES public.users(username);
-ALTER TABLE public.friendships ADD CONSTRAINT FK_friendships__subscriber_id FOREIGN KEY (subscriber_id) REFERENCES public.users(username);
-ALTER TABLE public.friendships ADD CONSTRAINT FK_friendships__subscription_id FOREIGN KEY (subscription_id) REFERENCES public.users(username);
-ALTER TABLE public.messages ADD CONSTRAINT FK_messages__creator_id FOREIGN KEY (creator_id) REFERENCES public.users(username);
-ALTER TABLE public.messages ADD CONSTRAINT FK_messages__group_id FOREIGN KEY (group_id) REFERENCES public.chat_groups(id);
-ALTER TABLE public.news ADD CONSTRAINT FK_news__author_id FOREIGN KEY (author_id) REFERENCES public.users(username);
-ALTER TABLE public.news ADD CONSTRAINT FK_news__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);
-ALTER TABLE public.news ADD CONSTRAINT FK_news__subscription_id FOREIGN KEY (subscription_id) REFERENCES public.users(username);
-ALTER TABLE public.news ADD CONSTRAINT FK_news__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id);
-ALTER TABLE public.ratings ADD CONSTRAINT FK_ratings__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);
-ALTER TABLE public.reviews ADD CONSTRAINT FK_reviews__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);
-ALTER TABLE public.reviews ADD CONSTRAINT FK_reviews__author_id FOREIGN KEY (author_id) REFERENCES public.users(username);
-ALTER TABLE public.sessions ADD CONSTRAINT FK_sessions__username FOREIGN KEY (username) REFERENCES public.users(username);
-ALTER TABLE public.subscribers ADD CONSTRAINT FK_subscribers__subscriber_id FOREIGN KEY (subscriber_id) REFERENCES public.users(username);
-ALTER TABLE public.subscribers ADD CONSTRAINT FK_subscribers__owner_id FOREIGN KEY (owner_id) REFERENCES public.users(username);
-ALTER TABLE public.subscriptions ADD CONSTRAINT FK_subscriptions__subscription_id FOREIGN KEY (subscription_id) REFERENCES public.users(username);
-ALTER TABLE public.subscriptions ADD CONSTRAINT FK_subscriptions__owner_id FOREIGN KEY (owner_id) REFERENCES public.users(username);
-ALTER TABLE public.user_book ADD CONSTRAINT FK_user_book__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
-ALTER TABLE public.user_book ADD CONSTRAINT FK_user_book__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);
-ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__gift_id FOREIGN KEY (gift_id) REFERENCES public.gifts(id);
-ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
-ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__from_user FOREIGN KEY (from_user) REFERENCES public.users(username);
-ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id);
-ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__judge_id FOREIGN KEY (judge_id) REFERENCES public.users(username);
-ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__book_id FOREIGN KEY (book_id) REFERENCES public.books(id);
+ALTER TABLE public.billing ADD CONSTRAINT FK_billing__user_id FOREIGN KEY (user_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.users ADD CONSTRAINT FK_users__section_id FOREIGN KEY (section_id) REFERENCES public.sections(id) ON DELETE CASCADE;
+ALTER TABLE public.complaints ADD CONSTRAINT FK_complaints__culprit_id FOREIGN KEY (culprit_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.complaints ADD CONSTRAINT FK_complaints__author_id FOREIGN KEY (author_id) REFERENCES public.users(username) ON DELETE SET NULL;
+ALTER TABLE public.books ADD CONSTRAINT FK_books__user_id FOREIGN KEY (user_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.books ADD CONSTRAINT FK_books__serie_id FOREIGN KEY (serie_id) REFERENCES public.series(id) ON DELETE SET NULL;
+ALTER TABLE public.series ADD CONSTRAINT FK_series__user_id FOREIGN KEY (user_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.comments ADD CONSTRAINT FK_comments__book_id FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;
+ALTER TABLE public.comments ADD CONSTRAINT FK_comments__user_id FOREIGN KEY (user_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.comments ADD CONSTRAINT FK_comments__related_to FOREIGN KEY (related_to) REFERENCES public.comments(id) ON DELETE SET NULL;
+ALTER TABLE public.texts ADD CONSTRAINT FK_texts__book_id FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;
+ALTER TABLE public.chat_groups ADD CONSTRAINT FK_chat_groups__creator_id FOREIGN KEY (creator_id) REFERENCES public.users(username) ON DELETE SET NULL;
+ALTER TABLE public.chat_groups ADD CONSTRAINT FK_chat_groups__primary_recipient FOREIGN KEY (primary_recipient) REFERENCES public.users(username) ON DELETE SET NULL;
+ALTER TABLE public.chat_groups_users ADD CONSTRAINT FK_chat_groups_users__group_id FOREIGN KEY (group_id) REFERENCES public.chat_groups(id) ON DELETE CASCADE;
+ALTER TABLE public.chat_groups_users ADD CONSTRAINT FK_chat_groups_users__user_id FOREIGN KEY (user_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.contests ADD CONSTRAINT FK_contests__creator FOREIGN KEY (creator) REFERENCES public.users(username) ON DELETE SET NULL;
+ALTER TABLE public.contest_judges ADD CONSTRAINT FK_contest_judges__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id) ON DELETE CASCADE;
+ALTER TABLE public.contest_judges ADD CONSTRAINT FK_contest_judges__judge_id FOREIGN KEY (judge_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.contest_participants ADD CONSTRAINT FK_contest_participants__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id) ON DELETE CASCADE;
+ALTER TABLE public.contest_participants ADD CONSTRAINT FK_contest_participants__participant_id FOREIGN KEY (participant_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.contest_participants ADD CONSTRAINT FK_contest_participants__book_id FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;
+ALTER TABLE public.friends ADD CONSTRAINT FK_friends__friend_id FOREIGN KEY (friend_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.friends ADD CONSTRAINT FK_friends__owner_id FOREIGN KEY (owner_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.friendships ADD CONSTRAINT FK_friendships__subscriber_id FOREIGN KEY (subscriber_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.friendships ADD CONSTRAINT FK_friendships__subscription_id FOREIGN KEY (subscription_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.messages ADD CONSTRAINT FK_messages__creator_id FOREIGN KEY (creator_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.messages ADD CONSTRAINT FK_messages__group_id FOREIGN KEY (group_id) REFERENCES public.chat_groups(id) ON DELETE CASCADE;
+ALTER TABLE public.news ADD CONSTRAINT FK_news__author_id FOREIGN KEY (author_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.news ADD CONSTRAINT FK_news__book_id FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;
+ALTER TABLE public.news ADD CONSTRAINT FK_news__subscription_id FOREIGN KEY (subscription_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.news ADD CONSTRAINT FK_news__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id) ON DELETE CASCADE;
+ALTER TABLE public.ratings ADD CONSTRAINT FK_ratings__book_id FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;
+ALTER TABLE public.reviews ADD CONSTRAINT FK_reviews__book_id FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;
+ALTER TABLE public.reviews ADD CONSTRAINT FK_reviews__author_id FOREIGN KEY (author_id) REFERENCES public.users(username) ON DELETE SET NULL;
+ALTER TABLE public.sessions ADD CONSTRAINT FK_sessions__username FOREIGN KEY (username) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.subscribers ADD CONSTRAINT FK_subscribers__subscriber_id FOREIGN KEY (subscriber_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.subscribers ADD CONSTRAINT FK_subscribers__owner_id FOREIGN KEY (owner_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.subscriptions ADD CONSTRAINT FK_subscriptions__subscription_id FOREIGN KEY (subscription_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.subscriptions ADD CONSTRAINT FK_subscriptions__owner_id FOREIGN KEY (owner_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.user_book ADD CONSTRAINT FK_user_book__user_id FOREIGN KEY (user_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.user_book ADD CONSTRAINT FK_user_book__book_id FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;
+ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__gift_id FOREIGN KEY (gift_id) REFERENCES public.gifts(id) ON DELETE CASCADE;
+ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__user_id FOREIGN KEY (user_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.user_gift ADD CONSTRAINT FK_user_gift__from_user FOREIGN KEY (from_user) REFERENCES public.users(username) ON DELETE SET NULL;
+ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__contest_id FOREIGN KEY (contest_id) REFERENCES public.contests(id) ON DELETE CASCADE;
+ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__judge_id FOREIGN KEY (judge_id) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE public.contest_rating ADD CONSTRAINT FK_contest_rating__book_id FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;

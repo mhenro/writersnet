@@ -57,6 +57,21 @@ CREATE TABLE public.sections (
 );
 
 
+CREATE TABLE public.complaints (
+    id bigint NOT NULL,
+    culprit_id varchar NOT NULL,
+    author_id varchar NOT NULL,
+    text varchar NOT NULL,
+    opt_lock bigint NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX ON public.complaints
+    (culprit_id);
+CREATE INDEX ON public.complaints
+    (author_id);
+
+
 CREATE TABLE public.books (
     id bigint NOT NULL,
     name varchar,
@@ -384,6 +399,8 @@ CREATE TABLE public.contest_rating (
 
 ALTER TABLE public.billing ADD CONSTRAINT FK_billing__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
 ALTER TABLE public.users ADD CONSTRAINT FK_users__section_id FOREIGN KEY (section_id) REFERENCES public.sections(id);
+ALTER TABLE public.complaints ADD CONSTRAINT FK_complaints__culprit_id FOREIGN KEY (culprit_id) REFERENCES public.users(username);
+ALTER TABLE public.complaints ADD CONSTRAINT FK_complaints__author_id FOREIGN KEY (author_id) REFERENCES public.users(username);
 ALTER TABLE public.books ADD CONSTRAINT FK_books__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);
 ALTER TABLE public.books ADD CONSTRAINT FK_books__serie_id FOREIGN KEY (serie_id) REFERENCES public.series(id);
 ALTER TABLE public.series ADD CONSTRAINT FK_series__user_id FOREIGN KEY (user_id) REFERENCES public.users(username);

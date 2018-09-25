@@ -179,4 +179,6 @@ public class AuthorController {
         final long count = authorService.getNewFriendsCount(authorId);
         return Response.createResponseEntity(0, count, null, HttpStatus.OK);
     }
+
+
 }

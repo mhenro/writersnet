@@ -1,6 +1,7 @@
 DROP TABLE public.billing CASCADE;
 DROP TABLE public.users CASCADE;
 DROP TABLE public.sections CASCADE;
+DROP TABLE public.complaints CASCADE;
 DROP TABLE public.books CASCADE;
 DROP TABLE public.series CASCADE;
 DROP TABLE public.comments CASCADE;
