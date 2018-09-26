@@ -17,6 +17,10 @@ export const getAuthorDetails = (userId) => {
     return doFetch(getHost() + 'authors/' + userId);
 };
 
+export const authorView = (userId) => {
+    return doFetch(getHost() + 'authors/' + userId + '/view')
+}
+
 export const getAuthorChatGroups = (userId, token, page = 0, size = 20) => {
     return doFetch(getHost() + 'authors/' + userId + '/groups?page=' + page + '&size=' + size, null, token);
 };
@@ -89,6 +93,13 @@ export const getAuthorGifts = (userId, page = 0, size = 8) => {
     return doFetch(getHost() + 'gifts/authors/' + userId + '?page=' + page + '&size=' + size);
 };
 
+export const makeComplaint = (complaintRequest, token) => {
+    return doFetch(getHost() + 'complaints', complaintRequest, token);
+};
+
+export const getAllComplaints = (userId, page = 0, size = 20) => {
+    return doFetch(getHost() + 'complaints/users/' + userId + '?page=' + page + '&size=' + size)
+}
 
 
 export const SET_AUTHORS = 'SET_AUTHORS';
@@ -100,6 +111,9 @@ export const SHOW_AUTHOR_GIFTS_FORM = 'SHOW_AUTHOR_GIFTS_FORM';
 export const CLOSE_AUTHOR_GIFTS_FORM = 'CLOSE_AUTHOR_GIFTS_FORM';
 
 export const SET_NOT_ACCEPTED_CONTESTS = 'SET_NOT_ACCEPTED_CONTESTS';
+
+export const SHOW_COMPLAINT_FORM = 'SHOW_COMPLAINT_FORM';
+export const CLOSE_COMPLAINT_FORM = 'CLOSE_COMPLAINT_FORM';
 
 export const setAuthors = (authors) => {
     return {
@@ -138,5 +152,17 @@ export const setNotAcceptedContests = (notAcceptedContests) => {
     return {
         type: SET_NOT_ACCEPTED_CONTESTS,
         notAcceptedContests
+    }
+};
+
+export const showComplaintForm = () => {
+    return {
+        type: SHOW_COMPLAINT_FORM
+    }
+};
+
+export const closeComplaintForm = () => {
+    return {
+        type: CLOSE_COMPLAINT_FORM
     }
 };

@@ -43,6 +43,7 @@ public class ComplaintService {
         complaint.setAuthor(author);
         complaint.setCulprit(culprit);
         complaint.setText(request.getText());
+        culprit.increaseComplaints();
         return repo.save(complaint);
     }
 }

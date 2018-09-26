@@ -25,13 +25,11 @@ public class ComplaintController {
         this.service = service;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/users/{userId}")
     public Page<ComplaintResponse> getAllComplaints(@PathVariable String userId, Pageable pageable) {
         return service.getAllComplaints(userId, pageable);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{complaintId}")
     public ResponseEntity<?> getComplaintDetails(@PathVariable Long complaintId) {
         ComplaintResponse result = service.getComplaintDetails(complaintId);

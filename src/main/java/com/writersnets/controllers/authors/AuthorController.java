@@ -180,5 +180,9 @@ public class AuthorController {
         return Response.createResponseEntity(0, count, null, HttpStatus.OK);
     }
 
-
+    @GetMapping("authors/{authorId:.+}/view")
+    public ResponseEntity<?> viewAuthor(@PathVariable String authorId) {
+        authorService.viewAuthor(authorId);
+        return Response.createResponseEntity(0, "", null, HttpStatus.OK);
+    }
 }

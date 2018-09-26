@@ -49,6 +49,15 @@ class AuthorShortInfo extends React.Component {
         return this.props.author.views;
     }
 
+    getComplaintCount() {
+        let color = 'green';
+        if (this.props.author.complaints > 0) color = 'yellow';
+        if (this.props.author.complaints > 5) color = 'red';
+        return (
+            <span style={{color: color, fontWeight: 'bold'}}>{this.props.author.complaints}</span>
+        )
+    }
+
     render() {
         return (
             <div className="panel panel-default">
@@ -81,6 +90,10 @@ class AuthorShortInfo extends React.Component {
                                     <ReactStars count={5} size={18} color2={'orange'} edit={false} value={this.getAverageRating()} className="stars"/>
                                     <span className="stars-end"><b>{this.props.author.rating.averageRating.toFixed(2) + ' * ' + this.props.author.rating.userCount}</b></span>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>Complaint count</td>
+                                <td>{this.getComplaintCount()}</td>
                             </tr>
                             <tr>
                                 <td>{getLocale(this.props.language)['Visitors']}</td>

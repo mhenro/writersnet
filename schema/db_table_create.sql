@@ -37,6 +37,7 @@ CREATE TABLE public.users (
     balance bigint NOT NULL DEFAULT 0,
     premium_expired timestamp,
     opt_lock bigint NOT NULL DEFAULT 0,
+    complaints bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (username)
 );
 
@@ -60,7 +61,7 @@ CREATE TABLE public.sections (
 CREATE TABLE public.complaints (
     id bigint NOT NULL,
     culprit_id varchar NOT NULL,
-    author_id varchar NOT NULL,
+    author_id varchar,
     text varchar NOT NULL,
     opt_lock bigint NOT NULL DEFAULT 0,
     PRIMARY KEY (id)

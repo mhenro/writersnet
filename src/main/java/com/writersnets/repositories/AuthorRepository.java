@@ -15,19 +15,19 @@ import java.time.LocalDateTime;
  * Created by mhenr on 16.10.2017.
  */
 public interface AuthorRepository extends PagingAndSortingRepository<User, String> {
-    @Query("SELECT new com.writersnets.models.response.AuthorResponse(u.username, u.email, u.birthday, u.city, u.firstName, u.lastName, u.avatar, u.section, u.language, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.username = ?1")
+    @Query("SELECT new com.writersnets.models.response.AuthorResponse(u.username, u.email, u.birthday, u.city, u.firstName, u.lastName, u.avatar, u.section, u.language, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.username = ?1")
     AuthorResponse findAuthor(final String username);
 
-    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE CONCAT(UPPER(u.firstName), ' ', UPPER(u.lastName)) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true ORDER BY u.firstName, u.lastName, u.premium DESC")
+    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE CONCAT(UPPER(u.firstName), ' ', UPPER(u.lastName)) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true ORDER BY u.firstName, u.lastName, u.premium DESC")
     Page<AuthorShortInfoResponse> findAuthorsByName(String fullName, Pageable pageable);
 
-    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE CONCAT(UPPER(u.firstName), ' ', UPPER(u.lastName)) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true ORDER BY u.firstName, u.lastName, u.premium DESC")
+    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE CONCAT(UPPER(u.firstName), ' ', UPPER(u.lastName)) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true ORDER BY u.firstName, u.lastName, u.premium DESC")
     Page<AuthorShortInfoResponse> findAuthorsByNameSortByName(String name, Pageable pageable);
 
-    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE CONCAT(UPPER(u.firstName), ' ', UPPER(u.lastName)) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true ORDER BY u.totalRating / COALESCE(NULLIF(u.totalVotes, 0), 1) DESC, u.premium DESC")
+    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE CONCAT(UPPER(u.firstName), ' ', UPPER(u.lastName)) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true ORDER BY u.totalRating / COALESCE(NULLIF(u.totalVotes, 0), 1) DESC, u.premium DESC")
     Page<AuthorShortInfoResponse> findAuthorsByNameSortByRating(String name, Pageable pageable);
 
-    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE CONCAT(UPPER(u.firstName), ' ', UPPER(u.lastName)) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true ORDER BY u.online DESC, u.premium DESC")
+    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE CONCAT(UPPER(u.firstName), ' ', UPPER(u.lastName)) LIKE CONCAT(UPPER(?1), '%') AND u.enabled = true ORDER BY u.online DESC, u.premium DESC")
     Page<AuthorShortInfoResponse> findAuthorsByNameSortByOnline(String name, Pageable pageable);
 
     @Query("SELECT COUNT(u) FROM User u")
@@ -37,16 +37,16 @@ public interface AuthorRepository extends PagingAndSortingRepository<User, Strin
     @Query("UPDATE User u SET u.online = false WHERE u.username IN (SELECT s.author.username FROM Session s WHERE s.expired < ?1)")
     void setOfflineStatus(final LocalDateTime currentDate);
 
-    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.premium DESC")
+    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.premium DESC")
     Page<AuthorShortInfoResponse> findAllEnabled(final Pageable pageable);
 
-    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.firstName, u.lastName, u.premium DESC")
+    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.firstName, u.lastName, u.premium DESC")
     Page<AuthorShortInfoResponse> findAllEnabledSortByName(final Pageable pageable);
 
-    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.totalRating / COALESCE(NULLIF(u.totalVotes, 0), 1) DESC, u.premium DESC")
+    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.totalRating / COALESCE(NULLIF(u.totalVotes, 0), 1) DESC, u.premium DESC")
     Page<AuthorShortInfoResponse> findAllEnabledSortByRating(final Pageable pageable);
 
-    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.online DESC, u.premium DESC")
+    @Query("SELECT new com.writersnets.models.response.AuthorShortInfoResponse(u.username, u.firstName, u.lastName, u.avatar, u.preferredLanguages, u.views, u.complaints, u.totalRating, u.totalVotes, u.online, u.premium) FROM User u WHERE u.enabled = true AND u.firstName != null AND u.lastName != null ORDER BY u.online DESC, u.premium DESC")
     Page<AuthorShortInfoResponse> findAllEnabledSortByOnline(final Pageable pageable);
 
     @Query("SELECT new com.writersnets.models.top_models.TopAuthorRating(u.username, u.firstName, u.lastName, u.totalRating, u.totalVotes, u.premium) FROM User u WHERE u.enabled = true AND u.totalVotes > 0 ORDER BY u.totalRating / u.totalVotes DESC, u.premium DESC")

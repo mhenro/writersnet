@@ -64,6 +64,9 @@ public class User extends AbstractEntity {
     @NotNull
     private Long views = 0L;
 
+    @NotNull
+    private Long complaints = 0L;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "chat_groups_users",
@@ -109,5 +112,9 @@ public class User extends AbstractEntity {
 
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+
+    public long increaseComplaints() {
+        return ++this.complaints;
     }
 }

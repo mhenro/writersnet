@@ -131,7 +131,6 @@ public class AuthorService {
             throw new ObjectNotFoundException("Author not found");
         }
         setDefaultAvatar(author);
-        increaseAuthorViews(authorId);
         return author;
     }
 
@@ -333,6 +332,11 @@ public class AuthorService {
     public Page<FriendshipResponse> getAllSubscriptions(final String userId, final Pageable pageable) {
         checkCredentials(userId);
         return friendshipRepository.getAllSubscriptions(userId, pageable);
+    }
+
+    @Transactional
+    public void viewAuthor(String authorId) {
+        increaseAuthorViews(authorId);
     }
 
     @Transactional

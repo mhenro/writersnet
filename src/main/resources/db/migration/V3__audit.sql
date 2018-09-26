@@ -40,6 +40,7 @@ CREATE TABLE public.users_aud (
   preferred_languages varchar,
   avatar varchar,
   views bigint NOT NULL DEFAULT 0,
+  complaints bigint NOT NULL DEFAULT 0,
   authority varchar NOT NULL,
   total_rating bigint DEFAULT 0,
   total_votes bigint DEFAULT 0,

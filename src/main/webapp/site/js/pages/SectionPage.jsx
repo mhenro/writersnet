@@ -5,7 +5,9 @@ import {
     setAuthor,
     checkFriendshipWith,
     subscribeOn,
-    showAuthorGiftsForm
+    showAuthorGiftsForm,
+    showComplaintForm,
+    authorView
 } from '../actions/AuthorActions.jsx';
 import {
     getSeries,
@@ -35,6 +37,7 @@ import BookPropsForm from '../components/section/BookPropsForm.jsx';
 import EditSeriesForm from '../components/section/EditSeriesForm.jsx';
 import ReviewForm from '../components/section/ReviewForm.jsx';
 import AuthorGiftForm from '../components/section/AuthorGiftForm.jsx';
+import ComplaintForm from '../components/section/ComplaintForm.jsx';
 
 /*
     props:
@@ -53,6 +56,7 @@ class SectionPage extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         this.props.onGetAuthorDetails(this.props.match.params.authorName);
+        this.props.onAuthorView(this.props.match.params.authorName);
         setTimeout(() => {
             if (this.props.login !== 'Anonymous') {
                 this.props.onGetUserDetails(this.props.login);
@@ -165,6 +169,12 @@ class SectionPage extends React.Component {
         )
     }
 
+    renderComplaintButton() {
+        return (
+            <img src={getHost() + 'css/images/complaint.png'} onClick={() => this.props.onShowComplaintForm()} className="clickable" title="Make a complaint" width="32" height="32"/>
+        )
+    }
+
     isDataLoaded() {
         if (!this.props.author) {
             return false;
@@ -182,11 +192,14 @@ class SectionPage extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-sm-10 text-center section-name">
+                    <div className="col-sm-9 text-center section-name">
                         {this.props.author.fullName}
                     </div>
                     <div className="col-sm-1 text-right">
                         {this.renderGiftButton()}
+                    </div>
+                    <div className="col-sm-1 text-right">
+                        {this.renderComplaintButton()}
                     </div>
                     <div className="col-sm-1 text-right">
                         {this.renderCrown()}
@@ -244,6 +257,12 @@ class SectionPage extends React.Component {
 
                 {/* Form for showing author gifts */}
                 <AuthorGiftForm author={this.props.author} me={this.props.registered && this.props.login === this.props.author.username}/>
+
+                {/* Form for showing author gifts */}
+                <ComplaintForm author={this.props.author}
+                               me={this.props.registered && this.props.login === this.props.author.username}
+                               onGetAuthorDetails={() => this.props.onGetAuthorDetails(this.props.match.params.authorName)}
+                />
             </div>
         )
     }
@@ -386,6 +405,16 @@ const mapDispatchToProps = (dispatch) => {
             });
         },
 
+        onAuthorView: (authorId) => {
+            authorView(authorId).then(([response, json]) => {
+                if (response.status !== 200) {
+                    dispatch(createNotify('danger', 'Error', json.message));
+                }
+            }).catch(error => {
+                dispatch(createNotify('danger', 'Error', error.message));
+            });
+        },
+
         onShowPaymentForm: () => {
             dispatch(showConfirmPaymentForm());
         },
@@ -404,6 +433,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onShowAuthorGifts: () => {
             dispatch(showAuthorGiftsForm());
+        },
+
+        onShowComplaintForm: () => {
+            dispatch(showComplaintForm());
         }
     }
 };

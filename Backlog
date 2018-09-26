@@ -1,6 +1,5 @@
 ﻿﻿Current sprint:
 106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
-112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should some defence level.
 
 
 Features:
@@ -201,3 +200,4 @@ DONE - 120. Add new events when work with contests (join in contest, remove from
 DONE - 140. Added schedule into the contest service for auto finish contest when limit is expired.
 DONE - 132. Change token verification logic to @EnableResourceServer and @EnableAuthorizationServer (oauth2 protocol).
 DONE - 125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
+DONE - 112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should provide some defence level.

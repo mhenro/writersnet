@@ -32,6 +32,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/count/authors").permitAll()
                 .antMatchers(HttpMethod.GET, "/authors/name/{authorName:.+}").permitAll()
                 .antMatchers(HttpMethod.GET, "/authors/{authorId:.+}").permitAll()
+                .antMatchers(HttpMethod.GET, "/authors/{authorId:.+}/view").permitAll()
+
+                .antMatchers(HttpMethod.GET, "/complaints/users/{userId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/complaints/{complaintId}").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/top/authors/rating").permitAll()
                 .antMatchers(HttpMethod.GET, "/top/authors/bookcount").permitAll()
