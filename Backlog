@@ -35,6 +35,7 @@ Bugs:
 134. Decrease height of the react-select component on the Contest properties form.
 136. Fix bug when entering to the Friends page.
 137. Can't send message to a friend on Messages page.
+142. On Options page if you not chosed "preferred languages" the Save button silently doesn't work. Need to mark "preferred languages" field and show a warning popup.
 
 
 Closed:

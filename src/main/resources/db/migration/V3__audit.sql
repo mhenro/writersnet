@@ -72,6 +72,21 @@ ALTER TABLE sections_aud
   FOREIGN KEY (revision_id)
   REFERENCES custom_audit_entity;
 
+CREATE TABLE public.complaints_aud (
+  revision_id INTEGER NOT NULL,
+  revision_type INT2,
+  id bigint NOT NULL,
+  culprit_id varchar NOT NULL,
+  author_id varchar,
+  text varchar NOT NULL,
+  PRIMARY KEY (id, revision_id)
+);
+
+ALTER TABLE complaints_aud
+  ADD CONSTRAINT FK_complaints_aud_audit
+  FOREIGN KEY (revision_id)
+  REFERENCES custom_audit_entity;
+
 CREATE TABLE public.books_aud (
   revision_id INTEGER NOT NULL,
   revision_type INT2,

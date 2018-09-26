@@ -10,14 +10,15 @@ import javax.persistence.*;
 
 @Entity
 @Audited
+@Table(name = "complaints")
 @Getter @Setter @NoArgsConstructor
 public class Complaint extends AbstractIdEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "culprit_id", nullable = false)
     private User culprit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
     @Column(nullable = false)
