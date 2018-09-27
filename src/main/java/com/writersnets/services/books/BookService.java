@@ -5,6 +5,7 @@ import com.writersnets.models.entities.books.Book;
 import com.writersnets.models.entities.books.BookText;
 import com.writersnets.models.entities.users.User;
 import com.writersnets.models.entities.users.UserBookPK;
+import com.writersnets.models.exceptions.*;
 import com.writersnets.services.authors.NewsService;
 import com.writersnets.services.security.AuthorizedUserService;
 import org.apache.commons.io.FilenameUtils;
@@ -13,10 +14,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import com.writersnets.models.Genre;
-import com.writersnets.models.exceptions.IsNotPremiumUserException;
-import com.writersnets.models.exceptions.ObjectNotFoundException;
-import com.writersnets.models.exceptions.PermissionDeniedException;
-import com.writersnets.models.exceptions.UnauthorizedUserException;
 import com.writersnets.models.request.BookRequest;
 import com.writersnets.models.response.BookCostResponse;
 import com.writersnets.models.response.BookResponse;
@@ -318,6 +315,9 @@ public class BookService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ObjectNotFoundException("Book is not found"));
         checkCredentials(book.getAuthor().getUsername());   //only owner can delete his book
+        if (isBookWasBoughtBySomeone(bookId)) {
+            throw new WrongDataException("You cannot delete a book that has ever been paid");
+        }
         newsService.createNews(NewsService.NEWS_TYPE.BOOK_DELETED, book.getAuthor(), book);
         bookRepository.deleteById(bookId);
         updateDateInUserSection(book.getAuthor().getUsername());
@@ -336,6 +336,10 @@ public class BookService {
         return userBookRepository.findById(userBookPK)
                 .map(b -> true)
                 .orElse(false);
+    }
+
+    private boolean isBookWasBoughtBySomeone(long bookId) {
+        return userBookRepository.getUsersWhichHasBook(bookId) > 0;
     }
 
     private Document getDocument(final String content) {

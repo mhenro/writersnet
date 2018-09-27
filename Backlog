@@ -1,14 +1,14 @@
 ﻿﻿Current sprint:
-106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
 
 
 Features:
 96. Show another title page when user is registered. On this page we can show book banners and so on (for example, like in Steam - Popular, Special offers, Popular at your friends, Your recommendations, From your familiar authors).
 105. Casual user can take 60% of the commission for the book. Premium user takes 90%.
-21. Link merchant interface to BalancePage.
 107. Add logic to the "Send message" button in the AuthorFile component.
-113. Add defense for readers which already bought books. If author try to delete book which is bought for at least one user we should reject deleting request.
 111. Add send message from user when he buying a gift. It could be a popup form with one input field.
+144. Add revision service where reader can load the necessary revision of the book and read it. It will be useful for paid books when author cleared text from them, for instance. Then readers can load the previos version of the book with correct text.
+145. When user saves his book as paid book  show the popup message with warning that after this action user will not be able to delete this book ever.
+21. Link merchant interface to BalancePage.
 47. Add defence from overclick visitors by user (by IP or something).
 131. Fix all tests.
 138. Added tests for contest controller.
@@ -35,6 +35,7 @@ Bugs:
 136. Fix bug when entering to the Friends page.
 137. Can't send message to a friend on Messages page.
 142. On Options page if you not chosed "preferred languages" the Save button silently doesn't work. Need to mark "preferred languages" field and show a warning popup.
+143. On ComplaintForm if user has no complaints then complaints list and pagination panel should be hidden.
 
 
 Closed:
@@ -201,3 +202,5 @@ DONE - 140. Added schedule into the contest service for auto finish contest when
 DONE - 132. Change token verification logic to @EnableResourceServer and @EnableAuthorizationServer (oauth2 protocol).
 DONE - 125. Add Swagger2 for documenting the REST API (http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api).
 DONE - 112. Add logic for sending complaints to authors. For instance, if one user bought a book from another user and then the second user removed the book then the first user can send complaint. It should provide some defence level.
+DONE - 106. If author set cost for the book then it cannot delete this book anymore until this book is cost money.
+DONE - 113. Add defense for readers which already bought books. If author try to delete book which is bought for at least one user we should reject deleting request.
